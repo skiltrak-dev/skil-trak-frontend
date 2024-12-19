@@ -1,26 +1,24 @@
-import { ReactElement, useEffect, useRef, useState } from 'react'
 import { encode } from 'base-64'
+import { ReactElement, useEffect, useRef, useState } from 'react'
 
 import {
-    Card,
     LoadingAnimation,
     NoData,
     SectorCourseStudentCount,
-    Typography,
+    Typography
 } from '@components'
-import btoa from 'btoa'
 import { FigureCard } from '@components/sections/subAdmin'
 import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
+import { ProgressLineChart } from '@partials/common'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
+import btoa from 'btoa'
 import { format } from 'date-fns'
-import { useMediaQuery } from 'react-responsive'
-import StackGrid, { transitions } from 'react-stack-grid'
-import moment from 'moment-timezone'
 import html2canvas from 'html2canvas'
-import { ProgressLineChart } from '@partials/common'
+import { useMediaQuery } from 'react-responsive'
+import { transitions } from 'react-stack-grid'
 
 const { scaleDown } = transitions
 
@@ -35,7 +33,6 @@ const AdminDashboard: NextPageWithLayout = () => {
     const credentials = AuthUtils.getUserCredentials()
     const stats = AdminApi.Admin.useCount()
     const sectorsStudentsCount = AdminApi.Admin.useSectorsStudentsCount()
-    
 
     useEffect(() => {
         navBar.setTitle('Admin Dashboard')
@@ -251,9 +248,9 @@ const AdminDashboard: NextPageWithLayout = () => {
                     /> */}
                 </div>
             </div>
-            
-                <ProgressLineChart  />
-            
+
+            <ProgressLineChart />
+
             <div>
                 <Typography>
                     <span className="font-semibold">Sectors & Courses</span>
@@ -266,18 +263,19 @@ const AdminDashboard: NextPageWithLayout = () => {
                     <LoadingAnimation size={80} height={'h-48'} />
                 ) : sectorsStudentsCount?.data &&
                   sectorsStudentsCount?.data?.length > 0 ? (
-                    <StackGrid
-                        columnWidth={
-                            isMobile ? '100%' : isTablet ? '50%' : '33%'
-                        }
-                        gutterWidth={11}
-                        gutterHeight={11}
-                        appear={scaleDown.appear}
-                        appeared={scaleDown.appeared}
-                        enter={scaleDown.enter}
-                        entered={scaleDown.entered}
-                        leaved={scaleDown.leaved}
-                    >
+                    // <StackGrid
+                    //     columnWidth={
+                    //         isMobile ? '100%' : isTablet ? '50%' : '33%'
+                    //     }
+                    //     gutterWidth={11}
+                    //     gutterHeight={11}
+                    //     appear={scaleDown.appear}
+                    //     appeared={scaleDown.appeared}
+                    //     enter={scaleDown.enter}
+                    //     entered={scaleDown.entered}
+                    //     leaved={scaleDown.leaved}
+                    // >
+                    <div className="grid grid-cols-3 gap-5">
                         {sectorsStudentsCount?.data?.map(
                             (sector: any, i: number) => (
                                 <SectorCourseStudentCount
@@ -289,7 +287,7 @@ const AdminDashboard: NextPageWithLayout = () => {
                                 />
                             )
                         )}
-                    </StackGrid>
+                    </div>
                 ) : (
                     sectorsStudentsCount.isSuccess && (
                         <NoData text={'No Sectors Student Count'} />
