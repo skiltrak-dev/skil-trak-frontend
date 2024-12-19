@@ -24,7 +24,7 @@ export const EsignSignatureModalForUser = ({
 }) => {
     const router = useRouter()
 
-    const ref = useRef<ReactSignatureCanvas>()
+    const ref = useRef<ReactSignatureCanvas>(null)
 
     const { notification } = useNotification()
 

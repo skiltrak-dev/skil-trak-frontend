@@ -1,12 +1,12 @@
 import { UserRoles } from '@constants'
 import { AuthUtils } from '@utils'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 export const ManagementProtectedRoute = ({
     children,
 }: {
-    children: JSX.Element
+    children: ReactElement
 }) => {
     const [authorized, setAuthorized] = useState(false)
     const router = useRouter()

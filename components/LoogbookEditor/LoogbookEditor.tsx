@@ -38,7 +38,7 @@ export const LoogbookEditor = ({
         [key: number]: number
     }>({})
     const [pastedTabsCount, setPastedTabsCount] = useState<number>(1)
-    const ref = useRef<any>()
+    const ref = useRef<any>(null)
 
     const scrollContainerRef = useRef<HTMLDivElement>(null)
 

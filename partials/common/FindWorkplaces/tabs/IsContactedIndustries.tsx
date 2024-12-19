@@ -31,7 +31,7 @@ import { DefaultModal } from '../DefaultModal'
 import { FavoriteModal } from '../FavoriteModal'
 
 export const IsContactedIndustries = () => {
-    const selectInputRef = useRef()
+    const selectInputRef = useRef(null)
 
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()

@@ -24,7 +24,7 @@ export const LoogBookDraggableInput = ({
     onClick,
     setDraggableData,
 }: IDraggableInput) => {
-    const dimRef = useRef<any>()
+    const dimRef = useRef<any>(null)
     const [clientRect, setClientRect] = useState<any>()
 
     useEffect(() => {

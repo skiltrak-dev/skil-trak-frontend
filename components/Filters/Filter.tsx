@@ -3,7 +3,7 @@ import { Card } from '@components/cards'
 import { QueryType, removeEmptyValues } from '@utils'
 import debounce from 'lodash/debounce'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { FaFilter } from 'react-icons/fa'
 import { IoClose } from 'react-icons/io5'
 import { MdCancel } from 'react-icons/md'
@@ -17,7 +17,7 @@ interface FilterProps<FormFilterTypes> {
         onFilterChange: (values: FormFilterTypes) => void
         filter: FormFilterTypes
         removeFilterKeysToUrl?: any
-    }) => JSX.Element
+    }) => ReactElement
     initialValues: FormFilterTypes
     setFilterAction: Function
     setFilter: (values: FormFilterTypes) => void

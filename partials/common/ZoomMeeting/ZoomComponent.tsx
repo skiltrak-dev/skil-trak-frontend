@@ -21,7 +21,7 @@ const ZoomComponent = ({
     appointment: Appointment
     profile: { user: User }
 }) => {
-    const ref = useRef<any>()
+    const ref = useRef<any>(null)
 
     const router = useRouter()
 

@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { Step } from './Step'
-import { ReactNode } from 'react'
+import { ReactElement, ReactNode } from 'react'
 import { UpdatedStep } from './UpdatedStep'
 import { StepNumber } from './StepNumber'
 
@@ -18,7 +18,7 @@ export interface IndicatorChildrenPropType {
 }
 
 interface StepIndicatorProps {
-    children?: ({ steps, element }: IndicatorChildrenPropType) => JSX.Element
+    children?: ({ steps, element }: IndicatorChildrenPropType) => ReactElement
     currentStep: IndicatorStep
     steps: IndicatorStep[]
     fluid?: boolean

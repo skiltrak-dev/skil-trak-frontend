@@ -46,7 +46,7 @@ export const EmptyData = ({
                             alt={'No Data'}
                         />
                     ) : (
-                        <Lottie
+                        < Lottie
                             options={animationOptions}
                             height={250}
                             width={250}

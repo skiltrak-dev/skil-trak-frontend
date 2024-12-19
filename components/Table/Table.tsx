@@ -24,18 +24,18 @@ interface pageSize {
         itemPerPage: number,
         setItemPerPage: (value: number) => void,
         records?: number
-    ): JSX.Element
+    ): ReactElement
 }
 
 interface pagination {
-    (paginated: Paginate, setPage: (value: number) => void): JSX.Element
+    (paginated: Paginate, setPage: (value: number) => void): ReactElement
 }
 
 export interface TableChildrenProps {
     quickActions?: ReactNode
     pageSize?: pageSize | null
     pagination: pagination | null
-    table: JSX.Element
+    table: ReactElement
 }
 
 interface QuickTableAction<Type> {
@@ -51,7 +51,7 @@ interface TableProps<Type> {
         pageSize,
         pagination,
         table,
-    }: TableChildrenProps) => JSX.Element
+    }: TableChildrenProps) => ReactElement
     columns: ColumnDef<Type>[]
     data: Type[]
     quickActions?: QuickTableAction<Type>

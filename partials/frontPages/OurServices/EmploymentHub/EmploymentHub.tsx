@@ -40,7 +40,7 @@ export const EmploymentHub = () => {
     const [isSticky, setIsSticky] = useState(false)
     const [scrollY, setScrollY] = useState(0)
 
-    const employmentHubRef = useRef<any>()
+    const employmentHubRef = useRef<any>(null)
 
     useEffect(() => {
         const handleScroll = () => {

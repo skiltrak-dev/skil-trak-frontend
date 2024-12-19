@@ -7,7 +7,7 @@ import Script from 'next/script'
 import { useRef } from 'react'
 
 export const SiteLayout = ({ children, title }: any) => {
-    const tawkMessengerRef = useRef<any>()
+    const tawkMessengerRef = useRef<any>(null)
 
     const handleMinimize = () => {
         tawkMessengerRef?.current?.minimize()

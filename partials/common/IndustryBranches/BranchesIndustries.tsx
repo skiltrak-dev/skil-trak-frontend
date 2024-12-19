@@ -40,7 +40,7 @@ export const BranchesIndustries = ({
     industry: Industry
     industries: Industry[]
 }) => {
-    const selectInputRef = useRef()
+    const selectInputRef = useRef(null)
 
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
