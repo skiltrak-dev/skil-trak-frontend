@@ -13,7 +13,7 @@ export const NotesTab = ({ user }: { user: any }) => {
 
     const { selectedNoteId, onSetSelectedNoteId } = useNoteScroll()
 
-    const ref = useRef<any>()
+    const ref = useRef<any>(null)
 
     const router = useRouter()
 

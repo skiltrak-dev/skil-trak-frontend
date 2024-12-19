@@ -27,7 +27,7 @@ export const LogbookDraggableTabUpdated = ({
         e.stopPropagation()
     }
 
-    const ref = useRef<any>()
+    const ref = useRef<any>(null)
 
     const [isTabError, setIsTabError] = useState(false)
 

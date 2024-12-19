@@ -6,14 +6,14 @@ import {
     useReactTable,
 } from '@tanstack/react-table'
 import { Paginate } from '@types'
-import React from 'react'
+import React, { ReactElement } from 'react'
 
 interface TableProps<Type> {
     children: ({
         pageSize,
         pagination,
         table,
-    }: TableChildrenProps) => JSX.Element
+    }: TableChildrenProps) => ReactElement
     columns: ColumnDef<Type>[]
     data: Type[]
     pagination?: boolean

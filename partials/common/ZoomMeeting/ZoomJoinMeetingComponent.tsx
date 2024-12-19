@@ -17,7 +17,7 @@ const ZoomJoinMeetingComponent = ({
     appointment: any
     profile: any
 }) => {
-    const ref = useRef<any>()
+    const ref = useRef<any>(null)
 
     const urlRole =
         getUserCredentials()?.role === 'subadmin'

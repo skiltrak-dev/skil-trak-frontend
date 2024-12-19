@@ -32,7 +32,7 @@ import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
 
 export const SnoozedIndustry = () => {
-    const selectInputRef = useRef()
+    const selectInputRef = useRef(null)
 
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()

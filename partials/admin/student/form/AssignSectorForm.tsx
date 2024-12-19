@@ -22,7 +22,7 @@ export const AssignSectorForm = ({
     result,
     sectorsWithCourses,
 }: FormProps) => {
-    const selectInputRef = useRef()
+    const selectInputRef = useRef(null)
     const sectors = AdminApi.Sectors.useListQuery(undefined)
 
     const courses = AdminApi.Courses.useListQuery(undefined)

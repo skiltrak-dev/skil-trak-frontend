@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { createElement, ReactNode } from 'react'
 
 const TypographyOptions = {
     h1: { className: `text-4xl font-bold`, element: 'h1' },
@@ -100,7 +100,6 @@ export const Typography = ({
     cursorPointer,
 
     block,
-
     whiteSpacePre,
 }: TypographyProps) => {
     let classes = `${color}`
@@ -153,17 +152,13 @@ export const Typography = ({
         classes = `${classes} !whitespace-pre`
     }
 
-    const Component = `${
-        (TypographyOptions as any)[variant].element
-    }` as keyof JSX.IntrinsicElements
-    return (
-        <Component
-            className={`${
-                (TypographyOptions as any)[variant]?.className
-            } ${classes}`}
-            {...(htmlFor ? { htmlFor } : {})}
-        >
-            {children}
-        </Component>
+    const { element, className } = TypographyOptions[variant]
+    return createElement(
+        element,
+        {
+            className: `${className} ${classes}`,
+            ...(htmlFor ? { htmlFor } : {}),
+        },
+        children
     )
 }

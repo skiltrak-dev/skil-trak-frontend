@@ -1,5 +1,5 @@
 import { TabProps } from '@components'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { Tab } from './Tab'
 
 export const Tabs = ({
@@ -11,7 +11,7 @@ export const Tabs = ({
     className,
 }: {
     onSetSelectedElement?: (element: TabProps) => void
-    children: ({ header, element }: any) => JSX.Element
+    children: ({ header, element }: any) => ReactElement
     tabs: TabProps[]
     type?: any
     defaultTabSelected?: number

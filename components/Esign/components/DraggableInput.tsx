@@ -21,7 +21,7 @@ export const DraggableInput = ({
     text,
     setDraggableData,
 }: IDraggableInput) => {
-    const dimRef = useRef<any>()
+    const dimRef = useRef<any>(null)
     const [clientRect, setClientRect] = useState<any>()
     const { attributes, listeners, setNodeRef, transform, isDragging } =
         useDraggable({

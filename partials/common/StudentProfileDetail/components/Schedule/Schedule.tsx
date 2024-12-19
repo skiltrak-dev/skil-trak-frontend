@@ -18,7 +18,6 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useMemo, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 import { AddSchedule, ScheduleTimetable } from './components'
-import { NoLogbookFound } from './modal'
 
 export const Schedule = ({
     user,

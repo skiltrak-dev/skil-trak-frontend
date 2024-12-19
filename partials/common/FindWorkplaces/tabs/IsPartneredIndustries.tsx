@@ -28,7 +28,7 @@ import { FcCancel } from 'react-icons/fc'
 import { DoNotDisturbModal } from '../DoNotDisturbModal'
 
 export const IsPartneredIndustries = () => {
-    const selectInputRef = useRef()
+    const selectInputRef = useRef(null)
 
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()

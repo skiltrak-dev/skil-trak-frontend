@@ -125,7 +125,7 @@ const DynamicSvgLoader = ({
         useSensor(KeyboardSensor, {})
     )
 
-    const dimensionRef = useRef<any>()
+    const dimensionRef = useRef<any>(null)
 
     const handleEnter = () => {
         if (timerId) {

@@ -36,7 +36,6 @@ export const ScheduleCalendar = ({
     onSelectedDate?: ({ start, end }: any) => void | undefined
 }) => {
     const monthDays = currentMonthDates(startData)
-    console.log({ monthDays: monthDays?.map((a) => a?.toDate()) })
     const dates = {
         start: monthDays?.[0]?.toDate(),
         end: monthDays?.[monthDays?.length - 1]?.toDate(),

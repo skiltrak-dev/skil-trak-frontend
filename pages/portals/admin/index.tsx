@@ -1,32 +1,26 @@
-import { ReactElement, useEffect, useRef, useState } from 'react'
-import { encode } from 'base-64'
+import { ReactElement, useEffect, useState } from 'react'
 
 import {
-    Card,
     LoadingAnimation,
     NoData,
     SectorCourseStudentCount,
     Typography,
 } from '@components'
-import btoa from 'btoa'
 import { FigureCard } from '@components/sections/subAdmin'
 import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
+import { ProgressLineChart } from '@partials/common'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
 import { format } from 'date-fns'
 import { useMediaQuery } from 'react-responsive'
 import StackGrid, { transitions } from 'react-stack-grid'
-import moment from 'moment-timezone'
-import html2canvas from 'html2canvas'
-import { ProgressLineChart } from '@partials/common'
 
 const { scaleDown } = transitions
 
 const AdminDashboard: NextPageWithLayout = () => {
     const navBar = useNavbar()
-    const textRef = useRef<any>(null)
 
     const isTablet = useMediaQuery({ maxWidth: 1080 })
     const isMobile = useMediaQuery({ maxWidth: 767 })
@@ -35,7 +29,6 @@ const AdminDashboard: NextPageWithLayout = () => {
     const credentials = AuthUtils.getUserCredentials()
     const stats = AdminApi.Admin.useCount()
     const sectorsStudentsCount = AdminApi.Admin.useSectorsStudentsCount()
-    
 
     useEffect(() => {
         navBar.setTitle('Admin Dashboard')
@@ -51,21 +44,6 @@ const AdminDashboard: NextPageWithLayout = () => {
         }
     }, [])
 
-    const textToEncode = 'This is some text to convert'
-    const encodedText = encode(textToEncode)
-    const encodedText2 = btoa(textToEncode)
-
-    const handleConvert = async () => {
-        try {
-            const canvas = await html2canvas(textRef.current)
-            const dataURL = canvas.toDataURL('image/png')
-
-            // setBase64Image(dataURL)
-        } catch (error) {
-            console.error('Error converting text to image:', error)
-            // Handle conversion errors gracefully (e.g., display error message)
-        }
-    }
     const initialData = [
         {
             name: 'January',
@@ -155,14 +133,6 @@ const AdminDashboard: NextPageWithLayout = () => {
 
     return (
         <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6 ">
-            {/* <h1
-                className="text-2xl h-fit p-2 w-fit pt-0 mt-0 box-border"
-                ref={textRef}
-            >
-                Saad
-            </h1>
-            <button onClick={handleConvert}>Convert to Image</button> */}
-
             {/* Admin Welcome Message */}
             <div className="relative pt-6">
                 <div className="absolute right-8 -top-8">
@@ -251,9 +221,9 @@ const AdminDashboard: NextPageWithLayout = () => {
                     /> */}
                 </div>
             </div>
-            
-                <ProgressLineChart  />
-            
+
+            <ProgressLineChart />
+
             <div>
                 <Typography>
                     <span className="font-semibold">Sectors & Courses</span>

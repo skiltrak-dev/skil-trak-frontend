@@ -33,9 +33,8 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
             />
         )
     }
-    const { role } = getUserCredentials()
+    const role = getUserCredentials()?.role
     const checkRto = role === UserRoles.RTO
-    console.log('industry?.phoneNumber', industry?.phoneNumber)
     return (
         <div className="py-3.5 border-b border-secondary-dark flex flex-col gap-y-0.5">
             {modal}

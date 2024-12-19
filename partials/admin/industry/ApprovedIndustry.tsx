@@ -29,7 +29,7 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModals } from './hooks'
 
 export const ApprovedIndustry = () => {
-    const selectInputRef = useRef()
+    const selectInputRef = useRef(null)
 
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)

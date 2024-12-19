@@ -46,7 +46,7 @@ export const LoogBookSVGLoader = ({
     const [viewport, setViewport] = useState<string | null>('')
     const [svgContent, setSvgContent] = useState('')
 
-    const dimensionRef = useRef<any>()
+    const dimensionRef = useRef<any>(null)
 
     const template = CommonApi.ESign.useEsignTemplate({
         id: 119,

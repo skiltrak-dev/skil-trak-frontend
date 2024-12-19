@@ -32,7 +32,7 @@ export const EsignSignatureModal = ({
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const ref = useRef<ReactSignatureCanvas>()
+    const ref = useRef<ReactSignatureCanvas>(null)
 
     const { notification } = useNotification()
 

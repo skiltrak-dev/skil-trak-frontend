@@ -161,8 +161,6 @@ export const AllStudents = () => {
         return false
     })
 
-    // console.log('activeAndCompleted:::::::', activeAndCompleted)
-
     const findCallLogsUnanswered = data?.data?.filter((student: any) => {
         const unansweredCalls = student?.callLog?.filter((call: any) => {
             if (call?.isAnswered === null) {

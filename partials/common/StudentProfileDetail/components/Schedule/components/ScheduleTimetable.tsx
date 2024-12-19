@@ -15,7 +15,7 @@ export const ScheduleTimetable = ({
     scheduleId: number
     scheduleCourse: Course
 }) => {
-    const monthDays = currentMonthDates()
+    const monthDays = currentMonthDates(startDate)
 
     const [selectedDates, setSelectedDates] = useState<{
         start: Date | null
