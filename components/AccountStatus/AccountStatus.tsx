@@ -164,8 +164,8 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
         case UserStatus.Blocked:
             return getStatusComponent({
                 animation: Animations.Auth.SignUp.Rejected,
-                title: `Your Account Is Blocked`,
-                description: `If you'd like to unblock your account, please reach out to our support team. For any queries, contact us at admin@skiltrak.com.au.`,
+                title: `Your Account Has Been Blocked`,
+                description: `If you'd like to unblock your account, please reach out to our support team. For any queries, contact us at info@skiltrak.com.au.`,
             })
 
         case UserStatus.Rejected:

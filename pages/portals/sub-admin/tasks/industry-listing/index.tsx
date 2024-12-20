@@ -55,22 +55,32 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
 
     const router = useRouter()
 
-    // const profile = SubAdminApi.SubAdmin.useProfile()
-   
-    const profile = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: role !== UserRoles.SUBADMIN,
-        // refetchOnMountOrArgChange: true,
-    })
-    const isHod = profile?.data?.departmentMember?.isHod
-    const filteredIndustries = commonApi.useGetAllFindWorkplacesQuery({
-        search: `${JSON.stringify(filter)
+    const profile = SubAdminApi.SubAdmin.useProfile()
+
+    const isHod = useMemo(
+        () => profile?.data?.departmentMember?.isHod,
+        [profile?.data]
+    )
+    const searchString = useMemo(() => {
+        return JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
             .replaceAll('"', '')
-            .trim()}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+            .trim()
+    }, [filter])
+
+    const filteredIndustries = commonApi.useGetAllFindWorkplacesQuery(
+        {
+            search: searchString,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            refetchOnMountOrArgChange: false,
+            refetchOnReconnect: false,
+        }
+    )
+
     const count = CommonApi.FindWorkplace.useGetFindWorkplacesCount()
 
     const onSetIndustryData = useCallback((data: any) => {
@@ -147,6 +157,7 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
 
         return baseTabs
     }, [count, onSetIndustryData, isHod])
+
     const filteredDataLength = checkFilteredDataLength(filter)
 
     useEffect(() => {
