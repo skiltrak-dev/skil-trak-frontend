@@ -23,7 +23,7 @@ export const IndustryListingCellInfo = ({
     const { role } = useMemo(() => getUserCredentials(), [])
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: role !== UserRoles.SUBADMIN,
-        refetchOnMountOrArgChange: true,
+        // refetchOnMountOrArgChange: true,
     })
     const checkCanAdmin = subadmin?.data?.canAdmin
 

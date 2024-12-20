@@ -251,14 +251,12 @@ export const RTOList = () => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Approved Student!'}
-                            description={
-                                'You have not approved any Student request yet'
-                            }
+                            title={'No Generated Key Yet!'}
+                            description={'You Have Not Generated Any Key Yet!'}
                             height={'50vh'}
                         />
                     )
-                )}
+                )}  
             </Card>
         </div>
     )
