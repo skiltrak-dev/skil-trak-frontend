@@ -20,6 +20,7 @@ import { subscriberEndpoints } from './subscribers'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { blogsEndpoints } from './blogs'
+import { wptypesEndpoints } from './wptypes'
 import { departmentEndpoints } from './department'
 import { insuranceEndpoints } from './insurance'
 const PREFIX = 'admin'
@@ -71,6 +72,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...sectorEndpoints(build),
         ...courseEndpoints(build),
         ...folderEndpoints(build),
+        ...wptypesEndpoints(build),
         ...profileEndpoints(build),
         ...subAdminEndpoints(build),
         ...industryEndpoints(build),
@@ -233,6 +235,13 @@ const {
     useCourseUpdateMutation,
     useCourseRemoveMutation,
 
+    // ------ WP-TYPES ------ //
+    useWpTypesQuery,
+    useWpTypeDetailQuery,
+    useAddWpTypeMutation,
+    useUpdateWpTypeMutation,
+    useRemoveWpTypeMutation,
+
     // ------ SUBSCRIBERS ------ //
     useListSubscribersQuery,
     useResubscribeMutation,
@@ -387,8 +396,7 @@ export const AdminApi = {
         useDeleteDepartment: useDeleteDepartmentMutation,
         useDeptStudentsList: useGetDeptStudentsListQuery,
         useDepartmentSectors: useGetDepartmentSectorsQuery,
-        useDepartmentLineChartCounts:
-            useGetDepartmentLineChartCountsQuery,
+        useDepartmentLineChartCounts: useGetDepartmentLineChartCountsQuery,
     },
     Rtos: {
         useCountQuery: useRtoCountQuery,
@@ -549,6 +557,14 @@ export const AdminApi = {
         useAddMutation: useCourseAddMutation,
         useUpdateMutation: useCourseUpdateMutation,
         useRemoveMutation: useCourseRemoveMutation,
+    },
+
+    WpTypes: {
+        wpTypes: useWpTypesQuery,
+        addWpType: useAddWpTypeMutation,
+        wpTypeDetail: useWpTypeDetailQuery,
+        updateWpType: useUpdateWpTypeMutation,
+        removeWpType: useRemoveWpTypeMutation,
     },
 
     Folders: {
