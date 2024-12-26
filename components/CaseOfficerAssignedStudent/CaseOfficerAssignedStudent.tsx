@@ -174,6 +174,7 @@ export const CaseOfficerAssignedStudent = ({
                         updatedWorkplace?.studentProvidedWorkplace ||
                         updatedWorkplace?.byExistingAbn
                     }
+                    documentInitiates={documentInitiates}
                 />
             ) : student?.user?.status === UserStatus.Archived ? (
                 <StudentStatusProgressCell
@@ -190,6 +191,7 @@ export const CaseOfficerAssignedStudent = ({
                         updatedWorkplace?.studentProvidedWorkplace ||
                         updatedWorkplace?.byExistingAbn
                     }
+                    documentInitiates={documentInitiates}
                 />
             ) : student?.subadmin ? (
                 <ProgressCell

@@ -55,6 +55,8 @@ export const IndustryInfoBoxCard = ({
                 <MaxReqLimitReachModal
                     onCancel={() => setModal(null)}
                     industryName={workplaceData?.name}
+                    industryCapacity={workplaceData?.industryCapacity}
+                    // studentCapacity={workplaceData?.name}
                 />
             )
             setWorkplaceData(null)
@@ -77,6 +79,7 @@ export const IndustryInfoBoxCard = ({
             <ShowIndustryNotesAndTHModal
                 industryUserId={item?.data?.user?.id}
                 industryUserName={item?.data?.user?.name}
+                industryCapacity={item?.data?.industryCapacity}
                 industryId={industryId}
                 workplaceId={workplaceId}
                 onCancel={(cancel?: boolean) => {

@@ -16,12 +16,14 @@ export const SelectAppointDateModal = ({
     onCancel,
     workplaceId,
     industryId,
+    industryCapacity,
     industryUserName,
 }: {
     dist: any
     workplaceId: number
     industryId: number
     onCancel: () => void
+    industryCapacity: number
     industryUserName: string
 }) => {
     const [addExistingIndustry, addExistingIndustryResult] =
@@ -55,6 +57,7 @@ export const SelectAppointDateModal = ({
             if (res?.error?.data?.message === 'limitExceed') {
                 setWorkplaceData({
                     name: industryUserName,
+                    industryCapacity,
                     type: 'limitExceed',
                 })
                 onCancel()

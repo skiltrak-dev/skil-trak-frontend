@@ -28,11 +28,13 @@ export const ScheduleCalendar = ({
     events,
     loading,
     onSelectedDate,
+    onNavigateDate,
     startData = new Date(),
 }: {
     startData: Date
-    events: CalendarEvent[]
     loading?: boolean
+    events: CalendarEvent[]
+    onNavigateDate: (date: Date) => void
     onSelectedDate?: ({ start, end }: any) => void | undefined
 }) => {
     const monthDays = currentMonthDates(startData)
@@ -118,7 +120,12 @@ export const ScheduleCalendar = ({
                     // onCalanderViewType(view)
                     setCalanderView(view)
                 }}
+                onNavigate={(navigate) => {
+                    console.log({ navigate })
+                    onNavigateDate(navigate)
+                }}
                 onRangeChange={(e: any) => {
+                    console.log({ e })
                     setTimeout(() => {
                         setRangeDates(e)
                     }, 1000)

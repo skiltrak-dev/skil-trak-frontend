@@ -10,7 +10,9 @@ import { MdCancel, MdOutlineError } from 'react-icons/md'
 export const MaxReqLimitReachModal = ({
     onCancel,
     industryName,
+    industryCapacity,
 }: {
+    industryCapacity: number
     industryName: number
     onCancel: () => void
 }) => {
@@ -39,8 +41,8 @@ export const MaxReqLimitReachModal = ({
                                 <span className="font-bold">
                                     {industryName}{' '}
                                 </span>{' '}
-                                currently have 3 students with workplace
-                                requests in the following statuses:
+                                currently have {industryCapacity} students with
+                                workplace requests in the following statuses:
                                 <span className="font-bold">
                                     Waiting, Agreement Pending, or Appointment
                                 </span>{' '}

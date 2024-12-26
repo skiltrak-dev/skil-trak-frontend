@@ -1,3 +1,4 @@
+import { Tooltip } from '@components/Tooltip'
 import { Typography } from '@components/Typography'
 import { useContextBar } from '@hooks'
 import { ChangeWorkplaceStatus } from '@partials/common'
@@ -5,6 +6,7 @@ import { Student, SubAdmin } from '@types'
 import classNames from 'classnames'
 import moment from 'moment'
 import Link from 'next/link'
+import { FaFileSignature } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 type StudentProgressStatus =
@@ -62,6 +64,7 @@ export const StudentStatusProgressCell = ({
     step,
     appliedIndustry,
     studentProvidedWorkplace,
+    documentInitiates,
 }: {
     assigned: SubAdmin
     studentId?: any
@@ -69,6 +72,7 @@ export const StudentStatusProgressCell = ({
     step: 1 | 2 | 3 | 4 | number
     appliedIndustry: any
     studentProvidedWorkplace?: boolean
+    documentInitiates?: boolean
 }) => {
     const contextBar = useContextBar()
     // const currentStatus = StudentProgress[status]
@@ -149,6 +153,15 @@ export const StudentStatusProgressCell = ({
                         {currentStatus?.description || 'N/A'}
                     </p>
                 )}
+                {documentInitiates ? (
+                    <div className="relative group">
+                        <FaFileSignature
+                            size={18}
+                            className="text-success-dark"
+                        />
+                        <Tooltip>Agreement Initiated</Tooltip>
+                    </div>
+                ) : null}
                 <p className="text-xs font-semibold text-gray-700 whitespace-nowrap">
                     {studentProvidedWorkplace
                         ? 'Student Provided Workplace'

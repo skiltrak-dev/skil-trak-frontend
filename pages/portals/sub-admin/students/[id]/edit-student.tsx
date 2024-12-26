@@ -39,6 +39,10 @@ const EditStudentDetail: NextPageWithLayout = () => {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })
+    const rtoDetail = SubAdminApi.Student.getStudentRtoDetail(Number(id), {
+        skip: !id,
+        refetchOnMountOrArgChange: true,
+    })
 
     const courses = SubAdminApi.Student.useCourses(Number(id), {
         skip: !id,
@@ -52,63 +56,139 @@ const EditStudentDetail: NextPageWithLayout = () => {
     }, [])
 
     useEffect(() => {
-        if (updateDetailResult?.isSuccess) {
-            notification.success({
-                title: 'Profile Updated',
-                description: 'Student Profile Updated',
-            })
-            setTimeout(() => {
-                if (router?.query?.wpType && student?.isSuccess) {
-                    const values = {
-                        ...student?.data,
-                        ...student?.data?.user,
-                        courses: courses?.data,
-                    }
-                    const profileCompletion =
-                        checkStudentProfileCompletion(values)
+        const handleProfileUpdate = async () => {
+            if (
+                updateDetailResult?.isSuccess &&
+                student?.data &&
+                !student?.isLoading &&
+                !student?.isFetching &&
+                rtoDetail?.data
+            ) {
+                // Show success notification
+                notification.success({
+                    title: 'Profile Updated',
+                    description: 'Student Profile Updated',
+                })
+
+                // Get latest student data after update
+                const values = {
+                    ...student.data,
+                    ...student.data.user,
+                    rto: rtoDetail?.data,
+                    courses: courses?.data,
+                }
+
+                const profileCompletion = checkStudentProfileCompletion(values)
+
+                console.log({ profileCompletion })
+
+                // Handle workplace routing based on profile completion
+                if (router?.query?.wpType) {
                     if (
                         profileCompletion &&
                         profileCompletion > 0 &&
-                        profileCompletion < 100 &&
-                        showProfileModal
+                        profileCompletion < 100
                     ) {
-                        setModal(
-                            <CompleteProfileBeforeWpModal
-                                workplaceType={
-                                    'provide-workplace-detail?tab=abn'
-                                }
-                                onCancel={() => {
-                                    setModal(null)
-                                    setShowProfileModal(false)
-                                }}
-                            />
-                        )
+                        if (showProfileModal) {
+                            setModal(
+                                <CompleteProfileBeforeWpModal
+                                    workplaceType={
+                                        'provide-workplace-detail?tab=abn'
+                                    }
+                                    onCancel={() => {
+                                        setModal(null)
+                                        setShowProfileModal(false)
+                                    }}
+                                />
+                            )
+                        }
                     } else if (profileCompletion === 100) {
-                        switch (router?.query?.wpType) {
-                            case 'provide-workplace-detail':
-                                router.push({
-                                    pathname: `/portals/sub-admin/students/${id}/provide-workplace-detail`,
-                                    query: { tab: 'abn' },
-                                })
-                                break
-                            case 'request-workplace-detail':
-                                router.push(
-                                    `/portals/sub-admin/students/${id}/request-workplace-detail`
-                                )
-                                break
-
-                            default:
-                                break
+                        // Handle completed profile navigation
+                        const wpType = router.query.wpType as string
+                        if (wpType === 'provide-workplace-detail') {
+                            router.push({
+                                pathname: `/portals/sub-admin/students/${id}/provide-workplace-detail`,
+                                query: { tab: 'abn' },
+                            })
+                        } else if (wpType === 'request-workplace-detail') {
+                            router.push(
+                                `/portals/sub-admin/students/${id}/request-workplace-detail`
+                            )
                         }
                     }
                 } else {
                     router.back()
                 }
-            }, 600)
+            }
         }
-    }, [updateDetailResult, student, router])
 
-    const onSubmit = (values: any) => {
+        handleProfileUpdate()
+    }, [
+        updateDetailResult?.isSuccess,
+        student,
+        courses?.data,
+        router?.query?.wpType,
+        rtoDetail?.data,
+    ])
+
+    // useEffect(() => {
+    //     if (updateDetailResult?.isSuccess) {
+    //         notification.success({
+    //             title: 'Profile Updated',
+    //             description: 'Student Profile Updated',
+    //         })
+    //         setTimeout(() => {
+    //             if (router?.query?.wpType && student?.isSuccess) {
+    //                 const values = {
+    //                     ...student?.data,
+    //                     ...student?.data?.user,
+    //                     courses: courses?.data,
+    //                 }
+    //                 const profileCompletion =
+    //                     checkStudentProfileCompletion(values)
+    //                 if (
+    //                     profileCompletion &&
+    //                     profileCompletion > 0 &&
+    //                     profileCompletion < 100 &&
+    //                     showProfileModal
+    //                 ) {
+    //                     setModal(
+    //                         <CompleteProfileBeforeWpModal
+    //                             workplaceType={
+    //                                 'provide-workplace-detail?tab=abn'
+    //                             }
+    //                             onCancel={() => {
+    //                                 setModal(null)
+    //                                 setShowProfileModal(false)
+    //                             }}
+    //                         />
+    //                     )
+    //                 } else if (profileCompletion === 100) {
+    //                     switch (router?.query?.wpType) {
+    //                         case 'provide-workplace-detail':
+    //                             router.push({
+    //                                 pathname: `/portals/sub-admin/students/${id}/provide-workplace-detail`,
+    //                                 query: { tab: 'abn' },
+    //                             })
+    //                             break
+    //                         case 'request-workplace-detail':
+    //                             router.push(
+    //                                 `/portals/sub-admin/students/${id}/request-workplace-detail`
+    //                             )
+    //                             break
+
+    //                         default:
+    //                             break
+    //                     }
+    //                 }
+    //             } else {
+    //                 router.back()
+    //             }
+    //         }, 600)
+    //     }
+    // }, [updateDetailResult, student, router])
+
+    const onSubmit = async (values: any) => {
         if (!values?.courses) {
             delete values?.courses
         }
@@ -116,7 +196,7 @@ const EditStudentDetail: NextPageWithLayout = () => {
         const dob = new Date(values.dob)
         dob.setDate(dob.getDate() + 1)
 
-        updateDetail({
+        const res: any = await updateDetail({
             id: student?.data?.id,
             body: {
                 ...rest,
@@ -136,11 +216,11 @@ const EditStudentDetail: NextPageWithLayout = () => {
                     email,
                 },
             },
-        }).then((res: any) => {
-            if (res?.data) {
-                setShowProfileModal(true)
-            }
         })
+
+        if (res?.data) {
+            setShowProfileModal(true)
+        }
     }
     return (
         <>
@@ -154,6 +234,7 @@ const EditStudentDetail: NextPageWithLayout = () => {
                 ) : student.data && student.isSuccess ? (
                     <StudentProfileForm
                         onSubmit={onSubmit}
+                        rtoDetail={rtoDetail?.data}
                         profile={student}
                         result={updateDetailResult}
                         courses={courses}

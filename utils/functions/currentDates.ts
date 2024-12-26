@@ -19,7 +19,7 @@ export const currentWeekDates = () => {
     return datesOfWeek
 }
 
-export const currentMonthDates = (inputDate = new Date()) => {
+export const currentMonthDates = (inputDate: Date | null) => {
     // Use the provided date or the current date
     const monthDays = inputDate ? moment(inputDate) : moment()
 

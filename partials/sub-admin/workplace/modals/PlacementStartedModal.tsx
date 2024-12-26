@@ -1,9 +1,9 @@
-import { Button, ShowErrorNotifications, Typography } from '@components'
-import { useAlert, useContextBar, useNotification } from '@hooks'
-import { useStartPlacementMutation } from '@queries'
 import { useEffect } from 'react'
-import { HiCheckBadge } from 'react-icons/hi2'
 import { IoIosWarning } from 'react-icons/io'
+import { HiCheckBadge } from 'react-icons/hi2'
+import { useStartPlacementMutation } from '@queries'
+import { useContextBar, useNotification } from '@hooks'
+import { Button, ShowErrorNotifications, Typography } from '@components'
 
 export const PlacementStartedModal = ({
     id,
@@ -17,7 +17,6 @@ export const PlacementStartedModal = ({
     agreementSigned: any
 }) => {
     // hooks
-    const { alert } = useAlert()
     const { notification } = useNotification()
 
     const contextBar = useContextBar()

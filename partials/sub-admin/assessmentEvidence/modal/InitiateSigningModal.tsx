@@ -136,6 +136,7 @@ export const InitiateSigningModal = ({
                                                     !isPreviewAsSigner
                                                 )
                                             }}
+                                            getTemplate={getTemplate?.data}
                                             template={selectedDocument}
                                             onCancel={() => onCancel()}
                                         />

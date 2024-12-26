@@ -48,6 +48,7 @@ import {
 import { IndustryDetail } from './components/IndustryDetail'
 import {
     AddFeedbackModal,
+    BookAppointmentInfoModal,
     CancelWorkplaceModal,
     CancelWorkplaceRequestModal,
     ShowRejectedRequestModal,
@@ -57,6 +58,7 @@ import {
     ViewQuestionsModal,
 } from './modals'
 import { RiPencilFill } from 'react-icons/ri'
+import { InitiateSigningModal } from '@partials/sub-admin/assessmentEvidence/modal'
 
 const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
@@ -209,6 +211,48 @@ export const Workplace = ({
                 />
             )
     }, [selectedWorkplace, appliedIndustry])
+
+    useEffect(() => {
+        if (
+            selectedWorkplace?.currentStatus ===
+                WorkplaceCurrentStatus.AwaitingWorkplaceResponse &&
+            !workplaceStudentDetail?.data?.appointmentBooked &&
+            workplaceStudentDetail?.isSuccess
+        ) {
+            setModal(
+                <BookAppointmentInfoModal
+                    onCancel={onCancelModal}
+                    studentUser={workplaceStudentDetail?.data?.user?.id}
+                />
+            )
+        }
+    }, [selectedWorkplace, workplaceStudentDetail])
+
+    useEffect(() => {
+        if (
+            workplaceStudentDetail?.isSuccess &&
+            !workplaceStudentDetail?.data?.agreementSigned &&
+            selectedWorkplace?.currentStatus ===
+                WorkplaceCurrentStatus.AwaitingAgreementSigned
+        ) {
+            const onInitiateSigning = () => {
+                setModal(
+                    <InitiateSigningModal
+                        onCancel={() => {
+                            onCancelModal()
+                        }}
+                        courseId={selectedWorkplace?.courses[0]?.id}
+                        rto={workplaceStudentDetail?.data?.student?.rto}
+                        folder={
+                            selectedWorkplace?.courses[0]
+                                ?.assessmentEvidence?.[0]
+                        }
+                    />
+                )
+            }
+            onInitiateSigning()
+        }
+    }, [selectedWorkplace, workplaceStudentDetail])
 
     const onUpdateWorkplaceCourseClicked = (
         courseId: number,
