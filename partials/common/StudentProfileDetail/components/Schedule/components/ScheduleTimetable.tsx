@@ -1,6 +1,6 @@
 import { ScheduleCalendar } from '@partials/student/Schedule'
 import moment from 'moment'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { StudentApi } from '@queries'
 import { Course } from '@types'
 import { LoadingAnimation, NoData } from '@components'
@@ -15,7 +15,11 @@ export const ScheduleTimetable = ({
     scheduleId: number
     scheduleCourse: Course
 }) => {
-    const monthDays = currentMonthDates(startDate)
+    const [startScheduleDate, setStartScheduleDate] = useState<Date | null>(
+        null
+    )
+
+    const monthDays = currentMonthDates(startScheduleDate)
 
     const [selectedDates, setSelectedDates] = useState<{
         start: Date | null
@@ -45,9 +49,23 @@ export const ScheduleTimetable = ({
         }
     )
 
+    const lowestIdData = useMemo(
+        () =>
+            timeSlots?.data?.reduce(
+                (min: any, current: any) =>
+                    current?.id < min?.id ? current : min,
+                timeSlots?.data?.[0]
+            ),
+        [timeSlots?.data]
+    )
+
     const onSelectedDate = useCallback((dates: any) => {
         setSelectedDates(dates)
     }, [])
+
+    const onNavigateDate = (e: Date) => {
+        setStartScheduleDate(e)
+    }
 
     const events = timeSlots?.data?.map((c: any) => {
         const [year, month, day] = moment(c?.date)
@@ -66,6 +84,7 @@ export const ScheduleTimetable = ({
             schedule: c,
         }
     })
+
     return (
         <div>
             {timeSlots.isError ? (
@@ -81,8 +100,13 @@ export const ScheduleTimetable = ({
                 {mount && (
                     <ScheduleCalendar
                         events={events}
-                        startData={startDate as Date}
                         onSelectedDate={onSelectedDate}
+                        onNavigateDate={onNavigateDate}
+                        startData={
+                            startScheduleDate ||
+                            (timeSlots?.isSuccess && lowestIdData?.date) ||
+                            (timeSlots?.isSuccess && startDate)
+                        }
                     />
                 )}
             </div>

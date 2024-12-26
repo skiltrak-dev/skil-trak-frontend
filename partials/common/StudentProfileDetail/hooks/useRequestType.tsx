@@ -54,7 +54,7 @@ export const useRequestType = ({
                 <PlacementStartedModal
                     id={id}
                     agreementSigned={appliedIndustry?.AgreementSigned}
-                    student={workplace?.student}
+                    student={student}
                     onCancel={() => onModalCancelClicked()}
                 />
             )

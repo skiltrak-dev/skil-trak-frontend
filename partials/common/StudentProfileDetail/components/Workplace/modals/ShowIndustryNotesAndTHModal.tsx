@@ -18,12 +18,14 @@ import { calculateDistance } from '@utils'
 import { TradingHoursNotFoundModal } from './TradingHoursNotFoundModal'
 
 export const ShowIndustryNotesAndTHModal = ({
+    industryCapacity,
     industryUserName,
     onCancel,
     industryUserId,
     workplaceId,
     industryId,
 }: {
+    industryCapacity?: number
     industryUserName: string
     industryUserId: number
     industryId: number
@@ -110,6 +112,7 @@ export const ShowIndustryNotesAndTHModal = ({
         if (res?.error?.data?.message === 'limitExceed') {
             setWorkplaceData({
                 name: industryUserName,
+                industryCapacity,
                 type: 'limitExceed',
             })
         }
@@ -210,6 +213,9 @@ export const ShowIndustryNotesAndTHModal = ({
                                                 industryUserName={
                                                     industryUserName
                                                 }
+                                                industryCapacity={Number(
+                                                    industryCapacity
+                                                )}
                                                 workplaceId={workplaceId}
                                             />
                                         )

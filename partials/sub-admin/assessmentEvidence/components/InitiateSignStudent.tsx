@@ -93,11 +93,13 @@ export const InitiateSignStudent = ({
     onCancel,
     template,
     courseId,
+    getTemplate,
     setIsPreviewAsSigner,
 }: {
-    onCancel: () => void
     template: any
     courseId: number
+    getTemplate: any
+    onCancel: () => void
     setIsPreviewAsSigner: (userIds: any) => void
 }) => {
     const router = useRouter()

@@ -20,7 +20,7 @@ import {
 import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { AuthApi, SubAdminApi } from '@queries'
-import { Course, StudentStatusEnum } from '@types'
+import { Course, Rto, StudentStatusEnum } from '@types'
 import {
     CourseSelectOption,
     ageOptions,
@@ -40,8 +40,10 @@ export const StudentProfileForm = ({
     result,
     onSubmit,
     courses,
+    rtoDetail,
     student,
 }: {
+    rtoDetail?: Rto
     profile: any
     result: any
     onSubmit: any
@@ -54,10 +56,6 @@ export const StudentProfileForm = ({
 
     const sectorResponse = AuthApi.useSectors({})
     const rtoResponse = AuthApi.useRtos({})
-    const rtoDetail = SubAdminApi.Student.getStudentRtoDetail(Number(id), {
-        skip: !id,
-        refetchOnMountOrArgChange: true,
-    })
 
     const [sectorDefaultOptions, setSectorDefaultOptions] = useState<any>([])
 
@@ -87,10 +85,10 @@ export const StudentProfileForm = ({
               value: rto.id,
           }))
         : []
-    const rtoDefaultOptions = rtoDetail?.data
+    const rtoDefaultOptions = rtoDetail
         ? {
-              label: rtoDetail?.data?.user?.name,
-              value: rtoDetail?.data?.id,
+              label: rtoDetail?.user?.name,
+              value: rtoDetail?.id,
           }
         : {}
 
@@ -639,8 +637,7 @@ export const StudentProfileForm = ({
                                                         UserRoles.RTO,
                                                         UserRoles.SUBADMIN,
                                                     ]?.includes(role) &&
-                                                    rtoDetail?.data
-                                                        ?.allowUpdate &&
+                                                    rtoDetail?.allowUpdate &&
                                                     profile?.data
                                                         ?.studentStatus ===
                                                         StudentStatusEnum.COMPLETED

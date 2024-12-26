@@ -17,6 +17,6 @@ export const profileEndpoints = (
             params: { student: id },
             body,
         }),
-        invalidatesTags: ['StudentProfile'],
+        invalidatesTags: ['StudentProfile', 'SubAdminStudents'],
     }),
 })

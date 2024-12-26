@@ -60,7 +60,7 @@ const WorkplaceRequestProgress = (appliedIndustry?: any) => {
             image: 'waiting.png',
             date: appliedIndustry?.awaitingWorkplaceResponseDate,
         },
-        '5-Waiting': {
+        '5-Waiting For Industry': {
             status: 'Waiting',
             description: 'for Workplace Response',
             color: 'text-indigo-400',
