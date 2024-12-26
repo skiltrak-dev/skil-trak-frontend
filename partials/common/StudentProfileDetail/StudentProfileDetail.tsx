@@ -75,7 +75,7 @@ export const StudentProfileDetail = () => {
 
     const profile = useGetSubAdminStudentDetailQuery(Number(router.query?.id), {
         skip: !router.query?.id,
-        refetchOnMountOrArgChange: 20,
+        refetchOnMountOrArgChange: true,
     })
     // its incresing the views of profile
     CommonApi.Industries.useAddProfileVisitor(Number(profile?.data?.user?.id), {
