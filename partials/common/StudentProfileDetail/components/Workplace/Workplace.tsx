@@ -161,6 +161,9 @@ export const Workplace = ({
                     : sortedWorkplace?.[0]
             )
         }
+        return () => {
+            setSelectedWorkplace(null)
+        }
     }, [sortedWorkplace])
 
     const excludedRoles = [UserRoles.RTO, UserRoles.OBSERVER]
@@ -212,13 +215,28 @@ export const Workplace = ({
             )
     }, [selectedWorkplace, appliedIndustry])
 
+    console.log({
+        selectedWorkplace,
+        booked: workplaceStudentDetail?.data?.appointmentBooked,
+        workplaceStudentDetail,
+    })
     useEffect(() => {
         if (
             selectedWorkplace?.currentStatus ===
                 WorkplaceCurrentStatus.AwaitingWorkplaceResponse &&
             !workplaceStudentDetail?.data?.appointmentBooked &&
-            workplaceStudentDetail?.isSuccess
+            workplaceStudentDetail?.isSuccess &&
+            !workplaceStudentDetail?.isLoading &&
+            !workplaceStudentDetail?.isFetching
         ) {
+            console.log({
+                currentStatus:
+                    selectedWorkplace?.currentStatus ===
+                    WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
+                appointmentBooked:
+                    workplaceStudentDetail?.data?.appointmentBooked,
+                workplaceStudentDetail: workplaceStudentDetail,
+            })
             setModal(
                 <BookAppointmentInfoModal
                     onCancel={onCancelModal}
@@ -226,7 +244,11 @@ export const Workplace = ({
                 />
             )
         }
-    }, [selectedWorkplace, workplaceStudentDetail])
+    }, [
+        selectedWorkplace,
+        workplaceStudentDetail,
+        workplaceStudentDetail?.data?.appointmentBooked,
+    ])
 
     useEffect(() => {
         if (
