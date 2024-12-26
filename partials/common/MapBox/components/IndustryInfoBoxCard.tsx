@@ -79,7 +79,7 @@ export const IndustryInfoBoxCard = ({
             <ShowIndustryNotesAndTHModal
                 industryUserId={item?.data?.user?.id}
                 industryUserName={item?.data?.user?.name}
-                industryCapacity={item?.data?.industryCapacity}
+                industryCapacity={item?.data?.studentCapacity}
                 industryId={industryId}
                 workplaceId={workplaceId}
                 onCancel={(cancel?: boolean) => {

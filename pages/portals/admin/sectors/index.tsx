@@ -1,7 +1,6 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement } from 'react'
 
 import { TabNavigation, TabProps } from '@components'
-import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { Courses, Sectors } from '@partials/admin/sector'
 import { NextPageWithLayout } from '@types'
@@ -24,6 +23,14 @@ const SectorList: NextPageWithLayout = () => {
             },
             element: <Courses />,
         },
+        // {
+        //     label: 'Workplace Types',
+        //     href: {
+        //         pathname: 'sectors',
+        //         query: { tab: 'wp-types', page: 1, pageSize: 50 },
+        //     },
+        //     element: <WorkplaceTypes />,
+        // },
     ]
 
     return (
