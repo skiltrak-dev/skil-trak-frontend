@@ -34,7 +34,7 @@ export const InsuranceDocCard = ({
         }
     }
 
-    const { role } = getUserCredentials()
+    const role = getUserCredentials()?.role
     const checkRto = role === UserRoles.RTO
 
     return (

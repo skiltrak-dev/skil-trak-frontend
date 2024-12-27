@@ -10,4 +10,6 @@ export enum IndustryQuestionsEnum {
     COMMUNICATION = 'Communication',
     DOCUMENTS = 'Documents',
     APPLICATIONS = 'Applications',
+    SECTORS_BASE_CAPACITY = 'sectorBaseCap',
+    HIRE = 'Hire',
 }

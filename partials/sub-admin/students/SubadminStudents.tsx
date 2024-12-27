@@ -27,6 +27,7 @@ import {
     PlacementStartedStudents,
     RejectedStudents,
     SnoozedStudents,
+    StudentScheduleEndedList,
     UrgentStudents,
 } from '@partials/sub-admin/students'
 
@@ -176,6 +177,19 @@ export const SubadminStudents = () => {
             },
             element: <PlacementStartedStudents />,
         },
+        {
+            label: 'Student Schedule Ended',
+            badge: {
+                text: studentCount?.schedule,
+                loading: count.isLoading,
+            },
+            href: {
+                pathname: 'students',
+                query: { tab: 'student-schedule-ended' },
+            },
+            element: <StudentScheduleEndedList />,
+        },
+        // StudentScheduleEndedList
         {
             label: 'Urgent Students',
             badge: {

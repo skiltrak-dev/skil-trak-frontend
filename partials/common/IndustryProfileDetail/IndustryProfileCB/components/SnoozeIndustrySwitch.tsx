@@ -42,7 +42,7 @@ export const SnoozeIndustrySwitch = ({
             }
         })
     }
-    const { role } = getUserCredentials()
+    const role = getUserCredentials()?.role
     const checkRto = role === UserRoles.RTO
     return (
         <div>

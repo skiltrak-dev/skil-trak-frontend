@@ -2,7 +2,7 @@ import { Animations } from '@animations'
 import { Button, TextInput, Typography } from '@components'
 import { industryQuestions } from '@partials/admin/industry/components'
 import { IndustryQuestionsEnum } from '@partials/admin/industry/enum'
-import { AddIndustryQuestionForm } from '@partials/common/IndustryProfileDetail/forms'
+import { AddIndustryQuestionForm } from '@partials/common/IndustryProfileDetail/forms/AddIndustryQuestionForm'
 import { OnBoardingLink } from '@partials/industry/components'
 import { OptionType } from '@types'
 import { SignUpUtils } from '@utils'
@@ -43,30 +43,58 @@ export const StepOnBoarding = () => {
 
     const values = SignUpUtils.getValuesFromStorage()
 
-    useEffect(() => {
-        if (values?.sectors && values?.sectors?.length > 0) {
-            methods.setValue(
-                IndustryQuestionsEnum.SECTOR,
-                values?.sectors
-                    ?.map((sector: OptionType) => sector?.label)
-                    ?.join(', ')
-            )
-        }
-        if (selected === UsageType[0].type) {
-            methods.setValue(IndustryQuestionsEnum.CAPACITY, 1)
-        }
-    }, [values])
+    // useEffect(() => {
+    //     if (values?.sectors && values?.sectors?.length > 0) {
+    //         methods.setValue(
+    //             IndustryQuestionsEnum.SECTOR,
+    //             values?.sectors
+    //                 ?.map((sector: OptionType) => sector?.label)
+    //                 ?.join(', ')
+    //         )
+    //     }
+    //     if (selected === UsageType[0].type) {
+    //         methods.setValue(IndustryQuestionsEnum.CAPACITY, 1)
+    //     }
+    // }, [values])
 
     const onSubmit = (data: any) => {
+        console.log('after form submission::::::', data)
         let questions: {
-            [key: string]: string
+            [key: string]: any
         }[] = []
+        const sectorBaseCapacity = data?.sectorsBaseCap
         Object.entries(industryQuestions).forEach(([key, value]: any) => {
-            questions.push({
-                question: value,
-                answer: data?.[key],
-            })
+            // Skip sectors base capacity as we'll handle it separately
+            if (key !== IndustryQuestionsEnum.SECTORS_BASE_CAPACITY) {
+                questions.push({
+                    question: value,
+                    answer: data?.[key],
+                })
+            }
         })
+
+        if (data?.training === 'yes') {
+            questions.push({
+                question: industryQuestions[IndustryQuestionsEnum.TRAINING],
+                answer: data?.trainingDetails,
+            })
+        } else if (data?.training === 'no') {
+            questions.push({
+                question: industryQuestions[IndustryQuestionsEnum.TRAINING],
+                answer: data?.training,
+            })
+        }
+
+        // Handle sectors base capacity
+        if (data.sectorsBaseCap?.length) {
+            questions.push({
+                question:
+                    industryQuestions[
+                        IndustryQuestionsEnum.SECTORS_BASE_CAPACITY
+                    ],
+                answer: sectorBaseCapacity,
+            })
+        }
 
         if (values) {
             SignUpUtils.setValuesToStorage({
@@ -111,45 +139,42 @@ export const StepOnBoarding = () => {
                         ))}
                     </div>
                     {selected === UsageType[1].type && (
-                        <div className="flex flex-col">
-                            <TextInput
-                                onChange={(e: any) => {
-                                    setStudentCapacity(e.target.value)
-                                    methods.setValue(
-                                        IndustryQuestionsEnum.CAPACITY,
-                                        e.target.value
-                                    )
-                                }}
-                                name={'studentCapacity'}
-                                label={'Student Capacity'}
-                                type={'number'}
-                                min={1}
-                                max={9}
+                        // <div className="flex flex-col">
+                        //     <TextInput
+                        //         onChange={(e: any) => {
+                        //             setStudentCapacity(e.target.value)
+                        //             methods.setValue(
+                        //                 IndustryQuestionsEnum.CAPACITY,
+                        //                 e.target.value
+                        //             )
+                        //         }}
+                        //         name={'studentCapacity'}
+                        //         label={'Student Capacity'}
+                        //         type={'number'}
+                        //         min={1}
+                        //         max={9}
+                        //     />
+                        // </div>
+                        <div>
+                            <Typography variant="title">
+                                We kindly request you to provide detailed
+                                responses to the following questions to help us
+                                better understand your organization's
+                                requirements and preferences for student
+                                placements.
+                            </Typography>
+                            <AddIndustryQuestionForm
+                                methods={methods}
+                                capacityDisabled
+                                signUpValues={signUpValues}
                             />
                         </div>
                     )}
 
-                    <div>
-                        <Typography variant="title">
-                            We kindly request you to provide detailed responses
-                            to the following questions to help us better
-                            understand your organization's requirements and
-                            preferences for student placements.
-                        </Typography>
-                        <AddIndustryQuestionForm
-                            methods={methods}
-                            capacityDisabled
-                        />
-                    </div>
-
                     <Button
                         variant={'primary'}
                         onClick={methods.handleSubmit(onSubmit)}
-                        disabled={
-                            (selected === UsageType[1].type &&
-                                !studentCapacity) ||
-                            !selected
-                        }
+                        disabled={!selected}
                         text={'Continue'}
                     />
                 </div>

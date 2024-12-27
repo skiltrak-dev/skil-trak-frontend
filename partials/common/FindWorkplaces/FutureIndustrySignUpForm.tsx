@@ -59,7 +59,6 @@ export const FutureIndustrySignUpForm = ({
     const [courseLoading, setCourseLoading] = useState(false)
     const [storedData, setStoredData] = useState<any>(null)
     const [courseValues, setCourseValues] = useState<SelectOption[]>([])
-
     // countries and states
     const [countryId, setCountryId] = useState(null)
     const { data, isLoading } = CommonApi.Countries.useCountriesList()
@@ -215,6 +214,10 @@ export const FutureIndustrySignUpForm = ({
 
     // get data from local storage
     const selectedRowDataString = localStorage?.getItem('signup-data')
+    const jsonData = selectedRowDataString
+        ? JSON.parse(selectedRowDataString)
+        : {}
+
     useEffect(() => {
         const selectedRowData = selectedRowDataString
             ? JSON.parse(selectedRowDataString)
@@ -224,7 +227,7 @@ export const FutureIndustrySignUpForm = ({
             label: s?.name,
             value: s?.id,
         }))
-
+        formMethods.setValue('website', selectedRowData?.website || '')
         formMethods.setValue('name', selectedRowData?.businessName || '')
         formMethods.setValue('email', selectedRowData?.email || '')
         formMethods.setValue('phoneNumber', selectedRowData?.phone || '')
@@ -261,6 +264,14 @@ export const FutureIndustrySignUpForm = ({
             onSectorChanged(selectedSector)
         }
     }, [selectedSector, sectorResponse])
+    const signUpValues = {
+        name: formMethods.watch('name'),
+        email: formMethods.watch('email'),
+        phoneNumber: formMethods.watch('phoneNumber'),
+        addressLine1: formMethods.watch('addressLine1'),
+        courses: formMethods.watch('courses'),
+        sectors: selectedSector,
+    }
 
     const onBlur = (e: any) => {
         const abn = e.target?.value
@@ -269,15 +280,43 @@ export const FutureIndustrySignUpForm = ({
 
     const onHandleSubmit = (values: any) => {
         let questions: {
-            [key: string]: string
+            [key: string]: any
         }[] = []
+        const sectorBaseCapacity = values?.sectorsBaseCap
         Object.entries(industryQuestions).forEach(([key, value]: any) => {
-            questions.push({
-                question: value,
-                answer: values?.[key],
-            })
+            if (
+                key !== IndustryQuestionsEnum.SECTORS_BASE_CAPACITY &&
+                key !== IndustryQuestionsEnum.TRAINING
+            ) {
+                questions.push({
+                    question: value,
+                    answer: values?.[key],
+                })
+            }
             // delete values?.[key]
         })
+
+        if (values?.training === 'yes') {
+            questions.push({
+                question: industryQuestions[IndustryQuestionsEnum.TRAINING],
+                answer: values?.trainingDetails,
+            })
+        } else if (values?.training === 'no') {
+            questions.push({
+                question: industryQuestions[IndustryQuestionsEnum.TRAINING],
+                answer: values?.training,
+            })
+        }
+
+        if (sectorBaseCapacity?.length) {
+            questions.push({
+                question:
+                    industryQuestions[
+                        IndustryQuestionsEnum.SECTORS_BASE_CAPACITY
+                    ],
+                answer: sectorBaseCapacity,
+            })
+        }
 
         if (!onSuburbClicked) {
             notification.error({
@@ -558,7 +597,10 @@ export const FutureIndustrySignUpForm = ({
                                 industry to ensure smooth onboarding and
                                 collaboration.
                             </Typography>
-                            <AddIndustryQuestionForm methods={formMethods} />
+                            <AddIndustryQuestionForm
+                                methods={formMethods}
+                                signUpValues={signUpValues}
+                            />
                         </div>
 
                         <div className="">

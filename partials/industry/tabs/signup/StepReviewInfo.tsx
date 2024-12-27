@@ -94,7 +94,7 @@ export const StepReviewInfo = () => {
                                         {formData.phoneNumber || ''}
                                     </Typography>
                                 </InfoboxCard>
-                                <InfoboxCard>
+                                {/* <InfoboxCard>
                                     <Typography
                                         variant={'muted'}
                                         color={'text-gray-500'}
@@ -104,7 +104,7 @@ export const StepReviewInfo = () => {
                                     <Typography variant={'label'}>
                                         {formData.studentCapacity || ''}
                                     </Typography>
-                                </InfoboxCard>
+                                </InfoboxCard> */}
                             </div>
                         </div>
 

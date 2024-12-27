@@ -20,7 +20,7 @@ export const IndustryListingCellInfo = ({
     isDuplicated: boolean
     industryListing: any
 }) => {
-    const { role } = useMemo(() => getUserCredentials(), [])
+    const role = useMemo(() => getUserCredentials()?.role, [])
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: role !== UserRoles.SUBADMIN,
         // refetchOnMountOrArgChange: true,

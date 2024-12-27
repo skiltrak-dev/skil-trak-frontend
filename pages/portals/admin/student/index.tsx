@@ -24,6 +24,7 @@ import {
     PlacementStartedStudents,
     RejectedStudent,
     SnoozedStudents,
+    StudentScheduleEndedList,
     UnAssignedStudent,
 } from '@partials/admin/student'
 import { AdminApi } from '@queries'
@@ -73,6 +74,7 @@ const StudentList: NextPageWithLayout = () => {
             refetchOnMountOrArgChange: true,
         }
     )
+
     const filteredStudents = AdminApi.Students.useListQuery(
         {
             search: `${JSON.stringify({
@@ -182,6 +184,18 @@ const StudentList: NextPageWithLayout = () => {
                 loading: isLoading,
             },
             element: <ArchivedStudent />,
+        },
+        {
+            label: 'Student Schedule Ended',
+            href: {
+                pathname: 'student',
+                query: { tab: 'student-schedule-ended', page: 1, pageSize: 50 },
+            },
+            badge: {
+                text: data?.schedule,
+                loading: isLoading,
+            },
+            element: <StudentScheduleEndedList />,
         },
         {
             label: 'Placement Started Students',

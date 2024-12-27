@@ -46,7 +46,7 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const { role } = useMemo(() => getUserCredentials(), [])
+    const role = useMemo(() => getUserCredentials()?.role, [])
     const contextBar = useContextBar()
     const [filter, setFilter] = useState<FindWorkplaceFilter>(
         {} as FindWorkplaceFilter

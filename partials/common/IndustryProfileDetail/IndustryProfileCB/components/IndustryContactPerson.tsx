@@ -13,7 +13,7 @@ export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
     const canAssessData = useIsRestricted(UserRoles.INDUSTRY)
 
     const { notification } = useNotification()
-    const { role } = getUserCredentials()
+    const role = getUserCredentials()?.role
     const checkRto = role === UserRoles.RTO
     return (
         <div className="py-3.5 border-b border-secondary-dark flex flex-col gap-y-0.5">

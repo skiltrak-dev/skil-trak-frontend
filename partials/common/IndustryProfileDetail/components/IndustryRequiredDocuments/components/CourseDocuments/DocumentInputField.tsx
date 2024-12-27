@@ -43,7 +43,7 @@ export const DocumentInputField = ({
             setChecked(result.data?.checked)
         }
     }, [result])
-    const { role } = getUserCredentials()
+    const role = getUserCredentials()?.role
     const checkRto = role === UserRoles.RTO
 
     return (
