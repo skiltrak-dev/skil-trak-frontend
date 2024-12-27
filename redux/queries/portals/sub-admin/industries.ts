@@ -11,7 +11,6 @@ export const subAdminIndustriesEndpoints = (
         query: (id) => `${PREFIX}/industry/students/count/${id}`,
         providesTags: ['Industries'],
     }),
-   
 
     getSubadminIndustriesCount: builder.query<any, void>({
         query: () => `${PREFIX}/industries/count`,
@@ -223,5 +222,19 @@ export const subAdminIndustriesEndpoints = (
             url: `department/pending-count`,
         }),
         providesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+    getSectorBasedCapacity: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}/industry/${id}/sector-capacity/get`,
+        }),
+        providesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+    updateSectorBaseCapacity: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/sector-capacity/${id}/update`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['SubAdminIndustries', 'Industries'],
     }),
 })

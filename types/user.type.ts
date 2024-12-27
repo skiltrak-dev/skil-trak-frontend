@@ -54,6 +54,7 @@ export interface UserCount {
     completed: number
     unAssigned: number
     placementStarted: number
+    schedule: number
 }
 
 export interface SubadminCount extends UserCount {

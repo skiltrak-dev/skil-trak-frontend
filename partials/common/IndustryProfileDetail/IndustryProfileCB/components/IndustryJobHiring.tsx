@@ -27,7 +27,7 @@ export const IndustryJobHiring = ({
             }
         })
     }
-    const { role } = getUserCredentials()
+    const role = getUserCredentials()?.role
     const checkRto = role === UserRoles.RTO
     return (
         <div>

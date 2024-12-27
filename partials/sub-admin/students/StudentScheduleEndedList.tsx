@@ -41,7 +41,7 @@ import { InterviewModal } from '../workplace/modals'
 import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 
-export const AllStudents = () => {
+export const StudentScheduleEndedList = () => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
@@ -73,12 +73,11 @@ export const AllStudents = () => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
-    // in the below I want to pass 
 
     const { isSuccess, isLoading, data, isError, isFetching, refetch } =
         SubAdminApi.Student.useList(
             {
-                search: `status:${UserStatus.Approved}`,
+                search: `schedule:${true}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -161,6 +160,8 @@ export const AllStudents = () => {
 
         return false
     })
+
+    // console.log('activeAndCompleted:::::::', activeAndCompleted)
 
     const findCallLogsUnanswered = data?.data?.filter((student: any) => {
         const unansweredCalls = student?.callLog?.filter((call: any) => {
@@ -306,58 +307,6 @@ export const AllStudents = () => {
                 },
                 Icon: FaEye,
             },
-            {
-                text: 'Old Profile',
-                onClick: (student: Student) => {
-                    router.push(
-                        `/portals/sub-admin/students/${student.id}?tab=overview`
-                    )
-                },
-                Icon: FaEye,
-            },
-            {
-                text: student?.subadmin ? 'Un Assign' : 'Assign to me',
-                onClick: (student: Student) => onAssignStudentClicked(student),
-                Icon: MdBlock,
-            },
-            {
-                text: student?.nonContactable
-                    ? 'Add to Contactable'
-                    : 'Add to Not Contactable',
-                onClick: (student: Student) =>
-                    onNonContactableStudents(student),
-                Icon: MdBlock,
-            },
-            {
-                text: 'Interview',
-                onClick: (student: Student) => onInterviewClicked(student),
-                Icon: FaUsers,
-            },
-            {
-                text: 'Change Status',
-                onClick: (student: Student) => onChangeStatus(student),
-                Icon: FaEdit,
-            },
-            {
-                text: 'Block',
-                onClick: (student: Student) => onBlockClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: student?.isHighPriority
-                    ? 'Remove Mark High Priority'
-                    : 'Mark High Priority',
-                onClick: (student: Student) =>
-                    onMarkAsHighPriorityClicked(student),
-                Icon: MdPriorityHigh,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Change Expiry',
-                onClick: (student: Student) => onDateClick(student),
-                Icon: FaEdit,
-            },
         ]
     }
 
@@ -385,21 +334,74 @@ export const AllStudents = () => {
             ),
         },
         {
+            accessorKey: 'user.schedules',
+            header: () => <span>Total Hours</span>,
+            cell: ({ row }) => (
+                <div>
+                    <ol>
+                        {row.original?.user?.schedules?.map(
+                            (schedule: any, index: number) => (
+                                <li key={index}>{schedule?.hours ?? 'NA'}</li>
+                            )
+                        )}
+                    </ol>
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'scheduleStartDate',
+            header: () => <span>Schedule Start Date</span>,
+            cell: ({ row }) => (
+                <div>
+                    <div>
+                        <ol>
+                            {row.original?.user?.schedules?.map(
+                                (schedule: any, index: number) => (
+                                    <li
+                                        className="whitespace-nowrap"
+                                        key={index}
+                                    >
+                                        {schedule?.startDate?.slice(0, 10) ??
+                                            'NA'}
+                                    </li>
+                                )
+                            )}
+                        </ol>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'remainingDays',
+            header: () => <span>Remaining Days</span>,
+            cell: ({ row }) => (
+                <div>
+                    {row.original?.user?.schedules?.map(
+                        (schedule: any, index: number) => {
+                            const endDate = moment(schedule?.endDate)
+                            const startDate = moment(schedule?.startDate)
+                            const remainingDays = endDate.diff(
+                                startDate,
+                                'days'
+                            )
+                            return (
+                                <p key={index} className="whitespace-nowrap">
+                                    {remainingDays ?? 'NA'}
+                                </p>
+                            )
+                        }
+                    )}
+                </div>
+            ),
+        },
+        {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: ({ row }: any) => {
                 return <SectorCell student={row.original} />
             },
         },
-        {
-            accessorKey: 'expiry',
-            header: () => <span>Expiry Countdown</span>,
-            cell: (info) => (
-                <StudentExpiryDaysLeft
-                    expiryDate={info.row.original?.expiryDate}
-                />
-            ),
-        },
+
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
@@ -407,13 +409,7 @@ export const AllStudents = () => {
                 <CaseOfficerAssignedStudent student={row.original} />
             ),
         },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
-                <UserCreatedAt createdAt={row.original?.createdAt} />
-            ),
-        },
+
         {
             header: () => 'Action',
             accessorKey: 'Action',

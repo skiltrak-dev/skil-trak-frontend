@@ -2,6 +2,7 @@ import {
     Typography,
     HideRestrictedData,
     AuthorizedUserComponent,
+    Button,
 } from '@components'
 import { Industry } from '@types'
 import { UserRoles } from '@constants'
@@ -16,6 +17,7 @@ import {
     IndustryStatus,
     MakeIndustryPartner,
     ProfileLinks,
+    SectorBaseCapacityModal,
     SnoozeIndustrySwitch,
     ViewIndustryAnswers,
 } from './components'
@@ -25,9 +27,13 @@ import {
     IndustrySupervisor,
 } from '../components'
 import { ViewProfileVisitorsModal } from '@partials/common/modal'
+import Modal from '@modals/Modal'
+import { useRouter } from 'next/router'
 
 export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
+    const router = useRouter()
+    const id = router.query.id
 
     const onCancelModal = () => setModal(null)
 
@@ -101,6 +107,18 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
                         className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200"
                     >
                         View Visitors
+                    </div>
+                    <div>
+                        <Modal>
+                            <Modal.Open opens="viewCapacity">
+                                <div className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200">
+                                    Capacity
+                                </div>
+                            </Modal.Open>
+                            <Modal.Window name="viewCapacity">
+                                <SectorBaseCapacityModal id={id} />
+                            </Modal.Window>
+                        </Modal>
                     </div>
                 </AuthorizedUserComponent>
             </div>
