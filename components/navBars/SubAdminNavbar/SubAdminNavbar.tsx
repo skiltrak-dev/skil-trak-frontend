@@ -40,6 +40,8 @@ export const SubAdminNavbar = () => {
     const pendingDocsCount = CommonApi.ESign.pendingDocsCount(undefined, {
         refetchOnMountOrArgChange: true,
     })
+    const mailsCount = CommonApi.Messages.useMailCount()
+    console.log('mailsCount', mailsCount?.data)
 
     const navBarData = [
         {
@@ -83,6 +85,7 @@ export const SubAdminNavbar = () => {
             Icon: MdEmail,
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
+            count: mailsCount?.data,
         },
 
         {

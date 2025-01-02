@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { MdOutlineTextsms } from 'react-icons/md'
 import { RiMailSendLine } from 'react-icons/ri'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 const UsageType = [
     {
@@ -37,8 +39,59 @@ export const StepOnBoarding = () => {
     const [studentCapacity, setStudentCapacity] = useState()
     const [selected, setSelected] = useState<any>()
 
+    // const schema = yup.object().shape({
+    //     [IndustryQuestionsEnum.REQUIREMENTS]: yup
+    //         .string()
+    //         .required('Please specify your requirements for student placement'),
+    //     [IndustryQuestionsEnum.TRAINING]: yup
+    //         .string()
+    //         .required('Please specify if training is provided'),
+    //     // trainingDetails: yup.string().when(IndustryQuestionsEnum.TRAINING, {
+    //     //     is: 'yes',
+    //     //     then: yup.string().required('Please provide training details'),
+    //     //     otherwise: yup.string(),
+    //     // }),
+    //     [IndustryQuestionsEnum.EMPLOYMENT]: yup
+    //         .string()
+    //         .required('Please specify employment opportunities'),
+    //     [IndustryQuestionsEnum.HIRE]: yup
+    //         .string()
+    //         .required('Please specify if you want to hire students'),
+    //     [IndustryQuestionsEnum.SAFETY]: yup
+    //         .string()
+    //         .required('Please specify safety protocols'),
+    //     [IndustryQuestionsEnum.DOCUMENTS]: yup
+    //         .string()
+    //         .required('Please specify required documents'),
+    //     [IndustryQuestionsEnum.APPLICATIONS]: yup
+    //         .string()
+    //         .required('Please specify application platform details'),
+    //     sectorsBaseCap: yup.array().of(
+    //         yup.object().shape({
+    //             // sectorId: yup.string().required('Sector is required'),
+    //             capacity: yup
+    //                 .string()
+    //                 .required('Capacity is required')
+    //                 .matches(/^[1-9]$/, 'Capacity must be between 1 and 9'),
+    //         })
+    //     ),
+    // })
+
     const methods = useForm({
         mode: 'all',
+        // resolver: yupResolver(schema),
+        // defaultValues: {
+        //     // Initialize default values for the form
+        //     [IndustryQuestionsEnum.REQUIREMENTS]: '',
+        //     [IndustryQuestionsEnum.TRAINING]: '',
+        //     [IndustryQuestionsEnum.EMPLOYMENT]: '',
+        //     [IndustryQuestionsEnum.HIRE]: '',
+        //     [IndustryQuestionsEnum.SAFETY]: '',
+        //     [IndustryQuestionsEnum.DOCUMENTS]: '',
+        //     [IndustryQuestionsEnum.APPLICATIONS]: '',
+        //     sectorsBaseCap: [],
+        //     trainingDetails: '',
+        // },
     })
 
     const values = SignUpUtils.getValuesFromStorage()
@@ -58,14 +111,17 @@ export const StepOnBoarding = () => {
     // }, [values])
 
     const onSubmit = (data: any) => {
-        console.log('after form submission::::::', data)
         let questions: {
             [key: string]: any
         }[] = []
         const sectorBaseCapacity = data?.sectorsBaseCap
+
         Object.entries(industryQuestions).forEach(([key, value]: any) => {
             // Skip sectors base capacity as we'll handle it separately
-            if (key !== IndustryQuestionsEnum.SECTORS_BASE_CAPACITY) {
+            if (
+                key !== IndustryQuestionsEnum.SECTORS_BASE_CAPACITY &&
+                key !== IndustryQuestionsEnum.TRAINING
+            ) {
                 questions.push({
                     question: value,
                     answer: data?.[key],
@@ -73,15 +129,15 @@ export const StepOnBoarding = () => {
             }
         })
 
-        if (data?.training === 'yes') {
-            questions.push({
-                question: industryQuestions[IndustryQuestionsEnum.TRAINING],
-                answer: data?.trainingDetails,
-            })
-        } else if (data?.training === 'no') {
+        if (data?.training === 'no') {
             questions.push({
                 question: industryQuestions[IndustryQuestionsEnum.TRAINING],
                 answer: data?.training,
+            })
+        } else if (data?.training === 'yes') {
+            questions.push({
+                question: industryQuestions[IndustryQuestionsEnum.TRAINING],
+                answer: data?.trainingDetails,
             })
         }
 

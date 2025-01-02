@@ -121,11 +121,9 @@ export const ScheduleCalendar = ({
                     setCalanderView(view)
                 }}
                 onNavigate={(navigate) => {
-                    console.log({ navigate })
                     onNavigateDate(navigate)
                 }}
                 onRangeChange={(e: any) => {
-                    console.log({ e })
                     setTimeout(() => {
                         setRangeDates(e)
                     }, 1000)

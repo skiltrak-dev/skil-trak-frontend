@@ -17,6 +17,7 @@ import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+
 export const AddCourseModal = ({ courses, onCloseModal }: any) => {
     const [tags, setTags] = useState<any>({
         reference: [],
@@ -78,7 +79,7 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
             }
         })
     })()
-    
+
     const sectorsOptions = uniqueSectors?.map((sector: any) => ({
         value: sector?.id,
         label: sector?.name,

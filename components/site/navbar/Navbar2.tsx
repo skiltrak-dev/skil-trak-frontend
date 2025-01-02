@@ -107,9 +107,9 @@ export function Navbar2() {
                                     width={0}
                                     height={0}
                                     sizes={'100vh 100vw'}
-                                    className="block lg:hidden h-16 w-auto"
-                                    src={'/images/skiltrak-christmas.png'}
-                                    // src={'/images/site/logo-light.webp'}
+                                    className="block lg:hidden h-8 w-auto"
+                                    // src={'/images/skiltrak-christmas.png'}
+                                    src={'/images/site/logo-light.webp'}
                                     alt="Skiltrak Logo"
                                 />
                             </Link>
@@ -118,8 +118,9 @@ export function Navbar2() {
                                     width={0}
                                     height={0}
                                     sizes={'100vh 100vw'}
-                                    className="hidden lg:block h-20 w-auto"
-                                    src={'/images/skiltrak-christmas.png'}
+                                    className="hidden lg:block h-12 w-auto"
+                                    // src={'/images/skiltrak-christmas.png'}
+                                    src="/images/site/logo-light.webp"
                                     alt="Skiltrak Logo"
                                 />
                             </Link>
