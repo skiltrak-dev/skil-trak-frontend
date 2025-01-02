@@ -221,9 +221,7 @@ export const DetailNavbar = () => {
                     </div>
                 </OutsideClickHandler> */}
 
-                <AuthorizedUserComponent
-                    excludeRoles={[UserRoles.OBSERVER]}
-                >
+                <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>
                     {' '}
                     <OutsideClickHandler
                         onOutsideClick={() => {

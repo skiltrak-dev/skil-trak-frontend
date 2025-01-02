@@ -30,7 +30,7 @@ export const GoogleMapsProvider: React.FC<GoogleMapsProviderProps> = ({
 }) => {
     const { isLoaded, loadError } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: process.env.googleDirectionApi as string,
+        googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY as string,
         libraries: ['places'],
     })
 

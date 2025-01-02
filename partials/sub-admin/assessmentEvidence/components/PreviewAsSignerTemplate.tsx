@@ -44,7 +44,6 @@ export const PreviewAsSignerTemplate = ({
             } catch (error) {
                 setIsError(true)
                 setIsLoading(false)
-                console.error('Error fetching PDF:', error)
             }
         }
         getPdfBytes()

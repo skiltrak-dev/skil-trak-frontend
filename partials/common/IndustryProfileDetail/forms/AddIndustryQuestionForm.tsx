@@ -22,6 +22,9 @@ export const AddIndustryQuestionForm = ({
 }) => {
     const sectors = signUpValues?.sectors
 
+    // validation for questions and answers
+    
+
     React.useEffect(() => {
         if (sectors?.length) {
             // Update the form values with properly structured sector data
@@ -54,13 +57,13 @@ export const AddIndustryQuestionForm = ({
                                             <div className="flex items-center gap-x-4">
                                                 <RadioButton
                                                     name={key}
-                                                    showError={false}
+                                                    // showError={false}
                                                     label="Yes"
                                                     value="yes"
                                                 />
                                                 <RadioButton
                                                     name={key}
-                                                    showError={false}
+                                                    // showError={false}
                                                     label="No"
                                                     value="no"
                                                     defaultChecked
@@ -190,13 +193,13 @@ export const AddIndustryQuestionForm = ({
                                                     <div className="flex items-center gap-4">
                                                         <RadioButton
                                                             name={key}
-                                                            showError={false}
+                                                            // showError={false}
                                                             label="Yes"
                                                             value="yes"
                                                         />
                                                         <RadioButton
                                                             name={key}
-                                                            showError={false}
+                                                            // showError={false}
                                                             label="No"
                                                             value="no"
                                                         />
@@ -205,7 +208,7 @@ export const AddIndustryQuestionForm = ({
                                                     <>
                                                         <TextInput
                                                             name={key}
-                                                            showError={false}
+                                                            // showError={false}
                                                             placeholder={key}
                                                             type={
                                                                 isCapacity

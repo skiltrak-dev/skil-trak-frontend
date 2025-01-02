@@ -6,33 +6,21 @@ import { ApprovedSectorTooltip } from './ApprovedSectorTooltip'
 import { FaRegEdit } from 'react-icons/fa'
 import { UserRoles } from '@constants'
 import Modal from '@modals/Modal'
-import { AddPrevCourseDescription } from './modal'
+import {
+    AddCourseModal,
+    AddPrevCourseDescription,
+    DeleteCourseModal,
+    EditCourseModal,
+} from './modal'
 import Link from 'next/link'
 import { ellipsisText } from '@utils'
+import { RefreshCw } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 
 export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
     const approvals = isPreviousCourses
         ? data?.courses || []
         : data?.industryCourseApprovals || []
-
-    // const isValidUrl = (url: any) => {
-    //     const urlPattern =
-    //         /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
-    //     return urlPattern.test(url)
-    // }
-
-    // const getCleanExternalUrl = (url: string | undefined | null): string => {
-    //     if (!url) return '#'
-
-    //     // Remove any prefix of the current domain
-    //     const cleanUrl = url.replace(
-    //         /^(https?:\/\/)?(skiltrak\.com\.au\/)?/,
-    //         ''
-    //     )
-
-    //     // Add 'https://' if no protocol is present
-    //     return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`
-    // }
 
     const isValidUrl = (url: any): boolean => {
         if (!url || typeof url !== 'string') return false
@@ -78,32 +66,58 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                     key={approval.id}
                     className="overflow-auto custom-scrollbar"
                 >
-                    <div className="p-4 bg-gray-50 flex items-center gap-x-2">
+                    <div className="p-4 bg-gray-50 flex items-center gap-x-2 justify-between">
                         {/* <ApprovedSectorTooltip
                             courses={approval?.courses || []}
                         /> */}
-                        <Typography variant="subtitle">
-                            {approval?.course?.sector?.name ??
-                                approval?.sector?.name}
-                        </Typography>
-                        {!isPreviousCourses && (
-                            <span className="px-3 py-1 bg-green-100 text-green-800 rounded-md text-sm">
-                                Approved
-                            </span>
-                        )}
-                        <AuthorizedUserComponent
-                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
-                        >
-                            {!isPreviousCourses && approval?.actionBy && (
-                                <div className="flex gap-x-1">
-                                    <Typography
-                                        variant="xxs"
-                                        color="text-emerald-500"
-                                    >
-                                        Approved by: {approval?.actionBy?.name}
-                                    </Typography>
-                                </div>
+                        <div className="flex items-center gap-x-2">
+                            <Typography variant="subtitle">
+                                {approval?.course?.sector?.name ??
+                                    approval?.sector?.name}
+                            </Typography>
+                            {!isPreviousCourses && (
+                                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-md text-sm">
+                                    Approved
+                                </span>
                             )}
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            >
+                                {!isPreviousCourses && approval?.actionBy && (
+                                    <div className="flex gap-x-1">
+                                        <Typography
+                                            variant="xxs"
+                                            color="text-emerald-500"
+                                        >
+                                            Approved by:{' '}
+                                            {approval?.actionBy?.name}
+                                        </Typography>
+                                    </div>
+                                )}
+                            </AuthorizedUserComponent>
+                        </div>
+                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                            <div className="flex items-center gap-x-2">
+                                <Modal>
+                                    <Modal.Open opens="editCourse">
+                                        <RefreshCw className="cursor-pointer bg-[#047857] text-white rounded-lg p-1" />
+                                    </Modal.Open>
+                                    <Modal.Window name="editCourse">
+                                        <EditCourseModal course={approval} />
+                                    </Modal.Window>
+                                </Modal>
+                                <Modal>
+                                    <Modal.Open opens="updateCourseDescription">
+                                        <Trash2 className="cursor-pointer bg-red-500 text-white rounded-lg p-1" />
+                                    </Modal.Open>
+                                    <Modal.Window name="updateCourseDescription">
+                                        <DeleteCourseModal
+                                            // courseId={approval?.course?.id}
+                                            course={approval}
+                                        />
+                                    </Modal.Window>
+                                </Modal>
+                            </div>
                         </AuthorizedUserComponent>
                     </div>
 

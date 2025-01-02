@@ -80,8 +80,6 @@ const EditStudentDetail: NextPageWithLayout = () => {
 
                 const profileCompletion = checkStudentProfileCompletion(values)
 
-                console.log({ profileCompletion })
-
                 // Handle workplace routing based on profile completion
                 if (router?.query?.wpType) {
                     if (
