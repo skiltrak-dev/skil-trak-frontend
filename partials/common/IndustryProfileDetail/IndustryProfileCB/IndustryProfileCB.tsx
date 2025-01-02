@@ -9,6 +9,7 @@ import { UserRoles } from '@constants'
 import { ReactNode, useState } from 'react'
 import {
     AddIndustryAnswers,
+    IndustryWpType,
     IndustryContactPerson,
     IndustryDetail,
     IndustryJobHiring,
@@ -124,9 +125,14 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             </div>
 
             {/*  */}
-            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                <IndustryStatus industry={industry} />
-            </AuthorizedUserComponent>
+            <div className="flex justify-between items-center gap-x-3">
+                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                    <IndustryStatus industry={industry} />
+                </AuthorizedUserComponent>
+
+                {/*  */}
+                <IndustryWpType industryUserId={industry?.user?.id} />
+            </div>
 
             <SnoozeIndustrySwitch
                 industry={industry}

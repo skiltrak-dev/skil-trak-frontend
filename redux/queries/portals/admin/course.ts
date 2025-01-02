@@ -57,4 +57,30 @@ export const courseEndpoints = (
         }),
         invalidatesTags: ['Courses'],
     }),
+
+    selectedWpTypes: builder.query<
+        PaginatedResponse<Course>,
+        PaginationWithSearch | undefined
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/workplace/types-list`,
+            params,
+        }),
+        providesTags: ['WorkplaceTypes'],
+    }),
+
+    addWpTypesToCourse: builder.mutation<Course, number>({
+        query: (id) => ({
+            url: `${PREFIX}/course/wp-type/delete/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Courses'],
+    }),
+    removeWpTypesFromCourse: builder.mutation<Course, number>({
+        query: (id) => ({
+            url: `${PREFIX}/course/wp-type/delete/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Courses'],
+    }),
 })

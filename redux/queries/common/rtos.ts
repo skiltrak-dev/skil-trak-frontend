@@ -16,4 +16,31 @@ export const rtosEndpoints = (
         query: () => `shared/rtos/list`,
         providesTags: ['RTO'],
     }),
+    getRtoWpTypes: builder.query<any, void>({
+        query: () => `rtos/workplace-types/list`,
+        providesTags: ['RTO'],
+    }),
+    addRtoWpType: builder.mutation<
+        any,
+        {
+            userId: number
+            courseId: number
+            typeIds: number[]
+        }
+    >({
+        query: ({ typeIds, courseId, ...params }) => ({
+            url: `rtos/course/${courseId}/workplace-type/add`,
+            method: 'POST',
+            params,
+            body: { typeIds },
+        }),
+        invalidatesTags: ['RTO', 'RTOS'],
+    }),
+    removeRtoWpType: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `rtos/course/workplace-type/${id}/remove`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['RTO', 'RTOS'],
+    }),
 })

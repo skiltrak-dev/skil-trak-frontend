@@ -33,7 +33,7 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
 
             {/* Sector */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3 mt-5 h-[506px]">
-                <RtoSectors courses={rto?.courses} />
+                <RtoSectors courses={rto?.courses} userId={rto?.user?.id} />
                 <div className="h-full">
                     <Notes userId={rto?.user?.id} />
                 </div>

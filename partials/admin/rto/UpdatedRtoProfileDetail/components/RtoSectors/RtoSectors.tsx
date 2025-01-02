@@ -3,7 +3,13 @@ import { Course } from '@types'
 import { getSectors } from '@utils'
 import { RtoCourses } from './RtoCourses'
 
-export const RtoSectors = ({ courses }: { courses: Course[] }) => {
+export const RtoSectors = ({
+    userId,
+    courses,
+}: {
+    userId: number
+    courses: Course[]
+}) => {
     const sectors = getSectors(courses)
     return (
         <Card shadowType="profile" noPadding fullHeight>
@@ -28,6 +34,7 @@ export const RtoSectors = ({ courses }: { courses: Course[] }) => {
                                     </Typography>
 
                                     <RtoCourses
+                                        userId={userId}
                                         sector={sector}
                                         courses={courses}
                                     />

@@ -13,6 +13,17 @@ export interface CourseExtraHours extends BaseResponse {
     hours: string
 }
 
+export interface WorkplaceType extends BaseResponse {
+    id: number
+    isActive: boolean
+    name: string
+}
+export interface WorkplaceTypes extends BaseResponse {
+    id: number
+    isActive: boolean
+    workplaceType: WorkplaceType
+}
+
 export interface Course extends BaseResponse {
     id: number
     code: string
@@ -28,6 +39,7 @@ export interface Course extends BaseResponse {
     timing: any
     extraHours: CourseExtraHours[]
     assessmentEvidence: AssessmentEvidenceFolder[]
+    workplaceTypes: WorkplaceTypes[]
 }
 
 export interface Sector extends BaseResponse {

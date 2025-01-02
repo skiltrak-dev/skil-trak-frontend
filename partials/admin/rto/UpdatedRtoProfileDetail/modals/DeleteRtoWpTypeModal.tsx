@@ -1,25 +1,27 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
-import { AdminApi } from '@queries'
+import { CommonApi } from '@queries'
+import { WorkplaceType, WorkplaceTypes } from '@types'
 
 import { FaTrash } from 'react-icons/fa'
 
-export const DeleteWpTypeModal = ({
+export const DeleteRtoWpTypeModal = ({
     wpType,
     onCancel,
 }: {
-    wpType: any
     onCancel: Function
+    wpType: WorkplaceTypes
 }) => {
     const { notification } = useNotification()
-    const [remove, removeResult] = AdminApi.WpTypes.removeWpType()
+    const [remove, removeResult] = CommonApi.Rtos.removeRtoWpType()
 
-    const onConfirmClicked = async (wpType: any) => {
-        const res: any = await remove(wpType?.id)
+    const onConfirmUClicked = async (wpType: WorkplaceTypes) => {
+        const res: any = await remove(Number(wpType?.id))
+
         if (res?.data) {
             notification.error({
-                title: `Course Deleted`,
-                description: `Course "${wpType?.name}" has been deleted.`,
+                title: `Workplace Type Removed`,
+                description: `Workplace Type  "${wpType?.workplaceType?.name}" has been Removed.`,
             })
             onCancel()
         }
@@ -32,11 +34,11 @@ export const DeleteWpTypeModal = ({
                 Icon={FaTrash}
                 variant="error"
                 title="Are you sure!"
-                description={`You are about to delete "${wpType?.name}". Do you wish to continue?`}
-                onConfirm={onConfirmClicked}
+                description={`You are about to delete "${wpType?.workplaceType?.name}". Do you wish to continue?`}
+                onConfirm={onConfirmUClicked}
                 onCancel={onCancel}
                 input
-                inputKey={wpType?.name}
+                inputKey={wpType?.workplaceType?.name}
                 actionObject={wpType}
                 loading={removeResult.isLoading}
             />

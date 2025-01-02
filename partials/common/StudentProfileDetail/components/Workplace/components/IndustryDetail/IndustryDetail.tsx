@@ -9,7 +9,10 @@ import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { UserRoles } from '@constants'
 import { useContextBar, useNotification } from '@hooks'
 import { ViewOnMapIndustriesModal } from '@partials/common/MapBox'
-import { WorkplaceEmploymentDocument } from '@partials/student'
+import {
+    WorkplaceEmploymentDocument,
+    WorkplaceMapBoxView,
+} from '@partials/student'
 import { AvailabelMeetingDate } from '@partials/student/workplace/components/WorkplaceApproval/AvailabelMeetingDate'
 import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
 import { Course, Student } from '@types'
@@ -541,6 +544,23 @@ export const IndustryDetail = ({
                                             </div>
                                         </div>
                                     ) : null}
+                                    {appliedIndustry && student && (
+                                        <div className="mt-2">
+                                            <WorkplaceMapBoxView
+                                                industryLocation={appliedIndustry?.industry?.location?.split(
+                                                    ','
+                                                )}
+                                                studentLocation={student?.location?.split(
+                                                    ','
+                                                )}
+                                                workplaceName={
+                                                    appliedIndustry?.industry
+                                                        ?.user?.name
+                                                }
+                                                showMap
+                                            />
+                                        </div>
+                                    )}
                                 </>
                             )}
 
