@@ -44,8 +44,8 @@ export const NotificationDropDown = ({
     return (
         <>
             <div
-                className={`absolute top-10  -right-5 z-40 bg-white w-80 transition-all rounded-lg ${
-                    !expanded ? 'max-h-0' : 'max-h-96 shadow-md border'
+                className={`absolute top-10 -right-5 z-40 bg-white w-80 transition-all rounded-lg ${
+                    !expanded ? 'max-h-0 hidden' : 'max-h-96 shadow-md border'
                 } `}
             >
                 <div className="relative">
