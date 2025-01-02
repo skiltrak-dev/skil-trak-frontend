@@ -68,6 +68,7 @@ export const Courses = () => {
         contextBar.setContent(<CourseView course={course} />)
         contextBar.show()
     }
+
     const onViewRequirementClick = (course: Course) => {
         setModal(
             <RequirementModal course={course} onCancel={onModalCancelClicked} />

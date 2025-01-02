@@ -338,10 +338,16 @@ const {
     useAddIndustryBranchesAddressMutation,
     useGetBulkEmailSubadminIndustriesQuery,
     useGetCoursesFoldersQuery,
+    useAddIndustryWpTypeMutation,
+    useRemoveIndustryWPTypeMutation,
+    useGetIndustryWPTypeQuery,
 
     useGetAllRtosQuery,
-    useGetFilterSubAdminRtosQuery,
     useGetRtosListQuery,
+    useGetRtoWpTypesQuery,
+    useAddRtoWpTypeMutation,
+    useRemoveRtoWpTypeMutation,
+    useGetFilterSubAdminRtosQuery,
 
     useGetAllCoursesQuery,
 
@@ -596,12 +602,17 @@ export const CommonApi = {
     },
     Rtos: {
         useRtosList: useGetRtosListQuery,
+        getRtoWpTypes: useGetRtoWpTypesQuery,
+        addRtoWpType: useAddRtoWpTypeMutation,
+        removeRtoWpType: useRemoveRtoWpTypeMutation,
     },
     Industries: {
         getFolders: useGetCoursesFoldersQuery,
         jobsCount: useGetAdvertisedJobCountQuery,
         useList: useIndustryBranchesAddressListQuery,
         useSnoozeIndustry: useSnoozeIndustryMutation,
+        addIndustryWpType: useAddIndustryWpTypeMutation,
+        getIndustryWPType: useGetIndustryWPTypeQuery,
         useAddProfileVisitor: useAddProfileVisitorQuery,
         useProfileVisitors: useViewProfileVisitorQuery,
         useUnSnoozeIndustry: useUnSnoozeIndustryMutation,
@@ -609,6 +620,7 @@ export const CommonApi = {
         useIsIndustryHiring: useIsIndustryHiringMutation,
         useApplyForJob: useApplyForJobFromHomePageMutation,
         getAllAdvertisedJobs: useGetAllAdvertisedJobsQuery,
+        removeIndustryWPType: useRemoveIndustryWPTypeMutation,
         getAdvertisedJobDetail: useGetAdvertisedJobDetailQuery,
         addBranchesAddress: useAddIndustryBranchesAddressMutation,
         useUpdateIndustryBranch: useUpdateIndustryBranchAddressMutation,

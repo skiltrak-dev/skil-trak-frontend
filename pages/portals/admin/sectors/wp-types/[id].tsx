@@ -30,8 +30,8 @@ const EditWorkplaceTypes: NextPageWithLayout = () => {
         navBar.setTitle('Edit Workplace Type')
     }, [])
 
-    const onSubmit = async (values: any) => {
-        const res: any = await update(values)
+    const onSubmit = async (values: { name: string }) => {
+        const res: any = await update({ id, ...values })
         if (res?.data) {
             router.push(
                 '/portals/admin/sectors?tab=wp-types&page=1&pageSize=50'
@@ -52,7 +52,7 @@ const EditWorkplaceTypes: NextPageWithLayout = () => {
                 subtitle={`You are editing a Workplace Type`}
             ></PageHeading>
             <Card>
-                {(data && !isLoading) || true ? (
+                {data && !isLoading ? (
                     updateResult.isLoading || updateResult.isSuccess ? (
                         <Popup
                             title="Updating..."
@@ -64,6 +64,7 @@ const EditWorkplaceTypes: NextPageWithLayout = () => {
                             edit
                             onSubmit={onSubmit}
                             initialValues={data}
+                            result={updateResult}
                         />
                     )
                 ) : (

@@ -22,17 +22,10 @@ export const UpdatePrvWPStatusModal = ({
                     <PiWarningOctagonThin className="text-primary text-8xl" />
                     <div className="mx-auto">
                         <Typography center semibold>
-                            Update Previous workplace status
-                        </Typography>
-                    </div>
-                </div>
-                <div>
-                    <Typography center>
-                        <span className="text-[15px] leading-4 text-center">
                             Update Previous workplace status to PLACEMENT
                             STARTED
-                        </span>
-                    </Typography>
+                        </Typography>
+                    </div>
                 </div>
             </div>
         </GlobalModal>

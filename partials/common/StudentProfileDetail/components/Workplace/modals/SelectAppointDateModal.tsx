@@ -10,16 +10,15 @@ import { useAddExistingIndustriesMutation } from '@queries'
 import { useNotification, useWorkplace } from '@hooks'
 import { getDate } from '@utils'
 import moment from 'moment'
+import { WorkplaceErrorMessage } from '../enum'
 
 export const SelectAppointDateModal = ({
-    dist,
     onCancel,
     workplaceId,
     industryId,
     industryCapacity,
     industryUserName,
 }: {
-    dist: any
     workplaceId: number
     industryId: number
     onCancel: () => void
@@ -54,34 +53,63 @@ export const SelectAppointDateModal = ({
                 onCancel()
             }
 
-            if (res?.error?.data?.message === 'limitExceed') {
+            if (
+                res?.error?.data?.message === WorkplaceErrorMessage.LIMIT_EXCEED
+            ) {
                 setWorkplaceData({
                     name: industryUserName,
                     industryCapacity,
-                    type: 'limitExceed',
+                    type: WorkplaceErrorMessage.LIMIT_EXCEED,
                 })
                 onCancel()
             }
 
-            if (res?.error?.data?.message === 'docsMismatch') {
+            if (
+                res?.error?.data?.message ===
+                WorkplaceErrorMessage.DOCS_MISMATCH
+            ) {
                 setWorkplaceData({
-                    type: 'docsMismatch',
+                    type: WorkplaceErrorMessage.DOCS_MISMATCH,
                     rtoName: res?.error?.data?.rtoName,
                     missingDocuments: res?.error?.data?.missingDocuments,
                     dates: { date1, date2 },
                 })
             }
 
-            if (res?.error?.data?.message === 'distanceExceededLimit') {
+            if (
+                res?.error?.data?.message ===
+                WorkplaceErrorMessage.DISTANCE_EXCEEDED_LIMIT
+            ) {
                 setWorkplaceData({
                     type: 'placementOutSide20Km',
                     dates: { date1, date2 },
                 })
             }
 
-            if (res?.error?.data?.message === 'tradingHoursNotFound') {
+            if (
+                res?.error?.data?.message ===
+                WorkplaceErrorMessage.TRADING_HOURS_NOT_FOUND
+            ) {
                 setWorkplaceData({
-                    type: 'tradingHoursNotFound',
+                    type: WorkplaceErrorMessage.TRADING_HOURS_NOT_FOUND,
+                })
+            }
+
+            if (
+                res?.error?.data?.message ===
+                WorkplaceErrorMessage.WP_TYPE_NOT_FOUND
+            ) {
+                setWorkplaceData({
+                    type: WorkplaceErrorMessage.WP_TYPE_NOT_FOUND,
+                })
+            }
+
+            if (
+                res?.error?.data?.message ===
+                WorkplaceErrorMessage.WP_TYPE_MIS_MATCH
+            ) {
+                setWorkplaceData({
+                    type: WorkplaceErrorMessage.WP_TYPE_MIS_MATCH,
                 })
             }
         } else {

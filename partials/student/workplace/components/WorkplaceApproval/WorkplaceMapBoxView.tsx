@@ -54,6 +54,19 @@ export const WorkplaceMapBoxView = ({
         [studentLocation]
     )
 
+    const midpoint = useMemo(() => {
+        return {
+            latitude:
+                (studentLocationCoordinates.latitude +
+                    industryLocationCoordinates.latitude) /
+                2,
+            longitude:
+                (studentLocationCoordinates.longitude +
+                    industryLocationCoordinates.longitude) /
+                2,
+        }
+    }, [studentLocationCoordinates, industryLocationCoordinates])
+
     const fetchDirections = useCallback(
         async (mode: 'driving' | 'walking' | 'transit') => {
             try {
@@ -122,8 +135,8 @@ export const WorkplaceMapBoxView = ({
             <Map
                 mapboxAccessToken={MAPBOX_TOKEN}
                 initialViewState={{
-                    ...center,
-                    zoom: 11,
+                    ...midpoint,
+                    zoom: 8,
                 }}
                 style={{ width: '100%', height: '280px' }}
                 mapStyle="mapbox://styles/mapbox/streets-v11"

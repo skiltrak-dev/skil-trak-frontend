@@ -1,29 +1,31 @@
 import { Button, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Sector } from '@types'
-import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
-interface SectorFormProps {
+interface WPTypeFormProps {
     onSubmit: any
     edit?: boolean
     initialValues?: any
+    result: any
 }
 
+const validationSchema = yup.object({
+    name: yup.string().required('Name is required!'),
+})
+
 export const WorkplaceTypeForm = ({
+    result,
     onSubmit,
     edit,
     initialValues,
-}: SectorFormProps) => {
-    const validationSchema = yup.object({
-        code: yup.string().required('Sector Code is Required'),
-        name: yup.string().required('Sector Name is required'),
-    })
-
+}: WPTypeFormProps) => {
     const methods = useForm({
         resolver: yupResolver(validationSchema),
-        defaultValues: initialValues,
+        defaultValues: {
+            ...initialValues,
+            sector: { label: 'Sector III', value: 9 },
+        },
         mode: 'all',
     })
 
@@ -53,8 +55,8 @@ export const WorkplaceTypeForm = ({
                     <div>
                         <Button
                             submit
-                            // disabled={!(isValid && dirty)}
-                            // loading={loginResult.isLoading}
+                            loading={result.isLoading}
+                            disabled={result.isLoading}
                             {...(edit ? { outline: true } : {})}
                         >
                             {edit

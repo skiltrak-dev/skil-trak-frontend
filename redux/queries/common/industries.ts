@@ -21,14 +21,17 @@ export const industriesEndpoints = (
         query: () => `filter/industries/all`,
         providesTags: ['Industry'],
     }),
+
     allGetIndustriesList: builder.query<any, void>({
         query: () => `shared/industries/list`,
         providesTags: ['Industry'],
     }),
+
     getBulkEmailSubadminIndustries: builder.query<any, void>({
         query: () => `subadmin/industries/courses/all`,
         providesTags: ['Industry'],
     }),
+
     getAllAdvertisedJobs: builder.query<any, any>({
         query: ({ industry }) => ({
             url: `jobs/list`,
@@ -126,5 +129,43 @@ export const industriesEndpoints = (
             params,
         }),
         providesTags: ['IndustriesAddProfile'],
+    }),
+
+    getIndustryWPType: builder.query<any, number>({
+        query: (userId) => {
+            const params = userId ? { userId } : null
+            return {
+                url: `industries/workplace-type`,
+                params,
+            }
+        },
+        providesTags: ['Industry'],
+    }),
+
+    addIndustryWpType: builder.mutation<
+        any,
+        { userId: number; wpTypeId: number }
+    >({
+        query: ({ wpTypeId, ...params }) => {
+            console.log({ params })
+            return {
+                url: `industries/workplace-type/${wpTypeId}/add`,
+                method: 'POST',
+                params,
+            }
+        },
+        invalidatesTags: ['Industry'],
+    }),
+
+    removeIndustryWPType: builder.mutation<any, number>({
+        query: (userId) => {
+            const params = userId ? { userId } : null
+            return {
+                url: `industries/workplace-type/remove`,
+                method: 'PATCH',
+                params,
+            }
+        },
+        invalidatesTags: ['Industry'],
     }),
 })

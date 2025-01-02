@@ -7,15 +7,17 @@ import {
 } from '@components'
 import { useNotification, useWorkplace } from '@hooks'
 import { IndustryShiftingHours } from '@partials/common/IndustryProfileDetail/components'
+import { useAddExistingIndustriesMutation } from '@queries'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdCancel } from 'react-icons/md'
 import { IndustryPinnedNotes } from '../components'
-import { SelectAppointDateModal } from './SelectAppointDateModal'
-import { useAddExistingIndustriesMutation } from '@queries'
-import { PlacementOutSIde20KmModal } from './PlacementOutSIde20KmModal'
+import { WorkplaceErrorMessage } from '../enum'
 import { InsuranceDocMisMatchModal } from './InsuranceDocMisMatchModal'
-import { calculateDistance } from '@utils'
+import { PlacementOutSIde20KmModal } from './PlacementOutSIde20KmModal'
+import { SelectAppointDateModal } from './SelectAppointDateModal'
 import { TradingHoursNotFoundModal } from './TradingHoursNotFoundModal'
+import { WorkplaceTypeNotFoundModal } from './WorkplaceTypeNotFoundModal'
+import { WorkplaceTypeMisMatchModal } from './WorkplaceTypeMisMatchModal'
 
 export const ShowIndustryNotesAndTHModal = ({
     industryCapacity,
@@ -38,33 +40,20 @@ export const ShowIndustryNotesAndTHModal = ({
         useState<boolean>(false)
 
     const { notification } = useNotification()
-    const {
-        workplaceData,
-        studentLocation,
-        industryLocation,
-        setWorkplaceData,
-    } = useWorkplace()
+    const { workplaceData, setWorkplaceData } = useWorkplace()
 
     const [addExistingIndustry, addExistingIndustryResult] =
         useAddExistingIndustriesMutation()
 
-    const stdLocation = studentLocation?.split(',')?.map((a) => Number(a))
-    const indLocation = industryLocation?.split(',')?.map((a) => Number(a))
-
-    const dist = calculateDistance(
-        stdLocation?.[0],
-        stdLocation?.[1],
-        indLocation?.[0],
-        indLocation?.[1]
-    )
+    const onCancelInnerModal = () => setModal(null)
 
     useEffect(() => {
-        if (workplaceData?.type === 'docsMismatch') {
+        if (workplaceData?.type === WorkplaceErrorMessage.DOCS_MISMATCH) {
             setModal(
                 <InsuranceDocMisMatchModal
                     {...workplaceData?.dates}
                     {...{ workplaceId, industryId }}
-                    onCancel={() => setModal(null)}
+                    onCancel={onCancelInnerModal}
                     industryName={industryUserName}
                     rtoName={workplaceData?.rtoName}
                     missingDocuments={workplaceData?.missingDocuments}
@@ -77,7 +66,7 @@ export const ShowIndustryNotesAndTHModal = ({
                 <PlacementOutSIde20KmModal
                     {...workplaceData?.dates}
                     {...{ workplaceId, industryId }}
-                    onCancel={() => setModal(null)}
+                    onCancel={onCancelInnerModal}
                     industryName={industryUserName}
                     rtoName={workplaceData?.rtoName}
                     missingDocuments={workplaceData?.missingDocuments}
@@ -85,9 +74,33 @@ export const ShowIndustryNotesAndTHModal = ({
             )
             setWorkplaceData(null)
         }
-        if (workplaceData?.type === 'tradingHoursNotFound') {
+        if (
+            workplaceData?.type ===
+            WorkplaceErrorMessage.TRADING_HOURS_NOT_FOUND
+        ) {
             setModal(
-                <TradingHoursNotFoundModal onCancel={() => setModal(null)} />
+                <TradingHoursNotFoundModal onCancel={onCancelInnerModal} />
+            )
+            setWorkplaceData(null)
+        }
+
+        if (workplaceData?.type === WorkplaceErrorMessage.WP_TYPE_NOT_FOUND) {
+            setModal(
+                <WorkplaceTypeNotFoundModal
+                    onCancel={onCancelInnerModal}
+                    industryName={industryUserName}
+                    industryUserId={industryUserId}
+                />
+            )
+            setWorkplaceData(null)
+        }
+        if (workplaceData?.type === WorkplaceErrorMessage.WP_TYPE_MIS_MATCH) {
+            setModal(
+                <WorkplaceTypeMisMatchModal
+                    onCancel={onCancelInnerModal}
+                    industryName={industryUserName}
+                    industryUserId={industryUserId}
+                />
             )
             setWorkplaceData(null)
         }
@@ -109,28 +122,50 @@ export const ShowIndustryNotesAndTHModal = ({
             onCancel()
         }
 
-        if (res?.error?.data?.message === 'limitExceed') {
+        if (res?.error?.data?.message === WorkplaceErrorMessage.LIMIT_EXCEED) {
             setWorkplaceData({
                 name: industryUserName,
                 industryCapacity,
-                type: 'limitExceed',
+                type: WorkplaceErrorMessage.LIMIT_EXCEED,
             })
         }
-        if (res?.error?.data?.message === 'docsMismatch') {
+        if (res?.error?.data?.message === WorkplaceErrorMessage.DOCS_MISMATCH) {
             setWorkplaceData({
-                type: 'docsMismatch',
+                type: WorkplaceErrorMessage.DOCS_MISMATCH,
                 rtoName: res?.error?.data?.rtoName,
                 missingDocuments: res?.error?.data?.missingDocuments,
             })
         }
-        if (res?.error?.data?.message === 'distanceExceededLimit') {
+        if (
+            res?.error?.data?.message ===
+            WorkplaceErrorMessage.DISTANCE_EXCEEDED_LIMIT
+        ) {
             setWorkplaceData({
                 type: 'placementOutSide20Km',
             })
         }
-        if (res?.error?.data?.message === 'tradingHoursNotFound') {
+        if (
+            res?.error?.data?.message ===
+            WorkplaceErrorMessage.TRADING_HOURS_NOT_FOUND
+        ) {
             setWorkplaceData({
-                type: 'tradingHoursNotFound',
+                type: WorkplaceErrorMessage.TRADING_HOURS_NOT_FOUND,
+            })
+        }
+        if (
+            res?.error?.data?.message ===
+            WorkplaceErrorMessage.WP_TYPE_NOT_FOUND
+        ) {
+            setWorkplaceData({
+                type: WorkplaceErrorMessage.WP_TYPE_NOT_FOUND,
+            })
+        }
+        if (
+            res?.error?.data?.message ===
+            WorkplaceErrorMessage.WP_TYPE_MIS_MATCH
+        ) {
+            setWorkplaceData({
+                type: WorkplaceErrorMessage.WP_TYPE_MIS_MATCH,
             })
         }
     }
@@ -207,7 +242,6 @@ export const ShowIndustryNotesAndTHModal = ({
                                     } else {
                                         setModal(
                                             <SelectAppointDateModal
-                                                dist={dist}
                                                 onCancel={onCancelClicked}
                                                 industryId={industryId}
                                                 industryUserName={

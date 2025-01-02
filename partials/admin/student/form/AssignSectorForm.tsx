@@ -1,9 +1,9 @@
-import { Button, Select, TextArea, TextInput, Typography } from '@components'
+import { Button, Select, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi } from '@queries'
-import { Course, Sector } from '@types'
+import { Course } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 

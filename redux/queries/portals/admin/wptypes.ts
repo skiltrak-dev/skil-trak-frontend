@@ -13,44 +13,44 @@ export const wptypesEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     wpTypes: builder.query<
-        PaginatedResponse<Course>,
+        PaginatedResponse<any>,
         PaginationWithSearch | undefined
     >({
         query: (params) => ({
-            url: `${PREFIX}/course/list`,
+            url: `${PREFIX}/workplace/types-list`,
             params,
         }),
-        providesTags: ['Courses'],
+        providesTags: ['WorkplaceTypes'],
     }),
 
-    wpTypeDetail: builder.query<CourseWithAssessmentEvidence, number>({
-        query: (id) => `${PREFIX}/course/view/${id}`,
-        providesTags: ['Courses'],
+    wpTypeDetail: builder.query<any, number>({
+        query: (id) => `${PREFIX}/workplace-type/${id}/detail`,
+        providesTags: ['WorkplaceTypes'],
     }),
 
-    addWpType: builder.mutation<Course, Course>({
+    addWpType: builder.mutation<any, any>({
         query: (body) => ({
-            url: `${PREFIX}/course/add`,
+            url: `${PREFIX}/workplace/type-add`,
             method: 'POST',
             body,
         }),
-        invalidatesTags: ['Courses'],
+        invalidatesTags: ['WorkplaceTypes'],
     }),
 
-    updateWpType: builder.mutation<Course, Course>({
-        query: (body) => ({
-            url: `${PREFIX}/course/update/${body.id}`,
+    updateWpType: builder.mutation<Course, { id: number; name: string }>({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/workplace-type/${id}/update`,
             method: 'PATCH',
             body,
         }),
-        invalidatesTags: ['Courses'],
+        invalidatesTags: ['WorkplaceTypes'],
     }),
 
-    removeWpType: builder.mutation<Course, number>({
+    removeWpType: builder.mutation<any, number>({
         query: (id) => ({
-            url: `${PREFIX}/course/delete/${id}`,
+            url: `${PREFIX}/workplace-type/${id}/remove`,
             method: 'DELETE',
         }),
-        invalidatesTags: ['Courses'],
+        invalidatesTags: ['WorkplaceTypes'],
     }),
 })

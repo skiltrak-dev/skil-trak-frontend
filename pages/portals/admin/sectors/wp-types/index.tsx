@@ -1,11 +1,6 @@
 import { ReactElement, useEffect } from 'react'
 
-import {
-    BackButton,
-    Card,
-    Popup,
-    ShowErrorNotifications
-} from '@components'
+import { BackButton, Card, Popup, ShowErrorNotifications } from '@components'
 import { PageHeading } from '@components/headings'
 import { useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
@@ -56,7 +51,10 @@ const AddWorkplaceTypes: NextPageWithLayout = () => {
                             variant="info"
                         />
                     ) : (
-                        <WorkplaceTypeForm onSubmit={onSubmit} />
+                        <WorkplaceTypeForm
+                            onSubmit={onSubmit}
+                            result={addResult}
+                        />
                     )}
                 </Card>
             </div>

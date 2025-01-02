@@ -1,35 +1,31 @@
 import {
     ActionButton,
-    Badge,
     Button,
     Card,
-    CourseFilters,
     EmptyData,
     Filter,
     LoadingAnimation,
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TechnicalError,
+    Typography,
+    WPTypesFilters,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaTrash } from 'react-icons/fa'
 
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminApi } from '@queries'
-import { Course, CourseFilterType } from '@types'
-import { getFilterQuery, isDateWithinLast7Days } from '@utils'
+import { WorkplaceType, WpTypesFilterType } from '@types'
+import { getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { CourseView } from './contextBar'
-import {
-    DeleteCourseModal,
-    DeleteWpTypeModal,
-    RequirementModal,
-} from './modals'
+import { DeleteWpTypeModal } from './modals'
 
-const filterKeys = ['code', 'title']
+const filterKeys = ['title']
 
 export const WorkplaceTypes = () => {
     const router = useRouter()
@@ -41,20 +37,20 @@ export const WorkplaceTypes = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState<CourseFilterType>(
-        {} as CourseFilterType
+    const [filter, setFilter] = useState<WpTypesFilterType>(
+        {} as WpTypesFilterType
     )
 
     useEffect(() => {
-        const query = getFilterQuery<CourseFilterType>({ router, filterKeys })
-        setFilter(query as CourseFilterType)
+        const query = getFilterQuery<WpTypesFilterType>({ router, filterKeys })
+        setFilter(query as WpTypesFilterType)
     }, [router])
 
     useEffect(() => {
-        navBar.setTitle('Courses')
+        navBar.setTitle('Workplace Types')
     }, [])
 
-    const { isLoading, data, isError } = AdminApi.WpTypes.wpTypes({
+    const { isLoading, data, isError, isFetching } = AdminApi.WpTypes.wpTypes({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -67,21 +63,11 @@ export const WorkplaceTypes = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onCourseClick = (course: Course) => {
-        contextBar.setTitle('Course Detail')
-        contextBar.setContent(<CourseView course={course} />)
-        contextBar.show()
-    }
-    const onViewRequirementClick = (course: Course) => {
-        setModal(
-            <RequirementModal course={course} onCancel={onModalCancelClicked} />
-        )
-    }
 
-    const onDeleteClicked = (course: Course) => {
+    const onDeleteClicked = (wpType: WorkplaceType) => {
         setModal(
             <DeleteWpTypeModal
-                course={course}
+                wpType={wpType}
                 onCancel={() => onModalCancelClicked()}
             />
         )
@@ -93,117 +79,49 @@ export const WorkplaceTypes = () => {
 
     const tableActionOptions: TableActionOption[] = [
         {
-            text: 'View',
-            onClick: (course: Course) => onCourseClick(course),
-            Icon: FaEye,
-        },
-        {
             text: 'Edit',
-            onClick: (item: any) => {
-                router.push(`/portals/admin/sectors/courses/form/${item.id}`)
+            onClick: (item: WorkplaceType) => {
+                router.push(`/portals/admin/sectors/wp-types/${item.id}`)
             },
             Icon: FaEdit,
         },
         {
             text: 'Delete',
-            onClick: (course: Course) => onDeleteClicked(course),
+            onClick: (course: WorkplaceType) => onDeleteClicked(course),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
 
-    const columns: ColumnDef<Course>[] = [
+    const columns: ColumnDef<WorkplaceType>[] = [
         {
-            accessorKey: 'title',
-            cell: (info) => {
-                return (
-                    <div
-                        className="relative group cursor-pointer"
-                        onClick={() => onCourseClick(info.row.original)}
-                    >
-                        <div>
-                            <p className="text-xs font-medium text-gray-500">
-                                {info.row.original.code}
-                            </p>
-                            <p className="font-semibold">
-                                {info.row.original.title}{' '}
-                                {isDateWithinLast7Days(
-                                    info.row.original?.createdAt as Date
-                                ) && <Badge text={'New'} variant={'info'} />}
-                            </p>
-                        </div>
-
-                        <div className="hidden group-hover:block px-4 py-2 bg-white rounded-xl shadow-xl absolute top-10 left-0 z-10">
-                            <p className="text-xs font-semibold mb-1 text-gray-500">
-                                Course Description
-                            </p>
-                            <p className="text-sm text-gray-700">
-                                {info.row.original.description}
-                            </p>
-                        </div>
-                    </div>
-                )
-            },
+            accessorKey: 'name',
+            cell: (info) => (
+                <div className="relative group ">
+                    <Typography variant="label" color="text-gray-800">
+                        {info.row.original?.name}
+                    </Typography>
+                </div>
+            ),
             header: () => <span>Name</span>,
-        },
-        {
-            accessorKey: 'hours',
-            header: () => <span>Hours</span>,
-            cell: (info) => info.getValue(),
-        },
-
-        {
-            accessorKey: 'sector',
-            header: () => <span>Sector</span>,
-            cell: (info) => {
-                return (
-                    <div>
-                        <p className="text-xs font-medium text-gray-500">
-                            {info.row.original.sector.code}
-                        </p>
-                        <p className="font-semibold">
-                            {info.row.original.sector.name}
-                        </p>
-                    </div>
-                )
-            },
-        },
-        {
-            accessorKey: 'requirement',
-            header: () => <span>Requirement</span>,
-            cell: (info) => {
-                return (
-                    <ActionButton
-                        variant="link"
-                        simple
-                        onClick={() =>
-                            onViewRequirementClick(info.row.original)
-                        }
-                    >
-                        View File
-                    </ActionButton>
-                )
-            },
         },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 
     const quickActionsElements = {
         id: 'id',
-        individual: (item: Course) => (
+        individual: (item: any) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton
@@ -215,7 +133,7 @@ export const WorkplaceTypes = () => {
                 </ActionButton>
             </div>
         ),
-        common: (items: Course[]) => (
+        common: (items: any[]) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success">Accept</ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">
@@ -229,7 +147,10 @@ export const WorkplaceTypes = () => {
         <>
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
-                <PageHeading title={'Courses'} subtitle={'List of all courses'}>
+                <PageHeading
+                    title={'Workplace Types'}
+                    subtitle={'List of all workplace types'}
+                >
                     <Button
                         text="Add Worklpace Type"
                         onClick={() => {
@@ -238,17 +159,10 @@ export const WorkplaceTypes = () => {
                     />
 
                     {filterAction}
-                    {data && data?.data.length ? (
-                        <Button
-                            text="Export"
-                            variant="action"
-                            Icon={FaFileExport}
-                        />
-                    ) : null}
                 </PageHeading>
 
-                <Filter<CourseFilterType>
-                    component={CourseFilters}
+                <Filter<WpTypesFilterType>
+                    component={WPTypesFilters}
                     initialValues={filter}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
@@ -257,35 +171,37 @@ export const WorkplaceTypes = () => {
 
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading ? (
+                    {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
                         <Table
                             columns={columns}
-                            data={data.data}
-                            quickActions={quickActionsElements}
+                            data={data?.data}
                             enableRowSelection
+                            quickActions={quickActionsElements}
                         >
                             {({
                                 table,
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
+                            }: TableChildrenProps) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
+                                            {pageSize &&
+                                                pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    data?.data?.length
+                                                )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination &&
+                                                    pagination(
+                                                        data?.pagination,
+                                                        setPage
+                                                    )}
                                             </div>
                                         </div>
                                         <div className="px-6">{table}</div>
@@ -296,9 +212,9 @@ export const WorkplaceTypes = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Courses!'}
+                                title={'No Workplace Types!'}
                                 description={
-                                    'You have not added any course yet'
+                                    'You have not added any workplace types yet'
                                 }
                                 height={'50vh'}
                             />

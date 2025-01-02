@@ -28,6 +28,7 @@ const adminTagTypes = [
     'Subscribers',
     'Generate-Key',
     'Insurance-Type',
+    'WorkplaceTypes',
     'BlogCategories',
     'AllowRtoListing',
     'AppointmentTypes',

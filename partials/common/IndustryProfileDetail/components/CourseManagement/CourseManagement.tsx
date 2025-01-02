@@ -1,9 +1,9 @@
 import { SubAdminApi } from '@queries'
 import { SectorCardHeader } from './SectorCardHeader'
 
-import { useState } from 'react'
+import { LoadingAnimation, NoData } from '@components'
 import { useRouter } from 'next/router'
-import { LoadingAnimation, NoData, Typography } from '@components'
+import { useState } from 'react'
 import { CourseCard } from './CourseCard'
 
 export const CourseManagement = () => {
@@ -32,7 +32,7 @@ export const CourseManagement = () => {
         SubAdminApi.Industry.usePreviousIndustryCourses(router.query.id, {
             skip: !router.query.id,
         })
-        
+
     return (
         <div className="p-6">
             <SectorCardHeader />
