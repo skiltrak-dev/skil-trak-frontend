@@ -8,6 +8,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TechnicalError,
     Typography,
     WPTypesFilters,
@@ -18,7 +19,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa'
 
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminApi } from '@queries'
-import { Course, WpTypesFilterType } from '@types'
+import { WorkplaceType, WpTypesFilterType } from '@types'
 import { getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -63,7 +64,7 @@ export const WorkplaceTypes = () => {
         setModal(null)
     }
 
-    const onDeleteClicked = (wpType: any) => {
+    const onDeleteClicked = (wpType: WorkplaceType) => {
         setModal(
             <DeleteWpTypeModal
                 wpType={wpType}
@@ -79,20 +80,20 @@ export const WorkplaceTypes = () => {
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'Edit',
-            onClick: (item: any) => {
+            onClick: (item: WorkplaceType) => {
                 router.push(`/portals/admin/sectors/wp-types/${item.id}`)
             },
             Icon: FaEdit,
         },
         {
             text: 'Delete',
-            onClick: (course: Course) => onDeleteClicked(course),
+            onClick: (course: WorkplaceType) => onDeleteClicked(course),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
 
-    const columns: ColumnDef<any>[] = [
+    const columns: ColumnDef<WorkplaceType>[] = [
         {
             accessorKey: 'name',
             cell: (info) => (
@@ -120,7 +121,7 @@ export const WorkplaceTypes = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (item: Course) => (
+        individual: (item: any) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton
@@ -132,7 +133,7 @@ export const WorkplaceTypes = () => {
                 </ActionButton>
             </div>
         ),
-        common: (items: Course[]) => (
+        common: (items: any[]) => (
             <div className="flex gap-x-2">
                 <ActionButton variant="success">Accept</ActionButton>
                 <ActionButton Icon={FaTrash} variant="error">
@@ -175,30 +176,32 @@ export const WorkplaceTypes = () => {
                     ) : data && data?.data.length ? (
                         <Table
                             columns={columns}
-                            data={data.data}
-                            quickActions={quickActionsElements}
+                            data={data?.data}
                             enableRowSelection
+                            quickActions={quickActionsElements}
                         >
                             {({
                                 table,
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
+                            }: TableChildrenProps) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
+                                            {pageSize &&
+                                                pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    data?.data?.length
+                                                )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination &&
+                                                    pagination(
+                                                        data?.pagination,
+                                                        setPage
+                                                    )}
                                             </div>
                                         </div>
                                         <div className="px-6">{table}</div>
