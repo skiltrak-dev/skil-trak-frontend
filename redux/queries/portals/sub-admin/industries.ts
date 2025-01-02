@@ -173,6 +173,7 @@ export const subAdminIndustriesEndpoints = (
         }),
         invalidatesTags: ['RequestToAddCourse'],
     }),
+    
     addPrevCourseDescription: builder.mutation<any, any>({
         query: (body) => ({
             url: `${PREFIX}/industry/course/add-info`,

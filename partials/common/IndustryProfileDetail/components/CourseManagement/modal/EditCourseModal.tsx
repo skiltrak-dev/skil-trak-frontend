@@ -11,22 +11,27 @@ import {
 } from '@components'
 import { useNotification } from '@hooks'
 import { LabelTag } from '@partials/student/talentPool'
-import { SubAdminApi } from '@queries'
+import { AdminApi } from '@queries'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
-export const EditCourseModal = ({ course, onCloseModal }: any) => {
+export const EditCourseModal = ({
+    course,
+    onCloseModal,
+    courseRequestId,
+}: any) => {
+    console.log('course', course)
     const [tags, setTags] = useState<any>({
-        reference: course?.reference.length ? course?.reference : [],
+        reference: course?.reference?.length ? course?.reference : [],
     })
 
     const { notification } = useNotification()
 
     const router = useRouter()
 
-    const [addCourse, addCourseResult] =
-        SubAdminApi.Industry.useRequestToAddCoursesToIndustry()
+    const [updateCourse, updateCourseResult] =
+        AdminApi.Industries.useUpdateIndustryProfileCourse()
 
     const validationSchema = yup.object().shape({
         // sector: yup.number().required('Sector is required'),
@@ -43,7 +48,7 @@ export const EditCourseModal = ({ course, onCloseModal }: any) => {
     })
 
     useEffect(() => {
-        if (addCourseResult.isSuccess) {
+        if (updateCourseResult.isSuccess) {
             notification.success({
                 title: 'Course Details Updated',
                 description: 'Course details updated successfully',
@@ -52,7 +57,7 @@ export const EditCourseModal = ({ course, onCloseModal }: any) => {
             onCloseModal()
             methods.reset()
         }
-    }, [addCourseResult.isSuccess])
+    }, [updateCourseResult.isSuccess])
 
     const handleTagEnter = (name: string, newTag: string) => {
         setTags((prevTags: any) => ({
@@ -71,10 +76,12 @@ export const EditCourseModal = ({ course, onCloseModal }: any) => {
     const onSubmit = (data: any) => {
         const { description } = data
         const { reference } = tags
-        addCourse({
-            description: description,
-            reference: reference,
-            industry: router.query.id,
+        updateCourse({
+            body: {
+                description: description,
+                reference: reference,
+            },
+            id: courseRequestId,
         })
     }
 
@@ -93,7 +100,7 @@ export const EditCourseModal = ({ course, onCloseModal }: any) => {
     // department /courses/request-list
     return (
         <>
-            <ShowErrorNotifications result={addCourseResult} />
+            <ShowErrorNotifications result={updateCourseResult} />
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
                     <div className="flex justify-center  flex-col gap-y-2 px-2 py-2">
@@ -143,8 +150,8 @@ export const EditCourseModal = ({ course, onCloseModal }: any) => {
                                 text={'Update'}
                                 variant="info"
                                 onClick={submitForm}
-                                loading={addCourseResult.isLoading}
-                                disabled={addCourseResult.isLoading}
+                                loading={updateCourseResult.isLoading}
+                                disabled={updateCourseResult.isLoading}
                             />
                         </div>
                     </div>
