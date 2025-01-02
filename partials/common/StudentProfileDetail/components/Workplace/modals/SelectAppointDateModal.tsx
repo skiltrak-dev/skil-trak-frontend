@@ -10,7 +10,7 @@ import { useAddExistingIndustriesMutation } from '@queries'
 import { useNotification, useWorkplace } from '@hooks'
 import { getDate } from '@utils'
 import moment from 'moment'
-import { StudentFeedbackType } from '../enum'
+import { WorkplaceErrorMessage } from '../enum'
 
 export const SelectAppointDateModal = ({
     onCancel,
@@ -54,21 +54,22 @@ export const SelectAppointDateModal = ({
             }
 
             if (
-                res?.error?.data?.message === StudentFeedbackType.LIMIT_EXCEED
+                res?.error?.data?.message === WorkplaceErrorMessage.LIMIT_EXCEED
             ) {
                 setWorkplaceData({
                     name: industryUserName,
                     industryCapacity,
-                    type: StudentFeedbackType.LIMIT_EXCEED,
+                    type: WorkplaceErrorMessage.LIMIT_EXCEED,
                 })
                 onCancel()
             }
 
             if (
-                res?.error?.data?.message === StudentFeedbackType.DOCS_MISMATCH
+                res?.error?.data?.message ===
+                WorkplaceErrorMessage.DOCS_MISMATCH
             ) {
                 setWorkplaceData({
-                    type: StudentFeedbackType.DOCS_MISMATCH,
+                    type: WorkplaceErrorMessage.DOCS_MISMATCH,
                     rtoName: res?.error?.data?.rtoName,
                     missingDocuments: res?.error?.data?.missingDocuments,
                     dates: { date1, date2 },
@@ -77,7 +78,7 @@ export const SelectAppointDateModal = ({
 
             if (
                 res?.error?.data?.message ===
-                StudentFeedbackType.DISTANCE_EXCEEDED_LIMIT
+                WorkplaceErrorMessage.DISTANCE_EXCEEDED_LIMIT
             ) {
                 setWorkplaceData({
                     type: 'placementOutSide20Km',
@@ -87,28 +88,28 @@ export const SelectAppointDateModal = ({
 
             if (
                 res?.error?.data?.message ===
-                StudentFeedbackType.TRADING_HOURS_NOT_FOUND
+                WorkplaceErrorMessage.TRADING_HOURS_NOT_FOUND
             ) {
                 setWorkplaceData({
-                    type: StudentFeedbackType.TRADING_HOURS_NOT_FOUND,
+                    type: WorkplaceErrorMessage.TRADING_HOURS_NOT_FOUND,
                 })
             }
 
             if (
                 res?.error?.data?.message ===
-                StudentFeedbackType.WP_TYPE_NOT_FOUND
+                WorkplaceErrorMessage.WP_TYPE_NOT_FOUND
             ) {
                 setWorkplaceData({
-                    type: StudentFeedbackType.WP_TYPE_NOT_FOUND,
+                    type: WorkplaceErrorMessage.WP_TYPE_NOT_FOUND,
                 })
             }
 
             if (
                 res?.error?.data?.message ===
-                StudentFeedbackType.WP_TYPE_MIS_MATCH
+                WorkplaceErrorMessage.WP_TYPE_MIS_MATCH
             ) {
                 setWorkplaceData({
-                    type: StudentFeedbackType.WP_TYPE_MIS_MATCH,
+                    type: WorkplaceErrorMessage.WP_TYPE_MIS_MATCH,
                 })
             }
         } else {

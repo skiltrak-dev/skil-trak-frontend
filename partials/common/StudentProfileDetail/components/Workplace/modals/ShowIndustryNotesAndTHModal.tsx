@@ -11,7 +11,7 @@ import { useAddExistingIndustriesMutation } from '@queries'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdCancel } from 'react-icons/md'
 import { IndustryPinnedNotes } from '../components'
-import { StudentFeedbackType } from '../enum'
+import { WorkplaceErrorMessage } from '../enum'
 import { InsuranceDocMisMatchModal } from './InsuranceDocMisMatchModal'
 import { PlacementOutSIde20KmModal } from './PlacementOutSIde20KmModal'
 import { SelectAppointDateModal } from './SelectAppointDateModal'
@@ -48,7 +48,7 @@ export const ShowIndustryNotesAndTHModal = ({
     const onCancelInnerModal = () => setModal(null)
 
     useEffect(() => {
-        if (workplaceData?.type === StudentFeedbackType.DOCS_MISMATCH) {
+        if (workplaceData?.type === WorkplaceErrorMessage.DOCS_MISMATCH) {
             setModal(
                 <InsuranceDocMisMatchModal
                     {...workplaceData?.dates}
@@ -75,7 +75,8 @@ export const ShowIndustryNotesAndTHModal = ({
             setWorkplaceData(null)
         }
         if (
-            workplaceData?.type === StudentFeedbackType.TRADING_HOURS_NOT_FOUND
+            workplaceData?.type ===
+            WorkplaceErrorMessage.TRADING_HOURS_NOT_FOUND
         ) {
             setModal(
                 <TradingHoursNotFoundModal onCancel={onCancelInnerModal} />
@@ -83,7 +84,7 @@ export const ShowIndustryNotesAndTHModal = ({
             setWorkplaceData(null)
         }
 
-        if (workplaceData?.type === StudentFeedbackType.WP_TYPE_NOT_FOUND) {
+        if (workplaceData?.type === WorkplaceErrorMessage.WP_TYPE_NOT_FOUND) {
             setModal(
                 <WorkplaceTypeNotFoundModal
                     onCancel={onCancelInnerModal}
@@ -93,7 +94,7 @@ export const ShowIndustryNotesAndTHModal = ({
             )
             setWorkplaceData(null)
         }
-        if (workplaceData?.type === StudentFeedbackType.WP_TYPE_MIS_MATCH) {
+        if (workplaceData?.type === WorkplaceErrorMessage.WP_TYPE_MIS_MATCH) {
             setModal(
                 <WorkplaceTypeMisMatchModal
                     onCancel={onCancelInnerModal}
@@ -121,23 +122,23 @@ export const ShowIndustryNotesAndTHModal = ({
             onCancel()
         }
 
-        if (res?.error?.data?.message === StudentFeedbackType.LIMIT_EXCEED) {
+        if (res?.error?.data?.message === WorkplaceErrorMessage.LIMIT_EXCEED) {
             setWorkplaceData({
                 name: industryUserName,
                 industryCapacity,
-                type: StudentFeedbackType.LIMIT_EXCEED,
+                type: WorkplaceErrorMessage.LIMIT_EXCEED,
             })
         }
-        if (res?.error?.data?.message === StudentFeedbackType.DOCS_MISMATCH) {
+        if (res?.error?.data?.message === WorkplaceErrorMessage.DOCS_MISMATCH) {
             setWorkplaceData({
-                type: StudentFeedbackType.DOCS_MISMATCH,
+                type: WorkplaceErrorMessage.DOCS_MISMATCH,
                 rtoName: res?.error?.data?.rtoName,
                 missingDocuments: res?.error?.data?.missingDocuments,
             })
         }
         if (
             res?.error?.data?.message ===
-            StudentFeedbackType.DISTANCE_EXCEEDED_LIMIT
+            WorkplaceErrorMessage.DISTANCE_EXCEEDED_LIMIT
         ) {
             setWorkplaceData({
                 type: 'placementOutSide20Km',
@@ -145,24 +146,26 @@ export const ShowIndustryNotesAndTHModal = ({
         }
         if (
             res?.error?.data?.message ===
-            StudentFeedbackType.TRADING_HOURS_NOT_FOUND
+            WorkplaceErrorMessage.TRADING_HOURS_NOT_FOUND
         ) {
             setWorkplaceData({
-                type: StudentFeedbackType.TRADING_HOURS_NOT_FOUND,
+                type: WorkplaceErrorMessage.TRADING_HOURS_NOT_FOUND,
             })
         }
         if (
-            res?.error?.data?.message === StudentFeedbackType.WP_TYPE_NOT_FOUND
+            res?.error?.data?.message ===
+            WorkplaceErrorMessage.WP_TYPE_NOT_FOUND
         ) {
             setWorkplaceData({
-                type: StudentFeedbackType.WP_TYPE_NOT_FOUND,
+                type: WorkplaceErrorMessage.WP_TYPE_NOT_FOUND,
             })
         }
         if (
-            res?.error?.data?.message === StudentFeedbackType.WP_TYPE_MIS_MATCH
+            res?.error?.data?.message ===
+            WorkplaceErrorMessage.WP_TYPE_MIS_MATCH
         ) {
             setWorkplaceData({
-                type: StudentFeedbackType.WP_TYPE_MIS_MATCH,
+                type: WorkplaceErrorMessage.WP_TYPE_MIS_MATCH,
             })
         }
     }

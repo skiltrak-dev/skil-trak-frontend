@@ -3,7 +3,7 @@ import { StudentStatusProgressCell } from '@components/StudentStatusProgressCell
 import { UserRoles } from '@constants'
 import { ProgressCell } from '@partials/admin/student/components'
 import { ViewStatusChangeHistoryModal } from '@partials/admin/student/modals'
-import { Student, UserStatus } from '@types'
+import { Student, SubAdmin, UserStatus } from '@types'
 import {
     WorkplaceCurrentStatus,
     checkStudentStatus,
@@ -139,7 +139,7 @@ export const CaseOfficerAssignedStudent = ({
                 <ProgressCell
                     appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
-                    assigned={student?.subadmin}
+                    assigned={updatedWorkplace?.assignedTo}
                     step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     studentProvidedWorkplace={
                         updatedWorkplace?.studentProvidedWorkplace ||
@@ -151,7 +151,7 @@ export const CaseOfficerAssignedStudent = ({
                 <ProgressCell
                     appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
-                    assigned={student?.subadmin}
+                    assigned={updatedWorkplace?.assignedTo}
                     step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     studentProvidedWorkplace={
                         updatedWorkplace?.studentProvidedWorkplace ||
@@ -161,7 +161,7 @@ export const CaseOfficerAssignedStudent = ({
                 />
             ) : industries?.length > 0 ? (
                 <StudentStatusProgressCell
-                    assigned={student?.subadmin}
+                    assigned={updatedWorkplace?.assignedTo as SubAdmin}
                     studentId={student?.id}
                     step={
                         workplace?.currentStatus ===
@@ -178,7 +178,7 @@ export const CaseOfficerAssignedStudent = ({
                 />
             ) : student?.user?.status === UserStatus.Archived ? (
                 <StudentStatusProgressCell
-                    assigned={student?.subadmin}
+                    assigned={updatedWorkplace?.assignedTo as SubAdmin}
                     studentId={student?.id}
                     step={
                         workplace?.currentStatus ===
@@ -198,7 +198,7 @@ export const CaseOfficerAssignedStudent = ({
                     appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
                     step={3}
-                    assigned={student?.subadmin}
+                    assigned={updatedWorkplace?.assignedTo}
                     studentProvidedWorkplace={
                         updatedWorkplace?.studentProvidedWorkplace ||
                         updatedWorkplace?.byExistingAbn
@@ -210,7 +210,7 @@ export const CaseOfficerAssignedStudent = ({
                     appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
                     step={1}
-                    assigned={student?.subadmin}
+                    assigned={updatedWorkplace?.assignedTo}
                     studentProvidedWorkplace={
                         updatedWorkplace?.studentProvidedWorkplace ||
                         updatedWorkplace?.byExistingAbn
