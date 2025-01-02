@@ -161,4 +161,20 @@ export const industryEndpoints = (
         }),
         invalidatesTags: ['Industries', 'AvailableShifts'],
     }),
+
+    deleteIndustryProfileCourse: builder.mutation<any, any>({
+        query: (id) => ({
+            url: `admin/course-request/${id}/delete`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['RequestToAddCourse'],
+    }),
+    updateIndustryProfileCourse: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `admin/course-request/${id}/update`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['RequestToAddCourse'],
+    }),
 })

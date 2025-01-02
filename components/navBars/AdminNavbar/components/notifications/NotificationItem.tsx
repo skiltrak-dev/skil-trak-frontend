@@ -28,7 +28,6 @@ export const NotificationItem = ({
     resultIsReadNotification,
 }: NotificationItemProps) => {
     const Icon = icon
-    console.log('title', title)
     return (
         <div
             onClick={onClick}

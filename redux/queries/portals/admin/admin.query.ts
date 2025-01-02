@@ -210,6 +210,8 @@ const {
     useIndustryStatusChangeMutation,
     useSaveIndustryQuestionsMutation,
     useGetIndutryAvailableHoursQuery,
+    useDeleteIndustryProfileCourseMutation,
+    useUpdateIndustryProfileCourseMutation,
     useAddIndutryAvailableHoursMutation,
     useIndustryAssignCoursesMutation,
     useIndustryUnassignCourseMutation,
@@ -530,6 +532,9 @@ export const AdminApi = {
         saveIndustryQuestions: useSaveIndustryQuestionsMutation,
         useAddIndustryHours: useAddIndutryAvailableHoursMutation,
         useIndustryAvailableHours: useGetIndutryAvailableHoursQuery,
+        useDeleteIndustryProfileCourse: useDeleteIndustryProfileCourseMutation,
+        useUpdateIndustryProfileCourse:
+            useUpdateIndustryProfileCourseMutation,
     },
 
     Rpl: {

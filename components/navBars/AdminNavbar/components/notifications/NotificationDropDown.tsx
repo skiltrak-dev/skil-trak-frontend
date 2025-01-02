@@ -21,7 +21,6 @@ export const NotificationDropDown = ({
     resultIsReadNotification,
     setNotificationsExpanded,
 }: NotificationDropDown) => {
-    console.log('data', data)
     // const { data, error, isLoading } = CommonApi.Notifications.useNotifications()
     // const [isReadNotification, resultIsReadNotification] = CommonApi.Notifications.useIsReadNotification()
     const router = useRouter()

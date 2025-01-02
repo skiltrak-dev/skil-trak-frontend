@@ -96,29 +96,34 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                 )}
                             </AuthorizedUserComponent>
                         </div>
-                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                            <div className="flex items-center gap-x-2">
-                                <Modal>
-                                    <Modal.Open opens="editCourse">
-                                        <RefreshCw className="cursor-pointer bg-[#047857] text-white rounded-lg p-1" />
-                                    </Modal.Open>
-                                    <Modal.Window name="editCourse">
-                                        <EditCourseModal course={approval} />
-                                    </Modal.Window>
-                                </Modal>
-                                <Modal>
-                                    <Modal.Open opens="updateCourseDescription">
-                                        <Trash2 className="cursor-pointer bg-red-500 text-white rounded-lg p-1" />
-                                    </Modal.Open>
-                                    <Modal.Window name="updateCourseDescription">
-                                        <DeleteCourseModal
-                                            // courseId={approval?.course?.id}
-                                            course={approval}
-                                        />
-                                    </Modal.Window>
-                                </Modal>
-                            </div>
-                        </AuthorizedUserComponent>
+                        {!isPreviousCourses && (
+                            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                                <div className="flex items-center gap-x-2">
+                                    <Modal>
+                                        <Modal.Open opens="editCourse">
+                                            <RefreshCw className="cursor-pointer bg-[#047857] text-white rounded-lg p-1" />
+                                        </Modal.Open>
+                                        <Modal.Window name="editCourse">
+                                            <EditCourseModal
+                                                course={approval}
+                                                courseRequestId={approval?.id}
+                                            />
+                                        </Modal.Window>
+                                    </Modal>
+                                    <Modal>
+                                        <Modal.Open opens="updateCourseDescription">
+                                            <Trash2 className="cursor-pointer bg-red-500 text-white rounded-lg p-1" />
+                                        </Modal.Open>
+                                        <Modal.Window name="updateCourseDescription">
+                                            <DeleteCourseModal
+                                                // courseId={approval?.course?.id}
+                                                course={approval}
+                                            />
+                                        </Modal.Window>
+                                    </Modal>
+                                </div>
+                            </AuthorizedUserComponent>
+                        )}
                     </div>
 
                     <div className="p-4 border rounded-md bg-[#95C6FB26] bg-opacity-15">
