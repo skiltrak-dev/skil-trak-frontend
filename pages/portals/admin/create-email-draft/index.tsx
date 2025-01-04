@@ -8,12 +8,9 @@ import { PageHeading } from '@components/headings'
 import { EmailDraftForm } from '@partials/common/AdminEmails/emailDraft'
 
 const CreateEmailDraft: NextPageWithLayout = () => {
-
-
-
     return (
-        <div className='p-4'>
-            <div className='mt-4 ml-4'>
+        <div className="p-4">
+            <div className="mt-4 ml-4">
                 <PageHeading
                     title={'Email Draft'}
                     subtitle={'Create email draft'}

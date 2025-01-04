@@ -46,7 +46,7 @@ export const ShowScheduleInfoBeforeApproveWPModal = ({
                     </Typography>
                 </div>
 
-                <div className="flex items-center justify-center gap-x-5">
+                {/* <div className="flex items-center justify-center gap-x-5">
                     <Button
                         text="Not Yet"
                         loading={updateStatusResult.isLoading}
@@ -68,7 +68,7 @@ export const ShowScheduleInfoBeforeApproveWPModal = ({
                             onCancel()
                         }}
                     />
-                </div>
+                </div> */}
             </div>
         </GlobalModal>
     )

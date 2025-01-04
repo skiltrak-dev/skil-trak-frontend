@@ -69,14 +69,20 @@ export const SVGView = ({
 
     const doc = documentSvgData?.data?.data
 
+    console.log({ customFieldsSelectedId })
+
     useEffect(() => {
         if (customFieldsSelectedId < sortedPositions?.length) {
             scrollToPage(
                 Number(sortedPositions?.[customFieldsSelectedId]?.id),
                 sortedPositions?.[customFieldsSelectedId]?.number - 1
             )
+        } else if (customFieldsSelectedId <= 0) {
+            scrollToPage(-1, documentData?.pageCount - 1, 'end')
         }
     }, [
+        documentData?.pageCount,
+        isLastSelected,
         customFieldsSelectedId,
         customFieldsSelectedId < sortedPositions?.length - 1 ? doc : null,
     ])
@@ -287,7 +293,7 @@ export const SVGView = ({
                     {documentSvgData?.isSuccess &&
                     index === documentData?.pageCount - 1 &&
                     (customFieldsSelectedId >= sortedPositions?.length - 1 ||
-                        customFieldsSelectedId < 0) &&
+                        customFieldsSelectedId <= 0) &&
                     showEndDocument &&
                     isLastSelected ? (
                         <div

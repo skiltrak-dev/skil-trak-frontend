@@ -151,6 +151,11 @@ const ESign = () => {
                 //         />
                 //     )
                 // }, 1000)
+                if (
+                    !customFieldsData?.filter((c: any) => c?.isCustom)?.length
+                ) {
+                    setIsLastSelected(true)
+                }
                 setCustomFieldsSelectedId(customFieldsSelectedId + 1)
                 setIsSignature(false)
                 setIsDocumentLoaded(null)

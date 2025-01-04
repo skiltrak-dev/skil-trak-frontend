@@ -11,9 +11,8 @@ export const AddIndustryWPTypeModal = ({
 }: {
     typeId?: number
     onCancel: () => void
-    industryUserId: number
+    industryUserId?: number
 }) => {
-    console.log({ industryUserId })
     const [selectedTypes, setSelectedTypes] = useState<number>(typeId)
 
     const { notification } = useNotification()
@@ -54,9 +53,9 @@ export const AddIndustryWPTypeModal = ({
                     onlyValue
                     name="wpTypes"
                     options={wpTypesOptions}
-                    onChange={(e: number) => setSelectedTypes(e)}
                     loading={wpTypes?.isLoading}
                     disabled={wpTypes?.isLoading}
+                    onChange={(e: number) => setSelectedTypes(e)}
                     value={wpTypesOptions?.find(
                         (type: OptionType) => type?.value === selectedTypes
                     )}

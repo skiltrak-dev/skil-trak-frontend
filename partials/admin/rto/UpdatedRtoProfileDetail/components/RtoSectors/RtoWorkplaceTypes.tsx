@@ -12,7 +12,7 @@ export const RtoWorkplaceTypes = ({
     courseId,
 }: {
     courseId: number
-    userId: number
+    userId?: number
     workplaceTypes: WorkplaceTypes[]
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)

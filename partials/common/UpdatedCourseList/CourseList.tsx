@@ -1,4 +1,11 @@
-import { ActionButton, Button, Typography } from '@components'
+import {
+    ActionButton,
+    AuthorizedUserComponent,
+    Button,
+    Typography,
+} from '@components'
+import { UserRoles } from '@constants'
+import { RtoWorkplaceTypes } from '@partials/admin/rto/UpdatedRtoProfileDetail/components/RtoSectors/RtoWorkplaceTypes'
 import { Course } from '@types'
 import React, { useEffect, useState } from 'react'
 
@@ -111,10 +118,16 @@ export const CourseList = ({
                                 )}
                             </Typography>
                         </div>
-                        <div>
+                        <div className="flex justify-between items-center gap-x-2.5">
                             <Typography variant={'xs'} medium>
                                 {c?.title}
                             </Typography>
+                            <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                                <RtoWorkplaceTypes
+                                    courseId={c?.id}
+                                    workplaceTypes={c?.workplaceTypes}
+                                />
+                            </AuthorizedUserComponent>
                         </div>
                     </div>
                 </>

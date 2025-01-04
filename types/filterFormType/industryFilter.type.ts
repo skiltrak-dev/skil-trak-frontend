@@ -12,6 +12,7 @@ export interface AdminIndustryFormFilter {
     state: string
     suburb: string
     isPartner: boolean
+    wpType: number
     isHiring: boolean | undefined
     isSnoozed: boolean | undefined
 }

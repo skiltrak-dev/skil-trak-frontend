@@ -21,6 +21,7 @@ export const IndustryFilters = ({
     // query
     const getCourses = CommonApi.Filter.useCourses()
     const getSectors = AuthApi.useSectors({})
+    const wpTypes = CommonApi.Rtos.getRtoWpTypes()
 
     const coursesOptions = getCourses?.data?.map((course: any) => ({
         item: course,
@@ -39,6 +40,11 @@ export const IndustryFilters = ({
     const sectorOptions = getSectors.data?.map((sector: any) => ({
         label: sector.name,
         value: sector.id,
+    }))
+
+    const wpTypesOptions = wpTypes?.data?.map((wpType: any) => ({
+        value: wpType?.id,
+        label: wpType?.name,
     }))
     const isPartnerOptions = [
         {
@@ -190,6 +196,24 @@ export const IndustryFilters = ({
                         Option: CourseSelectOption,
                     }}
                     formatOptionLabel={formatOptionLabel}
+                    showError={false}
+                />
+
+                <Select
+                    label={'Search by Workplace Type'}
+                    name={'wpType'}
+                    options={wpTypesOptions}
+                    placeholder={'Select Workplace Type...'}
+                    value={wpTypesOptions?.find(
+                        (wpType: OptionType) =>
+                            wpType?.value === Number(filter?.wpType)
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, wpType: e })
+                    }}
+                    loading={getCourses.isLoading}
+                    disabled={getCourses.isLoading}
+                    onlyValue
                     showError={false}
                 />
 

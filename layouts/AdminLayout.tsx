@@ -25,7 +25,7 @@ import {
     FaUserGraduate,
     FaUsers,
 } from 'react-icons/fa'
-import { FaCircleQuestion } from 'react-icons/fa6'
+import { FaCircleQuestion, FaRegNoteSticky } from 'react-icons/fa6'
 import { HiOutlineDocumentText } from 'react-icons/hi2'
 import { IoMdBriefcase } from 'react-icons/io'
 import { LiaCertificateSolid } from 'react-icons/lia'
@@ -317,6 +317,11 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             path: getRoutePath('/e-mails?tab=all-mails'),
             Icon: MdEmail,
         },
+        // {
+        //     text: 'Notes Templates',
+        //     path: getRoutePath('/note-template'),
+        //     Icon: FaRegNoteSticky,
+        // },
         {
             text: 'Notifications',
             path: getRoutePath('/all-notifications'),

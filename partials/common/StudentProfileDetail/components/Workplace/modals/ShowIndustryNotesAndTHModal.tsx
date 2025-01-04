@@ -96,11 +96,7 @@ export const ShowIndustryNotesAndTHModal = ({
         }
         if (workplaceData?.type === WorkplaceErrorMessage.WP_TYPE_MIS_MATCH) {
             setModal(
-                <WorkplaceTypeMisMatchModal
-                    onCancel={onCancelInnerModal}
-                    industryName={industryUserName}
-                    industryUserId={industryUserId}
-                />
+                <WorkplaceTypeMisMatchModal onCancel={onCancelInnerModal} />
             )
             setWorkplaceData(null)
         }
