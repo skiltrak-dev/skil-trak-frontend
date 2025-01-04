@@ -23,7 +23,7 @@ export const rtosEndpoints = (
     addRtoWpType: builder.mutation<
         any,
         {
-            userId: number
+            userId?: number
             courseId: number
             typeIds: number[]
         }

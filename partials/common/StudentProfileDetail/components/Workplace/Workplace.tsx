@@ -215,11 +215,6 @@ export const Workplace = ({
             )
     }, [selectedWorkplace, appliedIndustry])
 
-    console.log({
-        selectedWorkplace,
-        booked: workplaceStudentDetail?.data?.appointmentBooked,
-        workplaceStudentDetail,
-    })
     useEffect(() => {
         if (
             selectedWorkplace?.currentStatus ===

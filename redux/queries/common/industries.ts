@@ -131,7 +131,7 @@ export const industriesEndpoints = (
         providesTags: ['IndustriesAddProfile'],
     }),
 
-    getIndustryWPType: builder.query<any, number>({
+    getIndustryWPType: builder.query<any, number | undefined>({
         query: (userId) => {
             const params = userId ? { userId } : null
             return {
@@ -144,7 +144,7 @@ export const industriesEndpoints = (
 
     addIndustryWpType: builder.mutation<
         any,
-        { userId: number; wpTypeId: number }
+        { userId?: number; wpTypeId: number }
     >({
         query: ({ wpTypeId, ...params }) => {
             console.log({ params })
@@ -157,7 +157,7 @@ export const industriesEndpoints = (
         invalidatesTags: ['Industry'],
     }),
 
-    removeIndustryWPType: builder.mutation<any, number>({
+    removeIndustryWPType: builder.mutation<any, number | undefined>({
         query: (userId) => {
             const params = userId ? { userId } : null
             return {

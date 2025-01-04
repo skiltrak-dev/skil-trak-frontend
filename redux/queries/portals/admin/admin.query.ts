@@ -1,15 +1,17 @@
-import { RemoveCoordinator } from './../../../../partials/rto/student/modals/RemoveCoordinator'
-import { talentPoolEndpoints } from './talentPool'
 import { courseEndpoints } from './course'
 import { industryEndpoints } from './industry'
+import { talentPoolEndpoints } from './talentPool'
 
 import { AdminStats, SMSFormQueryType } from '@types'
 import { emptySplitApi } from '../empty.query'
 import { appointmentTypeEndpoints } from './appointment-type'
+import { blogsEndpoints } from './blogs'
+import { departmentEndpoints } from './department'
 import { documentsEndpoints } from './documents'
 import { folderEndpoints } from './folder'
-import { industryRplEndpoints } from './industyRpl'
 import { generateKeysEndpoints } from './generate-key'
+import { industryRplEndpoints } from './industyRpl'
+import { insuranceEndpoints } from './insurance'
 import { jobEndpoints } from './job'
 import { profileEndpoints } from './profile'
 import { rtoEndpoints } from './rto'
@@ -19,10 +21,9 @@ import { subAdminEndpoints } from './sub-admin'
 import { subscriberEndpoints } from './subscribers'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
-import { blogsEndpoints } from './blogs'
 import { wptypesEndpoints } from './wptypes'
-import { departmentEndpoints } from './department'
-import { insuranceEndpoints } from './insurance'
+import { notesTemplatesEndpoints } from './notesTemplates'
+import { Notes } from '@components/sections/subAdmin'
 const PREFIX = 'admin'
 
 export const adminApi = emptySplitApi.injectEndpoints({
@@ -85,6 +86,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...departmentEndpoints(build),
         ...industryRplEndpoints(build),
         ...generateKeysEndpoints(build),
+        ...notesTemplatesEndpoints(build),
         ...appointmentTypeEndpoints(build),
     }),
     // overrideExisting: false,
@@ -366,6 +368,13 @@ const {
     useGetRtoByInsuranceTypeQuery,
     useRemoveInsuranceTypeMutation,
     useGetIndustriesByInsuranceTypeQuery,
+
+    // ---- NOTES TEMPLATES ---- //
+    useNotesTemplatesQuery,
+    useNotesTemplateDetailQuery,
+    useAddNoteTemplateMutation,
+    useUpdateNoteTemplateMutation,
+    useRemoveNoteTemplateMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -533,8 +542,7 @@ export const AdminApi = {
         useAddIndustryHours: useAddIndutryAvailableHoursMutation,
         useIndustryAvailableHours: useGetIndutryAvailableHoursQuery,
         useDeleteIndustryProfileCourse: useDeleteIndustryProfileCourseMutation,
-        useUpdateIndustryProfileCourse:
-            useUpdateIndustryProfileCourseMutation,
+        useUpdateIndustryProfileCourse: useUpdateIndustryProfileCourseMutation,
     },
 
     Rpl: {
@@ -642,5 +650,12 @@ export const AdminApi = {
         removeInsuranceType: useRemoveInsuranceTypeMutation,
         getRtoByInsuranceType: useGetRtoByInsuranceTypeQuery,
         industriesByInsuranceType: useGetIndustriesByInsuranceTypeQuery,
+    },
+    NotesTemplates: {
+        notesTemplates: useNotesTemplatesQuery,
+        addNoteTemplate: useAddNoteTemplateMutation,
+        notesTemplateDetail: useNotesTemplateDetailQuery,
+        updateNoteTemplate: useUpdateNoteTemplateMutation,
+        removeNoteTemplate: useRemoveNoteTemplateMutation,
     },
 }

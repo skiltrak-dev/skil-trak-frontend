@@ -50,11 +50,10 @@ export const Actions = ({
 
     const onModalCancelClicked = () => setModal(null)
 
+    console.log('workplace?.student', student)
+
     const onApproveModal = () => {
-        if (
-            workplace?.student?.user?.schedules &&
-            workplace?.student?.user?.schedules?.length > 0
-        ) {
+        if (student?.user?.schedules && student?.user?.schedules?.length > 0) {
             setModal(
                 <ApproveRequestModal
                     appliedIndustryId={appliedIndustry?.id}

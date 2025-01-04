@@ -30,17 +30,18 @@ const filterKeys = [
     'abn',
     'name',
     'email',
-    'status',
+    'state',
     'phone',
+    'status',
+    'suburb',
+    'wpType',
     'address',
     'courseId',
     'sectorId',
-    'industryId',
-    'suburb',
-    'state',
-    'isPartner',
     'isHiring',
+    'isPartner',
     'isSnoozed',
+    'industryId',
 ]
 
 const removeFilterKeysToUrl: any = []

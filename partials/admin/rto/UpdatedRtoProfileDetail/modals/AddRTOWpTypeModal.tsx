@@ -9,7 +9,7 @@ export const AddRTOWpTypeModal = ({
     courseId,
     selectedIds,
 }: {
-    userId: number
+    userId?: number
     courseId: number
     selectedIds: number[]
     onCancel: () => void

@@ -45,7 +45,7 @@ export const FinishSignModal = ({
                     title="Are you sure!"
                     description={`You are about to finish Esign Do you wish to continue?`}
                     onConfirm={onConfirmUClicked}
-                    // onCancel={onCancel}
+                    onCancel={onCancel}
                     input
                     inputKey={customFieldsData}
                     actionObject={customFieldsData}

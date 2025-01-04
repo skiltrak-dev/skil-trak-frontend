@@ -77,7 +77,7 @@ export const SectorBaseCapacityModal = ({ id, onCloseModal }: any) => {
             <ShowErrorNotifications result={updateCapacityResult} />
             <div className="px-6 py-4 border-b border-gray-200 mt-2">
                 <h2 className="text-xl font-semibold text-gray-900">
-                    Placement Capacity by Sector
+                    Student Capacity by Sector
                 </h2>
             </div>
             <div className="py-3">
@@ -91,7 +91,7 @@ export const SectorBaseCapacityModal = ({ id, onCloseModal }: any) => {
                                 <Typography variant="label">Sector</Typography>
                             </div>
                             <Typography variant="label">
-                                Capacity / Enrolled
+                                Capacity / Current
                             </Typography>
                         </div>
 

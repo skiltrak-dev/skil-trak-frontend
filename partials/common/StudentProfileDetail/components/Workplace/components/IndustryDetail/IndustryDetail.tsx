@@ -24,16 +24,16 @@ import {
     IWorkplaceIndustries,
     WorkplaceWorkIndustriesType,
 } from 'redux/queryTypes'
-import { useAssessmentDocumentsView } from '../../../AssessmentsSubmission'
 import {
     ShowPlacementCommentsModal,
     ViewContactedIndustryModal,
 } from '../../modals'
-import { AgreementView } from '../AgreementView'
 import { Actions } from './Actions'
+import { AgreementView } from '../AgreementView'
+import { StudentProvidedActions } from './StudentProvidedActions'
 import { IndustryCard, StudentInterviewDetail } from './components'
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
-import { StudentProvidedActions } from './StudentProvidedActions'
+import { useAssessmentDocumentsView } from '../../../AssessmentsSubmission'
 
 export const IndustryDetail = ({
     student,

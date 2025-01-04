@@ -166,6 +166,12 @@ export const ViewDocumentAndSign = () => {
                 //         />
                 //     )
                 // }, 1000)
+
+                if (
+                    !customFieldsData?.filter((c: any) => c?.isCustom)?.length
+                ) {
+                    setIsLastSelected(true)
+                }
                 setIsSignature(false)
                 setIsDocumentLoaded(null)
                 // onDocumentScrollArrow()

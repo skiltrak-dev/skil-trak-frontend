@@ -27,6 +27,7 @@ const adminTagTypes = [
     'Departments',
     'Subscribers',
     'Generate-Key',
+    'NotesTemplates',
     'Insurance-Type',
     'WorkplaceTypes',
     'BlogCategories',

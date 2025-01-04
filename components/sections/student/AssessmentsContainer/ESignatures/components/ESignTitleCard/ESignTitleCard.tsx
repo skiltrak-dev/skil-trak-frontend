@@ -1,6 +1,7 @@
 import { Typography } from '@components/Typography'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
+import moment from 'moment'
 import React from 'react'
 import { FaFileSignature } from 'react-icons/fa'
 type ESignTitleCardProps = {
@@ -31,6 +32,8 @@ export const ESignTitleCard = ({
     const industry = `${industryUser?.user?.name} (${
         industryUser?.user?.role || ''
     })`
+
+    console.log({ bankaDoc: doc })
     return (
         <div
             onClick={() => {
@@ -58,21 +61,35 @@ export const ESignTitleCard = ({
                         </div>
                     </div>
                 </div>
-                <div
-                    className={`${
-                        status === 'Signed' ? 'bg-green-100' : 'bg-[#E8F2FA]'
-                    } px-1 whitespace-nowrap`}
-                >
-                    <Typography
-                        variant="xs"
-                        color={
+                <div className="flex flex-col gap-y-1">
+                    <div
+                        className={`${
                             status === 'Signed'
-                                ? 'text-green-500'
-                                : 'text-neutral-500'
-                        }
+                                ? 'bg-green-100'
+                                : 'bg-[#E8F2FA]'
+                        } px-1 whitespace-nowrap w-fit`}
                     >
-                        {status}
-                    </Typography>
+                        <Typography
+                            variant="xs"
+                            color={
+                                status === 'Signed'
+                                    ? 'text-green-500'
+                                    : 'text-neutral-500'
+                            }
+                        >
+                            {status}
+                        </Typography>
+                    </div>
+                    <div>
+                        <Typography variant="xxs" color="text-gray-600">
+                            Received On:
+                        </Typography>
+                        <Typography variant="xs" color="text-primaryNew">
+                            {moment(doc?.createdAt).format(
+                                'DD MMM YYYY hh:mm A'
+                            )}
+                        </Typography>
+                    </div>
                 </div>
             </div>
         </div>

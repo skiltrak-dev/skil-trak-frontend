@@ -41,8 +41,9 @@ export const MaxReqLimitReachModal = ({
                                 <span className="font-bold">
                                     {industryName}{' '}
                                 </span>{' '}
-                                currently have {industryCapacity} students with
-                                workplace requests in the following statuses:
+                                currently student capacity for workplace
+                                requests has been reached in the following
+                                statuses:
                                 <span className="font-bold">
                                     Waiting, Agreement Pending, or Appointment
                                 </span>{' '}

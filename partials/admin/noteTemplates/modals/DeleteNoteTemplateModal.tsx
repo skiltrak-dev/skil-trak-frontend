@@ -1,27 +1,25 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
-import { CommonApi } from '@queries'
+import { AdminApi } from '@queries'
 
 import { FaTrash } from 'react-icons/fa'
 
-export const DeleteIndustryWPTypeModal = ({
+export const DeleteNoteTemplateModal = ({
+    noteTemplate,
     onCancel,
-    industryUserId,
 }: {
-    onCancel: () => void
-    industryUserId?: number
+    noteTemplate: any
+    onCancel: Function
 }) => {
     const { notification } = useNotification()
+    const [remove, removeResult] = AdminApi.NotesTemplates.removeNoteTemplate()
 
-    const [remove, removeResult] = CommonApi.Industries.removeIndustryWPType()
-
-    const onConfirmUClicked = async (industryUserId: number) => {
-        const res: any = await remove(industryUserId)
-
+    const onConfirmClicked = async (noteTemplate: any) => {
+        const res: any = await remove(noteTemplate?.id)
         if (res?.data) {
             notification.error({
-                title: `Wp Type Deleted`,
-                description: `Wp Type has been deleted.`,
+                title: `Note Template Deleted`,
+                description: `Note Template "${noteTemplate?.name}" has been deleted.`,
             })
             onCancel()
         }
@@ -34,11 +32,11 @@ export const DeleteIndustryWPTypeModal = ({
                 Icon={FaTrash}
                 variant="error"
                 title="Are you sure!"
-                description={`You are about to delete Industry Type. Do you wish to continue?`}
-                onConfirm={onConfirmUClicked}
+                description={`You are about to delete "${noteTemplate?.name}". Do you wish to continue?`}
+                onConfirm={onConfirmClicked}
                 onCancel={onCancel}
                 input
-                actionObject={industryUserId}
+                actionObject={noteTemplate}
                 loading={removeResult.isLoading}
             />
         </>
