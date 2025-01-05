@@ -17,7 +17,7 @@ export const AddIndustryWPTypeModal = ({
 
     const { notification } = useNotification()
 
-    const wpTypes = CommonApi.Rtos.getRtoWpTypes()
+    const wpTypes = CommonApi.Industries.getIndustriesWPTypeList(industryUserId)
     const [add, addResult] = CommonApi.Industries.addIndustryWpType()
 
     const wpTypesOptions = wpTypes?.data?.map((wpType: any) => ({

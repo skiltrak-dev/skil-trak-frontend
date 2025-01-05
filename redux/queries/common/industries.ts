@@ -131,6 +131,16 @@ export const industriesEndpoints = (
         providesTags: ['IndustriesAddProfile'],
     }),
 
+    getIndustriesWPTypeList: builder.query<any, number | undefined>({
+        query: (userId) => {
+            const params = userId ? { userId } : null
+            return {
+                url: `admin/workplace-types-list/for-industries`,
+                params,
+            }
+        },
+        providesTags: ['Industry'],
+    }),
     getIndustryWPType: builder.query<any, number | undefined>({
         query: (userId) => {
             const params = userId ? { userId } : null

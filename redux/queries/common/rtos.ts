@@ -16,8 +16,8 @@ export const rtosEndpoints = (
         query: () => `shared/rtos/list`,
         providesTags: ['RTO'],
     }),
-    getRtoWpTypes: builder.query<any, void>({
-        query: () => `rtos/workplace-types/list`,
+    getRtoWpTypes: builder.query<any, number>({
+        query: (id) => `rtos/course/${id}/workplace-types/list`,
         providesTags: ['RTO'],
     }),
     addRtoWpType: builder.mutation<

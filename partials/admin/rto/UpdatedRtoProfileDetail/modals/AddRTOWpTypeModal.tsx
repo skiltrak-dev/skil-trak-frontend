@@ -18,7 +18,7 @@ export const AddRTOWpTypeModal = ({
 
     const { notification } = useNotification()
 
-    const wpTypes = CommonApi.Rtos.getRtoWpTypes()
+    const wpTypes = CommonApi.Rtos.getRtoWpTypes(courseId)
     const [add, addResult] = CommonApi.Rtos.addRtoWpType()
 
     const wpTypesOptions = wpTypes?.data
