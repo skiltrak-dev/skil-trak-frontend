@@ -21,7 +21,7 @@ export const IndustryFilters = ({
     // query
     const getCourses = CommonApi.Filter.useCourses()
     const getSectors = AuthApi.useSectors({})
-    const wpTypes = CommonApi.Rtos.getRtoWpTypes()
+    // const wpTypes = CommonApi.Rtos.getRtoWpTypes()
 
     const coursesOptions = getCourses?.data?.map((course: any) => ({
         item: course,
@@ -42,10 +42,10 @@ export const IndustryFilters = ({
         value: sector.id,
     }))
 
-    const wpTypesOptions = wpTypes?.data?.map((wpType: any) => ({
-        value: wpType?.id,
-        label: wpType?.name,
-    }))
+    // const wpTypesOptions = wpTypes?.data?.map((wpType: any) => ({
+    //     value: wpType?.id,
+    //     label: wpType?.name,
+    // }))
     const isPartnerOptions = [
         {
             label: 'Is Partner',
@@ -199,7 +199,7 @@ export const IndustryFilters = ({
                     showError={false}
                 />
 
-                <Select
+                {/* <Select
                     label={'Search by Workplace Type'}
                     name={'wpType'}
                     options={wpTypesOptions}
@@ -215,7 +215,7 @@ export const IndustryFilters = ({
                     disabled={getCourses.isLoading}
                     onlyValue
                     showError={false}
-                />
+                /> */}
 
                 <div className="flex items-center gap-x-2">
                     <div className={'mt-7'}>
