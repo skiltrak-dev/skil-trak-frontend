@@ -341,6 +341,7 @@ const {
     useAddIndustryWpTypeMutation,
     useRemoveIndustryWPTypeMutation,
     useGetIndustryWPTypeQuery,
+    useGetIndustriesWPTypeListQuery,
 
     useGetAllRtosQuery,
     useGetRtosListQuery,
@@ -622,6 +623,7 @@ export const CommonApi = {
         getAllAdvertisedJobs: useGetAllAdvertisedJobsQuery,
         removeIndustryWPType: useRemoveIndustryWPTypeMutation,
         getAdvertisedJobDetail: useGetAdvertisedJobDetailQuery,
+        getIndustriesWPTypeList: useGetIndustriesWPTypeListQuery,
         addBranchesAddress: useAddIndustryBranchesAddressMutation,
         useUpdateIndustryBranch: useUpdateIndustryBranchAddressMutation,
         useRegisterByFutureIndustry: useRegisterByFutureIndustryMutation,
