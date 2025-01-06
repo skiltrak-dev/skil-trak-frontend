@@ -139,7 +139,7 @@ export const CaseOfficerAssignedStudent = ({
                 <ProgressCell
                     appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
-                    assigned={updatedWorkplace?.assignedTo}
+                    assigned={updatedWorkplace?.assignedTo || student?.subadmin}
                     step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     studentProvidedWorkplace={
                         updatedWorkplace?.studentProvidedWorkplace ||
@@ -151,7 +151,7 @@ export const CaseOfficerAssignedStudent = ({
                 <ProgressCell
                     appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
-                    assigned={updatedWorkplace?.assignedTo}
+                    assigned={updatedWorkplace?.assignedTo || student?.subadmin}
                     step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
                     studentProvidedWorkplace={
                         updatedWorkplace?.studentProvidedWorkplace ||
@@ -161,7 +161,10 @@ export const CaseOfficerAssignedStudent = ({
                 />
             ) : industries?.length > 0 ? (
                 <StudentStatusProgressCell
-                    assigned={updatedWorkplace?.assignedTo as SubAdmin}
+                    assigned={
+                        (updatedWorkplace?.assignedTo as SubAdmin) ||
+                        student?.subadmin
+                    }
                     studentId={student?.id}
                     step={
                         workplace?.currentStatus ===
@@ -178,7 +181,10 @@ export const CaseOfficerAssignedStudent = ({
                 />
             ) : student?.user?.status === UserStatus.Archived ? (
                 <StudentStatusProgressCell
-                    assigned={updatedWorkplace?.assignedTo as SubAdmin}
+                    assigned={
+                        (updatedWorkplace?.assignedTo as SubAdmin) ||
+                        student?.subadmin
+                    }
                     studentId={student?.id}
                     step={
                         workplace?.currentStatus ===
@@ -198,7 +204,7 @@ export const CaseOfficerAssignedStudent = ({
                     appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
                     step={3}
-                    assigned={updatedWorkplace?.assignedTo}
+                    assigned={updatedWorkplace?.assignedTo || student?.subadmin}
                     studentProvidedWorkplace={
                         updatedWorkplace?.studentProvidedWorkplace ||
                         updatedWorkplace?.byExistingAbn
@@ -210,7 +216,7 @@ export const CaseOfficerAssignedStudent = ({
                     appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
                     step={1}
-                    assigned={updatedWorkplace?.assignedTo}
+                    assigned={updatedWorkplace?.assignedTo || student?.subadmin}
                     studentProvidedWorkplace={
                         updatedWorkplace?.studentProvidedWorkplace ||
                         updatedWorkplace?.byExistingAbn

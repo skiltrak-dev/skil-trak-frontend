@@ -157,7 +157,6 @@ export const industriesEndpoints = (
         { userId?: number; wpTypeId: number }
     >({
         query: ({ wpTypeId, ...params }) => {
-            console.log({ params })
             return {
                 url: `industries/workplace-type/${wpTypeId}/add`,
                 method: 'POST',
