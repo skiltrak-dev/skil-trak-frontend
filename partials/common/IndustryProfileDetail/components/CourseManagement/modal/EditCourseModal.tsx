@@ -21,7 +21,6 @@ export const EditCourseModal = ({
     onCloseModal,
     courseRequestId,
 }: any) => {
-    console.log('course', course)
     const [tags, setTags] = useState<any>({
         reference: course?.reference?.length ? course?.reference : [],
     })

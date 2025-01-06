@@ -41,7 +41,6 @@ export const SubAdminNavbar = () => {
         refetchOnMountOrArgChange: true,
     })
     const mailsCount = CommonApi.Messages.useMailCount()
-    console.log('mailsCount', mailsCount?.data)
 
     const navBarData = [
         {

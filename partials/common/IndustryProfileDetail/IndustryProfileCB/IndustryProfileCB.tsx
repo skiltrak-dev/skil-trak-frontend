@@ -46,6 +46,7 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             />
         )
     }
+    
     return (
         <div>
             {modal}
@@ -117,7 +118,10 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
                                 </div>
                             </Modal.Open>
                             <Modal.Window name="viewCapacity">
-                                <SectorBaseCapacityModal id={id} />
+                                <SectorBaseCapacityModal
+                                    id={id}
+                                    prevIndCapacity={industry?.studentCapacity}
+                                />
                             </Modal.Window>
                         </Modal>
                     </div>

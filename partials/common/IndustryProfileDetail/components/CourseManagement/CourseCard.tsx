@@ -14,7 +14,7 @@ import {
 } from './modal'
 import Link from 'next/link'
 import { ellipsisText } from '@utils'
-import { RefreshCw } from 'lucide-react'
+import { Pencil, RefreshCw } from 'lucide-react'
 import { Trash2 } from 'lucide-react'
 
 export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
@@ -101,7 +101,7 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                 <div className="flex items-center gap-x-2">
                                     <Modal>
                                         <Modal.Open opens="editCourse">
-                                            <RefreshCw className="cursor-pointer bg-[#047857] text-white rounded-lg p-1" />
+                                            <Pencil  className="cursor-pointer bg-[#047857] text-white rounded-lg p-1" />
                                         </Modal.Open>
                                         <Modal.Window name="editCourse">
                                             <EditCourseModal

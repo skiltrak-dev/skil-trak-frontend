@@ -43,6 +43,8 @@ export const DeleteCourseModal = ({ course, onCloseModal }: any) => {
                     onClick={() => {
                         deleteCourse(course?.id)
                     }}
+                    loading={deleteCourseResult.isLoading}
+                    disabled={deleteCourseResult.isLoading}
                 />
             </div>
         </>
