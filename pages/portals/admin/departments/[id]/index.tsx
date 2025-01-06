@@ -23,6 +23,7 @@ import {
     useDepartmentDetailContext,
 } from '@partials/admin/departments'
 import { DepartmentMap } from '@partials/admin/departments/map'
+import { AdminApi } from '@queries'
 
 const filterKeys = ['name', 'email', 'status', 'courseId']
 
@@ -45,6 +46,8 @@ const DepartmentDetail: NextPageWithLayout = () => {
         filteredDataLength,
     } = useDepartmentDetailContext()
 
+    console.log({ departmentDetail })
+
     return (
         <div className="mx-5 my-8">
             <div className="mb-5">
@@ -57,7 +60,10 @@ const DepartmentDetail: NextPageWithLayout = () => {
             {departmentDetail.isLoading ? (
                 <DeptSkeleton />
             ) : departmentDetail?.data ? (
-                <HodProfileDetail subadmin={hodDetails} />
+                <HodProfileDetail
+                    subadmin={hodDetails}
+                    deptEmail={departmentDetail?.data?.email}
+                />
             ) : departmentDetail.isSuccess ? (
                 <EmptyData description="No Department Detail were found!" />
             ) : null}

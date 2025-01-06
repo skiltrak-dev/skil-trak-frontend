@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -19,6 +19,7 @@ import { useRouter } from 'next/router'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
 import Modal from '../../../../modals/Modal'
+import { AddDepartmentEmailModal } from '../modal'
 
 interface DepartmentMember {
     isHod: boolean
@@ -42,6 +43,8 @@ interface DepartmentCardProps {
     department: Department
 }
 export const DepartmentCard = ({ department }: DepartmentCardProps) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
+
     const { notification } = useNotification()
     const router = useRouter()
     const { openModal } = useModal()
@@ -85,6 +88,17 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
         }
     }
 
+    const onCancel = () => setModal(null)
+
+    const handleAddDepartmentMail = () => {
+        setModal(
+            <AddDepartmentEmailModal
+                onCancel={onCancel}
+                departmentId={department?.id}
+            />
+        )
+    }
+
     const actions = [
         {
             text: 'View Details',
@@ -92,7 +106,12 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
             onClick: handleViewDetails,
             className: 'text-blue-600',
         },
-
+        {
+            text: 'Add Mail',
+            Icon: FaEye,
+            onClick: handleAddDepartmentMail,
+            className: 'text-blue-600',
+        },
         ...(role === UserRoles.ADMIN
             ? [
                   {
@@ -107,8 +126,8 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
 
     return (
         <>
+            {modal}
             <ShowErrorNotifications result={deleteDepartmentResult} />
-
             <Card noPadding>
                 <div className="flex gap-x-8 w-full pr-5">
                     <div

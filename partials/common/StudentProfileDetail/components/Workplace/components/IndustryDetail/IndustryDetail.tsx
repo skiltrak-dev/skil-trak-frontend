@@ -544,23 +544,26 @@ export const IndustryDetail = ({
                                             </div>
                                         </div>
                                     ) : null}
-                                    {appliedIndustry && student && (
-                                        <div className="mt-2">
-                                            <WorkplaceMapBoxView
-                                                industryLocation={appliedIndustry?.industry?.location?.split(
-                                                    ','
-                                                )}
-                                                studentLocation={student?.location?.split(
-                                                    ','
-                                                )}
-                                                workplaceName={
-                                                    appliedIndustry?.industry
-                                                        ?.user?.name
-                                                }
-                                                showMap
-                                            />
-                                        </div>
-                                    )}
+                                    {appliedIndustry &&
+                                        student &&
+                                        appliedIndustry?.industry?.location && (
+                                            <div className="mt-2">
+                                                <WorkplaceMapBoxView
+                                                    industryLocation={appliedIndustry?.industry?.location?.split(
+                                                        ','
+                                                    )}
+                                                    studentLocation={student?.location?.split(
+                                                        ','
+                                                    )}
+                                                    workplaceName={
+                                                        appliedIndustry
+                                                            ?.industry?.user
+                                                            ?.name
+                                                    }
+                                                    showMap
+                                                />
+                                            </div>
+                                        )}
                                 </>
                             )}
 

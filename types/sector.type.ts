@@ -17,6 +17,7 @@ export interface WorkplaceType extends BaseResponse {
     id: number
     isActive: boolean
     name: string
+    sector: Sector
     course: Course
 }
 export interface WorkplaceTypes extends BaseResponse {

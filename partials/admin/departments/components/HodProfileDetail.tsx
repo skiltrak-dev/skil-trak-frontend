@@ -1,30 +1,27 @@
-import {
-    AuthorizedUserComponent,
-    Button,
-    Card,
-    GlobalModal,
-    Typography,
-} from '@components'
+import { Button, Card, GlobalModal, Typography } from '@components'
 import { UserRoles } from '@constants'
-import { ProfileActions } from '@partials/admin/sub-admin/SubadminProfileDetail/components/ProfileDetail/ProfileActions'
 import { ProfileCard } from '@partials/admin/sub-admin/SubadminProfileDetail/components/ProfileDetail/ProfileCard'
-import { ProfileLinks } from '@partials/admin/sub-admin/SubadminProfileDetail/components/ProfileDetail/ProfileLinks'
 
-import { SubAdmin } from '@types'
-import { BsPatchCheckFill } from 'react-icons/bs'
-import { AdminApi } from '@queries'
-import { useRouter } from 'next/router'
-import { DepartmentCounts } from './DepartmentCounts'
-import { ProgressChart } from '@partials/sub-admin/components'
-import { ReactElement, useState } from 'react'
 import { AllowPermissionModal } from '@partials/admin/sub-admin/modals'
+import { ProgressChart } from '@partials/sub-admin/components'
+import { AdminApi } from '@queries'
+import { getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
+import { BsPatchCheckFill } from 'react-icons/bs'
+import { AddCoordinatorModal, AddDepartmentEmailModal } from '../modal'
 import { MarkAsHodModalVII } from '../modal/MarkAsHodModalVII'
-import { getUserCredentials, removeEmptyValues } from '@utils'
-import { AddCoordinatorModal } from '../modal'
-import { ProgressLineChart } from '@partials/common'
+import { DepartmentCounts } from './DepartmentCounts'
 import { DepartmentLineChart } from './DepartmentLineChart'
+import { SubAdmin } from '@types'
 
-export const HodProfileDetail = ({ subadmin }: any) => {
+export const HodProfileDetail = ({
+    subadmin,
+    deptEmail,
+}: {
+    deptEmail: string
+    subadmin: SubAdmin
+}) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const id = router.query.id
@@ -99,6 +96,16 @@ export const HodProfileDetail = ({ subadmin }: any) => {
             </GlobalModal>
         )
     }
+
+    const handleAddDepartmentMail = () => {
+        setModal(
+            <AddDepartmentEmailModal
+                onCancel={onModalCancelClicked}
+                departmentId={Number(id)}
+            />
+        )
+    }
+
     const role = getUserCredentials()?.role
     const checkIsAdmin = role === UserRoles.ADMIN
 
@@ -117,19 +124,35 @@ export const HodProfileDetail = ({ subadmin }: any) => {
                                 }
                                 alt="RTO Logo"
                             />
-                            <div>
-                                <Typography variant={'title'}>
-                                    {subadmin?.user?.name}
-                                </Typography>
-                                <div className="flex items-center gap-x-2">
-                                    <Typography
-                                        center
-                                        variant={'label'}
-                                        color={'text-gray-500'}
-                                    >
-                                        {subadmin?.user?.email}
+                            <div className="flex flex-col gap-y-2">
+                                <div>
+                                    <Typography variant={'title'}>
+                                        {subadmin?.user?.name}
                                     </Typography>
-                                    <BsPatchCheckFill className="text-link" />
+                                    <div className="flex items-center gap-x-2">
+                                        <Typography
+                                            center
+                                            variant={'label'}
+                                            color={'text-gray-500'}
+                                        >
+                                            {subadmin?.user?.email}
+                                        </Typography>
+                                        <BsPatchCheckFill className="text-link" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <Typography variant={'title'}>
+                                        Department Email
+                                    </Typography>
+                                    <div className="flex items-center gap-x-2">
+                                        <Typography
+                                            center
+                                            variant={'label'}
+                                            color={'text-gray-500'}
+                                        >
+                                            {deptEmail}
+                                        </Typography>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -144,7 +167,7 @@ export const HodProfileDetail = ({ subadmin }: any) => {
                             />
                         </div>
                         {checkIsAdmin && (
-                            <div className="flex items-center gap-x-2 whitespace-nowrap">
+                            <div className="flex items-center flex-wrap gap-2 whitespace-nowrap">
                                 <Button
                                     text={'Permissions'}
                                     onClick={onAllowPermissionClicked}
@@ -159,6 +182,11 @@ export const HodProfileDetail = ({ subadmin }: any) => {
                                     variant="success"
                                     outline
                                     onClick={onAddMembers}
+                                />
+                                <Button
+                                    text={'Change Dept Email'}
+                                    variant="success"
+                                    onClick={handleAddDepartmentMail}
                                 />
                             </div>
                         )}
