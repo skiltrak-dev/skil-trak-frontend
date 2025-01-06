@@ -106,15 +106,15 @@ export const WorkplaceTypes = () => {
             header: () => <span>Name</span>,
         },
         {
-            accessorKey: 'course',
+            accessorKey: 'sector',
             cell: (info) => (
                 <div className="relative group ">
                     <Typography variant="label" color="text-gray-800">
-                        {info.row.original?.course?.title || '---'}
+                        {info.row.original?.sector?.name || '---'}
                     </Typography>
                 </div>
             ),
-            header: () => <span>Course</span>,
+            header: () => <span>Sector</span>,
         },
         {
             accessorKey: 'action',

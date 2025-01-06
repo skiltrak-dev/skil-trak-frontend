@@ -123,6 +123,7 @@ const {
     // Departments
     useGetDepartmentCoordinatorsQuery,
     useAddDepartmentMutation,
+    useUpdateDepartmentMutation,
     useGetDepartmentsQuery,
     useGetDepartmentDetailsQuery,
     useGetDeptCoordinatorsListQuery,
@@ -390,6 +391,7 @@ export const AdminApi = {
     Department: {
         useDepartmentCoordinators: useGetDepartmentCoordinatorsQuery,
         useAddDepartment: useAddDepartmentMutation,
+        updateDepartment: useUpdateDepartmentMutation,
         useDepartments: useGetDepartmentsQuery,
         useDepartmentDetails: useGetDepartmentDetailsQuery,
         useDeptCoordinatorsList: useGetDeptCoordinatorsListQuery,

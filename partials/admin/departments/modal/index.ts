@@ -3,5 +3,5 @@ export * from './MarkAsHodModal'
 export * from './MarkAsHodModalVII'
 export * from './RemoveCoordinatorModal'
 export * from './AddCoordinatorModal'
-
+export * from './AddDepartmentEmailModal'
 export * from './CrudModal'

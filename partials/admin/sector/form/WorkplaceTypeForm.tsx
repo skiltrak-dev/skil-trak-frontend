@@ -16,7 +16,6 @@ interface WPTypeFormProps {
 
 const validationSchema = yup.object({
     sector: yup.number().required('Sector is required!'),
-    course: yup.number().required('Course is required!'),
     name: yup.string().required('Name is required!'),
 })
 
@@ -27,7 +26,7 @@ export const WorkplaceTypeForm = ({
     initialValues,
 }: WPTypeFormProps) => {
     const sectors = AdminApi.Sectors.useListQuery(undefined)
-    const courses = AdminApi.Courses.useListQuery(undefined)
+    // const courses = AdminApi.Courses.useListQuery(undefined)
 
     const [selectedSector, setSelectedSector] = useState<number | null>(null)
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
@@ -37,37 +36,35 @@ export const WorkplaceTypeForm = ({
         resolver: yupResolver(validationSchema),
         defaultValues: {
             ...initialValues,
-            sector: initialValues?.course?.sector?.id,
-            course: initialValues?.course?.id,
+            sector: initialValues?.sector?.id,
         },
         mode: 'all',
     })
 
     useEffect(() => {
         if (edit) {
-            onSectorSelect(initialValues?.course?.sector?.id)
-            setSelectedCourse(initialValues?.course?.id)
+            setSelectedSector(initialValues?.sector?.id)
         }
-    }, [initialValues, edit, courses])
+    }, [initialValues, edit])
 
-    const onSectorSelect = (sectorId: number) => {
-        setSelectedSector(sectorId)
-        const currentSelectableCourses: Course[] = []
-        const currentCourses = courses.data?.data.filter(
-            (c) => c.sector.id === sectorId
-        )
+    // const onSectorSelect = (sectorId: number) => {
+    //     setSelectedSector(sectorId)
+    //     const currentSelectableCourses: Course[] = []
+    //     const currentCourses = courses.data?.data.filter(
+    //         (c) => c.sector.id === sectorId
+    //     )
 
-        if (currentCourses?.length)
-            currentSelectableCourses.push(...currentCourses)
+    //     if (currentCourses?.length)
+    //         currentSelectableCourses.push(...currentCourses)
 
-        setSelectableCourses(
-            currentSelectableCourses?.map((c) => ({
-                item: c,
-                value: c.id,
-                label: c.title,
-            }))
-        )
-    }
+    //     setSelectableCourses(
+    //         currentSelectableCourses?.map((c) => ({
+    //             item: c,
+    //             value: c.id,
+    //             label: c.title,
+    //         }))
+    //     )
+    // }
 
     const sectorOptions = sectors.data?.data?.map((sector: any) => ({
         label: sector?.name,
@@ -95,14 +92,14 @@ export const WorkplaceTypeForm = ({
                             (sector) => sector?.value === selectedSector
                         )}
                         onChange={(e: number) => {
-                            onSectorSelect(e)
+                            setSelectedSector(e)
                         }}
                         onlyValue
                         disabled={sectors?.isLoading}
                         loading={sectors.isLoading}
                     />
 
-                    <Select
+                    {/* <Select
                         name={'course'}
                         label={'Courses'}
                         options={selectableCourses}
@@ -119,7 +116,7 @@ export const WorkplaceTypeForm = ({
                         loading={courses?.isLoading}
                         disabled={courses?.isLoading}
                         formatOptionLabel={formatOptionLabel}
-                    />
+                    /> */}
 
                     <div className="grid grid-cols-1 gap-x-8 gap-y-2">
                         <TextInput

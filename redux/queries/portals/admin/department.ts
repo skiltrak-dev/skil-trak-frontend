@@ -1,7 +1,7 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
-const PREFIX = 'admin'
+const PREFIX = 'department'
 export const departmentEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
@@ -10,7 +10,7 @@ export const departmentEndpoints = (
             const params =
                 sectorIds && sectorIds?.length > 0 ? { sectorIds } : {}
             return {
-                url: `${PREFIX}/subadmin/list-for-department`,
+                url: `admin/subadmin/list-for-department`,
                 params,
             }
         },
@@ -18,66 +18,77 @@ export const departmentEndpoints = (
     }),
     getDepartments: builder.query<any, any>({
         query: (params) => ({
-            url: `department`,
+            url: PREFIX,
             params,
         }),
         providesTags: ['Departments'],
     }),
 
     getDepartmentDetails: builder.query<any, number>({
-        query: (id) => `department/${id}`,
+        query: (id) => `${PREFIX}/${id}`,
         providesTags: ['Departments'],
     }),
 
     getDeptCoordinatorsList: builder.query<any, any>({
         query: ({ id, params }) => ({
-            url: `department/${id}/members-list`,
+            url: `${PREFIX}/${id}/members-list`,
             params,
         }),
         providesTags: ['Departments'],
     }),
     getDeptStudentsList: builder.query<any, any>({
         query: ({ id, params }) => ({
-            url: `department/${id}/students/list`,
+            url: `${PREFIX}/${id}/students/list`,
             params,
         }),
         providesTags: ['Departments'],
     }),
     getDeptCoordinatorsDropdownList: builder.query<any, any>({
         query: (id) => ({
-            url: `department/${id}/members`,
+            url: `${PREFIX}/${id}/members`,
         }),
         providesTags: ['Departments'],
     }),
     getDepartmentCounts: builder.query<any, any>({
         query: (id) => ({
-            url: `department/${id}/count`,
+            url: `${PREFIX}/${id}/count`,
         }),
         providesTags: ['Departments'],
     }),
     getDepartmentChartStats: builder.query<any, any>({
         query: (id) => ({
-            url: `department/${id}/workplace/count`,
+            url: `${PREFIX}/${id}/workplace/count`,
         }),
         providesTags: ['Departments'],
     }),
     toggleHod: builder.mutation<any, any>({
         query: (id) => ({
-            url: `department/member/${id}/hod-toggle`,
+            url: `${PREFIX}/member/${id}/hod-toggle`,
             method: 'PATCH',
         }),
         invalidatesTags: ['Departments'],
     }),
     changeHod: builder.mutation<any, any>({
         query: (id) => ({
-            url: `department/member/${id}/make-hod`,
+            url: `${PREFIX}/member/${id}/make-hod`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Departments'],
+    }),
+    updateDepartment: builder.mutation<
+        any,
+        { departmentId: number; email: string }
+    >({
+        query: ({ departmentId, ...body }) => ({
+            url: `${PREFIX}/${departmentId}`,
+            body,
             method: 'PATCH',
         }),
         invalidatesTags: ['Departments'],
     }),
     removeDepartmentCoordinator: builder.mutation<any, any>({
         query: (id) => ({
-            url: `department/member/${id}/remove`,
+            url: `${PREFIX}/member/${id}/remove`,
             method: 'DELETE',
         }),
         invalidatesTags: ['Departments'],
@@ -85,14 +96,14 @@ export const departmentEndpoints = (
     // department/id/courses/list
     departmentCourses: builder.query<any, any>({
         query: (id) => ({
-            url: `department/${id}/courses-list`,
+            url: `${PREFIX}/${id}/courses-list`,
         }),
         providesTags: ['Departments'],
     }),
 
     addDepartment: builder.mutation<any, any>({
         query: (body) => ({
-            url: `department`,
+            url: PREFIX,
             method: 'POST',
             body,
         }),
@@ -100,7 +111,7 @@ export const departmentEndpoints = (
     }),
     addDepartmentMembers: builder.mutation<any, any>({
         query: ({ id, body }) => ({
-            url: `department/${id}/members/add`,
+            url: `${PREFIX}/${id}/members/add`,
             method: 'POST',
             body,
         }),
@@ -108,7 +119,7 @@ export const departmentEndpoints = (
     }),
     deleteDepartment: builder.mutation<any, any>({
         query: (id) => ({
-            url: `department/${id}`,
+            url: `${PREFIX}/${id}`,
             method: 'DELETE',
         }),
         invalidatesTags: ['Departments'],
@@ -117,28 +128,28 @@ export const departmentEndpoints = (
     // Map
     getDepartmentStudentsForMap: builder.query<any, any>({
         query: ({ id, params }) => ({
-            url: `department/${id}/students/for-map`,
+            url: `${PREFIX}/${id}/students/for-map`,
             params,
         }),
         providesTags: ['Departments'],
     }),
     getDepartmentIndustriesForMap: builder.query<any, any>({
         query: ({ id, params }) => ({
-            url: `department/${id}/industries/for-map`,
+            url: `${PREFIX}/${id}/industries/for-map`,
             params,
         }),
         providesTags: ['Departments'],
     }),
     getDepartmentFutureIndustriesForMap: builder.query<any, any>({
         query: ({ id, params }) => ({
-            url: `department/${id}/future/industries/for-map`,
+            url: `${PREFIX}/${id}/future/industries/for-map`,
             params,
         }),
         providesTags: ['Departments'],
     }),
     getStudentsSuburbsForMap: builder.query<any, any>({
         query: ({ id, params }) => ({
-            url: `department/${id}/students/suburbs/for-map`,
+            url: `${PREFIX}/${id}/students/suburbs/for-map`,
             params,
         }),
         providesTags: ['Departments'],
@@ -146,7 +157,7 @@ export const departmentEndpoints = (
     // get department sectors
     getDepartmentSectors: builder.query<any, void>({
         query: () => ({
-            url: `department/sectors-list`,
+            url: `${PREFIX}/sectors-list`,
         }),
         providesTags: ['Departments'],
     }),
@@ -154,7 +165,7 @@ export const departmentEndpoints = (
     // Line graph
     getDepartmentLineChartCounts: builder.query<any, any>({
         query: (id) => ({
-            url: `${PREFIX}/department/${id}/students-count`,
+            url: `admin/${PREFIX}/${id}/students-count`,
             // params,
         }),
         providesTags: ['Departments'],
