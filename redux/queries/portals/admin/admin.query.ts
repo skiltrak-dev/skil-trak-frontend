@@ -174,7 +174,7 @@ const {
     useRtoUnassignSubAdminsMutation,
     useRtoProfileSubAdminsQuery,
     useRtoProfileDetailQuery,
-
+    useAutoReleaseLogbookMutation,
     useRtoAssessmentToolsQuery,
 
     // ------ STUDENT ------ //
@@ -446,6 +446,7 @@ export const AdminApi = {
         useRtoProfileSubAdmins: useRtoProfileSubAdminsQuery,
 
         useRtoAssessmentTools: useRtoAssessmentToolsQuery,
+        autoReleaseLogbook: useAutoReleaseLogbookMutation,
     },
 
     Students: {

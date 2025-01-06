@@ -9,7 +9,7 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye } from 'react-icons/fa'
+import { FaBook, FaEdit, FaEye } from 'react-icons/fa'
 
 import { UserRoles } from '@constants'
 import { useActionModal, useContextBar } from '@hooks'
@@ -28,6 +28,7 @@ import {
     ArchiveModal,
     BlockModal,
     BulkBlockModal,
+    ReleaseLogbookPermissionModal,
 } from './modals'
 
 export const ApprovedRto = () => {
@@ -104,6 +105,15 @@ export const ApprovedRto = () => {
         )
     }
 
+    const onReleaseLogbook = (rto: Rto) => {
+        setModal(
+            <ReleaseLogbookPermissionModal
+                rto={rto}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const contextBar = useContextBar()
     const onViewSubAdminsClicked = (rto: Rto) => {
         contextBar.setTitle('Sub Admins')
@@ -141,6 +151,17 @@ export const ApprovedRto = () => {
                       text: 'View Password',
                       onClick: (rto: Rto) => onViewPassword(rto),
                       Icon: FaEdit,
+                  }
+                : {}),
+        },
+        {
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: rto?.autoReleaseLogBook
+                          ? 'Remove Release Logbook'
+                          : 'Release Logbook',
+                      onClick: (rto: Rto) => onReleaseLogbook(rto),
+                      Icon: FaBook,
                   }
                 : {}),
         },

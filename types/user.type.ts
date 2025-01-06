@@ -93,6 +93,7 @@ export interface Rto extends BaseResponse {
     zipCode: string
     allowUpdate: boolean
     allowAutoComplete: boolean
+    autoReleaseLogBook: boolean
     allowAutoReport: boolean
     reportType: ReportingType
     user: User
