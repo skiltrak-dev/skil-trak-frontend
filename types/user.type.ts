@@ -1,4 +1,4 @@
-import { Course, Packages } from '@types'
+import { AssessmentToolsType, Course, Packages } from '@types'
 import { BaseResponse } from './base.type'
 import { Note } from './note.type'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
@@ -102,6 +102,7 @@ export interface Rto extends BaseResponse {
     subadmin: SubAdmin[]
     students: Student[]
     contactPersons: any
+    assessmentTools: AssessmentToolsType[]
 }
 
 export interface Student extends BaseResponse {

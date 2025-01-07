@@ -1,22 +1,21 @@
-import { AddPrevCourseDescription } from './../../../../partials/common/IndustryProfileDetail/components/CourseManagement/modal/AddPrevCourseDescription'
 import { SubAdmin, UserStatus } from '@types'
+import { emptySplitApi } from '../empty.query'
+import { subAdminAppointmentspoints } from './appointments'
+import { assessmentEvidenceEndpoints } from './assessmentEvidence'
+import { subAdminIndustriesEndpoints } from './industries'
+import { studentsLogbookEndpoints } from './logbookSign'
 import { notesEndpoints } from './notes'
+import { profileEndpoints } from './profile'
 import { subAdminReports } from './reports'
 import { subAdminRtoEndpoints } from './rto'
-import { profileEndpoints } from './profile'
-import { emptySplitApi } from '../empty.query'
-import { todoListEndpoints } from './todoList'
-import { studentsEndpoints } from './students'
-import { workplaceEndpoints } from './workplace'
 import { setScheduleEndpoints } from './setSchedule'
 import { subAdminSettingEndpoints } from './setting'
-import { subadminVolunteerEndpoints } from './volunteer'
-import { subAdminIndustriesEndpoints } from './industries'
-import { subAdminAppointmentspoints } from './appointments'
 import { setUnavailabilityEndpoints } from './setUnavailability'
-import { assessmentEvidenceEndpoints } from './assessmentEvidence'
+import { studentsEndpoints } from './students'
 import { talentPoolEndpoints } from './talentPool'
-import { studentsLogbookEndpoints } from './logbookSign'
+import { todoListEndpoints } from './todoList'
+import { subadminVolunteerEndpoints } from './volunteer'
+import { workplaceEndpoints } from './workplace'
 export const subAdminApi = emptySplitApi.injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',
@@ -331,6 +330,7 @@ export const {
     useUnSnoozeStudentMutation,
     useSendStudentMssageMutation,
     useGetStudentMessagesListQuery,
+    useReleaseStudentLogbookMutation,
 
     // ---- LOGBOOK ---- //
     useSaveLogbookMutation,
@@ -540,6 +540,7 @@ export const SubAdminApi = {
         workplaceStudentDetail: useGetWorkplaceStudentDetailQuery,
         getWorkplaceForSchedule: useGetWorkplaceForScheduleQuery,
         getStudentRtoDetail: useGetSubAdminStudentRtoDetailQuery,
+        releaseStudentLogbook: useReleaseStudentLogbookMutation,
     },
     LogBook: {
         useSaveLogbook: useSaveLogbookMutation,

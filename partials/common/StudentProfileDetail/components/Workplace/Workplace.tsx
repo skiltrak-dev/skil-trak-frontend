@@ -53,6 +53,9 @@ import {
     BookAppointmentInfoModal,
     CancelWorkplaceModal,
     CancelWorkplaceRequestModal,
+    LogbookNotReleasedModal,
+    NoLogbookFoundModal,
+    ReleaseLogbookModal,
     ShowRejectedRequestModal,
     UpdatePrvWPStatusModal,
     UpdateWorkplaceCourseModal,
@@ -271,6 +274,64 @@ export const Workplace = ({
         }
     }, [selectedWorkplace, workplaceStudentDetail])
 
+    useEffect(() => {
+        if (
+            selectedWorkplace &&
+            selectedWorkplace?.currentStatus ===
+                WorkplaceCurrentStatus.PlacementStarted &&
+            !selectedWorkplace?.isLogBookReleased &&
+            workplaceStudentDetail?.data?.rto?.assessmentTools?.length > 0 &&
+            workplaceStudentDetail?.data
+        ) {
+            setModal(
+                <LogbookNotReleasedModal
+                    onCancel={onCancelModal}
+                    rto={workplaceStudentDetail?.data?.rto}
+                    selectedWorkplaceId={selectedWorkplace?.id}
+                />
+            )
+        }
+    }, [selectedWorkplace, workplaceStudentDetail?.data])
+
+    useEffect(() => {
+        if (
+            selectedWorkplace &&
+            selectedWorkplace?.currentStatus ===
+                WorkplaceCurrentStatus.AgreementSigned &&
+            !selectedWorkplace?.isLogBookReleased &&
+            workplaceStudentDetail?.data?.rto?.assessmentTools?.length > 0 &&
+            workplaceStudentDetail?.data
+        ) {
+            setModal(
+                <ReleaseLogbookModal
+                    onCancel={onCancelModal}
+                    selectedWorkplaceId={selectedWorkplace?.id}
+                    rto={workplaceStudentDetail?.data?.rto}
+                    course={selectedWorkplace?.courses?.[0]}
+                />
+            )
+        }
+    }, [selectedWorkplace, workplaceStudentDetail?.data])
+
+    useEffect(() => {
+        if (
+            selectedWorkplace &&
+            selectedWorkplace?.currentStatus ===
+                WorkplaceCurrentStatus.AgreementSigned &&
+            !selectedWorkplace?.isLogBookReleased &&
+            !workplaceStudentDetail?.data?.rto?.assessmentTools?.length &&
+            workplaceStudentDetail?.data
+        ) {
+            setModal(
+                <NoLogbookFoundModal
+                    onCancel={onCancelModal}
+                    rto={workplaceStudentDetail?.data?.rto?.user?.name}
+                    course={selectedWorkplace?.courses?.[0]?.title}
+                />
+            )
+        }
+    }, [selectedWorkplace, workplaceStudentDetail?.data])
+
     const onUpdateWorkplaceCourseClicked = (
         courseId: number,
         workplaceId: number
@@ -331,6 +392,12 @@ export const Workplace = ({
     }
 
     // const keys = Object.keys(values)
+
+    // useEffect(() => {
+    //  setModal(
+    //     <ReleaseLogbookModal
+    //  )
+    // }, [])
 
     const profileCompletion = checkStudentProfileCompletion(values)
 
