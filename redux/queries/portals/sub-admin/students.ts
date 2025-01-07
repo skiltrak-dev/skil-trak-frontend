@@ -618,4 +618,12 @@ export const studentsEndpoints = (
         query: (id) => `twilio-messages/user/${id}`,
         providesTags: ['StudentMessages'],
     }),
+
+    releaseStudentLogbook: builder.mutation<Student, number>({
+        query: (wpId) => ({
+            url: `${PREFIX}/assessment-tool/${wpId}`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
 })

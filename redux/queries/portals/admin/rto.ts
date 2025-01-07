@@ -299,6 +299,14 @@ export const rtoEndpoints = (
         providesTags: ['RTOS'],
     }),
 
+    autoReleaseLogbook: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto/${id}/auto-release-logbook`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
+
     addRtoObserver: builder.mutation<
         any,
         {

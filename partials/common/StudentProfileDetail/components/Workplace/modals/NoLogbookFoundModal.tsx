@@ -5,9 +5,13 @@ import { PiWarningOctagonThin } from 'react-icons/pi'
 import React from 'react'
 import Image from 'next/image'
 
-export const LogbookNotReleasedModal = ({
+export const NoLogbookFoundModal = ({
     onCancel,
+    rto,
+    course,
 }: {
+    rto: string
+    course: string
     onCancel: () => void
 }) => {
     return (
@@ -26,23 +30,22 @@ export const LogbookNotReleasedModal = ({
                     />
                     <div className="mx-auto">
                         <Typography center semibold>
-                            Logbook Not Released
+                            No Logbook Found
                         </Typography>
                     </div>
                 </div>
                 <div>
                     <Typography center>
                         <span className="text-[15px] leading-4 text-center">
-                            The logbook has not been released. Therefore, the
-                            student's placement cannot start. This message will
-                            remain until the logbook is made available.
+                            Please note that no logbook has been found for
+                            Course Name:{' '}
+                            <span className="font-semibold">{course}</span> and
+                            RTO Name:{' '}
+                            <span className="font-semibold">{rto}</span>. Please
+                            contact your Head of Department to upload the
+                            logbook first against the same course and RTO.
                         </span>
                     </Typography>
-                </div>
-
-                {/*  */}
-                <div className="flex justify-center">
-                    <Button text="Release LOGBOOK" />
                 </div>
             </div>
         </GlobalModal>
