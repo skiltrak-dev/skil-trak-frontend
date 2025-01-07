@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { omit } from 'lodash'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 
 // components
-import { Typography, Button, TextInput, Select, UploadFile } from '@components'
+import { Button, Checkbox, Select, TextInput, UploadFile } from '@components'
 // hoc
 import { FileUpload } from '@hoc'
 
 // query
+import { useContextBar, useNotification } from '@hooks'
 import {
-    useGetSubAdminRTOCoursesQuery,
     useCreateRtoAssessmentToolsMutation,
     useUpdateRtoSubAdminAssessmentToolsMutation,
 } from '@queries'
-import { useRouter } from 'next/router'
-import { useContextBar, useNotification } from '@hooks'
 type Props = {
     edit?: boolean
     assessment?: any
@@ -56,13 +54,21 @@ export const AddAssessmentForm = ({ edit, assessment, courses }: Props) => {
     })
 
     const onSubmit = async (values: any) => {
+        console.log({ values })
+        const valuesWithoutFile = omit(values, 'file', 'isLogBook')
+
         const formData = new FormData()
-        formData.append('course', values?.course)
-        formData.append('title', values?.title)
         formData.append('file', fileData)
+        Object.entries(valuesWithoutFile).map(([key, value]) => {
+            formData.append(key, value as string)
+        })
+        if (values?.isLogBook) {
+            formData.append('isLogBook', 'true')
+        }
+
         create(formData)
     }
-    
+
     return (
         <div>
             {/* <Typography variant={'small'} color={'text-gray-500'}>
@@ -92,6 +98,7 @@ export const AddAssessmentForm = ({ edit, assessment, courses }: Props) => {
                             validationIcons
                             required
                         />
+                        <Checkbox name="isLogBook" label={'isLogBook'} />
                         <FileUpload
                             name={'file'}
                             component={UploadFile}
