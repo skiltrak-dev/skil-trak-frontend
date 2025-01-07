@@ -181,21 +181,21 @@ const RTOs: NextPageWithLayout = () => {
         },
     ]
 
-    if (true) {
-        return (
-            <>
-                <div className="flex justify-between items-center">
-                    <PageTitle title={'RTOs'} backTitle={'Users'} />
-                    <div className="flex justify-end mb-2">{filterAction}</div>
-                </div>
-                <EmptyData
-                    title={'No RTO were found!'}
-                    description={'You have not any rto yet'}
-                    height={'50vh'}
-                />
-            </>
-        )
-    }
+    // if (true) {
+    //     return (
+    //         <>
+    //             <div className="flex justify-between items-center">
+    //                 <PageTitle title={'RTOs'} backTitle={'Users'} />
+    //                 <div className="flex justify-end mb-2">{filterAction}</div>
+    //             </div>
+    //             <EmptyData
+    //                 title={'No RTO were found!'}
+    //                 description={'You have not any rto yet'}
+    //                 height={'50vh'}
+    //             />
+    //         </>
+    //     )
+    // }
 
     return (
         <>

@@ -2,25 +2,27 @@ import {
     DisplayAlerts,
     PageTitle,
     PageTitleProps,
+    RedirectRestrictedUsers,
     RedirectUnApprovedUsers,
     SubAdminNavbar,
 } from '@components'
 import { useContextBar, useJoyRide } from '@hooks'
 import { UsersPendingEsignModal } from '@partials/eSign/modal/UsersPendingEsignModal'
-import { CommonApi } from '@queries'
-import { EsignDocumentStatus } from '@utils'
+import { CommonApi, SubAdminApi } from '@queries'
+import { EsignDocumentStatus, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
 import Head from 'next/head'
+import { UserRoles } from '@constants'
 
 interface SubAdminLayoutProps {
     pageTitle?: PageTitleProps
     children: ReactNode
 }
 
-const getRoutePath = `/portals/sub-admin`
+const getBasePath = `/portals/sub-admin`
 const urls = [
     `/students`,
     `/students/[id]/detail`,
@@ -49,7 +51,7 @@ const urls = [
     `/tasks/industry-listing`,
 ]
 
-const redirectUrls = urls?.map((url: string) => `${getRoutePath}${url}`)
+const redirectUrls = urls?.map((url: string) => `${getBasePath}${url}`)
 
 export const SubAdminLayout = ({
     pageTitle,
@@ -61,8 +63,15 @@ export const SubAdminLayout = ({
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const role = getUserCredentials()?.role
+
     const { viewAgreementModal, setViewAgreementModal } = useContextBar()
 
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+        refetchOnMountOrArgChange: true,
+    })
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
         {
             status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
@@ -108,62 +117,93 @@ export const SubAdminLayout = ({
     }, [pendingDocuments, router, viewAgreementModal])
     // const MemoNavbar = React.memo(SubAdminNavbar)
 
+    const getRoutePath = (path: string) => `${getBasePath}${path}`
+
+    const urlsData = {
+        canAccessRtoProfile: [
+            getRoutePath('/users/rtos/[id]'),
+            getRoutePath('/users/rtos/[id]/detail'),
+        ],
+        canViewRtoList: getRoutePath('/users/rtos'),
+    }
+
+    const urls = () => {
+        let updatedUrl: string[] = []
+        if (subadmin?.data && subadmin?.isSuccess) {
+            Object.keys(urlsData as any)?.forEach((key: any) => {
+                if (!(subadmin?.data as any)?.[key]) {
+                    if (Array.isArray((urlsData as any)?.[key])) {
+                        updatedUrl.push(...(urlsData as any)?.[key])
+                    } else {
+                        updatedUrl.push((urlsData as any)?.[key])
+                    }
+                }
+            })
+        }
+        return updatedUrl
+    }
+
     return (
-        <RedirectUnApprovedUsers
-            getRoutePath={getRoutePath}
-            redirectUrls={redirectUrls}
+        <RedirectRestrictedUsers
+            getRoutePath={getBasePath}
+            redirectUrls={urls()}
         >
-            <UserLayout>
-                <>
-                    {modal}
+            <RedirectUnApprovedUsers
+                getRoutePath={getBasePath}
+                redirectUrls={redirectUrls}
+            >
+                <UserLayout>
+                    <>
+                        {modal}
 
-                    <Head>
-                        <title>{pageTitle?.title}</title>
-                    </Head>
+                        <Head>
+                            <title>{pageTitle?.title}</title>
+                        </Head>
 
-                    <div className="px-2 lg:px-8">
-                        <div className="mb-2">
-                            <SubAdminNavbar />
-                            <DisplayAlerts />
-                        </div>
-                        {pageTitle && pageTitle.title && (
-                            <div className="mb-6">
-                                <PageTitle
-                                    title={pageTitle.title}
-                                    navigateBack={pageTitle?.navigateBack}
-                                    backTitle={pageTitle?.backTitle}
-                                />
+                        <div className="px-2 lg:px-8">
+                            <div className="mb-2">
+                                <SubAdminNavbar />
+                                <DisplayAlerts />
                             </div>
+                            {pageTitle && pageTitle.title && (
+                                <div className="mb-6">
+                                    <PageTitle
+                                        title={pageTitle.title}
+                                        navigateBack={pageTitle?.navigateBack}
+                                        backTitle={pageTitle?.backTitle}
+                                    />
+                                </div>
+                            )}
+                            <div>{children}</div>
+                        </div>
+                        {mounted && (
+                            <Joyride
+                                callback={joyride.state.callback}
+                                continuous
+                                run={joyride.state.run}
+                                stepIndex={joyride.state.stepIndex}
+                                steps={joyride.state.steps}
+                                showSkipButton={true}
+                                // hideCloseButton={true}
+                                disableScrollParentFix
+                                disableOverlayClose={true}
+                                hideBackButton={true}
+                                locale={{
+                                    skip: 'Close Tour',
+                                }}
+                                // styles={{
+                                //     options: {
+                                //         arrowColor: theme.black,
+                                //         backgroundColor: theme.black,
+                                //         primaryColor: theme.colors.purple,
+                                //         textColor: theme.white,
+                                //     },
+                                // }}
+                            />
                         )}
-                        <div>{children}</div>
-                    </div>
-                    {mounted && (
-                        <Joyride
-                            callback={joyride.state.callback}
-                            continuous
-                            run={joyride.state.run}
-                            stepIndex={joyride.state.stepIndex}
-                            steps={joyride.state.steps}
-                            showSkipButton={true}
-                            // hideCloseButton={true}
-                            disableScrollParentFix
-                            disableOverlayClose={true}
-                            hideBackButton={true}
-                            locale={{
-                                skip: 'Close Tour',
-                            }}
-                            // styles={{
-                            //     options: {
-                            //         arrowColor: theme.black,
-                            //         backgroundColor: theme.black,
-                            //         primaryColor: theme.colors.purple,
-                            //         textColor: theme.white,
-                            //     },
-                            // }}
-                        />
-                    )}
-                </>
-            </UserLayout>
-        </RedirectUnApprovedUsers>
+                    </>
+                </UserLayout>
+            </RedirectUnApprovedUsers>
+        </RedirectRestrictedUsers>
     )
 }

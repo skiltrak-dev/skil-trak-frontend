@@ -27,6 +27,8 @@ export const useRestricted = (type: RestrictedDataTypes, isAdmin: boolean) => {
                 return 'canViewRtoList'
             case 'canDownloadReport':
                 return 'canDownloadReport'
+            case 'canAccessRtoProfile':
+                return 'canAccessRtoProfile'
 
             default:
                 return null

@@ -50,8 +50,6 @@ export const Actions = ({
 
     const onModalCancelClicked = () => setModal(null)
 
-    console.log('workplace?.student', student)
-
     const onApproveModal = () => {
         if (student?.user?.schedules && student?.user?.schedules?.length > 0) {
             setModal(

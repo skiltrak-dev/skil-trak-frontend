@@ -69,8 +69,6 @@ export const SVGView = ({
 
     const doc = documentSvgData?.data?.data
 
-    console.log({ customFieldsSelectedId })
-
     useEffect(() => {
         if (customFieldsSelectedId < sortedPositions?.length) {
             scrollToPage(

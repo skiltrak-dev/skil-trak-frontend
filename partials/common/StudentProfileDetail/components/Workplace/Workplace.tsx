@@ -227,14 +227,6 @@ export const Workplace = ({
             !workplaceStudentDetail?.isLoading &&
             !workplaceStudentDetail?.isFetching
         ) {
-            console.log({
-                currentStatus:
-                    selectedWorkplace?.currentStatus ===
-                    WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
-                appointmentBooked:
-                    workplaceStudentDetail?.data?.appointmentBooked,
-                workplaceStudentDetail: workplaceStudentDetail,
-            })
             setModal(
                 <BookAppointmentInfoModal
                     onCancel={onCancelModal}

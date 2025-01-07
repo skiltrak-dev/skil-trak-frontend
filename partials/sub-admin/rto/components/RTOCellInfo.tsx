@@ -1,3 +1,4 @@
+import { useIsRestricted, useRestrictedData } from '@components'
 import { InitialAvatar } from '@components/InitialAvatar'
 import { Rto } from '@types'
 import { setLink } from '@utils'
@@ -8,11 +9,16 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const RTOCellInfo = ({ rto }: { rto: Rto }) => {
     const router = useRouter()
+    const canAccessRtoProfile = useIsRestricted('canAccessRtoProfile', false)
+
     return (
         <Link
             legacyBehavior
-            href={`#`}
-            // href={`/portals/sub-admin/users/rtos/${rto?.id}?tab=overview`}
+            href={
+                canAccessRtoProfile
+                    ? `/portals/sub-admin/users/rtos/${rto?.id}?tab=overview`
+                    : '#'
+            }
         >
             <a
                 className="flex items-center gap-x-2 relative z-10"

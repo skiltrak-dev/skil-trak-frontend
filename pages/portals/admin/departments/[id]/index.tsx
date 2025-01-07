@@ -46,8 +46,6 @@ const DepartmentDetail: NextPageWithLayout = () => {
         filteredDataLength,
     } = useDepartmentDetailContext()
 
-    console.log({ departmentDetail })
-
     return (
         <div className="mx-5 my-8">
             <div className="mb-5">
