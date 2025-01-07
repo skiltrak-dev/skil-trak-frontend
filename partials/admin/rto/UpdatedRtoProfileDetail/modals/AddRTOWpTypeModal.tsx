@@ -53,13 +53,17 @@ export const AddRTOWpTypeModal = ({
                 onConfirmClick={onConfirm}
                 loading={addResult?.isLoading}
             >
-                <Select
-                    name="wpTypes"
-                    options={wpTypesOptions}
-                    multi
-                    onlyValue
-                    onChange={(e: number[]) => setSelectedTypes(e)}
-                />
+                <div className="max-w-3xl w-full">
+                    <Select
+                        name="wpTypes"
+                        options={wpTypesOptions}
+                        multi
+                        loading={wpTypes?.isLoading}
+                        disabled={wpTypes?.isLoading}
+                        onlyValue
+                        onChange={(e: number[]) => setSelectedTypes(e)}
+                    />
+                </div>
             </Modal>
         </>
     )

@@ -33,7 +33,6 @@ export const ESignTitleCard = ({
         industryUser?.user?.role || ''
     })`
 
-    console.log({ bankaDoc: doc })
     return (
         <div
             onClick={() => {
