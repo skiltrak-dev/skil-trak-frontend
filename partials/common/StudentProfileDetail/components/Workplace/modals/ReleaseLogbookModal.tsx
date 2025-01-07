@@ -8,7 +8,7 @@ import {
 } from '@components'
 import { SubAdminApi } from '@queries'
 import { useNotification } from '@hooks'
-import { Course, Rto } from '@types'
+import { AssessmentToolsType, Course, Rto } from '@types'
 import { useAssessmentDocumentsView } from '../../AssessmentsSubmission'
 
 export const ReleaseLogbookModal = ({
@@ -107,28 +107,37 @@ export const ReleaseLogbookModal = ({
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-primaryNew-dark rounded-[5px] flex justify-between items-center px-5 py-2.5">
-                            <Typography
-                                variant="small"
-                                medium
-                                color="text-white"
-                            >
-                                {file?.title}
-                            </Typography>
-                            <Button
-                                text="View Document"
-                                onClick={() =>
-                                    onFileClicked({
-                                        ...file,
-                                        file: file?.file
-                                            .replaceAll('{"', '')
-                                            .replaceAll('"}', ''),
-                                        extension,
-                                        type: 'all',
-                                        showEdit: false,
-                                    })
-                                }
-                            />
+                        <div className="mt-3 flex flex-col gap-y-3">
+                            {rto?.assessmentTools?.map(
+                                (assessmentTool: AssessmentToolsType) => (
+                                    <div className=" bg-primaryNew-dark rounded-[5px] flex justify-between items-center px-5 py-2.5">
+                                        <Typography
+                                            variant="small"
+                                            medium
+                                            color="text-white"
+                                        >
+                                            {assessmentTool?.title}
+                                        </Typography>
+                                        <Button
+                                            text="View Document"
+                                            onClick={() =>
+                                                onFileClicked({
+                                                    ...assessmentTool,
+                                                    file: assessmentTool?.file
+                                                        .replaceAll('{"', '')
+                                                        .replaceAll('"}', ''),
+                                                    extension:
+                                                        assessmentTool?.file
+                                                            ?.split('.')
+                                                            .pop(),
+                                                    type: 'all',
+                                                    showEdit: false,
+                                                })
+                                            }
+                                        />
+                                    </div>
+                                )
+                            )}
                         </div>
                     </div>
                     <div className="flex justify-center">
