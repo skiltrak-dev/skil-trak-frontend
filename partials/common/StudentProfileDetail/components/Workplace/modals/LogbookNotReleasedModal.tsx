@@ -9,7 +9,7 @@ import {
 } from '@components'
 import { useNotification } from '@hooks'
 import { useAssessmentDocumentsView } from '../../AssessmentsSubmission'
-import { Rto } from '@types'
+import { AssessmentToolsType, Rto } from '@types'
 
 export const LogbookNotReleasedModal = ({
     onCancel,
@@ -38,18 +38,6 @@ export const LogbookNotReleasedModal = ({
         }
     }
 
-    const file = rto?.assessmentTools?.[0]
-
-    let fileName = file ? file?.file?.split('\\') : ''
-    if (fileName?.length === 1) {
-        fileName = file?.file?.split('/')
-
-        if (fileName.length > 1) {
-            fileName = fileName[fileName?.length - 1]
-        }
-    }
-
-    const extension = file?.file?.split('.')?.reverse()[0]
     return (
         <>
             {documentsViewModal}
@@ -82,28 +70,38 @@ export const LogbookNotReleasedModal = ({
                                 released for the student.
                             </span>
                         </Typography>
-                        <div className="mt-3 bg-primaryNew-dark rounded-[5px] flex justify-between items-center px-5 py-2.5">
-                            <Typography
-                                variant="small"
-                                medium
-                                color="text-white"
-                            >
-                                {file?.title}
-                            </Typography>
-                            <Button
-                                text="View Document"
-                                onClick={() =>
-                                    onFileClicked({
-                                        ...file,
-                                        file: file?.file
-                                            .replaceAll('{"', '')
-                                            .replaceAll('"}', ''),
-                                        extension,
-                                        type: 'all',
-                                        showEdit: false,
-                                    })
-                                }
-                            />
+
+                        <div className="mt-3 flex flex-col gap-y-3">
+                            {rto?.assessmentTools?.map(
+                                (assessmentTool: AssessmentToolsType) => (
+                                    <div className=" bg-primaryNew-dark rounded-[5px] flex justify-between items-center px-5 py-2.5">
+                                        <Typography
+                                            variant="small"
+                                            medium
+                                            color="text-white"
+                                        >
+                                            {assessmentTool?.title}
+                                        </Typography>
+                                        <Button
+                                            text="View Document"
+                                            onClick={() =>
+                                                onFileClicked({
+                                                    ...assessmentTool,
+                                                    file: assessmentTool?.file
+                                                        .replaceAll('{"', '')
+                                                        .replaceAll('"}', ''),
+                                                    extension:
+                                                        assessmentTool?.file
+                                                            ?.split('.')
+                                                            .pop(),
+                                                    type: 'all',
+                                                    showEdit: false,
+                                                })
+                                            }
+                                        />
+                                    </div>
+                                )
+                            )}
                         </div>
                     </div>
 
