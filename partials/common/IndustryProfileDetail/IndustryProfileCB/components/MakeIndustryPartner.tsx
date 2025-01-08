@@ -33,12 +33,20 @@ export const MakeIndustryPartner = ({
     const onCancelClicked = () => setModal(null)
 
     const onAddPartner = () => {
-        setModal(
-            <AddToPartnerModal
-                industry={industryId}
-                onCancel={onCancelClicked}
-            />
-        )
+        // setModal(
+        //     <AddToPartnerModal
+        //         industry={industryId}
+        //         onCancel={onCancelClicked}
+        //     />
+        // )
+        addToPartner({ industry: industryId })?.then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: 'Industry Added as Partner',
+                    description: 'Industry Added as Partner Successfully',
+                })
+            }
+        })
     }
 
     const onRemovePartner = () => {
