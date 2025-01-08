@@ -273,7 +273,8 @@ export const Workplace = ({
                 WorkplaceCurrentStatus.PlacementStarted &&
             !selectedWorkplace?.isLogBookReleased &&
             workplaceStudentDetail?.data?.rto?.assessmentTools?.length > 0 &&
-            workplaceStudentDetail?.data
+            workplaceStudentDetail?.data &&
+            workplaceStudentDetail?.data?.rto?.autoReleaseLogBook
         ) {
             setModal(
                 <LogbookNotReleasedModal
@@ -292,7 +293,8 @@ export const Workplace = ({
                 WorkplaceCurrentStatus.AgreementSigned &&
             !selectedWorkplace?.isLogBookReleased &&
             workplaceStudentDetail?.data?.rto?.assessmentTools?.length > 0 &&
-            workplaceStudentDetail?.data
+            workplaceStudentDetail?.data &&
+            workplaceStudentDetail?.data?.rto?.autoReleaseLogBook
         ) {
             setModal(
                 <ReleaseLogbookModal
@@ -312,7 +314,8 @@ export const Workplace = ({
                 WorkplaceCurrentStatus.AgreementSigned &&
             !selectedWorkplace?.isLogBookReleased &&
             !workplaceStudentDetail?.data?.rto?.assessmentTools?.length &&
-            workplaceStudentDetail?.data
+            workplaceStudentDetail?.data &&
+            workplaceStudentDetail?.data?.rto?.autoReleaseLogBook
         ) {
             setModal(
                 <NoLogbookFoundModal

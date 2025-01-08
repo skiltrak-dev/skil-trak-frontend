@@ -279,6 +279,7 @@ export const FutureIndustrySignUpForm = ({
     }
 
     const onHandleSubmit = (values: any) => {
+        console.log({ values })
         let questions: {
             [key: string]: any
         }[] = []
@@ -286,7 +287,8 @@ export const FutureIndustrySignUpForm = ({
         Object.entries(industryQuestions).forEach(([key, value]: any) => {
             if (
                 key !== IndustryQuestionsEnum.SECTORS_BASE_CAPACITY &&
-                key !== IndustryQuestionsEnum.TRAINING
+                key !== IndustryQuestionsEnum.TRAINING &&
+                key !== IndustryQuestionsEnum.APPLICATIONS
             ) {
                 questions.push({
                     question: value,
@@ -305,6 +307,17 @@ export const FutureIndustrySignUpForm = ({
             questions.push({
                 question: industryQuestions[IndustryQuestionsEnum.TRAINING],
                 answer: values?.training,
+            })
+        }
+        if (values?.Applications === 'yes') {
+            questions.push({
+                question: industryQuestions[IndustryQuestionsEnum.APPLICATIONS],
+                answer: values?.applicationDetail || values?.Applications,
+            })
+        } else if (values?.Applications === 'no') {
+            questions.push({
+                question: industryQuestions[IndustryQuestionsEnum.APPLICATIONS],
+                answer: values?.Applications,
             })
         }
 

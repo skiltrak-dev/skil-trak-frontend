@@ -1,11 +1,11 @@
-import { ReactElement } from 'react'
-import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { FutureIndustrySignUpForm } from '@partials/common'
-import { AdminApi, CommonApi } from '@queries'
-import { useRouter } from 'next/router'
 import { ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
+import { AdminLayout } from '@layouts'
+import { FutureIndustrySignUpForm } from '@partials/common'
+import { CommonApi } from '@queries'
+import { NextPageWithLayout } from '@types'
+import { useRouter } from 'next/router'
+import { ReactElement } from 'react'
 
 const SignUpFutureIndustryPage: NextPageWithLayout = () => {
     const router = useRouter()
@@ -16,6 +16,8 @@ const SignUpFutureIndustryPage: NextPageWithLayout = () => {
         CommonApi.Industries.useRegisterByFutureIndustry()
 
     const onSubmit = (values: any) => {
+        console.log({ values })
+        return
         register({
             ...values,
             role: 'industry',

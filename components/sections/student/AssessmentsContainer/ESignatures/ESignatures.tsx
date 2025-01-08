@@ -1,47 +1,49 @@
+import { useState, useEffect, useMemo } from 'react'
+import { CommonApi } from '@queries'
+import { ESignTitleCards } from './ESignTitleCards'
+import { SignersStatus, WorkplaceAgreementDetail } from './components'
+import { PuffLoader } from 'react-spinners'
 import { Card, NoData } from '@components'
-import UnderConstruction from '@pages/under-construction'
 import { getUserCredentials } from '@utils'
-import { useState } from 'react'
-import { SignersStatus } from './components'
+import { UserRoles } from '@constants'
 
 type Props = {}
 
 export const ESignatures = (props: Props) => {
-    return <UnderConstruction />
     const [selectedFolder, setSelectedFolder] = useState<any>(null)
 
-    // const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
-    //     {},
-    //     {
-    //         refetchOnMountOrArgChange: true,
-    //     }
-    // )
+    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
+        {},
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
     const role = getUserCredentials()?.role
 
-    // const otherAllUserSigned = useMemo(
-    //     () =>
-    //         pendingDocuments?.data?.filter((agreement: any) =>
-    //             agreement.signers
-    //                 ?.filter((signer: any) => signer?.user?.role !== 'rto')
-    //                 ?.every((signer: any) => signer.status === 'signed')
-    //         ),
-    //     [pendingDocuments?.data]
-    // )
+    const otherAllUserSigned = useMemo(
+        () =>
+            pendingDocuments?.data?.filter((agreement: any) =>
+                agreement.signers
+                    ?.filter((signer: any) => signer?.user?.role !== 'rto')
+                    ?.every((signer: any) => signer.status === 'signed')
+            ),
+        [pendingDocuments?.data]
+    )
 
-    // useEffect(() => {
-    //     if (
-    //         pendingDocuments.isSuccess &&
-    //         pendingDocuments?.data &&
-    //         pendingDocuments?.data?.length > 0
-    //     ) {
-    //         if (role === UserRoles.RTO) {
-    //             setSelectedFolder(otherAllUserSigned?.[0])
-    //         } else {
-    //             setSelectedFolder(pendingDocuments?.data?.[0])
-    //         }
-    //     }
-    // }, [pendingDocuments, otherAllUserSigned])
+    useEffect(() => {
+        if (
+            pendingDocuments.isSuccess &&
+            pendingDocuments?.data &&
+            pendingDocuments?.data?.length > 0
+        ) {
+            if (role === UserRoles.RTO) {
+                setSelectedFolder(otherAllUserSigned?.[0])
+            } else {
+                setSelectedFolder(pendingDocuments?.data?.[0])
+            }
+        }
+    }, [pendingDocuments, otherAllUserSigned])
 
     return (
         <>
@@ -50,7 +52,7 @@ export const ESignatures = (props: Props) => {
                 <div className="w-full lg:w-[33%]">
                     <Card noPadding>
                         <div className="lg:min-h-[370px]">
-                            {/* {pendingDocuments.isError && (
+                            {pendingDocuments.isError && (
                                 <NoData
                                     text={'There is some technical issue!'}
                                 />
@@ -73,7 +75,7 @@ export const ESignatures = (props: Props) => {
                                 pendingDocuments.isSuccess && (
                                     <NoData text="There is no document list" />
                                 )
-                            )} */}
+                            )}
                         </div>
                     </Card>
                 </div>
