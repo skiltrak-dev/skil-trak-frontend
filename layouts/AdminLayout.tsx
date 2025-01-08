@@ -317,11 +317,11 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             path: getRoutePath('/e-mails?tab=all-mails'),
             Icon: MdEmail,
         },
-        // {
-        //     text: 'Notes Templates',
-        //     path: getRoutePath('/note-template'),
-        //     Icon: FaRegNoteSticky,
-        // },
+        {
+            text: 'Notes Templates',
+            path: getRoutePath('/note-template'),
+            Icon: FaRegNoteSticky,
+        },
         {
             text: 'Notifications',
             path: getRoutePath('/all-notifications'),

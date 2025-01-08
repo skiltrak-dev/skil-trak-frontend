@@ -340,29 +340,6 @@ export const StudentScheduleEndedList = () => {
             ),
         },
         {
-            accessorKey: 'remainingDays',
-            header: () => <span>Remaining Days</span>,
-            cell: ({ row }) => (
-                <div>
-                    {row.original?.user?.schedules?.map(
-                        (schedule: any, index: number) => {
-                            const endDate = moment(schedule?.endDate)
-                            const startDate = moment(schedule?.startDate)
-                            const remainingDays = endDate.diff(
-                                startDate,
-                                'days'
-                            )
-                            return (
-                                <p key={index} className="whitespace-nowrap">
-                                    {remainingDays ?? 'NA'}
-                                </p>
-                            )
-                        }
-                    )}
-                </div>
-            ),
-        },
-        {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: (info) => <SectorCell student={info.row.original} />,

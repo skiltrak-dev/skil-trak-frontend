@@ -15,11 +15,11 @@ export const NoteTemplateFilter = ({
             <SetQueryFilters<NoteTemplateFilterFilterType> filter={filter} />
             <div className="flex gap-x-2">
                 <TextInput
-                    name="name"
-                    label={'Name'}
-                    placeholder={'Search by Name ...'}
+                    name="subject"
+                    label={'Subject'}
+                    placeholder={'Search by Subject ...'}
                     onChange={(e: any) => {
-                        onFilterChange({ ...filter, name: e.target.value })
+                        onFilterChange({ ...filter, subject: e.target.value })
                     }}
                 />
             </div>

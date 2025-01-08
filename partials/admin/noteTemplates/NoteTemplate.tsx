@@ -24,8 +24,9 @@ import { getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { DeleteNoteTemplateModal } from './modals'
+import { ContentViewModal } from './components'
 
-const filterKeys = ['title']
+const filterKeys = ['subject']
 
 export const NoteTemplate = () => {
     const router = useRouter()
@@ -39,14 +40,6 @@ export const NoteTemplate = () => {
     const [filter, setFilter] = useState<NoteTemplateFilterFilterType>(
         {} as NoteTemplateFilterFilterType
     )
-
-    useEffect(() => {
-        const query = getFilterQuery<NoteTemplateFilterFilterType>({
-            router,
-            filterKeys,
-        })
-        setFilter(query as NoteTemplateFilterFilterType)
-    }, [router])
 
     const { isLoading, data, isError, isFetching } =
         AdminApi.NotesTemplates.notesTemplates({
@@ -67,6 +60,16 @@ export const NoteTemplate = () => {
         setModal(
             <DeleteNoteTemplateModal
                 noteTemplate={noteTemplate}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onContentViewClicked = (content: string, type: string) => {
+        setModal(
+            <ContentViewModal
+                type={type}
+                content={content}
                 onCancel={() => onModalCancelClicked()}
             />
         )
@@ -96,15 +99,49 @@ export const NoteTemplate = () => {
 
     const columns: ColumnDef<any>[] = [
         {
-            accessorKey: 'name',
+            accessorKey: 'subject',
             cell: (info) => (
                 <div className="relative group ">
                     <Typography variant="label" color="text-gray-800">
-                        {info.row.original?.name}
+                        {info.row.original?.subject}
                     </Typography>
                 </div>
             ),
-            header: () => <span>Name</span>,
+            header: () => <span>Subject</span>,
+        },
+        {
+            accessorKey: 'subject',
+            cell: (info) => (
+                <ActionButton
+                    onClick={() => {
+                        onContentViewClicked(
+                            info?.row?.original?.successContent,
+                            'Success'
+                        )
+                    }}
+                    variant="info"
+                >
+                    View
+                </ActionButton>
+            ),
+            header: () => <span>Success Content</span>,
+        },
+        {
+            accessorKey: 'subject',
+            cell: (info) => (
+                <ActionButton
+                    onClick={() => {
+                        onContentViewClicked(
+                            info?.row?.original?.failureContent,
+                            'Failure'
+                        )
+                    }}
+                    variant="info"
+                >
+                    View
+                </ActionButton>
+            ),
+            header: () => <span>Failure Content</span>,
         },
         {
             accessorKey: 'action',

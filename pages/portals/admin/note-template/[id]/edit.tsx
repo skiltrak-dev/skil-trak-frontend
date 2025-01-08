@@ -6,14 +6,19 @@ import { NoteTemplateForm } from '@partials'
 import {
     BackButton,
     Card,
+    draftToHtmlText,
     LoadingAnimation,
     Popup,
     ShowErrorNotifications,
 } from '@components'
 import { PageHeading } from '@components/headings'
+import { useNotification } from '@hooks'
 
 const EditNoteTemplate = () => {
     const router = useRouter()
+
+    const { notification } = useNotification()
+
     const detail = AdminApi.NotesTemplates.notesTemplateDetail(
         Number(router.query?.id),
         {
@@ -22,8 +27,31 @@ const EditNoteTemplate = () => {
     )
     const [update, updateResult] = AdminApi.NotesTemplates.updateNoteTemplate()
 
-    const onSubmit = (values:any) => {
-        
+    const onSubmit = async (values: any) => {
+        console.log({ values })
+        let successContent = ''
+        let failureContent = ''
+        if (values?.successContent) {
+            successContent = draftToHtmlText(values?.successContent)
+        }
+        if (values?.failureContent) {
+            failureContent = draftToHtmlText(values?.failureContent)
+        }
+
+        const res: any = await update({
+            ...values,
+            id: Number(router.query?.id),
+            successContent,
+            failureContent,
+        })
+
+        if (res?.data) {
+            notification.success({
+                title: 'Note Template Added',
+                description: 'Note Template Added Successfully',
+            })
+            router.back()
+        }
     }
     return (
         <div className="p-6 flex flex-col gap-y-4">
@@ -33,7 +61,7 @@ const EditNoteTemplate = () => {
                 title="Edit Workplace Type"
                 subtitle={`You are editing a Workplace Type`}
             ></PageHeading>
-            <Card>
+            <div>
                 {detail?.data && !detail?.isLoading ? (
                     updateResult.isLoading || updateResult.isSuccess ? (
                         <Popup
@@ -52,7 +80,7 @@ const EditNoteTemplate = () => {
                 ) : (
                     <LoadingAnimation />
                 )}
-            </Card>
+            </div>
         </div>
     )
 }
