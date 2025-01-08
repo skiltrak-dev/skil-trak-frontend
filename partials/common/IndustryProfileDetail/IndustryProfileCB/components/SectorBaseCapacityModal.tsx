@@ -313,18 +313,19 @@ export const SectorBaseCapacityModal = ({
                             {prevIndCapacity}
                         </Typography>
                     </div>
-                    <div className="space-y-4">
-                        <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-                            <div className="flex items-center gap-2">
-                                <Typography variant="label">Sector</Typography>
-                            </div>
-                            <Typography variant="label">
-                                Capacity / Enrolled
-                            </Typography>
-                        </div>
-
+                    <div className="space-y-4 mt-2">
                         {isEditing ? (
                             <>
+                                <div className="flex justify-between items-center pb-2 border-b border-gray-200">
+                                    <div className="flex items-center gap-2">
+                                        <Typography variant="label">
+                                            Sector
+                                        </Typography>
+                                    </div>
+                                    <Typography variant="label">
+                                        Capacity / Enrolled
+                                    </Typography>
+                                </div>
                                 <div className="flex items-center gap-2">
                                     <div className=" ">
                                         <CircleAlert className="text-red-400" />
