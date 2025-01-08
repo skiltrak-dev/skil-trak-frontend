@@ -87,44 +87,6 @@ export const StudentScheduleEndedList = () => {
         )
     const sevenDaysAgo = new Date()
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
-    // const hasMatchingIndustry = data?.data?.map((student: any) => {
-    //     return (
-    //         student &&
-    //         student?.workplace?.filter((workplace: any) =>
-    //             workplace?.industries?.filter((industry: any) => {
-    //                 const awaitingAgreementSignedDate = new Date(
-    //                     industry?.awaitingAgreementSignedDate
-    //                 )
-    //                 const isMoreThanSevenDays =
-    //                     awaitingAgreementSignedDate <= sevenDaysAgo
-    //                 const isAwaitingAgreementSigned =
-    //                     industry?.awaitingAgreementSigned
-    //                 const agreementSigned = !industry?.AgreementSigned
-    //                 const isAgreementNotSigned =
-    //                     industry?.AgreementSignedDate === null
-
-    //                 return {
-    //                     isMatching:
-    //                         industry?.applied &&
-    //                         isAwaitingAgreementSigned &&
-    //                         isAgreementNotSigned &&
-    //                         agreementSigned &&
-    //                         isMoreThanSevenDays,
-    //                     id: student?.id,
-    //                 }
-    //             })
-    //         )
-    //     )
-    // })
-    // const industryIds = hasMatchingIndustry?.flat(1).map((item: any) => item)
-
-    const findWorkplaces = data?.data.filter(
-        (student: any) => student?.workplace?.length
-    )
-    // .filter((workplace: any) => workplace?.industries?.length)
-    const hasMatchingIndustry = findWorkplaces?.filter(
-        (workplace: any) => workplace?.industries?.length
-    )
 
     // ================= Blinking/Flashing rows of students ================
     const activeAndCompleted = data?.data?.filter((student: any) => {
@@ -222,76 +184,6 @@ export const StudentScheduleEndedList = () => {
             )
         }
     )
-    // ============================= END ====================================
-
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-    const onAssignStudentClicked = (student: Student) => {
-        setModal(
-            <AssignStudentModal
-                student={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onNonContactableStudents = (student: Student) => {
-        setModal(
-            <AddToNonContactableStudents
-                student={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStudentStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onDateClick = (student: Student) => {
-        setModal(
-            <EditTimer
-                studentId={student?.user?.id}
-                date={student?.expiryDate}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onBlockClicked = (student: Student) => {
-        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
-    }
-    const onMarkAsHighPriorityClicked = (studetnt: Student) => {
-        setModal(
-            <HighPriorityModal
-                item={studetnt}
-                onCancel={onModalCancelClicked}
-                // setRefetchStudents={setRefetchStudents}
-            />
-        )
-    }
-
-    const onInterviewClicked = (student: Student) => {
-        setModal(
-            <InterviewModal
-                student={student}
-                onCancel={onModalCancelClicked}
-                workplace={Number(student?.workplace[0]?.id)}
-                workIndustry={Number(
-                    getStudentWorkplaceAppliedIndustry(
-                        student?.workplace[0]
-                            ?.industries as WorkplaceWorkIndustriesType[]
-                    )?.id
-                )}
-            />
-        )
-    }
 
     const tableActionOptions = (student: any) => {
         return [
@@ -370,34 +262,9 @@ export const StudentScheduleEndedList = () => {
             ),
         },
         {
-            accessorKey: 'remainingDays',
-            header: () => <span>Remaining Days</span>,
-            cell: ({ row }) => (
-                <div>
-                    {row.original?.user?.schedules?.map(
-                        (schedule: any, index: number) => {
-                            const endDate = moment(schedule?.endDate)
-                            const startDate = moment(schedule?.startDate)
-                            const remainingDays = endDate.diff(
-                                startDate,
-                                'days'
-                            )
-                            return (
-                                <p key={index} className="whitespace-nowrap">
-                                    {remainingDays ?? 'NA'}
-                                </p>
-                            )
-                        }
-                    )}
-                </div>
-            ),
-        },
-        {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => {
-                return <SectorCell student={row.original} />
-            },
+            cell: ({ row }: any) => <SectorCell student={row.original} />,
         },
 
         {

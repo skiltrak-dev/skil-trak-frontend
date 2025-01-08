@@ -61,6 +61,7 @@ const DepartmentDetail: NextPageWithLayout = () => {
                 <HodProfileDetail
                     subadmin={hodDetails}
                     deptEmail={departmentDetail?.data?.email}
+                    deptName={departmentDetail?.data?.name}
                 />
             ) : departmentDetail.isSuccess ? (
                 <EmptyData description="No Department Detail were found!" />

@@ -18,7 +18,9 @@ import { SubAdmin } from '@types'
 export const HodProfileDetail = ({
     subadmin,
     deptEmail,
+    deptName,
 }: {
+    deptName: string
     deptEmail: string
     subadmin: SubAdmin
 }) => {
@@ -102,6 +104,7 @@ export const HodProfileDetail = ({
             <AddDepartmentEmailModal
                 onCancel={onModalCancelClicked}
                 departmentId={Number(id)}
+                {...{ deptName, deptEmail }}
             />
         )
     }
@@ -184,7 +187,7 @@ export const HodProfileDetail = ({
                                     onClick={onAddMembers}
                                 />
                                 <Button
-                                    text={'Change Dept Email'}
+                                    text={'Change Dept Details'}
                                     variant="success"
                                     onClick={handleAddDepartmentMail}
                                 />

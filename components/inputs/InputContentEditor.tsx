@@ -1,5 +1,4 @@
 import { Controller, useFormContext } from 'react-hook-form'
-
 import dynamic from 'next/dynamic'
 import { EditorProps } from 'react-draft-wysiwyg'
 const Editor = dynamic<EditorProps>(
@@ -12,18 +11,17 @@ const Editor = dynamic<EditorProps>(
 const htmlToDraft =
     typeof window === 'object' && require('html-to-draftjs').default
 
+import { InputErrorMessage } from '@components/inputs/components'
 import { Typography } from '@components/Typography'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import { useEffect } from 'react'
+import { htmltotext } from '@utils'
 import {
     ContentState,
     EditorState,
     convertFromHTML,
     convertToRaw,
 } from 'draft-js'
-import { InputErrorMessage } from '@components/inputs/components'
 import draftToHtml from 'draftjs-to-html'
-import { htmltotext } from '@utils'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 export const draftToHtmlText = (draftText: EditorState) => {
     let content = ''

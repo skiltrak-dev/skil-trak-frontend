@@ -1,12 +1,17 @@
-import { draftToHtmlText } from '@components'
-import { useNavbar } from '@hooks'
+import { draftToHtmlText, ShowErrorNotifications } from '@components'
+import { useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NoteTemplateForm } from '@partials'
 import React, { ReactElement, useEffect } from 'react'
 import { AdminApi } from '@queries'
+import { useRouter } from 'next/router'
 
 const AddNoteTemplate = () => {
     const navBar = useNavbar()
+
+    const router = useRouter()
+
+    const { notification } = useNotification()
 
     const [add, addResult] = AdminApi.NotesTemplates.addNoteTemplate()
 
@@ -14,28 +19,35 @@ const AddNoteTemplate = () => {
         navBar.setTitle('Add Notes Templates')
     }, [])
 
-    const onSubmit = (data: any) => {
-        let content = ''
-        if (data?.content) {
-            content = draftToHtmlText(data?.content)
+    const onSubmit = async (values: any) => {
+        let successContent = ''
+        let failureContent = ''
+        if (values?.successContent) {
+            successContent = draftToHtmlText(values?.successContent)
         }
-        const formData = new FormData()
-        const { attachment, subject, ...rest } = data
-        Object.entries(rest)?.forEach(([key, value]: any) => {
-            formData.append(key, value)
+        if (values?.failureContent) {
+            failureContent = draftToHtmlText(values?.failureContent)
+        }
+
+        const res: any = await add({
+            ...values,
+            successContent,
+            failureContent,
         })
-        attachment &&
-            attachment?.length > 0 &&
-            attachment?.forEach((attached: File) => {
-                formData.append('attachment', attached)
+
+        if (res?.data) {
+            notification.success({
+                title: 'Note Template Added',
+                description: 'Note Template Added Successfully',
             })
-        formData.append('subject', subject)
-        formData.append('content', content)
+            router.back()
+        }
 
         // createNewDraft(formData)
     }
     return (
         <div className="p-4">
+            <ShowErrorNotifications result={addResult} />
             <NoteTemplateForm onSubmit={onSubmit} result={addResult} />
         </div>
     )

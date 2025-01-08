@@ -1,13 +1,19 @@
 import {
     Button,
     Card,
+    htmlToDraftText,
     InputContentEditor,
+    inputEditorErrorMessage,
+    Select,
     TextInput,
     Typography,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { NotesTemplateType } from '../enum'
+import { useEffect, useState } from 'react'
+import { OptionType } from '@types'
 type Props = {
     onSubmit: (values: any) => void
     edit?: boolean
@@ -21,27 +27,43 @@ export const NoteTemplateForm = ({
     result,
     initialValues,
 }: Props) => {
+    const [selectedType, setSelectedType] = useState<string | null>(null)
+
     const validationSchema = yup.object().shape({
+        type: yup.string().required('Type is required'),
         subject: yup.string().required('Subject is required'),
-        // content: yup.object()
-        //     .test(
-        //         'has text',
-        //         'Cannot save an empty note',
-        //         (value: any) => {
-        //             let content = ''
-        //             if (!value?.content) {
-        //                 content = draftToHtml(
-        //                     convertToRaw(value?.content?.getCurrentContent())
-        //                 )
-        //             }
-        //         }
-        //     ).required('This field is required.'),
+        successContent: yup
+            .mixed()
+            .test('Message', 'Must Provide Success Message', (value) =>
+                inputEditorErrorMessage(value)
+            ),
+        failureContent: yup
+            .mixed()
+            .test('Message', 'Must Provide Failure Message', (value) =>
+                inputEditorErrorMessage(value)
+            ),
     })
 
     const formMethods = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
+        defaultValues: {
+            subject: initialValues?.subject,
+            type: initialValues?.type,
+            successContent: htmlToDraftText(initialValues?.successContent),
+            failureContent: htmlToDraftText(initialValues?.failureContent),
+        },
     })
+
+    useEffect(() => {
+        if (initialValues) {
+            setSelectedType(initialValues?.type)
+        }
+    }, [initialValues])
+
+    const typeOptions = Object.entries(NotesTemplateType).map(
+        ([label, value]) => ({ label, value })
+    )
 
     return (
         <>
@@ -55,12 +77,33 @@ export const NoteTemplateForm = ({
                         className="flex flex-col"
                         onSubmit={formMethods.handleSubmit(onSubmit)}
                     >
+                        <Select
+                            name="type"
+                            options={typeOptions}
+                            label={'Select Type'}
+                            placeholder="Select Type"
+                            onlyValue
+                            value={typeOptions?.find(
+                                (type: OptionType) =>
+                                    type?.value === selectedType
+                            )}
+                            onChange={(e: string) => {
+                                setSelectedType(e)
+                            }}
+                        />
                         <TextInput
                             label={'Subject'}
                             name={'subject'}
                             placeholder="Subject"
                         />
-                        <InputContentEditor name="content" />
+                        <InputContentEditor
+                            name="successContent"
+                            label="Success Content"
+                        />
+                        <InputContentEditor
+                            name="failureContent"
+                            label="Failure Content"
+                        />
 
                         <Button
                             disabled={result?.isLoading}

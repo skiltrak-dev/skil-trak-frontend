@@ -1,3 +1,3 @@
 export interface NoteTemplateFilterFilterType {
-    name: string
+    subject: string
 }

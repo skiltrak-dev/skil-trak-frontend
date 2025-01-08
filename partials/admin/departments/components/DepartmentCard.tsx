@@ -33,6 +33,7 @@ interface DepartmentMember {
 interface Department {
     id: number
     name: string
+    email: string
     membersCount: number
     courseCount: number
     departmentMembers: DepartmentMember[]
@@ -93,6 +94,8 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
     const handleAddDepartmentMail = () => {
         setModal(
             <AddDepartmentEmailModal
+                deptEmail={department?.email}
+                deptName={department?.name}
                 onCancel={onCancel}
                 departmentId={department?.id}
             />
@@ -107,7 +110,7 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
             className: 'text-blue-600',
         },
         {
-            text: 'Add Mail',
+            text: 'Update Department Detail',
             Icon: FaEye,
             onClick: handleAddDepartmentMail,
             className: 'text-blue-600',
@@ -134,7 +137,7 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
                         onClick={() => handleViewDetails()}
                         className="cursor-pointer bg-primaryNew whitespace-nowrap min-w-[272px] rounded-lg p-5 flex items-start gap-x-5"
                     >
-                        <div className="flex flex-col gap-y-1.5 items-start">
+                        <div className="flex flex-col gap-y-1 items-start">
                             <Typography
                                 variant="xs"
                                 uppercase
@@ -142,13 +145,18 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
                             >
                                 Department Name
                             </Typography>
-                            <Typography
-                                variant="title"
-                                capitalize
-                                color="text-white"
-                            >
-                                {department?.name ?? 'NA'}
-                            </Typography>
+                            <div>
+                                <Typography
+                                    variant="title"
+                                    capitalize
+                                    color="text-white"
+                                >
+                                    {department?.name ?? 'NA'}
+                                </Typography>
+                                <Typography variant="small" color="text-white">
+                                    {department?.email ?? 'NA'}
+                                </Typography>
+                            </div>
                         </div>
                     </div>
                     <div className="flex items-center gap-x-2.5 w-full py-2">

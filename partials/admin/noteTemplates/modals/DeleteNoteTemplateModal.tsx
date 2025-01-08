@@ -9,7 +9,7 @@ export const DeleteNoteTemplateModal = ({
     onCancel,
 }: {
     noteTemplate: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] = AdminApi.NotesTemplates.removeNoteTemplate()
@@ -32,7 +32,7 @@ export const DeleteNoteTemplateModal = ({
                 Icon={FaTrash}
                 variant="error"
                 title="Are you sure!"
-                description={`You are about to delete "${noteTemplate?.name}". Do you wish to continue?`}
+                description={`You are about to delete "${noteTemplate?.subject}". Do you wish to continue?`}
                 onConfirm={onConfirmClicked}
                 onCancel={onCancel}
                 input
