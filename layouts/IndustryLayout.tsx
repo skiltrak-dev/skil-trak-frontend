@@ -69,14 +69,14 @@ export const IndustryLayout = ({
 
     const { viewAgreementModal, setViewAgreementModal } = useContextBar()
 
-    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
-        {
-            status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
-        },
-        {
-            refetchOnMountOrArgChange: true,
-        }
-    )
+    // const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
+    //     {
+    //         status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
+    //     },
+    //     {
+    //         refetchOnMountOrArgChange: true,
+    //     }
+    // )
 
     useEffect(() => {
         if (
@@ -88,38 +88,38 @@ export const IndustryLayout = ({
         }
     }, [router])
 
-    useEffect(() => {
-        if (pendingDocuments.isSuccess) {
-            const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
+    // useEffect(() => {
+    //     if (pendingDocuments.isSuccess) {
+    //         const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
 
-            if (
-                pendingDocuments?.data &&
-                viewAgreementModal === 0 &&
-                pendingDocuments?.data?.length > 0 &&
-                router?.pathname !== `/portals/industry/e-sign/[id]`
-            ) {
-                setModal(
-                    <UsersPendingEsignModal
-                        documents={pendingDocuments?.data}
-                        onClick={() => router.push(route)}
-                        route="/portals/industry/e-sign"
-                        onCancel={() => {
-                            setViewAgreementModal((view: number) =>
-                                Number(view + 1)
-                            )
-                            setModal(null)
-                        }}
-                    />
-                )
-            } else if (
-                router?.pathname === `/portals/industry/students/e-sign/[id]`
-            ) {
-                setModal(null)
-            }
-        } else {
-            setModal(null)
-        }
-    }, [pendingDocuments, router])
+    //         if (
+    //             pendingDocuments?.data &&
+    //             viewAgreementModal === 0 &&
+    //             pendingDocuments?.data?.length > 0 &&
+    //             router?.pathname !== `/portals/industry/e-sign/[id]`
+    //         ) {
+    //             setModal(
+    //                 <UsersPendingEsignModal
+    //                     documents={pendingDocuments?.data}
+    //                     onClick={() => router.push(route)}
+    //                     route="/portals/industry/e-sign"
+    //                     onCancel={() => {
+    //                         setViewAgreementModal((view: number) =>
+    //                             Number(view + 1)
+    //                         )
+    //                         setModal(null)
+    //                     }}
+    //                 />
+    //             )
+    //         } else if (
+    //             router?.pathname === `/portals/industry/students/e-sign/[id]`
+    //         ) {
+    //             setModal(null)
+    //         }
+    //     } else {
+    //         setModal(null)
+    //     }
+    // }, [pendingDocuments, router])
 
     // useEffect(() => {
     //     const displayAlerts = () => {
@@ -234,11 +234,11 @@ export const IndustryLayout = ({
                     {modal && modal}
                     <div className="md:px-8 px-2 mb-24">
                         <div className="mb-3">
-                            <IndustryNavbar
+                            {/* <IndustryNavbar
                                 pendingDocumentsCount={
                                     pendingDocuments?.data?.length
                                 }
-                            />
+                            /> */}
                             <DisplayAlerts />
                         </div>
                         {pageTitle && pageTitle.title && (
