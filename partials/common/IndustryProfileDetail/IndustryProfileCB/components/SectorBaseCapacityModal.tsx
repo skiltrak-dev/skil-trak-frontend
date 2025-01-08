@@ -194,11 +194,14 @@ export const SectorBaseCapacityModal = ({
     // checking sub-admin course and industry
     const matchSubAdminSectors = uniqueSectors?.filter(
         (sector: any) =>
-            !extractIndustrySectors?.some(
+            extractIndustrySectors?.some(
                 (item: any) => item?.id === sector?.id
             )
     )
-
+    console.log('matchSubAdminSectors', matchSubAdminSectors)
+    console.log('filteredSectors', filteredSectors)
+    console.log('data', data)
+    console.log('uniqueSectors', uniqueSectors);
     return (
         <>
             <ShowErrorNotifications
