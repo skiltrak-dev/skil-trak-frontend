@@ -46,7 +46,7 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
             />
         )
     }
-    
+
     return (
         <div>
             {modal}
@@ -110,21 +110,26 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
                     >
                         View Visitors
                     </div>
-                    <div>
-                        <Modal>
-                            <Modal.Open opens="viewCapacity">
-                                <div className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200">
-                                    Capacity
-                                </div>
-                            </Modal.Open>
-                            <Modal.Window name="viewCapacity">
-                                <SectorBaseCapacityModal
-                                    id={id}
-                                    prevIndCapacity={industry?.studentCapacity}
-                                />
-                            </Modal.Window>
-                        </Modal>
-                    </div>
+                    {industry?.isPartner && (
+                        <div>
+                            <Modal>
+                                <Modal.Open opens="viewCapacity">
+                                    <div className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200">
+                                        Capacity
+                                    </div>
+                                </Modal.Open>
+                                <Modal.Window name="viewCapacity">
+                                    <SectorBaseCapacityModal
+                                        id={id}
+                                        prevIndCapacity={
+                                            industry?.studentCapacity
+                                        }
+                                        industry={industry}
+                                    />
+                                </Modal.Window>
+                            </Modal>
+                        </div>
+                    )}
                 </AuthorizedUserComponent>
             </div>
 

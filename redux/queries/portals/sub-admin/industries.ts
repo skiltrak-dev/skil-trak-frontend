@@ -76,7 +76,7 @@ export const subAdminIndustriesEndpoints = (
     >({
         query: ({ industry, studentCapacity }) => ({
             url: `${PREFIX}/industry/partner/add/${industry}`,
-            body: { studentCapacity },
+            // body: { studentCapacity },
             method: 'PATCH',
         }),
         invalidatesTags: ['SubAdminIndustries'],
@@ -173,7 +173,7 @@ export const subAdminIndustriesEndpoints = (
         }),
         invalidatesTags: ['RequestToAddCourse'],
     }),
-    
+
     addPrevCourseDescription: builder.mutation<any, any>({
         query: (body) => ({
             url: `${PREFIX}/industry/course/add-info`,
@@ -234,6 +234,14 @@ export const subAdminIndustriesEndpoints = (
         query: ({ id, body }) => ({
             url: `${PREFIX}/sector-capacity/${id}/update`,
             method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+    updateOldCapacityToSectorBase: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/industry/${id}/sector-capacity/add`,
+            method: 'POST',
             body,
         }),
         invalidatesTags: ['SubAdminIndustries', 'Industries'],

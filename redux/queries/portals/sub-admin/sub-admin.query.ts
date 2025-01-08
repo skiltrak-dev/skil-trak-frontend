@@ -430,6 +430,7 @@ export const {
     useGetPreviousIndustryCoursesQuery,
     useGetSectorBasedCapacityQuery,
     useUpdateSectorBaseCapacityMutation,
+    useUpdateOldCapacityToSectorBaseMutation,
 
     // --- REPORTS --- //
     useGetAssignedStudentsReportQuery,
@@ -574,6 +575,8 @@ export const SubAdminApi = {
         usePreviousIndustryCourses: useGetPreviousIndustryCoursesQuery,
         useSectorBasedCapacity: useGetSectorBasedCapacityQuery,
         useSectorBaseCapacity: useUpdateSectorBaseCapacityMutation,
+        useUpdateOldCapacityToSectorBase:
+            useUpdateOldCapacityToSectorBaseMutation,
     },
     Rto: {
         useRtoStatsCount: useSubadminRtoStatisticsCountQuery,
