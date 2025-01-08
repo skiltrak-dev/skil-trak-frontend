@@ -3,7 +3,6 @@ import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { Rto } from '@types'
 import { HiCheckBadge } from 'react-icons/hi2'
-import { IoWarningOutline } from 'react-icons/io5'
 
 export const ReleaseLogbookPermissionModal = ({
     rto,

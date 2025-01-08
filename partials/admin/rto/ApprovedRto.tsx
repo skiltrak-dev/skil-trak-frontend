@@ -158,10 +158,13 @@ export const ApprovedRto = () => {
             ...(role === UserRoles.ADMIN
                 ? {
                       text: rto?.autoReleaseLogBook
-                          ? 'Remove Release Logbook'
-                          : 'Release Logbook',
+                          ? 'Remove Logbook'
+                          : 'Allow Logbook',
                       onClick: (rto: Rto) => onReleaseLogbook(rto),
                       Icon: FaBook,
+                      color: rto?.autoReleaseLogBook
+                          ? 'bg-error-light text-error-dark'
+                          : '',
                   }
                 : {}),
         },

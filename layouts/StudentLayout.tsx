@@ -11,12 +11,17 @@ import {
 } from '@components'
 
 import { useJoyRide } from '@hooks'
+import { UsersPendingEsignModal } from '@partials/eSign/modal/UsersPendingEsignModal'
 import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
 import { studentProfileKeys } from '@partials/student/components'
 import { WorkplaceApprovalModal } from '@partials/student/workplace/modal'
-import { StudentApi, useGetStudentProfileDetailQuery } from '@queries'
+import {
+    CommonApi,
+    StudentApi,
+    useGetStudentProfileDetailQuery,
+} from '@queries'
 import { UserStatus } from '@types'
-import { getUserCredentials } from '@utils'
+import { EsignDocumentStatus, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
@@ -57,14 +62,14 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
         setModal(null)
     }
     const userData = getUserCredentials()
-    // const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
-    //     {
-    //         status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
-    //     },
-    //     {
-    //         refetchOnMountOrArgChange: true,
-    //     }
-    // )
+    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
+        {
+            status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
     const wpApprovalRequest = StudentApi.Workplace.wpApprovalRequest()
 
     const joyride = useJoyRide()
@@ -135,35 +140,33 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                         wpApprovalRequest={wpApprovalRequest?.data}
                     />
                 )
-            }
-            // else if (pendingDocuments.isSuccess) {
-            //     const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
-            //     if (
-            //         pendingDocuments?.data &&
-            //         pendingDocuments?.data?.length > 0 &&
-            //         router?.pathname !==
-            //             `/portals/student/assessments/e-sign/[id]`
-            //     ) {
-            //         setModal(
-            //             <UsersPendingEsignModal
-            //                 documents={pendingDocuments?.data}
-            //                 onClick={() => router.push(route)}
-            //                 route="/portals/student/assessments/e-sign"
-            //             />
-            //         )
-            //     } else if (
-            //         router?.pathname ===
-            //             `/portals/student/assessments/e-sign/[id]` ||
-            //         (profileCompletion && profileCompletion === 100)
-            //     ) {
-            //         setModal(null)
-            //     }
-            // }
-            else if (profileCompletion && profileCompletion === 100) {
+            } else if (pendingDocuments.isSuccess) {
+                const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
+                if (
+                    pendingDocuments?.data &&
+                    pendingDocuments?.data?.length > 0 &&
+                    router?.pathname !==
+                        `/portals/student/assessments/e-sign/[id]`
+                ) {
+                    setModal(
+                        <UsersPendingEsignModal
+                            documents={pendingDocuments?.data}
+                            onClick={() => router.push(route)}
+                            route="/portals/student/assessments/e-sign"
+                        />
+                    )
+                } else if (
+                    router?.pathname ===
+                        `/portals/student/assessments/e-sign/[id]` ||
+                    (profileCompletion && profileCompletion === 100)
+                ) {
+                    setModal(null)
+                }
+            } else if (profileCompletion && profileCompletion === 100) {
                 setModal(null)
             }
         }
-    }, [profileCompletion, profile, router])
+    }, [profileCompletion, profile, pendingDocuments, router])
 
     const parts = router?.pathname.split('/')
     const talentPoolLink = '/' + parts.slice(1, 4).join('/')

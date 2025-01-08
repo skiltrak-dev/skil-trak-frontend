@@ -1,15 +1,8 @@
-import React from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { RadioButton, TextArea, TextInput, Typography } from '@components'
 import { industryQuestions } from '@partials/admin/industry/components'
-import {
-    RadioButton,
-    Select,
-    TextArea,
-    TextInput,
-    Typography,
-} from '@components'
 import { IndustryQuestionsEnum } from '@partials/admin/industry/enum'
-import { useFieldArray } from 'react-hook-form'
+import React, { useEffect } from 'react'
+import { FormProvider } from 'react-hook-form'
 
 export const AddIndustryQuestionForm = ({
     methods,
@@ -23,9 +16,8 @@ export const AddIndustryQuestionForm = ({
     const sectors = signUpValues?.sectors
 
     // validation for questions and answers
-    
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (sectors?.length) {
             // Update the form values with properly structured sector data
             sectors?.forEach((sector: any, index: number) => {
@@ -36,6 +28,11 @@ export const AddIndustryQuestionForm = ({
             })
         }
     }, [sectors, methods])
+
+    console.log(
+        'methods.watch',
+        methods.watch(IndustryQuestionsEnum.APPLICATIONS)
+    )
 
     return (
         <div>
@@ -54,21 +51,95 @@ export const AddIndustryQuestionForm = ({
                                         }. ${value}`}</Typography>
                                         {key ===
                                         IndustryQuestionsEnum.APPLICATIONS ? (
-                                            <div className="flex items-center gap-x-4">
-                                                <RadioButton
-                                                    name={key}
-                                                    // showError={false}
-                                                    label="Yes"
-                                                    value="yes"
-                                                />
-                                                <RadioButton
-                                                    name={key}
-                                                    // showError={false}
-                                                    label="No"
-                                                    value="no"
-                                                    defaultChecked
-                                                />
-                                            </div>
+                                            <>
+                                                {methods.watch(
+                                                    IndustryQuestionsEnum.APPLICATIONS
+                                                ) === 'yes' && (
+                                                    <TextArea
+                                                        showError={false}
+                                                        name={
+                                                            'applicationDetail'
+                                                        }
+                                                        placeholder="Please provide details"
+                                                    />
+                                                )}
+                                                <div className="flex items-center gap-x-8">
+                                                    <div className="flex items-center gap-2">
+                                                        <input
+                                                            type="radio"
+                                                            id="applicationYes"
+                                                            name={key}
+                                                            value="yes"
+                                                            onChange={() =>
+                                                                methods.setValue(
+                                                                    IndustryQuestionsEnum.APPLICATIONS,
+                                                                    'yes'
+                                                                )
+                                                            }
+                                                        />
+                                                        <label
+                                                            className="text-sm"
+                                                            htmlFor="applicationYes"
+                                                        >
+                                                            Yes
+                                                        </label>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                        <input
+                                                            type="radio"
+                                                            id="applicationNo"
+                                                            name={key}
+                                                            value="no"
+                                                            onChange={() =>
+                                                                methods.setValue(
+                                                                    IndustryQuestionsEnum.APPLICATIONS,
+                                                                    'no'
+                                                                )
+                                                            }
+                                                        />
+                                                        <label
+                                                            className="text-sm"
+                                                            htmlFor="applicationNo"
+                                                        >
+                                                            No
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                {/* <div className="flex items-center gap-x-4">
+                                                    <RadioButton
+                                                        name={key}
+                                                        // showError={false}
+                                                        label="Yes"
+                                                        value={methods.getValues(
+                                                            IndustryQuestionsEnum.APPLICATIONS
+                                                        )}
+                                                        onChange={() => {
+                                                            console.log(
+                                                                'Hee aaaa'
+                                                            )
+                                                            methods.setValue(
+                                                                IndustryQuestionsEnum.APPLICATIONS,
+                                                                'yes'
+                                                            )
+                                                        }}
+                                                    />
+                                                    <RadioButton
+                                                        name={key}
+                                                        // showError={false}
+                                                        label="No"
+                                                        value={methods.getValues(
+                                                            IndustryQuestionsEnum.APPLICATIONS
+                                                        )}
+                                                        onChange={() => {
+                                                            methods.setValue(
+                                                                IndustryQuestionsEnum.APPLICATIONS,
+                                                                'no'
+                                                            )
+                                                        }}
+                                                        defaultChecked
+                                                    />
+                                                </div> */}
+                                            </>
                                         ) : (
                                             <>
                                                 {isCapacity ? (

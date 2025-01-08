@@ -6,7 +6,9 @@ import {
     RtoNavbar,
 } from '@components'
 import { useAlert, useContextBar, useJoyRide } from '@hooks'
-import { AuthUtils } from '@utils'
+import { UsersPendingEsignModal } from '@partials/eSign/modal/UsersPendingEsignModal'
+import { CommonApi } from '@queries'
+import { AuthUtils, EsignDocumentStatus } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
@@ -45,24 +47,24 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
 
     const { viewAgreementModal, setViewAgreementModal } = useContextBar()
 
-    // const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
-    //     {
-    //         status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
-    //     },
-    //     {
-    //         refetchOnMountOrArgChange: true,
-    //     }
-    // )
+    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
+        {
+            status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
-    // const otherAllUserSigned = pendingDocuments?.data?.filter(
-    //     (agreement: any) => {
-    //         const allSigned = agreement.signers
-    //             ?.filter((signer: any) => signer?.user?.role !== 'rto')
-    //             ?.every((signer: any) => signer.status === 'signed')
+    const otherAllUserSigned = pendingDocuments?.data?.filter(
+        (agreement: any) => {
+            const allSigned = agreement.signers
+                ?.filter((signer: any) => signer?.user?.role !== 'rto')
+                ?.every((signer: any) => signer.status === 'signed')
 
-    //         return allSigned
-    //     }
-    // )
+            return allSigned
+        }
+    )
 
     const status = AuthUtils.getUserCredentials()?.status
 
@@ -84,40 +86,40 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
         setMounted(true)
     }, [])
 
-    // useEffect(() => {
-    //     if (
-    //         pendingDocuments.isSuccess &&
-    //         otherAllUserSigned &&
-    //         otherAllUserSigned?.length > 0
-    //     ) {
-    //         const route = `/portals/student/assessments/e-sign/${otherAllUserSigned?.[0]?.id}`
+    useEffect(() => {
+        if (
+            pendingDocuments.isSuccess &&
+            otherAllUserSigned &&
+            otherAllUserSigned?.length > 0
+        ) {
+            const route = `/portals/student/assessments/e-sign/${otherAllUserSigned?.[0]?.id}`
 
-    //         if (
-    //             pendingDocuments?.data &&
-    //             viewAgreementModal === 0 &&
-    //             pendingDocuments?.data?.length > 0 &&
-    //             router?.pathname !== `/portals/rto/tasks/e-sign/[id]`
-    //         ) {
-    //             setModal(
-    //                 <UsersPendingEsignModal
-    //                     documents={pendingDocuments?.data}
-    //                     onClick={() => router.push(route)}
-    //                     route="/portals/rto/tasks/e-sign"
-    //                     onCancel={() => {
-    //                         setViewAgreementModal((view: number) =>
-    //                             Number(view + 1)
-    //                         )
-    //                         setModal(null)
-    //                     }}
-    //                 />
-    //             )
-    //         } else if (router?.pathname === `/portals/rto/tasks/e-sign/[id]`) {
-    //             setModal(null)
-    //         }
-    //     } else {
-    //         setModal(null)
-    //     }
-    // }, [pendingDocuments, router])
+            if (
+                pendingDocuments?.data &&
+                viewAgreementModal === 0 &&
+                pendingDocuments?.data?.length > 0 &&
+                router?.pathname !== `/portals/rto/tasks/e-sign/[id]`
+            ) {
+                setModal(
+                    <UsersPendingEsignModal
+                        documents={pendingDocuments?.data}
+                        onClick={() => router.push(route)}
+                        route="/portals/rto/tasks/e-sign"
+                        onCancel={() => {
+                            setViewAgreementModal((view: number) =>
+                                Number(view + 1)
+                            )
+                            setModal(null)
+                        }}
+                    />
+                )
+            } else if (router?.pathname === `/portals/rto/tasks/e-sign/[id]`) {
+                setModal(null)
+            }
+        } else {
+            setModal(null)
+        }
+    }, [pendingDocuments, router])
 
     return (
         <RedirectUnApprovedUsers
