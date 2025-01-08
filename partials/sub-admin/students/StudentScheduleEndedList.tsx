@@ -240,7 +240,7 @@ export const StudentScheduleEndedList = () => {
         },
         {
             accessorKey: 'scheduleStartDate',
-            header: () => <span>Schedule Start Date</span>,
+            header: () => <span>Schedule End Date</span>,
             cell: ({ row }) => (
                 <div>
                     <div>
@@ -251,7 +251,7 @@ export const StudentScheduleEndedList = () => {
                                         className="whitespace-nowrap"
                                         key={index}
                                     >
-                                        {schedule?.startDate?.slice(0, 10) ??
+                                        {schedule?.endDate?.slice(0, 10) ??
                                             'NA'}
                                     </li>
                                 )
