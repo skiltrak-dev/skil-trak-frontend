@@ -37,11 +37,23 @@ export const SectorBaseCapacityModal = ({
     >([])
     const { notification } = useNotification()
 
+    // API Calls
+    // Getting sector based capacity data
     const { data, isLoading, isError } =
         SubAdminApi.Industry.useSectorBasedCapacity(id, { skip: !id })
-    const subadmin = SubAdminApi.SubAdmin.useProfile()
+
+    // Getting SubAdmin Courses
     const subadminCourses = CommonApi.Courses.subadminCoursesList()
 
+    // Update New Capacity
+    const [updateCapacity, updateCapacityResult] =
+        SubAdminApi.Industry.useSectorBaseCapacity()
+
+    //  Update Old Capacity
+    const [updateOldCapacity, updateOldCapacityResult] =
+        SubAdminApi.Industry.useUpdateOldCapacityToSectorBase()
+
+    // // Extracted Industry Sectors from its own courses
     const extractIndustrySectors = (() => {
         const sectors = industry.courses.map((item: any) => item.sector)
         const seen = new Set()
@@ -54,6 +66,8 @@ export const SectorBaseCapacityModal = ({
             }
         })
     })()
+
+    // // SubAdmin Assign Sectors from
     const uniqueSectors = (() => {
         const sectors = subadminCourses?.data?.map((item: any) => item?.sector)
         const seen = new Set()
@@ -66,11 +80,25 @@ export const SectorBaseCapacityModal = ({
             }
         })
     })()
+    // const extractIndustrySectors = React.useMemo(() => {
+    //     const sectors = industry?.courses?.map((item: any) => item.sector)
+    //     const seen = new Set()
+    //     return sectors?.filter((sector: any) => {
+    //         if (seen?.has(sector?.id)) return false
+    //         seen?.add(sector?.id)
+    //         return true
+    //     })
+    // }, [industry?.courses])
 
-    const [updateCapacity, updateCapacityResult] =
-        SubAdminApi.Industry.useSectorBaseCapacity()
-    const [updateOldCapacity, updateOldCapacityResult] =
-        SubAdminApi.Industry.useUpdateOldCapacityToSectorBase()
+    // const uniqueSectors = React.useMemo(() => {
+    //     const sectors = subadminCourses?.data?.map((item: any) => item?.sector)
+    //     const seen = new Set()
+    //     return sectors?.filter((sector: any) => {
+    //         if (seen?.has(sector?.id)) return false
+    //         seen?.add(sector?.id)
+    //         return true
+    //     })
+    // }, [subadminCourses?.data])
 
     useEffect(() => {
         if (
@@ -116,6 +144,7 @@ export const SectorBaseCapacityModal = ({
         }
     }
 
+    // check if sectors are unique or not
     const isSectorInUniqueSectors = (sectorId: string) => {
         return uniqueSectors?.some((sector: any) => sector.id === sectorId)
     }
@@ -150,21 +179,34 @@ export const SectorBaseCapacityModal = ({
     }
 
     const handleSubmit = () => {
-        console.log('editedCapacities', editedCapacities)
         updateOldCapacity({
             id: industry?.id,
             body: { capacity: editedCapacities },
         })
     }
 
+    // those sectors which have old capacity and are not in the new capacity
+    const filteredSectors = extractIndustrySectors?.filter(
+        (sector: any) =>
+            !data?.some((item: any) => item?.sector?.id === sector?.id)
+    )
+
+    // checking sub-admin course and industry
+    const matchSubAdminSectors = uniqueSectors?.filter(
+        (sector: any) =>
+            !extractIndustrySectors?.some(
+                (item: any) => item?.id === sector?.id
+            )
+    )
+
     return (
         <>
             <ShowErrorNotifications
                 result={updateCapacityResult ?? updateOldCapacityResult}
             />
-            {data && data?.length > 0 ? (
+            {data && data?.length > 0 && (
                 <>
-                    <div className="px-6 py-4 border-b border-gray-200 mt-2">
+                    <div className=" py-4 border-b border-gray-200 mt-2">
                         <h2 className="text-xl font-semibold text-gray-900">
                             Placement Capacity by Sector
                         </h2>
@@ -292,125 +334,135 @@ export const SectorBaseCapacityModal = ({
                         )}
                     </div>
                 </>
-            ) : (
-                <div className="space-y-4">
-                    <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-                        <div className="flex items-center gap-2">
-                            <Typography variant="title">
-                                Industry Old Capacity
+            )}
+            {matchSubAdminSectors?.length > 0 &&
+                filteredSectors?.length > 0 && (
+                    <div className="space-y-4 mt-4 pt-4 border-t-2 ">
+                        <div className="flex justify-between items-center pb-2 border-b border-gray-200">
+                            <div className="flex items-center gap-2">
+                                <Typography variant="title">
+                                    Industry Old Capacity
+                                </Typography>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-x-12 justify-between border-t border-b border-gray-200 rounded-md p-3 bg-gray-50">
+                            <Typography variant="label">
+                                Previous Whole Industry Capacity
+                            </Typography>
+                            <Typography
+                                variant="body"
+                                color="text-gray-700"
+                                semibold
+                            >
+                                {prevIndCapacity}
                             </Typography>
                         </div>
-                    </div>
-                    <div className="flex items-center gap-x-12 justify-between border-t border-b border-gray-200 rounded-md p-3 bg-gray-50">
-                        <Typography variant="label">
-                            Previously Added Capacity
-                        </Typography>
-                        <Typography
-                            variant="body"
-                            color="text-gray-700"
-                            semibold
-                        >
-                            {prevIndCapacity}
-                        </Typography>
-                    </div>
-                    <div className="space-y-4 mt-2">
-                        {isEditing ? (
-                            <>
-                                <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-                                    <div className="flex items-center gap-2">
+                        <div className="space-y-4 mt-2">
+                            {isEditing ? (
+                                <>
+                                    <div className="flex justify-between items-center pb-2 border-b border-gray-200">
+                                        <div className="flex items-center gap-2">
+                                            <Typography variant="label">
+                                                Sector
+                                            </Typography>
+                                        </div>
                                         <Typography variant="label">
-                                            Sector
+                                            Capacity / Enrolled
                                         </Typography>
                                     </div>
-                                    <Typography variant="label">
-                                        Capacity / Enrolled
-                                    </Typography>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <div className=" ">
-                                        <CircleAlert className="text-red-400" />
+                                    <div className="flex items-center gap-2">
+                                        <div className=" ">
+                                            <CircleAlert className="text-red-400" />
+                                        </div>
+                                        <Typography
+                                            variant="label"
+                                            color="text-red-400"
+                                        >
+                                            Update the previous capacity of the
+                                            industry to newly updated flow
+                                            sector based capacity
+                                        </Typography>
                                     </div>
-                                    <Typography
-                                        variant="label"
-                                        color="text-red-400"
-                                    >
-                                        Update the previous capacity of the
-                                        industry to newly updated flow sector
-                                        based capacity
-                                    </Typography>
-                                </div>
-                                {extractIndustrySectors.map(
-                                    (sector: any, index: number) =>
-                                        isSectorInUniqueSectors(sector?.id) && (
-                                            <div
-                                                key={sector?.id}
-                                                className="flex justify-between gap-x-12 items-center p-3 rounded-lg bg-gray-50"
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    <Typography
-                                                        variant="muted"
-                                                        color="text-gray-700"
-                                                    >
-                                                        {index + 1} -
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="muted"
-                                                        color="text-gray-700"
-                                                    >
-                                                        {sector?.name ?? 'NA'}
-                                                    </Typography>
-                                                </div>
-                                                <div className="w-20">
-                                                    <TextInput
-                                                        name={`capacity-${sector?.id}`}
-                                                        type="number"
-                                                        value={
-                                                            editedCapacities?.find(
-                                                                (item) =>
-                                                                    item?.sector ===
-                                                                    sector?.id
-                                                            )?.capacity ?? ''
-                                                        }
-                                                        onChange={(e: any) =>
-                                                            handleMultiCapacityChange(
-                                                                sector?.id,
-                                                                Number(
-                                                                    e?.target
-                                                                        ?.value
+                                    {filteredSectors?.map(
+                                        (sector: any, index: number) =>
+                                            isSectorInUniqueSectors(
+                                                sector?.id
+                                            ) && (
+                                                <div
+                                                    key={sector?.id}
+                                                    className="flex justify-between gap-x-12 items-center p-3 rounded-lg bg-gray-50"
+                                                >
+                                                    <div className="flex items-center gap-3">
+                                                        <Typography
+                                                            variant="muted"
+                                                            color="text-gray-700"
+                                                        >
+                                                            {index + 1} -
+                                                        </Typography>
+                                                        <Typography
+                                                            variant="muted"
+                                                            color="text-gray-700"
+                                                        >
+                                                            {sector?.name ??
+                                                                'NA'}
+                                                        </Typography>
+                                                    </div>
+
+                                                    <div className="w-20">
+                                                        <TextInput
+                                                            name={`capacity-${sector?.id}`}
+                                                            type="number"
+                                                            value={
+                                                                editedCapacities?.find(
+                                                                    (item) =>
+                                                                        item?.sector ===
+                                                                        sector?.id
+                                                                )?.capacity ??
+                                                                ''
+                                                            }
+                                                            onChange={(
+                                                                e: any
+                                                            ) =>
+                                                                handleMultiCapacityChange(
+                                                                    sector?.id,
+                                                                    Number(
+                                                                        e
+                                                                            ?.target
+                                                                            ?.value
+                                                                    )
                                                                 )
-                                                            )
-                                                        }
-                                                    />
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                )}
-                                <div className="flex justify-center">
-                                    <Button
-                                        onClick={handleSubmit}
-                                        variant="success"
-                                        loading={
-                                            updateOldCapacityResult.isLoading
-                                        }
-                                        disabled={
-                                            updateOldCapacityResult.isLoading
-                                        }
-                                    >
-                                        Update
-                                    </Button>
-                                </div>
-                            </>
-                        ) : (
-                            <Button
-                                onClick={handleMultipleSectorsCapClick}
-                                variant="info"
-                            >
-                                Edit Capacity
-                            </Button>
-                        )}
+                                            )
+                                    )}
+                                    <div className="flex justify-center">
+                                        <Button
+                                            onClick={handleSubmit}
+                                            variant="success"
+                                            loading={
+                                                updateOldCapacityResult.isLoading
+                                            }
+                                            disabled={
+                                                updateOldCapacityResult.isLoading
+                                            }
+                                        >
+                                            Update
+                                        </Button>
+                                    </div>
+                                </>
+                            ) : (
+                                <Button
+                                    onClick={handleMultipleSectorsCapClick}
+                                    variant="info"
+                                >
+                                    Edit Capacity
+                                </Button>
+                            )}
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
         </>
     )
 }
