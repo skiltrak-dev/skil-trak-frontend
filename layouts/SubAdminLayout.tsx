@@ -6,16 +6,16 @@ import {
     RedirectUnApprovedUsers,
     SubAdminNavbar,
 } from '@components'
+import { UserRoles } from '@constants'
 import { useContextBar, useJoyRide } from '@hooks'
 import { UsersPendingEsignModal } from '@partials/eSign/modal/UsersPendingEsignModal'
-import { CommonApi, SubAdminApi } from '@queries'
-import { EsignDocumentStatus, getUserCredentials } from '@utils'
+import { SubAdminApi } from '@queries'
+import { getUserCredentials } from '@utils'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
-import Head from 'next/head'
-import { UserRoles } from '@constants'
 
 interface SubAdminLayoutProps {
     pageTitle?: PageTitleProps
@@ -72,49 +72,49 @@ export const SubAdminLayout = ({
         skip: role !== UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
     })
-    const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
-        {
-            status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
-        },
-        {
-            refetchOnMountOrArgChange: true,
-        }
-    )
+    // const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
+    //     {
+    //         status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
+    //     },
+    //     {
+    //         refetchOnMountOrArgChange: true,
+    //     }
+    // )
 
     useEffect(() => {
         setMounted(true)
     }, [])
 
-    useEffect(() => {
-        if (pendingDocuments.isSuccess) {
-            const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
+    // useEffect(() => {
+    //     if (pendingDocuments.isSuccess) {
+    //         const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
 
-            if (
-                pendingDocuments?.data &&
-                viewAgreementModal === 0 &&
-                pendingDocuments?.data?.length > 0 &&
-                router?.pathname !== `/portals/sub-admin/e-sign/[id]`
-            ) {
-                setModal(
-                    <UsersPendingEsignModal
-                        documents={pendingDocuments?.data}
-                        onClick={() => router.push(route)}
-                        route="/portals/sub-admin/e-sign"
-                        onCancel={() => {
-                            setViewAgreementModal((view: number) =>
-                                Number(view + 1)
-                            )
-                            setModal(null)
-                        }}
-                    />
-                )
-            } else if (router?.pathname === `/portals/sub-admin/e-sign/[id]`) {
-                setModal(null)
-            }
-        } else {
-            setModal(null)
-        }
-    }, [pendingDocuments, router, viewAgreementModal])
+    //         if (
+    //             pendingDocuments?.data &&
+    //             viewAgreementModal === 0 &&
+    //             pendingDocuments?.data?.length > 0 &&
+    //             router?.pathname !== `/portals/sub-admin/e-sign/[id]`
+    //         ) {
+    //             setModal(
+    //                 <UsersPendingEsignModal
+    //                     documents={pendingDocuments?.data}
+    //                     onClick={() => router.push(route)}
+    //                     route="/portals/sub-admin/e-sign"
+    //                     onCancel={() => {
+    //                         setViewAgreementModal((view: number) =>
+    //                             Number(view + 1)
+    //                         )
+    //                         setModal(null)
+    //                     }}
+    //                 />
+    //             )
+    //         } else if (router?.pathname === `/portals/sub-admin/e-sign/[id]`) {
+    //             setModal(null)
+    //         }
+    //     } else {
+    //         setModal(null)
+    //     }
+    // }, [pendingDocuments, router, viewAgreementModal])
     // const MemoNavbar = React.memo(SubAdminNavbar)
 
     const getRoutePath = (path: string) => `${getBasePath}${path}`
