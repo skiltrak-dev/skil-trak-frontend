@@ -2,7 +2,7 @@ import { ActionModal } from '@components'
 import { useAlert, useNotification } from '@hooks'
 import { useEffect } from 'react'
 import { MdDelete } from 'react-icons/md'
-import { FaFileArchive } from "react-icons/fa";
+import { FaFileArchive } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
 
@@ -11,7 +11,7 @@ export const DeleteProfileModal = ({
     onCancel,
 }: {
     profile: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

@@ -8,7 +8,7 @@ export const ContentViewModal = ({
 }: {
     type: string
     content: string
-    onCancel: Function
+    onCancel: () => void
 }) => {
     return (
         <GlobalModal>

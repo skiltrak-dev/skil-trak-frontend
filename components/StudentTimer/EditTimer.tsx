@@ -22,7 +22,7 @@ export const EditTimer = ({
 }: {
     studentId: number | undefined
     date: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
 

@@ -13,7 +13,7 @@ export const MeetingModal = ({
 }: {
     workIndustry: number
     workplace: number
-    onCancel: Function
+    onCancel: () => void
     student: Student
 }) => {
     const { notification } = useNotification()

@@ -10,7 +10,7 @@ export const CloseTicketModal = ({
     onCancel,
 }: {
     ticket: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
 

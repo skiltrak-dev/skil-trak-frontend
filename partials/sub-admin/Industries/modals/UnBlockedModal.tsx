@@ -10,7 +10,7 @@ export const UnBlockedModal = ({
     onCancel,
 }: {
     industry: Industry | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const { onAccept, changeStatusResult } = useChangeStatus()

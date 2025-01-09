@@ -10,7 +10,7 @@ export const DeleteModal = ({
     onCancel,
 }: {
     eSign: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] = CommonApi.ESign.useRemoveTemplate()

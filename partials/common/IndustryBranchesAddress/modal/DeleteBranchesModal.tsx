@@ -11,7 +11,7 @@ export const DeleteBranchesModal = ({
     onCancel,
 }: {
     branch: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] =

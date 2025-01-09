@@ -19,7 +19,7 @@ export const CancelWorkplaceRequestModal = ({
     workplaceId,
 }: {
     workplaceId: number
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
 

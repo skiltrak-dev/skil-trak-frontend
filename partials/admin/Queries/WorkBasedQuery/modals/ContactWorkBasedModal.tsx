@@ -9,7 +9,7 @@ export const ContactWorkBasedModal = ({
     onCancel,
 }: {
     workBase: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [contact, contactResult] = CommonApi.WorkBased.useContactWorkBase()

@@ -12,7 +12,7 @@ export const UnArchiveModal = ({
     onCancel,
 }: {
     student: Student
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

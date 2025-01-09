@@ -10,7 +10,7 @@ export const MarkAsHodModal = ({
     onCancel,
 }: {
     item: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

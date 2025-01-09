@@ -10,7 +10,7 @@ export const MultiRejectModal = ({
     onCancel,
 }: {
     industries: Industry[] | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
 

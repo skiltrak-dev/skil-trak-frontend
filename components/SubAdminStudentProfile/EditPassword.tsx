@@ -14,7 +14,7 @@ export const EditPassword = ({
     student,
 }: {
     student: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [password, setPassword] = useState({

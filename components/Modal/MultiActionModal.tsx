@@ -35,7 +35,7 @@ export const MultiActionModal = ({
     Icon: any
     title?: string
     description?: string
-    onCancel: Function
+    onCancel: () => void
     onConfirm: Function
     loading?: boolean
     confirmText?: string

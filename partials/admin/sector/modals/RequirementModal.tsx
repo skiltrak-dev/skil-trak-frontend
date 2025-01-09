@@ -6,7 +6,7 @@ export const RequirementModal = ({
     onCancel,
 }: {
     course: Course
-    onCancel: Function
+    onCancel: () => void
 }) => {
     return (
         <div className="fixed z-30 bg-black/25 backdrop-blur-sm w-full h-full top-0 left-0 flex items-center justify-center">

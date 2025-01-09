@@ -8,7 +8,7 @@ export const RemoveFromAssociatedRTOModal = ({
     subadminId,
     onCancel,
 }: {
-    onCancel: Function
+    onCancel: () => void
     subadminId: number
 }) => {
     const { notification } = useNotification()

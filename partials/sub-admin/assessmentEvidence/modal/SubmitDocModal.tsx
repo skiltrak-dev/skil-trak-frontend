@@ -12,7 +12,7 @@ export const SubmitDocModal = ({
 }: {
     signerUser: number
     documentId: number
-    onCancel: Function
+    onCancel: () => void
     customFieldsData: any
 }) => {
     const { notification } = useNotification()

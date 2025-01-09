@@ -11,7 +11,7 @@ export const DeleteModal = ({
     onCancel,
 }: {
     rto: Rto | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

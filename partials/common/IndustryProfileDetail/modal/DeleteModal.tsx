@@ -12,7 +12,7 @@ export const DeleteModal = ({
     onCancel,
 }: {
     industry: Industry | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
@@ -22,7 +22,7 @@ export const DeleteModal = ({
     const [remove, removeResult] = AdminApi.Industries.useRemove()
 
     const onConfirmUClicked = async (industry: Industry) => {
-        await remove(industry.user.id);
+        await remove(industry.user.id)
     }
 
     useEffect(() => {

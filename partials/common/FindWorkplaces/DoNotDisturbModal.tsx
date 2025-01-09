@@ -9,13 +9,12 @@ export const DoNotDisturbModal = ({
     onCancel,
 }: {
     industry: any | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()
     const [changeStatus, changeStatusResult] =
         commonApi.useIndustriesStatusChangeMutation()
-
 
     const onConfirmClicked = async (industry: any) => {
         await changeStatus({

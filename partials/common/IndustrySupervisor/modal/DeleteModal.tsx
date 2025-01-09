@@ -11,7 +11,7 @@ export const DeleteModal = ({
     onCancel,
 }: {
     supervisor: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

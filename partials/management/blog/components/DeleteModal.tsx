@@ -11,7 +11,7 @@ export const DeleteModal = ({
     onCancel,
 }: {
     blog: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] = adminApi.useRemoveBlogMutation()

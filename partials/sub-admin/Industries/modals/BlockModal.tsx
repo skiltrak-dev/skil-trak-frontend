@@ -10,7 +10,7 @@ export const BlockModal = ({
     onCancel,
 }: {
     industry: Industry | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const { onBlock, changeStatusResult } = useChangeStatus()

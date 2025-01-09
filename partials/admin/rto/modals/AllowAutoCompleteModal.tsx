@@ -9,7 +9,7 @@ export const AllowAutoCompleteModal = ({
     onCancel,
 }: {
     rto: Rto
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
 

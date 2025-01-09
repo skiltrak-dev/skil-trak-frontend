@@ -11,7 +11,7 @@ export const DeleteModal = ({
     onCancel,
 }: {
     sector: Sector
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

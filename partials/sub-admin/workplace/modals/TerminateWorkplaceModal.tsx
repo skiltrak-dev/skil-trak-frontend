@@ -14,7 +14,7 @@ export const TerminateWorkplaceModal = ({
     onCancel,
 }: {
     appliedIndustryId: number
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const [terminatePlacement, terminatePlacementResult] =
         useTerminatePlacementMutation()

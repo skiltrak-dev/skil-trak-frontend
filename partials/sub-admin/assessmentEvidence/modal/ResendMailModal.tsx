@@ -13,7 +13,7 @@ export const ResendMailModal = ({
 }: {
     documentId: number
     signerId: number
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [resend, resendResult] = CommonApi.ESign.useResendEmailToUser()

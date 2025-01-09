@@ -13,7 +13,7 @@ export const ArchiveModal = ({
     setResult,
 }: {
     item: Student
-    onCancel: Function
+    onCancel: () => void
     setResult?: Function
 }) => {
     const { alert } = useAlert()

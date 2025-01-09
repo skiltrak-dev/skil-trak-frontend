@@ -11,7 +11,7 @@ export const DeleteRtoCoordinatorModal = ({
     onCancel,
 }: {
     coordinator: SubAdmin
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [removeCoordinator, removeCoordinatorResult] =

@@ -12,7 +12,7 @@ export const ApprovedModal = ({
     onCancel,
 }: {
     industry: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

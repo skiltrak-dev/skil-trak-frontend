@@ -7,7 +7,7 @@ export const DeleteModal = ({
     rtoObserver,
 }: {
     rtoObserver: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] = AdminApi.RtoObserver.useRemove()

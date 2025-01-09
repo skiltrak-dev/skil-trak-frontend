@@ -11,7 +11,7 @@ export const CancelInitiateSign = ({
     onCancel,
 }: {
     eSign: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [cancel, cancelResult] = CommonApi.ESign.useCancelESign()

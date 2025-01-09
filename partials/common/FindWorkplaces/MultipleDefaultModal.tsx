@@ -9,7 +9,7 @@ export const MultipleDefaultModal = ({
     onCancel,
 }: {
     ids: number[]
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [changeStatus, changeStatusResult] =

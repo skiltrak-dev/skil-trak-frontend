@@ -10,7 +10,7 @@ export const AcceptingStudentModal = ({
     onCancel,
 }: {
     industry: Industry | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const [selectedStatus, setSelectedStatus] =
         useState<IndustryPlacementStatus | null>(null)

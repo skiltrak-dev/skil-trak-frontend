@@ -15,7 +15,7 @@ export const ChangeStatusModal = ({
     onCancel,
 }: {
     student: Student
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const [changeCurrentStatus, changeCurrentStatusResult] =
         SubAdminApi.Student.changeCurrentStatus()

@@ -10,7 +10,7 @@ export const UnsubscribeModal = ({
     onCancel,
 }: {
     subscriber: Subscriber
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const [unsubscribe, unsubscribeResult] =

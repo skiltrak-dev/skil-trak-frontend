@@ -9,7 +9,7 @@ export const AllowPlacementModal = ({
     onCancel,
 }: {
     subAdmin: SubAdmin
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [allowPlacement, allowPlacementResult] =

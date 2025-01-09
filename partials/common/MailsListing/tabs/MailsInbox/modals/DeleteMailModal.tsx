@@ -9,7 +9,7 @@ export const DeleteMailModal = ({
     onCancel,
 }: {
     mail: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] = CommonApi.Messages.useRemoveMail()

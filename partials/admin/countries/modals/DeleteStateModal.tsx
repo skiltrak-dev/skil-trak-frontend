@@ -11,7 +11,7 @@ export const DeleteStateModal = ({
     onCancel,
 }: {
     state: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

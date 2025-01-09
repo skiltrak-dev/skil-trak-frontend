@@ -9,7 +9,7 @@ export const MultipleFavoriteModal = ({
     onCancel,
 }: {
     ids: any | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [changeStatus, changeStatusResult] =

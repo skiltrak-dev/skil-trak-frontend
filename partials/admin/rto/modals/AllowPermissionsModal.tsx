@@ -18,7 +18,7 @@ export const AllowPermissionsModal = ({
     onCancel,
 }: {
     rto: Rto
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
 

@@ -10,7 +10,7 @@ export const DeleteCourseModal = ({
     onCancel,
 }: {
     course: Course
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] = AdminApi.Courses.useRemoveMutation()

@@ -10,7 +10,7 @@ export const ArchiveModal = ({
     onCancel,
 }: {
     industry: Industry | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const { onArchive, changeStatusResult } = useChangeStatus()

@@ -9,7 +9,7 @@ export const RtoDoNotDisturbModal = ({
     onCancel,
 }: {
     rto: any | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

@@ -10,7 +10,7 @@ export const AcceptModal = ({
     onCancel,
 }: {
     industry: Industry | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { onAccept, changeStatusResult } = useChangeStatus()

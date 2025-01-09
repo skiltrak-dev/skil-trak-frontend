@@ -11,7 +11,7 @@ export const DeleteCategoryModal = ({
     onCancel,
 }: {
     category: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] = adminApi.useDeleteBlogCategoryMutation()

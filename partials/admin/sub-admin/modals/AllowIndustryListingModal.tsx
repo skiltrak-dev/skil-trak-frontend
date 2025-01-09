@@ -8,7 +8,7 @@ export const AllowIndustryListingModal = ({
     onCancel,
 }: {
     subAdmin: SubAdmin
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     // const { onBlock, changeStatusResult } = useChangeStatus()

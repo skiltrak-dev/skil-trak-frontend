@@ -25,7 +25,7 @@ export const ActionModal = ({
     confirmText?: string
     Icon?: any
     variant?: any
-    onCancel: Function
+    onCancel: () => void
     onConfirm?: Function
     loading?: boolean
 }) => {

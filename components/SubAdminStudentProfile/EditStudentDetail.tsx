@@ -11,7 +11,7 @@ export const EditStudentDetail = ({
     onCancel,
 }: {
     student: Student
-    onCancel: Function
+    onCancel: () => void
 }) => {
     return (
         <div>

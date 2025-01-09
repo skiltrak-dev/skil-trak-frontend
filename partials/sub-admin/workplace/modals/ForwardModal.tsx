@@ -17,7 +17,7 @@ export const ForwardModal = ({
     folders,
 }: {
     industry: any
-    onCancel: Function
+    onCancel: () => void
     workplaceId: number
     folders?: any
 }) => {

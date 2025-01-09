@@ -10,7 +10,7 @@ export const AddToSignupModal = ({
     onCancel,
     industry,
 }: {
-    onCancel: Function
+    onCancel: () => void
     industry: any
 }) => {
     const { alert } = useAlert()

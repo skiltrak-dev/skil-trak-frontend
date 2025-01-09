@@ -11,7 +11,7 @@ export const UnSnoozeIndustryModal = ({
     onCancel,
 }: {
     industry: Industry
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [unSnooze, unSnoozeResult] =
