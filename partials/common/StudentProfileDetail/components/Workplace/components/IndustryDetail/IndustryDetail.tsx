@@ -546,7 +546,8 @@ export const IndustryDetail = ({
                                     ) : null}
                                     {appliedIndustry &&
                                         student &&
-                                        appliedIndustry?.industry?.location && (
+                                        appliedIndustry?.industry?.location &&
+                                        student?.location && (
                                             <div className="mt-2">
                                                 <WorkplaceMapBoxView
                                                     industryLocation={appliedIndustry?.industry?.location?.split(
