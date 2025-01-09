@@ -9,7 +9,7 @@ export const DeleteWpTypeModal = ({
     onCancel,
 }: {
     wpType: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] = AdminApi.WpTypes.removeWpType()

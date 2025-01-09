@@ -8,7 +8,7 @@ export const BulkDeleteModal = ({
     onCancel,
     usersIds,
 }: {
-    onCancel: Function
+    onCancel: () => void
     usersIds: number[]
 }) => {
     const { notification } = useNotification()

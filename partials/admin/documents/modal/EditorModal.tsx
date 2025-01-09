@@ -14,7 +14,7 @@ export const EditorModal = ({
 }: {
     item: any
     loading: boolean
-    onCancel: Function
+    onCancel: () => void
     onAddDocument: (val: any) => void
 }) => {
     const [content, setContent] = useState('')

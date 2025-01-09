@@ -10,7 +10,7 @@ export const BlockIndustryListingModal = ({
     onCancel,
 }: {
     industry: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
 

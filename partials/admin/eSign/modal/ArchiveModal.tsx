@@ -12,7 +12,7 @@ export const ArchiveModal = ({
     onCancel,
 }: {
     eSign: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const { onArchive, changeStatusResult } = useChangeStatus()

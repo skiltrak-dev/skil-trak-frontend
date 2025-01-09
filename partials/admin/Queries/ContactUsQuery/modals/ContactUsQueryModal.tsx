@@ -9,10 +9,11 @@ export const ContactUsQueryModal = ({
     onCancel,
 }: {
     workBase: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
-    const [contact, contactResult] = CommonApi.WorkBased.useContactContactUsQueries()
+    const [contact, contactResult] =
+        CommonApi.WorkBased.useContactContactUsQueries()
 
     const onConfirmUClicked = async (job: any) => {
         await contact(Number(workBase?.id)).then((res: any) => {

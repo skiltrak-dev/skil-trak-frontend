@@ -22,7 +22,7 @@ export const UpdateWorkplaceCourseModal = ({
 }: {
     courseId: number
     workplaceId: number
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
 

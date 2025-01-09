@@ -11,7 +11,7 @@ export const DeleteModal = ({
     onCancel,
 }: {
     job: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const router = useRouter()
     const { alert } = useAlert()

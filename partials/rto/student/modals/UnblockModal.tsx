@@ -10,7 +10,7 @@ export const UnblockModal = ({
     onCancel,
 }: {
     item: Student
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const { onAccept, changeStatusResult } = useChangeStatus()

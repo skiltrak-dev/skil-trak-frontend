@@ -14,7 +14,7 @@ export const UnAssignSubAdminModal = ({
 }: {
     workplaceId: number
     subadmin: SubAdmin
-    onCancel: Function
+    onCancel: () => void
     setChangeCoordinator?: any
 }) => {
     const { alert } = useAlert()

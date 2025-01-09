@@ -15,7 +15,7 @@ export const FaqDeleteModal = ({
     faq: any
     removeField?: any
     index?: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] = adminApi.useRemoveFaqMutation()

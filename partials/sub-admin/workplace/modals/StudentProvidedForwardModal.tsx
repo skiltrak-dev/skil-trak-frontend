@@ -21,7 +21,7 @@ export const StudentProvidedForwardModal = ({
     workplaceId,
 }: {
     industry: any
-    onCancel: Function
+    onCancel: () => void
     workplaceId: number
 }) => {
     // hooks
@@ -30,7 +30,7 @@ export const StudentProvidedForwardModal = ({
     // query
     const [forwardToIndustry, forwardToIndustryResult] =
         useForwardWorkplaceToIndustryMutation()
-   
+
     const onConfirmUClicked = async () => {
         forwardToIndustry({
             industryId: industry?.id,

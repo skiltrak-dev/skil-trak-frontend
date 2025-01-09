@@ -13,7 +13,7 @@ export const PlacementStartedModal = ({
 }: {
     id: any
     student: any
-    onCancel: Function
+    onCancel: () => void
     agreementSigned: any
 }) => {
     // hooks

@@ -1,13 +1,8 @@
 import { Animations } from '@animations'
-import {
-    AuthBreadCrumb,
-    Button,
-    NotificationMethodButton,
-    Typography,
-} from '@components'
+import { Button, NotificationMethodButton } from '@components'
 import { SignUpUtils } from '@utils'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { MdOutlineTextsms } from 'react-icons/md'
 import { RiMailSendLine } from 'react-icons/ri'
 

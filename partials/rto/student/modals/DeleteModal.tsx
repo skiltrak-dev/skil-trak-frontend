@@ -11,7 +11,7 @@ export const DeleteModal = ({
     onCancel,
 }: {
     item: Student
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] = useRemoveRTOStudentMutation()

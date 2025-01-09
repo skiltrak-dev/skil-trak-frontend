@@ -9,7 +9,7 @@ export const BlockMultiStudentsModal = ({
     onCancel,
 }: {
     student: Student[]
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const { onBlockMultiStudents, resultBulkAction } = useChangeStatus()

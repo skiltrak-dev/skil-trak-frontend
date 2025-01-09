@@ -9,7 +9,7 @@ export const ViewQueriesMessageModal = ({
 }: {
     subject: string
     message: string
-    onCancel: Function
+    onCancel: () => void
 }) => {
     return (
         <GlobalModal>

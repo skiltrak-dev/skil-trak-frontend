@@ -10,7 +10,7 @@ export const DeactivateKeyModal = ({
     onCancel,
 }: {
     keyData: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [deactivateKey, deactivateKeyResult] =

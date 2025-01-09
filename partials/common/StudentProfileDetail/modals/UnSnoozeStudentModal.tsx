@@ -11,7 +11,7 @@ export const UnSnoozeStudentModal = ({
     onCancel,
 }: {
     student: Student
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [unSnooze, unSnoozeResult] = SubAdminApi.Student.useUnSnoozeStudent()

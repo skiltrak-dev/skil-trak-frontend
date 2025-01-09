@@ -10,7 +10,7 @@ export const ApproveModal = ({
     onCancel,
 }: {
     eSign: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const { onAccept, changeStatusResult } = useChangeStatus()

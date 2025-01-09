@@ -11,7 +11,7 @@ export const RequestResign = ({
     onCancel,
 }: {
     eSign: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [requestResign, requestResignResult] =

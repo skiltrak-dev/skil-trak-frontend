@@ -12,7 +12,7 @@ export const RemoveIndustryModal = ({
 }: {
     industry: any
     studentId: number
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] =

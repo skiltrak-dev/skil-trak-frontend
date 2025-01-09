@@ -8,7 +8,7 @@ export const BulkUnBlockModal = ({
     onCancel,
     rto,
 }: {
-    onCancel: Function
+    onCancel: () => void
     rto: number[]
 }) => {
     const { notification } = useNotification()

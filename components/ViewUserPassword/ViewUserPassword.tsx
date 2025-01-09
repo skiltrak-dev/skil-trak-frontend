@@ -8,7 +8,7 @@ export const ViewUserPassword = ({
     user,
 }: {
     name: string
-    onCancel: Function
+    onCancel: () => void
     user: number
 }) => {
     const [copiedPassword, setCopiedPassword] = useState<string | null>(null)

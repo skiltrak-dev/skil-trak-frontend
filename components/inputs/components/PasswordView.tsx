@@ -4,7 +4,7 @@ export const PasswordView = ({
     onClick,
     passwordType,
 }: {
-    onClick: Function
+    onClick: () => void
     passwordType: string | null
 }) => {
     return (

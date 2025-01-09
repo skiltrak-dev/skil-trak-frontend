@@ -11,7 +11,7 @@ export const ApproveAppointmentModal = ({
     appointmentUser,
 }: {
     appointment: any
-    onCancel: Function
+    onCancel: () => void
     appointmentUser: any
 }) => {
     const { notification } = useNotification()

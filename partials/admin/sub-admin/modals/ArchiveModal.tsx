@@ -10,7 +10,7 @@ export const ArchiveModal = ({
     onCancel,
 }: {
     item: SubAdmin | undefined
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

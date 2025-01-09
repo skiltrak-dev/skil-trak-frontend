@@ -10,7 +10,7 @@ export const CancelWorlplaceModal = ({
     onCancel,
 }: {
     workplaceId: number
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [cancelWorkplace, cancelWorkplaceResult] =

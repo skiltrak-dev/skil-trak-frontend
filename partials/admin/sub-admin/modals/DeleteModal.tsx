@@ -11,7 +11,7 @@ export const DeleteModal = ({
     onCancel,
 }: {
     subAdmin: SubAdmin | undefined
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] = AdminApi.SubAdmins.useRemove()

@@ -10,7 +10,7 @@ export const RejectVolunteerModal = ({
     volunteer,
 }: {
     volunteer: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const [note, setNote] = useState<string>('')
 

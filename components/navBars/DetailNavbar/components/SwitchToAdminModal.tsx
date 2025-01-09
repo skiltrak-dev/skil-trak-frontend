@@ -12,7 +12,7 @@ export const SwitchToAdminModal = ({
     onCancel,
 }: {
     subAdmin: SubAdmin
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

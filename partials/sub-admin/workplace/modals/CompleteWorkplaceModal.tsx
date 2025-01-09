@@ -15,7 +15,7 @@ export const CompleteWorkplaceModal = ({
     onCancel,
     appliedIndustryId,
 }: {
-    onCancel: Function
+    onCancel: () => void
     appliedIndustryId: number
 }) => {
     const [completePlacement, completePlacementResult] =

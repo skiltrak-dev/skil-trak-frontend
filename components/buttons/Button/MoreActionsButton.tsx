@@ -5,7 +5,7 @@ import { HiOutlineDotsVertical } from 'react-icons/hi'
 interface Action {
     text: string
     Icon?: any
-    onClick?: Function
+    onClick?: () => void
     className?: string
 }
 

@@ -11,7 +11,7 @@ interface FormProps {
     onSubmit: any
     edit?: boolean
     initialValues?: any
-    onCancel: Function
+    onCancel: () => void
 }
 
 export const AddBreakForm = ({

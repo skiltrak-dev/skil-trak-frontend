@@ -11,7 +11,7 @@ export const DeleteModal = ({
     onCancel,
 }: {
     folder: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const router = useRouter()
 

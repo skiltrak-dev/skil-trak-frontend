@@ -12,7 +12,7 @@ export const ArchiveModal = ({
     onCancel,
 }: {
     item: Industry | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

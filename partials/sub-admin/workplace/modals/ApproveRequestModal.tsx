@@ -17,7 +17,7 @@ export const ApproveRequestModal = ({
     appliedIndustryId,
 }: {
     appliedIndustryId: number
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
 

@@ -15,7 +15,7 @@ export const InterviewModal = ({
 }: {
     workIndustry: number
     workplace: number
-    onCancel: Function
+    onCancel: () => void
     student: Student
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)

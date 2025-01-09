@@ -9,7 +9,7 @@ export const DeleteRtoWpTypeModal = ({
     wpType,
     onCancel,
 }: {
-    onCancel: Function
+    onCancel: () => void
     wpType: WorkplaceTypes
 }) => {
     const { notification } = useNotification()

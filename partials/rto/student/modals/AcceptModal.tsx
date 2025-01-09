@@ -12,7 +12,7 @@ export const AcceptModal = ({
     onCancel,
 }: {
     item: Student
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

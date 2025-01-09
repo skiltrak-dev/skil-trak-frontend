@@ -11,7 +11,7 @@ export const ArchiveAssessmentModal = ({
     assessment,
 }: {
     assessment: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [archiveAssessmentTool, archiveAssessmentToolResult] =

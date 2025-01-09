@@ -10,7 +10,7 @@ export const AddToFavoriteModal = ({
     onCancel,
 }: {
     industry: Industry
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

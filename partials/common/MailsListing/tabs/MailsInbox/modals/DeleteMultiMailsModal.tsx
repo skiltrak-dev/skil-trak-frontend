@@ -10,7 +10,7 @@ export const DeleteMultiMailsModal = ({
     onCancel,
 }: {
     ids: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [remove, removeResult] = CommonApi.Messages.useRemoveMultipleMails()

@@ -9,7 +9,7 @@ export const MultipleBlockModal = ({
     onCancel,
 }: {
     ids: any | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [changeStatus, changeStatusResult] =

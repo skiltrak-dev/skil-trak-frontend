@@ -12,7 +12,7 @@ export const MultiAcceptModal = ({
     onCancel,
 }: {
     industries: Industry[] | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
 

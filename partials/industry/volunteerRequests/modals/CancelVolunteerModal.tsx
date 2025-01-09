@@ -17,7 +17,7 @@ export const CancelVolunteerModal = ({
     volunteer,
 }: {
     volunteer: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const [note, setNote] = useState<string>('')
 

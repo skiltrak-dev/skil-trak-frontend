@@ -12,7 +12,7 @@ export const AllowAsAdminModal = ({
     onCancel,
 }: {
     subAdmin: SubAdmin
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { alert } = useAlert()
     const { notification } = useNotification()

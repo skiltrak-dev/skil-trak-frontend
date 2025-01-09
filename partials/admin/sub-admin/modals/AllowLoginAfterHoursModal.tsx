@@ -10,7 +10,7 @@ export const AllowLoginAfterHoursModal = ({
     onCancel,
 }: {
     subAdmin: SubAdmin
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [canLogin, canLoginResult] = CommonApi.AllowLogin.useAllowAsLogin()

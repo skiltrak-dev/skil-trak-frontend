@@ -11,7 +11,7 @@ export const AcceptModal = ({
     onCancel,
 }: {
     industry: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const router = useRouter()

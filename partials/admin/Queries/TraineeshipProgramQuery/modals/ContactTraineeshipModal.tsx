@@ -9,7 +9,7 @@ export const ContactTraineeshipModal = ({
     onCancel,
 }: {
     traineeship: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [contact, contactResult] =

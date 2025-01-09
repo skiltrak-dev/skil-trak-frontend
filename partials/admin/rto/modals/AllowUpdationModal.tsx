@@ -18,7 +18,7 @@ export const AllowUpdationModal = ({
     onCancel,
 }: {
     rto: Rto | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const password = process.env.NEXT_PUBLIC_UPDATE_DATE
     const [enteredPassword, setEnteredPassword] = useState<boolean>(false)

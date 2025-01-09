@@ -19,7 +19,7 @@ export const EditPassword = ({
     item,
 }: {
     item: any
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
 

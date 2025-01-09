@@ -10,7 +10,7 @@ export const DeleteMultiFutureIndustryModal = ({
     onCancel,
     futureIndustries,
 }: {
-    onCancel: Function
+    onCancel: () => void
     futureIndustries: any
 }) => {
     const { alert } = useAlert()

@@ -8,7 +8,7 @@ import { Typography } from '@components/Typography'
 
 interface NotificationMethodButtonProps {
     text: string
-    onClick: Function
+    onClick: () => void
     selected: boolean
     value: any
     animation: any
@@ -35,7 +35,7 @@ export const NotificationMethodButton = ({
 
     return (
         <div
-            onClick={() => onClick(value)}
+            onClick={() => onClick()}
             className={`transition-all duration-300 flex ${
                 vertical ? 'flex-col relative' : 'h-16'
             } items-center p-2 shadow-md rounded-lg w-full cursor-pointer border ${

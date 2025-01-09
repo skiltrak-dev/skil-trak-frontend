@@ -11,7 +11,7 @@ export const MultiBlockModal = ({
     onCancel,
 }: {
     industries: Industry[] | undefined | null
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
 

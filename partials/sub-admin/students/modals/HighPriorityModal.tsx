@@ -13,7 +13,7 @@ export const HighPriorityModal = ({
     setRefetchStudents,
 }: {
     item: Student
-    onCancel: Function
+    onCancel: () => void
     setRefetchStudents?: any
 }) => {
     const { alert } = useAlert()

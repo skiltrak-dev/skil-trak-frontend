@@ -9,7 +9,7 @@ export const AllowCancelationWPModal = ({
     onCancel,
 }: {
     subAdmin: SubAdmin
-    onCancel: Function
+    onCancel: () => void
 }) => {
     const { notification } = useNotification()
     const [allowWpCancelationReq, allowWpCancelationReqResult] =
