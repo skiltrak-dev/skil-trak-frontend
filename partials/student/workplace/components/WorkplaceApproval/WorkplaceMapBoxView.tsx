@@ -128,7 +128,10 @@ export const WorkplaceMapBoxView = ({
         travelModes.forEach((mode) => fetchDirections(mode))
     }, [fetchDirections])
 
-    if (!showMap) return <NoData text="No data available" />
+    if (!showMap)
+        return (
+            <NoData text="No Inustry location or Student Location available for map view" />
+        )
 
     return (
         <div className="w-full">
