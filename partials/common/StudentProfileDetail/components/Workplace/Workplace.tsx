@@ -68,6 +68,7 @@ const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Rejected,
     WorkplaceCurrentStatus.Interview,
     WorkplaceCurrentStatus.NoResponse,
+    WorkplaceCurrentStatus.AwaitingStudentResponse,
     WorkplaceCurrentStatus.AppointmentBooked,
     WorkplaceCurrentStatus.CaseOfficerAssigned,
     WorkplaceCurrentStatus.AwaitingAgreementSigned,
