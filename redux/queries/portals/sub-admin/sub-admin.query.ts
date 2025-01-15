@@ -132,6 +132,13 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
             }),
             providesTags: ['SubAdminStudents'],
         }),
+        getDepartmentPlacementStartedStudents: build.query<any, any>({
+            query: (params) => ({
+                url: `department/placement-started/students`,
+                params,
+            }),
+            providesTags: ['SubAdminStudents'],
+        }),
         getDepartmentPendingIndustries: build.query<any, any>({
             query: (params) => ({
                 url: `department/industries-list`,
@@ -202,6 +209,7 @@ export const {
     useGetHodCoordinatorsListQuery,
     useGetCoordinatorsDropDownQuery,
     useGetDepartmentStudentsQuery,
+    useGetDepartmentPlacementStartedStudentsQuery,
     useGetDepartmentStudentsCountQuery,
     useGetDepartmentPendingIndustriesQuery,
     useGetDepartmentCoursesRequestListQuery,
@@ -480,6 +488,8 @@ export const SubAdminApi = {
         useHodCoordinatorsList: useGetHodCoordinatorsListQuery,
         useCoordinatorsDropDown: useGetCoordinatorsDropDownQuery,
         useDepartmentStudents: useGetDepartmentStudentsQuery,
+        useDepartmentPlacementStartedStudents:
+            useGetDepartmentPlacementStartedStudentsQuery,
         useDepartmentStudentsCount: useGetDepartmentStudentsCountQuery,
         useDepartmentPendingIndustries: useGetDepartmentPendingIndustriesQuery,
         useDepartmentCoursesRequestList:

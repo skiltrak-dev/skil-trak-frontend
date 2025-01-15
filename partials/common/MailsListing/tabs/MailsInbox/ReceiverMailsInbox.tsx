@@ -21,7 +21,7 @@ export const ReceiverMailsInbox = () => {
     )
 
     return (
-        <div>
+        <div className="w-full">
             <MailTopBar
                 hasNext={mailsList?.data?.pagination?.hasNext}
                 hasPrev={page > 1}

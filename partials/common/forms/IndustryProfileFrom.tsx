@@ -249,7 +249,7 @@ export const IndustryProfileFrom = ({
                 courses,
                 createdByStudent,
                 location,
-                isPartner,
+                // isPartner,
                 stripeCustomerId,
                 user,
                 isActive,
@@ -289,7 +289,7 @@ export const IndustryProfileFrom = ({
                     label: c?.title,
                 })),
                 state: profile?.data?.region?.name,
-                isPartner: isPartner ? 'yes' : 'no',
+                // isPartner: isPartner ? 'yes' : 'no',
             }
             for (const key in values) {
                 formMethods.setValue(key, values[key])
@@ -302,7 +302,7 @@ export const IndustryProfileFrom = ({
                 setStateId(profile?.data?.region?.id)
             }
             setIsAddressUpdated(profile?.data?.isAddressUpdated)
-            setIsPartner(profile?.data?.isPartner ? 'yes' : 'no')
+            // setIsPartner(profile?.data?.isPartner ? 'yes' : 'no')
         }
     }, [profile])
 
@@ -320,9 +320,9 @@ export const IndustryProfileFrom = ({
         } else if (onSuburbClicked) {
             onSubmit({
                 ...values,
-                isPartner: values?.isPartner === 'yes' ? true : false,
-                studentCapacity:
-                    isPartner === 'yes' ? values?.studentCapacity : 0,
+                // isPartner: values?.isPartner === 'yes' ? true : false,
+                // studentCapacity:
+                //     isPartner === 'yes' ? values?.studentCapacity : 0,
                 region: values?.region?.value,
                 country: countryId,
                 isAddressUpdated,
@@ -626,7 +626,7 @@ export const IndustryProfileFrom = ({
                                     /> */}
                                 </div>
 
-                                <AuthorizedUserComponent
+                                {/* <AuthorizedUserComponent
                                     roles={[
                                         UserRoles.ADMIN,
                                         UserRoles.INDUSTRY,
@@ -660,7 +660,7 @@ export const IndustryProfileFrom = ({
                                             />
                                         )}
                                     </div>
-                                </AuthorizedUserComponent>
+                                </AuthorizedUserComponent> */}
                             </div>
                         </div>
 

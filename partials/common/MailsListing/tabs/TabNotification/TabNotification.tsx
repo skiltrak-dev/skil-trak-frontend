@@ -25,7 +25,7 @@ export const TabNotification = () => {
         }
     }
     return (
-        <div>
+        <div className="w-full">
             <NotificationTopBar
                 hasPrev={page > 1}
                 refetch={notifications?.refetch}
@@ -40,7 +40,7 @@ export const TabNotification = () => {
                     ))
                 ) : notifications?.data?.data &&
                   notifications?.data?.data?.length > 0 ? (
-                    <div className="flex flex-col gap-y-2.5">
+                    <div className="flex flex-col gap-y-2.5 h-[430px] overflow-y-auto">
                         {notifications?.data?.data?.map((notification: any) => (
                             <NotificationViewCard
                                 key={notification?.id}

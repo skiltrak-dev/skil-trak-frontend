@@ -372,9 +372,7 @@ export const IndustryProfile = ({ data }: Props) => {
                                         variant={'small'}
                                         color={'text-black'}
                                     >
-                                        {data?.isPartner === false
-                                            ? 'No'
-                                            : 'Yes' || 'N/A'}
+                                        {!data?.isPartner ? 'No' : 'Yes'}
                                         <AuthorizedUserComponent
                                             roles={[UserRoles.SUBADMIN]}
                                         >

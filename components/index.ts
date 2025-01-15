@@ -37,6 +37,7 @@ export * from './CustomDropdown'
 export * from './HideRestrictedData'
 export * from './PrePageLoading'
 export * from './VisibilityObserver'
+export * from './LoadedData'
 
 export * from './LoogbookEditor'
 

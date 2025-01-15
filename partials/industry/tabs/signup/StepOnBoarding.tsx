@@ -120,7 +120,8 @@ export const StepOnBoarding = () => {
             // Skip sectors base capacity as we'll handle it separately
             if (
                 key !== IndustryQuestionsEnum.SECTORS_BASE_CAPACITY &&
-                key !== IndustryQuestionsEnum.TRAINING
+                key !== IndustryQuestionsEnum.TRAINING &&
+                key !== IndustryQuestionsEnum.APPLICATIONS
             ) {
                 questions.push({
                     question: value,
@@ -138,6 +139,18 @@ export const StepOnBoarding = () => {
             questions.push({
                 question: industryQuestions[IndustryQuestionsEnum.TRAINING],
                 answer: data?.trainingDetails,
+            })
+        }
+
+        if (data?.application === 'yes') {
+            questions.push({
+                question: industryQuestions[IndustryQuestionsEnum.APPLICATIONS],
+                answer: data?.applicationLink,
+            })
+        } else if (data?.application === 'no') {
+            questions.push({
+                question: industryQuestions[IndustryQuestionsEnum.APPLICATIONS],
+                answer: data?.application,
             })
         }
 
@@ -163,6 +176,7 @@ export const StepOnBoarding = () => {
                 router.push({ query: { step: 'review-info' } })
             }
         }
+        console.log('questions', questions)
     }
 
     const onSelect = (type: string) => {

@@ -309,15 +309,15 @@ export const FutureIndustrySignUpForm = ({
                 answer: values?.training,
             })
         }
-        if (values?.Applications === 'yes') {
+        if (values?.application === 'yes') {
             questions.push({
                 question: industryQuestions[IndustryQuestionsEnum.APPLICATIONS],
-                answer: values?.applicationDetail || values?.Applications,
+                answer: values?.applicationLink,
             })
-        } else if (values?.Applications === 'no') {
+        } else if (values?.application === 'no') {
             questions.push({
                 question: industryQuestions[IndustryQuestionsEnum.APPLICATIONS],
-                answer: values?.Applications,
+                answer: values?.application,
             })
         }
 

@@ -12,6 +12,7 @@ import {
 } from '@components'
 import {
     DepartmentPendingStudents,
+    DepartmentPlacementStartedStudentList,
     DepartmentStudentList,
     FilterDepartmentStudents,
     FlaggedDepartmentStudentList,
@@ -144,6 +145,19 @@ const DepartmentStudents: NextPageWithLayout = () => {
                 loading: isLoading,
             },
             element: <DepartmentStudentList />,
+        },
+        // DepartmentPlacementStartedStudentList
+        {
+            label: 'Placement Started Students',
+            href: {
+                pathname: 'students',
+                query: { tab: 'placement-started-students' },
+            },
+            badge: {
+                text: data?.placementStarted,
+                loading: isLoading,
+            },
+            element: <DepartmentPlacementStartedStudentList />,
         },
         {
             label: 'Snoozed Students',
