@@ -84,11 +84,11 @@ export const MailListCard = ({
                         roleUrl()
                     }
                 }}
-                className={`flex flex-col lg:flex-row lg:items-center gap-2 py-2.5 px-3 ${
+                className={`flex flex-col lg:flex-row lg:items-center gap-2 py-8 px-3 ${
                     mailDetail?.isSeen ? 'bg-gray-200' : 'bg-white'
-                }  border-b border-secondary-dark hover:bg-[#C2DBFF] cursor-pointer`}
+                }  border-b border-secondary-dark hover:bg-[#FCDEC5] rounded-lg cursor-pointer mt-2`}
             >
-                <div className="flex gap-x-0.5 w-64">
+                <div className="flex gap-x-5 items-center">
                     <Checkbox
                         name="slectMail"
                         value={selectedMail}
@@ -100,17 +100,18 @@ export const MailListCard = ({
                         }}
                         showError={false}
                     />
-                    <Typography
+                    <div className="size-14 bg-[#A098AE] rounded-lg"></div>
+                    {/* <Typography
                         variant="small"
                         bold={mailDetail?.isSeen ? false : true}
                     >
                         {user?.name}
-                    </Typography>
+                    </Typography> */}
                 </div>
-                <div className="w-full flex items-center gap-x-1 relative">
+                <div className="ml-8 w-full flex items-center gap-x-1 relative">
                     <div className={'w-full flex justify-between items-center'}>
-                        <div className={'flex items-center gap-x-1 col-span-9'}>
-                            <div className="w-48 truncate">
+                        <div className={'flex flex-col gap-y-2 gap-x-1 col-span-9'}>
+                            <div className="w-24 truncate">
                                 <Typography
                                     variant="small"
                                     bold={mailDetail?.isSeen ? false : true}
@@ -122,13 +123,13 @@ export const MailListCard = ({
                                     {mailDetail?.subject?.substring(0, 40)}
                                 </Typography>
                             </div>
-                            <Typography
+                            {/* <Typography
                                 variant="small"
                                 bold
                                 color="text-[#0000008A]"
                             >
                                 -
-                            </Typography>
+                            </Typography> */}
                             <Typography
                                 variant="small"
                                 color="text-[#0000008A]"
@@ -138,7 +139,7 @@ export const MailListCard = ({
                                         plainTextWithSpaces(
                                             mailDetail?.message
                                         ),
-                                        100
+                                        150
                                     )
                                     // mailDetail?.message
                                 }

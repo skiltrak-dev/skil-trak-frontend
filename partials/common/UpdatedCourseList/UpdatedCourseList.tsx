@@ -89,9 +89,9 @@ export const UpdatedCourseList = ({
                             'max-h-96 overflow-auto custom-scrollbar flex flex-col px-2 gap-y-4 mt-5'
                         }
                     >
-                        {Object.keys(sectorsWithCourses).map((sector) => {
+                        {Object.keys(sectorsWithCourses).map((sector: any) => {
                             return (
-                                <div>
+                                <div key={sector?.id}>
                                     <Typography
                                         variant={'small'}
                                         color={'text-black'}

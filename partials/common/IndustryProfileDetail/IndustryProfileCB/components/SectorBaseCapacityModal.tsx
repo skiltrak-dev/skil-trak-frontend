@@ -54,51 +54,51 @@ export const SectorBaseCapacityModal = ({
         SubAdminApi.Industry.useUpdateOldCapacityToSectorBase()
 
     // // Extracted Industry Sectors from its own courses
-    const extractIndustrySectors = (() => {
-        const sectors = industry.courses.map((item: any) => item.sector)
-        const seen = new Set()
-        return sectors?.filter((sector: any) => {
-            if (seen.has(sector.id)) {
-                return false
-            } else {
-                seen.add(sector.id)
-                return true
-            }
-        })
-    })()
-
-    // // SubAdmin Assign Sectors from
-    const uniqueSectors = (() => {
-        const sectors = subadminCourses?.data?.map((item: any) => item?.sector)
-        const seen = new Set()
-        return sectors?.filter((sector: any) => {
-            if (seen.has(sector.id)) {
-                return false
-            } else {
-                seen.add(sector.id)
-                return true
-            }
-        })
-    })()
-    // const extractIndustrySectors = React.useMemo(() => {
-    //     const sectors = industry?.courses?.map((item: any) => item.sector)
+    // const extractIndustrySectors = (() => {
+    //     const sectors = industry.courses.map((item: any) => item.sector)
     //     const seen = new Set()
     //     return sectors?.filter((sector: any) => {
-    //         if (seen?.has(sector?.id)) return false
-    //         seen?.add(sector?.id)
-    //         return true
+    //         if (seen.has(sector.id)) {
+    //             return false
+    //         } else {
+    //             seen.add(sector.id)
+    //             return true
+    //         }
     //     })
-    // }, [industry?.courses])
+    // })()
 
-    // const uniqueSectors = React.useMemo(() => {
+    // // // SubAdmin Assign Sectors from
+    // const uniqueSectors = (() => {
     //     const sectors = subadminCourses?.data?.map((item: any) => item?.sector)
     //     const seen = new Set()
     //     return sectors?.filter((sector: any) => {
-    //         if (seen?.has(sector?.id)) return false
-    //         seen?.add(sector?.id)
-    //         return true
+    //         if (seen.has(sector.id)) {
+    //             return false
+    //         } else {
+    //             seen.add(sector.id)
+    //             return true
+    //         }
     //     })
-    // }, [subadminCourses?.data])
+    // })()
+    const extractIndustrySectors = React.useMemo(() => {
+        const sectors = industry?.courses?.map((item: any) => item.sector)
+        const seen = new Set()
+        return sectors?.filter((sector: any) => {
+            if (seen?.has(sector?.id)) return false
+            seen?.add(sector?.id)
+            return true
+        })
+    }, [industry?.courses])
+
+    const uniqueSectors = React.useMemo(() => {
+        const sectors = subadminCourses?.data?.map((item: any) => item?.sector)
+        const seen = new Set()
+        return sectors?.filter((sector: any) => {
+            if (seen?.has(sector?.id)) return false
+            seen?.add(sector?.id)
+            return true
+        })
+    }, [subadminCourses?.data])
 
     useEffect(() => {
         if (
@@ -192,16 +192,10 @@ export const SectorBaseCapacityModal = ({
     )
 
     // checking sub-admin course and industry
-    const matchSubAdminSectors = uniqueSectors?.filter(
-        (sector: any) =>
-            extractIndustrySectors?.some(
-                (item: any) => item?.id === sector?.id
-            )
+    const matchSubAdminSectors = uniqueSectors?.filter((sector: any) =>
+        extractIndustrySectors?.some((item: any) => item?.id === sector?.id)
     )
-    console.log('matchSubAdminSectors', matchSubAdminSectors)
-    console.log('filteredSectors', filteredSectors)
-    console.log('data', data)
-    console.log('uniqueSectors', uniqueSectors);
+
     return (
         <>
             <ShowErrorNotifications

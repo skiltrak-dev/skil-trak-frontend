@@ -13,6 +13,13 @@ export const AcceptModal = ({
     industry: any
     onCancel: () => void
 }) => {
+    const filterCurrentSector = industry?.industry?.sectorCapacity?.filter(
+        (sector: any) => {
+            if (sector?.id === industry?.sector?.id) {
+                return sector
+            }
+        }
+    )
     const { notification } = useNotification()
     const router = useRouter()
 
@@ -46,7 +53,10 @@ export const AcceptModal = ({
                 Icon={HiCheckBadge}
                 variant="success"
                 title="Confirm Sector Approval"
-                description={`You are about to approve the selected sector for this industry. Once approved, you will be redirected to the Courses Approval Page.<br/><br/> <strong>On the next page, you will need to:</strong> <br/> <br/>Provide a description for each course in this sector. Add a relevant reference URL for each course. Please ensure all information is accurate and complete before finalizing the industry approval.`}
+                description={`This Sector is accepting <strong>(${
+                    industry?.industry?.industrySectorCapacity[0]?.capacity ??
+                    'N/A'
+                })</strong> Students <br/> You are about to approve the selected sector for this industry. Once approved, you will be redirected to the Courses Approval Page.<br/><br/> <strong>On the next page, you will need to:</strong> <br/> <br/>Provide a description for each course in this sector. Add a relevant reference URL for each course. Please ensure all information is accurate and complete before finalizing the industry approval.`}
                 onConfirm={onConfirmClicked}
                 onCancel={onCancel}
                 input

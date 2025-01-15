@@ -8,7 +8,7 @@ import { NextPageWithLayout } from '@types'
 
 const SubAdminEmailsNotifications: NextPageWithLayout = () => {
     return (
-        <div className="px-4">
+        <div className="px-4 mt-8">
             <MailsListing />
         </div>
     )

@@ -2,11 +2,24 @@ import { useRouter } from 'next/router'
 import { CiMail } from 'react-icons/ci'
 import { IoNotificationsOutline } from 'react-icons/io5'
 import { TopBar } from './components'
-import { ReceiverMailsInbox, SenderMailsInbox, TabNotification } from './tabs'
+import {
+    FilterMails,
+    ReceiverMailsInbox,
+    SenderMailsInbox,
+    TabNotification,
+} from './tabs'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
+import { FaInbox } from 'react-icons/fa'
+import { IoSendSharp } from 'react-icons/io5'
+import { IoMdNotifications } from 'react-icons/io'
+import { MailsCountCard } from './tabs/MailsInbox/Cards'
+import { IoSearch } from 'react-icons/io5'
+import { useState } from 'react'
+import { AuthorizedUserComponent } from '@components'
 
 export const MailsListing = () => {
+    const [searchQuery, setSearchQuery] = useState('')
     const router = useRouter()
 
     const role = getUserCredentials()?.role
@@ -29,7 +42,7 @@ export const MailsListing = () => {
     const mailsTabs = [
         {
             text: 'Inbox',
-            Icon: CiMail,
+            Icon: FaInbox,
             href: {
                 pathname: roleUrl(),
                 query: { tab: 'inbox' },
@@ -37,8 +50,8 @@ export const MailsListing = () => {
             component: ReceiverMailsInbox,
         },
         {
-            text: 'Sent Mails',
-            Icon: CiMail,
+            text: 'Sent',
+            Icon: IoSendSharp,
             href: {
                 pathname: roleUrl(),
                 query: { tab: 'sent' },
@@ -47,7 +60,7 @@ export const MailsListing = () => {
         },
         {
             text: 'All Notifications',
-            Icon: IoNotificationsOutline,
+            Icon: IoMdNotifications,
             href: {
                 pathname: roleUrl(),
                 query: { tab: 'notification' },
@@ -64,11 +77,58 @@ export const MailsListing = () => {
 
     const DefaultComponent = mailsTabs?.[0]?.component
     return (
-        <div className="mb-6">
+        <div className="my-6 flex items-start gap-x-2">
             <TopBar mailsTabs={mailsTabs} />
 
             {/* Component */}
-            {Component ? <Component /> : <DefaultComponent />}
+            <div className="w-full">
+                <AuthorizedUserComponent
+                    roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                >
+                    <div className="flex items-center justify-between gap-x-16 mb-5 w-full">
+                        <MailsCountCard
+                            imageUrl="/images/mails/student-mail-icon.svg"
+                            title="Student"
+                            count={20}
+                        />
+                        <MailsCountCard
+                            imageUrl="/images/mails/industry-mail-icon.svg"
+                            title="Industry"
+                            count={10}
+                        />
+                        <MailsCountCard
+                            imageUrl="/images/mails/department-mail-icon.svg"
+                            title="Department"
+                            count={13}
+                        />
+                        <MailsCountCard
+                            imageUrl="/images/mails/management-mail-icon.svg"
+                            title="Management"
+                            count={33}
+                        />
+                    </div>
+                </AuthorizedUserComponent>
+                <div className="relative w-full mb-4">
+                    <div className="absolute top-1/2 left-8 ">
+                        <IoSearch
+                            size={25}
+                            className="transform font-bold -translate-y-1/2 text-indigo-400"
+                        />
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Search here..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e?.target?.value)}
+                        className="w-full pl-16 pr-8 py-6 bg-[#FFF2D6] border-0 rounded-2xl focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                    />
+                </div>
+                {searchQuery !== '' ? (
+                    <FilterMails query={searchQuery} filteredData={[]} />
+                ) : (
+                    <>{Component ? <Component /> : <DefaultComponent />}</>
+                )}
+            </div>
         </div>
     )
 }

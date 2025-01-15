@@ -19,7 +19,7 @@ const Routes = {
     Jobs: `${PREFIX}/jobs/advertised-jobs`,
     ESign: `${PREFIX}/e-sign`,
     RequestAVolunteer: `${PREFIX}/students/request-a-volunteer`,
-    Notifications: `${PREFIX}/notifications/e-mails?tab=all-mails`,
+    Notifications: `${PREFIX}/notifications/e-mails?tab=inbox`,
     TalentPool: `${PREFIX}/talent-pool`,
     Schedule: `${PREFIX}/tasks/add-a-schedule`,
 }

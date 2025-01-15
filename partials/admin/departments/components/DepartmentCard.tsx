@@ -16,7 +16,7 @@ import { AdminApi } from '@queries'
 import { useModal } from '../hooks'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { useRouter } from 'next/router'
-import { getUserCredentials } from '@utils'
+import { ellipsisText, getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
 import Modal from '../../../../modals/Modal'
 import { AddDepartmentEmailModal } from '../modal'
@@ -137,7 +137,10 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
                         onClick={() => handleViewDetails()}
                         className="cursor-pointer bg-primaryNew whitespace-nowrap min-w-[272px] rounded-lg p-5 flex items-start gap-x-5"
                     >
-                        <div className="flex flex-col gap-y-1 items-start">
+                        <div
+                            className="flex flex-col gap-y-1 items-start"
+                            title={department?.name}
+                        >
                             <Typography
                                 variant="xs"
                                 uppercase
@@ -145,18 +148,13 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
                             >
                                 Department Name
                             </Typography>
-                            <div>
-                                <Typography
-                                    variant="title"
-                                    capitalize
-                                    color="text-white"
-                                >
-                                    {department?.name ?? 'NA'}
-                                </Typography>
-                                <Typography variant="small" color="text-white">
-                                    {department?.email ?? 'NA'}
-                                </Typography>
-                            </div>
+                            <Typography
+                                variant="title"
+                                capitalize
+                                color="text-white"
+                            >
+                                {ellipsisText(department?.name, 20) ?? 'NA'}
+                            </Typography>
                         </div>
                     </div>
                     <div className="flex items-center gap-x-2.5 w-full py-2">

@@ -4,7 +4,7 @@ import React from 'react'
 export const MailTitle = ({ mailFrom }: { mailFrom: string }) => {
     return (
         <div
-            className={`flex flex-col lg:flex-row lg:items-center gap-2 py-1.5 px-3 bg-white border-b border-secondary-dark`}
+            className={`flex flex-col lg:flex-row lg:items-center gap-2 py-1.5 px-3 bg-white`}
         >
             <div className="flex items-center gap-x-0.5 w-64">
                 <Typography variant="small" bold>
