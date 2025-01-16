@@ -21,8 +21,8 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { Waypoint } from 'react-waypoint'
-import { NoteCard } from '@partials/common/StudentProfileDetail/components/Notes/Card'
 import { ListingIndustryMail } from './ListingIndustryMail'
+import { NoteCard } from '@partials/common/Notes'
 
 export const ListingIndustryAllCommunications = () => {
     const [isEntered, setIsEntered] = useState<boolean>(false)

@@ -211,9 +211,7 @@ export const ViewProfileCB = () => {
                                     variant={'small'}
                                     color={'text-black'}
                                 >
-                                    {data?.isPartner === false
-                                        ? 'No'
-                                        : 'Yes' || 'N/A'}
+                                    {data?.isPartner === false ? 'No' : 'Yes'}
                                 </Typography>
                             </div>
                         </div>

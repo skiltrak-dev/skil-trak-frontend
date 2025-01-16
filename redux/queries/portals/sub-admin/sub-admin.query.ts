@@ -16,7 +16,7 @@ import { talentPoolEndpoints } from './talentPool'
 import { todoListEndpoints } from './todoList'
 import { subadminVolunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
-export const subAdminApi = emptySplitApi.injectEndpoints({
+export const subAdminApi = emptySplitApi('subAdminApi').injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',
     //     baseQuery: fetchBaseQuery({
@@ -339,6 +339,7 @@ export const {
     useSendStudentMssageMutation,
     useGetStudentMessagesListQuery,
     useReleaseStudentLogbookMutation,
+    useAddStudentNoteMutation,
 
     // ---- LOGBOOK ---- //
     useSaveLogbookMutation,
@@ -507,6 +508,7 @@ export const SubAdminApi = {
     },
 
     Student: {
+        addStudentNote: useAddStudentNoteMutation,
         useProblamaticStudent: useProblamaticStudentMutation,
         useCount: useSubAdminStudentCountQuery,
         useList: useGetSubAdminStudentsQuery,

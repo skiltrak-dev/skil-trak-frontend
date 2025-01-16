@@ -7,13 +7,11 @@ import {
     SubadminReports,
 } from './components'
 import { AdminApi } from '@queries'
-import {
-    MailsCommunication,
-    Notes,
-} from '@partials/common/StudentProfileDetail/components'
+import { MailsCommunication } from '@partials/common/StudentProfileDetail/components'
 import { SubadminHistory } from './components/SubadminHistory'
 import { useEffect } from 'react'
 import { useAlert } from '@hooks'
+import { Notes } from '@partials/common'
 
 export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
     const subAdminProfileCount = AdminApi.SubAdmins.useProfileCount(
@@ -84,11 +82,8 @@ export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
                             <SubadminProfileCounts
                                 subAdminProfileCount={subAdminProfileCount}
                                 subadminUserId={subadmin?.user?.id}
-
                                 profileDetail={subadmin}
-
                                 subadminId={subadmin?.id}
-
                             />
                         </div>
                     </div>

@@ -1,6 +1,5 @@
 import { Card } from '@components'
-import { ProfileAppointments } from '@partials/common'
-import { Notes } from '@partials/common/StudentProfileDetail/components'
+import { Notes, ProfileAppointments } from '@partials/common'
 import { IndustryApi } from '@queries'
 import { useRouter } from 'next/router'
 import { useState } from 'react'

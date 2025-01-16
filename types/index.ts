@@ -33,3 +33,5 @@ export * from './filterFormType'
 
 export * from './coordinator-reports.types'
 export * from './tickets.types'
+
+export * from './noteTemplate.type'

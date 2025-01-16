@@ -1,3 +1,5 @@
+import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
+import { NotesTemplateStatus } from '@partials/common/Notes/forms'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import {
@@ -623,6 +625,24 @@ export const studentsEndpoints = (
         query: (wpId) => ({
             url: `${PREFIX}/assessment-tool/${wpId}`,
             method: 'POST',
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
+
+    addStudentNote: builder.mutation<
+        Student,
+        {
+            id: number
+            status: NotesTemplateStatus
+            type: NotesTemplateType | null
+            stdId: number
+            templateId: number
+        }
+    >({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/student-note/${id}/update-status`,
+            params,
+            method: 'PATCH',
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),

@@ -76,12 +76,14 @@ export const Notifications = () => {
                                                 <Typography
                                                     variant={'subtitle'}
                                                 >
+                                                    {' '}
                                                     {/* {notification.title} */}
                                                 </Typography>
                                                 <Typography
                                                     variant={'muted'}
                                                     // color={notification.isRead ? 'grayLight' : 'black'}
                                                 >
+                                                    {' '}
                                                     {/* <span
                             className={`${
                               !notification.isRead ? 'font-bold' : ''
@@ -94,6 +96,7 @@ export const Notifications = () => {
                                                     variant={'muted'}
                                                     color={'grayLight'}
                                                 >
+                                                    {' '}
                                                     {/* {moment(notification.createdAt, 'YYYYMMDD').fromNow()} */}
                                                 </Typography>
                                             </div>

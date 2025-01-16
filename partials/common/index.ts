@@ -1,4 +1,5 @@
 export * from './forms'
+export * from './Notes'
 export * from './NotesTab'
 export * from './MailsTab'
 export * from './workplace'

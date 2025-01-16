@@ -1,3 +1,4 @@
+import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import { Note } from '@types'
@@ -29,7 +30,7 @@ export const notesEndpoints = (
 
     noteCreate: builder.mutation({
         query: (body) => ({
-            url: `${PREFIX}`,
+            url: PREFIX,
             method: 'POST',
             body: body,
         }),
@@ -51,5 +52,16 @@ export const notesEndpoints = (
             method: 'DELETE',
         }),
         invalidatesTags: ['Notes', 'AllCommunications'],
+    }),
+
+    getNotesTemplate: builder.query<
+        any,
+        { type: NotesTemplateType | null; wpId: number }
+    >({
+        query: (params) => ({
+            url: 'notes-template/list',
+            params,
+        }),
+        providesTags: ['Notes'],
     }),
 })

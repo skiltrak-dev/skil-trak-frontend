@@ -25,13 +25,13 @@ import {
 import {
     AssessmentSubmissions,
     MailsCommunication,
-    Notes,
     RtoDetail,
     Schedule,
     Tickets,
     Workplace,
 } from './components'
 import { ProfileViewCB } from './ContextBar'
+import { Notes, StudentProfileNotes } from '../Notes'
 
 export const StudentProfileDetail = () => {
     const contextBar = useContextBar()
@@ -325,7 +325,10 @@ export const StudentProfileDetail = () => {
                             } h-[99%] ${activeBorder(ProfileIds.Notes)}`}
                             id={`student-profile-${ProfileIds.Notes}`}
                         >
-                            <Notes userId={profile?.data?.user?.id} />
+                            <StudentProfileNotes
+                                userId={profile?.data?.user?.id}
+                                studentId={profile?.data?.id}
+                            />
                         </div>
                     </div>
                     <div

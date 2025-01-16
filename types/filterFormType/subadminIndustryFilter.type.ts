@@ -8,4 +8,5 @@ export interface SubadminIndustryFilter {
     address: string
     state?: string
     isHiring: boolean
+    isPartner: boolean
 }

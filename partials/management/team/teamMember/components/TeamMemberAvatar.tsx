@@ -1,9 +1,8 @@
-import { GlobalModal, Typography } from '@components'
+import { Typography } from '@components'
 import Image from 'next/image'
-import React, { ReactElement, useState } from 'react'
-import { FaEdit } from 'react-icons/fa'
 import { BsPatchCheckFill } from 'react-icons/bs'
-import { RiExchangeLine } from "react-icons/ri";
+import { FaEdit } from 'react-icons/fa'
+import { RiExchangeLine } from 'react-icons/ri'
 
 type TeamMemberAvatarProps = {
     avatarUrl?: string
@@ -88,7 +87,7 @@ export const TeamMemberAvatar = ({
                             uppercase
                             center
                         >
-                            {isLead ? 'Team Lead' : 'Coordinator' || 'N/A'}
+                            {isLead ? 'Team Lead' : 'Coordinator'}
                         </Typography>
                     </div>
                 </div>

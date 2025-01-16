@@ -6,7 +6,6 @@ import {
     Filter,
     LoadingAnimation,
     NoteTemplateFilter,
-    Table,
     TableAction,
     TableActionOption,
     TableChildrenProps,
@@ -24,11 +23,12 @@ import { getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { DeleteNoteTemplateModal } from './modals'
-import { ContentViewModal } from './components'
+import { ContentViewModal, Table } from './components'
+import { NotesTemplateType } from './enum'
 
 const filterKeys = ['subject']
 
-export const NoteTemplate = () => {
+export const ResolutionPathLabel = () => {
     const router = useRouter()
     const contextBar = useContextBar()
 
@@ -43,7 +43,9 @@ export const NoteTemplate = () => {
 
     const { isLoading, data, isError, isFetching } =
         AdminApi.NotesTemplates.notesTemplates({
-            search: `${JSON.stringify(filter)
+            search: `type:${
+                NotesTemplateType.ResolutionPathLabel
+            },${JSON.stringify(filter)
                 .replaceAll('{', '')
                 .replaceAll('}', '')
                 .replaceAll('"', '')
@@ -212,41 +214,7 @@ export const NoteTemplate = () => {
                     {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
-                        <Table
-                            columns={columns}
-                            data={data?.data}
-                            enableRowSelection
-                            quickActions={quickActionsElements}
-                        >
-                            {({
-                                table,
-                                pagination,
-                                pageSize,
-                                quickActions,
-                            }: TableChildrenProps) => {
-                                return (
-                                    <div>
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize &&
-                                                pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage,
-                                                    data?.data?.length
-                                                )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination &&
-                                                    pagination(
-                                                        data?.pagination,
-                                                        setPage
-                                                    )}
-                                            </div>
-                                        </div>
-                                        <div className="px-6">{table}</div>
-                                    </div>
-                                )
-                            }}
-                        </Table>
+                        <Table notes={data?.data} columns={columns} />
                     ) : (
                         !isError && (
                             <EmptyData

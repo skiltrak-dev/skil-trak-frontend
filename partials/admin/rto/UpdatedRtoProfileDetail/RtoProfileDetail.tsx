@@ -1,8 +1,5 @@
-import { ProfileAppointments } from '@partials/common'
-import {
-    MailsCommunication,
-    Notes,
-} from '@partials/common/StudentProfileDetail/components'
+import { Notes, ProfileAppointments } from '@partials/common'
+import { MailsCommunication } from '@partials/common/StudentProfileDetail/components'
 import { Rto, SubAdmin } from '@types'
 import {
     RtoReports,

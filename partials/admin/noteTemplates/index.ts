@@ -1,2 +1,3 @@
 export * from './forms'
-export * from './NoteTemplate'
+export * from './ResolutionPathLabel'
+export * from './StatusCheckLabelNotes'

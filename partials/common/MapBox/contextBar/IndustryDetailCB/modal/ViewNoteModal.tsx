@@ -7,8 +7,8 @@ import {
     Button,
     ActionButton,
 } from '@components'
+import { NoteCard } from '@partials/common/Notes'
 import { CommonApi } from '@queries'
-import { NoteCard } from '@partials/common/StudentProfileDetail/components/Notes/Card'
 
 export const ViewNoteModal = ({
     userId,
