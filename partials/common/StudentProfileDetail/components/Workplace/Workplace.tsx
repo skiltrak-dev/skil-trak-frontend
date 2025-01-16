@@ -86,7 +86,7 @@ export const Workplace = ({
     const [selectedWorkplace, setSelectedWorkplace] = useState<any>(null)
     const [showPreviousWorkplace, setShowPreviousWorkplace] = useState(false)
 
-    const { workplaceRto } = useWorkplace()
+    const { workplaceRto, setWorkplaceRes } = useWorkplace()
 
     const studentWorkplace = useGetSubAdminStudentWorkplaceDetailQuery(
         student?.id,
@@ -156,6 +156,7 @@ export const Workplace = ({
 
     useEffect(() => {
         if (sortedWorkplace && sortedWorkplace?.length > 0) {
+            setWorkplaceRes(sortedWorkplace)
             getWorkplaceLength(sortedWorkplace?.length)
             setSelectedWorkplace(
                 selectedWorkplace

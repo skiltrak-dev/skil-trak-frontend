@@ -10,6 +10,8 @@ interface NavbarContextType {
     setIndustryLocation: any
     workplaceRto: Rto | null
     setWorkplaceRto: any
+    workplaceRes: any
+    setWorkplaceRes: any
 }
 
 const WorkplaceContext = createContext<NavbarContextType | null>(null)
@@ -19,12 +21,15 @@ export const WorkplaceProvider = ({
 }: {
     children: React.ReactNode
 }) => {
+    const [workplaceRes, setWorkplaceRes] = useState([])
     const [workplaceData, setWorkplaceData] = useState({})
     const [studentLocation, setStudentLocation] = useState('')
     const [industryLocation, setIndustryLocation] = useState('')
     const [workplaceRto, setWorkplaceRto] = useState<Rto | null>(null)
 
     const values = {
+        workplaceRes,
+        setWorkplaceRes,
         workplaceData,
         setWorkplaceData,
         studentLocation,

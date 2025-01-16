@@ -45,6 +45,7 @@ const filterKeys = [
     'abn',
     'courseId',
     'isHiring',
+    'isPartner',
 ]
 export const SubadminIndustries = () => {
     const { setContent, hide, show } = useContextBar()

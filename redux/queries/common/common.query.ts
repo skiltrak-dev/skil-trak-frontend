@@ -24,7 +24,7 @@ import { workBasedProgramEndpoints } from './workBasedProgram'
 import { traineeshipProgramEndpoints } from './traineeshipProgram'
 import { studentAssessmentGalleryEndpoints } from './studentAssessmentGallery'
 
-export const commonApi = emptySplitApi.injectEndpoints({
+export const commonApi = emptySplitApi('commonApi').injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
     endpoints: (build) => ({
         getSerchedPlaces: build.query<any, any>({
@@ -362,6 +362,7 @@ const {
     useNoteCreateMutation,
     useNoteUpdateMutation,
     useNoteRemoveMutation,
+    useGetNotesTemplateQuery,
     useNoteStatusChangeMutation,
 
     // --- COMMUNICATIONS --- //
@@ -642,6 +643,7 @@ export const CommonApi = {
         useCreate: useNoteCreateMutation,
         useUpdate: useNoteUpdateMutation,
         useRemove: useNoteRemoveMutation,
+        getNotesTemplate: useGetNotesTemplateQuery,
         useStatusChange: useNoteStatusChangeMutation,
     },
     AllCommunication: {

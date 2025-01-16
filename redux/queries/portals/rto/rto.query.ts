@@ -12,7 +12,7 @@ import { studentEndpoints } from './student'
 import { workplaceEndpoints } from './workplace'
 import { insuranceEndpoints } from './insurance'
 
-export const rtoApi = emptySplitApi.injectEndpoints({
+export const rtoApi = emptySplitApi('rtoApi').injectEndpoints({
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
         rtoMyProfile: build.query<any, void>({

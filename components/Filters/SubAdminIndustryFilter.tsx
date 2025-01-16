@@ -21,11 +21,20 @@ export const SubAdminIndustryFilter = ({
         value: course?.id,
         label: course?.title,
     }))
-
+    const isPartnerOptions = [
+        {
+            label: 'Is Partner',
+            value: true,
+        },
+        // {
+        //     label: 'Not Partner',
+        //     value: false,
+        // },
+    ]
     return (
         <>
             <SetQueryFilters<SubadminIndustryFilter> filter={filter} />
-            <div className="grid grid-cols-3 gap-x-3">
+            <div className="grid grid-cols-4 gap-x-3">
                 <TextInput
                     name="name"
                     label={'Name'}
@@ -85,6 +94,15 @@ export const SubAdminIndustryFilter = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, abn: e.target.value })
                     }}
+                    showError={false}
+                />
+                <Select
+                    label={'Is Partner'}
+                    name={'isPartner'}
+                    options={isPartnerOptions}
+                    onChange={(e: any) =>
+                        onFilterChange({ ...filter, isPartner: e?.value })
+                    }
                     showError={false}
                 />
                 <Select

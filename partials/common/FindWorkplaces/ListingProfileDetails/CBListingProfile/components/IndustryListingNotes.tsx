@@ -1,11 +1,9 @@
-import { Button, Card, LoadingAnimation, NoData, Typography } from '@components'
+import { Button, Card, NoData, Typography } from '@components'
 import Modal from '@modals/Modal'
-import { NoteCard } from '@partials/common/StudentProfileDetail/components/Notes/Card'
 import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import React from 'react'
-import { AddNoteModal } from '../modal'
 import { PulseLoader } from 'react-spinners'
+import { AddNoteModal } from '../modal'
 
 export const IndustryListingNotes = () => {
     const router = useRouter()
@@ -16,7 +14,6 @@ export const IndustryListingNotes = () => {
         CommonApi.FindWorkplace.useIndustryListingNotes(id, {
             skip: !id,
         })
-
 
     return (
         <>

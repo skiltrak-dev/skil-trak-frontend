@@ -48,4 +48,13 @@ export const notesTemplatesEndpoints = (
         }),
         invalidatesTags: ['NotesTemplates'],
     }),
+
+    swapNoteTemplate: builder.mutation<any, { id: number; index: number }>({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/sequence/update/${id}`,
+            params,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['NotesTemplates'],
+    }),
 })

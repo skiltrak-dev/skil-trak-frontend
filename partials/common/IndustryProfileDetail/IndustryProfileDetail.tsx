@@ -7,7 +7,7 @@ import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { ProfileAppointments } from '../ProfileAppointments'
-import { MailsCommunication, Notes } from '../StudentProfileDetail/components'
+import { MailsCommunication } from '../StudentProfileDetail/components'
 import {
     IndustryHistory,
     IndustryRequiredDocuments,
@@ -18,6 +18,7 @@ import { AuthorizedUserComponent } from '@components'
 import { CourseManagement } from './components/CourseManagement'
 import { StudentSchedule } from './components/StudentSchedule'
 import { IndustryProfileCB } from './IndustryProfileCB'
+import { Notes } from '../Notes'
 
 export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })

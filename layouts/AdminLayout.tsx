@@ -319,7 +319,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
         },
         {
             text: 'Notes Templates',
-            path: getRoutePath('/note-template'),
+            path: getRoutePath('/note-template?tab=statusCheckLabelNotes'),
             Icon: FaRegNoteSticky,
         },
         {

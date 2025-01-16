@@ -1,12 +1,12 @@
 import { CommonApi } from '@queries'
 import React from 'react'
-import { NoteCard } from '../../Notes/Card'
 import {
     EmptyData,
     LoadingAnimation,
     TechnicalError,
     Typography,
 } from '@components'
+import { NoteCard } from '@partials/common/Notes'
 
 export const IndustryPinnedNotes = ({
     industryUserId,
@@ -17,6 +17,7 @@ export const IndustryPinnedNotes = ({
         { id: industryUserId, isPinned: true },
         { skip: !industryUserId }
     )
+
     return (
         <div>
             {' '}

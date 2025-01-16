@@ -16,6 +16,8 @@ import { FaTrash } from 'react-icons/fa'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { TiPin } from 'react-icons/ti'
 import { PuffLoader } from 'react-spinners'
+import { NotesTemplateStatus } from '../forms'
+import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
 
 export const NoteCard = ({ note }: { note: NoteType }) => {
     const { notification } = useNotification()
@@ -67,10 +69,42 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                 } p-4 rounded-xl shadow-lg `}
             >
                 <div className={`${isDeleting ? 'blur' : ''}`}>
-                    <div className="flex justify-between items-center">
-                        <Typography variant="label" semibold>
-                            {note.title}
-                        </Typography>
+                    <div className="flex justify-between items-start">
+                        <div>
+                            <Typography variant="label" semibold>
+                                {note.title}
+                            </Typography>
+                            {note?.studentNote ? (
+                                <div>
+                                    <div>
+                                        <Typography variant="xxs">
+                                            Note Type
+                                        </Typography>
+                                        <Typography variant="xs" semibold>
+                                            {note?.studentNote?.noteTemplate
+                                                ?.type ===
+                                            NotesTemplateType.ResolutionPathLabel
+                                                ? 'Resolution Path Label'
+                                                : 'Status Check Label'}
+                                        </Typography>
+                                    </div>
+                                    <div>
+                                        <Typography variant="xxs">
+                                            Note Message Type
+                                        </Typography>
+                                        <Typography
+                                            variant="xs"
+                                            uppercase
+                                            semibold
+                                        >
+                                            {note?.isSuccess
+                                                ? NotesTemplateStatus?.Success
+                                                : NotesTemplateStatus?.Failure}{' '}
+                                        </Typography>
+                                    </div>
+                                </div>
+                            ) : null}
+                        </div>
                         <AuthorizedUserComponent
                             excludeRoles={[UserRoles.OBSERVER]}
                         >

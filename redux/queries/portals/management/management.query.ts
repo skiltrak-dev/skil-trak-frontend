@@ -3,7 +3,7 @@ import { documentsEndpoints } from './documents'
 import { teamEndpoints } from './team'
 import { checkKpiEndpoints } from './checkKpi'
 
-export const managementApi = emptySplitApi.injectEndpoints({
+export const managementApi = emptySplitApi('managementApi').injectEndpoints({
     endpoints: (build) => ({
         ...documentsEndpoints(build),
         ...teamEndpoints(build),
@@ -44,12 +44,11 @@ const {
     useGetKpiReportDetailQuery,
     useGetSubAdminKpiReportsQuery,
     useGetKpiReportDuplicationDetailQuery,
-    useGetKpiReportOverviewQuery,  
-    useGetManagementDashboardCountQuery,  
+    useGetKpiReportOverviewQuery,
+    useGetManagementDashboardCountQuery,
     useGetKpiStatusBasedCountQuery,
     useGetKpiTargetsQuery,
     useGetKpiReportFeedbackQuery,
-
 } = managementApi
 
 export const ManagementApi = {
@@ -60,12 +59,12 @@ export const ManagementApi = {
         // Mutation
         useCreateTeam: useCreateTeamMutation,
         useCreateTeamMembers: useCreateTeamMembersMutation,
-        useChangeTeamLead: useUpdateTeamLeadMutation, 
+        useChangeTeamLead: useUpdateTeamLeadMutation,
         useUpdateTeamName: useUpdateTeamNameMutation,
         useUpdateMemberTeam: useUpdateMemberTeamMutation,
         // get Queries
         useTeamList: useGetTeamsListQuery,
-        useSubAdminList: useGetSubAdminListQuery, 
+        useSubAdminList: useGetSubAdminListQuery,
         useTeamMembersList: useGetTeamMembersListQuery,
         useTeamMemberDetail: useGetTeamMembersDetailQuery,
         useSectorsList: useGetSectorsListQuery,
@@ -86,6 +85,6 @@ export const ManagementApi = {
         useDeleteKpiReport: useDeleteKpiReportMutation,
         useDeleteTeam: useDeleteTeamMutation,
         useDeleteBulkKpiReport: useDeleteBulkKpiReportMutation,
-        useDeleteBulkTeams: useDeleteBulkTeamsMutation
-    }
+        useDeleteBulkTeams: useDeleteBulkTeamsMutation,
+    },
 }
