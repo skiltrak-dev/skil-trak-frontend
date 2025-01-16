@@ -54,6 +54,7 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
         'student-placement-unveiled-a-blueprint-for-career-excellence-with-skiltrak',
         'how-can-we-find-the-best-work-placement-for-community-services',
         'how-to-find-commercial-cookery-work-placements-in-australia',
+        'find-the-best-disability-course-placement-in-australia',
     ]
 
     const shouldHaveCanonicalTag = canonicalSlugs.includes(
