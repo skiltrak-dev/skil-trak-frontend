@@ -25,6 +25,9 @@ import { ReactElement, useEffect, useState } from 'react'
 import { DeleteNoteTemplateModal } from './modals'
 import { ContentViewModal, Table } from './components'
 import { NotesTemplateType } from './enum'
+import moment from 'moment'
+import { BiSolidDownArrow, BiSolidRightArrow } from 'react-icons/bi'
+import { useNotes } from './hooks'
 
 const filterKeys = ['subject']
 
@@ -81,6 +84,8 @@ export const ResolutionPathLabel = () => {
         contextBar.hide()
     }, [])
 
+    const { notes, toggleExpand } = useNotes(data)
+
     const tableActionOptions: TableActionOption[] = [
         {
             text: 'Edit',
@@ -101,6 +106,22 @@ export const ResolutionPathLabel = () => {
 
     const columns: ColumnDef<any>[] = [
         {
+            accessorKey: 'arrow',
+            cell: ({ row }) => (
+                <button
+                    onClick={() => toggleExpand(row.original.id)}
+                    className="text-gray-600 hover:text-blue-500"
+                >
+                    {row.original.expanded ? (
+                        <BiSolidDownArrow className="text-2xl" />
+                    ) : (
+                        <BiSolidRightArrow className="text-2xl" />
+                    )}
+                </button>
+            ),
+            header: () => <span> </span>,
+        },
+        {
             accessorKey: 'subject',
             cell: (info) => (
                 <div className="relative group ">
@@ -111,39 +132,14 @@ export const ResolutionPathLabel = () => {
             ),
             header: () => <span>Subject</span>,
         },
+
         {
-            accessorKey: 'subject',
-            cell: (info) => (
-                <ActionButton
-                    onClick={() => {
-                        onContentViewClicked(
-                            info?.row?.original?.successContent,
-                            'Success'
-                        )
-                    }}
-                    variant="info"
-                >
-                    View
-                </ActionButton>
-            ),
-            header: () => <span>Success Content</span>,
-        },
-        {
-            accessorKey: 'subject',
-            cell: (info) => (
-                <ActionButton
-                    onClick={() => {
-                        onContentViewClicked(
-                            info?.row?.original?.failureContent,
-                            'Failure'
-                        )
-                    }}
-                    variant="info"
-                >
-                    View
-                </ActionButton>
-            ),
-            header: () => <span>Failure Content</span>,
+            accessorKey: 'updatedAt',
+            cell: (info) =>
+                moment(info.row.original?.updatedAt)?.format(
+                    'DD MMM YYYY hh:mm:ss'
+                ),
+            header: () => <span>Updated At</span>,
         },
         {
             accessorKey: 'action',
@@ -214,14 +210,12 @@ export const ResolutionPathLabel = () => {
                     {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
-                        <Table notes={data?.data} columns={columns} />
+                        <Table notes={notes} columns={columns} />
                     ) : (
                         !isError && (
                             <EmptyData
                                 title={'No Workplace Types!'}
-                                description={
-                                    'You have not added any workplace types yet'
-                                }
+                                description={'No Note added yet'}
                                 height={'50vh'}
                             />
                         )

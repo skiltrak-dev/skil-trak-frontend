@@ -1,5 +1,12 @@
-import { Badge, NoData, ShowErrorNotifications, Typography } from '@components'
-import { useContextBar, useWorkplace } from '@hooks'
+import {
+    Badge,
+    NoData,
+    ShowErrorNotifications,
+    Typography,
+    useIsRestricted,
+    useRestrictedData,
+} from '@components'
+import { useContextBar, useNotification, useWorkplace } from '@hooks'
 import {
     MaxReqLimitReachModal,
     ShowIndustryNotesAndTHModal,
@@ -8,11 +15,12 @@ import { useAddExistingIndustriesMutation, SubAdminApi } from '@queries'
 import { ellipsisText, getSectorsDetail } from '@utils'
 import Image from 'next/image'
 import { ReactElement, useEffect, useState } from 'react'
-import { FaTimes } from 'react-icons/fa'
+import { FaRegCopy, FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
 import { IndustryDetailCB } from '../contextBar'
 import { CopyInfoData } from './CopyInfoData'
 import { useRouter } from 'next/router'
+import { UserRoles } from '@constants'
 
 type IndustryInfoBoxCardProps = {
     item: any
@@ -38,6 +46,12 @@ export const IndustryInfoBoxCard = ({
 }: any) => {
     const workplaceId = workplace?.id
     const router = useRouter()
+
+    const { notification } = useNotification()
+
+    const canAssessData = useIsRestricted(UserRoles.INDUSTRY)
+
+    console.log({ canAssessData })
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -68,6 +82,8 @@ export const IndustryInfoBoxCard = ({
         useAddExistingIndustriesMutation()
     const [contactWorkplaceIndustry, contactWorkplaceIndustryResult] =
         SubAdminApi.Workplace.contactWorkplaceIndustry()
+    const [callLog, callLogResult] = SubAdminApi.Industry.useIndustryCallLog()
+
     const sectors = getSectorsDetail(selectedBox?.courses)
 
     const onModalCancelClicked = () => setModal(null)
@@ -224,16 +240,72 @@ export const IndustryInfoBoxCard = ({
                                                         industryId,
                                                         wpId: workplaceId,
                                                     })
+                                                    if (canAssessData) {
+                                                        if (
+                                                            !item?.data
+                                                                ?.isSnoozed &&
+                                                            item?.data
+                                                                ?.phoneNumber &&
+                                                            item?.data
+                                                                ?.contactPersonNumber
+                                                        ) {
+                                                            navigator.clipboard.writeText(
+                                                                item?.data
+                                                                    ?.contactPersonNumber
+                                                            )
+                                                            callLog({
+                                                                industry:
+                                                                    item?.data
+                                                                        ?.id,
+                                                                receiver:
+                                                                    UserRoles.INDUSTRY,
+                                                            }).then(
+                                                                (res: any) => {
+                                                                    if (
+                                                                        res?.data
+                                                                    ) {
+                                                                        notification.success(
+                                                                            {
+                                                                                title: 'Called Industry',
+                                                                                description: `Called Industry with Name: ${item?.data?.user?.name}`,
+                                                                            }
+                                                                        )
+                                                                    }
+                                                                }
+                                                            )
+                                                            notification.success(
+                                                                {
+                                                                    title: 'Copied',
+                                                                    description:
+                                                                        'Phone Number Copied',
+                                                                }
+                                                            )
+                                                        }
+                                                    }
                                                 }}
                                             >
+                                                {canAssessData && (
+                                                    <div className="absolute w-full h-full left-0 top-0 hidden group-hover:block ">
+                                                        <div className="w-full h-full flex items-center justify-center cursor-pointer bg-blue-500/50">
+                                                            <FaRegCopy
+                                                                className="text-white "
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )}
                                                 <Typography variant="xs">
-                                                    {item?.data
-                                                        ?.contactPersonNumber ??
-                                                        'NA'}
+                                                    {useRestrictedData(
+                                                        item?.data?.isSnoozed
+                                                            ? '---'
+                                                            : item?.data
+                                                                  ?.contactPersonNumber,
+                                                        UserRoles.INDUSTRY
+                                                    )}
                                                 </Typography>
 
                                                 {/*  */}
-                                                <CopyInfoData
+                                                {/* <CopyInfoData
                                                     text={
                                                         item?.data
                                                             ?.contactPersonNumber
@@ -241,7 +313,7 @@ export const IndustryInfoBoxCard = ({
                                                     type={
                                                         'Contact Person Number'
                                                     }
-                                                />
+                                                /> */}
                                             </div>
                                         </div>
                                     </div>

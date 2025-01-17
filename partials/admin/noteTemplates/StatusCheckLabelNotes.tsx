@@ -124,7 +124,7 @@ export const StatusCheckLabelNotes = () => {
         },
         {
             accessorKey: 'sequenceNo',
-            header: () => <span>Question No</span>,
+            header: () => <span>Serial No</span>,
         },
         {
             accessorKey: 'subject',
@@ -226,9 +226,7 @@ export const StatusCheckLabelNotes = () => {
                         !isError && (
                             <EmptyData
                                 title={'No Workplace Types!'}
-                                description={
-                                    'You have not added any workplace types yet'
-                                }
+                                description={'No Note added yet'}
                                 height={'50vh'}
                             />
                         )

@@ -1,12 +1,10 @@
 import { Typography } from '@components'
 import { MediaQueries } from '@constants'
-import Image from 'next/image'
-import React from 'react'
 import { useMediaQuery } from 'react-responsive'
 
 export const OurStoryInternationalVentureSection = () => {
     const isLargeScreen = useMediaQuery(MediaQueries.Large)
-    
+
     return (
         <div className="mx-auto max-w-7xl mt-12 mb-5 md:mt-[70px]">
             <div
