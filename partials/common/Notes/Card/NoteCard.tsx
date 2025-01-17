@@ -65,6 +65,8 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                         ? 'bg-[#bfe7f6]'
                         : note?.isPinned
                         ? 'bg-[#FFDCDC]'
+                        : !note?.isSuccess
+                        ? 'bg-error'
                         : 'bg-[#FEF6E6] '
                 } p-4 rounded-xl shadow-lg `}
             >
@@ -167,7 +169,9 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                                     className={`text-[11px] font-medium ${
                                         note.isPinned
                                             ? 'text-red-800'
-                                            : 'text-[#BFBF80]'
+                                            : note?.isSuccess
+                                            ? 'text-[#BFBF80]'
+                                            : 'text-white'
                                     } `}
                                 >
                                     {format(
