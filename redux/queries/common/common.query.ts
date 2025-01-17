@@ -92,6 +92,10 @@ export const commonApi = emptySplitApi('commonApi').injectEndpoints({
             query: (id) => `country/states/list/${id}`,
             providesTags: ['States'],
         }),
+        getUserWebsiteCount: build.query<any, void>({
+            query: () => `admin/students/industries/active-count`,
+            providesTags: ['States'],
+        }),
         countryAdd: build.mutation<any, any>({
             query: (body: any) => ({
                 url: `country`,
@@ -250,6 +254,14 @@ export const commonApi = emptySplitApi('commonApi').injectEndpoints({
             }),
         }),
 
+        ourStoryContactUs: build.mutation<any, any>({
+            query: (body) => ({
+                url: 'website-messages/our-story',
+                method: 'POST',
+                body,
+            }),
+        }),
+
         registerByFutureIndustry: build.mutation<any, any>({
             query: (body) => ({
                 url: `industries/create/by-listing`,
@@ -303,6 +315,8 @@ export const commonApi = emptySplitApi('commonApi').injectEndpoints({
 })
 
 const {
+    useGetUserWebsiteCountQuery,
+
     useRegisterByFutureIndustryMutation,
 
     useGetUserPasswordQuery,
@@ -312,6 +326,7 @@ const {
     useDownloadAssessmentToolQuery,
     useBulkUserRemoveMutation,
     useContactUsMutation,
+    useOurStoryContactUsMutation,
 
     useGetSerchedPlacesQuery,
     // Site MAP
@@ -573,6 +588,7 @@ const {
 } = commonApi
 
 export const CommonApi = {
+    Website: { useGetUserWebsiteCountQuery },
     ViewPassword: {
         getUserPassword: useGetUserPasswordQuery,
     },
@@ -677,6 +693,7 @@ export const CommonApi = {
         useRemoveDraft: useRemoveDraftMutation,
         useUpdateEmailDraft: useUpdateEmailDraftMutation,
         useContactUs: useContactUsMutation,
+        ourStoryContactUs: useOurStoryContactUsMutation,
     },
     Appointments: {
         appointmentType: useGetAppointmentsTypesQuery,

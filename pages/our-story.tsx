@@ -15,11 +15,14 @@ import {
 } from '@partials/frontPages'
 import OurPartners from '@partials/frontPages/home2/OurPartners/OurPartners'
 import { OurTrustedPartner } from '@partials/frontPages/ourStory/components/OurTrustedPartner'
+import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import Head from 'next/head'
+import Image from 'next/image'
 import { ReactElement } from 'react'
 
 const OurStory: NextPageWithLayout = () => {
+    const websiteUsersCount = CommonApi.Website.useGetUserWebsiteCountQuery()
     return (
         <>
             <Head>
@@ -48,7 +51,7 @@ const OurStory: NextPageWithLayout = () => {
                         color="text-[#21506A]"
                         capitalize
                     >
-                        1000+ students
+                        {websiteUsersCount?.data?.students || 0} students
                     </Typography>
                     <span className="w-[1px] h-5 md:h-3 bg-[#21506A]"></span>
                     <Typography
@@ -56,7 +59,8 @@ const OurStory: NextPageWithLayout = () => {
                         color="text-[#21506A]"
                         capitalize
                     >
-                        3000+ industry partners
+                        {websiteUsersCount?.data?.industries || 0} industry
+                        partners
                     </Typography>
                     <span className="w-[2px] h-5 md:h-3 bg-[#21506A]"></span>
                     <Typography
@@ -91,7 +95,7 @@ const OurStory: NextPageWithLayout = () => {
             <div className="mt-12">
                 <OurTrustedPartner />
             </div>
-            <OurStoryInternationalVentureSection />
+            {/* <OurStoryInternationalVentureSection /> */}
 
             <div className="bg-[#EB8329] py-[72px] mt-5 px-4">
                 <Typography variant="h4" color="text-white" center>
@@ -112,6 +116,17 @@ const OurStory: NextPageWithLayout = () => {
             <div>
                 <GoogleReviewSlider />
             </div>
+            <div className="mx-auto max-w-7xl w-full my-20">
+                <Image
+                    src={'/images/roadmap.png'}
+                    alt={''}
+                    width={0}
+                    height={0}
+                    sizes={'100vh 100vw'}
+                    className="w-full h-full"
+                />
+            </div>
+
             <RtoReviewSlider />
             <OurStorySkiltrakAppSection />
             <OurStoryLetsCollaborateSection />

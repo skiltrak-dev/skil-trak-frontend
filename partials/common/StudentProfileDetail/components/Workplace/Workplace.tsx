@@ -169,7 +169,7 @@ export const Workplace = ({
         return () => {
             setSelectedWorkplace(null)
         }
-    }, [sortedWorkplace])
+    }, [studentWorkplace?.data])
 
     const excludedRoles = [UserRoles.RTO, UserRoles.OBSERVER]
     const role = getUserCredentials()?.role

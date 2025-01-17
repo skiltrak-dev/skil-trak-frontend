@@ -102,7 +102,7 @@ export const OurStorySkiltrakIsWorkingWithSection = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className="flex flex-col items-center">
+                        {/* <div className="flex flex-col items-center">
                             <div className="h-6 w-[1px] border-dashed border-[#24536B] border"></div>
                             <div
                                 data-aos="fade-left"
@@ -126,7 +126,7 @@ export const OurStorySkiltrakIsWorkingWithSection = () => {
                                     International Ventures
                                 </p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="flex justify-center items-center mt-11">

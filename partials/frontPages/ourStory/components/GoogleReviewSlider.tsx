@@ -1,8 +1,46 @@
 import { Autoplay, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { GoogleReviewCard } from './GoogleReviewCard'
+import axios from 'axios'
+import { useEffect } from 'react'
 
 const googleReviews = [
+    {
+        name: 'Sheraz Abid',
+        review: 'Great support by Nadia. She is very kind and helpful. She arranged my placement according to my suitable location. I really appreciate it.Thanks.',
+        rating: 5,
+        link: 'https://g.co/kgs/RSSyWnu',
+    },
+    {
+        name: 'rui zhang',
+        review: 'I sincerely appreciate Sophia Flores’ exceptional support. Her prompt responses and meticulous attention to detail exceeded my expectations. It is truly rare to encounter such efficient and personalized service in Australia.',
+        rating: 5,
+        link: 'https://g.co/kgs/9q7UP8T',
+    },
+    {
+        name: 'Parul Dhatrwal',
+        review: 'Lucas was exceptional in helping me with my placement documents. His patient approach and attentive listening made the process much smoother. He provided clear solutions to all my concerns and maintained a sweet, professional demeanor throughout. I highly recommend his services for anyone needing assistance with document submissions.✨',
+        rating: 5,
+        link: 'https://g.co/kgs/QYZ1yRL',
+    },
+    {
+        name: 'Preeti Arora',
+        review: 'Great support by Sophia Flores from Skiltrak, she was able to locate a placement during the holiday period. I am very happy with the overall service provided.',
+        rating: 5,
+        link: 'https://g.co/kgs/wySbjGe',
+    },
+    {
+        name: 'zohal',
+        review: 'Nadias exceptional guidance helped me secure my ideal work placement efficiently, and I am forever grateful. Her professionalism, kindness and dedication were consistently impressive all the time. she was always available answering my calls and providing crystal clear explanations on what to do next. Her expertise made the experience seamless and stress-free.   Thank you, Nadia, for your exceptional service and genuine care.  I highly recommend SkilTrak outstanding services.',
+        rating: 5,
+        link: 'https://g.co/kgs/eJThmzj',
+    },
+    {
+        name: 'Nitika Gaur',
+        review: 'Recently got my placement in child care by Sophia Flores. She is a wonderful person and very helpful.she helped me a lot and make it very easy for me.I really appreciate her work .Such a nice person.Thanku.',
+        rating: 5,
+        link: 'https://g.co/kgs/jom1sBf',
+    },
     {
         name: 'Vikashni Mudaliar',
         review: 'Had a great Guidance from my coordinator Lucas. He made my work easier in guiding me on how I can complete my WBT sessions and even helped in understanding on how to fill my log books.Thank you Sir for your help.',
@@ -50,7 +88,6 @@ const googleReviews = [
         link: 'https://maps.app.goo.gl/SxDRmcSpVCaEgFGC6',
     },
 ]
-
 
 export const GoogleReviewSlider = () => {
     return (
