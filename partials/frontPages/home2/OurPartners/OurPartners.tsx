@@ -82,6 +82,7 @@ const OurPartners = () => {
                                             <Link
                                                 href={image?.link || '#'}
                                                 className="w-full h-full"
+                                                target="_blank"
                                             >
                                                 <Image
                                                     key={index}

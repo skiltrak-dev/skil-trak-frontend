@@ -32,7 +32,7 @@ const rtoReviews = [
     {
         rtoName: 'Alffie',
         instituteName: 'Alffie',
-        imageUrl: 'Alffie-Guarantee-Badge.svg',
+        imageUrl: 'Alffie.png',
         imageStyles: 'object-contain',
         review: `<div>
     <p class="text-2xl">Work Placement Guarantee*</p>
