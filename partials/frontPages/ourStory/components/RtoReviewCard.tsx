@@ -27,6 +27,7 @@ export const RtoReviewCard = ({
     review,
     rtoName,
     instituteName,
+    imageStyles,
 }: any) => {
     return (
         <>
@@ -71,7 +72,9 @@ export const RtoReviewCard = ({
                             sizes="100vw"
                             width={375}
                             height={650}
-                            className="w-full h-full object-cover"
+                            className={`w-full h-full ${
+                                imageStyles || 'object-cover'
+                            }`}
                         />
                     </div>
                 </div>
