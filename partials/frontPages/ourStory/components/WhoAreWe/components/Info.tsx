@@ -4,10 +4,10 @@ import React from 'react'
 export const Info = () => {
     return (
         <div className="h-72 pl-28 ">
-            <h1 className="text-3xl font-bold mb-2.5">
+            <h2 className="text-3xl font-bold mb-2.5">
                 {/* {items[activeIndex]?.title} */}
                 Who are we
-            </h1>
+            </h2>
             <Typography variant={'body'} color="text-[#25566B]">
                 {/* {items[activeIndex]?.description} */}
                 SkilTrak is your premier destination for tailored employment and

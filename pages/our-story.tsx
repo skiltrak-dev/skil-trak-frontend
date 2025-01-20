@@ -49,9 +49,9 @@ const OurStory: NextPageWithLayout = () => {
                 />
             </div>
             <div className="bg-[#F7A619] mx-auto max-w-7xl flex flex-col justify-center items-center p-4     md:p-12 rounded-b-md">
-                <h2 className="text-white text-center text-xl md:text-4xl font-extrabold leading-normal [text-shadow:_0px_7px_14px_rgba(0_0_0_/_0.25)]">
+                <h1 className="text-white text-center text-xl md:text-4xl font-extrabold leading-normal [text-shadow:_0px_7px_14px_rgba(0_0_0_/_0.25)]">
                     Welcome to SkilTrak
-                </h2>
+                </h1>
                 <p className="text-white capitalize font-medium text-base md:text-lg">
                     Your Ideal ally in career support
                 </p>

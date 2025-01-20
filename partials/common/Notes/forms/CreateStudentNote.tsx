@@ -211,26 +211,45 @@ export const CreateStudentNote = ({
             //     convertToRaw(values?.body.getCurrentContent())
             // )
             const body = draftToHtmlText(values?.body)
-            const noteRes: any = await changeNoteStatus({
-                id: Number(selectedContent?.value),
-                status: selectedStatus as NotesTemplateStatus,
-                type: selectedType as NotesTemplateType,
-                stdId: studentId,
-                templateId: Number(selectedContent?.value),
-            })
+            if (selectedType !== 'custom') {
+                const noteRes: any = await changeNoteStatus({
+                    id: Number(selectedContent?.value),
+                    status: selectedStatus as NotesTemplateStatus,
+                    type: selectedType as NotesTemplateType,
+                    stdId: studentId,
+                    templateId: Number(selectedContent?.value),
+                })
 
-            if (noteRes?.data) {
+                if (noteRes?.data) {
+                    const res: any = await createNote({
+                        ...values,
+                        body,
+                        isSuccess:
+                            selectedStatus === NotesTemplateStatus.Success
+                                ? true
+                                : false,
+                        isPinned: isBodyGreaterThen30
+                            ? false
+                            : values?.isPinned,
+                        student: studentId,
+                        postedFor: receiverId,
+                        studentNote: noteRes?.data?.id,
+                        // status: selectedStatus,
+                    })
+                    if (res?.data) {
+                        notification.success({
+                            title: 'Note Added',
+                            description: 'Note Added Successfully!',
+                        })
+                    }
+                }
+            } else {
                 const res: any = await createNote({
                     ...values,
                     body,
-                    isSuccess:
-                        selectedStatus === NotesTemplateStatus.Success
-                            ? true
-                            : false,
                     isPinned: isBodyGreaterThen30 ? false : values?.isPinned,
                     student: studentId,
                     postedFor: receiverId,
-                    studentNote: noteRes?.data?.id,
                     // status: selectedStatus,
                 })
                 if (res?.data) {

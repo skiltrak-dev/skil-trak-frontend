@@ -33,6 +33,7 @@ const rtoReviews = [
         rtoName: 'Alffie',
         instituteName: 'Alffie',
         imageUrl: 'Alffie-Guarantee-Badge.svg',
+        imageStyles: 'object-contain',
         review: `<div>
     <p class="text-2xl">Work Placement Guarantee*</p>
     <p>Changing the game of work placement!</p>
@@ -106,6 +107,7 @@ export const RtoReviewSlider = () => {
                             <RtoReviewCard
                                 key={rtoReview?.instituteName}
                                 rtoName={rtoReview?.rtoName}
+                                imageStyles={rtoReview?.imageStyles}
                                 review={rtoReview?.review}
                                 imageUrl={rtoReview?.imageUrl}
                                 instituteName={rtoReview?.instituteName}
