@@ -41,6 +41,7 @@ import { useRouter } from 'next/router'
 import ClickAwayListener from 'react-click-away-listener'
 import { StudentNotesDropdown } from '../components'
 import { Industry, OptionType } from '@types'
+import { IoCheckmark } from 'react-icons/io5'
 
 interface onSubmitType {
     title: string
@@ -359,7 +360,10 @@ export const CreateStudentNote = ({
                                         dropDown={() => (
                                             <div>
                                                 {templateOptions?.map(
-                                                    (template: OptionType) => (
+                                                    (
+                                                        template: OptionType,
+                                                        i: number
+                                                    ) => (
                                                         <div
                                                             key={Number(
                                                                 template.value
@@ -406,30 +410,80 @@ export const CreateStudentNote = ({
                                                                 template?.value
                                                                     ? 'bg-gray-200'
                                                                     : ''
-                                                            } hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 cursor-pointer`}
+                                                            } hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 flex items-center justify-between gap-x-2 cursor-pointer`}
                                                         >
-                                                            <Typography
-                                                                variant={
-                                                                    filteredNotesTemplate?.[0] ===
-                                                                        template?.value &&
+                                                            <div className="flex items-center gap-x-2">
+                                                                <Typography
+                                                                    variant={
+                                                                        filteredNotesTemplate?.[0] ===
+                                                                            template?.value &&
+                                                                        selectedType ===
+                                                                            NotesTemplateType.StatusCheckLabel
+                                                                            ? 'label'
+                                                                            : 'small'
+                                                                    }
+                                                                    color={
+                                                                        filteredNotesTemplate?.[0] !==
+                                                                            template?.value &&
+                                                                        selectedType ===
+                                                                            NotesTemplateType.StatusCheckLabel
+                                                                            ? 'text-gray-400'
+                                                                            : 'text-black'
+                                                                    }
+                                                                >
+                                                                    {!filteredNotesTemplate?.includes(
+                                                                        template.value
+                                                                    ) &&
                                                                     selectedType ===
-                                                                        NotesTemplateType.StatusCheckLabel
-                                                                        ? 'label'
-                                                                        : 'small'
-                                                                }
-                                                                color={
-                                                                    filteredNotesTemplate?.[0] !==
-                                                                        template?.value &&
+                                                                        NotesTemplateType.StatusCheckLabel ? (
+                                                                        <del>
+                                                                            {i +
+                                                                                1}
+                                                                        </del>
+                                                                    ) : (
+                                                                        i + 1
+                                                                    )}
+                                                                </Typography>
+                                                                <Typography
+                                                                    variant={
+                                                                        filteredNotesTemplate?.[0] ===
+                                                                            template?.value &&
+                                                                        selectedType ===
+                                                                            NotesTemplateType.StatusCheckLabel
+                                                                            ? 'label'
+                                                                            : 'small'
+                                                                    }
+                                                                    color={
+                                                                        filteredNotesTemplate?.[0] !==
+                                                                            template?.value &&
+                                                                        selectedType ===
+                                                                            NotesTemplateType.StatusCheckLabel
+                                                                            ? 'text-gray-400'
+                                                                            : 'text-black'
+                                                                    }
+                                                                >
+                                                                    {!filteredNotesTemplate?.includes(
+                                                                        template.value
+                                                                    ) &&
                                                                     selectedType ===
-                                                                        NotesTemplateType.StatusCheckLabel
-                                                                        ? 'text-gray-400'
-                                                                        : 'text-black'
-                                                                }
-                                                            >
-                                                                {
-                                                                    template?.label
-                                                                }
-                                                            </Typography>
+                                                                        NotesTemplateType.StatusCheckLabel ? (
+                                                                        <del>
+                                                                            {
+                                                                                template?.label
+                                                                            }
+                                                                        </del>
+                                                                    ) : (
+                                                                        template?.label
+                                                                    )}
+                                                                </Typography>
+                                                            </div>
+                                                            {!filteredNotesTemplate?.includes(
+                                                                template.value
+                                                            ) &&
+                                                                selectedType ===
+                                                                    NotesTemplateType.StatusCheckLabel && (
+                                                                    <IoCheckmark />
+                                                                )}
                                                         </div>
                                                     )
                                                 )}
@@ -441,15 +495,17 @@ export const CreateStudentNote = ({
                                 {selectedContent ? (
                                     <div className="mt-2">
                                         <RadioGroup
+                                            layout="grid"
+                                            gridColumns="2"
                                             label={'Select Message Type'}
                                             name={'status'}
                                             options={[
                                                 {
-                                                    label: 'Success',
+                                                    label: 'Successfully',
                                                     value: NotesTemplateStatus.Success,
                                                 },
                                                 {
-                                                    label: 'Un Success',
+                                                    label: 'Unsuccessfully',
                                                     value: NotesTemplateStatus.Failure,
                                                 },
                                             ]}

@@ -78,9 +78,9 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                             </Typography>
                             {note?.studentNote ? (
                                 <div>
-                                    <div>
+                                    <div className="flex items-center gap-x-2">
                                         <Typography variant="xxs">
-                                            Note Type
+                                            Note Type:{' '}
                                         </Typography>
                                         <Typography variant="xs" semibold>
                                             {note?.studentNote?.noteTemplate
@@ -90,18 +90,14 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                                                 : 'Status Check Label'}
                                         </Typography>
                                     </div>
-                                    <div>
+                                    <div className="flex items-center gap-x-2">
                                         <Typography variant="xxs">
-                                            Note Message Type
+                                            Note Message Type:{' '}
                                         </Typography>
-                                        <Typography
-                                            variant="xs"
-                                            uppercase
-                                            semibold
-                                        >
+                                        <Typography variant="xs" semibold>
                                             {note?.isSuccess
-                                                ? NotesTemplateStatus?.Success
-                                                : NotesTemplateStatus?.Failure}{' '}
+                                                ? 'Successfully'
+                                                : 'Unsuccessfully'}{' '}
                                         </Typography>
                                     </div>
                                 </div>
