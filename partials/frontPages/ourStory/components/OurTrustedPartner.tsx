@@ -1,8 +1,9 @@
-import { Typography } from '@components'
-import { OurPartnerStyleContainer } from '@partials/frontPages/home2/OurPartners/styles'
+import Link from 'next/link'
 import Image from 'next/image'
+import { Typography } from '@components'
 import Marquee from 'react-fast-marquee'
 import { useMediaQuery } from 'react-responsive'
+import { OurPartnerStyleContainer } from '@partials/frontPages/home2/OurPartners/styles'
 
 export const OurTrustedPartner = () => {
     const isMobile = useMediaQuery({ maxWidth: 768 })
@@ -12,30 +13,42 @@ export const OurTrustedPartner = () => {
         {
             image: 'abt.svg',
             width: 145,
+            link: 'https://aibtglobal.edu.au/',
         },
         {
             image: 'altec.png',
             width: 140,
+            link: 'https://www.altec.edu.au/',
         },
         {
             image: 'gmc.png',
             width: 100,
+            link: 'https://getmycourse.com.au/?srsltid=AfmBOoppc4Eu3XP0Bi95E2R9itjdE9U-V_gyl75goWT0Zcm_VssY8AIx',
         },
         {
             image: 'hader-institute.svg',
             width: 100,
+            link: 'https://www.haderinstitute.edu.au/',
         },
         {
             image: 'ithea.png',
             width: 100,
+            link: 'https://ithea.vic.edu.au/',
         },
         {
             image: 'jti.svg',
             width: 100,
+            link: 'https://jti.edu.au/',
         },
         {
             image: 'ntca.png',
             width: 100,
+            link: 'https://www.ntca.edu.au/courses-we-offer/',
+        },
+        {
+            image: 'hillshire.png',
+            width: 100,
+            link: 'https://hillshire.edu.au/',
         },
     ]
     return (
@@ -55,16 +68,23 @@ export const OurTrustedPartner = () => {
                                         className="!flex !items-center !mr-0"
                                     >
                                         <div className="py-1.5 px-2.5 flex justify-center gap-x-12 mx-4 md:mx-0 items-center min-w-[130px] max-w-[131px] h-16 shadow-[0px_4px_34px_0px_rgba(177,177,177,0.25)] rounded-[10px]">
-                                            <Image
-                                                key={index}
-                                                className="w-full h-full object-contain"
-                                                src={`/images/our-story/trusted-partner/${image?.image}`}
-                                                width={0}
-                                                height={0}
-                                                sizes={'100vh 100vw'}
-                                                alt="Partners"
-                                                priority
-                                            />
+                                            <Link
+                                                href={image?.link || '#'}
+                                                className="w-full h-full"
+                                                target="_blank"
+                                            >
+                                                {' '}
+                                                <Image
+                                                    key={index}
+                                                    className="w-full h-full object-contain"
+                                                    src={`/images/our-story/trusted-partner/${image?.image}`}
+                                                    width={0}
+                                                    height={0}
+                                                    sizes={'100vh 100vw'}
+                                                    alt="Partners"
+                                                    priority
+                                                />{' '}
+                                            </Link>
                                         </div>
                                         <div className="border border-dashed border-primary w-20 md:block hidden" />
                                     </div>

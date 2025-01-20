@@ -119,6 +119,8 @@ export const IndustryInfoBoxCard = ({
         contextBar.setTitle('Industry Details')
     }
 
+    console.log({ item })
+
     return (
         <>
             {modal}
@@ -294,15 +296,12 @@ export const IndustryInfoBoxCard = ({
                                                         </div>
                                                     </div>
                                                 )}
-                                                <Typography variant="xs">
-                                                    {useRestrictedData(
-                                                        item?.data?.isSnoozed
-                                                            ? '---'
-                                                            : item?.data
-                                                                  ?.contactPersonNumber,
-                                                        UserRoles.INDUSTRY
-                                                    )}
-                                                </Typography>
+                                                {canAssessData
+                                                    ? item?.data?.isSnoozed
+                                                        ? '---'
+                                                        : item?.data
+                                                              ?.contactPersonNumber
+                                                    : ''}
 
                                                 {/*  */}
                                                 {/* <CopyInfoData
