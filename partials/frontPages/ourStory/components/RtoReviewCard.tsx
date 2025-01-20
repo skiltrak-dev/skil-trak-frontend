@@ -95,7 +95,13 @@ export const RtoReviewCard = ({
                         </svg>
                     </div>
                     <div className="md:px-5 px-0">
-                        <Typography variant="body">{review}</Typography>
+                        <Typography variant="body">
+                            <span
+                                dangerouslySetInnerHTML={{
+                                    __html: review,
+                                }}
+                            />
+                        </Typography>
                     </div>
                 </div>
             </div>
