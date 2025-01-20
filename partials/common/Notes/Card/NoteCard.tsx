@@ -79,9 +79,6 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                             {note?.studentNote ? (
                                 <div>
                                     <div className="flex items-center gap-x-2">
-                                        <Typography variant="xxs">
-                                            Note Type:{' '}
-                                        </Typography>
                                         <Typography variant="xs" semibold>
                                             {note?.studentNote?.noteTemplate
                                                 ?.type ===
@@ -92,7 +89,7 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                                     </div>
                                     <div className="flex items-center gap-x-2">
                                         <Typography variant="xxs">
-                                            Note Message Type:{' '}
+                                            Type:{' '}
                                         </Typography>
                                         <Typography variant="xs" semibold>
                                             {note?.isSuccess
