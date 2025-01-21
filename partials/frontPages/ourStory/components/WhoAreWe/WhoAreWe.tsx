@@ -83,7 +83,7 @@ export const WhoAreWe = () => {
                                     drag="x"
                                 >
                                     <img
-                                        src={item?.image}
+                                        src={`/images/our-story/whoWeAre/${item?.image}`}
                                         alt={item?.title}
                                         className="w-[202px] h-36 rounded-sm object-cover"
                                     />
@@ -104,7 +104,7 @@ export const WhoAreWe = () => {
                     className="p-2.5 w-[558px] h-[516px] text-center rounded-md shadow-md bg-white"
                 >
                     <img
-                        src={whoAreWeItems[activeIndex]?.image}
+                        src={`/images/our-story/whoWeAre/${whoAreWeItems[activeIndex]?.image}`}
                         alt={whoAreWeItems[activeIndex]?.title}
                         className="w-[558px] h-[428.682px] object-cover rounded-lg"
                     />

@@ -17,12 +17,30 @@ import OurPartners from '@partials/frontPages/home2/OurPartners/OurPartners'
 import { OurTrustedPartner } from '@partials/frontPages/ourStory/components/OurTrustedPartner'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
+import moment from 'moment'
 import Head from 'next/head'
 import Image from 'next/image'
-import { ReactElement } from 'react'
+import { MouseEvent, ReactElement } from 'react'
 
 const OurStory: NextPageWithLayout = () => {
     const websiteUsersCount = CommonApi.Website.useGetUserWebsiteCountQuery()
+
+    const handleSmoothScroll = (e: MouseEvent<HTMLElement>) => {
+        e.preventDefault()
+        const element = document.querySelector('#contact-us')
+        if (element) {
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            })
+        }
+    }
+
+    // Input date of birth
+    const joiningDate = '2018-01-01'
+
+    // Calculate age
+    const diff = moment().diff(moment(joiningDate, 'YYYY-MM-DD'), 'years')
     return (
         <>
             <Head>
@@ -38,7 +56,10 @@ const OurStory: NextPageWithLayout = () => {
                 />
             </Head>
             {/* Welcome Card */}
-            <div className="w-full h-full mx-auto max-w-7xl py-5">
+            <div
+                onClick={handleSmoothScroll}
+                className="w-full h-full mx-auto max-w-7xl py-5"
+            >
                 <Image
                     src={'/images/our-story/cookry-banner.png'}
                     alt={''}
@@ -78,7 +99,7 @@ const OurStory: NextPageWithLayout = () => {
                         color="text-[#21506A]"
                         capitalize
                     >
-                        6 years of experience
+                        {diff} years of experience
                     </Typography>
                 </div>
             </div>

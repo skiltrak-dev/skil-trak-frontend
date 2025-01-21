@@ -1,5 +1,5 @@
 export enum NotesTemplateType {
-    StatusCheckLabel = 'statusCheckLabel',
-    ResolutionPathLabel = 'resolutionPathLabel',
+    'Status Check Label' = 'statusCheckLabel',
+    'Resolution Path Label' = 'resolutionPathLabel',
     // Custom = 'custom',
 }
