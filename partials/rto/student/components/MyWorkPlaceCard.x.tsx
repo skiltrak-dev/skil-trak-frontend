@@ -8,7 +8,6 @@ import { MdPermContactCalendar, MdPhone } from 'react-icons/md'
 type Props = {
     data: any
 }
-// TODO: can be deleted
 export const MyWorkPlaceCard = ({ data }: Props) => {
     return (
         <>

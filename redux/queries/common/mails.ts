@@ -178,10 +178,11 @@ export const mailsEndpoints = (
     getUsersAllMail: builder.query<
         any,
         {
+            search?: string | undefined
             status?: string | undefined
             skip: number
             limit: number
-            type: 'sender' | 'receiver'
+            type?: 'sender' | 'receiver'
         }
     >({
         query: (params) => ({

@@ -10,7 +10,6 @@ export const DetailTabs = ({
     id: number | string | string[] | undefined
     student: any
 }) => {
-    // TODO Notes and mails need to update
     const tabs: TabProps[] = [
         {
             label: 'Overview',

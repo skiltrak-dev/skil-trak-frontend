@@ -5,7 +5,6 @@ import { NextPageWithLayout } from '@types'
 // components
 import { TalentPoolWelcomeCard } from '@partials/industry/talentPool'
 import Link from 'next/link'
-// TODO Delete for now
 const TalentPool: NextPageWithLayout = () => {
     return (
         <div>

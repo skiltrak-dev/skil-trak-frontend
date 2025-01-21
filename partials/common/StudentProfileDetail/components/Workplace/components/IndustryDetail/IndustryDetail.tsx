@@ -87,6 +87,7 @@ export const IndustryDetail = ({
     //     )
     // }
 
+    // TODO : When user copy the listing industry phone number track it in contacted history and make a separate tab in modal like From Listing Industries
     const onViewContactedIndustries = () => {
         setModal(<ViewContactedIndustryModal onCancel={onCancelClicked} />)
     }

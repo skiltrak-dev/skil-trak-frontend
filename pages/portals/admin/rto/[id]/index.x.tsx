@@ -32,7 +32,6 @@ import { DetailTabs } from '@partials/admin/rto/tabs'
 import { PinnedNotes } from '@partials'
 import { ArchiveModal, BlockModal } from '@partials/admin/rto/modals'
 
-// TODO: Can be deleted
 const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const navBar = useNavbar()

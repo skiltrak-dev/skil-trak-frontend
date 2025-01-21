@@ -37,7 +37,6 @@ const RtoAppointments: NextPageWithLayout = (props: Props) => {
                 </div>
             </div>
 
-            {/* TODO Not getting the appointments */}
             <UpcomingAppointments />
             <PastAppointments />
         </>

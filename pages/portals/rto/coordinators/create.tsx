@@ -23,8 +23,6 @@ const AddCoordinator: NextPageWithLayout = () => {
     const [createCoordinator, createCoordinatorResult] =
         RtoApi.Coordinator.useCreate()
 
-    // TODO Notification messages not showing
-
     const onSubmit = async (values: any) => {
         await createCoordinator({
             // id: credentials.id,

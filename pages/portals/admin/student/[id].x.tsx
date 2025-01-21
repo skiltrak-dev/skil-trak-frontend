@@ -34,7 +34,6 @@ import { AdminApi } from '@queries'
 import { GoDotFill } from 'react-icons/go'
 import { MdPlace } from 'react-icons/md'
 
-// TODO: Can be deleted
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()
     const { id } = router.query

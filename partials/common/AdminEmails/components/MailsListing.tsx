@@ -80,6 +80,7 @@ export const MailsListing = () => {
                 <AuthorizedUserComponent
                     roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                 >
+                    {/* TODO: Integrate Counts API for Mails*/}
                     <div className="flex items-center justify-between gap-x-16 mb-5 w-full">
                         <MailsCountCard
                             imageUrl="/images/mails/student-mail-icon.svg"
@@ -104,6 +105,7 @@ export const MailsListing = () => {
                     </div>
                 </AuthorizedUserComponent>
                 <div className="relative w-full mb-4">
+                     {/* TODO: Implement search API*/}
                     <div className="absolute top-1/2 left-8 ">
                         <IoSearch
                             size={25}

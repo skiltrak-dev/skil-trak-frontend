@@ -81,7 +81,6 @@ export const AddAssessmentForm = ({ edit, assessment, courses }: Props) => {
                     onSubmit={methods.handleSubmit(onSubmit)}
                 >
                     <div className="">
-                        {/* TODO Course is not getting in rto portal */}
                         <Select
                             name="course"
                             label="Course(s)"
