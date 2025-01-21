@@ -14,6 +14,7 @@ export const OurTrustedPartner = () => {
             image: 'abt.svg',
             width: 145,
             link: 'https://aibtglobal.edu.au/',
+            className: 'bg-gray-400',
         },
         {
             image: 'altec.png',
@@ -23,7 +24,7 @@ export const OurTrustedPartner = () => {
         {
             image: 'gmc.png',
             width: 100,
-            link: 'https://getmycourse.com.au/?srsltid=AfmBOoppc4Eu3XP0Bi95E2R9itjdE9U-V_gyl75goWT0Zcm_VssY8AIx',
+            link: 'https://getmycourse.com.au/',
         },
         {
             image: 'hader-institute.svg',
@@ -43,10 +44,10 @@ export const OurTrustedPartner = () => {
         {
             image: 'ntca.png',
             width: 100,
-            link: 'https://www.ntca.edu.au/courses-we-offer/',
+            link: 'https://www.ntca.edu.au/',
         },
         {
-            image: 'hillshire.png',
+            image: 'hillshire.jpg',
             width: 100,
             link: 'https://hillshire.edu.au/',
         },
@@ -67,7 +68,9 @@ export const OurTrustedPartner = () => {
                                         key={index}
                                         className="!flex !items-center !mr-0"
                                     >
-                                        <div className="py-1.5 px-2.5 flex justify-center gap-x-12 mx-4 md:mx-0 items-center min-w-[130px] max-w-[131px] h-16 shadow-[0px_4px_34px_0px_rgba(177,177,177,0.25)] rounded-[10px]">
+                                        <div
+                                            className={`${image?.className}  py-1.5 px-2.5 flex justify-center gap-x-12 mx-4 md:mx-0 items-center min-w-[130px] max-w-[131px] h-16 shadow-[0px_4px_34px_0px_rgba(177,177,177,0.25)] rounded-[10px]`}
+                                        >
                                             <Link
                                                 href={image?.link || '#'}
                                                 className="w-full h-full"

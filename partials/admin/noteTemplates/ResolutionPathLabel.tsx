@@ -47,7 +47,7 @@ export const ResolutionPathLabel = () => {
     const { isLoading, data, isError, isFetching } =
         AdminApi.NotesTemplates.notesTemplates({
             search: `type:${
-                NotesTemplateType.ResolutionPathLabel
+                NotesTemplateType['Resolution Path Label']
             },${JSON.stringify(filter)
                 .replaceAll('{', '')
                 .replaceAll('}', '')

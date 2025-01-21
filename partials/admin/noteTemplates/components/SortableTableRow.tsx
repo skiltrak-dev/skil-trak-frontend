@@ -29,7 +29,16 @@ export const SortableTableRow = ({
         backgroundColor: isDragging ? '#f3f4f6' : undefined,
     }
 
-    const ContentDataTypes = ['successContent', 'failureContent']
+    const ContentDataTypes = [
+        {
+            name: 'Successfully',
+            value: 'successContent',
+        },
+        {
+            name: 'Unsuccessfully',
+            value: 'failureContent',
+        },
+    ]
 
     return (
         <React.Fragment>
@@ -71,7 +80,7 @@ export const SortableTableRow = ({
                     <td colSpan={99} className="bg-gray-50 p-5">
                         <div className="p-3 flex flex-col gap-y-3 border border-gray-400 border-dotted">
                             {ContentDataTypes?.map((type) => {
-                                if (row?.original?.[type]) {
+                                if (row?.original?.[type?.value]) {
                                     return (
                                         <div>
                                             <Typography
@@ -79,14 +88,14 @@ export const SortableTableRow = ({
                                                 uppercase
                                                 semibold
                                             >
-                                                {type}{' '}
+                                                {type?.name}{' '}
                                             </Typography>
                                             <Typography variant="small">
                                                 <span
                                                     className="ml-2 block"
                                                     dangerouslySetInnerHTML={{
                                                         __html: row?.original?.[
-                                                            type
+                                                            type?.value
                                                         ],
                                                     }}
                                                 />

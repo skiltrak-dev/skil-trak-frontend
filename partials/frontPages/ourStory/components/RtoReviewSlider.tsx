@@ -20,7 +20,7 @@ const rtoReviews = [
     {
         rtoName: 'Kon Kanellopoulos',
         instituteName: '(Operations Manager) ITHEA',
-        imageUrl: 'rto-op.png',
+        imageUrl: 'rto-op.jpg',
         review: `Working with Skiltrak for the past 5 months has been seamless for ITHEA. 
         The entire team, from directors to account managers, has been supportive, accommodating 
         our needs and effectively connecting our students with employers. Their management of student 

@@ -82,7 +82,9 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                                         <Typography variant="xs" semibold>
                                             {note?.studentNote?.noteTemplate
                                                 ?.type ===
-                                            NotesTemplateType.ResolutionPathLabel
+                                            NotesTemplateType[
+                                                'Resolution Path Label'
+                                            ]
                                                 ? 'Resolution Path Label'
                                                 : 'Status Check Label'}
                                         </Typography>

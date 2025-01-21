@@ -49,7 +49,7 @@ export const StatusCheckLabelNotes = () => {
     const { isLoading, data, isError, isFetching } =
         AdminApi.NotesTemplates.notesTemplates({
             search: `type:${
-                NotesTemplateType.StatusCheckLabel
+                NotesTemplateType['Status Check Label']
             },${JSON.stringify(filter)
                 .replaceAll('{', '')
                 .replaceAll('}', '')
@@ -113,14 +113,14 @@ export const StatusCheckLabelNotes = () => {
                     onClick={() => toggleExpand(row.original.id)}
                     className="text-gray-600 hover:text-blue-500"
                 >
-                    {row.original.expanded ? (
-                        <BiSolidDownArrow className="text-2xl" />
-                    ) : (
-                        <BiSolidRightArrow className="text-2xl" />
-                    )}
+                    <BiSolidRightArrow
+                        className={`text-2xl transition-all duration-1000 ${
+                            row.original.expanded ? 'rotate-90' : ''
+                        }`}
+                    />
                 </button>
             ),
-            header: () => <span> </span>,
+            header: () => <span></span>,
         },
         {
             accessorKey: 'sequenceNo',

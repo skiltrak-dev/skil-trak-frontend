@@ -6,7 +6,7 @@ import { ContactUs } from './ContactUs'
 
 export const OurStoryLetsCollaborateSection = () => {
     return (
-        <div className="mx-auto max-w-7xl pt-20">
+        <div className="mx-auto max-w-7xl pt-20" id="contact-us">
             <div className="bg-orange-400 h-[1px] w-full"></div>
             <div className="grid grid-cols-2  py-7 flex-col gap-y-8 md:flex-row md:justify-between">
                 <div className="md:text-left text-center">
