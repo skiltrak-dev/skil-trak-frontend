@@ -4,7 +4,7 @@ import { ServiceCard } from './card'
 export const Services = () => {
     const serviceData = [
         {
-            text: 'Work Based Training',
+            text: 'Work Placements',
             direction: 'left',
             bgColor: 'bg-gradient-to-r from-[#893D00] to-[#F7A619]',
         },

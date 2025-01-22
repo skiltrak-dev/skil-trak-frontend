@@ -46,7 +46,7 @@ export const ContactUs = () => {
             <div className="">
                 <div className="w-full">
                     <div className="mb-3">
-                        <Typography variant="h4">Send Us A Message</Typography>
+                        <Typography variant="h4">Avail the offer now</Typography>
                     </div>
                     <FormProvider {...formMethods}>
                         <form onSubmit={formMethods.handleSubmit(onSubmit)}>
