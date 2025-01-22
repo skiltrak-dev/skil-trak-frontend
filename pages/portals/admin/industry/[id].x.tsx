@@ -30,13 +30,11 @@ import { PinnedNotes } from '@partials'
 import { Industry } from '@types'
 import { ArchiveModal, BlockModal } from '@partials/admin/industry/modals'
 
-// TODO: Can be deleted
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
-    // FIXME: change this with something
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const industry = AdminApi.Industries.useDetail(Number(router.query.id), {

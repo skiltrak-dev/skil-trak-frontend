@@ -8,7 +8,6 @@ import Image from 'next/image'
 import moment from 'moment'
 import { HeroSectionBlog } from '@partials/common/Blogs'
 
-// TODOS REPLACED WITH SLUG
 const BlogDetail: NextPageWithLayout = () => {
     const router = useRouter()
     const blogId = router.query.slug as string

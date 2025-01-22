@@ -26,7 +26,7 @@ export const BrowseCandidatesContainer = () => {
     const { setContent } = useContextBar()
     const [courseId, setCourseId] = useState<any>(null)
 
-    // TODO Check the course ID "KEY" on the backend
+  
     const browseCandidates = useGetBrowseCandidatesQuery(courseId)
 
     useEffect(() => {
@@ -37,7 +37,7 @@ export const BrowseCandidatesContainer = () => {
         )
     }, [setContent])
 
-    // TODO Error in filters
+  
     return (
         <div className="flex flex-col gap-y-4">
             <BackButton link={'/portals/industry/jobs'} text={'Back To Jobs'} />

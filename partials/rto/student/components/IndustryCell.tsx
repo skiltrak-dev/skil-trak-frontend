@@ -12,7 +12,6 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
         >
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full relative">
-                    {/* TODO Send industry User here */}
                     <InitialAvatar
                         name={industry?.user?.name}
                         imageUrl={industry?.user?.avatar}

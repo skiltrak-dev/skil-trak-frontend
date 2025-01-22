@@ -46,7 +46,7 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
     })
     const [create, createResult] = useCreateRtoSubAdminAssessmentToolsMutation()
     const [update, updateResult] = useUpdateRtoSubAdminAssessmentToolsMutation()
-   
+
     useEffect(() => {
         if (createResult.isSuccess) {
             notification.success({
@@ -109,7 +109,6 @@ export const AddAssessmentToolCB = ({ edit, assessment }: Props) => {
                     onSubmit={methods.handleSubmit(onSubmit)}
                 >
                     <div className="">
-                        {/* TODO Course is not getting in rto portal */}
                         <Select
                             name="course"
                             label="Course(s)"

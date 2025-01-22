@@ -114,7 +114,6 @@ export const AssessmentFileCard = ({
                             </Typography> */}
 
                                 <Typography variant="small" center>
-                                    {/* TODO check index type */}
                                     {index + 1}
                                 </Typography>
                             </div>

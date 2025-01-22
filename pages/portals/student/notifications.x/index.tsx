@@ -5,7 +5,6 @@ import { NextPageWithLayout } from '@types'
 import { Animations } from '@animations'
 import { DisplayPrimaryActions, HelpQuestionSet } from '@components'
 import { RecentEmailCard } from '@components/specialCards/RecentEmails'
-//TODO: Can be Deleted
 const PrimaryLinks = [
     {
         title: 'E-mails',

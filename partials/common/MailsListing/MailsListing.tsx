@@ -15,11 +15,13 @@ import { IoSendSharp } from 'react-icons/io5'
 import { IoMdNotifications } from 'react-icons/io'
 import { MailsCountCard } from './tabs/MailsInbox/Cards'
 import { IoSearch } from 'react-icons/io5'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { AuthorizedUserComponent } from '@components'
+import { debounce } from 'lodash'
 
 export const MailsListing = () => {
     const [searchQuery, setSearchQuery] = useState('')
+
     const router = useRouter()
 
     const role = getUserCredentials()?.role
@@ -76,12 +78,20 @@ export const MailsListing = () => {
     )?.component
 
     const DefaultComponent = mailsTabs?.[0]?.component
+
+    const delayedSearch = useCallback(
+        debounce((value: any) => {
+            setSearchQuery(value)
+        }, 700),
+        []
+    )
     return (
         <div className="my-6 flex items-start gap-x-2">
             <TopBar mailsTabs={mailsTabs} />
 
             {/* Component */}
             <div className="w-full">
+                {/* TODO: API Integration for counts */}
                 <AuthorizedUserComponent
                     roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                 >
@@ -118,13 +128,12 @@ export const MailsListing = () => {
                     <input
                         type="text"
                         placeholder="Search here..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e?.target?.value)}
+                        onChange={(e) => delayedSearch(e?.target?.value)}
                         className="w-full pl-16 pr-8 py-6 bg-[#FFF2D6] border-0 rounded-2xl focus:ring-2 focus:ring-orange-400 focus:outline-none"
                     />
                 </div>
                 {searchQuery !== '' ? (
-                    <FilterMails query={searchQuery} filteredData={[]} />
+                    <FilterMails query={searchQuery} />
                 ) : (
                     <>{Component ? <Component /> : <DefaultComponent />}</>
                 )}
