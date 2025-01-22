@@ -58,10 +58,10 @@ const OurStory: NextPageWithLayout = () => {
             {/* Welcome Card */}
             <div
                 onClick={handleSmoothScroll}
-                className="w-full h-full mx-auto max-w-7xl py-5"
+                className="w-full h-full mx-auto max-w-7xl py-5 cursor-pointer"
             >
                 <Image
-                    src={'/images/our-story/cookry-banner.png'}
+                    src={'/images/our-story/cookry-banner.jpg'}
                     alt={''}
                     width={0}
                     height={0}
