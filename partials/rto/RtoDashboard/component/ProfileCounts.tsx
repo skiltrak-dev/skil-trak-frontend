@@ -85,7 +85,7 @@ export const ProfileCounts = ({
             },
         },
         {
-            title: 'Pending Students',
+            title: 'Total Students Received',
             count: Number(statisticsCount?.data?.pendingStudent),
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
@@ -101,7 +101,7 @@ export const ProfileCounts = ({
             },
         },
         {
-            title: 'Workplace Request',
+            title: 'Agreement Pending',
             count: Number(statisticsCount?.data?.workplaceRequest),
             Icon: SiHomeassistantcommunitystore,
             loading: statisticsCount?.isLoading,

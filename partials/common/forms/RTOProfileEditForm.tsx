@@ -187,6 +187,16 @@ export const RTOProfileEditForm = ({
                 id,
                 updatedAt,
                 createdAt,
+                timeRewind,
+                reportType,
+                allowAutoComplete,
+                allowAutoReport,
+                allowUpdate,
+                autoReleaseLogBook,
+                skiltrakId: ski,
+                isActive: act,
+                contactPersons,
+                sectors,
                 ...rest
             } = profile?.data
             const {
@@ -203,6 +213,8 @@ export const RTOProfileEditForm = ({
                 updatedAt: userUpdatedAt,
                 createdAt: userCreatedAt,
                 socketId,
+                statusChangeHistory,
+                role,
                 ...userRest
             } = user
             const values = {

@@ -8,7 +8,6 @@ import { ReactElement, useEffect } from 'react'
 
 const EditRtoProfile: NextPageWithLayout = () => {
     const contextBar = useContextBar()
-    const { notification } = useNotification()
 
     const router = useRouter()
     const profile = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
