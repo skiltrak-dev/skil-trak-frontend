@@ -98,7 +98,10 @@ export const CreateStudentNote = ({
             wpId: selectedWorkplace || -1,
         },
         {
-            skip: !selectedType || !selectedWorkplace,
+            skip:
+                !selectedType ||
+                (!selectedWorkplace &&
+                    selectedType === NotesTemplateType?.['Status Check Label']),
             refetchOnMountOrArgChange: true,
         }
     )
@@ -338,176 +341,179 @@ export const CreateStudentNote = ({
                                 </div>
 
                                 {selectedType && selectedType !== 'custom' && (
-                                    <StudentNotesDropdown
-                                        title="Select Note Template"
-                                        onClear={() => {
-                                            setSelectedContent(null)
-                                        }}
-                                        disabled={
-                                            getNotesTemplate?.isLoading ||
-                                            getNotesTemplate?.isFetching ||
-                                            !selectedType
-                                        }
-                                        loading={
-                                            getNotesTemplate?.isLoading ||
-                                            getNotesTemplate?.isFetching
-                                        }
-                                        selected={
-                                            selectedContent
-                                                ? selectedContent?.label
-                                                : ''
-                                        }
-                                        dropDown={() => (
-                                            <div>
-                                                {templateOptions?.map(
-                                                    (
-                                                        template: OptionType,
-                                                        i: number
-                                                    ) => (
-                                                        <div
-                                                            key={Number(
-                                                                template.value
-                                                            )}
-                                                            onClick={() => {
-                                                                if (
-                                                                    !filteredNotesTemplate?.includes(
-                                                                        template.value
-                                                                    ) &&
-                                                                    selectedType ===
-                                                                        NotesTemplateType[
-                                                                            'Status Check Label'
-                                                                        ]
-                                                                ) {
-                                                                    notification.warning(
-                                                                        {
-                                                                            title: 'Action Already Performed',
-                                                                            description:
-                                                                                ' ',
-                                                                        }
-                                                                    )
-                                                                } else if (
-                                                                    filteredNotesTemplate?.includes(
-                                                                        template.value
-                                                                    ) &&
-                                                                    filteredNotesTemplate?.[0] !==
-                                                                        template.value &&
-                                                                    selectedType ===
-                                                                        NotesTemplateType[
-                                                                            'Status Check Label'
-                                                                        ]
-                                                                ) {
-                                                                    notification.warning(
-                                                                        {
-                                                                            title: 'Cant Perform this action now!',
-                                                                            description:
-                                                                                ' ',
-                                                                        }
-                                                                    )
-                                                                } else {
-                                                                    setSelectedContent(
-                                                                        template
-                                                                    )
-                                                                }
-                                                            }}
-                                                            className={`${
-                                                                selectedContent?.value ===
-                                                                template?.value
-                                                                    ? 'bg-gray-200'
-                                                                    : ''
-                                                            } hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 flex items-center justify-between gap-x-2 cursor-pointer`}
-                                                        >
-                                                            <div className="flex items-center gap-x-2">
-                                                                <Typography
-                                                                    variant={
-                                                                        filteredNotesTemplate?.[0] ===
-                                                                            template?.value &&
-                                                                        selectedType ===
-                                                                            NotesTemplateType[
-                                                                                'Status Check Label'
-                                                                            ]
-                                                                            ? 'label'
-                                                                            : 'small'
-                                                                    }
-                                                                    color={
-                                                                        filteredNotesTemplate?.[0] !==
-                                                                            template?.value &&
-                                                                        selectedType ===
-                                                                            NotesTemplateType[
-                                                                                'Status Check Label'
-                                                                            ]
-                                                                            ? 'text-gray-400'
-                                                                            : 'text-black'
-                                                                    }
-                                                                >
-                                                                    {!filteredNotesTemplate?.includes(
-                                                                        template.value
-                                                                    ) &&
-                                                                    selectedType ===
-                                                                        NotesTemplateType[
-                                                                            'Status Check Label'
-                                                                        ] ? (
-                                                                        <del>
-                                                                            {i +
-                                                                                1}
-                                                                        </del>
-                                                                    ) : (
-                                                                        i + 1
-                                                                    )}
-                                                                </Typography>
-                                                                <Typography
-                                                                    variant={
-                                                                        filteredNotesTemplate?.[0] ===
-                                                                            template?.value &&
-                                                                        selectedType ===
-                                                                            NotesTemplateType[
-                                                                                'Status Check Label'
-                                                                            ]
-                                                                            ? 'label'
-                                                                            : 'small'
-                                                                    }
-                                                                    color={
-                                                                        filteredNotesTemplate?.[0] !==
-                                                                            template?.value &&
-                                                                        selectedType ===
-                                                                            NotesTemplateType[
-                                                                                'Status Check Label'
-                                                                            ]
-                                                                            ? 'text-gray-400'
-                                                                            : 'text-black'
-                                                                    }
-                                                                >
-                                                                    {!filteredNotesTemplate?.includes(
-                                                                        template.value
-                                                                    ) &&
-                                                                    selectedType ===
-                                                                        NotesTemplateType[
-                                                                            'Status Check Label'
-                                                                        ] ? (
-                                                                        <del>
-                                                                            {
-                                                                                template?.label
-                                                                            }
-                                                                        </del>
-                                                                    ) : (
-                                                                        template?.label
-                                                                    )}
-                                                                </Typography>
-                                                            </div>
-                                                            {!filteredNotesTemplate?.includes(
-                                                                template.value
-                                                            ) &&
-                                                                selectedType ===
-                                                                    NotesTemplateType[
-                                                                        'Status Check Label'
-                                                                    ] && (
-                                                                    <IoCheckmark />
+                                    <div className="w-full relative z-[55]">
+                                        <StudentNotesDropdown
+                                            title="Select Note Template"
+                                            onClear={() => {
+                                                setSelectedContent(null)
+                                            }}
+                                            disabled={
+                                                getNotesTemplate?.isLoading ||
+                                                getNotesTemplate?.isFetching ||
+                                                !selectedType
+                                            }
+                                            loading={
+                                                getNotesTemplate?.isLoading ||
+                                                getNotesTemplate?.isFetching
+                                            }
+                                            selected={
+                                                selectedContent
+                                                    ? selectedContent?.label
+                                                    : ''
+                                            }
+                                            dropDown={() => (
+                                                <div>
+                                                    {templateOptions?.map(
+                                                        (
+                                                            template: OptionType,
+                                                            i: number
+                                                        ) => (
+                                                            <div
+                                                                key={Number(
+                                                                    template.value
                                                                 )}
-                                                        </div>
-                                                    )
-                                                )}
-                                            </div>
-                                        )}
-                                    />
+                                                                onClick={() => {
+                                                                    if (
+                                                                        !filteredNotesTemplate?.includes(
+                                                                            template.value
+                                                                        ) &&
+                                                                        selectedType ===
+                                                                            NotesTemplateType[
+                                                                                'Status Check Label'
+                                                                            ]
+                                                                    ) {
+                                                                        notification.warning(
+                                                                            {
+                                                                                title: 'Action Already Performed',
+                                                                                description:
+                                                                                    ' ',
+                                                                            }
+                                                                        )
+                                                                    } else if (
+                                                                        filteredNotesTemplate?.includes(
+                                                                            template.value
+                                                                        ) &&
+                                                                        filteredNotesTemplate?.[0] !==
+                                                                            template.value &&
+                                                                        selectedType ===
+                                                                            NotesTemplateType[
+                                                                                'Status Check Label'
+                                                                            ]
+                                                                    ) {
+                                                                        notification.warning(
+                                                                            {
+                                                                                title: 'Cant Perform this action now!',
+                                                                                description:
+                                                                                    ' ',
+                                                                            }
+                                                                        )
+                                                                    } else {
+                                                                        setSelectedContent(
+                                                                            template
+                                                                        )
+                                                                    }
+                                                                }}
+                                                                className={`${
+                                                                    selectedContent?.value ===
+                                                                    template?.value
+                                                                        ? 'bg-gray-200'
+                                                                        : ''
+                                                                } hover:bg-gray-200 py-2 border-b border-secondary-dark px-2 flex items-center justify-between gap-x-2 cursor-pointer`}
+                                                            >
+                                                                <div className="flex items-center gap-x-2">
+                                                                    <Typography
+                                                                        variant={
+                                                                            filteredNotesTemplate?.[0] ===
+                                                                                template?.value &&
+                                                                            selectedType ===
+                                                                                NotesTemplateType[
+                                                                                    'Status Check Label'
+                                                                                ]
+                                                                                ? 'label'
+                                                                                : 'small'
+                                                                        }
+                                                                        color={
+                                                                            filteredNotesTemplate?.[0] !==
+                                                                                template?.value &&
+                                                                            selectedType ===
+                                                                                NotesTemplateType[
+                                                                                    'Status Check Label'
+                                                                                ]
+                                                                                ? 'text-gray-400'
+                                                                                : 'text-black'
+                                                                        }
+                                                                    >
+                                                                        {!filteredNotesTemplate?.includes(
+                                                                            template.value
+                                                                        ) &&
+                                                                        selectedType ===
+                                                                            NotesTemplateType[
+                                                                                'Status Check Label'
+                                                                            ] ? (
+                                                                            <del>
+                                                                                {i +
+                                                                                    1}
+                                                                            </del>
+                                                                        ) : (
+                                                                            i +
+                                                                            1
+                                                                        )}
+                                                                    </Typography>
+                                                                    <Typography
+                                                                        variant={
+                                                                            filteredNotesTemplate?.[0] ===
+                                                                                template?.value &&
+                                                                            selectedType ===
+                                                                                NotesTemplateType[
+                                                                                    'Status Check Label'
+                                                                                ]
+                                                                                ? 'label'
+                                                                                : 'small'
+                                                                        }
+                                                                        color={
+                                                                            filteredNotesTemplate?.[0] !==
+                                                                                template?.value &&
+                                                                            selectedType ===
+                                                                                NotesTemplateType[
+                                                                                    'Status Check Label'
+                                                                                ]
+                                                                                ? 'text-gray-400'
+                                                                                : 'text-black'
+                                                                        }
+                                                                    >
+                                                                        {!filteredNotesTemplate?.includes(
+                                                                            template.value
+                                                                        ) &&
+                                                                        selectedType ===
+                                                                            NotesTemplateType[
+                                                                                'Status Check Label'
+                                                                            ] ? (
+                                                                            <del>
+                                                                                {
+                                                                                    template?.label
+                                                                                }
+                                                                            </del>
+                                                                        ) : (
+                                                                            template?.label
+                                                                        )}
+                                                                    </Typography>
+                                                                </div>
+                                                                {!filteredNotesTemplate?.includes(
+                                                                    template.value
+                                                                ) &&
+                                                                    selectedType ===
+                                                                        NotesTemplateType[
+                                                                            'Status Check Label'
+                                                                        ] && (
+                                                                        <IoCheckmark />
+                                                                    )}
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
                                 )}
 
                                 {selectedContent ? (

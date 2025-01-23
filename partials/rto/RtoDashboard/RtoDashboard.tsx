@@ -1,14 +1,15 @@
-import { useContextBar } from '@hooks'
 import { Rto } from '@types'
-import { getUserCredentials } from '@utils'
 import { useEffect } from 'react'
+import { useContextBar } from '@hooks'
+import { getUserCredentials } from '@utils'
 import {
     RtoDashboardMap,
-    RtoDashboardStatistics,
     RtoDashboardStudents,
     RtoImportantDocuments,
+    RtoDashboardStatistics,
 } from './component'
 import { ProfileViewContextBar } from './ProfileViewContextBar'
+
 export const RtoDashboard = ({ rto }: { rto: Rto }) => {
     const contextBar = useContextBar()
     useEffect(() => {

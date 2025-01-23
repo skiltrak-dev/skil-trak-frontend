@@ -10,7 +10,7 @@ import { CourseFolders } from '../components'
 import { RequirementModal } from '../modals'
 import { TabsStyle } from './style'
 
-export const    CourseView = ({ course }: { course: Course }) => {
+export const CourseView = ({ course }: { course: Course }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const courseDetail = AdminApi.Courses.useDetailQuery(course.id)
 
