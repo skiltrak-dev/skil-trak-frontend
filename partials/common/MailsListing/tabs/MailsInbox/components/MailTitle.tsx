@@ -6,7 +6,7 @@ export const MailTitle = ({ mailFrom }: { mailFrom: string }) => {
         <div
             className={`flex flex-col lg:flex-row lg:items-center gap-2 py-1.5 px-3 bg-white`}
         >
-            <div className="flex items-center gap-x-0.5 w-64">
+            <div className="flex items-center gap-x-0.5 w-36">
                 <Typography variant="small" bold>
                     {mailFrom}
                 </Typography>

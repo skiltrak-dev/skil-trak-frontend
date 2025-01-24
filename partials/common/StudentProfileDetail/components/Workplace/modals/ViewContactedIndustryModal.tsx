@@ -39,10 +39,10 @@ export const ViewContactedIndustryModal = ({
                     <Typography variant={'label'}>
                         Contacted Industries for current Students
                     </Typography>
-                    <Typography variant={'label'}>
+                    {/* <Typography variant={'label'}>
                         Contacted <strong className="italic">Listing</strong>{' '}
                         Industries for current Students
-                    </Typography>
+                    </Typography> */}
                 </div>
                 <div className="flex justify-between w-full !min-w-[40rem] max-h-[65vh] overflow-auto custom-scrollbar">
                     <div className="w-1/2 pb-3 flex flex-col gap-y-1.5 px-6">
@@ -119,7 +119,7 @@ export const ViewContactedIndustryModal = ({
                             )
                         )}
                     </div>
-                    <div className="w-1/2 pb-3 flex flex-col gap-y-1.5 px-6">
+                    {/* <div className="w-1/2 pb-3 flex flex-col gap-y-1.5 px-6">
                         {studentDetails.isError && (
                             <NoData text={'There is some technical issue'} />
                         )}
@@ -192,7 +192,7 @@ export const ViewContactedIndustryModal = ({
                                 <NoData text={'There is no Industries!'} />
                             )
                         )}
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </GlobalModal>

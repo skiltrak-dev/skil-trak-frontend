@@ -241,7 +241,7 @@ export const StudentProfileDetail = () => {
                             onClick={() => {
                                 setQuickSearch(false)
                             }}
-                            className=""
+                            className="cursor-pointer"
                         >
                             <FaTimes />
                         </div>

@@ -314,7 +314,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
         },
         {
             text: 'Emails',
-            path: getRoutePath('/e-mails?tab=all-mails'),
+            path: getRoutePath('/e-mails?tab=all'),
             Icon: MdEmail,
         },
         {

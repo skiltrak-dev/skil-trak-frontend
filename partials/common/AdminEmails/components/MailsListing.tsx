@@ -5,11 +5,12 @@ import {
     ReceiverMailsInbox,
     SenderMailsInbox,
 } from '@partials/common/MailsListing'
-import { TopBar } from '@partials/common/MailsListing/components'
+import { AdminTopBar, TopBar } from '@partials/common/MailsListing/components'
 import { MailsCountCard } from '@partials/common/MailsListing/tabs/MailsInbox/Cards'
 import { getUserCredentials } from '@utils'
+import { debounce } from 'lodash'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { CiMail } from 'react-icons/ci'
 import { IoSearch } from 'react-icons/io5'
 
@@ -71,60 +72,65 @@ export const MailsListing = () => {
     )?.component
 
     const DefaultComponent = mailsTabs?.[0]?.component
-    return (
-        <div className="mb-6 flex items-start gap-x-2">
-            <TopBar mailsTabs={mailsTabs} />
 
-            {/* Component */}
-            <div className="w-full">
-                <AuthorizedUserComponent
-                    roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
-                >
-                    {/* TODO: Integrate Counts API for Mails*/}
-                    <div className="flex items-center justify-between gap-x-16 mb-5 w-full">
-                        <MailsCountCard
-                            imageUrl="/images/mails/student-mail-icon.svg"
-                            title="Student"
-                            count={20}
-                        />
-                        <MailsCountCard
-                            imageUrl="/images/mails/industry-mail-icon.svg"
-                            title="Industry"
-                            count={10}
-                        />
-                        <MailsCountCard
-                            imageUrl="/images/mails/department-mail-icon.svg"
-                            title="Department"
-                            count={13}
-                        />
-                        <MailsCountCard
-                            imageUrl="/images/mails/management-mail-icon.svg"
-                            title="Management"
-                            count={33}
+    const delayedSearch = useCallback(
+        debounce((value: any) => {
+            setSearchQuery(value)
+        }, 700),
+        []
+    )
+    return (
+        <div className="flex flex-col gap-y-12">
+            <AdminTopBar mailsTabs={mailsTabs} />
+            <div className="mb-6 flex items-start gap-x-2">
+                {/* Component */}
+                <div className="w-full">
+                    {/* <AuthorizedUserComponent
+                        roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                    >
+                        <div className="flex items-center justify-between gap-x-16 mb-5 w-full">
+                            <MailsCountCard
+                                imageUrl="/images/mails/student-mail-icon.svg"
+                                title="Student"
+                                count={20}
+                            />
+                            <MailsCountCard
+                                imageUrl="/images/mails/industry-mail-icon.svg"
+                                title="Industry"
+                                count={10}
+                            />
+                            <MailsCountCard
+                                imageUrl="/images/mails/department-mail-icon.svg"
+                                title="Department"
+                                count={13}
+                            />
+                            <MailsCountCard
+                                imageUrl="/images/mails/management-mail-icon.svg"
+                                title="Management"
+                                count={33}
+                            />
+                        </div>
+                    </AuthorizedUserComponent> */}
+                    <div className="relative w-full mb-4">
+                        <div className="absolute top-1/2 left-8 ">
+                            <IoSearch
+                                size={18}
+                                className="transform font-bold -translate-y-1/2 text-indigo-400"
+                            />
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Search here..."
+                            onChange={(e) => delayedSearch(e?.target?.value)}
+                            className="w-full pl-16 pr-8 py-3 bg-[#FFF2D6] border-0 rounded-2xl focus:ring-2 focus:ring-orange-400 focus:outline-none"
                         />
                     </div>
-                </AuthorizedUserComponent>
-                <div className="relative w-full mb-4">
-                     {/* TODO: Implement search API*/}
-                    <div className="absolute top-1/2 left-8 ">
-                        <IoSearch
-                            size={25}
-                            className="transform font-bold -translate-y-1/2 text-indigo-400"
-                        />
-                    </div>
-                    <input
-                        type="text"
-                        placeholder="Search here..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e?.target?.value)}
-                        className="w-full pl-16 pr-8 py-6 bg-[#FFF2D6] border-0 rounded-2xl focus:ring-2 focus:ring-orange-400 focus:outline-none"
-                    />
+                    {searchQuery !== '' ? (
+                        <FilterMails query={searchQuery} />
+                    ) : (
+                        <>{Component ? <Component /> : <DefaultComponent />}</>
+                    )}
                 </div>
-                {searchQuery !== '' ? (
-                    <FilterMails query={searchQuery} filteredData={[]} />
-                ) : (
-                    <>{Component ? <Component /> : <DefaultComponent />}</>
-                )}
             </div>
         </div>
     )

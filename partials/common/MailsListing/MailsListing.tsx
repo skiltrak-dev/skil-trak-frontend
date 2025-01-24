@@ -92,7 +92,7 @@ export const MailsListing = () => {
             {/* Component */}
             <div className="w-full">
                 {/* TODO: API Integration for counts */}
-                <AuthorizedUserComponent
+                {/* <AuthorizedUserComponent
                     roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                 >
                     <div className="flex items-center justify-between gap-x-16 mb-5 w-full">
@@ -117,11 +117,11 @@ export const MailsListing = () => {
                             count={33}
                         />
                     </div>
-                </AuthorizedUserComponent>
+                </AuthorizedUserComponent> */}
                 <div className="relative w-full mb-4">
                     <div className="absolute top-1/2 left-8 ">
                         <IoSearch
-                            size={25}
+                            size={18}
                             className="transform font-bold -translate-y-1/2 text-indigo-400"
                         />
                     </div>
@@ -129,7 +129,7 @@ export const MailsListing = () => {
                         type="text"
                         placeholder="Search here..."
                         onChange={(e) => delayedSearch(e?.target?.value)}
-                        className="w-full pl-16 pr-8 py-6 bg-[#FFF2D6] border-0 rounded-2xl focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                        className="w-full pl-16 pr-8 py-3 bg-[#FFF2D6] border-0 rounded-2xl focus:ring-2 focus:ring-orange-400 focus:outline-none"
                     />
                 </div>
                 {searchQuery !== '' ? (

@@ -6,7 +6,6 @@ import { NextPageWithLayout } from '@types'
 import { StudentProfileDetail } from '@partials/common'
 
 const StudentsProfileDetail: NextPageWithLayout = () => {
-   
     return (
         <div
         // style={{
@@ -18,7 +17,11 @@ const StudentsProfileDetail: NextPageWithLayout = () => {
     )
 }
 StudentsProfileDetail.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'Student Profile' }}>
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default StudentsProfileDetail

@@ -3,8 +3,7 @@ import { ReactElement, useEffect } from 'react'
 import { SubAdminLayout } from '@layouts'
 // Types
 import { NextPageWithLayout } from '@types'
-// Animations
-import { Animations } from '@animations'
+
 // Components
 import {
     Button,
@@ -30,62 +29,7 @@ const Notifications: NextPageWithLayout = () => {
         )
     }, [setContent])
 
-    // WORKPLACE JOY RIDE - Start
-    // const joyride = useJoyRide()
-
-    const PrimaryLinks = [
-        {
-            title: 'Emails',
-            description: 'All Emails',
-            link: 'notifications/e-mails?tab=all-mails',
-            animation: Animations.Student.Appointments.AssessmentTool,
-            // id: 'workplace',
-            // badge: {
-            //     text: statistics?.data?.workplaceRequest,
-            //     loading: statistics.isLoading,
-            // },
-        },
-        // {
-        //     title: 'Discussions',
-        //     description: 'Discussions',
-        //     link: 'notifications/e-mails?tab=all-mails',
-        //     animation: Animations.Student.Appointments.AssessmentEvidence,
-        //     // id: 'assessment-evidence',
-        //     // badge: {
-        //     //     text: statistics?.data?.assessmentEvidence,
-        //     //     loading: statistics.isLoading,
-        //     // },
-        // },
-        {
-            title: 'All Notifications',
-            description: 'All Notifications',
-            link: 'notifications/all-notifications',
-            animation: Animations.Student.Appointments.AssessmentEvidence,
-            // id: 'assessment-evidence',
-            // badge: {
-            //     text: statistics?.data?.assessmentEvidence,
-            //     loading: statistics.isLoading,
-            // },
-        },
-    ]
-
-    // WORKPLACE JOY RIDE - END
     return <MailsListing />
-    return (
-        <div className="flex flex-col">
-            <div className="flex gap-x-6">
-                {/* Primary Actions */}
-                <div className="bg-white p-4 rounded-2xl shadow-xl flex-shrink-0">
-                    <DisplayPrimaryActions actions={PrimaryLinks} />
-                </div>
-
-                {/* Special Cards */}
-                <div className="w-full flex flex-col justify-center space-y-2">
-                    <EmailsCard />
-                </div>
-            </div>
-        </div>
-    )
 }
 
 Notifications.getLayout = (page: ReactElement) => {
