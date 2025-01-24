@@ -16,7 +16,11 @@ const StudentsProfile: NextPageWithLayout = () => {
     return <StudentProfile />
 }
 StudentsProfile.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'Student Profile' }}>
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default StudentsProfile

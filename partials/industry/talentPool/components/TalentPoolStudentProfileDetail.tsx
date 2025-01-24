@@ -258,14 +258,14 @@ export const TalentPoolStudentProfileDetail = ({
                         </div>
                     </div>
                     {/* Suburb */}
-                    <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
+                    {/* <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
                         <Typography variant="xs" color="text-white">
                             Suburbs
                         </Typography>
                         <Typography variant="muted" color="text-white">
                             {profile?.student?.suburb}
                         </Typography>
-                    </div>
+                    </div> */}
                     {/* Student Type */}
                     <div className="bg-[#286788]  rounded-md py-1.5 px-2.5">
                         <Typography variant="xs" color="text-white">

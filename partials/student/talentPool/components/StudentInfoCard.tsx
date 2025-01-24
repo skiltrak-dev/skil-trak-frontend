@@ -73,14 +73,14 @@ export const StudentInfoCard = ({ profile, getSectors }: any) => {
                     </div>
                 </div>
                 {/* Suburb */}
-                <div className="bg-[#EFF4FF] border rounded-md py-1.5 px-2.5">
+                {/* <div className="bg-[#EFF4FF] border rounded-md py-1.5 px-2.5">
                     <Typography variant="xs" color="text-[#374151]">
                         Suburbs
                     </Typography>
                     <Typography variant="muted" color="text-[#374151]">
                         {profile?.suburb}
                     </Typography>
-                </div>
+                </div> */}
                 {/* Student Type */}
                 <div className="bg-[#EFF4FF] border rounded-md py-1.5 px-2.5">
                     <Typography variant="xs" color="text-[#374151]">

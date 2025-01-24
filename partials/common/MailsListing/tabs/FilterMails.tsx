@@ -29,7 +29,7 @@ export const FilterMails = ({ query }: any) => {
         setPage
     )
     return (
-        <div className="shadow-[0px_0px_10px_0px_rgba(0,0,0,0.05)] h-[410px] custom-scrollbar overflow-y-auto">
+        <div className="shadow-[0px_0px_10px_0px_rgba(0,0,0,0.05)] h-screen custom-scrollbar overflow-y-auto">
             <MailTopBar
                 hasNext={mailsList?.data?.pagination?.hasNext}
                 hasPrev={page > 1}

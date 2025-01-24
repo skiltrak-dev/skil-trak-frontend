@@ -16,7 +16,9 @@ import { FileUpload } from '@hoc'
 export const ComposeMailForm = ({
     result,
     onSubmit,
+    senderEmail,
 }: {
+    senderEmail?: string
     result: any
     onSubmit: (values: any) => void
 }) => {
@@ -36,6 +38,10 @@ export const ComposeMailForm = ({
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         mode: 'all',
+        defaultValues: {
+            receiver: senderEmail || '',
+            subject: '',
+        },
     })
 
     const onRemoveFile = (fileId: number) => {

@@ -12,10 +12,16 @@ import { values } from 'lodash'
 import { useNotification } from '@hooks'
 
 export const ComposeMail = ({
+    parentId,
+    senderEmail,
     onCancelComposeMail,
 }: {
     onCancelComposeMail: () => void
+    parentId?: any
+    senderEmail?: string
 }) => {
+    console.log('parentId', parentId)
+    console.log('senderEmail', senderEmail)
     const [sendMessage, sendMessageResult] =
         CommonApi.Messages.sendCustomEmail()
 
@@ -37,6 +43,9 @@ export const ComposeMail = ({
             attachment?.forEach((attched: File) => {
                 formData.append('attachment', attched)
             })
+        }
+        if (parentId) {
+            formData.append('parent', parentId)
         }
         formData.append('type', 'email')
 
@@ -71,6 +80,7 @@ export const ComposeMail = ({
                     <ComposeMailForm
                         onSubmit={onSubmit}
                         result={sendMessageResult}
+                        senderEmail={senderEmail}
                     />
                 </div>
             </div>

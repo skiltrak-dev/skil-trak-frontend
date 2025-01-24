@@ -14,7 +14,7 @@ export const MailingList = ({
     mailsList: any
 }) => {
     return (
-        <div className="shadow-[0px_0px_10px_0px_rgba(0,0,0,0.05)] h-[410px] custom-scrollbar overflow-y-auto">
+        <div className="shadow-[0px_0px_10px_0px_rgba(0,0,0,0.05)] h-screen custom-scrollbar overflow-y-auto">
             {mailsList.isError ? <TechnicalError /> : null}
             {mailsList?.isLoading || mailsList?.isFetching ? (
                 <div className="flex flex-col gap-y-0">
