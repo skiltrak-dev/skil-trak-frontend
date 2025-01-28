@@ -15,6 +15,7 @@ import { MdAvTimer } from 'react-icons/md'
 // functions
 import { InitialAvatar } from '@components/InitialAvatar'
 import { ellipsisText, userStatus } from '@utils'
+import { Attachments } from '@components/Mail/Attachments'
 
 export const ListingIndustryMail = ({ message, sender, index }: any) => {
     const [showOptions, setShowOptions] = useState(false)
@@ -166,15 +167,15 @@ export const ListingIndustryMail = ({ message, sender, index }: any) => {
                                 {/* {message?.message} */}
                             </span>
 
-                            {/* <div className="mt-3">
+                            <div className="mt-3">
                                 <Typography
                                     variant={'label'}
                                     color={'text-gray-700'}
                                 >
                                     Attachments
                                 </Typography>
-                            </div> */}
-                            {/* <Attachments attachments={message?.attachments} /> */}
+                            </div>
+                            <Attachments attachments={message?.attachments} />
                         </p>
 
                         {/* show message status icons */}

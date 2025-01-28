@@ -1,6 +1,6 @@
 import { Badge, NoData, ShowErrorNotifications, Typography } from '@components'
 import { useContextBar, useNotification } from '@hooks'
-import { useAddExistingIndustriesMutation } from '@queries'
+import { CommonApi, useAddExistingIndustriesMutation } from '@queries'
 import { IndustryStatus } from '@types'
 import { ellipsisText } from '@utils'
 import Image from 'next/image'
@@ -38,9 +38,21 @@ export const FutureIndustryInfoBoxCard = ({
     // apply for industry
     const [addExistingIndustry, addExistingIndustryResult] =
         useAddExistingIndustriesMutation()
+    const [addToContacted, addToContactedResult] =
+        CommonApi.FindWorkplace.useFutureIndustryContacted()
+
     const sectors = selectedBox?.sector
 
     const { notification } = useNotification()
+
+    useEffect(() => {
+        if (addToContactedResult.isSuccess) {
+            notification.success({
+                title: 'Industry Contacted',
+                description: 'Industry Contacted Successfully',
+            })
+        }
+    }, [addToContactedResult.isSuccess])
 
     useEffect(() => {
         if (addExistingIndustryResult.isSuccess) {
@@ -76,7 +88,9 @@ export const FutureIndustryInfoBoxCard = ({
 
     return (
         <>
-            <ShowErrorNotifications result={addExistingIndustryResult} />
+            <ShowErrorNotifications
+                result={addExistingIndustryResult ?? addToContactedResult}
+            />
             <div className="min-w-80">
                 {item.isError && <NoData text="Something is not right...!" />}
                 {item?.isLoading ? (
@@ -209,7 +223,14 @@ export const FutureIndustryInfoBoxCard = ({
                                             type={'Email'}
                                         />
                                     </div>
-                                    <div className="relative group w-fit">
+                                    <div
+                                        onClick={() =>
+                                            addToContacted({
+                                                receiver: industryId,
+                                            })
+                                        }
+                                        className="relative group w-fit"
+                                    >
                                         <Typography variant="xs">
                                             {selectedBox?.phone ?? 'NA'}
                                         </Typography>

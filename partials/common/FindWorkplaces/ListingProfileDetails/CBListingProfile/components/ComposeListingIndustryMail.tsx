@@ -25,60 +25,40 @@ export const ComposeListingIndustryMail = ({
 
     const { notification } = useNotification()
 
-    // const onSubmit = (values: any) => {
-    //     const formData = new FormData()
-
-    //     const { attachment, ...rest } = values
-    //     Object.entries(rest)?.forEach(([key, value]: any) => {
-    //         if (key === 'message') {
-    //             const message = draftToHtmlText(value)
-    //             formData.append(key, message)
-    //         } else {
-    //             formData.append(key, value)
-    //         }
-    //     })
-    //     if (attachment && attachment?.length > 0) {
-    //         attachment?.forEach((attched: File) => {
-    //             formData.append('attachment', attched)
-    //         })
-    //     }
-    //     formData.append('type', 'email')
-    //     for (const [key, value] of formData.entries()) {
-    //         console.log(`${key}:`, value)
-    //     }
-    //     // console.log('aaaaaa', formData)
-
-    //     // sendMessage(formData).then((res: any) => {
-    //     //     if (res?.data) {
-    //     //         notification.success({
-    //     //             title: 'Mail Sent',
-    //     //             description: 'Mail Sent Successfully',
-    //     //         })
-    //     //         onCancelComposeMail()
-    //     //     }
-    //     // })
-    //     if (id) {
-    //         sendMessage({ id, body: formData }).then((res: any) => {
-    //             if (res?.data) {
-    //                 notification.success({
-    //                     title: 'Mail Sent',
-    //                     description: 'Mail Sent Successfully',
-    //                 })
-    //                 onCancelComposeMail()
-    //             }
-    //         })
-    //     }
-    // }
     const onSubmit = (values: any) => {
-        const { message, subject } = values
-        const body = {
-            subject: subject,
-            body: draftToHtmlText(message),
-            // type: 'email',
-        }
+        const formData = new FormData()
 
+        const { attachments, ...rest } = values
+        Object.entries(rest)?.forEach(([key, value]: any) => {
+            if (key === 'body') {
+                const body = draftToHtmlText(value)
+                formData.append(key, body)
+            } else {
+                formData.append(key, value)
+            }
+        })
+        if (attachments && attachments?.length > 0) {
+            attachments?.forEach((attched: File) => {
+                formData.append('attachments', attched)
+            })
+        }
+        // formData.append('type', 'email')
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}:`, value)
+        }
+        // console.log('aaaaaa', formData)
+
+        // sendMessage(formData).then((res: any) => {
+        //     if (res?.data) {
+        //         notification.success({
+        //             title: 'Mail Sent',
+        //             description: 'Mail Sent Successfully',
+        //         })
+        //         onCancelComposeMail()
+        //     }
+        // })
         if (id) {
-            sendMessage({ id: id, body: body }).then((res: any) => {
+            sendMessage({ id, body: formData }).then((res: any) => {
                 if (res?.data) {
                     notification.success({
                         title: 'Mail Sent',
@@ -89,6 +69,26 @@ export const ComposeListingIndustryMail = ({
             })
         }
     }
+    // const onSubmit = (values: any) => {
+    //     const { message, subject } = values
+    //     const body = {
+    //         subject: subject,
+    //         body: draftToHtmlText(message),
+    //         // type: 'email',
+    //     }
+
+    //     if (id) {
+    //         sendMessage({ id: id, body: body }).then((res: any) => {
+    //             if (res?.data) {
+    //                 notification.success({
+    //                     title: 'Mail Sent',
+    //                     description: 'Mail Sent Successfully',
+    //                 })
+    //                 onCancelComposeMail()
+    //             }
+    //         })
+    //     }
+    // }
     return (
         <>
             <ShowErrorNotifications result={sendMessageResult} />

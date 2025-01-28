@@ -1,5 +1,5 @@
 import React from 'react'
-import { SubAdminApi } from '@queries'
+import { CommonApi, SubAdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import {
     GlobalModal,
@@ -25,6 +25,8 @@ export const ViewContactedIndustryModal = ({
         router?.query?.id,
         { skip: !router?.query?.id }
     )
+    const futureIndustriesContacted =
+        CommonApi.FindWorkplace.useContactedFutureIndustriesList()
     const industries = studentDetails?.data?.student?.industryContacts
 
     const role = getUserCredentials()?.role
@@ -35,16 +37,21 @@ export const ViewContactedIndustryModal = ({
                     onClick={onCancel}
                     className="absolute top-1 right-1 transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
                 />
-                <div className="flex pb-3 pt-8 px-6 justify-between items-center">
-                    <Typography variant={'label'}>
-                        Contacted Industries for current Students
-                    </Typography>
-                    {/* <Typography variant={'label'}>
-                        Contacted <strong className="italic">Listing</strong>{' '}
-                        Industries for current Students
-                    </Typography> */}
+                <div className="flex pb-3 pt-8 px-6 justify-between items-center w-full">
+                    <div className="w-1/2">
+                        <Typography variant={'label'}>
+                            Contacted Industries for current Students
+                        </Typography>
+                    </div>
+                    <div className="w-1/2 ml-12">
+                        <Typography variant={'label'}>
+                            Contacted{' '}
+                            <strong className="italic">Listing</strong>{' '}
+                            Industries for current Students
+                        </Typography>
+                    </div>
                 </div>
-                <div className="flex justify-between w-full !min-w-[40rem] max-h-[65vh] overflow-auto custom-scrollbar">
+                <div className="flex justify-between w-full !min-w-[44rem] max-h-[65vh] overflow-auto custom-scrollbar">
                     <div className="w-1/2 pb-3 flex flex-col gap-y-1.5 px-6">
                         {studentDetails.isError && (
                             <NoData text={'There is some technical issue'} />
@@ -58,7 +65,7 @@ export const ViewContactedIndustryModal = ({
                                         distance: string
                                         industry: Industry
                                     }) => (
-                                        <div className="bg-secondary py-1 px-2 rounded-lg flex flex-col lg:flex-row justify-between lg:items-center">
+                                        <div className="bg-secondary py-1 px-4 rounded-lg flex flex-col lg:flex-row justify-between lg:items-center">
                                             <Link
                                                 href={
                                                     role === UserRoles.ADMIN
@@ -119,42 +126,35 @@ export const ViewContactedIndustryModal = ({
                             )
                         )}
                     </div>
-                    {/* <div className="w-1/2 pb-3 flex flex-col gap-y-1.5 px-6">
-                        {studentDetails.isError && (
+                    <div className="w-1/2 pb-3 flex flex-col gap-y-1.5 px-6">
+                        {futureIndustriesContacted.isError && (
                             <NoData text={'There is some technical issue'} />
                         )}
-                        {studentDetails.isLoading ? (
+                        {futureIndustriesContacted.isLoading ? (
                             <LoadingAnimation size={85} />
-                        ) : studentDetails?.data && industries?.length > 0 ? (
+                        ) : futureIndustriesContacted?.data &&
+                          futureIndustriesContacted?.data?.length > 0 ? (
                             <>
-                                {industries?.map(
-                                    (industry: {
-                                        distance: string
-                                        industry: Industry
-                                    }) => (
-                                        <div className="bg-secondary py-1 px-2 rounded-lg flex flex-col lg:flex-row justify-between lg:items-center">
+                                {futureIndustriesContacted?.data?.map(
+                                    (industry: any) => (
+                                        <div className="bg-secondary py-1 px-4 rounded-lg flex flex-col lg:flex-row justify-between lg:items-center">
                                             <Link
                                                 href={
                                                     role === UserRoles.ADMIN
-                                                        ? `/portals/admin/industry/${industry?.industry?.id}?tab=sectors`
+                                                        ? `/portals/admin/industry/${industry?.id}?tab=sectors`
                                                         : role ===
                                                           UserRoles.SUBADMIN
-                                                        ? `/portals/sub-admin/users/industries/${industry?.industry?.id}?tab=overview`
+                                                        ? `portals/sub-admin/tasks/industry-listing/${industry?.id}`
                                                         : '#'
                                                 }
                                                 className="flex items-center gap-x-2 cursor-pointer"
                                             >
-                                                {industry?.industry?.user
-                                                    ?.name && (
+                                                {industry?.businessName && (
                                                     <InitialAvatar
                                                         name={
-                                                            industry?.industry
-                                                                ?.user?.name
+                                                            industry?.businessName
                                                         }
-                                                        imageUrl={
-                                                            industry?.industry
-                                                                ?.user?.avatar
-                                                        }
+                                                        // imageUrl={'/'}
                                                     />
                                                 )}
                                                 <div>
@@ -164,10 +164,7 @@ export const ViewContactedIndustryModal = ({
                                                         >
                                                             <span className="cursor-pointer">
                                                                 {
-                                                                    industry
-                                                                        ?.industry
-                                                                        ?.user
-                                                                        ?.name
+                                                                    industry?.businessName
                                                                 }
                                                             </span>
                                                         </Typography>
@@ -176,10 +173,7 @@ export const ViewContactedIndustryModal = ({
                                                         variant={'muted'}
                                                         color={'gray'}
                                                     >
-                                                        {
-                                                            industry?.industry
-                                                                ?.addressLine1
-                                                        }
+                                                        {industry?.address}
                                                     </Typography>
                                                 </div>
                                             </Link>
@@ -188,11 +182,11 @@ export const ViewContactedIndustryModal = ({
                                 )}
                             </>
                         ) : (
-                            studentDetails.isSuccess && (
+                            futureIndustriesContacted.isSuccess && (
                                 <NoData text={'There is no Industries!'} />
                             )
                         )}
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </GlobalModal>

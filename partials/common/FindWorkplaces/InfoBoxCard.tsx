@@ -24,7 +24,7 @@ export const InfoBoxCard = ({ item, selectedBox, setSelectedBox }: any) => {
                         setSelectedBox(null)
                     }}
                 />
-                <a className='cursor-pointer' href={urlString} target="_/">
+                <a className="cursor-pointer" href={urlString} target="_/">
                     <div className="flex flex-col gap-y-2 items-center">
                         {/* <div className='w-full'>
                             <Image
@@ -61,7 +61,10 @@ export const InfoBoxCard = ({ item, selectedBox, setSelectedBox }: any) => {
                                     starDimension="15px"
                                     starSpacing="1px"
                                 />
-                                <Typography variant='muted' color='text-gray-600'>
+                                <Typography
+                                    variant="muted"
+                                    color="text-gray-600"
+                                >
                                     ({selectedBox.user_ratings_total || 'N/A'})
                                 </Typography>
                             </div>
