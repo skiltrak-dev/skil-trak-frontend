@@ -8,8 +8,10 @@ import { convertToRaw } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { InputErrorMessage } from '@partials/common/MailsListing'
+import { FileUpload } from '@hoc'
+import { Attachment } from '@partials/common/Notifications'
 
 export const ComposeListingIndustryMailForm = ({
     result,
@@ -18,6 +20,7 @@ export const ComposeListingIndustryMailForm = ({
     result: any
     onSubmit: (values: any) => void
 }) => {
+    const [attachmentFiles, setAttachmentFiles] = useState<any>([])
     const inputClasses =
         'placeholder:text-[#686868] border-b border-secondary-dark outline-none h-8 placeholder:text-[11px] px-1.5 text-[13px] text-gray-700'
     const validationSchema = Yup.object({
@@ -25,9 +28,9 @@ export const ComposeListingIndustryMailForm = ({
             .email('Invalid Email')
             .required('Must provide email'),
         subject: Yup.string().required('Must provide subject'),
-        message: Yup.mixed().test('Message', 'Must Provide Message', (value) =>
-            inputEditorErrorMessage(value)
-        ),
+        // body: Yup.mixed().test('body', 'Must Provide Body', (value) =>
+        //     inputEditorErrorMessage(value)
+        // ),
     })
     const methods = useForm({
         resolver: yupResolver(validationSchema),
@@ -37,8 +40,31 @@ export const ComposeListingIndustryMailForm = ({
     useEffect(() => {
         if (result?.isSuccess) {
             methods.reset()
+            setAttachmentFiles([])
         }
     }, [result])
+
+    const onRemoveFile = (fileId: number) => {
+        setAttachmentFiles((preVal: any) => [
+            ...preVal?.filter((file: File) => file?.lastModified !== fileId),
+        ])
+    }
+
+    const onFileUpload = ({
+        name,
+        fileList,
+    }: {
+        name: string
+        fileList: any
+    }) => {
+        return (
+            <Attachment
+                name={name}
+                fileList={attachmentFiles}
+                onRemoveFile={onRemoveFile}
+            />
+        )
+    }
 
     return (
         <div>
@@ -63,7 +89,7 @@ export const ComposeListingIndustryMailForm = ({
 
                         <div className="mt-2">
                             <InputContentEditor
-                                name={'message'}
+                                name={'body'}
                                 onChange={(e: any) => {
                                     const mail = draftToHtml(
                                         convertToRaw(e.getCurrentContent())
@@ -74,7 +100,7 @@ export const ComposeListingIndustryMailForm = ({
                                 height="h-80"
                             />
                         </div>
-                        <InputErrorMessage name="message" />
+                        <InputErrorMessage name="body" />
 
                         {/*  */}
                         <div className="mt-3 flex gap-x-3 items-center justify-between">
@@ -88,6 +114,19 @@ export const ComposeListingIndustryMailForm = ({
                                     Send
                                 </Button>
                             </div>
+                            <FileUpload
+                                onChange={(docs: FileList) => {
+                                    setAttachmentFiles((preVal: any) => [
+                                        ...preVal,
+                                        ...docs,
+                                    ])
+                                }}
+                                showError={false}
+                                name={'attachments'}
+                                component={onFileUpload}
+                                multiple
+                                limit={Number(1111111111)}
+                            />
                         </div>
                     </div>
                 </form>

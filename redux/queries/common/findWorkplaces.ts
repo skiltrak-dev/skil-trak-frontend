@@ -198,4 +198,20 @@ export const findWorkplaceEndpoints = (
         }),
         providesTags: ['Industries'],
     }),
+
+    futureIndustryContacted: builder.mutation({
+        query: (params) => ({
+            url: `${PREFIX}/call-log`,
+            params,
+            method: 'POST',
+        }),
+        invalidatesTags: ['Industries'],
+    }),
+
+    getContactedFutureIndustriesList: builder.query<any, void>({
+        query: () => ({
+            url: `${PREFIX}/list/called`,
+        }),
+        providesTags: ['Industries'],
+    }),
 })
