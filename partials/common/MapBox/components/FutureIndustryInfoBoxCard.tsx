@@ -85,6 +85,9 @@ export const FutureIndustryInfoBoxCard = ({
                 return <p>---</p>
         }
     }
+    console.log('industryId', industryId)
+    console.log('selectedBox', selectedBox)
+    console.log('item', item)
 
     return (
         <>
@@ -226,7 +229,9 @@ export const FutureIndustryInfoBoxCard = ({
                                     <div
                                         onClick={() =>
                                             addToContacted({
-                                                receiver: industryId,
+                                                receiver:
+                                                    industryId ??
+                                                    selectedBox?.id,
                                             })
                                         }
                                         className="relative group w-fit"
