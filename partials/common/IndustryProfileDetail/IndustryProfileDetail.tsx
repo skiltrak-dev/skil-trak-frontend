@@ -11,6 +11,7 @@ import { MailsCommunication } from '../StudentProfileDetail/components'
 import {
     IndustryHistory,
     IndustryRequiredDocuments,
+    IndustrySectorRequiredDocs,
     IndustryShiftingHours,
     IndustryStudents,
 } from './components'
@@ -130,16 +131,20 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
                         </div>
                     </AuthorizedUserComponent>
                 </div>
-                <div className="flex gap-x-4 min-h-[500px]">
-                    <div className="w-2/3">
+                <div className="grid grid-cols-1 lg:grid-cols-5 md:grid-cols-2 gap-x-4 w-full min-h-[500px]">
+                    <div className="w-full lg:col-span-3">
                         <IndustryShiftingHours
                             industryUserId={industry?.user?.id}
                         />
                     </div>
-                    <div className="w-1/3">
-                        <IndustryRequiredDocuments industry={industry} />
+                    <div className="h-[530px] overflow-auto custom-scrollbar lg:col-span-2">
+                        <IndustrySectorRequiredDocs industry={industry} />
                     </div>
+                    {/* <div className="w-1/3">
+                        <IndustryRequiredDocuments industry={industry} />
+                    </div> */}
                 </div>
+
                 <div>
                     <IndustryStudents industry={industry} />
                 </div>

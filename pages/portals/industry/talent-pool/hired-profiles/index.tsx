@@ -12,14 +12,14 @@ import { IndustryApi } from '@queries'
 const HiredProfiles: NextPageWithLayout = () => {
     const [selectedSector, setSelectedSector] = useState<any>(null)
     const { data, isLoading, isError, isSuccess } =
-        IndustryApi.Courses.useGetIndustrySectorsQuery()
+        IndustryApi.Courses.useGetIndustrySectorsQuery(null)
     const hiredProfiles = IndustryApi.TalentPool.useTalentPoolHiredProfiles(
         selectedSector?.id,
         {
             skip: !selectedSector?.id,
         }
     )
-    
+
     // const getFolders = data?.sectors
     useEffect(() => {
         if (isSuccess && data && data.length > 0 && !selectedSector) {

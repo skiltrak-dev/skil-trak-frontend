@@ -13,14 +13,14 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 interface CourseFolderFormProps {
-    initialValues?: Folder
+    initialValues?: any
     onSubmit: (values: AddFolderFormType) => void
     edit?: boolean
     onCancel?: () => void
     result: any
 }
 
-export const CourseFolderForm = ({
+export const AddSectoIndustryChecksForm = ({
     onSubmit,
     edit,
     initialValues,
@@ -28,6 +28,8 @@ export const CourseFolderForm = ({
     result,
 }: CourseFolderFormProps) => {
     const [selectedType, setSelectedType] = useState<string | null>(null)
+
+    console.log({ initialValues })
 
     useEffect(() => {
         if (initialValues?.type) {
@@ -40,9 +42,9 @@ export const CourseFolderForm = ({
         capacity: yup.number().required('Capacity is Required'),
     })
 
-    const methods = useForm<AddFolderFormType>({
+    const methods = useForm({
         resolver: yupResolver(validationSchema),
-        defaultValues: initialValues as AddFolderFormType,
+        defaultValues: initialValues,
         mode: 'all',
     })
 
@@ -70,39 +72,24 @@ export const CourseFolderForm = ({
                         <TextInput
                             label={'Capacity'}
                             name={'capacity'}
-                            type={'number'}
-                            placeholder={'Folder Capacity...'}
+                            type="number"
+                            placeholder={'Folder Link...'}
                             required
                         />
-
-                        <Select
-                            name="type"
-                            label={'Type'}
+                        <TextInput
+                            label={'Link'}
+                            name={'link'}
+                            type="url"
+                            placeholder={'Folder Link...'}
                             required
-                            value={typeOptions?.find(
-                                (type: SelectOption) =>
-                                    type.value === selectedType
-                            )}
-                            options={typeOptions}
-                            onChange={(e: any) => {
-                                setSelectedType(String(e))
-                            }}
-                            onlyValue
                         />
-
                         <TextArea
                             label={'Description'}
                             name={'description'}
                             placeholder={'Folder Description...'}
-                            required
-                            validationIcons
+                            rows={4}
                         />
 
-                        <Checkbox label={'Is Agreement'} name="isAgreement" />
-                        <Checkbox
-                            label={'Is IndustryCheck'}
-                            name="isIndustryCheck"
-                        />
                         <Checkbox label={'Required'} name="isRequired" />
                     </div>
 

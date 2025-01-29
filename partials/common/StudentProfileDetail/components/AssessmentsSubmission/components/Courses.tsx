@@ -5,8 +5,15 @@ import {
     useGetAssessmentEvidenceDetailQuery,
     useGetAssessmentResponseQuery,
     useStudentAssessmentCoursesQuery,
+    SubAdminApi,
 } from '@queries'
-import { AssessmentEvidenceDetailType, Course, Sector, Student } from '@types'
+import {
+    AssessmentEvidenceDetailType,
+    Course,
+    Industry,
+    Sector,
+    Student,
+} from '@types'
 import { getCourseResult } from '@utils'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
@@ -50,16 +57,42 @@ export const Courses = ({
             refetchOnMountOrArgChange: 300,
         }
     )
+    const studentWorkplace = SubAdminApi.Student.getWorkplaceForSchedule(
+        student?.id,
+        {
+            skip: !student,
+        }
+    )
+
+    const abcc = studentWorkplace?.data?.filter(
+        (wp: any) => wp?.courses?.[0]?.id === selectedCourse?.id
+    )
+
+    const appliedIndustry = useMemo(
+        () =>
+            studentWorkplace?.data
+                ?.filter(
+                    (wp: any) => wp?.courses?.[0]?.id === selectedCourse?.id
+                )
+                ?.map((ind: any) => ind?.industries)
+                ?.flat()
+                ?.map((ind: any) => ind?.industry?.id)
+                ?.join(','),
+        [studentWorkplace, selectedCourse]
+    )
+
     const getFolders = useGetAssessmentEvidenceDetailQuery(
         {
             courseId: Number(selectedCourse?.id),
             studentId: Number(student?.id),
+            indId: appliedIndustry,
         },
         {
             skip: !selectedCourse || !student?.id || !isEntered,
             refetchOnMountOrArgChange: 60,
         }
     )
+    console.log({ getFolders })
     const getAssessmentResponse = useGetAssessmentResponseQuery(
         {
             selectedFolder: Number(selectedFolder?.id),
@@ -86,15 +119,16 @@ export const Courses = ({
         if (
             getFolders?.data &&
             getFolders?.isSuccess &&
-            getFolders?.data?.length > 0
+            getFolders?.data?.assessmentEvidence?.length > 0
         ) {
-            const folder = getFolders?.data?.find(
+            const folder = getFolders?.data?.assessmentEvidence?.find(
                 (folder: any) => folder?.id === Number(selectedFolder?.id)
             )
             onSelectFolder(
                 (selectedFolder && folder
                     ? folder
-                    : getFolders?.data?.[0]) as AssessmentEvidenceDetailType
+                    : getFolders?.data
+                          ?.assessmentEvidence?.[0]) as AssessmentEvidenceDetailType
             )
         }
     }, [getFolders])
@@ -163,25 +197,25 @@ export const Courses = ({
         !getFolders.isLoading &&
         !getFolders.isFetching &&
         getFolders.isSuccess &&
-        getFolders?.data?.every(
+        getFolders?.data?.assessmentEvidence?.every(
             (f: any) => f?.studentResponse[0]?.files?.length > 0
         )
 
-    const files = getFolders?.data
+    const files = getFolders?.data?.assessmentEvidence
         ?.map((f: any) => f?.studentResponse?.[0]?.files?.length > 0)
         ?.filter((f: any) => f)?.length
 
-    const rejectedFolderes = getFolders?.data?.filter(
+    const rejectedFolderes = getFolders?.data?.assessmentEvidence?.filter(
         (f: any) =>
             f?.studentResponse?.[0]?.status === 'rejected' &&
             f?.studentResponse?.[0]?.files?.length > 0
     )?.length
 
-    const allFiles = getFolders?.data
+    const allFiles = getFolders?.data?.assessmentEvidence
         ?.filter((f: any) => f?.studentResponse?.[0]?.status === 'rejected')
         ?.every((f: any) => f?.studentResponse?.[0]?.files?.length > 0)
 
-    const resubmitFiles = getFolders?.data?.filter(
+    const resubmitFiles = getFolders?.data?.assessmentEvidence?.filter(
         (f: any) =>
             f?.studentResponse?.[0]?.reSubmitted &&
             f?.studentResponse?.[0]?.files?.length > 0
@@ -198,7 +232,7 @@ export const Courses = ({
 
     const result = getCourseResult(selectedCourse?.results)
 
-    const allCommentsAdded = getFolders?.data?.every(
+    const allCommentsAdded = getFolders?.data?.assessmentEvidence?.every(
         (f: any) => f?.studentResponse[0]?.comment
     )
 
@@ -367,14 +401,20 @@ export const Courses = ({
                     eSignDocument?.data && eSignDocument?.data?.length > 0
                         ? 'lg:h-[520px]'
                         : 'lg:h-[400px]'
-                }  overflow-hidden`}
+                } overflow-hidden`}
             >
                 <div className="grid grid-cols-1 lg:grid-cols-3 h-[inherit]">
                     <div className="py-4 border-r h-[inherit]">
                         <div className="h-[calc(100%-38px)]">
                             <AssessmentsFolders
                                 student={student}
-                                getFolders={getFolders}
+                                getFolders={{
+                                    ...getFolders,
+                                    data:
+                                        getFolders?.data?.assessmentEvidence ||
+                                        getFolders?.data,
+                                }}
+                                otherDocs={getFolders?.data?.otherDocs}
                                 course={selectedCourse}
                                 selectedFolder={selectedFolder}
                                 onSelectFolder={onSelectFolder}
@@ -531,7 +571,12 @@ export const Courses = ({
                     selectedCourse?.results?.length > 0 && (
                         <div className="px-4 pb-3">
                             <FinalResult
-                                folders={getFolders}
+                                folders={{
+                                    ...getFolders,
+                                    data:
+                                        getFolders?.data?.assessmentEvidence ||
+                                        getFolders?.data,
+                                }}
                                 results={selectedCourse?.results}
                                 courseName={String(selectedCourse?.title)}
                             />

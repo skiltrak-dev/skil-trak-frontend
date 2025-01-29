@@ -27,7 +27,7 @@ export const JobForm = ({ initialValues, onSubmit, edit }: any) => {
     const [selectedSector, setSelectedSector] = useState<number[] | null>(null)
     const [sectorOptions, setSectorOptions] = useState<any>([])
     const [selectedJobType, setSelectedJobType] = useState<any>(null)
-    const sectorResponse = IndustryApi.Courses.useGetIndustrySectorsQuery()
+    const sectorResponse = IndustryApi.Courses.useGetIndustrySectorsQuery(null)
 
     useEffect(() => {
         if (sectorResponse.data?.length) {

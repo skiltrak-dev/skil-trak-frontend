@@ -64,15 +64,16 @@ export const Courses = ({
         if (
             getFolders?.data &&
             getFolders?.isSuccess &&
-            getFolders?.data?.length > 0
+            getFolders?.data?.assessmentEvidence?.length > 0
         ) {
-            const folder = getFolders?.data?.find(
+            const folder = getFolders?.data?.assessmentEvidence?.find(
                 (folder: any) => folder?.id === Number(selectedFolder?.id)
             )
             onSelectFolder(
                 (selectedFolder && folder
                     ? folder
-                    : getFolders?.data?.[0]) as AssessmentEvidenceDetailType
+                    : getFolders?.data
+                          ?.assessmentEvidence?.[0]) as AssessmentEvidenceDetailType
             )
         }
     }, [getFolders])
@@ -141,19 +142,19 @@ export const Courses = ({
         !getFolders.isLoading &&
         !getFolders.isFetching &&
         getFolders.isSuccess &&
-        getFolders?.data?.every(
+        getFolders?.data?.assessmentEvidence?.every(
             (f: any) => f?.studentResponse[0]?.files?.length > 0
         )
 
-    const files = getFolders?.data
+    const files = getFolders?.data?.assessmentEvidence
         ?.map((f: any) => f?.studentResponse?.[0]?.files?.length > 0)
         ?.filter((f: any) => f)?.length
 
-    const rejectedFolderes = getFolders?.data?.filter(
+    const rejectedFolderes = getFolders?.data?.assessmentEvidence?.filter(
         (f: any) => f?.studentResponse?.[0]?.status === 'rejected'
     )?.length
 
-    const resubmitFiles = getFolders?.data?.filter(
+    const resubmitFiles = getFolders?.data?.assessmentEvidence?.filter(
         (f: any) => f?.studentResponse?.[0]?.reSubmitted
     )?.length
 
@@ -166,7 +167,7 @@ export const Courses = ({
 
     const result = getCourseResult(selectedCourse?.results)
 
-    const allCommentsAdded = getFolders?.data?.every(
+    const allCommentsAdded = getFolders?.data?.assessmentEvidence?.every(
         (f: any) => f?.studentResponse[0]?.comment
     )
 

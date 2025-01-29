@@ -22,6 +22,8 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { DeleteModal } from './modals'
 import { getFilterQuery } from '@utils'
+import { AddSectoIndustryChecksForm } from './form'
+import { SectorViewCB } from './contextBar'
 
 const filterKeys = ['code', 'name']
 
@@ -90,12 +92,23 @@ export const Sectors = () => {
         },
     ]
 
+    const onSectorView = (sector: Sector) => {
+        contextBar.show()
+        contextBar.setTitle('Sevtor View')
+        contextBar.setContent(<SectorViewCB sector={sector} />)
+    }
+
     const columns: ColumnDef<Sector>[] = [
         {
             accessorKey: 'name',
             cell: (info) => {
                 return (
-                    <div>
+                    <div
+                        className="cursor-pointer"
+                        onClick={() => {
+                            onSectorView(info?.row?.original)
+                        }}
+                    >
                         <p className="text-xs font-medium text-gray-500">
                             {info.row.original.code}
                         </p>

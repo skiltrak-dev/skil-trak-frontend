@@ -266,7 +266,13 @@ export const StudentAssessmentsCourses = ({ profile }: { profile: any }) => {
                     <div className="py-4 border-r h-[inherit]">
                         <AssessmentsFolders
                             student={profile?.student}
-                            getFolders={getFolders}
+                            getFolders={{
+                                ...getFolders,
+                                data:
+                                    getFolders?.data?.assessmentEvidence ||
+                                    getFolders?.data,
+                            }}
+                            otherDocs={getFolders?.data?.otherDocs}
                             course={selectedCourse}
                             selectedFolder={selectedFolder}
                             onSelectFolder={onSelectFolder}
