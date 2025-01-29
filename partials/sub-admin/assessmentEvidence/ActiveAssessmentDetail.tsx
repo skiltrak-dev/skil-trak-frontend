@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { PulseLoader } from 'react-spinners'
 //components
 import {
-    AssessmentFolderCard,
     AssessmentResponse,
     Button,
     Checkbox,
@@ -28,7 +27,6 @@ import { useNotification } from '@hooks'
 import {
     CommonApi,
     SubAdminApi,
-    useGetAgrementFileQuery,
     useGetAssessmentEvidenceDetailQuery,
     useGetAssessmentResponseQuery,
     useGetSubAdminStudentDetailQuery,
@@ -160,14 +158,14 @@ export const ActiveAssessmentDetail = ({
         if (getFolders.isSuccess) {
             setSelectedFolder(
                 selectedFolder
-                    ? getFolders?.data?.find(
+                    ? getFolders?.data?.assessmentEvidence?.find(
                           (folder: any) => folder?.id === selectedFolder?.id
                       )
                     : folder
-                    ? getFolders?.data?.find(
+                    ? getFolders?.data?.assessmentEvidence?.find(
                           (f: any) => f?.id === Number(folder)
                       )
-                    : getFolders?.data[0]
+                    : getFolders?.data?.assessmentEvidence?.[0]
             )
         }
     }, [getFolders])
@@ -181,7 +179,7 @@ export const ActiveAssessmentDetail = ({
         }
     }, [manuallyReopenSubmissionResult])
 
-    const allCommentsAdded = getFolders?.data?.every(
+    const allCommentsAdded = getFolders?.data?.assessmentEvidence?.every(
         (f: any) => f?.studentResponse[0]?.comment
     )
 
@@ -223,19 +221,19 @@ export const ActiveAssessmentDetail = ({
         !getFolders.isLoading &&
         !getFolders.isFetching &&
         getFolders.isSuccess &&
-        getFolders?.data?.every(
+        getFolders?.data?.assessmentEvidence?.every(
             (f: any) => f?.studentResponse[0]?.files?.length > 0
         )
 
-    const files = getFolders?.data
+    const files = getFolders?.data?.assessmentEvidence
         ?.map((f: any) => f?.studentResponse?.[0]?.files?.length > 0)
         ?.filter((f: any) => f)?.length
 
-    const rejectedFolderes = getFolders?.data?.filter(
+    const rejectedFolderes = getFolders?.data?.assessmentEvidence?.filter(
         (f: any) => f?.studentResponse?.[0]?.status === 'rejected'
     )?.length
 
-    const resubmitFiles = getFolders?.data?.filter(
+    const resubmitFiles = getFolders?.data?.assessmentEvidence?.filter(
         (f: any) => f?.studentResponse?.[0]?.reSubmitted
     )?.length
 

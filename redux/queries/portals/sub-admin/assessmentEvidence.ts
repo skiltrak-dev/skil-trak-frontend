@@ -35,11 +35,16 @@ export const assessmentEvidenceEndpoints = (
         providesTags: ['AssessmentEvidence'],
     }),
     getAssessmentEvidenceDetail: builder.query<
-        AssessmentEvidenceDetailType[],
-        { courseId: number; studentId: number }
+        {
+            assessmentEvidence: AssessmentEvidenceDetailType[]
+            otherDocs: AssessmentEvidenceDetailType[]
+        },
+        { courseId: number; studentId: number; indId?: string }
     >({
-        query: ({ courseId, studentId }) =>
-            `${PREFIX}/student/assessment-evidence/${courseId}/${studentId}`,
+        query: ({ courseId, studentId, indId }) => ({
+            url: `${PREFIX}/student/assessment-evidence/${courseId}/${studentId}`,
+            params: { indId },
+        }),
         providesTags: ['AssessmentEvidence', 'Agreement', 'SubAdminWorkplace'],
     }),
     getArchivedAssessmentEvidenceDetail: builder.query<

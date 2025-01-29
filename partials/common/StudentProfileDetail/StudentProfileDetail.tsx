@@ -23,12 +23,12 @@ import {
     useGetSubAdminStudentDetailQuery,
 } from '@queries'
 import {
-    AssessmentSubmissions,
-    MailsCommunication,
-    RtoDetail,
-    Schedule,
     Tickets,
+    Schedule,
+    RtoDetail,
     Workplace,
+    MailsCommunication,
+    AssessmentSubmissions,
 } from './components'
 import { ProfileViewCB } from './ContextBar'
 import { Notes, StudentProfileNotes } from '../Notes'

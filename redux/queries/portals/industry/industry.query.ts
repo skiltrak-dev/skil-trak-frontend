@@ -134,7 +134,11 @@ export const {
     useDeleteDocumentMutation,
     useRemoveChecklistMutation,
     useUpdateChecklistMutation,
+    useGetIndustrySectorRequiredDocsQuery,
+    useAddCustomIndustrySectorDocsMutation,
     useAddOrUpdateRequiredDocumentMutation,
+    useUpdateCustomIndustrySectorDocsMutation,
+    useRemoveCustomIndustrySectorDocsMutation,
 
     // --- STUDENTS ---//
     useIndustryStudentCountQuery,
@@ -281,6 +285,10 @@ export const IndustryApi = {
         useRemoveChecklistMutation,
         useUpdateChecklistMutation,
         useAddOrUpdateRequiredDocumentMutation,
+        removeCustomDoc: useRemoveCustomIndustrySectorDocsMutation,
+        updateIndustrySectorDoc: useUpdateCustomIndustrySectorDocsMutation,
+        addCustomIndustryDocs: useAddCustomIndustrySectorDocsMutation,
+        getIndustryRequiredDocs: useGetIndustrySectorRequiredDocsQuery,
     },
     Students: {
         useStudentCount: useIndustryStudentCountQuery,

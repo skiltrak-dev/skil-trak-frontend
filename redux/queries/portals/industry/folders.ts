@@ -83,4 +83,41 @@ export const foldersEndpoints = (
         }),
         invalidatesTags: ['Document'],
     }),
+
+    getIndustrySectorRequiredDocs: builder.query<
+        any,
+        { sectorId: number; industryId: number }
+    >({
+        query: ({ sectorId, industryId }) => ({
+            url: `industry-checks/sector/${sectorId}/list`,
+            params: { indId: industryId },
+        }),
+        providesTags: ['Document'],
+    }),
+
+    addCustomIndustrySectorDocs: builder.mutation<any, any>({
+        query: ({ id, ...body }) => ({
+            url: `industry-checks/sector/${id}/other-document/create`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Document'],
+    }),
+
+    updateCustomIndustrySectorDocs: builder.mutation<any, any>({
+        query: ({ id, ...body }) => ({
+            url: `industry-checks/other-document/${id}/update`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['Document'],
+    }),
+
+    removeCustomIndustrySectorDocs: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `industry-checks/other-document/${id}/remove`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Document'],
+    }),
 })

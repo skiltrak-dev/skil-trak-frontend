@@ -1,24 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 // components
-import {
-    Card,
-    NoData,
-    Select,
-    SelectOption,
-    TechnicalError,
-    Typography,
-} from '@components'
+import { NoData, Select, SelectOption, Typography } from '@components'
 import { CourseDocuments } from './components'
 
 // redux
-import { useGetIndustryCoursesQuery } from '@queries'
-import { Course } from '@types'
-import { CourseSelectOption, formatOptionLabel } from '@utils'
-import { Waypoint } from 'react-waypoint'
+import { SectorDocuments } from '@partials/common/IndustryProfileDetail/components/IndustrySectorRequiredDocs/components'
+import { IndustryApi, useGetIndustryCoursesQuery } from '@queries'
+import { Course, Industry, Sector } from '@types'
 
-export const IndustryDashboardRD = () => {
+export const IndustryDashboardRD = ({ industry }: { industry: Industry }) => {
     const [isViewd, setIsViewd] = useState<boolean>(false)
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
+    const [selectedSector, setSelectedSector] = useState<number | null>(null)
     const { data, isError, isLoading } = useGetIndustryCoursesQuery(null)
 
     useEffect(() => {
@@ -34,6 +27,23 @@ export const IndustryDashboardRD = () => {
     }))
 
     const filteredCourse = data?.find((c: Course) => c?.id === selectedCourse)
+
+    const industrySectors = IndustryApi.Courses.useGetIndustrySectorsQuery(null)
+
+    const sectorOptions = useMemo(
+        () =>
+            industrySectors?.data?.map((sector: Sector) => ({
+                value: sector?.id,
+                label: sector?.name,
+            })),
+        [industrySectors?.data]
+    )
+
+    useEffect(() => {
+        if (sectorOptions && sectorOptions?.length > 0) {
+            setSelectedSector(sectorOptions?.[0]?.value)
+        }
+    }, [sectorOptions])
 
     return (
         <div className="bg-[#E5F4FD] rounded-[10px] h-full overflow-auto custom-scrollbar">
@@ -51,31 +61,31 @@ export const IndustryDashboardRD = () => {
                             label={'Select by Courses'}
                             name={'courseId'}
                             showError={false}
-                            options={coursesOptions}
+                            options={sectorOptions}
                             placeholder={'Select Courses...'}
-                            value={coursesOptions?.find(
-                                (course: SelectOption) =>
-                                    course.value === Number(selectedCourse)
+                            value={sectorOptions?.find(
+                                (sector: SelectOption) =>
+                                    sector?.value === Number(selectedSector)
                             )}
-                            onChange={(e: any) => {
-                                setSelectedCourse(e)
+                            onChange={(e: number) => {
+                                setSelectedSector(e)
                             }}
                             loading={isLoading}
                             disabled={isLoading}
                             onlyValue
-                            components={{
-                                Option: CourseSelectOption,
-                            }}
-                            formatOptionLabel={formatOptionLabel}
                         />
                     </div>
                 </div>
+                <SectorDocuments
+                    industry={industry}
+                    selectedSector={selectedSector}
+                />
 
-                {filteredCourse && (
+                {/* {filteredCourse && (
                     <div className="pt-3.5" key={filteredCourse.id}>
                         <CourseDocuments course={filteredCourse} />
                     </div>
-                )}
+                )} */}
             </div>
         </div>
     )

@@ -1,7 +1,8 @@
-import { Typography } from '@components'
+import { Tooltip, Typography } from '@components'
 import { AssessmentEvidenceDetailType, StudentResponseType } from '@types'
 import classNames from 'classnames'
 import { HiOutlineDocumentText } from 'react-icons/hi'
+import { IoBagCheckSharp } from 'react-icons/io5'
 import { PiHandshakeDuotone } from 'react-icons/pi'
 
 export const FolderCard = ({
@@ -13,6 +14,7 @@ export const FolderCard = ({
     onClick: () => void
     folder: AssessmentEvidenceDetailType
 }) => {
+    console.log({ folder })
     const response: StudentResponseType | null | undefined =
         folder?.studentResponse && folder?.studentResponse?.length > 0
             ? folder?.studentResponse?.find(
@@ -78,7 +80,7 @@ export const FolderCard = ({
                     : 'bg-white border border-secondary-dark'
             }  rounded-md flex flex-col gap-y-1`}
         >
-            <div className="flex items-center justify-between gap-x-2">
+            <div className="relative flex items-center justify-between gap-x-2">
                 <div className="flex items-center gap-x-2">
                     <HiOutlineDocumentText
                         className={active ? 'text-white' : 'text-[#374151]'}
@@ -90,6 +92,19 @@ export const FolderCard = ({
                     >
                         {folder?.name}
                     </Typography>
+                    {folder?.isIndustryCheck ? (
+                        <div className="absolute right-2">
+                            <div className="relative group">
+                                <IoBagCheckSharp
+                                    className={
+                                        active ? 'text-white' : 'text-[#374151]'
+                                    }
+                                />
+                                <Tooltip>Industry Check</Tooltip>
+                            </div>
+                        </div>
+                    ) : null}
+
                     {folder?.isAgreement && (
                         <PiHandshakeDuotone
                             className={`${

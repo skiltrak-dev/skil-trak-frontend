@@ -232,6 +232,10 @@ const {
     useSectorAddMutation,
     useSectorUpdateMutation,
     useSectorRemoveMutation,
+    useGetIndustryChecksQuery,
+    useUpdateIndustryCheckMutation,
+    useRemoveIndustryCheckMutation,
+    useAddSectorIndustryChecksMutation,
 
     // ------ COURSES ------ //
     useCoursesQuery,
@@ -569,6 +573,10 @@ export const AdminApi = {
         useAddMutation: useSectorAddMutation,
         useUpdateMutation: useSectorUpdateMutation,
         useRemoveMutation: useSectorRemoveMutation,
+        getIndustryChecks: useGetIndustryChecksQuery,
+        updateIndustryCheck: useUpdateIndustryCheckMutation,
+        removeIndustryCheck: useRemoveIndustryCheckMutation,
+        addIndustryChecks: useAddSectorIndustryChecksMutation,
     },
 
     Courses: {

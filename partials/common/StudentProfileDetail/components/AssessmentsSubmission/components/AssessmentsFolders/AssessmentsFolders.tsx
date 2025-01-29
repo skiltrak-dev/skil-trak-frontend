@@ -1,6 +1,8 @@
 import { LoadingAnimation, NoData, Typography } from '@components'
 import { AssessmentEvidenceDetailType, Course, Student } from '@types'
 import { FolderCard } from '../../Cards'
+import { SubAdminApi } from 'redux'
+import { useMemo } from 'react'
 
 export const AssessmentsFolders = ({
     getFolders,
@@ -8,7 +10,9 @@ export const AssessmentsFolders = ({
     course,
     selectedFolder,
     onSelectFolder,
+    otherDocs,
 }: {
+    otherDocs?: AssessmentEvidenceDetailType[] | undefined
     student: Student
     getFolders: any
     course: Course | null
@@ -43,6 +47,29 @@ export const AssessmentsFolders = ({
                                     onClick={() => onSelectFolder(folder)}
                                 />
                             )
+                        )}
+                        {otherDocs && otherDocs?.length > 0 && (
+                            <div>
+                                <Typography variant="xs" color="text-gray-500">
+                                    {' '}
+                                    Other Documents From Industry
+                                </Typography>
+                                {otherDocs?.map(
+                                    (folder: AssessmentEvidenceDetailType) => (
+                                        <FolderCard
+                                            folder={folder}
+                                            key={folder?.id}
+                                            active={
+                                                selectedFolder?.id ===
+                                                folder?.id
+                                            }
+                                            onClick={() =>
+                                                onSelectFolder(folder)
+                                            }
+                                        />
+                                    )
+                                )}
+                            </div>
                         )}
                     </div>
                 ) : (

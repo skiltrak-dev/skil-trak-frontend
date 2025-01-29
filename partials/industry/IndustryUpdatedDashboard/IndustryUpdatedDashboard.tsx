@@ -59,7 +59,7 @@ export const IndustryUpdatedDashboard = () => {
                 </div>
                 <div className="w-full h-full grid grid-cols-1 xl:grid-cols-5 gap-3.5">
                     <div className="lg:col-span-3 h-[490px] ">
-                        <IndustryDashboardRD />
+                        <IndustryDashboardRD industry={industry?.data} />
                     </div>
                     <div className="lg:col-span-2 h-[490px] ">
                         <IndustryDashboardTypeDocs />

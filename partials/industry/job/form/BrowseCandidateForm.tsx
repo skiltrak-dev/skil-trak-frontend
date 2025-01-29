@@ -5,7 +5,7 @@ import { useGetIndustrySectorsQuery } from '@queries'
 import { CourseSelectOption, SignUpUtils, formatOptionLabel } from '@utils'
 import { useEffect, useState } from 'react'
 export const BrowseCandidateForm = ({ setCourseId }: any) => {
-    const sectorResponse = useGetIndustrySectorsQuery()
+    const sectorResponse = useGetIndustrySectorsQuery(null)
     const [sectorOptions, setSectorOptions] = useState([])
     const [courseOptions, setCourseOptions] = useState([])
     const [storedData, setStoredData] = useState<any>(null)
