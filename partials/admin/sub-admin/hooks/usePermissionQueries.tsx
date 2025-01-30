@@ -47,8 +47,12 @@ export const usePermissionQueries = () => {
         AdminApi.SubAdmins.useToggleInternalTicket()
     const [canToggleRtoList, resultCanToggleRtoList] =
         AdminApi.SubAdmins.useCanViewRtoList()
+
+    const [canGlobalSearch, resultCanGlobalSearch] =
+        AdminApi.SubAdmins.toggleCanGlobalSearch()
     return {
         queries: {
+            canGlobalSearch,
             canToggleRtoList,
             canToggleInternalTicket,
             allowRtoListing,
@@ -71,6 +75,7 @@ export const usePermissionQueries = () => {
             canAddStudents,
         },
         results: {
+            resultCanGlobalSearch,
             resultCanToggleRtoList,
             allowRtoListingResult,
             allowIndustryListingResult,

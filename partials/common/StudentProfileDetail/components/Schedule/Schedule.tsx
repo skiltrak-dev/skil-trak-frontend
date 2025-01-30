@@ -83,12 +83,6 @@ export const Schedule = ({
         }
     }, [courses, industriesOptions])
 
-    const onCancel = () => setModal(null)
-
-    // useEffect(() => {
-    //     setModal(<NoLogbookFound onCancel={onCancel} />)
-    // }, [])
-
     const courseOptions = courses.data?.map((course: Course) => ({
         value: course?.id,
         label: course?.title,

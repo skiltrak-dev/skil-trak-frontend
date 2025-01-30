@@ -193,6 +193,7 @@ export const subAdminApi = emptySplitApi('subAdminApi').injectEndpoints({
 export const {
     // ------ SELF ------ //
     useProfileQuery,
+    useGlobalSearchListQuery,
     useGetSubAdminMapStudentsQuery,
     useGetSavedCoordinatesQuery,
     useGetSubAdminMapStudentDetailQuery,
@@ -469,6 +470,7 @@ export const SubAdminApi = {
     },
     SubAdmin: {
         useProfile: useProfileQuery,
+        globalSearchList: useGlobalSearchListQuery,
         useSubAdminMapStudentDetail: useGetSubAdminMapStudentDetailQuery,
         useSubAdminMapIndustries: useGetSubAdminMapIndustriesQuery,
         useSubAdminRtosForMap: useGetSubAdminRtosForMapQuery,

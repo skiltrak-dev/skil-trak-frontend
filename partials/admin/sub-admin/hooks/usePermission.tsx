@@ -7,6 +7,17 @@ export const usePermission = () => {
 
     const { queries, results } = usePermissionQueries()
 
+    const onCanGlobalSearchClicked = (subAdmin: SubAdmin) => {
+        queries.canGlobalSearch(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Changed Status For View RTO Detail.`,
+                })
+            }
+        })
+    }
+
     const onCanViewRTODetailClicked = (subAdmin: SubAdmin) => {
         queries.canViewRTODetail(subAdmin?.id).then((res: any) => {
             if (res?.data) {
@@ -257,6 +268,7 @@ export const usePermission = () => {
             onAllowWpCancelationClicked,
             onAutoAssignClicked,
             onCanViewRTODetailClicked,
+            onCanGlobalSearchClicked,
             onCanViewStudentDetailClicked,
             onCanViewIndustryDetailClicked,
             onCanReportDownloadClicked,

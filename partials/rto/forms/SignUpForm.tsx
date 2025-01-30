@@ -226,8 +226,8 @@ export const RtoSignUpForm = ({
     const onHandleSubmit = (values: any) => {
         if (!onSuburbClicked) {
             notification.error({
-                title: 'You must select on Suburb Dropdown',
-                description: 'You must select on Suburb Dropdown',
+                title: 'You must select on Address Dropdown',
+                description: 'You must select on Address Dropdown',
             })
         } else if (onSuburbClicked) {
             onSubmit(values)
