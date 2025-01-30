@@ -1,5 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { PaginationValues } from '@types'
 
 const PREFIX = 'subadmin'
 export const profileEndpoints = (
@@ -9,6 +10,15 @@ export const profileEndpoints = (
         query: () => `${PREFIX}/me/profile`,
         providesTags: ['SubAdmin'],
     }),
+    globalSearchList: builder.query<any, PaginationValues & { search: string }>(
+        {
+            query: (params) => ({
+                url: `${PREFIX}/search/all`,
+                params,
+            }),
+            providesTags: ['SubAdmin'],
+        }
+    ),
     updateSubAdminProfile: builder.mutation<any, any>({
         query: (body) => ({
             url: `${PREFIX}/profile/update`,

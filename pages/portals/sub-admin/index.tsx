@@ -4,7 +4,14 @@ import { ReactElement, useEffect, useState } from 'react'
 // layouts
 import { SubAdminLayout } from '@layouts'
 // components
-import { Card, ContextBarLoading, Modal, NoData } from '@components'
+import {
+    Button,
+    Card,
+    ContextBarLoading,
+    Modal,
+    NoData,
+    PageTitle,
+} from '@components'
 // icons
 import { FaSchool } from 'react-icons/fa'
 // animations
@@ -17,6 +24,7 @@ import { FigureCardVII } from '@components/sections/subAdmin/components/Cards/Fi
 import { AuthUtils, getSectors, getUserCredentials } from '@utils'
 
 import {
+    GlobalSearchModal,
     ImportantDocuments,
     SubAdminDashboardMap,
     UpdatedCourseList,
@@ -118,7 +126,8 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         // Check if there are pending industry requests
         if (
             pendingIndustries?.data?.data?.length > 0 &&
-            viewedPendingIndustriesModal === 0 && checkIsHod 
+            viewedPendingIndustriesModal === 0 &&
+            checkIsHod
         ) {
             // If there are pending requests, display the modal
             setModal(
@@ -173,9 +182,20 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 
     const data = mapApiDataToChartData(statistics?.data)
 
+    const onViewGlobalSearchModal = () => {
+        setModal(<GlobalSearchModal onCancel={onCancel} />)
+    }
+
     return (
         <>
             {modal && modal}
+            <div className="mb-4 flex justify-between items-center">
+                <PageTitle title={'Dashboard'} />
+                <Button
+                    text="Global Search"
+                    onClick={onViewGlobalSearchModal}
+                />
+            </div>
             <div className="flex flex-col gap-y-6 pb-8">
                 <div className="flex flex-col gap-y-4">
                     <div className="flex items-end justify-between gap-x-2.5 w-full mt-2">
@@ -315,11 +335,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 }
 
 SubAdminDashboard.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout pageTitle={{ title: 'Dashboard' }}>
-            {page}
-        </SubAdminLayout>
-    )
+    return <SubAdminLayout>{page}</SubAdminLayout>
 }
 
 export default SubAdminDashboard
