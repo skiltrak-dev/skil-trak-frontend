@@ -11,6 +11,7 @@ import { useCallback, useState } from 'react'
 import { MdCancel } from 'react-icons/md'
 import { SubAdminApi } from '@queries'
 import { debounce } from 'lodash'
+import { GlobalSearchList } from '../components'
 
 export const GlobalSearchModal = ({ onCancel }: { onCancel: () => void }) => {
     const [searchValue, setSearchValue] = useState('')
@@ -57,7 +58,12 @@ export const GlobalSearchModal = ({ onCancel }: { onCancel: () => void }) => {
                 ) : searchValue ? (
                     usersList?.data?.data &&
                     usersList?.data?.data?.length > 0 ? (
-                        <p>Saad</p>
+                        <GlobalSearchList
+                            setPage={setPage}
+                            itemPerPage={itemPerPage}
+                            students={usersList?.data}
+                            setItemPerPage={setItemPerPage}
+                        />
                     ) : usersList?.isSuccess ? (
                         <EmptyData />
                     ) : null
