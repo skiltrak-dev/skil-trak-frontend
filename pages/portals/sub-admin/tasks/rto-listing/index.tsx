@@ -197,6 +197,10 @@ const RtoListing: NextPageWithLayout = (props: Props) => {
     )
 }
 RtoListing.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'RTOs Listing' }}>
+            {page}
+        </SubAdminLayout>
+    )
 }
 export default RtoListing

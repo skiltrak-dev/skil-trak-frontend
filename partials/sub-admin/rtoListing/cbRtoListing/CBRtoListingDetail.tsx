@@ -6,7 +6,7 @@ export const CBRtoListingDetail = ({ rto }: any) => {
     return (
         <div className="mt-4 flex flex-col gap-y-2">
             <div className="mb-1">
-                <Typography variant="label">Industry details</Typography>
+                <Typography variant="label">RTO details</Typography>
             </div>
             <div className="flex items-center flex-wrap gap-y-2 gap-x-2 w-full">
                 {/* <RtoDetailInfoBox title={'ABN'} data={rto?.abn} /> */}
