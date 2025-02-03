@@ -5,6 +5,7 @@ import { StudentLayout } from '@layouts'
 import { Course, NextPageWithLayout, SubAdmin } from '@types'
 
 import {
+    Button,
     Card,
     ContextBarLoading,
     InitialAvatar,
@@ -32,11 +33,15 @@ import { Desktop, Mobile } from '@components/Responsive'
 import { MediaQueries } from '@constants'
 import { getSectors } from '@utils'
 import { useMediaQuery } from 'react-responsive'
+import Link from 'next/link'
 
 const StudentDashboard: NextPageWithLayout = () => {
     const [modal, setModal] = useState<any | null>(null)
     const [modalShown, setModalShown] = useState(false)
     const contextBar = useContextBar()
+
+    const talentPoolProfile =
+        StudentApi.TalentPool.useAppliedTalentPoolStudentProfile()
     const handleMediaQueryChange = (matches: any) => {
         if (matches) {
             if (contextBar.isVisible) contextBar.hide()
@@ -58,10 +63,49 @@ const StudentDashboard: NextPageWithLayout = () => {
 
     // Modal
     const onCancel = () => {
-        // setModal(null)
+        setModal(null)
         setModalShown(false)
     }
 
+    const talentPoolCompletionModal = (
+        <Modal
+            onCancelClick={onCancel}
+            showActions={false}
+            title={'Talent Pool Profile'}
+            subtitle={'Talent Pool Profile Completion.'}
+        >
+            <div className="max-w-3xl flex flex-col gap-y-3">
+                <p className="text-gray-700">
+                    Your talent pool profile is incomplete. To increase your
+                    chances of getting noticed, please update your profile with
+                    the required details.
+                </p>
+                <p className="text-gray-600 text-sm">
+                    Missing information:{' '}
+                    <strong>About, Interest, Skills</strong>.
+                </p>
+                <div className="flex justify-end">
+                    <Button variant="info">
+                        <Link
+                            href={'/portals/student/talent-pool/edit-profile'}
+                        >
+                            Update Profile
+                        </Link>
+                    </Button>
+                </div>
+            </div>
+        </Modal>
+    )
+
+    useEffect(() => {
+        if (
+            !talentPoolProfile?.data?.interest ||
+            !talentPoolProfile?.data?.about ||
+            !talentPoolProfile?.data?.skills
+        ) {
+            setModal(talentPoolCompletionModal)
+        }
+    }, [talentPoolProfile?.data])
     useEffect(() => {
         // Check if the user has logged in before
         const hasUserLoggedInBefore = localStorage.getItem('hasUserLoggedIn')
@@ -98,6 +142,7 @@ const StudentDashboard: NextPageWithLayout = () => {
 
     return (
         <>
+            {modal && modal}
             {modalComponent && modalComponent}
             <StudentContextBar />
             <div className="flex flex-col gap-y-6 pb-8">

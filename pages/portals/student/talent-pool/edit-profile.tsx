@@ -52,7 +52,7 @@ const EditProfile: NextPageWithLayout = () => {
                 <div className="md:w-1/3 md:border-r md:border-t pl-6 pr-8 py-4">
                     {isLoading || isFetching ? (
                         <PulseLoader size={3} color={'#ffffff'} />
-                    ) : data && Object.keys(data).length > 0 ? (
+                    ) : data && Object.keys(data)?.length > 0 ? (
                         <StudentInfoCard
                             profile={data}
                             getSectors={getSectors}

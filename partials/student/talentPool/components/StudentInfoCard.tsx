@@ -28,7 +28,7 @@ export const StudentInfoCard = ({ profile, getSectors }: any) => {
                         Name
                     </Typography>
                     <Typography variant="muted" color="text-[#374151]">
-                        {profile?.user?.name}
+                        {profile?.student?.user?.name}
                     </Typography>
                 </div>
                 {/* Email */}
@@ -37,7 +37,7 @@ export const StudentInfoCard = ({ profile, getSectors }: any) => {
                         Email
                     </Typography>
                     <Typography variant="muted" color="text-[#374151]">
-                        {profile?.user?.email}
+                        {profile?.student?.user?.email}
                     </Typography>
                 </div>
                 {/* Phone Number */}
@@ -46,7 +46,7 @@ export const StudentInfoCard = ({ profile, getSectors }: any) => {
                         Phone Number
                     </Typography>
                     <Typography variant="muted" color="text-[#374151]">
-                        {profile?.phone}
+                        {profile?.student?.phone ?? 'NA'}
                     </Typography>
                 </div>
                 {/* Age and Gender */}
@@ -57,7 +57,7 @@ export const StudentInfoCard = ({ profile, getSectors }: any) => {
                             Age Range
                         </Typography>
                         <Typography variant="muted" color="text-[#374151]">
-                            {profile?.age}
+                            {profile?.student?.age ?? 'NA'}
                         </Typography>
                     </div>
                     {/* Gender */}
@@ -66,8 +66,8 @@ export const StudentInfoCard = ({ profile, getSectors }: any) => {
                             Gender
                         </Typography>
                         <Typography variant="muted" color="text-[#374151]">
-                            {profile?.gender
-                                ? getGender(profile?.gender)
+                            {profile?.student?.gender
+                                ? getGender(profile?.student?.gender)
                                 : 'N/A'}
                         </Typography>
                     </div>
@@ -104,17 +104,19 @@ export const StudentInfoCard = ({ profile, getSectors }: any) => {
                         Institution/College Name
                     </Typography>
                     <Typography variant="muted" color="text-[#374151]">
-                        {profile?.rto?.user?.name}
+                        {profile?.student?.rto?.user?.name ?? 'NA'}
                     </Typography>
                 </div>
-               
+
                 {/* Expected Graduation Date */}
                 <div className="bg-[#EFF4FF] border rounded-md py-1.5 px-2.5">
                     <Typography variant="xs" color="text-[#374151]">
                         Expected Graduation Date
                     </Typography>
                     <Typography variant="muted" color="text-[#374151]">
-                        {profile?.expiryDate?.toString().slice(0, 10)}
+                        {profile?.student?.expiryDate
+                            ?.toString()
+                            .slice(0, 10) ?? 'NA'}
                     </Typography>
                 </div>
             </div>
