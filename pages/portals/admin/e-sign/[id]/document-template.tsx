@@ -41,6 +41,8 @@ export default function ESign() {
     const [pastedTabsCount, setPastedTabsCount] = useState<number>(1)
     const [showWarning, setShowWarning] = useState<boolean>(false)
 
+    console.log({ items })
+
     const navBar = useNavbar()
 
     const scrollTargetRef = useRef<any>([])
@@ -300,6 +302,7 @@ export default function ESign() {
     }
 
     const handleDragEnd = (data: any) => {
+        console.log({ data })
         setActiveItem(false)
 
         // const newLocX = Math.abs(
