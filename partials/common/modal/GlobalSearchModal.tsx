@@ -1,40 +1,28 @@
-import React, { useCallback, useState } from 'react'
+import { GlobalModal, Typography } from '@components'
 import { MdCancel } from 'react-icons/md'
-import {
-    EmptyData,
-    GlobalFilterForm,
-    GlobalModal,
-    LoadingAnimation,
-    NoData,
-    TechnicalError,
-    Typography,
-} from '@components'
-import { GlobalSearchList } from '../components'
-import { SubAdminApi } from 'redux'
-import { debounce } from 'lodash'
 
 export const GlobalSearchModal = ({ onCancel }: { onCancel: () => void }) => {
-    const [searchValue, setSearchValue] = useState('')
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [page, setPage] = useState(1)
+    // const [searchValue, setSearchValue] = useState('')
+    // const [itemPerPage, setItemPerPage] = useState(50)
+    // const [page, setPage] = useState(1)
 
-    const usersList = SubAdminApi.SubAdmin.globalSearchList(
-        {
-            search: searchValue,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        },
-        {
-            skip: !searchValue,
-        }
-    )
+    // const usersList = SubAdminApi.SubAdmin.globalSearchList(
+    //     {
+    //         search: searchValue,
+    //         skip: itemPerPage * page - itemPerPage,
+    //         limit: itemPerPage,
+    //     },
+    //     {
+    //         skip: !searchValue,
+    //     }
+    // )
 
-    const delayedSearch = useCallback(
-        debounce((value) => {
-            setSearchValue(value)
-        }, 700),
-        []
-    )
+    // const delayedSearch = useCallback(
+    //     debounce((value) => {
+    //         setSearchValue(value)
+    //     }, 700),
+    //     []
+    // )
 
     return (
         <GlobalModal>
@@ -48,7 +36,7 @@ export const GlobalSearchModal = ({ onCancel }: { onCancel: () => void }) => {
                 </div>
 
                 {/*  */}
-                <GlobalFilterForm onSearch={delayedSearch} />
+                {/* <GlobalFilterForm onSearch={delayedSearch} />
 
                 {!searchValue && <NoData text="Search User By Name or Email" />}
 
@@ -67,7 +55,7 @@ export const GlobalSearchModal = ({ onCancel }: { onCancel: () => void }) => {
                     ) : usersList?.isSuccess ? (
                         <EmptyData />
                     ) : null
-                ) : null}
+                ) : null} */}
             </div>
         </GlobalModal>
     )
