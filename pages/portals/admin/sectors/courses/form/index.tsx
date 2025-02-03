@@ -59,20 +59,12 @@ const CourseAddPage: NextPageWithLayout = () => {
                     subtitle={`You are creating a course`}
                 ></PageHeading>
                 <Card>
-                    {addResult.isLoading || addResult.isSuccess ? (
-                        <Popup
-                            title="Submitting..."
-                            subtitle="You will be redirected on submission"
-                            variant="info"
-                        />
-                    ) : (
-                        <CourseForm
-                            result={addResult}
-                            onSubmit={onSubmit}
-                            requirementFile={requirementFile}
-                            setRequirementFile={setRequirementFile}
-                        />
-                    )}
+                    <CourseForm
+                        result={addResult}
+                        onSubmit={onSubmit}
+                        requirementFile={requirementFile}
+                        setRequirementFile={setRequirementFile}
+                    />
                 </Card>
             </div>
         </>

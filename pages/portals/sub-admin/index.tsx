@@ -191,10 +191,12 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             {modal}
             <div className="mb-4 flex justify-between items-center">
                 <PageTitle title={'Dashboard'} />
-                <Button
-                    text="Global Search"
-                    onClick={onViewGlobalSearchModal}
-                />
+                {subadmin?.data?.globalSeachAccess && (
+                    <Button
+                        text="Global Search"
+                        onClick={onViewGlobalSearchModal}
+                    />
+                )}
             </div>
             <div className="flex flex-col gap-y-6 pb-8">
                 <div className="flex flex-col gap-y-4">
