@@ -1,28 +1,31 @@
 import { GlobalModal, Typography } from '@components'
+import { useCallback, useState } from 'react'
 import { MdCancel } from 'react-icons/md'
+import { SubAdminApi } from '@queries'
+import { debounce } from 'lodash'
 
 export const GlobalSearchModal = ({ onCancel }: { onCancel: () => void }) => {
-    // const [searchValue, setSearchValue] = useState('')
-    // const [itemPerPage, setItemPerPage] = useState(50)
-    // const [page, setPage] = useState(1)
+    const [searchValue, setSearchValue] = useState('')
+    const [itemPerPage, setItemPerPage] = useState(50)
+    const [page, setPage] = useState(1)
 
-    // const usersList = SubAdminApi.SubAdmin.globalSearchList(
-    //     {
-    //         search: searchValue,
-    //         skip: itemPerPage * page - itemPerPage,
-    //         limit: itemPerPage,
-    //     },
-    //     {
-    //         skip: !searchValue,
-    //     }
-    // )
+    const usersList = SubAdminApi.SubAdmin.globalSearchList(
+        {
+            search: searchValue,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            skip: !searchValue,
+        }
+    )
 
-    // const delayedSearch = useCallback(
-    //     debounce((value) => {
-    //         setSearchValue(value)
-    //     }, 700),
-    //     []
-    // )
+    const delayedSearch = useCallback(
+        debounce((value) => {
+            setSearchValue(value)
+        }, 700),
+        []
+    )
 
     return (
         <GlobalModal>
