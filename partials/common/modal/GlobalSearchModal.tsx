@@ -1,4 +1,12 @@
-import { GlobalModal, Typography } from '@components'
+import {
+    EmptyData,
+    GlobalFilterForm,
+    GlobalModal,
+    LoadingAnimation,
+    NoData,
+    TechnicalError,
+    Typography,
+} from '@components'
 import { useCallback, useState } from 'react'
 import { MdCancel } from 'react-icons/md'
 import { SubAdminApi } from '@queries'
@@ -39,7 +47,7 @@ export const GlobalSearchModal = ({ onCancel }: { onCancel: () => void }) => {
                 </div>
 
                 {/*  */}
-                {/* <GlobalFilterForm onSearch={delayedSearch} />
+                <GlobalFilterForm onSearch={delayedSearch} />
 
                 {!searchValue && <NoData text="Search User By Name or Email" />}
 
@@ -49,16 +57,11 @@ export const GlobalSearchModal = ({ onCancel }: { onCancel: () => void }) => {
                 ) : searchValue ? (
                     usersList?.data?.data &&
                     usersList?.data?.data?.length > 0 ? (
-                        <GlobalSearchList
-                            setPage={setPage}
-                            itemPerPage={itemPerPage}
-                            students={usersList?.data}
-                            setItemPerPage={setItemPerPage}
-                        />
+                        <p>Saad</p>
                     ) : usersList?.isSuccess ? (
                         <EmptyData />
                     ) : null
-                ) : null} */}
+                ) : null}
             </div>
         </GlobalModal>
     )
