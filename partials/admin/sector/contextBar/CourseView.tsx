@@ -66,11 +66,11 @@ export const CourseView = ({ course }: { course: Course }) => {
                 <TabsStyle>
                     <Tabs>
                         <TabList>
-                            <Tab>Industry Checks</Tab>
+                            {/* <Tab>Industry Checks</Tab> */}
                             <Tab>Assessment Evidence</Tab>
                         </TabList>
 
-                        <TabPanel>
+                        {/* <TabPanel>
                             {courseDetail.isLoading ? (
                                 <ContextBarLoading />
                             ) : (
@@ -84,7 +84,7 @@ export const CourseView = ({ course }: { course: Course }) => {
                                     )}
                                 />
                             )}
-                        </TabPanel>
+                        </TabPanel> */}
                         <TabPanel>
                             {courseDetail.isLoading ? (
                                 <ContextBarLoading />

@@ -46,7 +46,11 @@ export const SectorIndustryDocs = ({
             <ShowErrorNotifications result={result} />
             <div className="flex items-center gap-x-4 my-1">
                 <div className="flex-grow">
-                    <Checkbox name={doc?.name} label={doc?.name} />
+                    <Checkbox
+                        name={doc?.name}
+                        label={doc?.name}
+                        showError={false}
+                    />
                 </div>
                 <Switch
                     name={doc?.name}

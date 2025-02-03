@@ -73,24 +73,16 @@ const CourseEditPage: NextPageWithLayout = () => {
                 ></PageHeading>
                 <Card>
                     {data && !isLoading ? (
-                        updateResult.isLoading || updateResult.isSuccess ? (
-                            <Popup
-                                title="Updating..."
-                                subtitle="You will be redirected on submission"
-                                variant="info"
-                            />
-                        ) : (
-                            <CourseForm
-                                edit
-                                onSubmit={onSubmit}
-                                initialValues={data}
-                                result={updateResult}
-                                requirementFile={
-                                    requirementFile || data?.requirements
-                                }
-                                setRequirementFile={setRequirementFile}
-                            />
-                        )
+                        <CourseForm
+                            edit
+                            onSubmit={onSubmit}
+                            initialValues={data}
+                            result={updateResult}
+                            requirementFile={
+                                requirementFile || data?.requirements
+                            }
+                            setRequirementFile={setRequirementFile}
+                        />
                     ) : (
                         <LoadingAnimation />
                     )}
