@@ -25,10 +25,10 @@ export const usePermissionData = (subadmin: SubAdmin) => {
         {
             text: 'Allow Global Search',
             onClick: () => Actions?.onCanGlobalSearchClicked(subadmin),
-            toggle: subadmin?.globalSeachAccess,
+            toggle: subadmin?.globalSearchAccess,
             isLoading: results?.resultCanGlobalSearch.isLoading,
             Icon: FaSchool,
-            key: 'globalSeachAccess',
+            key: 'globalSearchAccess',
         },
         {
             text: 'Allow Rto Listing',

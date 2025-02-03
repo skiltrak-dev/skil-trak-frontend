@@ -179,7 +179,7 @@ export interface SubAdmin extends BaseResponse {
     canAccessTalentPool: boolean
     canAccessQueries: boolean
     canAccessBlogs: boolean
-    globalSeachAccess: boolean
+    globalSearchAccess: boolean
     receiveStudentAssessment: boolean
     receiveWorkplaceRequest: boolean
     canBookAppointments: boolean
