@@ -188,7 +188,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 
     return (
         <>
-            {modal && modal}
+            {modal}
             <div className="mb-4 flex justify-between items-center">
                 <PageTitle title={'Dashboard'} />
                 <Button

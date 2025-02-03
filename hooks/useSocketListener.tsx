@@ -7,12 +7,12 @@ export const SocketListenerProvider = ({
 }: {
     children: ReactNode
 }) => {
-    const [eventListener, seteventListener] = useState<{
+    const [eventListener, setEventListener] = useState<{
         eventName: string
         eventListener: any
     } | null>(null)
 
-    const value = { eventListener, seteventListener }
+    const value = { eventListener, setEventListener }
 
     return (
         <SocketContext.Provider value={value}>

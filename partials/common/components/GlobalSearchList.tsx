@@ -19,23 +19,34 @@ export const GlobalSearchList = ({
     itemPerPage: any
     setItemPerPage: any
 }) => {
-    const Columns: ColumnDef<User>[] = [
+    const Columns: ColumnDef<User & { businessName: string }>[] = [
         {
             header: () => 'Name',
             accessorKey: 'name',
+            cell: ({ row }) => (
+                <Typography variant="small" semibold>
+                    {row?.original?.name || row?.original?.businessName}
+                </Typography>
+            ),
         },
-
         {
             header: () => 'Email',
             accessorKey: 'email',
+            cell: ({ row }) => (
+                <Typography variant="small" semibold>
+                    {' '}
+                    {row?.original?.email}{' '}
+                </Typography>
+            ),
         },
         {
             accessorKey: 'role',
             header: () => <span>Role</span>,
             cell: ({ row }) => (
                 <Typography variant="small" bold uppercase>
-                    {' '}
-                    {row.original?.role}{' '}
+                    {row?.original?.businessName
+                        ? 'Future Industry'
+                        : row.original?.role}{' '}
                 </Typography>
             ),
         },

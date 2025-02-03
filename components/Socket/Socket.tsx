@@ -19,11 +19,13 @@ export const Socket = ({ children }: any) => {
     const router = useRouter()
     const [socket, setSocket] = useState<any | null>(null)
 
-    const { seteventListener } = useSocketListener()
+    const { setEventListener } = useSocketListener()
 
     const { notification } = useNotification()
     useEffect(() => {
-        setSocket(io(`${process.env.NEXT_PUBLIC_SOCKET_END_POINT}`))
+        setSocket(
+            io(`${process.env.NEXT_PUBLIC_SOCKET_END_POINT}`, { secure: true })
+        )
     }, [])
 
     useEffect(() => {
@@ -84,7 +86,7 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.TicketNotification,
                 (notify: any) => {
-                    seteventListener({
+                    setEventListener({
                         eventName: SocketNotificationsEvents.TicketNotification,
                         eventListener: notify,
                     })
@@ -98,7 +100,7 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.AppointmentReminder,
                 (notify: any) => {
-                    seteventListener({
+                    setEventListener({
                         eventName:
                             SocketNotificationsEvents.AppointmentReminder,
                         eventListener: notify,
@@ -119,7 +121,7 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.ExpiryReminder,
                 (notify: any) => {
-                    seteventListener({
+                    setEventListener({
                         eventName: SocketNotificationsEvents.ExpiryReminder,
                         eventListener: notify,
                     })
@@ -133,7 +135,7 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.FeedBackNotification,
                 (notify: any) => {
-                    seteventListener({
+                    setEventListener({
                         eventName:
                             SocketNotificationsEvents.FeedBackNotification,
                         eventListener: notify,
