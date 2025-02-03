@@ -55,7 +55,7 @@ export const GlobalSearchList = ({
     return (
         <div>
             <Card noPadding>
-                <Table columns={Columns} data={students?.data}>
+                {/* <Table columns={Columns} data={students?.data}>
                     {({ table, pagination, pageSize, quickActions }: any) => {
                         return (
                             <div>
@@ -100,7 +100,7 @@ export const GlobalSearchList = ({
                             </div>
                         )
                     }}
-                </Table>
+                </Table> */}
             </Card>
         </div>
     )
