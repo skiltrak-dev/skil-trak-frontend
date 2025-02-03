@@ -85,9 +85,6 @@ export const FutureIndustryInfoBoxCard = ({
                 return <p>---</p>
         }
     }
-    console.log('industryId', industryId)
-    console.log('selectedBox', selectedBox)
-    console.log('item', item)
 
     return (
         <>

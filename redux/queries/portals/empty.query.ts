@@ -55,6 +55,7 @@ const subadminTagTypes = [
     'SubAdminIndustries',
     'Department',
     'RequestToAddCourse',
+    'RTOListing',
 ]
 
 const rtoTagTypes = [

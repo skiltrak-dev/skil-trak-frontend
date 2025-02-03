@@ -72,6 +72,8 @@ export enum RtoStatus {
     DEFAULT = 'default',
     FAVOURITE = 'favourite',
     DO_NOT_DISTURB = 'doNotDisturb',
+    FOLLOW_UP = 'followUp',
+    SNOOZED = 'snoozed',
 }
 
 export interface RtoStatsCount {

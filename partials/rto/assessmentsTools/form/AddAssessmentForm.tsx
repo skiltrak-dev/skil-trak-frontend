@@ -54,7 +54,6 @@ export const AddAssessmentForm = ({ edit, assessment, courses }: Props) => {
     })
 
     const onSubmit = async (values: any) => {
-        console.log({ values })
         const valuesWithoutFile = omit(values, 'file', 'isLogBook')
 
         const formData = new FormData()

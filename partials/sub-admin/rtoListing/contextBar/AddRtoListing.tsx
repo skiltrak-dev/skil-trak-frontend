@@ -27,6 +27,8 @@ const FormKeys = {
     Website: 'website',
     Status: 'status',
     Note: 'note',
+    rtoCode: 'rtoCode',
+    contactPerson: 'contactPerson',
 }
 
 export const AddRtoListing = ({
@@ -91,6 +93,7 @@ export const AddRtoListing = ({
             .required('This field is required') // Make the array field required
             .min(1, 'At least one number is required'),
         address: yup.string().required('Must provide address'),
+        rtoCode: yup.string().required('Must provide RTO Code'),
     })
     const formMethods = useForm({
         mode: 'all',
@@ -110,6 +113,8 @@ export const AddRtoListing = ({
                 'note',
                 'region',
                 'country',
+                'rtoCode',
+                'contactPerson',
             ]
 
             let obj: any = {}
@@ -198,6 +203,10 @@ export const AddRtoListing = ({
 
     const statusOptions = [
         {
+            label: 'Follow Up',
+            value: RtoStatus.FOLLOW_UP,
+        },
+        {
             label: 'Default',
             value: RtoStatus.DEFAULT,
         },
@@ -208,6 +217,10 @@ export const AddRtoListing = ({
         {
             label: 'DO NOT DISTURB',
             value: RtoStatus.DO_NOT_DISTURB,
+        },
+        {
+            label: 'SNOOZED',
+            value: RtoStatus.SNOOZED,
         },
     ]
 
@@ -238,6 +251,19 @@ export const AddRtoListing = ({
                                     placeholder={'RTO Name...'}
                                     validationIcons
                                     required
+                                />
+                                <TextInput
+                                    label={'RTO Code'}
+                                    name={FormKeys.rtoCode}
+                                    placeholder={'RTO Code...'}
+                                    validationIcons
+                                    required
+                                />
+                                <TextInput
+                                    label={'Contact Person'}
+                                    name={FormKeys.contactPerson}
+                                    placeholder={'RTO Contact Person...'}
+                                    validationIcons
                                 />
 
                                 <TextInput

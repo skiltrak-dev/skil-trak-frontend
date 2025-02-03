@@ -52,7 +52,11 @@ export const ActionAlert = ({
                 <Typography variant={'h4'} center>
                     {title}
                 </Typography>
-                <Typography center>{description}</Typography>
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: description,
+                    }}
+                ></div>
             </div>
             <div className="flex items-center gap-x-4">
                 {!redirect && !primaryAction && (

@@ -110,4 +110,44 @@ export const subAdminRtoEndpoints = (
         },
         invalidatesTags: ['RTOS'],
     }),
+
+    //============================ RTO Listing ======================== //
+
+    // =====  Notes ============= //
+    addRtoListingDetailsNote: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `rtolisting/${id}/note-add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RTOListing'],
+    }),
+
+    getRtoListingNotes: builder.query<any, any>({
+        query: (id) => ({
+            url: `rtolisting/${id}/notes/list-all`,
+        }),
+        providesTags: ['RTOListing'],
+    }),
+    getListingRtoDetails: builder.query<any, any>({
+        query: (id) => ({
+            url: `rtolisting/${id}`,
+        }),
+        providesTags: ['RTOListing'],
+    }),
+    // Mails
+    composeListingRtoMail: builder.mutation({
+        query: ({ body, id }) => ({
+            url: `rtolisting/${id}/mail/send`,
+            method: 'POST',
+            body: body,
+        }),
+        invalidatesTags: ['RTOListing'],
+    }),
+    getListingRtoMails: builder.query<any, any>({
+        query: (id) => ({
+            url: `rtolisting/${id}/mails-list`,
+        }),
+        providesTags: ['RTOListing'],
+    }),
 })

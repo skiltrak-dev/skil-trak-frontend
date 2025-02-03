@@ -1,6 +1,8 @@
 import {
     Button,
+    Checkbox,
     GlobalModal,
+    RadioButton,
     ShowErrorNotifications,
     Typography,
 } from '@components'
@@ -19,11 +21,15 @@ export const EmployerDocuments = ({
     action,
     result,
     setActive,
+    setAnswer,
+    answer,
 }: {
     result: any
     action: any
     onCancel: () => void
     setActive: (val: number) => void
+    setAnswer: any
+    answer: any
 }) => {
     const router = useRouter()
 
@@ -156,6 +162,40 @@ export const EmployerDocuments = ({
                                     }
                                     loading={uploadResult?.isLoading as boolean}
                                 />
+                            </div>
+
+                            {/* question  */}
+                            <div className="flex flex-col gap-y-3">
+                                <Typography variant="small" normal>
+                                    <span className="font-bold leading-6">
+                                        Q: Would you like to join our Talent
+                                        Pool Programme?
+                                    </span>
+                                    <br /> By joining, your profile will be
+                                    immediately visible to industries in your
+                                    field. They can reach out to you directly
+                                    with job opportunities.
+                                </Typography>
+                                <div className="flex items-center gap-x-4">
+                                    <RadioButton
+                                        name="answer"
+                                        value={'yes'}
+                                        group
+                                        label={'Yes, Join Now'}
+                                        onChange={(e: any) => {
+                                            setAnswer(e?.target?.value)
+                                        }}
+                                    />
+                                    <RadioButton
+                                        name="answer"
+                                        group
+                                        value={'no'}
+                                        label={'No, Not Yet'}
+                                        onChange={(e: any) => {
+                                            setAnswer(e?.target?.value)
+                                        }}
+                                    />
+                                </div>
                             </div>
                         </div>
 

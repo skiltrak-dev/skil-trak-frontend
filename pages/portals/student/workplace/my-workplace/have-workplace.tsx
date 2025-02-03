@@ -40,6 +40,7 @@ type Props = {}
 const HaveWorkplace: NextPageWithLayout = (props: Props) => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
     const [active, setActive] = useState(1)
+    const [answer, setAnswer] = useState('')
     const [personalInfoData, setPersonalInfoData] = useState({})
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [industrySearchValue, setIndustrySearchValue] = useState<
@@ -213,8 +214,11 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                         return await addWorkplace({
                             ...cIndustryDetail,
                             document: document?.id,
+                            answer: answer,
                         })
                     }}
+                    setAnswer={setAnswer}
+                    answer={answer}
                     result={addWorkplaceResult}
                     setActive={setActive}
                 />
@@ -373,9 +377,12 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                                                 title={
                                                     'Workplace Request Successfully Added'
                                                 }
-                                                description={
-                                                    'We have successfully processed your workplace request. A case officer will be assigned to your case promptly to assist you further.'
-                                                }
+                                                description={`We have successfully processed your workplace request. A case officer will be assigned to your case promptly to assist you further. ${
+                                                    answer === 'yes'
+                                                        ? '<p class="italic mt-4 font-semibold text-sm">You have been successfully added to the Talent Pool Programme! Industries in your field can now view your profile and contact you with opportunities.</p>'
+                                                        : answer === 'no' &&
+                                                          '<p class="italic mt-4 font-semibold text-sm">You can join the Talent Pool Programme later from your dashboard.</p>'
+                                                }`}
                                                 variant={'primary'}
                                                 redirect
                                             />

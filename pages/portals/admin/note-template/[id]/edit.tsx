@@ -28,7 +28,6 @@ const EditNoteTemplate = () => {
     const [update, updateResult] = AdminApi.NotesTemplates.updateNoteTemplate()
 
     const onSubmit = async (values: any) => {
-        console.log({ values })
         let successContent = ''
         let failureContent = ''
         if (values?.successContent) {
