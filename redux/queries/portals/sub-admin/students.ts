@@ -469,6 +469,7 @@ export const studentsEndpoints = (
             courseId: number
             location?: number
             document: number
+            answer?: string
         }
     >({
         query: ({ IndustryId, ...params }) => ({

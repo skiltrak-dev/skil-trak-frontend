@@ -66,7 +66,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         rto: rtoDetail?.data,
     }
     const profileCompletion = checkStudentProfileCompletion(values)
-
+    
     useEffect(() => {
         if (
             workplace.data &&

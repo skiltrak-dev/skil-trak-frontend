@@ -27,6 +27,8 @@ export const workplaceQuestions = {
         'Do you understand the documentation and assessments required for the placement, such as the Agreement and workbook etc?',
     [workplaceQuestionsKeys.preferredContactTime]:
         'When would be the most convenient time for one of the SkilTrak coordinators to call you to discuss workplace details further*',
+    [workplaceQuestionsKeys.autoTalentPool]:
+        'Would you like to be added to our Talent Pool Programme? Once you successfully complete your placement, you will be added to this list. Industries can view your profile and contact you directly for interviews.',
 }
 
 export const questionList = [
@@ -175,5 +177,11 @@ export const questionList = [
         title: 'Understanding of Documentation:',
         required: true,
         onlyAccept: true,
+    },
+    {
+        name: workplaceQuestionsKeys.autoTalentPool,
+        index: 14,
+        title: 'Auto Talent Pool:',
+        required: true,
     },
 ]

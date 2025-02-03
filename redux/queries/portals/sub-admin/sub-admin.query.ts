@@ -1,3 +1,4 @@
+import { ComposeListingRtoMail } from './../../../../partials/sub-admin/rtoListing/components/ComposeListingRtoMail'
 import { SubAdmin, UserStatus } from '@types'
 import { emptySplitApi } from '../empty.query'
 import { subAdminAppointmentspoints } from './appointments'
@@ -222,6 +223,11 @@ export const {
     useAddRtoInListingMutation,
     useUpdateRtoListingMutation,
     useDeleteRtoListingMutation,
+    useAddRtoListingDetailsNoteMutation,
+    useGetRtoListingNotesQuery,
+    useGetListingRtoDetailsQuery,
+    useComposeListingRtoMailMutation,
+    useGetListingRtoMailsQuery,
 
     // ---- TODO ---- //
     useTodoListCountQuery,
@@ -597,6 +603,11 @@ export const SubAdminApi = {
         useImportStudentList: useSubadminRtoImportStudentsMutation,
         useRtosFilterList: useGetSubAdminRtosFilterListQuery,
         subadminRtoStatistics: useGetSubAdminRTOStatisticsQuery,
+        useAddRtoListingDetailsNote: useAddRtoListingDetailsNoteMutation,
+        useGetRtoListingNotes: useGetRtoListingNotesQuery,
+        useListingRtoDetails: useGetListingRtoDetailsQuery,
+        useComposeListingRtoMail: useComposeListingRtoMailMutation,
+        useListingRtoMails: useGetListingRtoMailsQuery,
     },
     Workplace: {
         count: useWorkplaceCountQuery,

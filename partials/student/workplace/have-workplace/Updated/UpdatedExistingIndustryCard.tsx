@@ -12,7 +12,7 @@ import {
 } from '@queries'
 import { Industry } from '@types'
 import { getUserCredentials } from '@utils'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { EmployerDocuments } from '../../modal'
 
 interface IndustryExtend extends Industry {
@@ -33,6 +33,7 @@ export const UpdatedExistingIndustryCard = ({
     branch?: boolean
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [answer, setAnswer] = useState('')
     const [showEmployerDocModal, setShowEmployerDocModal] =
         useState<boolean>(false)
     const { notification } = useNotification()
@@ -64,6 +65,21 @@ export const UpdatedExistingIndustryCard = ({
             })
         }
     }
+    useEffect(() => {
+        if (applyForWorkplaceSubadminResult?.data && answer === 'yes') {
+            notification.success({
+                title: 'Successfully added to the Talent Pool Programme',
+                description:
+                    'You have been successfully added to the Talent Pool Programme! Industries in your field can now view your profile and contact you with opportunities.',
+            })
+        } else if (applyForWorkplaceSubadminResult?.data && answer === 'no') {
+            notification.info({
+                title: 'You can join the Talent Pool',
+                description:
+                    'You can join the Talent Pool Programme later from your dashboard',
+            })
+        }
+    }, [applyForWorkplaceSubadminResult?.data, answer])
 
     return (
         <>
@@ -81,6 +97,7 @@ export const UpdatedExistingIndustryCard = ({
                                 courseId: Number(selectedCourse),
                                 location: industry?.locationId,
                                 document: document?.id,
+                                answer: answer,
                             })
                         }
                         return await applyForWorkplace({
@@ -90,6 +107,8 @@ export const UpdatedExistingIndustryCard = ({
                             location: industry?.locationId,
                         })
                     }}
+                    setAnswer={setAnswer}
+                    answer={answer}
                     result={
                         role === UserRoles.SUBADMIN
                             ? applyForWorkplaceSubadminResult

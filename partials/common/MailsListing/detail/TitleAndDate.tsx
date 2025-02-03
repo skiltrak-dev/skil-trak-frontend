@@ -12,11 +12,11 @@ export const TitleAndDate = ({ mailDetail }: { mailDetail: any }) => {
     const shortDetail = [
         {
             text: 'from',
-            data: mailDetail?.receiver?.name,
+            data: mailDetail?.sender?.name,
         },
         {
             text: 'to',
-            data: mailDetail?.sender?.name,
+            data: mailDetail?.receiver?.name,
         },
         {
             text: 'date',

@@ -12,4 +12,5 @@ export enum workplaceQuestionsKeys {
     awarenessOfUnpaidPlacement = 'awarenessOfUnpaidPlacement',
     understandingOfDocumentation = 'understandingOfDocumentation',
     preferredContactTime = 'preferredContactTime',
+    autoTalentPool = 'autoTalentPool',
 }

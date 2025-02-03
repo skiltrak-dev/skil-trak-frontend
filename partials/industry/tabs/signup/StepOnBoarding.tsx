@@ -176,7 +176,6 @@ export const StepOnBoarding = () => {
                 router.push({ query: { step: 'review-info' } })
             }
         }
-        console.log('questions', questions)
     }
 
     const onSelect = (type: string) => {

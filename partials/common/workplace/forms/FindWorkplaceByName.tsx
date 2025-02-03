@@ -34,6 +34,7 @@ export const FindWorkplaceByName = ({
     setWorkplaceData: any
 }) => {
     const [selectedIndustry, setSelectedIndustry] = useState<any>(null)
+    const [answer, setAnswer] = useState<any>('')
     const [isDropdown, setIsDropdown] = useState<boolean>(false)
     const [selectedCourse, setselectedCourse] = useState<number | null>(null)
     const [searchedName, setSearchedName] = useState<string>('')

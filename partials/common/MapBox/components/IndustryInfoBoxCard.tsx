@@ -51,7 +51,6 @@ export const IndustryInfoBoxCard = ({
 
     const canAssessData = useIsRestricted(UserRoles.INDUSTRY)
 
-    console.log({ canAssessData })
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -119,7 +118,6 @@ export const IndustryInfoBoxCard = ({
         contextBar.setTitle('Industry Details')
     }
 
-    console.log({ item })
 
     return (
         <>

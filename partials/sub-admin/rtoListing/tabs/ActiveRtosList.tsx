@@ -47,6 +47,7 @@ import {
     RtoFavoriteModal,
     RtoListingDeleteModal,
 } from '../modal'
+import Link from 'next/link'
 
 export const ActiveRtosList = ({
     onSetIndustryData,
@@ -207,7 +208,10 @@ export const ActiveRtosList = ({
                     ?.map((e: any) => e?.listing_email)
                     ?.includes(info?.row?.original?.email)
                 return (
-                    <div className={`flex items-center gap-x-1.5`}>
+                    <Link
+                        href={`/portals/sub-admin/tasks/rto-listing/${info?.row?.original?.id}`}
+                        className={`flex items-center gap-x-1.5`}
+                    >
                         {info?.row?.original?.businessName && (
                             <InitialAvatar
                                 name={info?.row?.original?.businessName}
@@ -255,13 +259,21 @@ export const ActiveRtosList = ({
                                 ) : null}
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 )
             },
         },
         {
             accessorKey: 'phone',
             header: () => <span>Phone</span>,
+        },
+        {
+            accessorKey: 'rtoCode',
+            header: () => <span>RTO Code</span>,
+        },
+        {
+            accessorKey: 'contactPerson',
+            header: () => <span>Contact Person</span>,
         },
         {
             accessorKey: 'address',
