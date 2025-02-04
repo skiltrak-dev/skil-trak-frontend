@@ -22,6 +22,7 @@ import Link from 'next/link'
 import { GetFolders } from '../hooks'
 import { UpdatedWorkplaceRequest } from './components'
 import { ellipsisText } from '@utils'
+import { BiSolidAlarmSnooze } from 'react-icons/bi'
 
 export const ActiveWorkplaceRequest = () => {
     const [page, setPage] = useState(1)
@@ -84,12 +85,23 @@ export const ActiveWorkplaceRequest = () => {
                     <Typography variant="muted" color="text-gray-700">
                         {info?.row?.original?.student?.studentId ?? 'N/A'}
                     </Typography>
-                    <Typography variant="small" semibold>
-                        {ellipsisText(
-                            info?.row?.original?.student?.user?.name,
-                            16
-                        ) ?? 'N/A'}
-                    </Typography>
+                    <div className="flex items-center gap-x-2">
+                        <Typography variant="small" semibold>
+                            {ellipsisText(
+                                info?.row?.original?.student?.user?.name,
+                                16
+                            ) ?? 'N/A'}
+                        </Typography>
+                        <div className="flex items-center gap-x-1">
+                            {info?.row?.original?.student?.isSnoozed ? (
+                                <>
+                                    <BiSolidAlarmSnooze />
+                                </>
+                            ) : (
+                                <></>
+                            )}
+                        </div>
+                    </div>
                     <Typography variant="small" color="text-gray-500">
                         {info?.row?.original?.student?.addressLine1 ?? 'N/A'}
                     </Typography>

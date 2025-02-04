@@ -46,8 +46,12 @@ import {
     RtoDefaultModal,
     RtoFavoriteModal,
     RtoListingDeleteModal,
+    RtoFollowUpModal,
+    RtoSnoozedModal,
 } from '../modal'
 import Link from 'next/link'
+import { RiChatFollowUpLine } from 'react-icons/ri'
+import { MdSnooze } from 'react-icons/md'
 
 export const ActiveRtosList = ({
     onSetIndustryData,
@@ -80,6 +84,23 @@ export const ActiveRtosList = ({
     const onDoNotDisturbClicked = (rto: any) => {
         setModal(
             <RtoDoNotDisturbModal
+                rto={rto}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onFollowUpClicked = (rto: any) => {
+        setModal(
+            <RtoFollowUpModal
+                rto={rto}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onSnoozedClicked = (rto: any) => {
+        setModal(
+            <RtoSnoozedModal
                 rto={rto}
                 onCancel={() => onModalCancelClicked()}
             />
@@ -160,6 +181,18 @@ export const ActiveRtosList = ({
                 Icon: AiFillWarning,
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
+            {
+                text: 'Follow Up',
+                onClick: (rto: any) => onFollowUpClicked(rto),
+                Icon: RiChatFollowUpLine,
+                color: 'text-indigo-500 hover:bg-indigo-100 hover:border-indigo-200',
+            },
+            {
+                text: 'Snoozed',
+                onClick: (rto: any) => onSnoozedClicked(rto),
+                Icon: MdSnooze,
+                color: 'text-gray-500 hover:bg-gray-100 hover:border-gray-200',
+            },
             // {
             //     text: rto?.signedUp
             //         ? 'Remove From Signup'
@@ -197,6 +230,29 @@ export const ActiveRtosList = ({
                 Icon: MdDelete,
             },
         ]
+    }
+
+    const statusConfig: any = {
+        [RtoStatus.FAVOURITE]: {
+            label: 'Favorite',
+            color: 'text-green-500',
+            icon: <MdOutlineFavorite className="text-green-500" />,
+        },
+        [RtoStatus.DO_NOT_DISTURB]: {
+            label: 'Do Not Disturb',
+            color: 'text-red-500',
+            icon: <AiFillWarning className="text-red-500 text-lg" />,
+        },
+        [RtoStatus.FOLLOW_UP]: {
+            label: 'Follow Up',
+            color: 'text-indigo-500',
+            icon: <RiChatFollowUpLine className="text-indigo-500 text-lg" />,
+        },
+        [RtoStatus.SNOOZED]: {
+            label: 'Snoozed',
+            color: 'text-gray-500',
+            icon: <MdSnooze className="text-gray-500 text-lg" />,
+        },
     }
 
     const columns: ColumnDef<any>[] = [
@@ -293,30 +349,19 @@ export const ActiveRtosList = ({
         {
             accessorKey: 'status',
             header: () => <span>Status</span>,
-            cell: (info) => {
-                return (
-                    <div>
-                        {info.row.original.status === RtoStatus.FAVOURITE ? (
-                            <div className="rounded-lg flex items-center gap-x-2">
-                                <p className="text-green-500 font-semibold">
-                                    Favorite
-                                </p>
-                                <MdOutlineFavorite className="text-green-500" />
-                            </div>
-                        ) : info.row.original.status ===
-                          RtoStatus.DO_NOT_DISTURB ? (
-                            <div className="rounded-lg flex items-center gap-x-2">
-                                <p className="text-red-500 font-semibold">
-                                    Do Not Disturb
-                                </p>
-                                <AiFillWarning className="text-red-500 text-lg" />
-                            </div>
-                        ) : (
-                            <div className="flex items-center gap-x-2">
-                                ----
-                            </div>
-                        )}
+            cell: ({ row }) => {
+                const { status } = row.original
+                const statusData = statusConfig[status]
+
+                return statusData ? (
+                    <div className="rounded-lg flex items-center gap-x-2">
+                        <p className={`${statusData.color} font-semibold`}>
+                            {statusData.label}
+                        </p>
+                        {statusData?.icon}
                     </div>
+                ) : (
+                    <div className="flex items-center gap-x-2">----</div>
                 )
             },
         },

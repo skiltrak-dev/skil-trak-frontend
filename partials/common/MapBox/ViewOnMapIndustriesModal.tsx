@@ -1173,6 +1173,9 @@ export const ViewOnMapIndustriesModal = ({
                                                                                     setSelectedBox={
                                                                                         setSelectedBox
                                                                                     }
+                                                                                    workplace={
+                                                                                        workplace
+                                                                                    }
                                                                                 />
                                                                             )}
                                                                     </InfoBox>

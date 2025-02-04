@@ -48,6 +48,7 @@ export const ImportRtoListVerificationModal = ({
                 rtoCode: rto?.rtoCode,
                 status: rto?.status,
                 contactPerson: rto?.contactPerson,
+                note: rto?.note,
                 sector: rto?.sector
                     ? String(rto?.sector)
                           ?.split(',')

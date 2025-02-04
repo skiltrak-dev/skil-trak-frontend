@@ -80,6 +80,6 @@ export const profileEndpoints = (
             url: `students/student/${id}/detail/for-map`,
             // params,
         }),
-        providesTags: ['SubAdmin', 'Workplace'],
+        providesTags: ['SubAdmin', 'Workplace', 'Industries'],
     }),
 })
