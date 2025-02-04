@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { CommonApi } from '@queries'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
-import { useSocketListener } from '@hooks'
 import {
     StatusEnum,
     TicketMessageCard,
 } from '@partials/common/Tickets/components/TicketMessageCard'
 import { ActionCard } from '@partials/sub-admin/Tickets'
+import { CommonApi } from '@queries'
+import { useEffect } from 'react'
 
 export const TicketReplies = ({ ticket }: { ticket: any }) => {
-    const { eventListener } = useSocketListener()
     const replies = CommonApi.Tickets.useGetTicketReplies(ticket?.id, {
         skip: !ticket?.id,
     })
@@ -17,11 +15,11 @@ export const TicketReplies = ({ ticket }: { ticket: any }) => {
     const createdAtDate = new Date(ticket?.createdAt)
     const [seenReply, seenReplyResult] = CommonApi.Tickets.useSeenTicketReply()
 
-    useEffect(() => {
-        if (eventListener?.eventListener) {
-            replies.refetch()
-        }
-    }, [eventListener])
+    // useEffect(() => {
+    //     if (eventListener?.eventListener) {
+    //         replies.refetch()
+    //     }
+    // }, [eventListener])
 
     useEffect(() => {
         seenReply(ticket?.id)

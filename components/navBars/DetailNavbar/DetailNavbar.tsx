@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { HeaderLogo } from '../NavbarLogo'
 
 // Icons
 import { IoMdNotifications } from 'react-icons/io'
-import { MdMessage } from 'react-icons/md'
 
 // components
 import { useRouter } from 'next/router'
 import OutsideClickHandler from 'react-outside-click-handler'
 import {
     BadgeButton,
-    MessageDropDown,
-    PlacementNotificationDropDown,
+    PlacementNotificationDropDown
 } from '../AdminNavbar/components'
 import { NotificationDropDown } from '../AdminNavbar/components/notifications'
 
@@ -21,20 +19,16 @@ import { MediaQueries, UserRoles } from '@constants'
 import { CommonApi } from '@queries'
 import Link from 'next/link'
 import {
-    BsFillTicketDetailedFill,
-    BsFillCloudDownloadFill,
+    BsFillTicketDetailedFill
 } from 'react-icons/bs'
-import { useMediaQuery } from 'react-responsive'
-import { ProfileOptionsDropDown } from './components'
-import { ProfileOptionButton } from './components/profileOption/ProfileOptionButton'
-import { useSocketListener } from '@hooks'
-import { NavLinkItem } from '../NavLinkItem'
 import { FaClipboardList, FaHistory } from 'react-icons/fa'
 import { LiaCertificateSolid } from 'react-icons/lia'
+import { useMediaQuery } from 'react-responsive'
+import { NavLinkItem } from '../NavLinkItem'
+import { ProfileOptionsDropDown } from './components'
+import { ProfileOptionButton } from './components/profileOption/ProfileOptionButton'
 export const DetailNavbar = () => {
     const router = useRouter()
-
-    const { eventListener } = useSocketListener()
 
     const isMobile = useMediaQuery(MediaQueries.Mobile)
     const data = CommonApi.Notifications.useNotifications({
@@ -62,11 +56,11 @@ export const DetailNavbar = () => {
         useState(false)
     const [profileOptionsExpanded, setProfileOptionsExpanded] = useState(false)
 
-    useEffect(() => {
-        if (eventListener) {
-            data.refetch()
-        }
-    }, [eventListener])
+    // useEffect(() => {
+    //     if (eventListener) {
+    //         data.refetch()
+    //     }
+    // }, [eventListener])
 
     // filter over data to get only unread notifications
     const unreadNotifications = data?.data?.data?.filter(

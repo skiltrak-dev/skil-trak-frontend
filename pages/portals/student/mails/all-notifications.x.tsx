@@ -1,8 +1,7 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useState } from 'react'
 // Layouts
 import { StudentLayout } from '@layouts'
 // Types
-import { NextPageWithLayout } from '@types'
 import {
     Card,
     EmptyData,
@@ -12,18 +11,16 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { IoNotifications } from 'react-icons/io5'
+import { CommonApi } from '@queries'
+import { NextPageWithLayout } from '@types'
+import { ellipsisText } from '@utils'
 import moment from 'moment'
 import { GoDotFill } from 'react-icons/go'
-import { CommonApi } from '@queries'
-import { ellipsisText } from '@utils'
-import { useSocketListener } from '@hooks'
+import { IoNotifications } from 'react-icons/io5'
 
 const SubAdminAllNotifications: NextPageWithLayout = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
-
-    const { eventListener } = useSocketListener()
 
     const {
         data: notifications,
@@ -37,11 +34,11 @@ const SubAdminAllNotifications: NextPageWithLayout = () => {
     const [readNotifications, resultReadNotifications] =
         CommonApi.Notifications.useIsReadNotification()
 
-    useEffect(() => {
-        if (eventListener) {
-            refetch()
-        }
-    }, [eventListener])
+    // useEffect(() => {
+    //     if (eventListener) {
+    //         refetch()
+    //     }
+    // }, [eventListener])
 
     return (
         <Card>
