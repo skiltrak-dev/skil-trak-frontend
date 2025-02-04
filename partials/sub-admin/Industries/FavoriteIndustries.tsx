@@ -13,6 +13,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    TruncatedTextWithTooltip,
     Typography,
 } from '@components'
 
@@ -43,8 +44,6 @@ export const FavoriteIndustries = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-
-    
 
     const onCancelClicked = () => {
         setModal(null)
@@ -129,16 +128,9 @@ export const FavoriteIndustries = () => {
         {
             header: () => 'Address',
             accessorKey: 'address',
-            cell: ({ row }: any) => {
-                const { addressLine1 } = row.original
-                return (
-                    <div className="flex justify-center gap-x-2">
-                        <Typography variant={'label'} color={'black'}>
-                            {addressLine1}
-                        </Typography>
-                    </div>
-                )
-            },
+            cell: ({ row }: any) => (
+                <TruncatedTextWithTooltip text={row?.original?.addressLine1} />
+            ),
         },
         // {
         //     header: () => 'Enrolled Students',

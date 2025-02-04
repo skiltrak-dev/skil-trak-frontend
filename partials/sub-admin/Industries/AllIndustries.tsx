@@ -12,11 +12,12 @@ import {
     Table,
     TableAction,
     TechnicalError,
+    TruncatedTextWithTooltip,
     Typography,
     UserCreatedAt,
 } from '@components'
 
-import { CommonApi, useGetSubAdminIndustriesQuery } from '@queries'
+import { useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { getUserCredentials, setLink } from '@utils'
 import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
@@ -180,7 +181,10 @@ export const AllIndustries = () => {
                                     Head Quarter
                                 </p>
                                 <p className="text-xs font-semibold text-gray-400">
-                                    {info?.row?.original?.headQuarter?.user?.name}
+                                    {
+                                        info?.row?.original?.headQuarter?.user
+                                            ?.name
+                                    }
                                 </p>
                             </div>
                         ) : (
@@ -210,14 +214,9 @@ export const AllIndustries = () => {
         {
             header: () => 'Address',
             accessorKey: 'address',
-            cell: ({ row }: any) => {
-                const { addressLine1 } = row.original
-                return (
-                    <Typography variant={'label'} color={'black'}>
-                        {addressLine1}
-                    </Typography>
-                )
-            },
+            cell: ({ row }: any) => (
+                <TruncatedTextWithTooltip text={row?.original?.addressLine1} />
+            ),
         },
         {
             header: () => 'Enrolled Students',

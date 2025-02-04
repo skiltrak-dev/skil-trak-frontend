@@ -8,6 +8,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    TruncatedTextWithTooltip,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -107,7 +108,11 @@ export const PendingRto = () => {
         {
             accessorKey: 'suburb',
             header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
+            cell: (info) => (
+                <TruncatedTextWithTooltip
+                    text={info?.row?.original?.addressLine1}
+                />
+            ),
         },
         {
             accessorKey: 'action',

@@ -261,8 +261,7 @@ export const FilteredIndustry = ({
             header: () => <span>Address</span>,
             cell: (info) => (
                 <TruncatedTextWithTooltip
-                    text={`${info?.row?.original?.addressLine1},${' '} 
-                ${info?.row?.original?.suburb}`}
+                    text={info?.row?.original?.addressLine1}
                 />
             ),
         },

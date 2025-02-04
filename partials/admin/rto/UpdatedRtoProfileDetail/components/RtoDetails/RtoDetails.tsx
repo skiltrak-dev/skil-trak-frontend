@@ -28,7 +28,7 @@ export const RtoDetails = ({ rto }: { rto: Rto }) => {
                 <div>
                     <UserProfileDetailCard
                         title="Location"
-                        detail={`${rto?.suburb}, ${rto?.state}, ${rto?.addressLine1}`}
+                        detail={`${rto?.state}, ${rto?.addressLine1}`}
                     />
                 </div>
             </div>

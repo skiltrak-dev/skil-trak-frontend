@@ -13,6 +13,7 @@ import {
     Table,
     TableAction,
     TechnicalError,
+    TruncatedTextWithTooltip,
     Typography,
 } from '@components'
 
@@ -156,14 +157,9 @@ export const PendingIndustries = () => {
         {
             header: () => 'Address',
             accessorKey: 'address',
-            cell: ({ row }: any) => {
-                const { addressLine1 } = row.original
-                return (
-                    <Typography variant={'label'} color={'black'}>
-                        {addressLine1}
-                    </Typography>
-                )
-            },
+            cell: ({ row }: any) => (
+                <TruncatedTextWithTooltip text={row?.original?.addressLine1} />
+            ),
         },
         {
             header: () => 'Contact Person',
