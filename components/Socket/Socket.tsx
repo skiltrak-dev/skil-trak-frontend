@@ -1,7 +1,7 @@
 import { AuthUtils, ellipsisText } from '@utils'
 import { useEffect, useState } from 'react'
 
-import { useNotification, useSocketListener } from '@hooks'
+import { useNotification } from '@hooks'
 import { useRouter } from 'next/router'
 import { io } from 'socket.io-client'
 
@@ -18,8 +18,6 @@ export enum SocketNotificationsEvents {
 export const Socket = ({ children }: any) => {
     const router = useRouter()
     const [socket, setSocket] = useState<any | null>(null)
-
-    const { setEventListener } = useSocketListener()
 
     const { notification } = useNotification()
     useEffect(() => {
@@ -86,10 +84,10 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.TicketNotification,
                 (notify: any) => {
-                    setEventListener({
-                        eventName: SocketNotificationsEvents.TicketNotification,
-                        eventListener: notify,
-                    })
+                    // setEventListener({
+                    //     eventName: SocketNotificationsEvents.TicketNotification,
+                    //     eventListener: notify,
+                    // })
                     notification.success({
                         title: notify?.title,
                         description: notify?.message,
@@ -100,11 +98,11 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.AppointmentReminder,
                 (notify: any) => {
-                    setEventListener({
-                        eventName:
-                            SocketNotificationsEvents.AppointmentReminder,
-                        eventListener: notify,
-                    })
+                    // setEventListener({
+                    //     eventName:
+                    //         SocketNotificationsEvents.AppointmentReminder,
+                    //     eventListener: notify,
+                    // })
                     notification.success({
                         title: notify?.title,
                         description: notify?.description,
@@ -121,10 +119,10 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.ExpiryReminder,
                 (notify: any) => {
-                    setEventListener({
-                        eventName: SocketNotificationsEvents.ExpiryReminder,
-                        eventListener: notify,
-                    })
+                    // setEventListener({
+                    //     eventName: SocketNotificationsEvents.ExpiryReminder,
+                    //     eventListener: notify,
+                    // })
                     notification.success({
                         title: notify?.title,
                         description: notify?.description,
@@ -135,11 +133,11 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.FeedBackNotification,
                 (notify: any) => {
-                    setEventListener({
-                        eventName:
-                            SocketNotificationsEvents.FeedBackNotification,
-                        eventListener: notify,
-                    })
+                    // setEventListener({
+                    //     eventName:
+                    //         SocketNotificationsEvents.FeedBackNotification,
+                    //     eventListener: notify,
+                    // })
                     notification.success({
                         title: notify?.title,
                         description: notify?.description,
