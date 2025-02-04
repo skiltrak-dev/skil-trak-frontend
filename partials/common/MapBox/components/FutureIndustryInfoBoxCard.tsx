@@ -1,6 +1,10 @@
 import { Badge, NoData, ShowErrorNotifications, Typography } from '@components'
 import { useContextBar, useNotification } from '@hooks'
-import { CommonApi, useAddExistingIndustriesMutation } from '@queries'
+import {
+    CommonApi,
+    SubAdminApi,
+    useAddExistingIndustriesMutation,
+} from '@queries'
 import { IndustryStatus } from '@types'
 import { ellipsisText } from '@utils'
 import Image from 'next/image'
@@ -9,6 +13,7 @@ import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
 import { IndustryListingCB } from '../contextBar'
 import { CopyInfoData } from './CopyInfoData'
+import { useRouter } from 'next/router'
 
 type FutureIndustryInfoBoxCardProps = {
     item: any
@@ -32,18 +37,23 @@ export const FutureIndustryInfoBoxCard = ({
     onCancel,
 }: FutureIndustryInfoBoxCardProps) => {
     const workplaceId = workplace?.id
+    industryId = selectedBox?.id
+    console.log('workplace:::::', workplace)
 
     const contextBar = useContextBar()
 
     // apply for industry
     const [addExistingIndustry, addExistingIndustryResult] =
         useAddExistingIndustriesMutation()
+    // const [addToContacted, addToContactedResult] =
+    //     CommonApi.FindWorkplace.useFutureIndustryContacted()
     const [addToContacted, addToContactedResult] =
-        CommonApi.FindWorkplace.useFutureIndustryContacted()
+        SubAdminApi.Workplace.contactWorkplaceIndustry()
 
     const sectors = selectedBox?.sector
 
     const { notification } = useNotification()
+    const router = useRouter()
 
     useEffect(() => {
         if (addToContactedResult.isSuccess) {
@@ -225,10 +235,17 @@ export const FutureIndustryInfoBoxCard = ({
                                     </div>
                                     <div
                                         onClick={() =>
+                                            // addToContacted({
+                                            //     receiver:
+                                            //         industryId ??
+                                            //         selectedBox?.id,
+                                            // })
                                             addToContacted({
-                                                receiver:
-                                                    industryId ??
-                                                    selectedBox?.id,
+                                                studentId: Number(
+                                                    router?.query?.id
+                                                ),
+                                                industryId,
+                                                wpId: workplaceId,
                                             })
                                         }
                                         className="relative group w-fit"

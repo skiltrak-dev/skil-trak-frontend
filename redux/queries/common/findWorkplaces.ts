@@ -200,8 +200,8 @@ export const findWorkplaceEndpoints = (
     }),
 
     futureIndustryContacted: builder.mutation({
-        query: (params) => ({
-            url: `${PREFIX}/call-log`,
+        query: ({ params, id }) => ({
+            url: `${PREFIX}/student/${id}/call-log`,
             params,
             method: 'POST',
         }),
@@ -213,5 +213,14 @@ export const findWorkplaceEndpoints = (
             url: `${PREFIX}/list/called`,
         }),
         providesTags: ['Industries'],
+    }),
+
+    futureIndustryInterest: builder.mutation({
+        query: ({ body, id }) => ({
+            url: `subadmin/contacted-industry/${id}/update`,
+            body,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdmin', 'Workplace', 'Industries'],
     }),
 })

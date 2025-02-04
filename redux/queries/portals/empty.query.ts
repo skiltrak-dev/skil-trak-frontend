@@ -56,6 +56,7 @@ const subadminTagTypes = [
     'Department',
     'RequestToAddCourse',
     'RTOListing',
+    'Industries',
 ]
 
 const rtoTagTypes = [
@@ -138,6 +139,8 @@ const commonTagTypes = [
     'AllNotifications',
     'AllCommunications',
     'StudentAppointments',
+    'SubAdmin',
+    'Workplace',
 ]
 
 const managementTypes = [

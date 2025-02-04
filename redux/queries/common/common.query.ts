@@ -518,6 +518,7 @@ const {
     useGetListingIndustryMailsQuery,
     useFutureIndustryContactedMutation,
     useGetContactedFutureIndustriesListQuery,
+    useFutureIndustryInterestMutation,
 
     // Impersonation
     useImpersonationToggleMutation,
@@ -807,6 +808,7 @@ export const CommonApi = {
         useFutureIndustryContacted: useFutureIndustryContactedMutation,
         useContactedFutureIndustriesList:
             useGetContactedFutureIndustriesListQuery,
+        useFutureIndustryInterest: useFutureIndustryInterestMutation,
     },
     Impersonation: {
         useImpersonationToggle: useImpersonationToggleMutation,
