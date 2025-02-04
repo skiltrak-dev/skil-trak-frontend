@@ -16,8 +16,6 @@ const SignUpFutureIndustryPage: NextPageWithLayout = () => {
         CommonApi.Industries.useRegisterByFutureIndustry()
 
     const onSubmit = (values: any) => {
-        console.log({ values })
-        return
         register({
             ...values,
             role: 'industry',

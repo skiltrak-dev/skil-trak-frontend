@@ -14,7 +14,6 @@ export const FolderCard = ({
     onClick: () => void
     folder: AssessmentEvidenceDetailType
 }) => {
-    console.log({ folder })
     const response: StudentResponseType | null | undefined =
         folder?.studentResponse && folder?.studentResponse?.length > 0
             ? folder?.studentResponse?.find(

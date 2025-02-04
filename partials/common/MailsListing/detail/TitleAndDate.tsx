@@ -12,11 +12,11 @@ export const TitleAndDate = ({ mailDetail }: { mailDetail: any }) => {
     const shortDetail = [
         {
             text: 'from',
-            data: mailDetail?.sender?.name,
+            data: `${mailDetail?.sender?.name} (${mailDetail?.sender?.email})`,
         },
         {
             text: 'to',
-            data: mailDetail?.receiver?.name,
+            data: `${mailDetail?.receiver?.name} (${mailDetail?.receiver?.email})`,
         },
         {
             text: 'date',
@@ -27,6 +27,7 @@ export const TitleAndDate = ({ mailDetail }: { mailDetail: any }) => {
             data: mailDetail?.subject,
         },
     ]
+
     return (
         <div className="flex items-center justify-between">
             <div className="my-5 flex items-center gap-x-2">
@@ -66,9 +67,9 @@ export const TitleAndDate = ({ mailDetail }: { mailDetail: any }) => {
                                     <div
                                         className={`${
                                             showDropdownOptions
-                                                ? 'max-h-40 p-3  shadow-[0px_0px_7px_1px_rgba(0,0,0,0.20)]'
+                                                ? 'max-h-44 p-3 shadow-[0px_0px_7px_1px_rgba(0,0,0,0.20)]'
                                                 : 'max-h-0'
-                                        } overflow-hidden transition-all duration-300 absolute top-full left-2 bg-white w-72 mt-1 rounded`}
+                                        } overflow-hidden transition-all duration-300 absolute top-full left-2 bg-white w-96 mt-1 rounded`}
                                     >
                                         <div className="w-full flex flex-col">
                                             <div>
@@ -102,9 +103,7 @@ export const TitleAndDate = ({ mailDetail }: { mailDetail: any }) => {
             {/*  */}
             <div className="flex items-center gap-x-6">
                 <Typography variant={'small'}>
-                    {moment(mailDetail?.data?.createdAt).format(
-                        'MMM DD YYYY hh:mm'
-                    )}
+                    {moment(mailDetail?.createdAt).format('MMM DD YYYY hh:mm')}
                 </Typography>
                 <HiOutlineReply />
             </div>

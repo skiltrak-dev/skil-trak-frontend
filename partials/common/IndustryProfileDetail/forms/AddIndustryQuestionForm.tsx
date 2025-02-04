@@ -29,11 +29,6 @@ export const AddIndustryQuestionForm = ({
         }
     }, [sectors, methods])
 
-    console.log(
-        'methods.watch',
-        methods.watch(IndustryQuestionsEnum.APPLICATIONS)
-    )
-
     return (
         <div>
             <FormProvider {...methods}>

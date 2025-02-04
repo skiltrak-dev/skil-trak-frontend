@@ -279,7 +279,6 @@ export const FutureIndustrySignUpForm = ({
     }
 
     const onHandleSubmit = (values: any) => {
-        console.log({ values })
         let questions: {
             [key: string]: any
         }[] = []

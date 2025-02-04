@@ -45,7 +45,6 @@ export const MailDetail = () => {
     const toggleRepliesExpansion = () => {
         setIsRepliesExpanded(!isRepliesExpanded)
     }
-    console.log('mailDetail?.data', mailDetail?.data)
     return (
         <div>
             {mailDetail.isError ? <TechnicalError /> : null}

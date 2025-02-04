@@ -20,8 +20,6 @@ export const ComposeMail = ({
     parentId?: any
     senderEmail?: string
 }) => {
-    console.log('parentId', parentId)
-    console.log('senderEmail', senderEmail)
     const [sendMessage, sendMessageResult] =
         CommonApi.Messages.sendCustomEmail()
 
