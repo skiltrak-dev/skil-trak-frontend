@@ -6,6 +6,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TruncatedTextWithTooltip,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
@@ -240,7 +241,11 @@ export const FilteredRto = ({
         {
             accessorKey: 'suburb',
             header: () => <span>Address</span>,
-            cell: (info) => info.getValue(),
+            cell: (info) => (
+                <TruncatedTextWithTooltip
+                    text={info?.row?.original?.addressLine1}
+                />
+            ),
         },
         {
             accessorKey: 'action',

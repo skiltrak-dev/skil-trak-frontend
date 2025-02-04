@@ -46,8 +46,8 @@ export const DepartmentLineChart = () => {
               name: month,
               studentsAdded: value?.studentsAdded,
               workplaceRequest: value?.workplaceRequest,
-              studentsPlaced: value?.studentsPlaced,
-              studentsExpired: value?.studentsExpired,
+              studentsPlaced: value?.placementStarted,
+              studentsExpired: value?.studentExpired,
           }))
         : []
     initialData?.sort(

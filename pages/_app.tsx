@@ -1,6 +1,5 @@
 import {
     AlertProvider,
-    AutoLogoutProvider,
     ContextBarProvider,
     DownloadAssessmentProvider,
     GoogleMapsProvider,
@@ -10,7 +9,6 @@ import {
     NetworkProvider,
     NoteScrollProvider,
     NotificationProvider,
-    SocketListenerProvider,
     WorkplaceProvider,
 } from '@hooks'
 import { Theme, applyTheme, getCurrentTheme } from '@theme'
@@ -31,7 +29,6 @@ import { store } from '../redux/store'
 
 import { HeadWrapper } from '@layouts'
 
-import { Socket } from '@components'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -50,8 +47,8 @@ type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
 }
 
-import { Poppins } from 'next/font/google'
 import SessionManager from '@hooks/SessionManager'
+import { Poppins } from 'next/font/google'
 
 const poppins = Poppins({
     subsets: ['latin'],
@@ -122,21 +119,17 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                                                         <NavbarProvider>
                                                             <ContextBarProvider>
                                                                 <HeaderWrapperProvider>
-                                                                    <SocketListenerProvider>
-                                                                        <Socket>
-                                                                            <NetworkProvider>
-                                                                                <HeadWrapper>
-                                                                                    {/* <LogoutAfterHours> */}
-                                                                                    {getLayout(
-                                                                                        <Component
-                                                                                            {...pageProps}
-                                                                                        />
-                                                                                    )}
-                                                                                    {/* </LogoutAfterHours> */}
-                                                                                </HeadWrapper>
-                                                                            </NetworkProvider>
-                                                                        </Socket>
-                                                                    </SocketListenerProvider>
+                                                                    <NetworkProvider>
+                                                                        <HeadWrapper>
+                                                                            {/* <LogoutAfterHours> */}
+                                                                            {getLayout(
+                                                                                <Component
+                                                                                    {...pageProps}
+                                                                                />
+                                                                            )}
+                                                                            {/* </LogoutAfterHours> */}
+                                                                        </HeadWrapper>
+                                                                    </NetworkProvider>
                                                                 </HeaderWrapperProvider>
                                                             </ContextBarProvider>
                                                         </NavbarProvider>
