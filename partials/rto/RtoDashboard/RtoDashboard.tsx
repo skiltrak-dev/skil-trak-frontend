@@ -12,7 +12,6 @@ import { ProfileViewContextBar } from './ProfileViewContextBar'
 
 export const RtoDashboard = ({ rto }: { rto: Rto }) => {
     const contextBar = useContextBar()
-    console.log({ rto })
     useEffect(() => {
         if (rto) {
             contextBar.show(false)

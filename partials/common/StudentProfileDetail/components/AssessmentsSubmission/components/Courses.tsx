@@ -92,7 +92,6 @@ export const Courses = ({
             refetchOnMountOrArgChange: 60,
         }
     )
-    console.log({ getFolders })
     const getAssessmentResponse = useGetAssessmentResponseQuery(
         {
             selectedFolder: Number(selectedFolder?.id),

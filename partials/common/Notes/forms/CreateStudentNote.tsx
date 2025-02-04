@@ -17,6 +17,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 // components
 import {
+    AuthorizedUserComponent,
     Button,
     Card,
     Checkbox,
@@ -33,15 +34,15 @@ import {
 
 // query
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNotification, useWorkplace } from '@hooks'
+import { useContextBar, useNotification, useWorkplace } from '@hooks'
 import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
 import { CommonApi, SubAdminApi } from '@queries'
-import { HtmlToPlainText } from '@utils'
-import { useRouter } from 'next/router'
+import { OptionType } from '@types'
+import { getUserCredentials, HtmlToPlainText } from '@utils'
 import ClickAwayListener from 'react-click-away-listener'
-import { StudentNotesDropdown } from '../components'
-import { Industry, OptionType } from '@types'
 import { IoCheckmark } from 'react-icons/io5'
+import { StudentNotesDropdown } from '../components'
+import { UserRoles } from '@constants'
 
 interface onSubmitType {
     title: string
@@ -65,6 +66,8 @@ export const CreateStudentNote = ({
     const { notification } = useNotification()
     const [noteContent, setNoteContent] = useState<any>(null)
     const { workplaceRes } = useWorkplace()
+
+    const contextBar = useContextBar()
 
     const ref = useRef<HTMLDivElement>(null)
 
@@ -112,6 +115,8 @@ export const CreateStudentNote = ({
         }
     )
 
+    const role = getUserCredentials()?.role
+
     const filterNotes = (notes: any) => {
         return notes
             ?.filter((note: any) => {
@@ -130,10 +135,6 @@ export const CreateStudentNote = ({
             })
             ?.map((note: any) => note?.id)
     }
-
-    console.log({
-        getNotesTemplate: filterNotes(getNotesTemplate?.data),
-    })
 
     const filteredNotesTemplate = filterNotes(getNotesTemplate?.data)
 
@@ -198,7 +199,6 @@ export const CreateStudentNote = ({
         resolver: yupResolver(validationSchema),
         // defaultValues: { ...editValues, body: bodyData },
     })
-    console.log({ noteContent })
 
     const noteBodyWordsCount = noteContent
         ? HtmlToPlainText(noteContent)?.trim()?.replace(/\s+/g, ' ')?.split(' ')
@@ -215,7 +215,7 @@ export const CreateStudentNote = ({
             //     convertToRaw(values?.body.getCurrentContent())
             // )
             const body = draftToHtmlText(values?.body)
-            if (selectedType !== 'custom') {
+            if (selectedType !== 'custom' && role !== UserRoles.RTO) {
                 const noteRes: any = await changeNoteStatus({
                     id: Number(selectedContent?.value),
                     status: selectedStatus as NotesTemplateStatus,
@@ -245,9 +245,12 @@ export const CreateStudentNote = ({
                             title: 'Note Added',
                             description: 'Note Added Successfully!',
                         })
+                        contextBar.hide()
+                        contextBar.setTitle('')
+                        contextBar.setContent(null)
                     }
                 }
-            } else {
+            } else if (selectedType === 'custom' || role === UserRoles.RTO) {
                 const res: any = await createNote({
                     ...values,
                     body,
@@ -261,6 +264,9 @@ export const CreateStudentNote = ({
                         title: 'Note Added',
                         description: 'Note Added Successfully!',
                     })
+                    contextBar.hide()
+                    contextBar.setTitle('')
+                    contextBar.setContent(null)
                 }
             }
         } else {
@@ -281,12 +287,6 @@ export const CreateStudentNote = ({
             value: 'custom',
         },
     ]
-
-    console.log({
-        filteredNotesTemplate,
-        abc: getNotesTemplate?.data,
-        templateOptions,
-    })
 
     return (
         <>
@@ -324,21 +324,30 @@ export const CreateStudentNote = ({
                                         />
                                     </div>
                                 )}
-                                <div className="relative z-[49]">
-                                    <Select
-                                        name="type"
-                                        options={typeOptions}
-                                        label={'Select Type'}
-                                        placeholder="Select Type"
-                                        onlyValue
-                                        onChange={(e: NotesTemplateType) => {
-                                            setSelectedType(e)
-                                            setSelectedStatus(null)
-                                            setSelectedContent(null)
-                                            methods.setValue('body', '')
-                                        }}
-                                    />
-                                </div>
+                                <AuthorizedUserComponent
+                                    roles={[
+                                        UserRoles.ADMIN,
+                                        UserRoles.SUBADMIN,
+                                    ]}
+                                >
+                                    <div className="relative z-[49]">
+                                        <Select
+                                            name="type"
+                                            options={typeOptions}
+                                            label={'Select Type'}
+                                            placeholder="Select Type"
+                                            onlyValue
+                                            onChange={(
+                                                e: NotesTemplateType
+                                            ) => {
+                                                setSelectedType(e)
+                                                setSelectedStatus(null)
+                                                setSelectedContent(null)
+                                                methods.setValue('body', '')
+                                            }}
+                                        />
+                                    </div>
+                                </AuthorizedUserComponent>
 
                                 {selectedType && selectedType !== 'custom' && (
                                     <div className="w-full relative z-[55]">
@@ -548,20 +557,11 @@ export const CreateStudentNote = ({
                                                     contentData?.noteTemplate ||
                                                     contentData
 
-                                                console.log({ updatedContent })
                                                 methods.setValue(
                                                     'title',
                                                     updatedContent?.subject
                                                 )
-                                                console.log({
-                                                    updatedContent,
-                                                })
-                                                console.log({
-                                                    e,
-                                                    asas: htmlToDraftText(
-                                                        updatedContent?.successContent
-                                                    ),
-                                                })
+
                                                 // selectedContent
                                                 if (
                                                     e?.target?.value ===

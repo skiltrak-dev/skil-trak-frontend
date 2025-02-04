@@ -9,8 +9,6 @@ export const useNotes = (data: any) => {
     const [swapNoteTemplate, swapNoteTemplateResult] =
         AdminApi.NotesTemplates.swapNoteTemplate()
 
-    console.log({ notes })
-
     useEffect(() => {
         if (data?.data && data?.data?.length > 0) {
             setNotes(data?.data)
@@ -28,9 +26,7 @@ export const useNotes = (data: any) => {
     }
 
     const handleDragEnd = (oldIndex: number, newIndex: number) => {
-        console.log({ oldIndex, newIndex })
         const noteData = notes?.[oldIndex]
-        console.log({ noteData })
         swapNoteTemplate({ id: noteData?.id, index: newIndex + 1 })
         setNotes((prevNotes) => {
             const updated = arrayMove(prevNotes, oldIndex, newIndex)

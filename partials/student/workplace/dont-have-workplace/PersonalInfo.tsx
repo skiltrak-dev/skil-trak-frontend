@@ -76,8 +76,6 @@ export const PersonalInfo = ({
         setActive((active: number) => active + 1)
     }
 
-    console.log('student::::', workplaceQuestions)
-
     return (
         <div>
             <PersonalInfoForm

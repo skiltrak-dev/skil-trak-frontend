@@ -262,7 +262,6 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         // })
     }
 
-    console.log('showEmployerDocModal', showEmployerDocModal)
     return (
         <>
             {modal}

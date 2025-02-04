@@ -1,11 +1,9 @@
-import { IndustryProfileAvatar } from '@partials/common/IndustryProfileDetail'
-import React from 'react'
 import { Typography } from '@components'
-import { CBListingIndustryDetail, CBSectorInfoBox } from '@partials/common'
+import { CBSectorInfoBox } from '@partials/common'
+import { IndustryProfileAvatar } from '@partials/common/IndustryProfileDetail'
 import { CBRtoListingDetail } from '../cbRtoListing'
 
 export const CBRtoListingProfile = ({ rto }: any) => {
-    console.log('rto:::::', rto)
     return (
         <div>
             <div className="border-b pb-4">

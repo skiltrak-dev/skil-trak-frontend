@@ -22,7 +22,7 @@ export const DetailMailTopbar = ({ mailDetail }: { mailDetail: any }) => {
     return (
         <div>
             {modal}
-            <div className="flex items-center gap-x-2">
+            <div className="flex justify-between items-center gap-x-2">
                 <IoIosArrowRoundBack
                     onClick={() => {
                         router.back()

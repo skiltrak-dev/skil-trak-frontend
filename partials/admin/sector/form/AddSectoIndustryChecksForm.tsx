@@ -29,8 +29,6 @@ export const AddSectoIndustryChecksForm = ({
 }: CourseFolderFormProps) => {
     const [selectedType, setSelectedType] = useState<string | null>(null)
 
-    console.log({ initialValues })
-
     useEffect(() => {
         if (initialValues?.type) {
             setSelectedType(initialValues?.type)
