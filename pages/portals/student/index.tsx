@@ -97,11 +97,14 @@ const StudentDashboard: NextPageWithLayout = () => {
         </Modal>
     )
 
+    console.log('talentPoolProfile?.data', talentPoolProfile)
+
     useEffect(() => {
         if (
-            !talentPoolProfile?.data?.interest ||
-            !talentPoolProfile?.data?.about ||
-            !talentPoolProfile?.data?.skills
+            talentPoolProfile?.data &&
+            (!talentPoolProfile?.data?.interest ||
+                !talentPoolProfile?.data?.about ||
+                !talentPoolProfile?.data?.skills)
         ) {
             setModal(talentPoolCompletionModal)
         }
