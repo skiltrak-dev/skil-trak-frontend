@@ -18,15 +18,15 @@ import { FaEdit, FaTrash } from 'react-icons/fa'
 import { useContextBar } from '@hooks'
 import { AdminApi } from '@queries'
 import { NoteTemplateFilterFilterType } from '@types'
+import moment from 'moment'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
+import { BiSolidRightArrow } from 'react-icons/bi'
 import { ContentViewModal, Table } from './components'
+import { NotesTemplateType } from './enum'
 import { useNotes } from './hooks'
 import { DeleteNoteTemplateModal } from './modals'
-import { BiSolidDownArrow, BiSolidRightArrow } from 'react-icons/bi'
-import { NotesTemplateType } from './enum'
-import moment from 'moment'
 const DndWrapper = dynamic(
     () => import('./components/DndWrapper').then((mod) => mod.DndWrapper),
     { ssr: false }
