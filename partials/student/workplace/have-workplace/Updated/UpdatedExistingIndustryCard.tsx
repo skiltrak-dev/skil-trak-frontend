@@ -80,7 +80,7 @@ export const UpdatedExistingIndustryCard = ({
             })
         }
     }, [applyForWorkplaceSubadminResult?.data, answer])
-
+    console.log('answer', answer)
     return (
         <>
             <ShowErrorNotifications result={applyForWorkplaceSubadminResult} />
@@ -105,8 +105,10 @@ export const UpdatedExistingIndustryCard = ({
                             courseId: Number(selectedCourse),
                             document: document?.id,
                             location: industry?.locationId,
+                            answer: answer,
                         })
                     }}
+                    test={'Student side 2'}
                     setAnswer={setAnswer}
                     answer={answer}
                     result={

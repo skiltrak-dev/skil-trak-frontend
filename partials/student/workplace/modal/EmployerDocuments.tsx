@@ -21,16 +21,20 @@ export const EmployerDocuments = ({
     action,
     result,
     setActive,
+    test,
     setAnswer,
     answer,
 }: {
     result: any
     action: any
+    test: any
     onCancel: () => void
     setActive: (val: number) => void
     setAnswer: any
     answer: any
 }) => {
+    console.log('test', test)
+    console.log('answer', answer)
     const router = useRouter()
 
     const [files, setFiles] = useState({})

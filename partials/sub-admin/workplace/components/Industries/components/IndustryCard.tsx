@@ -121,7 +121,7 @@ export const IndustryCard = ({
                         </div>
                     </Link>
                     <div className="flex items-center gap-x-2 ml-auto">
-                        {applied && (
+                        {/* {applied && (
                             <div className="flex justify-end gap-x-2 top-0 right-0">
                                 <ActionButton
                                     rounded
@@ -131,7 +131,7 @@ export const IndustryCard = ({
                                     title="Delete Industry"
                                 />
                             </div>
-                        )}
+                        )} */}
                         {industry.applied &&
                             industry.industryResponse !== 'noResponse' &&
                             industry.industryResponse !== 'rejected' && (
