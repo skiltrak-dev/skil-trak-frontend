@@ -16,7 +16,7 @@ export const ExistingIndustryCard = ({
     setWorkplaceData,
 }: any) => {
     const [selectedCourse, setselectedCourse] = useState<number | null>(null)
-
+    const [answer, setAnswer] = useState<string>('')
     const [applyForWorkplace, applyForWorkplaceResult] =
         useApplyWorkplaceWithAbnIndustryMutation()
     const { data, isLoading } = useGetStudentProfileDetailQuery()
@@ -102,6 +102,7 @@ export const ExistingIndustryCard = ({
                                     document: -1,
                                     IndustryId: industry?.id,
                                     courseId: selectedCourse,
+                                    answer: answer,
                                 })
                             } else {
                                 notification.warning({
