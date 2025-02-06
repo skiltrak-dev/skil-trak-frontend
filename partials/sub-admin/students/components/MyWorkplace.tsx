@@ -288,7 +288,7 @@ export const MyWorkplace = ({ student }: { student: Student }) => {
 
                 {/* Action */}
                 <div className="flex justify-end ml-auto gap-x-1">
-                    {wp && workplace?.data?.length > 0 && (
+                    {/* {wp && workplace?.data?.length > 0 && (
                         <ActionButton
                             mini
                             Icon={MdDelete}
@@ -296,7 +296,7 @@ export const MyWorkplace = ({ student }: { student: Student }) => {
                             title={'Delete Industry'}
                             onClick={() => onDeleteIndustry(wp)}
                         />
-                    )}
+                    )} */}
                     {role !== 'rto' && wp ? (
                         <div className="whitespace-pre">
                             <ActionButton

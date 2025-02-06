@@ -114,7 +114,7 @@ export const IndustryCard = ({
                         </div>
                     </Link>
                     <div className="flex items-center gap-x-2 ml-auto">
-                        {applied &&
+                        {/* {applied &&
                             !workplace?.byExistingAbn &&
                             !workplace?.studentProvidedWorkplace && (
                                 <AuthorizedUserComponent
@@ -132,7 +132,7 @@ export const IndustryCard = ({
                                         />
                                     </div>
                                 </AuthorizedUserComponent>
-                            )}
+                            )} */}
                         {industry?.applied &&
                             industry?.industryResponse !== 'noResponse' &&
                             industry?.industryResponse !== 'rejected' && (

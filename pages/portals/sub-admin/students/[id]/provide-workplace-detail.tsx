@@ -277,6 +277,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
                             answer: answer,
                         })
                     }}
+                    test={'SubAdmin side'}
                     setAnswer={setAnswer}
                     answer={answer}
                     result={addWorkplaceResult}

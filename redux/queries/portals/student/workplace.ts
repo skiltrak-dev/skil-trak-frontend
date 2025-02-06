@@ -77,6 +77,7 @@ export const workplaceEndpoints = (
             courseId: number
             document: number
             location?: number
+            answer: string
         }
     >({
         query: ({ IndustryId, ...params }) => ({

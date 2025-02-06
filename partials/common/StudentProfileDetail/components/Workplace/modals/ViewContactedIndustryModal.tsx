@@ -36,14 +36,39 @@ export const ViewContactedIndustryModal = ({
     const industries = studentDetails?.data?.student?.industryContacts
 
     const role = getUserCredentials()?.role
-    useEffect(() => {
-        if (interestedResult.isSuccess) {
+
+    const onClickInterested = async (industry: any) => {
+        const response: any = await interested({
+            id: industry?.id,
+            body: {
+                status: true,
+            },
+        })
+        if (response?.data) {
+            // refetch
             notification.success({
-                title: 'Success',
-                description: 'Status updated successfully',
+                title: 'Interested',
+                description: 'Status interested updated successfully',
             })
+            studentDetails.refetch()
         }
-    }, [interestedResult, studentDetails?.data])
+    }
+    const onClickNotInterested = async (industry: any) => {
+        const response: any = await interested({
+            id: industry?.id,
+            body: {
+                status: false,
+            },
+        })
+        if (response?.data) {
+            notification.success({
+                title: 'Not Interested',
+                description: 'Status not interested updated successfully',
+            })
+            // refetch
+            studentDetails.refetch()
+        }
+    }
     return (
         <>
             <ShowErrorNotifications result={interestedResult} />
@@ -240,14 +265,11 @@ export const ViewContactedIndustryModal = ({
                                                             <div
                                                                 title="Not Interested"
                                                                 className="bg-red-400 rounded-md p-1 cursor-pointer"
-                                                                onClick={() => {
-                                                                    interested({
-                                                                        id: industry?.id,
-                                                                        body: {
-                                                                            status: false,
-                                                                        },
-                                                                    })
-                                                                }}
+                                                                onClick={() =>
+                                                                    onClickNotInterested(
+                                                                        industry
+                                                                    )
+                                                                }
                                                             >
                                                                 {interestedResult.isLoading ? (
                                                                     <>
@@ -273,14 +295,11 @@ export const ViewContactedIndustryModal = ({
                                                             <div
                                                                 title="Interested"
                                                                 className="bg-green-400 rounded-md p-1 cursor-pointer"
-                                                                onClick={() => {
-                                                                    interested({
-                                                                        id: industry?.id,
-                                                                        body: {
-                                                                            status: true,
-                                                                        },
-                                                                    })
-                                                                }}
+                                                                onClick={() =>
+                                                                    onClickInterested(
+                                                                        industry
+                                                                    )
+                                                                }
                                                             >
                                                                 {interestedResult.isLoading ? (
                                                                     <>
