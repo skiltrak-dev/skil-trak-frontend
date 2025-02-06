@@ -95,6 +95,30 @@ export const foldersEndpoints = (
         providesTags: ['Document'],
     }),
 
+    addIndustrySectorDocsOptional: builder.mutation<
+        any,
+        { userId?: number; id: number }
+    >({
+        query: ({ id, userId }) => ({
+            url: `industry-checks/${id}/required-status/update`,
+            params: { userId },
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Document'],
+    }),
+
+    addCustomIndustrySectorDocsOptional: builder.mutation<
+        any,
+        { userId?: number; id: number }
+    >({
+        query: ({ id, userId }) => ({
+            url: `industry-checks/other-document/${id}/update/status`,
+            params: { userId },
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Document'],
+    }),
+
     addCustomIndustrySectorDocs: builder.mutation<any, any>({
         query: ({ id, ...body }) => ({
             url: `industry-checks/sector/${id}/other-document/create`,

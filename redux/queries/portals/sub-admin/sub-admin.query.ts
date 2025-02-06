@@ -1,4 +1,3 @@
-import { ComposeListingRtoMail } from './../../../../partials/sub-admin/rtoListing/components/ComposeListingRtoMail'
 import { SubAdmin, UserStatus } from '@types'
 import { emptySplitApi } from '../empty.query'
 import { subAdminAppointmentspoints } from './appointments'
@@ -17,7 +16,7 @@ import { talentPoolEndpoints } from './talentPool'
 import { todoListEndpoints } from './todoList'
 import { subadminVolunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
-export const subAdminApi = emptySplitApi('subAdminApi').injectEndpoints({
+export const subAdminApi = emptySplitApi.injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',
     //     baseQuery: fetchBaseQuery({

@@ -42,10 +42,7 @@ export const ComposeListingIndustryMail = ({
                 formData.append('attachments', attched)
             })
         }
-        // formData.append('type', 'email')
-        for (const [key, value] of formData.entries()) {
-            console.log(`${key}:`, value)
-        }
+
         // console.log('aaaaaa', formData)
 
         // sendMessage(formData).then((res: any) => {

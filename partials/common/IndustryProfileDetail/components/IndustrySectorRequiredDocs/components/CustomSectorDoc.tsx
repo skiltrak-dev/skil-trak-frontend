@@ -3,8 +3,9 @@ import {
     Checkbox,
     ShowErrorNotifications,
     Switch,
+    Typography,
 } from '@components'
-import { useAddOrUpdateRequiredDocumentMutation } from '@queries'
+import { IndustryApi, useAddOrUpdateRequiredDocumentMutation } from '@queries'
 import { ReactElement, useEffect, useState } from 'react'
 
 import { AiFillDelete } from 'react-icons/ai'
@@ -18,31 +19,33 @@ import {
 
 export const CustomSectorDoc = ({
     doc,
-    folder,
     industry,
 }: {
     doc: any
-    folder: any
     industry: Industry
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [result, setResult] = useState(null)
 
-    const [updateDocument, result] = useAddOrUpdateRequiredDocumentMutation()
     const [isChecked, setChecked] = useState<boolean | null>(doc?.checked)
 
-    const onCheckChange = (event: any) => {
-        updateDocument({
-            ...folder,
-            checked: event.target.checked,
-            industry: industry?.user?.id,
-        })
-    }
+    const [makeOptional, makeOptionalResult] =
+        IndustryApi.Folders.customeIndustryOptional()
 
-    useEffect(() => {
-        if (result.data?.checked !== doc?.checked) {
-            setChecked(result.data?.checked)
+    const onMakeOptional = async () => {
+        try {
+            const res: any = await makeOptional({
+                id: doc?.id,
+                userId: industry?.user?.id,
+            })
+            if (res?.error) {
+                setResult(res)
+            }
+            console.log({ res })
+        } catch (e) {
+            console.log({ e })
         }
-    }, [result])
+    }
 
     const onCancelClicked = () => {
         setModal(null)
@@ -74,16 +77,20 @@ export const CustomSectorDoc = ({
 
             <div className="flex items-center justify-between gap-x-4 border-t border-gray-200 py-2 bg-gray-100 px-2">
                 <div className="w-2/5">
-                    <Checkbox
-                        value={isChecked}
-                        label={doc?.name}
-                        name={doc?.name}
-                        loading={result.isLoading}
-                        onChange={(event: any) => onCheckChange(event)}
-                    />
+                    <Typography variant={'label'}>{doc?.name}</Typography>
                 </div>
                 <div className="w-1/5 flex justify-center">
-                    <Switch value={doc?.required} name={doc?.name} />
+                    <Switch
+                        name={doc?.name}
+                        value={doc?.isRequired}
+                        defaultChecked={doc?.isRequired}
+                        customStyleClass={'profileSwitch'}
+                        disabled={makeOptionalResult?.isLoading}
+                        loading={makeOptionalResult?.isLoading}
+                        onChange={() => {
+                            onMakeOptional()
+                        }}
+                    />
                 </div>
 
                 <div className="w-1/5 flex items-center justify-center gap-x-2">

@@ -1,18 +1,28 @@
-import { Modal, Select, ShowErrorNotifications } from '@components'
+import {
+    Button,
+    Modal,
+    Select,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
-import React, { useState } from 'react'
+import { WorkplaceTypes } from '@types'
+import { useState } from 'react'
+import { RTOWpType } from '../components'
 
 export const AddRTOWpTypeModal = ({
     userId,
     onCancel,
     courseId,
     selectedIds,
+    workplaceTypes,
 }: {
     userId?: number
     courseId: number
     selectedIds: number[]
     onCancel: () => void
+    workplaceTypes: WorkplaceTypes[]
 }) => {
     const [selectedTypes, setSelectedTypes] = useState<number[]>([])
 
@@ -47,22 +57,48 @@ export const AddRTOWpTypeModal = ({
         <>
             <ShowErrorNotifications result={addResult} />
             <Modal
-                title="Add Workplace Types"
+                title="Workplace Types"
                 subtitle=" "
                 onCancelClick={onCancel}
-                onConfirmClick={onConfirm}
+                // onConfirmClick={onConfirm}
+                showActions={false}
                 loading={addResult?.isLoading}
             >
-                <div className="max-w-3xl w-full">
-                    <Select
-                        name="wpTypes"
-                        options={wpTypesOptions}
-                        multi
-                        loading={wpTypes?.isLoading}
-                        disabled={wpTypes?.isLoading}
-                        onlyValue
-                        onChange={(e: number[]) => setSelectedTypes(e)}
-                    />
+                <div className="max-h-[70vh] overflow-auto custom-scrollbar">
+                    <div className="max-w-3xl w-full">
+                        <Select
+                            label={'Add Workplace Types'}
+                            name="wpTypes"
+                            options={wpTypesOptions}
+                            multi
+                            loading={wpTypes?.isLoading}
+                            disabled={wpTypes?.isLoading}
+                            onlyValue
+                            onChange={(e: number[]) => setSelectedTypes(e)}
+                        />
+                        <div className="flex justify-end items-center">
+                            <Button
+                                text="Add"
+                                onClick={onConfirm}
+                                loading={addResult?.isLoading}
+                                disabled={addResult?.isLoading}
+                            />
+                        </div>
+                    </div>
+
+                    {/*  */}
+                    <div>
+                        {workplaceTypes && workplaceTypes?.length > 0 && (
+                            <Typography variant="label" color={'text-gray-500'}>
+                                Workplace Types
+                            </Typography>
+                        )}
+                        <div className="flex flex-col gap-y-1 gap-x-1">
+                            {workplaceTypes?.map((wpType: WorkplaceTypes) => (
+                                <RTOWpType key={wpType?.id} wpType={wpType} />
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </Modal>
         </>

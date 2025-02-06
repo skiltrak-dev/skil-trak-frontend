@@ -34,13 +34,13 @@ export const rtosEndpoints = (
             params,
             body: { typeIds },
         }),
-        invalidatesTags: ['RTO', 'RTOS'],
+        invalidatesTags: ['RTO', 'RTOCourses', 'Profile', 'RTOS'],
     }),
     removeRtoWpType: builder.mutation<any, number>({
         query: (id) => ({
             url: `rtos/course/workplace-type/${id}/remove`,
             method: 'DELETE',
         }),
-        invalidatesTags: ['RTO', 'RTOS'],
+        invalidatesTags: ['RTO', 'RTOCourses', 'Profile', 'RTOS'],
     }),
 })

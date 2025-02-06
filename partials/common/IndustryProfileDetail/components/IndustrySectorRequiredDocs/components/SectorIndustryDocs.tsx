@@ -1,62 +1,60 @@
+import { ShowErrorNotifications, Switch, Typography } from '@components'
 import { useEffect, useState } from 'react'
-import { Checkbox, ShowErrorNotifications, Switch } from '@components'
 
 // query
-import { Industry } from '@types'
 import { UserRoles } from '@constants'
+import { IndustryApi } from '@queries'
+import { Industry } from '@types'
 import { getUserCredentials } from '@utils'
-import { useAddOrUpdateRequiredDocumentMutation } from '@queries'
 
 export const SectorIndustryDocs = ({
     doc,
-    folder,
     industry,
 }: {
     doc: any
-    folder: any
     industry: Industry
 }) => {
-    const [updateDocument, result] = useAddOrUpdateRequiredDocumentMutation()
-    const [isChecked, setChecked] = useState(doc?.checked)
+    const [result, setResult] = useState(null)
 
-    const onCheckChange = (event: any) => {
-        updateDocument({
-            ...folder,
-            checked: event.target.checked,
-            industry: industry?.user?.id,
-        })
+    const [makeOptional, makeOptionalResult] =
+        IndustryApi.Folders.addIndustrySectorDocsOptional()
+
+    const onMakeOptional = async () => {
+        try {
+            const res: any = await makeOptional({
+                id: doc?.id,
+                userId: industry?.user?.id,
+            })
+            if (res?.error) {
+                setResult(res)
+            }
+            console.log({ res })
+        } catch (e) {
+            console.log({ e })
+        }
     }
 
-    useEffect(() => {
-        if (doc?.checked) {
-            setChecked(doc?.checked)
-        }
-    }, [doc?.checked])
-
-    useEffect(() => {
-        if (result.data?.checked !== doc?.checked) {
-            setChecked(result.data?.checked)
-        }
-    }, [result])
     const role = getUserCredentials()?.role
     const checkRto = role === UserRoles.RTO
+
+    console.log({ makeOptionalResult })
 
     return (
         <>
             <ShowErrorNotifications result={result} />
-            <div className="flex items-center gap-x-4 my-1">
-                <div className="flex-grow">
-                    <Checkbox
-                        name={doc?.name}
-                        label={doc?.name}
-                        showError={false}
-                    />
-                </div>
+            <div className="bg-gray-100 p-2 rounded-md flex justify-between items-center gap-x-4 my-1">
+                <Typography variant={'label'}>{doc?.name}</Typography>
                 <Switch
                     name={doc?.name}
-                    value={doc?.required}
+                    value={doc?.isRequired}
+                    defaultChecked={doc?.isRequired}
+                    // defaultChecked={true}
                     customStyleClass={'profileSwitch'}
-                    disabled={checkRto}
+                    disabled={checkRto || makeOptionalResult?.isLoading}
+                    loading={makeOptionalResult?.isLoading}
+                    onChange={() => {
+                        onMakeOptional()
+                    }}
                     // setFieldValue={isRequiredForCustomField}
                     // disabled={!isChecked}
                 />

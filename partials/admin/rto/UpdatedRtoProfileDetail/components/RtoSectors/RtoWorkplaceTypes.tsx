@@ -26,6 +26,7 @@ export const RtoWorkplaceTypes = ({
                 onCancel={onCancel}
                 courseId={courseId}
                 selectedIds={selectedIds}
+                workplaceTypes={workplaceTypes}
             />
         )
     }
@@ -40,12 +41,12 @@ export const RtoWorkplaceTypes = ({
             {modal}
             <div className="flex items-center gap-x-1">
                 <div>
-                    {workplaceTypes && workplaceTypes?.length > 0 && (
+                    {/* {workplaceTypes && workplaceTypes?.length > 0 && (
                         <Typography variant="xxs" color={'text-gray-500'}>
                             Workplace Types
                         </Typography>
-                    )}
-                    <div className="flex justify-end gap-x-1">
+                    )} */}
+                    {/* <div className="flex justify-end gap-x-1">
                         {workplaceTypes?.map((wpType: WorkplaceTypes) => (
                             <div className="relative group cursor-pointer">
                                 <GoDotFill className="text-gray-400" />
@@ -60,13 +61,11 @@ export const RtoWorkplaceTypes = ({
                                 <Tooltip>{wpType?.workplaceType?.name}</Tooltip>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
                 <div className="relative group">
-                    <Tooltip>Add Workplace Type</Tooltip>
                     <ActionButton
                         variant="info"
-                        simple
                         onClick={() => {
                             onAddWpTypeClicked(
                                 courseId,
@@ -76,8 +75,9 @@ export const RtoWorkplaceTypes = ({
                                 )
                             )
                         }}
-                        Icon={TiPlusIcon}
-                    />
+                    >
+                        WP Types
+                    </ActionButton>
                 </div>
             </div>
         </>
