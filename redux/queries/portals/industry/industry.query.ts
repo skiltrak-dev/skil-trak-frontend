@@ -20,7 +20,7 @@ import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { insuranceEndpoints } from './insurance'
 
-export const industryApi = emptySplitApi('industryApi').injectEndpoints({
+export const industryApi = emptySplitApi.injectEndpoints({
     // export const industryApi = createApi({
     //     reducerPath: 'industryApi',
     //     baseQuery: fetchBaseQuery({
@@ -135,6 +135,8 @@ export const {
     useRemoveChecklistMutation,
     useUpdateChecklistMutation,
     useGetIndustrySectorRequiredDocsQuery,
+    useAddIndustrySectorDocsOptionalMutation,
+    useAddCustomIndustrySectorDocsOptionalMutation,
     useAddCustomIndustrySectorDocsMutation,
     useAddOrUpdateRequiredDocumentMutation,
     useUpdateCustomIndustrySectorDocsMutation,
@@ -289,6 +291,8 @@ export const IndustryApi = {
         updateIndustrySectorDoc: useUpdateCustomIndustrySectorDocsMutation,
         addCustomIndustryDocs: useAddCustomIndustrySectorDocsMutation,
         getIndustryRequiredDocs: useGetIndustrySectorRequiredDocsQuery,
+        customeIndustryOptional: useAddCustomIndustrySectorDocsOptionalMutation,
+        addIndustrySectorDocsOptional: useAddIndustrySectorDocsOptionalMutation,
     },
     Students: {
         useStudentCount: useIndustryStudentCountQuery,

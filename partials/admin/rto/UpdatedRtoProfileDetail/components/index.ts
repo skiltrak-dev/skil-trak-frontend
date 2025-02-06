@@ -1,6 +1,7 @@
 export * from './Subadmins'
 export * from './RtoReports'
 export * from './RtoSectors'
+export * from './RTOWpType'
 export * from './UserDetail'
 export * from './RtoDetails'
 export * from './RtoDocuments'

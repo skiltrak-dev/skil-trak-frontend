@@ -69,14 +69,8 @@ export const SectorDocuments = ({
                         ?.filter((doc: any) => !doc?.isCustom)
                         ?.map((doc: any) => (
                             <SectorIndustryDocs
-                                key={doc?.id}
                                 doc={doc}
-                                folder={{
-                                    folderId: doc?.folder_id,
-                                    documentId: doc?.documents_id,
-                                    courseId: doc?.folder_courseId,
-                                    isCustom: doc?.folder_isCustom,
-                                }}
+                                key={doc?.id}
                                 industry={industry}
                             />
                         ))}
@@ -118,12 +112,6 @@ export const SectorDocuments = ({
                                     <CustomSectorDoc
                                         key={doc?.id}
                                         doc={doc}
-                                        folder={{
-                                            folderId: doc?.folder_id,
-                                            documentId: doc?.documents_id,
-                                            courseId: doc?.folder_courseId,
-                                            isCustom: doc?.folder_isCustom,
-                                        }}
                                         industry={industry}
                                     />
                                 </div>

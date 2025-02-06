@@ -1,4 +1,4 @@
-import { Alert, Card, PageTitle } from '@components'
+import { Alert, AuthorizedUserComponent, Card, PageTitle } from '@components'
 import { UserRoles } from '@constants'
 import { useAlert, useContextBar } from '@hooks'
 import { CommonApi } from '@queries'
@@ -6,20 +6,18 @@ import { Industry, UserStatus } from '@types'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
+import { Notes } from '../Notes'
 import { ProfileAppointments } from '../ProfileAppointments'
 import { MailsCommunication } from '../StudentProfileDetail/components'
 import {
     IndustryHistory,
-    IndustryRequiredDocuments,
     IndustrySectorRequiredDocs,
     IndustryShiftingHours,
     IndustryStudents,
 } from './components'
-import { AuthorizedUserComponent } from '@components'
 import { CourseManagement } from './components/CourseManagement'
 import { StudentSchedule } from './components/StudentSchedule'
 import { IndustryProfileCB } from './IndustryProfileCB'
-import { Notes } from '../Notes'
 
 export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })

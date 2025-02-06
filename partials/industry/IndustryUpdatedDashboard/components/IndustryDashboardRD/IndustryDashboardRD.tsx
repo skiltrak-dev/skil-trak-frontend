@@ -58,11 +58,11 @@ export const IndustryDashboardRD = ({ industry }: { industry: Industry }) => {
                 <div className=" border-b border-secondary-dark pb-3">
                     <div className="w-full">
                         <Select
-                            label={'Select by Courses'}
+                            label={'Select by Sector'}
                             name={'courseId'}
                             showError={false}
                             options={sectorOptions}
-                            placeholder={'Select Courses...'}
+                            placeholder={'Select Sector...'}
                             value={sectorOptions?.find(
                                 (sector: SelectOption) =>
                                     sector?.value === Number(selectedSector)

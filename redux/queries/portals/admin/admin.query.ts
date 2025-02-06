@@ -26,7 +26,7 @@ import { notesTemplatesEndpoints } from './notesTemplates'
 import { Notes } from '@components/sections/subAdmin'
 const PREFIX = 'admin'
 
-export const adminApi = emptySplitApi('adminApi').injectEndpoints({
+export const adminApi = emptySplitApi.injectEndpoints({
     // ---------- ADMIN ENDPOINTS ---------- //
     endpoints: (build) => ({
         statistics: build.query<AdminStats, void>({
