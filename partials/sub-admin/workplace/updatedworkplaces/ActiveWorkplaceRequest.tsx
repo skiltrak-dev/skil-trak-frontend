@@ -92,7 +92,7 @@ export const ActiveWorkplaceRequest = () => {
                                 16
                             ) ?? 'N/A'}
                         </Typography>
-                        <div className="flex items-center gap-x-1">
+                        {/* <div className="flex items-center gap-x-1">
                             {info?.row?.original?.student?.isSnoozed ? (
                                 <>
                                     <BiSolidAlarmSnooze />
@@ -100,7 +100,7 @@ export const ActiveWorkplaceRequest = () => {
                             ) : (
                                 <></>
                             )}
-                        </div>
+                        </div> */}
                     </div>
                     <Typography variant="small" color="text-gray-500">
                         {info?.row?.original?.student?.addressLine1 ?? 'N/A'}
