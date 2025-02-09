@@ -63,6 +63,14 @@ export const assessmentEvidenceEndpoints = (
             `${PREFIX}/student/assessment-evidence/response/${selectedFolder}/${student}`,
         providesTags: ['AssessmentEvidence', 'Agreement', 'SubAdminWorkplace'],
     }),
+    getOtherDocAssessmentResponse: builder.query<
+        AssessmentEvidenceResponse,
+        { selectedFolder: number; student: number }
+    >({
+        query: ({ selectedFolder, student }) =>
+            `industry-checks/student/${student}/other-document/${selectedFolder}/response/list-all`,
+        providesTags: ['AssessmentEvidence', 'Agreement', 'SubAdminWorkplace'],
+    }),
 
     getAgrementFile: builder.query<AgreementFileType, { studentId: number }>({
         query: ({ studentId }) =>
@@ -178,6 +186,17 @@ export const assessmentEvidenceEndpoints = (
     >({
         query: ({ folderId, studentId, body }) => ({
             url: `${PREFIX}/assessment-evidence/response/${folderId}/${studentId}`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],
+    }),
+    uploadOtherDocAssessmentDocs: builder.mutation<
+        AssessmentEvidenceResponse,
+        { studentId: number; body: FormData; folderId: number }
+    >({
+        query: ({ folderId, studentId, body }) => ({
+            url: `industry-checks/student/${studentId}/other-document/${folderId}/response/add`,
             method: 'POST',
             body,
         }),

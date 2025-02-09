@@ -1,7 +1,7 @@
 import { Select, TextInput } from '@components/inputs'
 
 // query
-import { AdminApi, AuthApi, CommonApi } from '@queries'
+import { AuthApi, CommonApi } from '@queries'
 
 import {
     Course,
@@ -9,8 +9,7 @@ import {
     OptionType,
     Rto,
     StudentsFilterType,
-    SubAdmin,
-    UserStatus,
+    UserStatus
 } from '@types'
 import {
     AuthUtils,
@@ -18,11 +17,11 @@ import {
     WorkplaceCurrentStatus,
     formatOptionLabel,
 } from '@utils'
+import { State } from 'country-state-city'
+import { useMemo } from 'react'
 import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
-import { useMemo } from 'react'
-import { Country, State } from 'country-state-city'
 
 interface ItemFilterProps {
     onFilterChange: (values: StudentsFilterType) => void
@@ -95,7 +94,6 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     const getCourses = CommonApi.Filter.useCourses()
     const getUserRole = AuthUtils.getUserCredentials()
     const getIndustries = CommonApi.Filter.useIndustries()
-    const coordinators = AdminApi.SubAdmins.useSubAdminsFilterList()
 
     const states = State.getStatesOfCountry('AU')
 
@@ -126,13 +124,6 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                 value: sector?.id,
             })),
         [sectorResponse]
-    )
-
-    const coordinatorOptions = coordinators?.data?.map(
-        (subadmin: SubAdmin) => ({
-            value: subadmin?.id,
-            label: subadmin?.user?.name,
-        })
     )
 
     const noWorkplaceOption = [
@@ -300,22 +291,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     }}
                     formatOptionLabel={formatOptionLabel}
                 />
-                <Select
-                    label={'Search by Coordinator'}
-                    name={'subadminId'}
-                    options={coordinatorOptions}
-                    placeholder={'Select Coordinator...'}
-                    value={coordinatorOptions?.find(
-                        (subadmin: SelectOption) =>
-                            subadmin.value === Number(filter?.subadminId)
-                    )}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, subadminId: e?.value })
-                    }}
-                    showError={false}
-                    loading={coordinators.isLoading}
-                    disabled={coordinators.isLoading}
-                />
+
                 <Select
                     label={'Search by Progress'}
                     name={'currentStatus'}

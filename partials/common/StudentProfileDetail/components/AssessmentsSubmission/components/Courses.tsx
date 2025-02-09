@@ -98,10 +98,31 @@ export const Courses = ({
             student: Number(student?.user?.id),
         },
         {
-            skip: !selectedFolder || !student || !isEntered,
+            skip:
+                !selectedFolder ||
+                !student ||
+                !isEntered ||
+                selectedFolder?.otherDoc,
             refetchOnMountOrArgChange: 20,
         }
     )
+    const getOtherDocAssessmentResponse =
+        SubAdminApi.AssessmentEvidence.getOtherDocAssessment(
+            {
+                selectedFolder: Number(selectedFolder?.id),
+                student: Number(student?.id),
+            },
+            {
+                skip:
+                    !selectedFolder ||
+                    !student ||
+                    !isEntered ||
+                    !selectedFolder?.otherDoc,
+                refetchOnMountOrArgChange: true,
+            }
+        )
+
+    console.log({ wsdeselectedFolderselectedFolder: selectedFolder })
 
     const eSignDocument = CommonApi.ESign.useStudentEsignDocument(
         {
@@ -413,7 +434,14 @@ export const Courses = ({
                                         getFolders?.data?.assessmentEvidence ||
                                         getFolders?.data,
                                 }}
-                                otherDocs={getFolders?.data?.otherDocs}
+                                otherDocs={
+                                    getFolders?.data?.otherDocs?.map(
+                                        (othDoc) => ({
+                                            ...othDoc,
+                                            otherDoc: true,
+                                        })
+                                    ) || []
+                                }
                                 course={selectedCourse}
                                 selectedFolder={selectedFolder}
                                 onSelectFolder={onSelectFolder}
@@ -491,7 +519,11 @@ export const Courses = ({
                             <AssessmentFiles
                                 selectedFolder={selectedFolder}
                                 course={selectedCourse}
-                                getAssessmentResponse={getAssessmentResponse}
+                                getAssessmentResponse={
+                                    selectedFolder?.otherDoc
+                                        ? getOtherDocAssessmentResponse
+                                        : getAssessmentResponse
+                                }
                             >
                                 {getAssessmentResponse?.isSuccess ? (
                                     <InitiateSign
