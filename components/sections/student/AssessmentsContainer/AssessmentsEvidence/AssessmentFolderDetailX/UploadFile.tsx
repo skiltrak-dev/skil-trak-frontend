@@ -9,16 +9,7 @@ import { Typography } from '@components'
 import { Button } from '@components/buttons'
 import { MdCloudUpload } from 'react-icons/md'
 
-export const UploadFile = ({
-    file,
-    name,
-    dragging,
-    fileList,
-    fileObject,
-    handleRemove,
-    invalidSelection,
-    loading,
-}: any) => {
+export const UploadFile = ({ name, loading, title }: any) => {
     return (
         <Button
             loading={loading}
@@ -27,7 +18,7 @@ export const UploadFile = ({
             Icon={MdCloudUpload}
         >
             <label htmlFor={`file_id_${name}`} className="cursor-pointer">
-                Add File
+                {title || 'Add File'}
             </label>
         </Button>
     )

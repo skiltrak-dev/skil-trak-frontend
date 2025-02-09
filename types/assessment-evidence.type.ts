@@ -77,6 +77,7 @@ export interface AssessmentEvidenceDetailType extends BaseResponse {
     studentResponse: StudentResponseType[]
     isAgreement: boolean
     isIndustryCheck: boolean
+    otherDoc: boolean
 }
 
 export interface AssessmentEvidenceResponse extends BaseResponse {

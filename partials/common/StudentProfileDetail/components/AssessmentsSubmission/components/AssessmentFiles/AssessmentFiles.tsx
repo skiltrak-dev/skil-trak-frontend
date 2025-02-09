@@ -5,7 +5,6 @@ import {
     NoData,
     Typography,
 } from '@components'
-import { DocumentsView } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { AssessmentEvidenceDetailType, Course } from '@types'
 import { getCourseResult } from '@utils'
@@ -13,16 +12,17 @@ import { useRouter } from 'next/router'
 import { ReactNode, useRef, useState } from 'react'
 import { IoIosArchive } from 'react-icons/io'
 
-import { PulseLoader } from 'react-spinners'
-import { AssessmentFilesUpload } from './AssessmentFilesUpload'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper/modules'
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
-import { SliderStyleContainer } from '../../styles'
 import { UserRoles } from '@constants'
-import { useAssessmentDocumentsView } from '../../hooks'
 import Modal from '@modals/Modal'
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
+import { PulseLoader } from 'react-spinners'
+import { Navigation } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { useAssessmentDocumentsView } from '../../hooks'
+import { SliderStyleContainer } from '../../styles'
 import { AssessmentFileArchiveModal } from './AssessmentFileArchiveModal'
+import { AssessmentFilesOtherDocUpload } from './AssessmentFilesOtherDocUpload'
+import { AssessmentFilesUpload } from './AssessmentFilesUpload'
 
 export const AssessmentFiles = ({
     course,
@@ -63,6 +63,9 @@ export const AssessmentFiles = ({
     )
 
     const deleteUploadedFileAction = (fileId: number) => {
+        if (selectedFolder?.otherDoc) {
+            return null
+        }
         return (
             <div
                 className="bg-white p-1 rounded-md shadow-md cursor-pointer"
@@ -131,7 +134,13 @@ export const AssessmentFiles = ({
                 <AuthorizedUserComponent
                     roles={[UserRoles.ADMIN, UserRoles.RTO, UserRoles.SUBADMIN]}
                 >
-                    {uploadAssessment ? (
+                    {selectedFolder?.otherDoc ? (
+                        <AssessmentFilesOtherDocUpload
+                            results={result}
+                            studentId={Number(router.query?.id)}
+                            selectedFolder={selectedFolder}
+                        />
+                    ) : uploadAssessment ? (
                         <AssessmentFilesUpload
                             results={result}
                             studentId={Number(router.query?.id)}

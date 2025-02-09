@@ -360,6 +360,7 @@ export const {
     useArchiveAssessmentEvidenceMutation,
     useAssessmentCountQuery,
     useGetAssessmentResponseQuery,
+    useGetOtherDocAssessmentResponseQuery,
 
     useGetAgrementFileQuery,
     useGetArchivedAssessmentResponseQuery,
@@ -370,6 +371,7 @@ export const {
     useSubmitAssessmentEvidenceMutation,
     useMaulallyReopenSubmissionRequestMutation,
     useUploadAssessmentDocsMutation,
+    useUploadOtherDocAssessmentDocsMutation,
     useInitiateSigningMutation,
     useGetDocuSignStatusQuery,
     useDownloadAllCourseFilesMutation,
@@ -667,6 +669,8 @@ export const SubAdminApi = {
     },
     AssessmentEvidence: {
         uploadDocs: useUploadAssessmentDocsMutation,
+        getOtherDocAssessment: useGetOtherDocAssessmentResponseQuery,
+        uploadOtherDocs: useUploadOtherDocAssessmentDocsMutation,
         useInitiateSigning: useInitiateSigningMutation,
         useDocuSignStatus: useGetDocuSignStatusQuery,
         archiveUploadedFile: useArchiveUploadedFileMutation,
