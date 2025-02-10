@@ -1,9 +1,13 @@
-import { AdminApi } from '@queries'
+import {
+    DepartmentStudentFilter,
+    Filter,
+    SetDetaultQueryFilteres,
+    TabNavigation,
+    TabProps,
+} from '@components'
+import { PageHeading } from '@components/headings'
+import { FigureCard } from '@components/sections/subAdmin'
 import { AdminLayout } from '@layouts'
-import React, { ReactElement, useCallback, useMemo, useState } from 'react'
-import { NextPageWithLayout, StudentsFilterType } from '@types'
-import { useRouter } from 'next/router'
-import { checkFilteredDataLength } from '@utils'
 import {
     DepartmentStudentList,
     DepartmentStudentsListProvider,
@@ -13,26 +17,12 @@ import {
     SnoozedDepartmentStudents,
     useDepartmentStudentList,
 } from '@partials/admin/departments'
-import {
-    Card,
-    DepartmentStudentFilter,
-    EmptyData,
-    Filter,
-    LoadingAnimation,
-    SetDetaultQueryFilteres,
-    StudentFilters,
-    Table,
-    TableChildrenProps,
-    TabNavigation,
-    TabProps,
-    TechnicalError,
-    TextInput,
-} from '@components'
-import { debounce } from 'lodash'
-import { PageHeading } from '@components/headings'
-import { FigureCard } from '@components/sections/subAdmin'
-import { FaFlag, FaUserFriends } from 'react-icons/fa'
+import { NextPageWithLayout, StudentsFilterType } from '@types'
+import { checkFilteredDataLength } from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, useMemo, useState } from 'react'
 import { BiSolidAlarmSnooze } from 'react-icons/bi'
+import { FaFlag, FaUserFriends } from 'react-icons/fa'
 import { FiPhoneOff } from 'react-icons/fi'
 
 const filterKeys = [
@@ -119,7 +109,7 @@ const DepartmentStudent: NextPageWithLayout = () => {
             // },
             element: <DepartmentStudentList status={{ all: true }} />,
         },
-        // 
+        //
         {
             label: 'Snoozed',
             href: {
