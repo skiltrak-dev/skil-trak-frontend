@@ -16,6 +16,10 @@ export const departmentEndpoints = (
         },
         providesTags: ['Departments'],
     }),
+    getDepartmentFilterList: builder.query<any, void>({
+        query: () => `admin/departments/list`,
+        providesTags: ['Departments'],
+    }),
     getDepartments: builder.query<any, any>({
         query: (params) => ({
             url: PREFIX,

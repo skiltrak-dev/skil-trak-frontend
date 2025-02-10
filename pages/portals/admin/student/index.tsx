@@ -39,6 +39,7 @@ const filterKeys = [
     'phone',
     'rtoId',
     'state',
+    'depId',
     'suburb',
     'status',
     'sectorId',

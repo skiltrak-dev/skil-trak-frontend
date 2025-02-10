@@ -9,5 +9,6 @@ export interface AdminWorkplaceFiltersType {
     subAdminId: number
     rtoId: number
     industryId: number
+    depId: number
     courseId: number
 }

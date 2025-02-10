@@ -143,4 +143,14 @@ export const workplaceEndpoints = (
         query: () => 'employment-documents',
         providesTags: ['Workplace'],
     }),
+    rejectIndustryFromEmail: builder.query<
+        any,
+        { id: number; comment: string; status: string }
+    >({
+        query: ({ id, ...params }) => ({
+            url: `subadmin/workplace/approval-request/${id}/update-status`,
+            params,
+        }),
+        providesTags: ['Students'],
+    }),
 })

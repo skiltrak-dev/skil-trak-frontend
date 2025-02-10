@@ -34,6 +34,7 @@ type Props = {}
 const filterKeys = [
     'studentId',
     'name',
+    'depId',
     'email',
     'location',
     'status',

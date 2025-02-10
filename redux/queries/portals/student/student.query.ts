@@ -71,6 +71,7 @@ export const {
     useGetStudentUploadedResumeQuery,
 
     // ---- WORKPLACE ---- //
+    useRejectIndustryFromEmailQuery,
     useGetStudentIndustriesQuery,
     useGetCourseDocumentsQuery,
     useGetWorkplaceIndustriesQuery,
@@ -157,6 +158,7 @@ export const StudentApi = {
     },
     Workplace: {
         useGetStudentIndustriesQuery,
+        rejectIndustryFromEmail: useRejectIndustryFromEmailQuery,
         useGetCourseDocumentsQuery,
         useGetWorkplaceIndustriesQuery,
         useGetPlacementProgressQuery,

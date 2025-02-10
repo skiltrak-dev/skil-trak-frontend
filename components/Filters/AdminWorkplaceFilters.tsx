@@ -1,7 +1,7 @@
 import { Select, TextInput } from '@components/inputs'
 
 // query
-import { CommonApi } from '@queries'
+import { CommonApi, AdminApi } from '@queries'
 
 import {
     AdminWorkplaceFiltersType,
@@ -31,6 +31,7 @@ export const AdminWorkplaceFilters = ({
     const getCourses = CommonApi.Filter.useCourses()
     const getCoordinators = CommonApi.Appointments.allCoordinators()
     const getRtos = CommonApi.Filter.useRtos()
+    const departments = AdminApi.Department.getDepartmentFilterList()
 
     const industryOptions = getIndustries?.data?.map((industry: Industry) => ({
         value: industry?.id,
@@ -49,6 +50,10 @@ export const AdminWorkplaceFilters = ({
             label: coordinator?.user?.name,
         })
     )
+    const departmentsOptions = departments?.data?.map((department: any) => ({
+        value: department?.id,
+        label: department?.name,
+    }))
 
     const rtoOptions =
         getRtos?.data && getRtos?.data?.length > 0
@@ -200,6 +205,23 @@ export const AdminWorkplaceFilters = ({
                     disabled={getCourses.isLoading}
                     formatOptionLabel={formatOptionLabel}
                     showError={false}
+                />
+
+                <Select
+                    label={'Search by Department'}
+                    name={'depId'}
+                    options={departmentsOptions}
+                    placeholder={'Select Department...'}
+                    value={departmentsOptions?.find(
+                        (subadmin: SelectOption) =>
+                            subadmin.value === Number(filter?.depId)
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, depId: e?.value })
+                    }}
+                    showError={false}
+                    loading={departments.isLoading}
+                    disabled={departments.isLoading}
                 />
             </div>
         </>

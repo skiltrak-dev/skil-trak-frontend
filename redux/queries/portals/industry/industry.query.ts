@@ -144,6 +144,7 @@ export const {
 
     // --- STUDENTS ---//
     useIndustryStudentCountQuery,
+
     useGetIndustryStudentsQuery,
     useGetFutureCandidatesQuery,
     useGetIndustryStudentProfileQuery,

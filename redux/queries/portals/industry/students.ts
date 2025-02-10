@@ -24,4 +24,5 @@ export const studentsEndpoints = (
         query: (id) => `${PREFIX}/future-candidate/list`,
         providesTags: ['Students'],
     }),
+    
 })
