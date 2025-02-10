@@ -8,7 +8,6 @@ import {
     InitialAvatar,
     LoadingAnimation,
     SetDetaultQueryFilteres,
-    StudentFilters,
     Table,
     TechnicalError,
     Typography,
@@ -18,7 +17,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 
 import { AdminApi } from '@queries'
-import { getUserCredentials } from '@utils'
+import { WpCancelationReqFilter } from '@types'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -30,7 +29,6 @@ import {
     RejectRequestModal,
     ViewWpRequestNoteModal,
 } from './modals'
-import { StudentsFilterType, WpCancelationReqFilter } from '@types'
 
 const filterKeys = [
     'name',

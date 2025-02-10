@@ -1,7 +1,7 @@
 import { Select, TextInput } from '@components/inputs'
 
 // query
-import { AuthApi, CommonApi } from '@queries'
+import { AdminApi, AuthApi, CommonApi } from '@queries'
 
 import {
     Course,
@@ -9,7 +9,8 @@ import {
     OptionType,
     Rto,
     StudentsFilterType,
-    UserStatus
+    SubAdmin,
+    UserStatus,
 } from '@types'
 import {
     AuthUtils,
@@ -22,6 +23,8 @@ import { useMemo } from 'react'
 import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
+import { UserRoles } from '@constants'
 
 interface ItemFilterProps {
     onFilterChange: (values: StudentsFilterType) => void
@@ -94,6 +97,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     const getCourses = CommonApi.Filter.useCourses()
     const getUserRole = AuthUtils.getUserCredentials()
     const getIndustries = CommonApi.Filter.useIndustries()
+    const coordinators = AdminApi.SubAdmins.useSubAdminsFilterList()
 
     const states = State.getStatesOfCountry('AU')
 
@@ -116,6 +120,12 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
         value: state?.name,
         label: state?.name,
     }))
+    const coordinatorOptions = coordinators?.data?.map(
+        (subadmin: SubAdmin) => ({
+            value: subadmin?.id,
+            label: subadmin?.user?.name,
+        })
+    )
 
     const sectorOptions = useMemo(
         () =>
@@ -291,6 +301,25 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     }}
                     formatOptionLabel={formatOptionLabel}
                 />
+
+                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                    <Select
+                        label={'Search by Coordinator'}
+                        name={'subadminId'}
+                        options={coordinatorOptions}
+                        placeholder={'Select Coordinator...'}
+                        value={coordinatorOptions?.find(
+                            (subadmin: SelectOption) =>
+                                subadmin.value === Number(filter?.subadminId)
+                        )}
+                        onChange={(e: any) => {
+                            onFilterChange({ ...filter, subadminId: e?.value })
+                        }}
+                        showError={false}
+                        loading={coordinators.isLoading}
+                        disabled={coordinators.isLoading}
+                    />
+                </AuthorizedUserComponent>
 
                 <Select
                     label={'Search by Progress'}
