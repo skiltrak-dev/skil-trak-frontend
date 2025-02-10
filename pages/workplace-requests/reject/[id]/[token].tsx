@@ -32,6 +32,7 @@ const DynamicPageData = () => {
                 description: 'Industry Rejected Successfully!',
             })
             setComment('')
+            router.push('/')
         }
     }, [reject])
 
