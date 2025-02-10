@@ -98,6 +98,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     const getUserRole = AuthUtils.getUserCredentials()
     const getIndustries = CommonApi.Filter.useIndustries()
     const coordinators = AdminApi.SubAdmins.useSubAdminsFilterList()
+    const departments = AdminApi.Department.getDepartmentFilterList()
 
     const states = State.getStatesOfCountry('AU')
 
@@ -126,6 +127,10 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
             label: subadmin?.user?.name,
         })
     )
+    const departmentsOptions = departments?.data?.map((department: any) => ({
+        value: department?.id,
+        label: department?.name,
+    }))
 
     const sectorOptions = useMemo(
         () =>
@@ -318,6 +323,22 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                         showError={false}
                         loading={coordinators.isLoading}
                         disabled={coordinators.isLoading}
+                    />
+                    <Select
+                        label={'Search by Department'}
+                        name={'depId'}
+                        options={departmentsOptions}
+                        placeholder={'Select Department...'}
+                        value={departmentsOptions?.find(
+                            (subadmin: SelectOption) =>
+                                subadmin.value === Number(filter?.depId)
+                        )}
+                        onChange={(e: any) => {
+                            onFilterChange({ ...filter, depId: e?.value })
+                        }}
+                        showError={false}
+                        loading={departments.isLoading}
+                        disabled={departments.isLoading}
                     />
                 </AuthorizedUserComponent>
 
