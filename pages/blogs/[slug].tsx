@@ -60,6 +60,18 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
     const shouldHaveCanonicalTag = canonicalSlugs.includes(
         router?.query?.slug + ''
     )
+    const processContent = (content: string) => {
+        return content.replace(
+            /<img src="data:image\/(png|jpg|jpeg);base64,([^"]+)"/g,
+            (_, format, base64) => {
+                const blob = new Blob(
+                    [Uint8Array.from(atob(base64), (c) => c.charCodeAt(0))],
+                    { type: `image/${format}` }
+                )
+                return `<img src="${URL.createObjectURL(blob)}"`
+            }
+        )
+    }
 
     return (
         <div className="">
@@ -125,7 +137,9 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                                 <div
                                     className="blog-content text-gray-700 leading-relaxed"
                                     dangerouslySetInnerHTML={{
-                                        __html: blogData?.content,
+                                        __html: processContent(
+                                            blogData?.content
+                                        ),
                                     }}
                                 />
                             </div>
@@ -247,6 +261,7 @@ export async function getStaticProps(context: any) {
         props: {
             blogData,
         },
+        revalidate: 1800,
     }
 }
 
