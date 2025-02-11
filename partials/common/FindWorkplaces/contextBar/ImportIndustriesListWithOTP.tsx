@@ -72,6 +72,9 @@ export const ImportIndustriesListWithOTP = () => {
                                     } else {
                                         rowObject[headers[index]] = cell
                                     }
+                                } else if (headers[index] === 'phone') {
+                                    rowObject[headers[index]] =
+                                        cell?.text || cell
                                 } else {
                                     rowObject[headers[index]] = cell
                                 }

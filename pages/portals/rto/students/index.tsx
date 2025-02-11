@@ -36,6 +36,7 @@ import { checkFilteredDataLength, getCountData } from '@utils'
 
 const filterKeys = [
     'name',
+    'batch',
     'email',
     'phone',
     'studentId',

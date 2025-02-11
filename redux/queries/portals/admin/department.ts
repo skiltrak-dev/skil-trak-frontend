@@ -65,6 +65,12 @@ export const departmentEndpoints = (
         }),
         providesTags: ['Departments'],
     }),
+    getSectorsAddingList: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}/${id}/sectors/list`,
+        }),
+        providesTags: ['Departments'],
+    }),
     toggleHod: builder.mutation<any, any>({
         query: (id) => ({
             url: `${PREFIX}/member/${id}/hod-toggle`,

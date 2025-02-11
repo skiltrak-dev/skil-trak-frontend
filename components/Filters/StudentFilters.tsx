@@ -193,6 +193,16 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     }}
                     showError={false}
                 />
+                <TextInput
+                    name="batch"
+                    label={'Batch'}
+                    value={filter?.batch}
+                    placeholder={'Search by Student Batch ...'}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, batch: e.target.value })
+                    }}
+                    showError={false}
+                />
                 <Select
                     label={'Search by State'}
                     name={'state'}

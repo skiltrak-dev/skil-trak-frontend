@@ -36,6 +36,7 @@ const filterKeys = [
     'nowp',
     'name',
     'email',
+    'batch',
     'phone',
     'rtoId',
     'state',
