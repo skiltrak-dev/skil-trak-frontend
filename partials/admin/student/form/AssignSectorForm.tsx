@@ -24,7 +24,6 @@ export const AssignSectorForm = ({
 }: FormProps) => {
     const selectInputRef = useRef(null)
     const sectors = AdminApi.Sectors.useListQuery(undefined)
-
     const courses = AdminApi.Courses.useListQuery(undefined)
     const [selectableCourses, setSelectableCourses] = useState<Course[]>([])
 

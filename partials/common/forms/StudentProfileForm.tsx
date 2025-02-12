@@ -52,7 +52,7 @@ export const StudentProfileForm = ({
 }) => {
     const router = useRouter()
 
-    const { id } = router.query
+    const role = getUserCredentials()?.role
 
     const sectorResponse = AuthApi.useSectors({})
     const rtoResponse = AuthApi.useRtos({})
@@ -178,6 +178,7 @@ export const StudentProfileForm = ({
         setCourseOptions(newCourseOptions)
         chkDefaultOptions && setCourseValues(newCourseOptions)
     }
+
     const validationSchema = yup.object({
         // Profile Information
         name: yup.string().required('Must provide your name'),
@@ -192,7 +193,13 @@ export const StudentProfileForm = ({
         age: yup.string().nullable().required('Must Select age'),
 
         phone: yup.string().required('Must provide phone number'),
-        rto: yup.number().required('RTO is required'),
+        // rto: yup.number().required('RTO is required'),
+        rto: yup
+            .number()
+            .test('rto-validation', 'RTO is required', function (value) {
+                if (role === UserRoles.RTO) return true // optional for RTO role
+                return value != null // required for other roles
+            }),
 
         // Contact Person Information
         emergencyPerson: yup
@@ -301,8 +308,6 @@ export const StudentProfileForm = ({
             />
         )
     }
-
-    const role = getUserCredentials()?.role
 
     return (
         <>

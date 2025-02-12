@@ -48,7 +48,7 @@ const GetStarted = ({ contactUsRef }: { contactUsRef: any }) => {
                 <div className="w-full h-full">
                     <Image
                         className="w-full h-full"
-                        src="/images/site/get-started-image.png"
+                        src="/images/site/get-started-image.jpg"
                         sizes={
                             '(max-width: 640px) 260px, (max-width: 768px) 896px, (max-width: 1024px) 1420px, 1792px'
                         }

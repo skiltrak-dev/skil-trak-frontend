@@ -16,6 +16,7 @@ export interface StudentsFilterType {
     depId: number
     courseId: number
     nowp: string
+    batch: string
     currentStatus: WorkplaceCurrentStatus
 }
 
