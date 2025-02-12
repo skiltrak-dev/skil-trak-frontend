@@ -4,9 +4,20 @@
 import { Card, Table, Typography } from '@components'
 // import { StudentCellInfo } from './components'
 
-import { User } from '@types'
+import { Course, Industry, Rto, Sector, Student, User } from '@types'
 
 import { ColumnDef } from '@tanstack/react-table'
+import { CourseDot } from '@partials/admin/student/components'
+import { SectorsDot } from './SectorsDot'
+
+type ColumnType = User & {
+    businessName: string
+    student: Student
+    industry: Industry
+    rto: Rto
+    futureIndustry: boolean
+    sector: Sector[]
+}
 
 export const GlobalSearchList = ({
     students,
@@ -19,7 +30,7 @@ export const GlobalSearchList = ({
     itemPerPage: any
     setItemPerPage: any
 }) => {
-    const Columns: ColumnDef<User & { businessName: string }>[] = [
+    const Columns: ColumnDef<ColumnType>[] = [
         {
             header: () => 'Name',
             accessorKey: 'name',
@@ -34,9 +45,37 @@ export const GlobalSearchList = ({
             accessorKey: 'email',
             cell: ({ row }) => (
                 <Typography variant="small" semibold>
-                    {' '}
-                    {row?.original?.email}{' '}
+                    {row?.original?.email}
                 </Typography>
+            ),
+        },
+        {
+            header: () => 'Courses',
+            accessorKey: 'courses',
+            cell: ({ row }) => (
+                <div className="flex gap-x-1">
+                    {row?.original?.futureIndustry ? (
+                        <div>
+                            <Typography
+                                variant="badge"
+                                color="text-gray-600"
+                                uppercase
+                                bold
+                            >
+                                Sectors
+                            </Typography>
+                            {row.original?.sector?.map((s: Sector) => (
+                                <SectorsDot key={s.id} sector={s} />
+                            ))}
+                        </div>
+                    ) : (
+                        row.original[
+                            row.original?.role as keyof ColumnType
+                        ]?.courses?.map((c: Course) => (
+                            <CourseDot key={c.id} course={c} />
+                        ))
+                    )}
+                </div>
             ),
         },
         {
