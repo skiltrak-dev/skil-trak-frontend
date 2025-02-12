@@ -93,7 +93,17 @@ export const BlogCategories = () => {
             },
             header: () => <span>Title</span>,
         },
-
+        {
+            accessorKey: 'blogsCount',
+            cell: (info: any) => {
+                return (
+                    <Typography variant="label">
+                        {info?.row?.original?.blogsCount}
+                    </Typography>
+                )
+            },
+            header: () => <span>Blogs Count</span>,
+        },
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
