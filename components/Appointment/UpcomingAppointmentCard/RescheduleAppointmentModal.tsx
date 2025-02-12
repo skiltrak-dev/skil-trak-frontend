@@ -75,7 +75,9 @@ export const RescheduleAppointmentModal = ({
             id: appointment?.id,
             body: {
                 ...selectedTime,
-                date: selectedDate as Date,
+                date: moment(selectedDate)
+                    .tz('Australia/Melbourne')
+                    .format('YYYY-MM-DD') as any,
             },
         })
     }
