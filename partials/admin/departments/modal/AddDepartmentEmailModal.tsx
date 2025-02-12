@@ -95,7 +95,7 @@ export const AddDepartmentEmailModal = ({
         }
     }
 
-    const sectorsOptions = sectotsadded?.data?.map((s) => ({
+    const sectorsOptions = sectotsadded?.data?.map((s: Sector) => ({
         label: s.name,
         value: s.id,
     }))

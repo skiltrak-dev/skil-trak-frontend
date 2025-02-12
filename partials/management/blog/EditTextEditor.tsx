@@ -436,7 +436,7 @@ TextEditorProps) {
                         <TextInput name="author" label="Author" />
                         <TextInput name="title" label="Title" />
                         <TextArea
-                            label={'Meta Daata'}
+                            label={'Meta Data'}
                             name={'metaData'}
                             placeholder="Add meta tags...."
                         />
