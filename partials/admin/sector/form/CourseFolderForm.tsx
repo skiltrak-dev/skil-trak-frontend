@@ -28,6 +28,7 @@ export const CourseFolderForm = ({
     result,
 }: CourseFolderFormProps) => {
     const [selectedType, setSelectedType] = useState<string | null>(null)
+    const [isIndustryCheck, setIsIndustryCheck] = useState<boolean>(false)
 
     useEffect(() => {
         if (initialValues?.type) {
@@ -74,6 +75,15 @@ export const CourseFolderForm = ({
                             placeholder={'Folder Capacity...'}
                             required
                         />
+                        {isIndustryCheck && (
+                            <TextInput
+                                label={'Link'}
+                                name={'link'}
+                                type="url"
+                                placeholder={'Folder Link...'}
+                                required
+                            />
+                        )}
 
                         <Select
                             name="type"
@@ -102,8 +112,12 @@ export const CourseFolderForm = ({
                         <Checkbox
                             label={'Is IndustryCheck'}
                             name="isIndustryCheck"
+                            defaultChecked={isIndustryCheck}
+                            onChange={(e: any) =>
+                                setIsIndustryCheck(e?.target?.checked)
+                            }
                         />
-                        <Checkbox label={'Required'} name="isRequired" />
+                        <Checkbox name="isRequired" label={'Required'} />
                     </div>
 
                     <div className="mt-2 flex gap-x-2">

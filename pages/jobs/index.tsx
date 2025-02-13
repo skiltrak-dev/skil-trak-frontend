@@ -8,6 +8,7 @@ import { RecentJobCard } from '@components/site/jobs/RecentJobCard'
 import { SiteLayout } from '@layouts'
 import { PaginatedItems } from '@partials/common'
 import { NextPageWithLayout } from '@types'
+import { BackButton } from '../../components/buttons/BackButton/BackButton'
 
 const Jobs: NextPageWithLayout = ({ data }: any) => {
     const [itemPerPage, setItemPerPage] = useState(10)
@@ -23,6 +24,7 @@ const Jobs: NextPageWithLayout = ({ data }: any) => {
             <div className="md:px-[140px] md:py-[72px] px-4 py-8">
                 <div className="max-w-7xl mx-auto">
                     {/* {isError && <TechnicalError />} */}
+                    <BackButton link={'/'} />
                     <h1 className="font-bold text-2xl md:text-4xl mb-4">
                         Jobs
                     </h1>
