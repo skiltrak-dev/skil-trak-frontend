@@ -18,6 +18,7 @@ import { UploadFile } from './UploadFile'
 
 // query
 import {
+    StudentApi,
     useGetAssessmentsFolderDetailQuery,
     useUploadFolderDocsMutation,
 } from '@queries'
@@ -26,6 +27,7 @@ import {
 import { FileUpload } from '@hoc'
 import { Result } from '@constants'
 import { DocumentsView, useNotification } from '@hooks'
+import { AssessmentFilesOtherDocUpload } from '@partials/common/StudentProfileDetail/components/AssessmentsSubmission/components/AssessmentFiles/AssessmentFilesOtherDocUpload'
 
 type Props = {
     folder: any
@@ -76,6 +78,17 @@ export const AssessmentFolderDetailX = ({
         folder?.id,
         { skip: !folder }
     )
+    const otherDocs = StudentApi.AssessmentEvidence.otherStudentDocs(
+        {
+            selectedFolder: folder?.id,
+        },
+        {
+            skip: !folder?.otherDoc,
+        }
+    )
+
+    const folderResponse = folder?.otherDoc ? otherDocs : getAssessmentResponse
+
     const [uploadDocs, uploadDocsResult] = useUploadFolderDocsMutation()
 
     const [selected, setSelected] = useState<any>(null)
@@ -146,77 +159,89 @@ export const AssessmentFolderDetailX = ({
                             </Typography>
                             <Typography variant="label" color="text-gray-400">
                                 Uploaded{' '}
-                                {getAssessmentResponse?.data?.files?.length ||
-                                    0}
-                                /{folder?.capacity}
+                                {folderResponse?.data?.files?.length || 0}/
+                                {folder?.capacity}
                             </Typography>
                         </div>
                         <div className="ml-auto">
                             {!folder?.isAgreement ? (
                                 fileUpload ? (
                                     result?.result !== Result.Competent ? (
-                                        <FileUpload
-                                            onChange={(docs: any) => {
-                                                const formData = new FormData()
+                                        folder?.otherDoc ? (
+                                            <AssessmentFilesOtherDocUpload
+                                                results={result}
+                                                studentId={Number(
+                                                    otherDocs?.data?.studentId
+                                                )}
+                                                selectedFolder={folder}
+                                            />
+                                        ) : (
+                                            <FileUpload
+                                                onChange={(docs: any) => {
+                                                    const formData =
+                                                        new FormData()
 
-                                                const filteredDocs = [
-                                                    ...docs,
-                                                ]?.filter((doc) => {
-                                                    const docSize =
-                                                        doc?.size / 1024 / 1024
-                                                    return docSize <= 50
-                                                })
-
-                                                if (
-                                                    filteredDocs?.length <
-                                                    docs?.length
-                                                ) {
-                                                    notification.warning({
-                                                        title: 'Files Removed',
-                                                        description: `${
-                                                            docs?.length -
-                                                            filteredDocs?.length
-                                                        } ${
-                                                            docs?.length -
-                                                                filteredDocs?.length ===
-                                                            1
-                                                                ? 'File'
-                                                                : 'Files'
-                                                        } were Removed because its size was greater than 50mb, try to upload the file which has less then 50mb size`,
+                                                    const filteredDocs = [
+                                                        ...docs,
+                                                    ]?.filter((doc) => {
+                                                        const docSize =
+                                                            doc?.size /
+                                                            1024 /
+                                                            1024
+                                                        return docSize <= 50
                                                     })
-                                                }
-                                                filteredDocs.forEach(
-                                                    (doc: any) => {
-                                                        formData.append(
-                                                            `${folder?.name}`,
-                                                            doc
-                                                        )
+
+                                                    if (
+                                                        filteredDocs?.length <
+                                                        docs?.length
+                                                    ) {
+                                                        notification.warning({
+                                                            title: 'Files Removed',
+                                                            description: `${
+                                                                docs?.length -
+                                                                filteredDocs?.length
+                                                            } ${
+                                                                docs?.length -
+                                                                    filteredDocs?.length ===
+                                                                1
+                                                                    ? 'File'
+                                                                    : 'Files'
+                                                            } were Removed because its size was greater than 50mb, try to upload the file which has less then 50mb size`,
+                                                        })
                                                     }
-                                                )
+                                                    filteredDocs.forEach(
+                                                        (doc: any) => {
+                                                            formData.append(
+                                                                `${folder?.name}`,
+                                                                doc
+                                                            )
+                                                        }
+                                                    )
 
-                                                if (filteredDocs?.length) {
-                                                    uploadDocs({
-                                                        id: folder?.id,
-                                                        body: formData,
-                                                    })
+                                                    if (filteredDocs?.length) {
+                                                        uploadDocs({
+                                                            id: folder?.id,
+                                                            body: formData,
+                                                        })
+                                                    }
+                                                }}
+                                                name={folder?.name}
+                                                component={
+                                                    uploadDocsResult.isLoading
+                                                        ? Loading
+                                                        : UploadFile
                                                 }
-                                            }}
-                                            name={folder?.name}
-                                            component={
-                                                uploadDocsResult.isLoading
-                                                    ? Loading
-                                                    : UploadFile
-                                            }
-                                            limit={
-                                                folder?.capacity -
-                                                (getAssessmentResponse?.data
-                                                    ?.files?.length || 0)
-                                            }
-                                            acceptTypes={getDocType(
-                                                folder?.type
-                                            )}
-                                            multiple
-                                        />
+                                                limit={
+                                                    folder?.capacity -
+                                                    (folderResponse?.data?.files
+                                                        ?.length || 0)
+                                                }
+                                                acceptTypes={getDocType(
+                                                    folder?.type
+                                                )}
+                                                multiple
+                                            />
+                                        )
                                     ) : null
                                 ) : (
                                     <div>
@@ -245,7 +270,7 @@ export const AssessmentFolderDetailX = ({
                 )}
                 {/* <div className="bg-white h-[350px] overflow-auto">
                 <AssessmentResponse
-                    getAssessmentResponse={getAssessmentResponse}
+                    folderResponse?={folderResponse?}
                     header={false}
                     // folder={selectedFolder}
                     // studentId={studentId}
@@ -256,50 +281,46 @@ export const AssessmentFolderDetailX = ({
                         folder ? 'min-h-[355px]' : 'min-h-[400px] mt-6'
                     }`}
                 >
-                    {getAssessmentResponse.isLoading ||
-                    getAssessmentResponse.isFetching ? (
+                    {folderResponse?.isLoading || folderResponse?.isFetching ? (
                         <div className="flex flex-col items-center pt-9">
                             <LoadingAnimation size={50} />
                             <Typography variant={'subtitle'}>
                                 Assessment Files Loading
                             </Typography>
                         </div>
-                    ) : getAssessmentResponse.data?.files?.length > 0 ? (
+                    ) : folderResponse?.data?.files?.length > 0 ? (
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-x-2 gap-y-3">
-                            {getAssessmentResponse.data?.files.map(
-                                (file: any) => (
-                                    <AssessmentFolderFileCard
-                                        key={file.id}
-                                        file={file}
-                                        filename={file.filename}
-                                        fileUrl={file.file}
-                                        type={folder?.type}
-                                        selected={selected?.id === file?.id}
-                                        onClick={(file) => {
-                                            setSelected(file)
-                                            onFileClicked(file)
-                                        }}
-                                        result={result}
-                                    />
-                                )
-                            )}
+                            {folderResponse?.data?.files.map((file: any) => (
+                                <AssessmentFolderFileCard
+                                    key={file.id}
+                                    file={file}
+                                    filename={file.filename}
+                                    fileUrl={file.file}
+                                    type={folder?.type}
+                                    selected={selected?.id === file?.id}
+                                    onClick={(file) => {
+                                        setSelected(file)
+                                        onFileClicked(file)
+                                    }}
+                                    result={result}
+                                />
+                            ))}
                         </div>
                     ) : (
                         <NoData text={'No Files Uploaded'} />
                     )}
                     <div className="mt-4 border-dashed border border-gray-300 rounded-lg p-2">
-                        {getAssessmentResponse.data?.assessmentFolder
-                            ?.updatedAt && (
+                        {folderResponse?.data?.assessmentFolder?.updatedAt && (
                             <Typography variant="muted" color="text-gray-400">
                                 Assessed On:{' '}
                                 {moment(
-                                    getAssessmentResponse.data?.assessmentFolder
+                                    folderResponse?.data?.assessmentFolder
                                         ?.updatedAt
                                 ).format('Do MMM, YYYY')}
                             </Typography>
                         )}
                         <Typography variant="body" color="text-gray-600">
-                            {getAssessmentResponse.data?.comment}
+                            {folderResponse?.data?.comment}
                         </Typography>
                     </div>
                 </div>

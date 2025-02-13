@@ -13,12 +13,18 @@ export interface CourseExtraHours extends BaseResponse {
     hours: string
 }
 
+export interface WPSectorType extends BaseResponse {
+    id: number
+    sector: Sector
+}
+
 export interface WorkplaceType extends BaseResponse {
     id: number
     isActive: boolean
     name: string
     sector: Sector
     course: Course
+    workplaceTypeSectors: WPSectorType[]
 }
 export interface WorkplaceTypes extends BaseResponse {
     id: number

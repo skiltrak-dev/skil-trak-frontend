@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useMemo, useState } from 'react'
 
 import { Desktop, Mobile, PageTitle } from '@components'
 import { StudentLayout } from '@layouts'
@@ -9,8 +9,10 @@ import { MediaQueries } from '@constants'
 import { useNotification } from '@hooks'
 import { DesktopAssessment, MobileAssessment } from '@partials/student'
 import {
+    StudentApi,
     useGetAssessmentsCoursesQuery,
     useGetAssessmentsFoldersQuery,
+    useGetWorkplaceIndustriesQuery,
 } from '@queries'
 import { getCourseResult } from '@utils'
 import { useMediaQuery } from 'react-responsive'
@@ -31,8 +33,23 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const assessmentsCourses = useGetAssessmentsCoursesQuery(undefined, {
         refetchOnMountOrArgChange: true,
     })
+    const workplace = useGetWorkplaceIndustriesQuery()
+
+    const appliedIndustry = useMemo(
+        () =>
+            workplace?.data
+                ?.filter(
+                    (wp: any) => wp?.courses?.[0]?.id === selectedCourse?.id
+                )
+                ?.map((ind: any) => ind?.industries)
+                ?.flat()
+                ?.map((ind: any) => ind?.industry?.id)
+                ?.join(','),
+        [workplace, selectedCourse]
+    )
+
     const assessmentsFolders = useGetAssessmentsFoldersQuery(
-        selectedCourse?.id,
+        { id: selectedCourse?.id, indId: appliedIndustry },
         {
             skip: !selectedCourse,
         }
@@ -64,7 +81,7 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         !assessmentsFolders.isLoading &&
         !assessmentsFolders.isFetching &&
         assessmentsFolders.isSuccess &&
-        assessmentsFolders?.data?.every(
+        assessmentsFolders?.data?.assessmentEvidence?.every(
             (f: any) => f?.studentResponse[0]?.files?.length > 0
         )
 
@@ -82,10 +99,23 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                     selectedCourse={selectedCourse}
                     setSelectedCourse={setSelectedCourse}
                     setSelectedFolder={setSelectedFolder}
-                    assessmentsFolders={assessmentsFolders}
                     assessmentsCourses={assessmentsCourses}
                     isFilesUploaded={isFilesUploaded}
                     results={selectedCourse?.results}
+                    assessmentsFolders={{
+                        ...assessmentsFolders,
+                        data:
+                            assessmentsFolders?.data?.assessmentEvidence ||
+                            assessmentsFolders?.data,
+                    }}
+                    otherDocs={
+                        assessmentsFolders?.data?.otherDocs?.map(
+                            (othDoc: any) => ({
+                                ...othDoc,
+                                otherDoc: true,
+                            })
+                        ) || []
+                    }
                 />
             </Desktop>
             <Mobile>
@@ -95,9 +125,22 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                     selectedCourse={selectedCourse}
                     setSelectedCourse={setSelectedCourse}
                     setSelectedFolder={setSelectedFolder}
-                    assessmentsFolders={assessmentsFolders}
+                    assessmentsFolders={{
+                        ...assessmentsFolders,
+                        data:
+                            assessmentsFolders?.data?.assessmentEvidence ||
+                            assessmentsFolders?.data,
+                    }}
                     assessmentsCourses={assessmentsCourses}
                     isFilesUploaded={isFilesUploaded}
+                    otherDocs={
+                        assessmentsFolders?.data?.otherDocs?.map(
+                            (othDoc: any) => ({
+                                ...othDoc,
+                                otherDoc: true,
+                            })
+                        ) || []
+                    }
                 />
             </Mobile>
         </>

@@ -53,6 +53,7 @@ export const {
 
     // ---- ASSESSMENT EVIDENCE ---- //
     useGetAssessmentsCoursesQuery,
+    useGetOtherDocAssessmentResponseForStudentQuery,
     useGetAssessmentsFoldersQuery,
     useUploadFolderDocsMutation,
     useArchiveAssessmentFilesMutation,
@@ -143,6 +144,7 @@ export const StudentApi = {
     },
     AssessmentEvidence: {
         useGetAssessmentsCoursesQuery,
+        otherStudentDocs: useGetOtherDocAssessmentResponseForStudentQuery,
         useGetAssessmentsFoldersQuery,
         useUploadFolderDocsMutation,
         useArchiveAssessmentFilesMutation,

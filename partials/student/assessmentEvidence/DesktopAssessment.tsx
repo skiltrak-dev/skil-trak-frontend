@@ -15,7 +15,9 @@ export const DesktopAssessment = ({
     assessmentsFolders,
     assessmentsCourses,
     isFilesUploaded,
+    otherDocs,
 }: {
+    otherDocs: any
     result: any
     results: any
     selectedFolder: any
@@ -95,6 +97,7 @@ export const DesktopAssessment = ({
                             selectedFolder={selectedFolder}
                             setSelectedFolder={setSelectedFolder}
                             result={result}
+                            otherDocs={otherDocs}
                         />
                         {/* {isFilesUploaded
                             ? selectedCourse?.results?.length > 0

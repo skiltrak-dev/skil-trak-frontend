@@ -53,7 +53,6 @@ export const AssessmentsFolders = ({
                         {otherDocs && otherDocs?.length > 0 && (
                             <div>
                                 <Typography variant="xs" color="text-gray-500">
-                                    {' '}
                                     Other Documents From Industry
                                 </Typography>
                                 {otherDocs?.map(
