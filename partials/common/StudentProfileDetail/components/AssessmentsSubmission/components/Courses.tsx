@@ -64,10 +64,6 @@ export const Courses = ({
         }
     )
 
-    const abcc = studentWorkplace?.data?.filter(
-        (wp: any) => wp?.courses?.[0]?.id === selectedCourse?.id
-    )
-
     const appliedIndustry = useMemo(
         () =>
             studentWorkplace?.data
@@ -121,8 +117,6 @@ export const Courses = ({
                 refetchOnMountOrArgChange: true,
             }
         )
-
-    console.log({ wsdeselectedFolderselectedFolder: selectedFolder })
 
     const eSignDocument = CommonApi.ESign.useStudentEsignDocument(
         {

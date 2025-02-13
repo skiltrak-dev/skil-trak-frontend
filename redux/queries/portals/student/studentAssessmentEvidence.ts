@@ -1,5 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { AssessmentEvidenceResponse } from '@types'
 
 const PREFIX = 'students'
 export const studentAssessmentEvidenceEndpoints = (
@@ -9,13 +10,24 @@ export const studentAssessmentEvidenceEndpoints = (
         query: () => `${PREFIX}/courses/view`,
         providesTags: ['StudentAssessmentEvidence'],
     }),
-    getAssessmentsFolders: builder.query<any, string | null>({
-        query: (id: string | null) => `${PREFIX}/assessmentevidence/view/${id}`,
+    getAssessmentsFolders: builder.query<any, { id: number; indId?: string }>({
+        query: ({ id, indId }) => ({
+            url: `${PREFIX}/assessmentevidence/view/${id}`,
+            params: { indId },
+        }),
         providesTags: ['StudentAssessmentEvidence'],
     }),
     getAssessmentsFolderDetail: builder.query<any, string | null>({
         query: (id: string | null) => `${PREFIX}/folder/view/${id}`,
         providesTags: ['StudentAssessmentEvidence'],
+    }),
+    getOtherDocAssessmentResponseForStudent: builder.query<
+        AssessmentEvidenceResponse & { studentId: number },
+        { selectedFolder: number }
+    >({
+        query: ({ selectedFolder }) =>
+            `industry-checks/student/other-document/${selectedFolder}/response/list-all`,
+        providesTags: ['AssessmentEvidence', 'Agreement', 'SubAdminWorkplace'],
     }),
     uploadFolderDocs: builder.mutation({
         query: ({ id, body }) => ({

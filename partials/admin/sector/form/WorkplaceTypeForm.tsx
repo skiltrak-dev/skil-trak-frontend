@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { AdminApi } from '@queries'
 import * as yup from 'yup'
 import { useEffect, useState } from 'react'
-import { Course, OptionType } from '@types'
+import { Course, OptionType, Sector, WPSectorType } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
 
 interface WPTypeFormProps {
@@ -15,7 +15,7 @@ interface WPTypeFormProps {
 }
 
 const validationSchema = yup.object({
-    sector: yup.number().required('Sector is required!'),
+    workplaceTypeSectors: yup.array().min(1, 'Must select at least 1 sector'),
     name: yup.string().required('Name is required!'),
 })
 
@@ -28,22 +28,29 @@ export const WorkplaceTypeForm = ({
     const sectors = AdminApi.Sectors.useListQuery(undefined)
     // const courses = AdminApi.Courses.useListQuery(undefined)
 
-    const [selectedSector, setSelectedSector] = useState<number | null>(null)
+    const [selectedSector, setSelectedSector] = useState<number[] | null>(null)
     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
     const [selectableCourses, setSelectableCourses] = useState<OptionType[]>([])
 
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         defaultValues: {
-            ...initialValues,
-            sector: initialValues?.sector?.id,
+            name: initialValues?.name,
+            workplaceTypeSectors: initialValues?.workplaceTypeSectors?.map(
+                (s: WPSectorType) => s?.sector?.id
+            ),
         },
         mode: 'all',
     })
 
     useEffect(() => {
         if (edit) {
-            setSelectedSector(initialValues?.sector?.id)
+            setSelectedSector(
+                initialValues?.workplaceTypeSectors?.map(
+                    (s: WPSectorType) => s?.sector?.id
+                )
+            )
+            // setSelectedSector(initialValues?.sector?.id)
         }
     }, [initialValues, edit])
 
@@ -85,13 +92,14 @@ export const WorkplaceTypeForm = ({
                     </div>
 
                     <Select
-                        name={'sector'}
+                        name={'workplaceTypeSectors'}
                         label={'Sector'}
                         options={sectorOptions}
-                        value={sectorOptions?.find(
-                            (sector) => sector?.value === selectedSector
+                        value={sectorOptions?.filter((sector) =>
+                            selectedSector?.includes(sector?.value)
                         )}
-                        onChange={(e: number) => {
+                        multi
+                        onChange={(e: number[]) => {
                             setSelectedSector(e)
                         }}
                         onlyValue

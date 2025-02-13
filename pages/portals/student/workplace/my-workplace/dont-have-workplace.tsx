@@ -6,16 +6,15 @@ import { StudentLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // query
-import { StudentApi, useGetWorkplaceIndustriesQuery } from '@queries'
+import { MediaQueries } from '@constants'
 import {
     Availability,
-    PersonalInfo,
     IndustrySelection,
+    PersonalInfo,
     WorkplaceApproval,
 } from '@partials/student/workplace'
+import { StudentApi, useGetWorkplaceIndustriesQuery } from '@queries'
 import { useMediaQuery } from 'react-responsive'
-import { MediaQueries } from '@constants'
-import { WorkplaceApprovalModal } from '@partials/student/workplace/modal'
 
 type Props = {}
 

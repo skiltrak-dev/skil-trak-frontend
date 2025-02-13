@@ -106,15 +106,21 @@ export const WorkplaceTypes = () => {
             header: () => <span>Name</span>,
         },
         {
-            accessorKey: 'sector',
+            accessorKey: 'workplaceTypeSectors',
             cell: (info) => (
-                <div className="relative group ">
-                    <Typography variant="label" color="text-gray-800">
-                        {info.row.original?.sector?.name || '---'}
-                    </Typography>
+                <div className="flex items-center gap-1">
+                    {info.row?.original?.workplaceTypeSectors?.map(
+                        (wpSectorType) => (
+                            <div className="bg-primaryNew rounded px-2 py-1 w-fit">
+                                <Typography variant="xs" color="text-white">
+                                    {wpSectorType?.sector?.name}
+                                </Typography>
+                            </div>
+                        )
+                    )}
                 </div>
             ),
-            header: () => <span>Sector</span>,
+            header: () => <span>Sectors</span>,
         },
         {
             accessorKey: 'action',

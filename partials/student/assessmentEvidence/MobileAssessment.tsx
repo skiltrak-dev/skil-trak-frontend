@@ -8,6 +8,7 @@ import {
 import { AssessmentFolderDetailX } from '@components/sections/student/AssessmentsContainer'
 import { Actions } from '@components/sections/student/AssessmentsContainer/AssessmentsEvidence/components/Actions'
 import { Result } from '@constants'
+import { AssessmentEvidenceDetailType } from '@types'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 
 export const MobileAssessment = ({
@@ -19,7 +20,9 @@ export const MobileAssessment = ({
     assessmentsFolders,
     assessmentsCourses,
     isFilesUploaded,
+    otherDocs,
 }: {
+    otherDocs: any
     result: any
     selectedFolder: any
     selectedCourse: any
@@ -127,34 +130,88 @@ export const MobileAssessment = ({
                                         </div>
                                         {assessmentsFolders?.data &&
                                         assessmentsFolders?.data?.length > 0 ? (
-                                            assessmentsFolders?.data?.map(
-                                                (folder: any) => (
-                                                    <AssessmentFolderCard
-                                                        key={folder.id}
-                                                        id={folder.id}
-                                                        isAgreement={
-                                                            folder?.isAgreement
-                                                        }
-                                                        name={folder.name}
-                                                        isActive={
-                                                            folder.isActive
-                                                        }
-                                                        response={
-                                                            folder
-                                                                ?.studentResponse[0]
-                                                        }
-                                                        selectedFolderId={
-                                                            selectedFolder?.id
-                                                        }
-                                                        onClick={() => {
-                                                            setSelectedFolder(
+                                            <div>
+                                                {assessmentsFolders?.data?.map(
+                                                    (folder: any) => (
+                                                        <AssessmentFolderCard
+                                                            key={folder.id}
+                                                            id={folder.id}
+                                                            isAgreement={
+                                                                folder?.isAgreement
+                                                            }
+                                                            name={folder.name}
+                                                            isActive={
+                                                                folder.isActive
+                                                            }
+                                                            response={
                                                                 folder
-                                                            )
-                                                        }}
-                                                        assessment
-                                                    />
-                                                )
-                                            )
+                                                                    ?.studentResponse[0]
+                                                            }
+                                                            selectedFolderId={
+                                                                selectedFolder?.id
+                                                            }
+                                                            onClick={() => {
+                                                                setSelectedFolder(
+                                                                    folder
+                                                                )
+                                                            }}
+                                                            assessment
+                                                        />
+                                                    )
+                                                )}
+                                                {otherDocs &&
+                                                    otherDocs?.length > 0 && (
+                                                        <div>
+                                                            <Typography
+                                                                variant="xs"
+                                                                color="text-gray-500"
+                                                            >
+                                                                Other Documents
+                                                                From Industry
+                                                            </Typography>
+                                                            {otherDocs?.map(
+                                                                (
+                                                                    folder: AssessmentEvidenceDetailType
+                                                                ) => (
+                                                                    <AssessmentFolderCard
+                                                                        key={
+                                                                            folder.id
+                                                                        }
+                                                                        id={
+                                                                            folder.id +
+                                                                            ''
+                                                                        }
+                                                                        isAgreement={
+                                                                            folder?.isAgreement
+                                                                        }
+                                                                        name={
+                                                                            folder.name
+                                                                        }
+                                                                        isActive={
+                                                                            folder.isActive
+                                                                        }
+                                                                        response={
+                                                                            folder
+                                                                                ?.studentResponse?.[0]
+                                                                        }
+                                                                        isIndustryCheck={
+                                                                            folder?.isIndustryCheck
+                                                                        }
+                                                                        selectedFolderId={
+                                                                            selectedFolder?.id
+                                                                        }
+                                                                        onClick={() => {
+                                                                            setSelectedFolder(
+                                                                                folder
+                                                                            )
+                                                                        }}
+                                                                        assessment
+                                                                    />
+                                                                )
+                                                            )}
+                                                        </div>
+                                                    )}
+                                            </div>
                                         ) : (
                                             <NoData
                                                 text={'No Folders Were Found'}

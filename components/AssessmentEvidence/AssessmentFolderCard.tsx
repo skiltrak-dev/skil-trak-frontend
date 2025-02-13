@@ -4,15 +4,18 @@ type AssessmentFolderCardProps = {
     response?: any
     onClick?: () => void
     selectedFolderId?: string | null
-    id?: string
+    id?: number | string
     assessment?: boolean
     isAgreement?: boolean
+    isIndustryCheck?: boolean
 }
 import { Badge, Tooltip } from '@components'
 import { Typography } from '@components/Typography'
 import classNames from 'classnames'
 import { FaFolder } from 'react-icons/fa'
+import { IoBagCheckSharp } from 'react-icons/io5'
 import { PiHandshakeDuotone } from 'react-icons/pi'
+
 export const AssessmentFolderCard = ({
     name,
     isActive,
@@ -22,6 +25,7 @@ export const AssessmentFolderCard = ({
     isAgreement,
     id,
     assessment,
+    isIndustryCheck,
 }: AssessmentFolderCardProps) => {
     const statusColor = isActive
         ? 'bg-green-100'
@@ -84,11 +88,25 @@ export const AssessmentFolderCard = ({
             <div
                 className={`${
                     selectedFolderId === id ? 'bg-blue-100' : 'bg-white'
-                } p-2 border-b border-gray-200 cursor-pointer`}
+                } p-2 border-b border-gray-200 cursor-pointer relative`}
                 onClick={() => {
                     onClick?.()
                 }}
             >
+                {isIndustryCheck ? (
+                    <div className="absolute right-2">
+                        <div className="relative group">
+                            <IoBagCheckSharp
+                                className={
+                                    selectedFolderId === id
+                                        ? 'text-white'
+                                        : 'text-[#374151]'
+                                }
+                            />
+                            <Tooltip>Industry Check</Tooltip>
+                        </div>
+                    </div>
+                ) : null}
                 <div className="flex justify-between">
                     <div className="flex items-center gap-x-2 ">
                         <div className="">
