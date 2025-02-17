@@ -1,4 +1,3 @@
-import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
 import { UserRoles } from '@constants'
@@ -6,12 +5,12 @@ import { SignUpUtils } from '@utils'
 
 import { IndicatorStep, Typography } from '@components'
 
+import { SimpleLayout } from '@layouts'
 import { StepForm } from '@partials/rto/tabs'
-import Head from 'next/head'
-import { ReactElement, useState } from 'react'
-import Link from 'next/link'
-import { AdminLayout, SimpleLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
+import Head from 'next/head'
+import Link from 'next/link'
+import { ReactElement, useState } from 'react'
 
 const FormSteps: IndicatorStep[] = [
     {
