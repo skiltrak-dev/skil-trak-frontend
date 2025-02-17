@@ -31,6 +31,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RtoFormData } from '@types'
+import { setKey, fromAddress, geocode, GeocodeOptions } from 'react-geocode'
 
 export const RtoSignUpForm = ({
     onSubmit,
@@ -66,6 +67,10 @@ export const RtoSignUpForm = ({
             }
         }, 300)()
     }
+
+    useEffect(() => {
+        setKey(process.env.NEXT_PUBLIC_MAP_KEY as string)
+    }, [])
 
     const onSectorChanged = (sectors: any) => {
         setCourseLoading(true)
@@ -163,7 +168,6 @@ export const RtoSignUpForm = ({
         //     otherwise: (schema) => schema,
         // }),
         addressLine1: yup.string().required('Must provide address'),
-
         zipCode: yup.string().required('Must provide zip code for your state'),
 
         agreedWithPrivacyPolicy: yup
@@ -173,6 +177,8 @@ export const RtoSignUpForm = ({
                 'Please check if you agree with our terms & policies'
             ),
     })
+
+    console.log({ onSuburbClicked })
 
     useEffect(() => {
         if (sectorResponse.data?.length) {
@@ -233,6 +239,64 @@ export const RtoSignUpForm = ({
             onSubmit(values)
         }
     }
+    console.log({ formMethods })
+
+    const handleAddressChange = (e: any) => {
+        setOnSuburbClicked(false)
+        formMethods.setValue('addressLine1', e?.target?.value)
+
+        if (!onSuburbClicked) {
+            formMethods.setError('addressLine1', {
+                type: 'manual',
+                message: 'Please select an address from the dropdown',
+            })
+        }
+        if (e?.target?.value?.length > 4) {
+            fromAddress(e?.target?.value)
+                .then(({ results }: any) => {
+                    const { lat, lng } = results[0].geometry.location
+                    geocode('latlng', `${lat},${lng}`, {
+                        key: process.env.NEXT_PUBLIC_MAP_KEY,
+                    } as GeocodeOptions)
+                        .then((response) => {
+                            const addressComponents =
+                                response.results[0].address_components
+
+                            for (let component of addressComponents) {
+                                if (component.types.includes('postal_code')) {
+                                    formMethods.setValue(
+                                        'zipCode',
+                                        component.long_name
+                                    )
+
+                                    break
+                                }
+                            }
+                        })
+                        .catch((error) => {
+                            console.error({
+                                error,
+                            })
+                        })
+                })
+                .catch(console.error)
+        }
+    }
+
+    useEffect(() => {
+        const addressValue = formMethods.watch('addressLine1')
+        console.log({ addressValue })
+        if (addressValue) {
+            if (!onSuburbClicked) {
+                formMethods.setError('addressLine1', {
+                    type: 'manual',
+                    message: 'Please select an address from the dropdown',
+                })
+            } else {
+                formMethods.clearErrors('addressLine1')
+            }
+        }
+    }, [onSuburbClicked, formMethods.watch()])
 
     return (
         <FormProvider {...formMethods}>
@@ -407,52 +471,62 @@ export const RtoSignUpForm = ({
                                     placeholder={'Your Primary Address...'}
                                     validationIcons
                                     placesSuggetions
-                                    onChange={async (e: any) => {
-                                        setOnSuburbClicked(false)
-                                        if (e?.target?.value?.length > 4) {
-                                            try {
-                                                const { state } =
-                                                    await getAddressData(
-                                                        e?.target?.value
-                                                    )
-                                                const latLng = await getLatLng(
-                                                    e?.target?.value
-                                                )
-                                                const postalCode =
-                                                    await getPostalCode(latLng)
+                                    onChange={(e: any) =>
+                                        handleAddressChange(e)
+                                    }
+                                    // onChange={async (e: any) => {
+                                    //     setOnSuburbClicked(false)
+                                    //     if (e?.target?.value?.length > 4) {
+                                    //         try {
+                                    //             const { state } =
+                                    //                 await getAddressData(
+                                    //                     e?.target?.value
+                                    //                 )
+                                    //             const latLng = await getLatLng(
+                                    //                 e?.target?.value
+                                    //             )
+                                    //             const postalCode =
+                                    //                 await getPostalCode(latLng)
 
-                                                if (postalCode) {
-                                                    formMethods.setValue(
-                                                        'zipCode',
-                                                        postalCode
-                                                    )
-                                                }
-                                                if (state) {
-                                                    formMethods.setValue(
-                                                        'state',
-                                                        state
-                                                    )
-                                                }
-                                                // formMethods.setError(
-                                                //     'addressLine1',
-                                                //     {
-                                                //         type: 'address',
-                                                //         message:
-                                                //             'You must select on Suburb Dropdown',
-                                                //     }
-                                                // )
-                                            } catch (error) {
-                                                console.error(
-                                                    'Error fetching postal code:',
-                                                    error
-                                                )
-                                            }
-                                        }
-                                    }}
+                                    //             if (postalCode) {
+                                    //                 formMethods.setValue(
+                                    //                     'zipCode',
+                                    //                     postalCode
+                                    //                 )
+                                    //             }
+                                    //             if (state) {
+                                    //                 formMethods.setValue(
+                                    //                     'state',
+                                    //                     state
+                                    //                 )
+                                    //             }
+                                    //             // formMethods.setError(
+                                    //             //     'addressLine1',
+                                    //             //     {
+                                    //             //         type: 'address',
+                                    //             //         message:
+                                    //             //             'You must select on Suburb Dropdown',
+                                    //             //     }
+                                    //             // )
+                                    //         } catch (error) {
+                                    //             console.error(
+                                    //                 'Error fetching postal code:',
+                                    //                 error
+                                    //             )
+                                    //         }
+                                    //     }
+                                    // }}
                                     onPlaceSuggetions={{
                                         placesSuggetions: onSuburbClicked,
-                                        setIsPlaceSelected: (e: any) => {
-                                            setOnSuburbClicked(e)
+                                        setIsPlaceSelected: (
+                                            selected: boolean
+                                        ) => {
+                                            setOnSuburbClicked(selected)
+                                            if (selected) {
+                                                formMethods.clearErrors(
+                                                    'addressLine1'
+                                                )
+                                            }
                                         },
                                     }}
                                 />
