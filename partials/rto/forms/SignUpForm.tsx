@@ -285,7 +285,6 @@ export const RtoSignUpForm = ({
 
     useEffect(() => {
         const addressValue = formMethods.watch('addressLine1')
-        console.log({ addressValue })
         if (addressValue) {
             if (!onSuburbClicked) {
                 formMethods.setError('addressLine1', {

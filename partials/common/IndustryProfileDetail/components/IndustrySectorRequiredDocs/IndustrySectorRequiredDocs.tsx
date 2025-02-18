@@ -53,11 +53,11 @@ export const IndustrySectorRequiredDocs = ({
                     </Typography>
                 </div>
                 <Select
-                    label={'Select by Courses'}
+                    label={'Select by Sector'}
                     name={'courseId'}
                     showError={false}
                     options={sectorOptions}
-                    placeholder={'Select Courses...'}
+                    placeholder={'Select Sector...'}
                     value={sectorOptions?.find(
                         (sector: SelectOption) =>
                             sector?.value === Number(selectedSector)
