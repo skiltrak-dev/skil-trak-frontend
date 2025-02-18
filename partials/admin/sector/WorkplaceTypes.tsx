@@ -109,15 +109,13 @@ export const WorkplaceTypes = () => {
             accessorKey: 'workplaceTypeSectors',
             cell: (info) => (
                 <div className="flex items-center gap-1">
-                    {info.row?.original?.workplaceTypeSectors?.map(
-                        (wpSectorType) => (
-                            <div className="bg-primaryNew rounded px-2 py-1 w-fit">
-                                <Typography variant="xs" color="text-white">
-                                    {wpSectorType?.sector?.name}
-                                </Typography>
-                            </div>
-                        )
-                    )}
+                    {info.row?.original?.sectors?.map((wpSectorType) => (
+                        <div className="bg-primaryNew rounded px-2 py-1 w-fit">
+                            <Typography variant="xs" color="text-white">
+                                {wpSectorType?.sector?.name}
+                            </Typography>
+                        </div>
+                    ))}
                 </div>
             ),
             header: () => <span>Sectors</span>,

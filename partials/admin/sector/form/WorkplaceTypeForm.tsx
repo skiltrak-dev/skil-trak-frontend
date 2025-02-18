@@ -15,7 +15,7 @@ interface WPTypeFormProps {
 }
 
 const validationSchema = yup.object({
-    workplaceTypeSectors: yup.array().min(1, 'Must select at least 1 sector'),
+    sectors: yup.array().min(1, 'Must select at least 1 sector'),
     name: yup.string().required('Name is required!'),
 })
 
@@ -36,7 +36,7 @@ export const WorkplaceTypeForm = ({
         resolver: yupResolver(validationSchema),
         defaultValues: {
             name: initialValues?.name,
-            workplaceTypeSectors: initialValues?.workplaceTypeSectors?.map(
+            sectors: initialValues?.sectors?.map(
                 (s: WPSectorType) => s?.sector?.id
             ),
         },
@@ -46,11 +46,8 @@ export const WorkplaceTypeForm = ({
     useEffect(() => {
         if (edit) {
             setSelectedSector(
-                initialValues?.workplaceTypeSectors?.map(
-                    (s: WPSectorType) => s?.sector?.id
-                )
+                initialValues?.sectors?.map((s: WPSectorType) => s?.sector?.id)
             )
-            // setSelectedSector(initialValues?.sector?.id)
         }
     }, [initialValues, edit])
 
@@ -92,7 +89,7 @@ export const WorkplaceTypeForm = ({
                     </div>
 
                     <Select
-                        name={'workplaceTypeSectors'}
+                        name={'sectors'}
                         label={'Sector'}
                         options={sectorOptions}
                         value={sectorOptions?.filter((sector) =>
