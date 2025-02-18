@@ -557,6 +557,22 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
+
+    getWorkplaceContactedIndustries: builder.query<
+        any,
+        { workpaceId: number; stdId: number }
+    >({
+        query: ({ workpaceId, stdId }) => ({
+            url: `${PREFIX}/student/${stdId}/workplace-request/${workpaceId}/list/contacted-workplaces`,
+        }),
+        providesTags: [
+            'SubAdminStudents',
+            'BulkUsersDelete',
+            'BulkStatus',
+            'Students',
+        ],
+    }),
+
     downloadStudentCSV: builder.mutation<any, void>({
         query: () => ({
             url: `subadmin/students/download/csv`,

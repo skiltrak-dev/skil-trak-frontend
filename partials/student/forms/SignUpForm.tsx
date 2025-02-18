@@ -34,6 +34,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { StudentFormType } from '@types'
 import debounce from 'lodash/debounce'
 import { FormProvider, useForm } from 'react-hook-form'
+import { setKey, fromAddress, geocode, GeocodeOptions } from 'react-geocode'
 
 export const StudentSignUpForm = ({
     onSubmit,
@@ -247,6 +248,9 @@ export const StudentSignUpForm = ({
         SignUpUtils.setEditingMode(false)
         router.push({ query: { step: 'review-info' } })
     }
+    useEffect(() => {
+        setKey(process.env.NEXT_PUBLIC_MAP_KEY as string)
+    }, [])
 
     const formMethods = useForm({
         mode: 'all',
@@ -295,6 +299,62 @@ export const StudentSignUpForm = ({
         debounce((query) => setSearchRto(query), 700),
         []
     )
+
+    useEffect(() => {
+        const addressValue = formMethods.watch('addressLine1')
+        if (addressValue) {
+            if (!onSuburbClicked) {
+                formMethods.setError('addressLine1', {
+                    type: 'manual',
+                    message: 'Please select an address from the dropdown',
+                })
+            } else {
+                formMethods.clearErrors('addressLine1')
+            }
+        }
+    }, [onSuburbClicked, formMethods.watch()])
+
+    const handleAddressChange = (e: any) => {
+        setOnSuburbClicked(false)
+        formMethods.setValue('addressLine1', e?.target?.value)
+
+        if (!onSuburbClicked) {
+            formMethods.setError('addressLine1', {
+                type: 'manual',
+                message: 'Please select an address from the dropdown',
+            })
+        }
+        if (e?.target?.value?.length > 4) {
+            fromAddress(e?.target?.value)
+                .then(({ results }: any) => {
+                    const { lat, lng } = results[0].geometry.location
+                    geocode('latlng', `${lat},${lng}`, {
+                        key: process.env.NEXT_PUBLIC_MAP_KEY,
+                    } as GeocodeOptions)
+                        .then((response) => {
+                            const addressComponents =
+                                response.results[0].address_components
+
+                            for (let component of addressComponents) {
+                                if (component.types.includes('postal_code')) {
+                                    formMethods.setValue(
+                                        'zipCode',
+                                        component.long_name
+                                    )
+
+                                    break
+                                }
+                            }
+                        })
+                        .catch((error) => {
+                            console.error({
+                                error,
+                            })
+                        })
+                })
+                .catch(console.error)
+        }
+    }
 
     return (
         <FormProvider {...formMethods}>
@@ -544,43 +604,55 @@ export const StudentSignUpForm = ({
                                     placeholder={'Your Primary Address...'}
                                     validationIcons
                                     placesSuggetions
-                                    onChange={async (e: any) => {
-                                        setOnSuburbClicked(false)
-                                        if (e?.target?.value?.length > 4) {
-                                            try {
-                                                const { state } =
-                                                    await getAddressData(
-                                                        e?.target?.value
-                                                    )
-                                                const latLng = await getLatLng(
-                                                    e?.target?.value
-                                                )
-                                                const postalCode =
-                                                    await getPostalCode(latLng)
+                                    onChange={(e: any) =>
+                                        handleAddressChange(e)
+                                    }
+                                    // onChange={async (e: any) => {
+                                    //     setOnSuburbClicked(false)
+                                    //     if (e?.target?.value?.length > 4) {
+                                    //         try {
+                                    //             const { state } =
+                                    //                 await getAddressData(
+                                    //                     e?.target?.value
+                                    //                 )
+                                    //             const latLng = await getLatLng(
+                                    //                 e?.target?.value
+                                    //             )
+                                    //             const postalCode =
+                                    //                 await getPostalCode(latLng)
 
-                                                if (postalCode) {
-                                                    formMethods.setValue(
-                                                        'zipCode',
-                                                        postalCode
-                                                    )
-                                                }
-                                                if (state) {
-                                                    formMethods.setValue(
-                                                        'state',
-                                                        state
-                                                    )
-                                                }
-                                            } catch (error) {
-                                                console.error(
-                                                    'Error fetching postal code:',
-                                                    error
-                                                )
-                                            }
-                                        }
-                                    }}
+                                    //             if (postalCode) {
+                                    //                 formMethods.setValue(
+                                    //                     'zipCode',
+                                    //                     postalCode
+                                    //                 )
+                                    //             }
+                                    //             if (state) {
+                                    //                 formMethods.setValue(
+                                    //                     'state',
+                                    //                     state
+                                    //                 )
+                                    //             }
+                                    //         } catch (error) {
+                                    //             console.error(
+                                    //                 'Error fetching postal code:',
+                                    //                 error
+                                    //             )
+                                    //         }
+                                    //     }
+                                    // }}
                                     onPlaceSuggetions={{
                                         placesSuggetions: onSuburbClicked,
-                                        setIsPlaceSelected: setOnSuburbClicked,
+                                        setIsPlaceSelected: (
+                                            selected: boolean
+                                        ) => {
+                                            setOnSuburbClicked(selected)
+                                            if (selected) {
+                                                formMethods.clearErrors(
+                                                    'addressLine1'
+                                                )
+                                            }
+                                        },
                                     }}
                                 />
                             </div>
