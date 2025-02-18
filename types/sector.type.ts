@@ -25,6 +25,7 @@ export interface WorkplaceType extends BaseResponse {
     sector: Sector
     course: Course
     workplaceTypeSectors: WPSectorType[]
+    sectors: WPSectorType[]
 }
 export interface WorkplaceTypes extends BaseResponse {
     id: number
