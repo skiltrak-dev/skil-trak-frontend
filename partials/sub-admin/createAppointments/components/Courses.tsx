@@ -6,6 +6,7 @@ import { Select, SelectOption } from '@components'
 import { Course, OptionType } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
 import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 export const Courses = ({
     setSelectedCourse,
@@ -16,6 +17,8 @@ export const Courses = ({
     setSelectedCourse: (value: number) => void
     selectedCourse: number | null
 }) => {
+    const router = useRouter()
+
     const courses = CommonApi.Courses.getCoursesByRto(Number(rto))
     const courseOptions = courses?.isSuccess
         ? courses?.data?.map((course: Course) => ({
@@ -27,9 +30,11 @@ export const Courses = ({
 
     useEffect(() => {
         if (courseOptions && courseOptions?.length > 0 && !selectedCourse) {
-            setSelectedCourse(courseOptions?.[0]?.value)
+            setSelectedCourse(
+                Number(router?.query?.courseId) || courseOptions?.[0]?.value
+            )
         }
-    }, [courseOptions])
+    }, [courseOptions, router])
 
     return (
         <div className="bg-[#F7910F40] p-4 w-full">

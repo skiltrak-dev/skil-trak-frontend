@@ -61,7 +61,7 @@ export const IndustryStudentProfileDetail = ({ data }: { data: any }) => {
                                 {profile?.student?.user?.email}
                             </Typography>
                         </div>
-                        <div className="">
+                        <div className="w-full">
                             <UpdatedStudentExpiryTime
                                 studentId={profile?.student?.user?.id}
                                 date={profile?.student?.expiryDate}

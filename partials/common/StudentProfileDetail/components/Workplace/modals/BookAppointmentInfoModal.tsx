@@ -4,14 +4,21 @@ import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { MdCancel, MdOutlineError } from 'react-icons/md'
 import { SubAdminApi } from '@queries'
+import moment from 'moment'
+import { AvailabelMeetingDate } from '@partials/student/workplace/components/WorkplaceApproval/AvailabelMeetingDate'
 
 export const BookAppointmentInfoModal = ({
     onCancel,
     studentUser,
+    approvalDate,
+    courseId,
 }: {
+    courseId: number
+    approvalDate: any
     studentUser: number
     onCancel: () => void
 }) => {
+    console.log({ approvalDate })
     const router = useRouter()
     const role = getUserCredentials()?.role
 
@@ -47,6 +54,15 @@ export const BookAppointmentInfoModal = ({
                         </Typography>
                     </div>
 
+                    <div className="w-fit flex gap-x-3 mx-auto items-center mt-5">
+                        <Typography center variant="label" bold>
+                            <span className="whitespace-pre">
+                                Student Selected Option
+                            </span>
+                        </Typography>
+                        <AvailabelMeetingDate date={approvalDate} />
+                    </div>
+
                     <div className="flex items-center justify-center gap-x-5 mt-5 mb-4">
                         <Button
                             text="Book Appointment"
@@ -59,6 +75,7 @@ export const BookAppointmentInfoModal = ({
                                                   '/portals/admin/appointment-type/create-appointment',
                                               query: {
                                                   student: studentUser,
+                                                  courseId,
                                               },
                                           }
                                         : role === UserRoles.SUBADMIN
@@ -67,6 +84,7 @@ export const BookAppointmentInfoModal = ({
                                                   '/portals/sub-admin/tasks/appointments/create-appointment',
                                               query: {
                                                   student: studentUser,
+                                                  courseId,
                                               },
                                           }
                                         : null

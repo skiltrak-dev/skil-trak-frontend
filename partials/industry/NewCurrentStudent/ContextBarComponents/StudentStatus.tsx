@@ -8,6 +8,25 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import { PuffLoader } from 'react-spinners'
 
+const requestTypeObject = {
+    [WorkplaceCurrentStatus.Applied]: 'Request Sent',
+    [WorkplaceCurrentStatus.CaseOfficerAssigned]: 'Assigned',
+    [WorkplaceCurrentStatus.Interview]: 'Interview',
+    [WorkplaceCurrentStatus.AwaitingStudentResponse]: 'Waiting For Student',
+    [WorkplaceCurrentStatus.AwaitingWorkplaceResponse]: 'Waiting For Industry',
+    [WorkplaceCurrentStatus.AppointmentBooked]: 'Meeting',
+    [WorkplaceCurrentStatus.AwaitingAgreementSigned]:
+        'Agreement & Eligibility (Pending)',
+    [WorkplaceCurrentStatus.AgreementSigned]:
+        'Agreement & Eligibility (Signed)',
+    [WorkplaceCurrentStatus.PlacementStarted]: 'Placement Started',
+    [WorkplaceCurrentStatus.Completed]: 'Completed',
+    [WorkplaceCurrentStatus.Cancelled]: 'Cancelled',
+    [WorkplaceCurrentStatus.Rejected]: 'Rejected',
+    [WorkplaceCurrentStatus.Terminated]: 'Terminated',
+    [WorkplaceCurrentStatus.NoResponse]: 'No Response',
+}
+
 export const StudentStatus = ({
     student,
     industry,
@@ -121,7 +140,8 @@ export const StudentStatus = ({
                             semibold
                             uppercase
                         >
-                            {selectedStatus}
+                            {selectedStatus &&
+                                (requestTypeObject as any)[selectedStatus]}
                         </Typography>
                         <IoIosArrowDown />
                     </div>
