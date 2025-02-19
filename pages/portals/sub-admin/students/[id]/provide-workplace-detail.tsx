@@ -75,6 +75,7 @@ const ProvideWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         useGetSubAdminStudentDetailQuery(Number(id), {
             skip: !id,
         })
+    console.log('v:::::', data)
     const rtoDetail = SubAdminApi.Student.getStudentRtoDetail(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,

@@ -10,7 +10,6 @@ import { useMediaQuery } from 'react-responsive'
 export const NavLinkItem = ({ nav, PREFIX }: { PREFIX: string; nav: any }) => {
     const isMobile = useMediaQuery(MediaQueries.Mobile)
     const router = useRouter()
-    const [count, setCount] = useState(nav.count)
     // const isActive = (pathname: string) => {
     //     return isActiveRoute(pathname, router, PREFIX, true)
     // }
@@ -21,7 +20,7 @@ export const NavLinkItem = ({ nav, PREFIX }: { PREFIX: string; nav: any }) => {
     const defaultClasses =
         'transition-all duration-300 px-2.5 py-2  flex flex-col md:flex-row gap-x-2 items-center rounded-md'
     useEffect(() => {
-        setCount(nav.count)
+        // if nav.count value changes then update the count 
     }, [nav.count])
     return (
         <li className="relative ">
@@ -42,10 +41,10 @@ export const NavLinkItem = ({ nav, PREFIX }: { PREFIX: string; nav: any }) => {
                     ) : null}
                 </a>
             </Link>
-            {count > 0 && (
+            {nav?.count > 0 && (
                 <div className="absolute -top-1 -right-2 bg-success rounded-full w-4 h-4 flex justify-center items-center">
                     <Typography variant="xs" color="text-white" semibold>
-                        {count}
+                        {nav?.count}
                     </Typography>
                 </div>
             )}

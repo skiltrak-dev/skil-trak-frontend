@@ -80,7 +80,6 @@ export const UpdatedExistingIndustryCard = ({
             })
         }
     }, [applyForWorkplaceSubadminResult?.data, answer])
-    console.log('answer', answer)
     return (
         <>
             <ShowErrorNotifications result={applyForWorkplaceSubadminResult} />

@@ -55,6 +55,7 @@ export const {
     useDashboardQuery,
     useGetRtoMapIndustriesQuery,
     useUpdateRTOProfileMutation,
+    useGetRtoProgressByCourseQuery,
 
     // ------ Contact Persons ------ //
     useContactPersonsQuery,
@@ -160,6 +161,7 @@ export const RtoApi = {
         useAddContactPerson: useAddContactPersonMutation,
         useRemoveContactPerson: useRemoveContactPersonMutation,
         useUpdateContactPerson: useUpdateContactPersonMutation,
+        useRtoProgressByCourse: useGetRtoProgressByCourseQuery,
     },
     Students: {
         useCount: useStudentsCountQuery,

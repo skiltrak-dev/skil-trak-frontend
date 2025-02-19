@@ -6,7 +6,7 @@ import {
 } from './CBListingProfile'
 import { ListingIndustryAllCommunications } from './components'
 
-export const ListingProfileDetails = () => {
+export const ListingProfileDetails = ({ industry }: any) => {
     const [isComposeMail, setIsComposeMail] = useState<boolean>(false)
 
     const onCancelComposeMail = useCallback(() => {
@@ -49,6 +49,7 @@ export const ListingProfileDetails = () => {
                     }`}
                 >
                     <ComposeListingIndustryMail
+                        industry={industry}
                         onCancelComposeMail={onCancelComposeMail}
                     />
                 </div>

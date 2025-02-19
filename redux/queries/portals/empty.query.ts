@@ -141,6 +141,7 @@ const commonTagTypes = [
     'StudentAppointments',
     'SubAdmin',
     'Workplace',
+    'Blogs',
 ]
 
 const managementTypes = [

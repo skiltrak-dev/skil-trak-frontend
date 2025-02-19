@@ -29,7 +29,7 @@ const IndustryListingDetails: NextPageWithLayout = () => {
 
     return (
         <div>
-            <ListingProfileDetails />
+            <ListingProfileDetails industry={data} />
         </div>
     )
 }

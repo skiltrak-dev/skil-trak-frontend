@@ -2,6 +2,7 @@ import {
     Button,
     InputContentEditor,
     inputEditorErrorMessage,
+    TextInput,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { convertToRaw } from 'draft-js'
@@ -13,12 +14,19 @@ import { InputErrorMessage } from '@partials/common/MailsListing'
 import { FileUpload } from '@hoc'
 import { Attachment } from '@partials/common/Notifications'
 
+type FormValues = {
+    receiver: string
+    subject: string
+    body?: any
+}
 export const ComposeListingIndustryMailForm = ({
     result,
     onSubmit,
+    industry,
 }: {
     result: any
     onSubmit: (values: any) => void
+    industry: any
 }) => {
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
     const inputClasses =
@@ -32,10 +40,18 @@ export const ComposeListingIndustryMailForm = ({
         //     inputEditorErrorMessage(value)
         // ),
     })
-    const methods = useForm({
+    const methods = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
         mode: 'all',
+        defaultValues: {
+            receiver: industry?.email ?? 'NA',
+        },
     })
+    useEffect(() => {
+        if (industry?.email) {
+            methods.setValue('receiver', industry.email)
+        }
+    }, [industry?.email])
 
     useEffect(() => {
         if (result?.isSuccess) {
@@ -65,7 +81,7 @@ export const ComposeListingIndustryMailForm = ({
             />
         )
     }
-
+    
     return (
         <div>
             <FormProvider {...methods}>
@@ -75,6 +91,7 @@ export const ComposeListingIndustryMailForm = ({
                 >
                     <div className="flex flex-col px-3">
                         <input
+                            // name={'receiver'}
                             {...methods.register('receiver')}
                             className={inputClasses}
                             placeholder="To"

@@ -71,6 +71,7 @@ const RtoListingDetail: NextPageWithLayout = () => {
                     }`}
                 >
                     <ComposeListingRtoMail
+                        rto={data}
                         onCancelComposeMail={onCancelComposeMail}
                     />
                 </div>

@@ -17,6 +17,7 @@ export const UpdatedExistingIndustry = ({
     industry: Industry
 }) => {
     const [selectedCourse, setselectedCourse] = useState<number | null>(null)
+    
 
     return (
         <div className="flex flex-col gap-y-7">

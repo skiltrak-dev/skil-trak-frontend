@@ -33,8 +33,6 @@ export const EmployerDocuments = ({
     setAnswer: any
     answer: any
 }) => {
-    console.log('test', test)
-    console.log('answer', answer)
     const router = useRouter()
 
     const [files, setFiles] = useState({})

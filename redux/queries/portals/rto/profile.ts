@@ -34,5 +34,13 @@ export const profileEndpoints = (
         providesTags: ['SubAdmin'],
     }),
 
+    getRtoProgressByCourse: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}course/progress/view`,
+            params,
+        }),
+        providesTags: ['RTOS'],
+    }),
+
     // Add custom course requirements
 })

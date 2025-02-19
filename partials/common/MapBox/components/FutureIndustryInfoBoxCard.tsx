@@ -38,7 +38,6 @@ export const FutureIndustryInfoBoxCard = ({
 }: FutureIndustryInfoBoxCardProps) => {
     const workplaceId = workplace?.id
     industryId = selectedBox?.id
-    console.log('workplace:::::', workplace)
 
     const contextBar = useContextBar()
 
