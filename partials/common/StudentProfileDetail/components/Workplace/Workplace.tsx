@@ -232,7 +232,9 @@ export const Workplace = ({
             setModal(
                 <BookAppointmentInfoModal
                     onCancel={onCancelModal}
+                    courseId={selectedWorkplace?.courses?.[0]?.id}
                     studentUser={workplaceStudentDetail?.data?.user?.id}
+                    approvalDate={latestWorkplaceApprovaleRequest?.approvalDate}
                 />
             )
         }

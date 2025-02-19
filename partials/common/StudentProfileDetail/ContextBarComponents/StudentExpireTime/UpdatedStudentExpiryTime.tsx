@@ -51,7 +51,7 @@ export const UpdatedStudentExpiryTime = ({
                 <div className="flex flex-col items-center justify-center gap-x-3 gap-y-2 w-full">
                     <div className="relative group flex justify-center gap-x-2.5 w-full bg-[#e6f3ff] rounded-md p-1.5">
                         <Countdown date={date} renderer={CountDownRendered} />
-                        <div className="flex flex-col gap-y-0.5">
+                        <div className="w-full flex flex-col gap-y-0.5">
                             <Typography
                                 variant={'xxs'}
                                 color={'text-gray-500'}

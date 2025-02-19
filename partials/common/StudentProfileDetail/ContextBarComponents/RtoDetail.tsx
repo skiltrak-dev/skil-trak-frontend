@@ -16,7 +16,7 @@ export const RtoDetail = ({ rto }: { rto: Rto }) => {
         <div className="my-3">
             <div className="flex items-center justify-between">
                 <Typography variant="small" medium>
-                    RTO
+                    Educational Provider
                 </Typography>
                 <AuthorizedUserComponent
                     roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}

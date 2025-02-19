@@ -14,8 +14,8 @@ export const StudentRelatedInfo = ({ profile }: { profile: any }) => {
             <div className="mt-1.5 flex flex-col gap-y-1.5">
                 <div className="grid grid-cols-2 gap-[5px]">
                     <StudentDetailCard
-                        title="Current Qualification"
-                        detail={profile?.currentQualification || '---'}
+                        title="Course"
+                        detail={profile?.courses?.[0]?.title || '---'}
                     />
                     <StudentDetailCard
                         title="Current Work"

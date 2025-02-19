@@ -15,11 +15,11 @@ export const EmergencyContact = ({ profile }: { profile: any }) => {
                 <div className="grid grid-cols-2 gap-[5px]">
                     <StudentDetailCard
                         title="Name"
-                        detail={profile?.emergencyPerson || '---'}
+                        detail={profile?.student?.emergencyPerson || '---'}
                     />
                     <StudentDetailCard
                         title="Phone"
-                        detail={profile?.emergencyPersonPhone || '---'}
+                        detail={profile?.student?.emergencyPersonPhone || '---'}
                     />
                 </div>
             </div>
