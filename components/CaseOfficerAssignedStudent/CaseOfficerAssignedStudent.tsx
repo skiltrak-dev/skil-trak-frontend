@@ -118,7 +118,7 @@ export const CaseOfficerAssignedStudent = ({
             date: updatedAlliedIndustry?.placementStartedDate,
         },
         {
-            text: 'Placement Completed',
+            text: 'Schedule Completed',
             date: updatedAlliedIndustry?.isCompletedDate,
         },
     ]

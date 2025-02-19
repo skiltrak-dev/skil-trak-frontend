@@ -232,7 +232,7 @@ export const MyWorkplace = ({ student }: { student: Student }) => {
                         imageUrl={
                             '/images/students/workplace-progress/placement-started.png'
                         }
-                        title={'Placement Completed'}
+                        title={'Schedule Completed'}
                         subTitle={'placement-completed'}
                     />
                 )

@@ -1,15 +1,13 @@
-import { useState, useEffect, useMemo } from 'react'
-import { CommonApi } from '@queries'
-import { ESignTitleCards } from './ESignTitleCards'
-import { SignersStatus, WorkplaceAgreementDetail } from './components'
-import { PuffLoader } from 'react-spinners'
 import { Card, NoData } from '@components'
-import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
+import { CommonApi } from '@queries'
+import { getUserCredentials } from '@utils'
+import { useEffect, useMemo, useState } from 'react'
+import { PuffLoader } from 'react-spinners'
+import { ESignTitleCards } from './ESignTitleCards'
+import { SignersStatus } from './components'
 
-type Props = {}
-
-export const ESignatures = (props: Props) => {
+export const ESignatures = () => {
     const [selectedFolder, setSelectedFolder] = useState<any>(null)
 
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(

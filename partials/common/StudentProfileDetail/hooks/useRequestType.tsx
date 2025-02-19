@@ -354,8 +354,8 @@ export const useRequestType = ({
             date: appliedIndustry?.placementStartedDate,
         },
         {
-            primaryText: 'Completed',
-            secondaryText: 'Completed',
+            primaryText: 'Schedule Completed',
+            secondaryText: 'Schedule Completed',
             color: 'text-error',
             onClick: () => {
                 onCompleteClicked()
@@ -518,8 +518,8 @@ export const useRequestType = ({
             date: appliedIndustry?.placementStartedDate,
         },
         {
-            primaryText: 'Completed',
-            secondaryText: 'Completed',
+            primaryText: 'Schedule Completed',
+            secondaryText: 'Schedule Completed',
             color: 'text-error',
             onClick: () => {
                 onCompleteClicked()
@@ -683,8 +683,8 @@ export const useRequestType = ({
             date: appliedIndustry?.placementStartedDate,
         },
         {
-            primaryText: 'Completed',
-            secondaryText: 'Completed',
+            primaryText: 'Schedule Completed',
+            secondaryText: 'Schedule Completed',
             color: 'text-error',
             onClick: () => {
                 onCompleteClicked()

@@ -49,7 +49,7 @@ export const AddTicketForm = ({
 
     useEffect(() => {
         if (router?.query?.student) {
-            setSelectedStudent(+router?.query?.student)
+            setSelectedStudent(Number(router?.query?.student))
         }
     }, [router])
 

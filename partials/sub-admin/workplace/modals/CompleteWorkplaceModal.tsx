@@ -26,8 +26,8 @@ export const CompleteWorkplaceModal = ({
     useEffect(() => {
         if (completePlacementResult.isSuccess) {
             notification.success({
-                title: 'Workplace Placement Completed',
-                description: 'Workplace Placement Completed Successfully',
+                title: 'Workplace Schedule Completed',
+                description: 'Workplace Schedule Completed Successfully',
             })
             onCancel()
         }

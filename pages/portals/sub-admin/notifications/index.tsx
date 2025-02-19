@@ -5,13 +5,7 @@ import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 
 // Components
-import {
-    Button,
-    DisplayPrimaryActions,
-    RtoContextBarData,
-    SidebarCalendar,
-} from '@components'
-import { EmailsCard } from '@partials/common'
+import { Button, RtoContextBarData, SidebarCalendar } from '@components'
 // Hooks
 import { useContextBar } from '@hooks'
 import { MailsListing } from '@partials/common/MailsListing'

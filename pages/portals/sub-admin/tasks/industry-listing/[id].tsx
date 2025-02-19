@@ -38,6 +38,7 @@ IndustryListingDetails.getLayout = (page: ReactElement) => {
     return (
         <SubAdminLayout
             pageTitle={{
+                navigateBack: true,
                 title: 'Industry Listing Profile Details',
             }}
         >

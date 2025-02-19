@@ -54,14 +54,16 @@ export const BookAppointmentInfoModal = ({
                         </Typography>
                     </div>
 
-                    <div className="w-fit flex gap-x-3 mx-auto items-center mt-5">
-                        <Typography center variant="label" bold>
-                            <span className="whitespace-pre">
-                                Student Selected Option
-                            </span>
-                        </Typography>
-                        <AvailabelMeetingDate date={approvalDate} />
-                    </div>
+                    {approvalDate && (
+                        <div className="w-fit flex gap-x-3 mx-auto items-center mt-5">
+                            <Typography center variant="label" bold>
+                                <span className="whitespace-pre">
+                                    Student Selected Option
+                                </span>
+                            </Typography>
+                            <AvailabelMeetingDate date={approvalDate} />
+                        </div>
+                    )}
 
                     <div className="flex items-center justify-center gap-x-5 mt-5 mb-4">
                         <Button

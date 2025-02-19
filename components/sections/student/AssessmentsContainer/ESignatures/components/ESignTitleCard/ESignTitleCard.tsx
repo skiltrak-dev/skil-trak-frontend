@@ -39,8 +39,14 @@ export const ESignTitleCard = ({
                 onClick()
             }}
             className={`${
-                doc?.id === selectedFolder?.id ? 'bg-[#FEE1B2]' : 'bg-white'
-            } px-2 py-4 cursor-pointer`}
+                doc?.id === selectedFolder?.id
+                    ? 'bg-info-light'
+                    : status === 'signed'
+                    ? 'bg-success-light'
+                    : status === 'pending'
+                    ? 'bg-red-400'
+                    : 'bg-white'
+            }  border-b px-2 py-4 cursor-pointer`}
         >
             <div className={`flex justify-between items-center`}>
                 <div className="flex items-center gap-x-2">
@@ -63,7 +69,7 @@ export const ESignTitleCard = ({
                 <div className="flex flex-col gap-y-1">
                     <div
                         className={`${
-                            status === 'Signed'
+                            status === 'signed'
                                 ? 'bg-green-100'
                                 : 'bg-[#E8F2FA]'
                         } px-1 whitespace-nowrap w-fit`}
@@ -71,7 +77,7 @@ export const ESignTitleCard = ({
                         <Typography
                             variant="xs"
                             color={
-                                status === 'Signed'
+                                status === 'signed'
                                     ? 'text-green-500'
                                     : 'text-neutral-500'
                             }

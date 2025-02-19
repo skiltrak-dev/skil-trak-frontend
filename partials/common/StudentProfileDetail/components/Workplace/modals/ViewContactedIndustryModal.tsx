@@ -78,7 +78,7 @@ export const ViewContactedIndustryModal = ({
                 description: 'Status not interested updated successfully',
             })
             // refetch
-            studentDetails.refetch()
+            contactedIndustries.refetch()
         }
     }
 
