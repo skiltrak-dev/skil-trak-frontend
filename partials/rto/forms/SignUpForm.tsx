@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
@@ -218,6 +218,8 @@ export const RtoSignUpForm = ({
         resolver: yupResolver(validationSchema),
     })
 
+    console.log({ formMethods })
+
     useEffect(() => {
         if (courseValues && courseValues?.length > 0) {
             formMethods.setValue('courses', courseValues)
@@ -243,14 +245,17 @@ export const RtoSignUpForm = ({
 
     const handleAddressChange = (e: any) => {
         setOnSuburbClicked(false)
-        formMethods.setValue('addressLine1', e?.target?.value)
+        // formMethods.setValue('addressLine1', e.target?.value, {
+        //     shouldValidate: true,
+        //     shouldDirty: true,
+        // })
 
-        if (!onSuburbClicked) {
-            formMethods.setError('addressLine1', {
-                type: 'manual',
-                message: 'Please select an address from the dropdown',
-            })
-        }
+        // if (!onSuburbClicked) {
+        //     formMethods.setError('addressLine1', {
+        //         type: 'manual',
+        //         message: 'Please select an address from the dropdown',
+        //     })
+        // }
         if (e?.target?.value?.length > 4) {
             fromAddress(e?.target?.value)
                 .then(({ results }: any) => {
@@ -259,8 +264,21 @@ export const RtoSignUpForm = ({
                         key: process.env.NEXT_PUBLIC_MAP_KEY,
                     } as GeocodeOptions)
                         .then((response) => {
+                            getAddressData(e?.target?.value).then((res) => {
+                                console.log({ ssssssssssssss: res })
+                            })
+                            // const s = getAddressData(e?.target?.value)
                             const addressComponents =
                                 response.results[0].address_components
+
+                            const state = addressComponents.find(
+                                (component: any) =>
+                                    component.types.includes(
+                                        'administrative_area_level_1'
+                                    )
+                            )?.long_name
+
+                            formMethods.setValue('state', state || 'N/A')
 
                             for (let component of addressComponents) {
                                 if (component.types.includes('postal_code')) {
@@ -283,19 +301,27 @@ export const RtoSignUpForm = ({
         }
     }
 
+    const addressValue = formMethods.watch('addressLine1')
+
     useEffect(() => {
-        const addressValue = formMethods.watch('addressLine1')
-        if (addressValue) {
-            if (!onSuburbClicked) {
-                formMethods.setError('addressLine1', {
-                    type: 'manual',
-                    message: 'Please select an address from the dropdown',
-                })
-            } else {
-                formMethods.clearErrors('addressLine1')
-            }
+        console.log('Effect Running:', { addressValue, onSuburbClicked })
+
+        if (addressValue && !onSuburbClicked) {
+            console.log('Setting error...')
+
+            formMethods.setError('addressLine1', {
+                type: 'manual',
+                message: 'Please select an address from the dropdown',
+            })
+            formMethods.trigger('addressLine1') // Force UI update
+        } else {
+            console.log('Clearing error...')
+            // setTimeout(() => {
+            //     console.log('Clearing error...')
+            //     formMethods.clearErrors('addressLine1')
+            // }, 500)
         }
-    }, [onSuburbClicked, formMethods.watch()])
+    }, [onSuburbClicked, addressValue, formMethods])
 
     return (
         <FormProvider {...formMethods}>
@@ -521,11 +547,11 @@ export const RtoSignUpForm = ({
                                             selected: boolean
                                         ) => {
                                             setOnSuburbClicked(selected)
-                                            if (selected) {
-                                                formMethods.clearErrors(
-                                                    'addressLine1'
-                                                )
-                                            }
+                                            // if (selected) {
+                                            //     formMethods.clearErrors(
+                                            //         'addressLine1'
+                                            //     )
+                                            // }
                                         },
                                     }}
                                 />
