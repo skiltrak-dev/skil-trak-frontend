@@ -227,8 +227,8 @@ export const CompletedStudents = () => {
             <div className="flex flex-col gap-y-4">
                 <div className="flex">
                     <PageHeading
-                        title={'Approved Students'}
-                        subtitle={'List of Approved Students'}
+                        title={'Completed Students'}
+                        subtitle={'List of Completed Students'}
                     />
                     {data && data?.data.length ? (
                         <div className="">

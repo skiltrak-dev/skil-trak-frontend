@@ -31,11 +31,11 @@ export const SortableTableRow = ({
 
     const ContentDataTypes = [
         {
-            name: 'Successfully',
+            name: 'Successfull',
             value: 'successContent',
         },
         {
-            name: 'Unsuccessfully',
+            name: 'Unsuccessfull',
             value: 'failureContent',
         },
     ]
@@ -78,13 +78,13 @@ export const SortableTableRow = ({
             {row.original.expanded && (
                 <tr>
                     <td colSpan={99} className="bg-gray-50 p-5">
-                        <div className="p-3 flex flex-col gap-y-3 border border-gray-400 border-dotted">
+                        <div className="p-3 flex flex-col gap-y-5 border border-gray-400 border-dotted">
                             {ContentDataTypes?.map((type) => {
                                 if (row?.original?.[type?.value]) {
                                     return (
                                         <div>
                                             <Typography
-                                                variant="small"
+                                                variant="label"
                                                 uppercase
                                                 semibold
                                             >

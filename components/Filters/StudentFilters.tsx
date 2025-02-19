@@ -73,7 +73,7 @@ export const workplaceProgressOptions = [
         value: WorkplaceCurrentStatus.Cancelled,
     },
     {
-        label: 'Placement Completed',
+        label: 'Schedule Completed',
         value: WorkplaceCurrentStatus.Completed,
     },
     {
@@ -195,9 +195,9 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                 />
                 <TextInput
                     name="batch"
-                    label={'Batch'}
+                    label={'Batch / Provider'}
                     value={filter?.batch}
-                    placeholder={'Search by Student Batch ...'}
+                    placeholder={'Search by Student Batch / Provider...'}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, batch: e.target.value })
                     }}

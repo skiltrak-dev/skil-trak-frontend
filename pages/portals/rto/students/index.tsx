@@ -225,7 +225,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                             </Button>
 
                             {showDropDown ? (
-                                <ul className="bg-white shadow-xl rounded-xl overflow-hidden absolute">
+                                <ul className="bg-white shadow-xl rounded-xl overflow-hidden absolute z-10">
                                     <li>
                                         <button
                                             onClick={() => {

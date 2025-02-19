@@ -565,12 +565,7 @@ export const studentsEndpoints = (
         query: ({ workpaceId, stdId }) => ({
             url: `${PREFIX}/student/${stdId}/workplace-request/${workpaceId}/list/contacted-workplaces`,
         }),
-        providesTags: [
-            'SubAdminStudents',
-            'BulkUsersDelete',
-            'BulkStatus',
-            'Students',
-        ],
+        providesTags: ['Workplace'],
     }),
 
     downloadStudentCSV: builder.mutation<any, void>({

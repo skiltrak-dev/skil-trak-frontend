@@ -30,9 +30,6 @@ const TicketDetail: NextPageWithLayout = () => {
     const { setTitle } = useNavbar()
     const router = useRouter()
     const role = getUserCredentials()?.role
-    const { notification } = useNotification()
-
-    const dispatch = useDispatch()
 
     const ticketDetail = CommonApi.Tickets.useGetDetail(
         Number(router.query.detail),
@@ -97,17 +94,18 @@ const TicketDetail: NextPageWithLayout = () => {
                                     <FaLongArrowAltLeft
                                         className="text-xl cursor-pointer"
                                         onClick={() => {
-                                            if (role === UserRoles.ADMIN) {
-                                                router.push(
-                                                    '/portals/admin/tickets?tab=my-open-tickets'
-                                                )
-                                            } else if (
-                                                role === UserRoles.SUBADMIN
-                                            ) {
-                                                router.push(
-                                                    '/portals/sub-admin/tickets?tab=all-tickets'
-                                                )
-                                            }
+                                            router.back()
+                                            // if (role === UserRoles.ADMIN) {
+                                            //     router.push(
+                                            //         '/portals/admin/tickets?tab=my-open-tickets'
+                                            //     )
+                                            // } else if (
+                                            //     role === UserRoles.SUBADMIN
+                                            // ) {
+                                            //     router.push(
+                                            //         '/portals/sub-admin/tickets?tab=all-tickets'
+                                            //     )
+                                            // }
                                         }}
                                     />
                                     <Typography variant={'subtitle'}>

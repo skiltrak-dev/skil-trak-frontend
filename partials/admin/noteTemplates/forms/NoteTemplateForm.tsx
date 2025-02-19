@@ -98,11 +98,11 @@ export const NoteTemplateForm = ({
                         />
                         <InputContentEditor
                             name="successContent"
-                            label="Successfully"
+                            label="Successfull"
                         />
                         <InputContentEditor
                             name="failureContent"
-                            label="Unsuccessfully"
+                            label="Unsuccessfull"
                         />
 
                         <Button

@@ -1,11 +1,13 @@
 import {
     ActionButton,
+    AuthorizedUserComponent,
     CustomDropdown,
     CustomDropdownPositionEnum,
     LoadingAnimation,
     NoData,
     Typography,
 } from '@components'
+import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { UserProfileDetailCard } from '@partials/common/Cards'
 import {
@@ -15,11 +17,16 @@ import {
 import { useIndustryListingActions } from '@partials/common/FindWorkplaces/hooks/useIndustryListingActions'
 import { CommonApi } from '@queries'
 import { IndustryStatus, Sector } from '@types'
+import { getUserCredentials } from '@utils'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 
 export const IndustryListingCB = ({ id }: { id: number }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const router = useRouter()
+    const role = getUserCredentials()?.role
 
     const { notification } = useNotification()
 
@@ -90,6 +97,26 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
                     <LoadingAnimation />
                 ) : detail?.data ? (
                     <div className=" flex flex-col gap-y-2">
+                        <AuthorizedUserComponent
+                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                        >
+                            <ActionButton
+                                variant="info"
+                                onClick={() => {
+                                    if (role === UserRoles.ADMIN) {
+                                        router.push(
+                                            `/portals/admin/future-industries/${id}`
+                                        )
+                                    } else if (role === UserRoles.SUBADMIN) {
+                                        router.push(
+                                            `/portals/sub-admin/tasks/industry-listing/${id}`
+                                        )
+                                    }
+                                }}
+                            >
+                                View Profile
+                            </ActionButton>
+                        </AuthorizedUserComponent>
                         <UserProfileDetailCard
                             title="Name"
                             detail={detail?.data?.businessName}

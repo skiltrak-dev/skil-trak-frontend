@@ -1,10 +1,4 @@
-import {
-    AuthorizedUserComponent,
-    Button,
-    Card,
-    CreateNote,
-    Typography,
-} from '@components'
+import { AuthorizedUserComponent, Button, Card, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { useContextBar } from '@hooks'
 import { useState } from 'react'

@@ -50,7 +50,7 @@ export const SourcingKpiForm = ({ setFieldValues, fieldValues }: any) => {
             value: 3,
         },
         {
-            label: 'Placement Completed',
+            label: 'Schedule Completed',
             value: 4,
         },
     ]

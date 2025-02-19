@@ -310,7 +310,7 @@ export const ManagementStudentList = () => {
                     onClick={() => handleTabChange('placement-completed')}
                 >
                     <Typography variant="small" color={'text-primaryNew'}>
-                        Placement Completed
+                        Schedule Completed
                     </Typography>
                     <Typography variant="small" color={'text-primaryNew'} bold>
                         2213

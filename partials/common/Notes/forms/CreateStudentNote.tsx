@@ -350,7 +350,7 @@ export const CreateStudentNote = ({
                                 </AuthorizedUserComponent>
 
                                 {selectedType && selectedType !== 'custom' && (
-                                    <div className="w-full relative z-[55]">
+                                    <div className="w-full relative z-[48]">
                                         <StudentNotesDropdown
                                             title="Select Note Template"
                                             onClear={() => {
@@ -619,29 +619,32 @@ export const CreateStudentNote = ({
                                         Words Count: {noteBodyWordsCount}
                                     </Typography> */}
                                 </div>
-                                <ClickAwayListener
-                                    onClickAway={(e: any) => {
-                                        if (
-                                            noteContent &&
-                                            !ref.current?.contains(e.target)
-                                        ) {
-                                            setNoteDraft({
-                                                receiver: receiverId,
-                                                content: noteContent,
-                                            })
-                                        }
-                                    }}
-                                >
-                                    <div className="mb-3">
-                                        <InputContentEditor
-                                            name={'body'}
-                                            onChange={(e: any) => {
-                                                const note = draftToHtmlText(e)
-                                                setNoteContent(note)
-                                            }}
-                                        />
-                                    </div>
-                                </ClickAwayListener>
+                                <div className="relative z-[47]">
+                                    <ClickAwayListener
+                                        onClickAway={(e: any) => {
+                                            if (
+                                                noteContent &&
+                                                !ref.current?.contains(e.target)
+                                            ) {
+                                                setNoteDraft({
+                                                    receiver: receiverId,
+                                                    content: noteContent,
+                                                })
+                                            }
+                                        }}
+                                    >
+                                        <div className="mb-3">
+                                            <InputContentEditor
+                                                name={'body'}
+                                                onChange={(e: any) => {
+                                                    const note =
+                                                        draftToHtmlText(e)
+                                                    setNoteContent(note)
+                                                }}
+                                            />
+                                        </div>
+                                    </ClickAwayListener>
+                                </div>
 
                                 <div className="mt-2 mb-4 flex items-center gap-3 flex-wrap">
                                     <Checkbox

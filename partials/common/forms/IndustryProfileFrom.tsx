@@ -29,6 +29,7 @@ import {
     formatOptionLabel,
     getLatLng,
     getPostalCode,
+    getUserCredentials,
     onlyNumbersAcceptedInYup,
     removeEmptySpaces,
 } from '@utils'
@@ -223,6 +224,8 @@ export const IndustryProfileFrom = ({
         setCourseOptions(newCourseOptions)
         chkDefaultOptions && setCourseValues(newCourseOptions)
     }
+
+    const role = getUserCredentials()?.role
 
     const statesOption = useMemo(
         () =>
@@ -448,6 +451,7 @@ export const IndustryProfileFrom = ({
                                     placeholder={'Select Sectors...'}
                                     multi
                                     loading={sectorResponse.isLoading}
+                                    disabled={role === UserRoles.SUBADMIN}
                                     onChange={onSectorChanged}
                                     validationIcons
                                 />
@@ -460,7 +464,10 @@ export const IndustryProfileFrom = ({
                                     options={courseOptions}
                                     value={courseValues}
                                     multi
-                                    disabled={courseOptions?.length === 0}
+                                    disabled={
+                                        courseOptions?.length === 0 ||
+                                        role === UserRoles.SUBADMIN
+                                    }
                                     validationIcons
                                     onChange={(e: any) => {
                                         setCourseValues(e)
