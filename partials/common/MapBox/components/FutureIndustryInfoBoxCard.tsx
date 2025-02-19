@@ -246,6 +246,7 @@ export const FutureIndustryInfoBoxCard = ({
                                                 ),
                                                 industryId,
                                                 wpId: workplaceId,
+                                                isListing: true,
                                             })
                                         }
                                         className="relative group w-fit"

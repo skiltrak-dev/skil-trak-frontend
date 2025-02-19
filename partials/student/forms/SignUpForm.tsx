@@ -300,9 +300,13 @@ export const StudentSignUpForm = ({
         []
     )
 
+    const addressValue = formMethods.watch('addressLine1')
     useEffect(() => {
-        const addressValue = formMethods.watch('addressLine1')
         if (addressValue) {
+            formMethods.setValue('addressLine1', addressValue, {
+                shouldValidate: true,
+                shouldDirty: true,
+            })
             if (!onSuburbClicked) {
                 formMethods.setError('addressLine1', {
                     type: 'manual',
@@ -312,18 +316,18 @@ export const StudentSignUpForm = ({
                 formMethods.clearErrors('addressLine1')
             }
         }
-    }, [onSuburbClicked, formMethods.watch()])
+    }, [onSuburbClicked, addressValue])
 
     const handleAddressChange = (e: any) => {
         setOnSuburbClicked(false)
-        formMethods.setValue('addressLine1', e?.target?.value)
+        // formMethods.setValue('addressLine1', e?.target?.value)
 
-        if (!onSuburbClicked) {
-            formMethods.setError('addressLine1', {
-                type: 'manual',
-                message: 'Please select an address from the dropdown',
-            })
-        }
+        // if (!onSuburbClicked) {
+        //     formMethods.setError('addressLine1', {
+        //         type: 'manual',
+        //         message: 'Please select an address from the dropdown',
+        //     })
+        // }
         if (e?.target?.value?.length > 4) {
             fromAddress(e?.target?.value)
                 .then(({ results }: any) => {
@@ -334,6 +338,15 @@ export const StudentSignUpForm = ({
                         .then((response) => {
                             const addressComponents =
                                 response.results[0].address_components
+
+                            const state = addressComponents.find(
+                                (component: any) =>
+                                    component.types.includes(
+                                        'administrative_area_level_1'
+                                    )
+                            )?.long_name
+
+                            formMethods.setValue('state', state || 'N/A')
 
                             for (let component of addressComponents) {
                                 if (component.types.includes('postal_code')) {
@@ -643,16 +656,7 @@ export const StudentSignUpForm = ({
                                     // }}
                                     onPlaceSuggetions={{
                                         placesSuggetions: onSuburbClicked,
-                                        setIsPlaceSelected: (
-                                            selected: boolean
-                                        ) => {
-                                            setOnSuburbClicked(selected)
-                                            if (selected) {
-                                                formMethods.clearErrors(
-                                                    'addressLine1'
-                                                )
-                                            }
-                                        },
+                                        setIsPlaceSelected: setOnSuburbClicked,
                                     }}
                                 />
                             </div>

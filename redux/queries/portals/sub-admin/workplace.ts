@@ -332,7 +332,12 @@ export const workplaceEndpoints = (
 
     contactWorkplaceIndustry: builder.mutation<
         any,
-        { studentId: number; wpId: number; industryId: number }
+        {
+            studentId: number
+            wpId: number
+            industryId: number
+            isListing?: boolean
+        }
     >({
         query: ({ studentId, wpId, ...params }) => ({
             url: `${PREFIX}students/${studentId}/workplace-requests/${wpId}`,
