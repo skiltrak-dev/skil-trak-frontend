@@ -16,8 +16,10 @@ import { ComposeListingRtoMailForm } from './ComposeListingRtoMailForm'
 
 export const ComposeListingRtoMail = ({
     onCancelComposeMail,
+    rto,
 }: {
     onCancelComposeMail: () => void
+    rto: any
 }) => {
     const router = useRouter()
     const id = router.query?.id
@@ -44,9 +46,7 @@ export const ComposeListingRtoMail = ({
             })
         }
         // formData.append('type', 'email')
-        for (const [key, value] of formData.entries()) {
-            console.log(`${key}:`, value)
-        }
+
         // console.log('aaaaaa', formData)
 
         // sendMessage(formData).then((res: any) => {
@@ -111,6 +111,7 @@ export const ComposeListingRtoMail = ({
                     <ComposeListingRtoMailForm
                         onSubmit={onSubmit}
                         result={sendMessageResult}
+                        rto={rto}
                     />
                 </div>
             </div>

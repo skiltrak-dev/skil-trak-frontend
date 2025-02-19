@@ -3,8 +3,13 @@
 const nextConfig = {
     // reactStrictMode: true,
     env: {
-        googleDirectionApi: "AIzaSyApOsp5NyUUJyW3vlZtvQ4IYf8urG7rrKA",
-        mapBoxApi: "pk.eyJ1Ijoic2tpbHRyYWsiLCJhIjoiY20zMm1oZG9wMTRzMTJrc2N2dHluN3ZjOCJ9.J0XKK9V8faX1iTWj1ED3Kg"
+        googleDirectionApi: 'AIzaSyApOsp5NyUUJyW3vlZtvQ4IYf8urG7rrKA',
+        mapBoxApi:
+            'pk.eyJ1Ijoic2tpbHRyYWsiLCJhIjoiY20zMm1oZG9wMTRzMTJrc2N2dHluN3ZjOCJ9.J0XKK9V8faX1iTWj1ED3Kg',
+        cloudflareSiteKey: '0x4AAAAAAA73xTWozjUM9dfN',
+        cloudflareSecretKey: '0x4AAAAAAA73xYgrG3oQzGEeAweXaFz81Gs',
+        //cloudflareSiteKey: "0x4AAAAAAA73mSspLw7n7Egj" ,
+        //cloudflareSecretKey: "0x4AAAAAAA73mQWvz8YzYY5jlZW3U1jCtv4"
     },
     async rewrites() {
         return {
@@ -18,16 +23,18 @@ const nextConfig = {
                 },
                 {
                     source: '/blogs/skiltrak-opening-doors-for-disability-course-students-with-specialized',
-                    destination: '/blogs/find-the-best-disability-course-placement-in-australia',
-
+                    destination:
+                        '/blogs/find-the-best-disability-course-placement-in-australia',
                 },
                 {
                     source: '/blogs/commercial-cookery-work-placements-skiltrak-opening-doors-for-culinary',
-                    destination: '/blogs/how-to-find-commercial-cookery-work-placements-in-australia',
+                    destination:
+                        '/blogs/how-to-find-commercial-cookery-work-placements-in-australia',
                 },
                 {
                     source: '/blogs/the-advantages-of-outsourcing-placement-services-for-a-training-organi',
-                    destination: '/blogs/how-registered-training-organisations-rtos-can-ensure-compliance-durin',
+                    destination:
+                        '/blogs/how-registered-training-organisations-rtos-can-ensure-compliance-durin',
                 },
             ],
         }

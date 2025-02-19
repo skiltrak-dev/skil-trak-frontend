@@ -4,65 +4,76 @@ import { Button } from '@components/buttons'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Image from 'next/image'
-
-const navLinks = [
-    {
-        text: 'Home',
-        url: '/',
-    },
-
-    {
-        text: 'Services',
-        url: '/our-services',
-        subMenus: [
-            {
-                text: 'Work Based Training',
-                url: '/our-services/work-based-training',
-            },
-            {
-                text: 'Talent Pool',
-                url: '/our-services/talent-pool',
-            },
-            {
-                text: 'Employment Hub',
-                url: '/our-services/employment-hub',
-            },
-            {
-                text: 'Upskill Traineeship Program',
-                url: '/our-services/upskill-traineeship-program',
-            },
-        ],
-    },
-    {
-        text: 'Features',
-        url: '/features',
-    },
-    {
-        text: 'Blogs',
-        url: '/blogs',
-    },
-    {
-        text: 'About Us',
-        url: '/about-us',
-    },
-    {
-        text: 'Contact Us',
-        url: '/contact-us',
-    },
-    {
-        text: 'Login',
-        // url: "/login",
-        // url: 'https://www.skiltrak.com.au',
-        url: '/auth/login',
-        asButton: true,
-        external: true,
-    },
-]
+import { adminApi } from '@queries'
 
 export function Navbar2() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const router = useRouter()
 
+    const { data, isLoading, isError } = adminApi.useGetCategoriesQuery({})
+    
+    const blogsMenuOptions = data?.data?.map((category: any) => ({
+        text: category?.title ?? 'NA',
+        url: `/blogs?category=${category?.id}`,
+    }))
+    const navLinks = [
+        {
+            text: 'Home',
+            url: '/',
+        },
+
+        {
+            text: 'Services',
+            url: '/our-services',
+            subMenus: [
+                {
+                    text: 'Work Based Training',
+                    url: '/our-services/work-based-training',
+                },
+                {
+                    text: 'Talent Pool',
+                    url: '/our-services/talent-pool',
+                },
+                {
+                    text: 'Employment Hub',
+                    url: '/our-services/employment-hub',
+                },
+                {
+                    text: 'Upskill Traineeship Program',
+                    url: '/our-services/upskill-traineeship-program',
+                },
+            ],
+        },
+        {
+            text: 'Features',
+            url: '/features',
+        },
+        {
+            text: 'Blogs',
+            url: '/blogs',
+        },
+        {
+            text: 'Placement',
+            url: '/blogs',
+            subMenus: blogsMenuOptions,
+        },
+        {
+            text: 'About Us',
+            url: '/about-us',
+        },
+        {
+            text: 'Contact Us',
+            url: '/contact-us',
+        },
+        {
+            text: 'Login',
+            // url: "/login",
+            // url: 'https://www.skiltrak.com.au',
+            url: '/auth/login',
+            asButton: true,
+            external: true,
+        },
+    ]
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
     }

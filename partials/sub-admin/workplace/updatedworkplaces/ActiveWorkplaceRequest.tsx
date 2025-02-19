@@ -87,7 +87,6 @@ export const ActiveWorkplaceRequest = () => {
             header: () => 'Student',
             accessorKey: 'student',
             cell: (info) => {
-                console.log('info', info?.row?.original?.student)
                 return (
                     <div>
                         <Typography variant="muted" color="text-gray-700">

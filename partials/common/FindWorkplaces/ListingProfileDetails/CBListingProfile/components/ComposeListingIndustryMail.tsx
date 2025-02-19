@@ -15,8 +15,10 @@ import { ComposeListingIndustryMailForm } from './ComposeListingIndustryMailForm
 
 export const ComposeListingIndustryMail = ({
     onCancelComposeMail,
+    industry,
 }: {
     onCancelComposeMail: () => void
+    industry: any
 }) => {
     const router = useRouter()
     const id = router.query?.id
@@ -105,6 +107,7 @@ export const ComposeListingIndustryMail = ({
                 {/*  */}
                 <div className="bg-white pb-4">
                     <ComposeListingIndustryMailForm
+                        industry={industry}
                         onSubmit={onSubmit}
                         result={sendMessageResult}
                     />

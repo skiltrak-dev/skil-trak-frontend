@@ -218,7 +218,7 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
                             answer: answer,
                         })
                     }}
-                    test={"Student side"}
+                    test={'Student side'}
                     setAnswer={setAnswer}
                     answer={answer}
                     result={addWorkplaceResult}

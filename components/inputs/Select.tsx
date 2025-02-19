@@ -241,7 +241,7 @@ export const Select = forwardRef(
         return (
             <div className="">
                 {label && (
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center mb-1">
                         <div>
                             <Typography variant={'label'}>{label}</Typography>
                             {required && <RequiredStar />}

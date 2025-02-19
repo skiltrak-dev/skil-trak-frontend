@@ -13,12 +13,19 @@ import { InputErrorMessage } from '@partials/common/MailsListing'
 import { FileUpload } from '@hoc'
 import { Attachment } from '@partials/common/Notifications'
 
+type FormValues = {
+    receiver: string
+    subject: string
+    body?: any
+}
 export const ComposeListingRtoMailForm = ({
     result,
     onSubmit,
+    rto,
 }: {
     result: any
     onSubmit: (values: any) => void
+    rto: any
 }) => {
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
     const inputClasses =
@@ -32,9 +39,12 @@ export const ComposeListingRtoMailForm = ({
         //     inputEditorErrorMessage(value)
         // ),
     })
-    const methods = useForm({
+    const methods = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
         mode: 'all',
+        defaultValues: {
+            receiver: rto?.email,
+        },
     })
 
     useEffect(() => {

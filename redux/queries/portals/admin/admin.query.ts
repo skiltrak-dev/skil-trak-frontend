@@ -99,6 +99,7 @@ const {
     useSectorsStudentsCountQuery,
     useUpdateAdminProfileMutation,
     useGetDashboardChartCountsQuery,
+    useGetAdminProgressByCourseQuery,
 
     useAllowRtoListingMutation,
     useAllowIndustryListingMutation,
@@ -395,6 +396,7 @@ export const AdminApi = {
         useAllowRtoListing: useAllowRtoListingMutation,
         allowIndustryListing: useAllowIndustryListingMutation,
         useDashboardChartCounts: useGetDashboardChartCountsQuery,
+        useAdminProgressByCourse: useGetAdminProgressByCourseQuery,
     },
     Department: {
         getDepartmentFilterList: useGetDepartmentFilterListQuery,

@@ -289,6 +289,15 @@ export const commonApi = emptySplitApi.injectEndpoints({
             },
             providesTags: ['Students'],
         }),
+        // Blog detail page
+        getSingleBlog: build.query<any, any>({
+            query: (slugUrl) => {
+                return {
+                    url: `/blogs/slug/${slugUrl}`,
+                }
+            },
+            providesTags: ['Blogs'],
+        }),
 
         ...rtosEndpoints(build),
         ...draftEndpoints(build),
@@ -332,6 +341,7 @@ const {
     // Site MAP
     useGetSiteMapIndustriesQuery,
     useGetStudentsSubAdminMapQuery,
+    useGetSingleBlogQuery,
     // ---- EXPIRY DATE ---- //
     useUpdateExpiryDateMutation,
 
@@ -591,7 +601,10 @@ const {
 } = commonApi
 
 export const CommonApi = {
-    Website: { useGetUserWebsiteCountQuery },
+    Website: {
+        useGetUserWebsiteCountQuery,
+        useGetSingleBlog: useGetSingleBlogQuery,
+    },
     ViewPassword: {
         getUserPassword: useGetUserPasswordQuery,
     },

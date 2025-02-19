@@ -10,12 +10,13 @@ import { FigureCard } from '@components/sections/subAdmin'
 import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { ProgressLineChart } from '@partials/common'
-import { AdminApi } from '@queries'
+import { AdminApi, CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
 import { format } from 'date-fns'
 import { useMediaQuery } from 'react-responsive'
 import StackGrid, { transitions } from 'react-stack-grid'
+import { ViewProgressByCourseAdmin } from '@partials/admin/components'
 
 const { scaleDown } = transitions
 
@@ -24,9 +25,10 @@ const AdminDashboard: NextPageWithLayout = () => {
 
     const isTablet = useMediaQuery({ maxWidth: 1080 })
     const isMobile = useMediaQuery({ maxWidth: 767 })
-
+    
     const [name, setName] = useState('')
     const credentials = AuthUtils.getUserCredentials()
+    const getRtos = CommonApi.Filter.useRtos()
     const stats = AdminApi.Admin.useCount()
     const sectorsStudentsCount = AdminApi.Admin.useSectorsStudentsCount()
 
@@ -134,8 +136,11 @@ const AdminDashboard: NextPageWithLayout = () => {
                     /> */}
                 </div>
             </div>
-
-            <ProgressLineChart />
+            <div className="flex flex-col">
+                {/* Bar chart */}
+                {/* <ViewProgressByCourseAdmin /> */}
+                <ProgressLineChart />
+            </div>
 
             <div>
                 <Typography>

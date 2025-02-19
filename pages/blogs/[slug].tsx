@@ -1,7 +1,12 @@
 import Head from 'next/head'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
-import { Accordion, NoData, TechnicalError } from '@components'
+import {
+    Accordion,
+    LoadingAnimation,
+    NoData,
+    TechnicalError,
+} from '@components'
 import { SiteLayout } from '@layouts'
 import { HeroSectionBlog } from '@partials/common/Blogs'
 import { NextPageWithLayout } from '@types'
@@ -17,6 +22,7 @@ import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 // } from '@radix-ui/react-accordion'
 import { ellipsisText } from '@utils'
+import { CommonApi } from '@queries'
 
 const FacebookShare = dynamic<any>(
     () => import('react-share-kit').then((mod) => mod.FacebookShare),
@@ -35,8 +41,15 @@ const TwitterShare = dynamic<any>(
     { ssr: false }
 )
 
-const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
+const BlogDetail: NextPageWithLayout = () => {
     const [activeAccordion, setActiveAccordion] = useState<number | null>(null)
+
+    const router = useRouter()
+    const slugUrl = router.query.slug
+
+    const blogData = CommonApi.Website.useGetSingleBlog(slugUrl, {
+        skip: !slugUrl,
+    })
 
     const handleToggle = (index: number) => {
         if (activeAccordion === index) {
@@ -45,7 +58,6 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
             setActiveAccordion(index)
         }
     }
-    const router = useRouter()
 
     const shareUrl = `https://www.skiltrak.com.au/blogs/${router.query.slug}`
 
@@ -60,27 +72,16 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
     const shouldHaveCanonicalTag = canonicalSlugs.includes(
         router?.query?.slug + ''
     )
-    const processContent = (content: string) => {
-        return content.replace(
-            /<img src="data:image\/(png|jpg|jpeg);base64,([^"]+)"/g,
-            (_, format, base64) => {
-                const blob = new Blob(
-                    [Uint8Array.from(atob(base64), (c) => c.charCodeAt(0))],
-                    { type: `image/${format}` }
-                )
-                return `<img src="${URL.createObjectURL(blob)}"`
-            }
-        )
-    }
 
+    console.log('blogData?.metaData', blogData?.data?.metaData)
     return (
         <div className="">
             <Head>
-                <title>{ellipsisText(blogData?.title, 11)}</title>
+                <title>{ellipsisText(blogData?.data?.title, 11)}</title>
                 <meta
                     name="description"
                     content={`${
-                        blogData?.metaData ||
+                        blogData?.data?.metaData ||
                         'Skiltrak, we are specialized in student placement'
                     }`}
                     key="desc"
@@ -89,9 +90,10 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                     <link rel="canonical" href={shareUrl} key="canonical" />
                 )}
             </Head>
-            {blogData?.error ? (
-                <TechnicalError />
-            ) : (
+            {blogData?.error && <TechnicalError />}
+            {blogData.isLoading ? (
+                <LoadingAnimation />
+            ) : blogData?.data ? (
                 <>
                     {' '}
                     <HeroSectionBlog />
@@ -100,13 +102,13 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                             <div className="relative h-[300px] md:h-[500px] w-full">
                                 <Image
                                     src={
-                                        blogData?.featuredImage ||
+                                        blogData?.data?.featuredImage ||
                                         '/images/blogs/blog.jpg'
                                     }
-                                    alt={blogData?.title}
+                                    alt={blogData?.data?.title}
                                     fill
                                     sizes="100vw"
-                                    className="object-cover"
+                                    className="object-contain"
                                     priority
                                 />
                             </div>
@@ -114,32 +116,30 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                                 <div className="flex items-center">
                                     <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                                         <span className="text-blue-600 font-semibold">
-                                            {blogData?.author?.[0]?.toUpperCase()}
+                                            {blogData?.data?.author?.[0]?.toUpperCase()}
                                         </span>
                                     </div>
                                     <div className="ml-3">
                                         <p className="text-sm font-medium text-gray-900">
-                                            {blogData?.author}
+                                            {blogData?.data?.author}
                                         </p>
                                         <p className="text-xs text-gray-500">
-                                            {moment(blogData?.updatedAt).format(
-                                                'MMMM DD, YYYY'
-                                            )}
+                                            {moment(
+                                                blogData?.data?.updatedAt
+                                            ).format('MMMM DD, YYYY')}
                                         </p>
                                     </div>
                                 </div>
                             </div>
                             {/* Title */}
                             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-6">
-                                {blogData?.title}
+                                {blogData?.data?.title}
                             </h1>
                             <div className="prose prose-lg max-w-none">
                                 <div
                                     className="blog-content text-gray-700 leading-relaxed"
                                     dangerouslySetInnerHTML={{
-                                        __html: processContent(
-                                            blogData?.content
-                                        ),
+                                        __html: blogData?.data?.content || '',
                                     }}
                                 />
                             </div>
@@ -151,7 +151,7 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                                 <div className="flex space-x-2">
                                     <FacebookShare
                                         url={shareUrl}
-                                        quote={blogData?.title}
+                                        quote={blogData?.data?.title}
                                         round
                                         size={36}
                                     />
@@ -164,7 +164,7 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                                     <PinterestShare
                                         url={shareUrl}
                                         media={
-                                            blogData?.featuredImage ||
+                                            blogData?.data?.featuredImage ||
                                             '/images/blogs/blog.jpg'
                                         }
                                         round
@@ -172,15 +172,15 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                                     />
                                     <TwitterShare
                                         url={shareUrl}
-                                        title={blogData?.title}
+                                        title={blogData?.data?.title}
                                         round
                                         size={36}
                                     />
                                 </div>
                             </div>
 
-                            {blogData?.blogQuestions &&
-                                blogData?.blogQuestions?.length > 0 && (
+                            {blogData?.data?.blogQuestions &&
+                                blogData?.data?.blogQuestions?.length > 0 && (
                                     <div className="md:mt-20 mt-8">
                                         <h2 className="font-semibold text-xl md:text-3xl md:leading-10 uppercase my-2 md:my-4">
                                             FAQ's
@@ -190,7 +190,7 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                                             // collapsible
                                             className="w-full flex flex-col "
                                         >
-                                            {blogData?.blogQuestions?.map(
+                                            {blogData?.data?.blogQuestions?.map(
                                                 (faq: any, index: any) => {
                                                     return (
                                                         <div key={faq?.id}>
@@ -225,6 +225,8 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                         </div>
                     </main>
                 </>
+            ) : (
+                !blogData?.error && <NoData text="No Data" />
             )}
         </div>
     )
@@ -234,35 +236,47 @@ BlogDetail.getLayout = (page: ReactElement) => {
     return <SiteLayout title={'Blog'}>{page}</SiteLayout>
 }
 
-export async function getStaticPaths() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`)
-    const blogs = await res.json()
+// export async function getStaticPaths() {
+//     try {
+//         const res = await fetch(
+//             `${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`
+//         )
+//         const blogs = await res.json()
 
-    const paths = blogs.map((blog: any) => {
-        return { params: { slug: `${blog.slug}` } }
-    })
+//         const paths = blogs.map((blog: any) => ({
+//             params: { slug: blog.slug },
+//         }))
 
-    return { paths, fallback: 'blocking' }
-}
+//         return {
+//             paths,
+//             fallback: true, // Change to true instead of 'blocking'
+//         }
+//     } catch (error) {
+//         return {
+//             paths: [],
+//             fallback: true,
+//         }
+//     }
+// }
 
-export async function getStaticProps(context: any) {
-    const { params } = context
+// export async function getStaticProps(context: any) {
+//     const { params } = context
 
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_END_POINT}/blogs/slug/${params?.slug}`
-    )
-    const blogData = await res.json()
+//     const res = await fetch(
+//         `${process.env.NEXT_PUBLIC_END_POINT}/blogs/slug/${params?.slug}`
+//     )
+//     const blogData = await res.json()
 
-    if (!blogData) {
-        return <NoData text="No Data" />
-    }
+//     if (!blogData) {
+//         return <NoData text="No Data" />
+//     }
 
-    return {
-        props: {
-            blogData,
-        },
-        revalidate: 1800,
-    }
-}
+//     return {
+//         props: {
+//             blogData,
+//         },
+//         revalidate: 60,
+//     }
+// }
 
 export default BlogDetail

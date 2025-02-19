@@ -161,7 +161,7 @@ export const RtoDashboardMap = ({ address }: { address: string }) => {
 
             setVisibleMarkers(markers)
         }
-    }, [industries])
+    }, [industries, futureIndustries])
     return (
         <div className={'flex flex-col gap-y-1 h-full'}>
             {/* {JSON.stringify(abc())} */}

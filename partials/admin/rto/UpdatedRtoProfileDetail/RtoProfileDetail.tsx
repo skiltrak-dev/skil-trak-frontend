@@ -26,6 +26,7 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
             <RtoProfileStatistics
                 rtoUserId={rto?.user?.id}
                 subadmin={subadmin}
+                rto={rto}
             />
 
             {/* Sector */}
