@@ -706,8 +706,8 @@ export const AddScheduleContainer = ({
             })
         }
 
-        const activeDays = scheduleTime.filter((day) => day.isActive)
-        if (activeDays.length === 0) {
+        const activeDays = scheduleTime?.filter((day) => day.isActive)
+        if (activeDays?.length === 0) {
             return notification.warning({
                 title: 'Schedule',
                 description: 'At least one day in the schedule is Required!',
@@ -718,10 +718,10 @@ export const AddScheduleContainer = ({
         const scheduleData = {
             startDate,
             workplace: workplace?.id,
-            days: activeDays.map((day) => ({
-                name: day.name,
-                openingTime: day.openingTime,
-                closingTime: day.closingTime,
+            days: activeDays?.map((day) => ({
+                name: day?.name,
+                openingTime: day?.openingTime,
+                closingTime: day?.closingTime,
             })),
             course: course?.id,
             hours: selectedHours,

@@ -379,7 +379,6 @@ export const AddSchedule = ({
                                 <ScheduleCard
                                     key={i}
                                     time={time}
-                                    setScheduleTime={setScheduleTime}
                                     onScheduleChange={onScheduleChange}
                                 />
                             ))}
@@ -391,7 +390,6 @@ export const AddSchedule = ({
                             <ScheduleCard
                                 key={i}
                                 time={time}
-                                setScheduleTime={setScheduleTime}
                                 onScheduleChange={onScheduleChange}
                             />
                         ))}
