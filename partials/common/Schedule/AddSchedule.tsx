@@ -601,24 +601,24 @@ export const AddScheduleContainer = ({
             try {
                 // Create a map to efficiently look up days
                 const daysMap = new Map()
-                timeSlots.data.forEach((slot) => {
-                    if (!daysMap.has(slot.day)) {
-                        daysMap.set(slot.day, slot)
+                timeSlots.data.forEach((slot: any) => {
+                    if (!daysMap?.has(slot?.day)) {
+                        daysMap?.set(slot.day, slot)
                     }
                 })
 
                 // Create a new schedule array by mapping over initial schedule
                 const updatedSchedule = initialSchedule.map((day) => {
-                    const existingDay = daysMap.get(day.name)
+                    const existingDay = daysMap?.get(day.name)
                     if (existingDay) {
                         return {
                             ...day,
                             id: existingDay.id,
                             openingTime:
-                                existingDay.openingTime?.substring(0, 5) ||
+                                existingDay?.openingTime?.substring(0, 5) ||
                                 day.openingTime,
                             closingTime:
-                                existingDay.closingTime?.substring(0, 5) ||
+                                existingDay?.closingTime?.substring(0, 5) ||
                                 day.closingTime,
                             isActive: true,
                         }
@@ -640,8 +640,11 @@ export const AddScheduleContainer = ({
                 setIsDataLoaded(true)
 
                 // Set hours if available
-                if (schedules.data.schedule.hours && selectedHours === null) {
-                    setSelectedHours(schedules.data.schedule.hours)
+                if (
+                    schedules?.data?.schedule?.hours &&
+                    selectedHours === null
+                ) {
+                    setSelectedHours(schedules?.data?.schedule?.hours)
                 }
             } catch (error) {
                 console.error('Error processing schedule data:', error)
@@ -773,7 +776,7 @@ export const AddScheduleContainer = ({
                             label="Add Hours"
                             placeholder="Add Hours"
                             value={selectedHours || ''}
-                            onChange={(e) => {
+                            onChange={(e: any) => {
                                 const value = e.target.value
                                     ? Number(e.target.value)
                                     : null
@@ -787,7 +790,7 @@ export const AddScheduleContainer = ({
                             placeholder="Start Date"
                             type="date"
                             value={startDate || ''}
-                            onChange={(e) => setStartDate(e.target.value)}
+                            onChange={(e: any) => setStartDate(e.target.value)}
                         />
                     </div>
                 </div>
@@ -797,7 +800,7 @@ export const AddScheduleContainer = ({
                     <LoadingAnimation />
                 ) : (
                     <>
-                        <Typography variant="small" className="mt-4 mb-2">
+                        <Typography variant="small">
                             Select Time &amp; Days
                         </Typography>
                         <div className="flex flex-col gap-y-3">
