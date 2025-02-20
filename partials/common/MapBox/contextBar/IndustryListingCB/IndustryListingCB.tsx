@@ -21,6 +21,8 @@ import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
+import { ProfileLinks } from './components'
+import { IndustryProfileAvatar } from '@partials/common/IndustryProfileDetail'
 
 export const IndustryListingCB = ({ id }: { id: number }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -92,7 +94,7 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
         <>
             {modal}
             {actionsModal}
-            <div className="bg-[#f5f5f5] rounded-md shadow-profiles p-2">
+            <div className="bg-[#] rounded-md shadow-profiles p-2">
                 {detail?.isLoading ? (
                     <LoadingAnimation />
                 ) : detail?.data ? (
@@ -100,37 +102,29 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
                         <AuthorizedUserComponent
                             roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                         >
-                            <ActionButton
-                                variant="info"
-                                onClick={() => {
-                                    if (role === UserRoles.ADMIN) {
-                                        router.push(
-                                            `/portals/admin/future-industries/${id}`
-                                        )
-                                    } else if (role === UserRoles.SUBADMIN) {
-                                        router.push(
-                                            `/portals/sub-admin/tasks/industry-listing/${id}`
-                                        )
-                                    }
-                                }}
-                            >
-                                View Profile
-                            </ActionButton>
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <IndustryProfileAvatar
+                                        avatar={detail?.data?.avatar as string}
+                                    />
+                                </div>
+                                <ProfileLinks industry={detail?.data} />
+                            </div>
                         </AuthorizedUserComponent>
-                        <UserProfileDetailCard
-                            title="Name"
-                            detail={detail?.data?.businessName}
-                            onClick={() => {
-                                onCopyInfo(detail?.data?.businessName, 'Name')
-                            }}
-                        />
-                        <UserProfileDetailCard
-                            title="Email"
-                            detail={detail?.data?.email}
-                            onClick={() => {
-                                onCopyInfo(detail?.data?.email, 'Email')
-                            }}
-                        />
+                        <div className="flex justify-between items-center gap-x-3">
+                            <div className="mt-2">
+                                <Typography semibold>
+                                    <span className="text-[15px]">
+                                        {' '}
+                                        {detail?.data?.businessName}
+                                    </span>
+                                </Typography>
+                                <Typography variant="xs" color="text-[#6B7280]">
+                                    {detail?.data?.email}
+                                </Typography>
+                            </div>
+                        </div>
+                        {/*  */}
 
                         {/*  */}
                         <div className="grid grid-cols-2 gap-2">

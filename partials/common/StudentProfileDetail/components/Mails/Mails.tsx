@@ -3,7 +3,6 @@ import { CommonApi } from '@queries'
 import { User } from '@types'
 import { ReactElement, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
-import { ComposeMailModal } from '../../modals'
 
 export const Mails = ({ user }: { user: User }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -21,11 +20,6 @@ export const Mails = ({ user }: { user: User }) => {
 
     const onCancelClicked = () => setModal(null)
 
-    const onComposeMail = () => {
-        setModal(
-            <ComposeMailModal userId={user?.id} onCancel={onCancelClicked} />
-        )
-    }
     return (
         <Waypoint
             onEnter={() => {

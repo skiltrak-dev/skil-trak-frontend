@@ -1,5 +1,6 @@
 import {
     Badge,
+    MailForm,
     NoData,
     ShowErrorNotifications,
     Typography,
@@ -21,6 +22,7 @@ import { IndustryDetailCB } from '../contextBar'
 import { CopyInfoData } from './CopyInfoData'
 import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
+import { ComposeMailModal } from '@partials/common/StudentProfileDetail/modals'
 
 type IndustryInfoBoxCardProps = {
     item: any
@@ -50,7 +52,6 @@ export const IndustryInfoBoxCard = ({
     const { notification } = useNotification()
 
     const canAssessData = useIsRestricted(UserRoles.INDUSTRY)
-
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -118,6 +119,23 @@ export const IndustryInfoBoxCard = ({
         contextBar.setTitle('Industry Details')
     }
 
+    // const onComposeMail = () => {
+    //     contextBar.show(false)
+    //     contextBar.setContent(
+    //         <MailForm receiverId={Number(item?.data?.user?.id)} />
+    //     )
+    //     contextBar.setTitle('Compose Email')
+    // }
+
+    const onComposeMail = () => {
+        setModal(
+            <ComposeMailModal
+                userId={Number(item?.data?.user?.id)}
+                user={item?.data?.user}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
 
     return (
         <>
@@ -347,18 +365,33 @@ export const IndustryInfoBoxCard = ({
                                         View
                                     </Link>
                                 </div> */}
-                                <div
-                                    onClick={() => {
-                                        onViewIndustryDetail()
-                                    }}
-                                >
-                                    <Typography
-                                        variant="small"
-                                        color="text-info"
-                                        cursorPointer
+                                <div className="flex items-center gap-x-2">
+                                    <div
+                                        onClick={() => {
+                                            onViewIndustryDetail()
+                                        }}
                                     >
-                                        View
-                                    </Typography>
+                                        <Typography
+                                            variant="small"
+                                            color="text-info"
+                                            cursorPointer
+                                        >
+                                            View
+                                        </Typography>
+                                    </div>
+                                    <div
+                                        onClick={() => {
+                                            onComposeMail()
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="small"
+                                            color="text-success"
+                                            cursorPointer
+                                        >
+                                            Compose Email
+                                        </Typography>
+                                    </div>
                                 </div>
 
                                 {!appliedIndustry && workplaceMapCard && (

@@ -32,7 +32,7 @@ const StudentProgress = (appliedIndustry?: any) => ({
         date: appliedIndustry?.placementStartedDate,
     },
     '2-Completed': {
-        status: 'Schedule Completed',
+        status: 'Placement Completed',
         description: 'Completed',
         color: 'text-green-500',
         image: 'placement-started.png',

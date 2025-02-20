@@ -1,11 +1,14 @@
 import { GlobalModal, MailForm, Typography } from '@components'
+import { User } from '@types'
 import React from 'react'
 import { MdCancel } from 'react-icons/md'
 
 export const ComposeMailModal = ({
     userId,
     onCancel,
+    user,
 }: {
+    user: User
     userId: number
     onCancel: () => void
 }) => {
@@ -13,8 +16,12 @@ export const ComposeMailModal = ({
         <GlobalModal>
             <div className=" w-full md:w-[700px]">
                 <div className="p-4 flex justify-between items-center w-full md:w-[700px]">
-                    <Typography variant="label" semibold>
-                        Email
+                    <Typography variant="small">
+                        To{' '}
+                        <span className="text-[14px] font-semibold">
+                            {user?.name}
+                        </span>{' '}
+                        <span>({user?.role})</span>
                     </Typography>
                     <MdCancel
                         onClick={onCancel}

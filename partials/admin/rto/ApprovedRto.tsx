@@ -185,7 +185,7 @@ export const ApprovedRto = () => {
                 ? {
                       text: rto?.allowAutoComplete
                           ? 'Remove Auto Complete'
-                          : `Allowe Auto Complete`,
+                          : `Allow Auto Complete`,
                       onClick: (rto: Rto) => onAllowAutoComplete(rto),
                       Icon: MdIncompleteCircle,
                   }
