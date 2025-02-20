@@ -1,5 +1,436 @@
-import { useEffect, useState } from 'react'
+// import { useEffect, useState } from 'react'
 
+// import {
+//     Button,
+//     Card,
+//     LoadingAnimation,
+//     ShowErrorNotifications,
+//     TextInput,
+//     Typography,
+// } from '@components'
+// import { useNotification } from '@hooks'
+// import { ScheduleCard } from '@partials/student/Schedule'
+// import { StudentApi } from '@queries'
+// import { Course, Industry, User } from '@types'
+// import moment from 'moment'
+// import { useRouter } from 'next/router'
+
+// export const AddScheduleContainer = ({
+//     user,
+//     course,
+//     workplace,
+//     onAddStudentCourse,
+// }: {
+//     user?: User
+//     course: Course
+//     workplace: Industry
+//     onAddStudentCourse?: () => void
+// }) => {
+//     const [selectedHours, setSelectedHours] = useState<number | null>(null)
+//     const router = useRouter()
+
+//     useEffect(() => {
+//         if (course) {
+//             setSelectedHours(course?.hours)
+//         }
+//     }, [course])
+
+//     const initialSchedule = [
+//         {
+//             id: -1,
+//             name: 'monday',
+//             openingTime: '09:00:00',
+//             closingTime: '17:00:00',
+//             isActive: false,
+//         },
+//         {
+//             id: -2,
+//             name: 'tuesday',
+//             openingTime: '09:00:00',
+//             closingTime: '17:00:00',
+//             isActive: false,
+//         },
+//         {
+//             id: -3,
+//             name: 'wednesday',
+//             openingTime: '09:00:00',
+//             closingTime: '17:00:00',
+//             isActive: false,
+//         },
+//         {
+//             id: -4,
+//             name: 'thursday',
+//             openingTime: '09:00:00',
+//             closingTime: '17:00:00',
+//             isActive: false,
+//         },
+//         {
+//             id: -5,
+//             name: 'friday',
+//             openingTime: '09:00:00',
+//             closingTime: '17:00:00',
+//             isActive: false,
+//         },
+//         {
+//             id: -1,
+//             name: 'saturday',
+//             openingTime: '09:00:00',
+//             closingTime: '17:00:00',
+//             isActive: false,
+//         },
+//         {
+//             id: -1,
+//             name: 'sunday',
+//             openingTime: '09:00:00',
+//             closingTime: '17:00:00',
+//             isActive: false,
+//         },
+//     ]
+
+//     const [startDate, setStartDate] = useState<string | null>(null)
+//     const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
+
+//     const [scheduleTime, setScheduleTime] = useState<any | null>(
+//         initialSchedule
+//     )
+//     const [availabilities, setAvailabilities] = useState<any | null>(
+//         initialSchedule
+//     )
+//     const [isUpdated, setIsUpdated] = useState<boolean>(false)
+
+//     const [createSchedule, createScheduleResult] =
+//         StudentApi.Schedule.useCreateStudentSchedule()
+//     const [editSchedule, editScheduleResult] =
+//         StudentApi.Schedule.useEditStudentSchedule()
+
+//     const schedules = StudentApi.Schedule.useGetStudentSchedule(
+//         {
+//             courseId: Number(course?.id),
+//             userId: user?.id,
+//             workplace: Number(workplace?.id),
+//         },
+//         {
+//             skip: !course,
+//             refetchOnMountOrArgChange: 30,
+//         }
+//     )
+//     const timeSlots = StudentApi.Schedule.scheduleTimeSlots(
+//         {
+//             scheduleId: schedules?.data?.schedule?.id,
+//             search: `startDate:${moment(
+//                 schedules?.data?.schedule?.startDate
+//             ).format('YYYY-MM-DD')},endDate:${moment(
+//                 schedules?.data?.schedule?.startDate
+//             )
+//                 .add(8, 'days')
+//                 .format('YYYY-MM-DD')}`,
+//         },
+//         {
+//             skip: !schedules?.isSuccess,
+//             refetchOnMountOrArgChange: 150,
+//         }
+//     )
+
+//     // const findUniqueDays = () => {
+//     //     const uniqueDays = {}
+//     //     const result = []
+
+//     //     if (schedules?.data) {
+//     //         for (const item of schedules?.data?.calendar) {
+//     //             if (!uniqueDays[item.day as keyof typeof uniqueDays]) {
+//     //                 ;(uniqueDays as any)[item.day] = true
+//     //                 result.push(item)
+//     //             }
+//     //         }
+//     //     }
+
+//     //     return result
+//     // }
+
+//     const { notification } = useNotification()
+
+//     useEffect(() => {
+//         if (createScheduleResult.isSuccess) {
+//             if (onAddStudentCourse) {
+//                 onAddStudentCourse()
+//             } else {
+//                 router.push({
+//                     pathname: `/portals/student/assessments/schedule`,
+//                     query: {
+//                         course: router.query?.course,
+//                         workplace: router.query?.workplace,
+//                     },
+//                 })
+//             }
+//         }
+//     }, [createScheduleResult])
+//     useEffect(() => {
+//         if (editScheduleResult.isSuccess) {
+//             if (onAddStudentCourse) {
+//                 onAddStudentCourse()
+//             } else {
+//                 router.push({
+//                     pathname: `/portals/student/assessments/schedule`,
+//                     query: {
+//                         course: router.query?.course,
+//                         workplace: router.query?.workplace,
+//                     },
+//                 })
+//             }
+//         }
+//     }, [editScheduleResult])
+
+//     useEffect(() => {
+//         if (schedules?.data && schedules?.data?.schedule) {
+//             const uniqueDays = {}
+//             const result = []
+
+//             if (
+//                 schedules?.data &&
+//                 timeSlots?.data &&
+//                 timeSlots?.data?.length > 0
+//             ) {
+//                 for (const item of timeSlots?.data) {
+//                     if (!uniqueDays[item.day as keyof typeof uniqueDays]) {
+//                         ;(uniqueDays as any)[item.day] = true
+//                         result.push(item)
+//                     }
+//                 }
+//             }
+//             if (result?.length > 0) {
+//                 const tempAvailabilities: any = [...scheduleTime]
+
+//                 result?.forEach((day: any) => {
+//                     const dayIndex = tempAvailabilities.findIndex(
+//                         (d: any) => d.name === day?.day
+//                     )
+//                     tempAvailabilities[dayIndex].id = day.id
+//                     tempAvailabilities[dayIndex].openingTime = day.openingTime
+//                     tempAvailabilities[dayIndex].closingTime = day.closingTime
+//                     tempAvailabilities[dayIndex].isActive = true
+//                 })
+
+//                 setAvailabilities(tempAvailabilities)
+//                 setScheduleTime(tempAvailabilities)
+//                 setSelectedCourse(schedules?.data?.course?.id)
+//                 const startDate = moment(schedules?.data?.startDate)
+//                     .format('YYYY-MM-DD')
+//                     ?.split('-')
+
+//                 const date = `${startDate[0]}-${startDate[1]}-${startDate[2]}`
+//                 setStartDate(date)
+//             }
+//             setIsUpdated(true)
+//         }
+//     }, [schedules, timeSlots])
+
+//     const onScheduleChange = (schedule: any) => {
+//         const tempSchedule: any = [...scheduleTime]
+//         const dayIndex = tempSchedule.findIndex(
+//             (d: any) => d.name === schedule.name
+//         )
+
+//         tempSchedule[dayIndex].openingTime = moment(schedule.openingTime, [
+//             'h:mm:ss A',
+//         ]).format('HH:mm')
+//         tempSchedule[dayIndex].closingTime = moment(schedule.closingTime, [
+//             'h:mm:ss A',
+//         ]).format('HH:mm')
+//         tempSchedule[dayIndex].isActive = schedule.isActive
+
+//         setScheduleTime(tempSchedule)
+//     }
+
+//     const onSubmit = () => {
+//         if (!startDate) {
+//             notification.warning({
+//                 title: 'Start Date',
+//                 description: 'Start Date is Required!',
+//             })
+//         } else if (!selectedHours) {
+//             notification.warning({
+//                 title: 'Hours',
+//                 description: 'Hours is Required!',
+//             })
+//         } else if (!course) {
+//             notification.warning({
+//                 title: 'Course',
+//                 description: 'Course is Required!',
+//             })
+//         } else if (!scheduleTime?.filter((c: any) => c?.isActive)?.length) {
+//             notification.warning({
+//                 title: 'Schedule',
+//                 description: 'Schedule is Required!',
+//             })
+//         } else {
+//             if (
+//                 startDate &&
+//                 course &&
+//                 scheduleTime?.filter((c: any) => c?.isActive)?.length > 0 &&
+//                 selectedHours
+//             ) {
+//                 if (schedules?.data?.schedule) {
+//                     editSchedule({
+//                         id: schedules?.data?.schedule?.id,
+//                         workplace: workplace?.id,
+//                         startDate,
+//                         days: scheduleTime
+//                             ?.filter((c: any) => c?.isActive)
+//                             ?.map((c: any) => ({
+//                                 name: c?.name,
+//                                 openingTime: c?.openingTime,
+//                                 closingTime: c?.closingTime,
+//                             })),
+//                         course: course?.id,
+//                         hours: selectedHours,
+//                         stdUser: user?.id,
+//                     })
+//                     // createSchedule({
+//                     //     startDate,
+//                     //     workplace: workplace?.id,
+//                     //     days: scheduleTime
+//                     //         ?.filter((c: any) => c?.isActive)
+//                     //         ?.map((c: any) => ({
+//                     //             name: c?.name,
+//                     //             openingTime: c?.openingTime,
+//                     //             closingTime: c?.closingTime,
+//                     //         })),
+//                     //     course: course?.id,
+//                     //     hours: selectedHours,
+//                     //     stdUser: user?.id,
+//                     // })
+//                 } else {
+//                     createSchedule({
+//                         startDate,
+//                         workplace: workplace?.id,
+//                         days: scheduleTime
+//                             ?.filter((c: any) => c?.isActive)
+//                             ?.map((c: any) => ({
+//                                 name: c?.name,
+//                                 openingTime: c?.openingTime,
+//                                 closingTime: c?.closingTime,
+//                             })),
+//                         course: course?.id,
+//                         hours: selectedHours,
+//                         stdUser: user?.id,
+//                     })
+//                 }
+//             }
+//         }
+//     }
+
+//     return (
+//         <>
+//             <ShowErrorNotifications result={editScheduleResult} />
+//             <ShowErrorNotifications result={createScheduleResult} />
+//             <Card>
+//                 <Typography variant="title">Manage Schedule</Typography>
+//                 <div className="flex justify-between items-center">
+//                     <div className="flex gap-x-2">
+//                         <div className="w-64">
+//                             <Typography variant="small">Course</Typography>
+//                             <div className="flex flex-col border rounded py-2 px-1">
+//                                 <Typography variant="small">
+//                                     {course?.code}
+//                                 </Typography>
+//                                 <Typography variant="label" semibold>
+//                                     {course?.title}
+//                                 </Typography>
+//                             </div>
+//                         </div>
+//                         <div className="w-64">
+//                             <Typography variant="small">Workplace</Typography>
+//                             <div className="flex flex-col border rounded py-2 px-1">
+//                                 <Typography variant="small">
+//                                     {workplace?.user?.email}
+//                                 </Typography>
+//                                 <Typography variant="label" semibold>
+//                                     {workplace?.user?.name}
+//                                 </Typography>
+//                             </div>
+//                         </div>
+//                     </div>
+//                     <div className="flex gap-x-2">
+//                         <TextInput
+//                             name="hours"
+//                             label="Add Hours"
+//                             placeholder="Add Hours"
+//                             value={selectedHours}
+//                             onChange={(e: any) => {
+//                                 setSelectedHours(e.target.value)
+//                             }}
+//                         />
+//                         <TextInput
+//                             name="startingDate"
+//                             label={'Starting Date'}
+//                             placeholder="Start Date"
+//                             type={'date'}
+//                             value={startDate}
+//                             onChange={(e: any) => setStartDate(e.target?.value)}
+//                         />
+//                     </div>
+//                 </div>
+
+//                 {timeSlots.isLoading || timeSlots?.isFetching ? (
+//                     <LoadingAnimation />
+//                 ) : timeSlots?.isSuccess && isUpdated ? (
+//                     <>
+//                         <Typography variant={'small'}>
+//                             Select Time {'&'} Days
+//                         </Typography>
+//                         <div className="my-2 flex flex-col gap-y-2">
+//                             {scheduleTime?.map((time: any, i: number) => (
+//                                 <ScheduleCard
+//                                     key={i}
+//                                     time={time}
+//                                     setScheduleTime={setScheduleTime}
+//                                     onScheduleChange={onScheduleChange}
+//                                 />
+//                             ))}
+//                         </div>
+//                     </>
+//                 ) : (
+//                     <div className="flex flex-col gap-y-2">
+//                         {scheduleTime?.map((time: any, i: number) => (
+//                             <ScheduleCard
+//                                 key={i}
+//                                 time={time}
+//                                 setScheduleTime={setScheduleTime}
+//                                 onScheduleChange={onScheduleChange}
+//                             />
+//                         ))}
+//                     </div>
+//                 )}
+
+//                 <div className="flex items-center gap-x-4 text-sm text-green-500 mt-3">
+//                     <Button
+//                         text={schedules?.data?.schedule ? 'Update' : 'Submit'}
+//                         {...(schedules?.data?.schedule
+//                             ? {
+//                                   outline: true,
+//                               }
+//                             : {})}
+//                         onClick={() => onSubmit()}
+//                         loading={
+//                             createScheduleResult.isLoading ||
+//                             editScheduleResult.isLoading
+//                         }
+//                         disabled={
+//                             createScheduleResult.isLoading ||
+//                             editScheduleResult.isLoading
+//                         }
+//                     />
+//                     {createScheduleResult.isSuccess ||
+//                     editScheduleResult.isSuccess ? (
+//                         <div> - Saved</div>
+//                     ) : null}
+//                 </div>
+//             </Card>
+//         </>
+//     )
+// }
+
+import { useEffect, useState, useCallback } from 'react'
 import {
     Button,
     Card,
@@ -15,6 +446,14 @@ import { Course, Industry, User } from '@types'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 
+type ScheduleDay = {
+    id: number
+    name: string
+    openingTime: string
+    closingTime: string
+    isActive: boolean
+}
+
 export const AddScheduleContainer = ({
     user,
     course,
@@ -26,78 +465,70 @@ export const AddScheduleContainer = ({
     workplace: Industry
     onAddStudentCourse?: () => void
 }) => {
-    const [selectedHours, setSelectedHours] = useState<number | null>(null)
     const router = useRouter()
+    const { notification } = useNotification()
 
-    useEffect(() => {
-        if (course) {
-            setSelectedHours(course?.hours)
-        }
-    }, [course])
+    // State initialization
+    const [selectedHours, setSelectedHours] = useState<number | null>(null)
+    const [startDate, setStartDate] = useState<string | null>(null)
+    const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false)
 
-    const initialSchedule = [
+    const initialSchedule: ScheduleDay[] = [
         {
             id: -1,
             name: 'monday',
-            openingTime: '09:00:00',
-            closingTime: '17:00:00',
+            openingTime: '09:00',
+            closingTime: '17:00',
             isActive: false,
         },
         {
             id: -2,
             name: 'tuesday',
-            openingTime: '09:00:00',
-            closingTime: '17:00:00',
+            openingTime: '09:00',
+            closingTime: '17:00',
             isActive: false,
         },
         {
             id: -3,
             name: 'wednesday',
-            openingTime: '09:00:00',
-            closingTime: '17:00:00',
+            openingTime: '09:00',
+            closingTime: '17:00',
             isActive: false,
         },
         {
             id: -4,
             name: 'thursday',
-            openingTime: '09:00:00',
-            closingTime: '17:00:00',
+            openingTime: '09:00',
+            closingTime: '17:00',
             isActive: false,
         },
         {
             id: -5,
             name: 'friday',
-            openingTime: '09:00:00',
-            closingTime: '17:00:00',
+            openingTime: '09:00',
+            closingTime: '17:00',
             isActive: false,
         },
         {
-            id: -1,
+            id: -6,
             name: 'saturday',
-            openingTime: '09:00:00',
-            closingTime: '17:00:00',
+            openingTime: '09:00',
+            closingTime: '17:00',
             isActive: false,
         },
         {
-            id: -1,
+            id: -7,
             name: 'sunday',
-            openingTime: '09:00:00',
-            closingTime: '17:00:00',
+            openingTime: '09:00',
+            closingTime: '17:00',
             isActive: false,
         },
     ]
 
-    const [startDate, setStartDate] = useState<string | null>(null)
-    const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
+    const [scheduleTime, setScheduleTime] =
+        useState<ScheduleDay[]>(initialSchedule)
 
-    const [scheduleTime, setScheduleTime] = useState<any | null>(
-        initialSchedule
-    )
-    const [availabilities, setAvailabilities] = useState<any | null>(
-        initialSchedule
-    )
-    const [isUpdated, setIsUpdated] = useState<boolean>(false)
-
+    // API hooks
     const [createSchedule, createScheduleResult] =
         StudentApi.Schedule.useCreateStudentSchedule()
     const [editSchedule, editScheduleResult] =
@@ -110,47 +541,39 @@ export const AddScheduleContainer = ({
             workplace: Number(workplace?.id),
         },
         {
-            skip: !course,
+            skip: !course || !user || !workplace,
             refetchOnMountOrArgChange: 30,
         }
     )
+
     const timeSlots = StudentApi.Schedule.scheduleTimeSlots(
         {
             scheduleId: schedules?.data?.schedule?.id,
-            search: `startDate:${moment(
-                schedules?.data?.schedule?.startDate
-            ).format('YYYY-MM-DD')},endDate:${moment(
-                schedules?.data?.schedule?.startDate
-            )
-                .add(8, 'days')
-                .format('YYYY-MM-DD')}`,
+            search: schedules?.data?.schedule?.startDate
+                ? `startDate:${moment(
+                      schedules?.data?.schedule?.startDate
+                  ).format('YYYY-MM-DD')},` +
+                  `endDate:${moment(schedules?.data?.schedule?.startDate)
+                      .add(8, 'days')
+                      .format('YYYY-MM-DD')}`
+                : '',
         },
         {
-            skip: !schedules?.isSuccess,
+            skip: !schedules?.isSuccess || !schedules?.data?.schedule?.id,
             refetchOnMountOrArgChange: 150,
         }
     )
 
-    // const findUniqueDays = () => {
-    //     const uniqueDays = {}
-    //     const result = []
-
-    //     if (schedules?.data) {
-    //         for (const item of schedules?.data?.calendar) {
-    //             if (!uniqueDays[item.day as keyof typeof uniqueDays]) {
-    //                 ;(uniqueDays as any)[item.day] = true
-    //                 result.push(item)
-    //             }
-    //         }
-    //     }
-
-    //     return result
-    // }
-
-    const { notification } = useNotification()
-
+    // Initialize hours from course once on mount
     useEffect(() => {
-        if (createScheduleResult.isSuccess) {
+        if (course?.hours && selectedHours === null) {
+            setSelectedHours(course.hours)
+        }
+    }, [course])
+
+    // Handle successful schedule creation
+    useEffect(() => {
+        if (createScheduleResult.isSuccess || editScheduleResult.isSuccess) {
             if (onAddStudentCourse) {
                 onAddStudentCourse()
             } else {
@@ -163,159 +586,153 @@ export const AddScheduleContainer = ({
                 })
             }
         }
-    }, [createScheduleResult])
-    useEffect(() => {
-        if (editScheduleResult.isSuccess) {
-            if (onAddStudentCourse) {
-                onAddStudentCourse()
-            } else {
-                router.push({
-                    pathname: `/portals/student/assessments/schedule`,
-                    query: {
-                        course: router.query?.course,
-                        workplace: router.query?.workplace,
-                    },
-                })
-            }
-        }
-    }, [editScheduleResult])
+    }, [createScheduleResult.isSuccess, editScheduleResult.isSuccess])
 
+    // Load existing schedule data when available
     useEffect(() => {
-        if (schedules?.data && schedules?.data?.schedule) {
-            const uniqueDays = {}
-            const result = []
-
-            if (
-                schedules?.data &&
-                timeSlots?.data &&
-                timeSlots?.data?.length > 0
-            ) {
-                for (const item of timeSlots?.data) {
-                    if (!uniqueDays[item.day as keyof typeof uniqueDays]) {
-                        ;(uniqueDays as any)[item.day] = true
-                        result.push(item)
+        // Only run this effect if we have data and haven't loaded it yet
+        if (
+            schedules?.data?.schedule &&
+            timeSlots?.data?.length > 0 &&
+            !isDataLoaded &&
+            !timeSlots.isLoading &&
+            !schedules.isLoading
+        ) {
+            try {
+                // Create a map to efficiently look up days
+                const daysMap = new Map()
+                timeSlots.data.forEach((slot) => {
+                    if (!daysMap.has(slot.day)) {
+                        daysMap.set(slot.day, slot)
                     }
-                }
-            }
-            if (result?.length > 0) {
-                const tempAvailabilities: any = [...scheduleTime]
-
-                result?.forEach((day: any) => {
-                    const dayIndex = tempAvailabilities.findIndex(
-                        (d: any) => d.name === day?.day
-                    )
-                    tempAvailabilities[dayIndex].id = day.id
-                    tempAvailabilities[dayIndex].openingTime = day.openingTime
-                    tempAvailabilities[dayIndex].closingTime = day.closingTime
-                    tempAvailabilities[dayIndex].isActive = true
                 })
 
-                setAvailabilities(tempAvailabilities)
-                setScheduleTime(tempAvailabilities)
-                setSelectedCourse(schedules?.data?.course?.id)
-                const startDate = moment(schedules?.data?.startDate)
-                    .format('YYYY-MM-DD')
-                    ?.split('-')
+                // Create a new schedule array by mapping over initial schedule
+                const updatedSchedule = initialSchedule.map((day) => {
+                    const existingDay = daysMap.get(day.name)
+                    if (existingDay) {
+                        return {
+                            ...day,
+                            id: existingDay.id,
+                            openingTime:
+                                existingDay.openingTime?.substring(0, 5) ||
+                                day.openingTime,
+                            closingTime:
+                                existingDay.closingTime?.substring(0, 5) ||
+                                day.closingTime,
+                            isActive: true,
+                        }
+                    }
+                    return day
+                })
 
-                const date = `${startDate[0]}-${startDate[1]}-${startDate[2]}`
-                setStartDate(date)
+                setScheduleTime(updatedSchedule)
+
+                // Set start date if available
+                if (schedules.data.schedule.startDate) {
+                    const formattedDate = moment(
+                        schedules.data.schedule.startDate
+                    ).format('YYYY-MM-DD')
+                    setStartDate(formattedDate)
+                }
+
+                // Mark data as loaded to prevent reprocessing
+                setIsDataLoaded(true)
+
+                // Set hours if available
+                if (schedules.data.schedule.hours && selectedHours === null) {
+                    setSelectedHours(schedules.data.schedule.hours)
+                }
+            } catch (error) {
+                console.error('Error processing schedule data:', error)
             }
-            setIsUpdated(true)
         }
-    }, [schedules, timeSlots])
+    }, [
+        schedules?.data,
+        timeSlots?.data,
+        isDataLoaded,
+        timeSlots?.isLoading,
+        schedules?.isLoading,
+    ])
 
-    const onScheduleChange = (schedule: any) => {
-        const tempSchedule: any = [...scheduleTime]
-        const dayIndex = tempSchedule.findIndex(
-            (d: any) => d.name === schedule.name
-        )
+    // Stable callback to avoid recreating on each render
+    const onScheduleChange = useCallback(
+        (updatedDay: {
+            name: string
+            openingTime: string
+            closingTime: string
+            isActive: boolean
+        }) => {
+            setScheduleTime((currentSchedule) =>
+                currentSchedule.map((day) =>
+                    day.name === updatedDay.name
+                        ? {
+                              ...day,
+                              openingTime: updatedDay.openingTime,
+                              closingTime: updatedDay.closingTime,
+                              isActive: updatedDay.isActive,
+                          }
+                        : day
+                )
+            )
+        },
+        []
+    )
 
-        tempSchedule[dayIndex].openingTime = moment(schedule.openingTime, [
-            'h:mm:ss A',
-        ]).format('HH:mm')
-        tempSchedule[dayIndex].closingTime = moment(schedule.closingTime, [
-            'h:mm:ss A',
-        ]).format('HH:mm')
-        tempSchedule[dayIndex].isActive = schedule.isActive
-
-        setScheduleTime(tempSchedule)
-    }
-
+    // Form submission
     const onSubmit = () => {
+        // Validate form fields
         if (!startDate) {
-            notification.warning({
+            return notification.warning({
                 title: 'Start Date',
                 description: 'Start Date is Required!',
             })
-        } else if (!selectedHours) {
-            notification.warning({
+        }
+
+        if (!selectedHours) {
+            return notification.warning({
                 title: 'Hours',
                 description: 'Hours is Required!',
             })
-        } else if (!course) {
-            notification.warning({
+        }
+
+        if (!course?.id) {
+            return notification.warning({
                 title: 'Course',
                 description: 'Course is Required!',
             })
-        } else if (!scheduleTime?.filter((c: any) => c?.isActive)?.length) {
-            notification.warning({
+        }
+
+        const activeDays = scheduleTime.filter((day) => day.isActive)
+        if (activeDays.length === 0) {
+            return notification.warning({
                 title: 'Schedule',
-                description: 'Schedule is Required!',
+                description: 'At least one day in the schedule is Required!',
+            })
+        }
+
+        // Prepare data for submission
+        const scheduleData = {
+            startDate,
+            workplace: workplace?.id,
+            days: activeDays.map((day) => ({
+                name: day.name,
+                openingTime: day.openingTime,
+                closingTime: day.closingTime,
+            })),
+            course: course?.id,
+            hours: selectedHours,
+            stdUser: user?.id,
+        }
+
+        // Submit form - update or create
+        if (schedules?.data?.schedule?.id) {
+            editSchedule({
+                id: schedules.data.schedule.id,
+                ...scheduleData,
             })
         } else {
-            if (
-                startDate &&
-                course &&
-                scheduleTime?.filter((c: any) => c?.isActive)?.length > 0 &&
-                selectedHours
-            ) {
-                if (schedules?.data?.schedule) {
-                    editSchedule({
-                        id: schedules?.data?.schedule?.id,
-                        workplace: workplace?.id,
-                        startDate,
-                        days: scheduleTime
-                            ?.filter((c: any) => c?.isActive)
-                            ?.map((c: any) => ({
-                                name: c?.name,
-                                openingTime: c?.openingTime,
-                                closingTime: c?.closingTime,
-                            })),
-                        course: course?.id,
-                        hours: selectedHours,
-                        stdUser: user?.id,
-                    })
-                    // createSchedule({
-                    //     startDate,
-                    //     workplace: workplace?.id,
-                    //     days: scheduleTime
-                    //         ?.filter((c: any) => c?.isActive)
-                    //         ?.map((c: any) => ({
-                    //             name: c?.name,
-                    //             openingTime: c?.openingTime,
-                    //             closingTime: c?.closingTime,
-                    //         })),
-                    //     course: course?.id,
-                    //     hours: selectedHours,
-                    //     stdUser: user?.id,
-                    // })
-                } else {
-                    createSchedule({
-                        startDate,
-                        workplace: workplace?.id,
-                        days: scheduleTime
-                            ?.filter((c: any) => c?.isActive)
-                            ?.map((c: any) => ({
-                                name: c?.name,
-                                openingTime: c?.openingTime,
-                                closingTime: c?.closingTime,
-                            })),
-                        course: course?.id,
-                        hours: selectedHours,
-                        stdUser: user?.id,
-                    })
-                }
-            }
+            createSchedule(scheduleData)
         }
     }
 
@@ -355,62 +772,53 @@ export const AddScheduleContainer = ({
                             name="hours"
                             label="Add Hours"
                             placeholder="Add Hours"
-                            value={selectedHours}
-                            onChange={(e: any) => {
-                                setSelectedHours(e.target.value)
+                            value={selectedHours || ''}
+                            onChange={(e) => {
+                                const value = e.target.value
+                                    ? Number(e.target.value)
+                                    : null
+                                setSelectedHours(value)
                             }}
+                            type="number"
                         />
                         <TextInput
                             name="startingDate"
-                            label={'Starting Date'}
+                            label="Starting Date"
                             placeholder="Start Date"
-                            type={'date'}
-                            value={startDate}
-                            onChange={(e: any) => setStartDate(e.target?.value)}
+                            type="date"
+                            value={startDate || ''}
+                            onChange={(e) => setStartDate(e.target.value)}
                         />
                     </div>
                 </div>
 
-                {timeSlots.isLoading || timeSlots?.isFetching ? (
+                {(timeSlots?.isLoading || schedules?.isLoading) &&
+                !isDataLoaded ? (
                     <LoadingAnimation />
-                ) : timeSlots?.isSuccess && isUpdated ? (
+                ) : (
                     <>
-                        <Typography variant={'small'}>
-                            Select Time {'&'} Days
+                        <Typography variant="small" className="mt-4 mb-2">
+                            Select Time &amp; Days
                         </Typography>
-                        <div className="my-2 flex flex-col gap-y-2">
-                            {scheduleTime?.map((time: any, i: number) => (
+                        <div className="flex flex-col gap-y-3">
+                            {scheduleTime.map((day) => (
                                 <ScheduleCard
-                                    key={i}
-                                    time={time}
-                                    setScheduleTime={setScheduleTime}
+                                    key={day.name}
+                                    time={day}
                                     onScheduleChange={onScheduleChange}
                                 />
                             ))}
                         </div>
                     </>
-                ) : (
-                    <div className="flex flex-col gap-y-2">
-                        {scheduleTime?.map((time: any, i: number) => (
-                            <ScheduleCard
-                                key={i}
-                                time={time}
-                                setScheduleTime={setScheduleTime}
-                                onScheduleChange={onScheduleChange}
-                            />
-                        ))}
-                    </div>
                 )}
 
-                <div className="flex items-center gap-x-4 text-sm text-green-500 mt-3">
+                <div className="flex items-center gap-x-4 text-sm text-green-500 mt-5">
                     <Button
                         text={schedules?.data?.schedule ? 'Update' : 'Submit'}
                         {...(schedules?.data?.schedule
-                            ? {
-                                  outline: true,
-                              }
+                            ? { outline: true }
                             : {})}
-                        onClick={() => onSubmit()}
+                        onClick={onSubmit}
                         loading={
                             createScheduleResult.isLoading ||
                             editScheduleResult.isLoading
@@ -420,10 +828,8 @@ export const AddScheduleContainer = ({
                             editScheduleResult.isLoading
                         }
                     />
-                    {createScheduleResult.isSuccess ||
-                    editScheduleResult.isSuccess ? (
-                        <div> - Saved</div>
-                    ) : null}
+                    {(createScheduleResult.isSuccess ||
+                        editScheduleResult.isSuccess) && <div> - Saved</div>}
                 </div>
             </Card>
         </>
