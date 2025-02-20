@@ -519,14 +519,21 @@ export const Courses = ({
                                         : getAssessmentResponse
                                 }
                             >
-                                {getAssessmentResponse?.isSuccess ? (
-                                    <InitiateSign
-                                        student={student}
-                                        folder={selectedFolder}
-                                        courseId={selectedCourse?.id}
-                                        eSignDocument={eSignDocument}
-                                    />
-                                ) : null}
+                                <AuthorizedUserComponent
+                                    roles={[
+                                        UserRoles.ADMIN,
+                                        UserRoles.SUBADMIN,
+                                    ]}
+                                >
+                                    {getAssessmentResponse?.isSuccess ? (
+                                        <InitiateSign
+                                            student={student}
+                                            folder={selectedFolder}
+                                            courseId={selectedCourse?.id}
+                                            eSignDocument={eSignDocument}
+                                        />
+                                    ) : null}
+                                </AuthorizedUserComponent>
                             </AssessmentFiles>
                         </div>
                         <AuthorizedUserComponent

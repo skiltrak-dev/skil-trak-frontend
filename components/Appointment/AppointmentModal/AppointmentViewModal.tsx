@@ -222,6 +222,7 @@ export const AppointmentViewModal = ({
                                                             <AuthorizedUserComponent
                                                                 excludeRoles={[
                                                                     UserRoles.OBSERVER,
+                                                                    UserRoles.RTO,
                                                                 ]}
                                                             >
                                                                 <ActionButton

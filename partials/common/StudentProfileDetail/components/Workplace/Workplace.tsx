@@ -204,7 +204,9 @@ export const Workplace = ({
             selectedWorkplace?.currentStatus ===
                 WorkplaceCurrentStatus.AgreementSigned &&
             !selectedWorkplace?.studentFeedBack &&
-            appliedIndustry
+            appliedIndustry &&
+            role === UserRoles.ADMIN &&
+            role === UserRoles.SUBADMIN
         )
             setModal(
                 <AddFeedbackModal
@@ -227,7 +229,9 @@ export const Workplace = ({
             !workplaceStudentDetail?.data?.appointmentBooked &&
             workplaceStudentDetail?.isSuccess &&
             !workplaceStudentDetail?.isLoading &&
-            !workplaceStudentDetail?.isFetching
+            !workplaceStudentDetail?.isFetching &&
+            role === UserRoles.ADMIN &&
+            role === UserRoles.SUBADMIN
         ) {
             setModal(
                 <BookAppointmentInfoModal
@@ -249,7 +253,9 @@ export const Workplace = ({
             workplaceStudentDetail?.isSuccess &&
             !workplaceStudentDetail?.data?.agreementSigned &&
             selectedWorkplace?.currentStatus ===
-                WorkplaceCurrentStatus.AwaitingAgreementSigned
+                WorkplaceCurrentStatus.AwaitingAgreementSigned &&
+            role === UserRoles.ADMIN &&
+            role === UserRoles.SUBADMIN
         ) {
             const onInitiateSigning = () => {
                 setModal(
@@ -630,10 +636,7 @@ export const Workplace = ({
                                             ?.length ? (
                                             <div className="px-3 mt-1">
                                                 <AuthorizedUserComponent
-                                                    roles={[
-                                                        UserRoles.ADMIN,
-                                                        UserRoles.RTO,
-                                                    ]}
+                                                    roles={[UserRoles.ADMIN]}
                                                 >
                                                     <ActionButton
                                                         variant={'error'}
@@ -808,7 +811,6 @@ export const Workplace = ({
                                                         <AuthorizedUserComponent
                                                             roles={[
                                                                 UserRoles.ADMIN,
-                                                                UserRoles.RTO,
                                                             ]}
                                                         >
                                                             <ActionButton
