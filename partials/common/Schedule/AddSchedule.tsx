@@ -567,7 +567,7 @@ export const AddScheduleContainer = ({
     // Initialize hours from course once on mount
     useEffect(() => {
         if (course?.hours && selectedHours === null) {
-            setSelectedHours(course.hours)
+            setSelectedHours(course?.hours)
         }
     }, [course])
 
@@ -601,19 +601,19 @@ export const AddScheduleContainer = ({
             try {
                 // Create a map to efficiently look up days
                 const daysMap = new Map()
-                timeSlots.data.forEach((slot: any) => {
+                timeSlots?.data?.forEach((slot: any) => {
                     if (!daysMap?.has(slot?.day)) {
                         daysMap?.set(slot.day, slot)
                     }
                 })
 
                 // Create a new schedule array by mapping over initial schedule
-                const updatedSchedule = initialSchedule.map((day) => {
-                    const existingDay = daysMap?.get(day.name)
+                const updatedSchedule = initialSchedule?.map((day) => {
+                    const existingDay = daysMap?.get(day?.name)
                     if (existingDay) {
                         return {
                             ...day,
-                            id: existingDay.id,
+                            id: existingDay?.id,
                             openingTime:
                                 existingDay?.openingTime?.substring(0, 5) ||
                                 day.openingTime,
@@ -629,9 +629,9 @@ export const AddScheduleContainer = ({
                 setScheduleTime(updatedSchedule)
 
                 // Set start date if available
-                if (schedules.data.schedule.startDate) {
+                if (schedules?.data?.schedule?.startDate) {
                     const formattedDate = moment(
-                        schedules.data.schedule.startDate
+                        schedules?.data?.schedule?.startDate
                     ).format('YYYY-MM-DD')
                     setStartDate(formattedDate)
                 }
@@ -668,12 +668,12 @@ export const AddScheduleContainer = ({
         }) => {
             setScheduleTime((currentSchedule) =>
                 currentSchedule.map((day) =>
-                    day.name === updatedDay.name
+                    day?.name === updatedDay?.name
                         ? {
                               ...day,
-                              openingTime: updatedDay.openingTime,
-                              closingTime: updatedDay.closingTime,
-                              isActive: updatedDay.isActive,
+                              openingTime: updatedDay?.openingTime,
+                              closingTime: updatedDay?.closingTime,
+                              isActive: updatedDay?.isActive,
                           }
                         : day
                 )
@@ -706,8 +706,8 @@ export const AddScheduleContainer = ({
             })
         }
 
-        const activeDays = scheduleTime.filter((day) => day.isActive)
-        if (activeDays.length === 0) {
+        const activeDays = scheduleTime?.filter((day) => day.isActive)
+        if (activeDays?.length === 0) {
             return notification.warning({
                 title: 'Schedule',
                 description: 'At least one day in the schedule is Required!',
@@ -718,10 +718,10 @@ export const AddScheduleContainer = ({
         const scheduleData = {
             startDate,
             workplace: workplace?.id,
-            days: activeDays.map((day) => ({
-                name: day.name,
-                openingTime: day.openingTime,
-                closingTime: day.closingTime,
+            days: activeDays?.map((day) => ({
+                name: day?.name,
+                openingTime: day?.openingTime,
+                closingTime: day?.closingTime,
             })),
             course: course?.id,
             hours: selectedHours,
@@ -804,9 +804,9 @@ export const AddScheduleContainer = ({
                             Select Time &amp; Days
                         </Typography>
                         <div className="flex flex-col gap-y-3">
-                            {scheduleTime.map((day) => (
+                            {scheduleTime?.map((day) => (
                                 <ScheduleCard
-                                    key={day.name}
+                                    key={day?.name}
                                     time={day}
                                     onScheduleChange={onScheduleChange}
                                 />
