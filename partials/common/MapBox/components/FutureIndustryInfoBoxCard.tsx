@@ -1,4 +1,11 @@
-import { Badge, NoData, ShowErrorNotifications, Typography } from '@components'
+import {
+    Badge,
+    GlobalModal,
+    MailForm,
+    NoData,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
 import { useContextBar, useNotification } from '@hooks'
 import {
     CommonApi,
@@ -8,12 +15,13 @@ import {
 import { IndustryStatus } from '@types'
 import { ellipsisText } from '@utils'
 import Image from 'next/image'
-import { useEffect } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
 import { IndustryListingCB } from '../contextBar'
 import { CopyInfoData } from './CopyInfoData'
 import { useRouter } from 'next/router'
+import { ComposeListingIndustryMail } from '@partials/common/FindWorkplaces'
 
 type FutureIndustryInfoBoxCardProps = {
     item: any
@@ -40,6 +48,8 @@ export const FutureIndustryInfoBoxCard = ({
     industryId = selectedBox?.id
 
     const contextBar = useContextBar()
+    const [isComposeMail, setIsComposeMail] = useState<boolean>(false)
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     // apply for industry
     const [addExistingIndustry, addExistingIndustryResult] =
@@ -95,8 +105,26 @@ export const FutureIndustryInfoBoxCard = ({
         }
     }
 
+    const onComposeMail = () => {
+        setModal(
+            <GlobalModal>
+                <div>
+                    <ComposeListingIndustryMail
+                        industry={selectedBox}
+                        onCancelComposeMail={onCancelComposeMail}
+                    />
+                </div>
+            </GlobalModal>
+        )
+    }
+
+    const onCancelComposeMail = useCallback(() => {
+        setModal(null)
+    }, [])
+
     return (
         <>
+            {modal}
             <ShowErrorNotifications
                 result={addExistingIndustryResult ?? addToContactedResult}
             />
@@ -301,18 +329,33 @@ export const FutureIndustryInfoBoxCard = ({
                                     >
                                         View
                                     </Link> */}
-                                    <div
-                                        onClick={() => {
-                                            onViewIndustryListingDetail()
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="small"
-                                            color="text-info"
-                                            cursorPointer
+                                    <div className="flex items-center gap-x-2">
+                                        <div
+                                            onClick={() => {
+                                                onViewIndustryListingDetail()
+                                            }}
                                         >
-                                            View
-                                        </Typography>
+                                            <Typography
+                                                variant="small"
+                                                color="text-info"
+                                                cursorPointer
+                                            >
+                                                View
+                                            </Typography>
+                                        </div>
+                                        <div
+                                            onClick={() => {
+                                                onComposeMail()
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="small"
+                                                color="text-success"
+                                                cursorPointer
+                                            >
+                                                Compose Email
+                                            </Typography>
+                                        </div>
                                     </div>
                                 </div>
 

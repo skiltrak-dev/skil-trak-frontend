@@ -34,7 +34,11 @@ export const MailsCommunication = ({ user }: { user: User }) => {
 
     const onComposeMail = () => {
         setModal(
-            <ComposeMailModal userId={user?.id} onCancel={onCancelClicked} />
+            <ComposeMailModal
+                user={user}
+                userId={user?.id}
+                onCancel={onCancelClicked}
+            />
         )
     }
 

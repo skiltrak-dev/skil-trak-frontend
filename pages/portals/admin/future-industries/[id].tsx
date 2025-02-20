@@ -11,7 +11,7 @@ const IndustryListingDetails: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const router = useRouter()
     const id = router.query.id
-    
+
     const { data, isSuccess, isLoading } =
         CommonApi.FindWorkplace.useIndustryListingProfileDetails(id, {
             skip: !id,
@@ -31,10 +31,7 @@ const IndustryListingDetails: NextPageWithLayout = () => {
 
     return (
         <div className="p-5">
-            <PageTitle
-                title="Industry Listing Details"
-                backTitle="Industry listing"
-            />
+            <PageTitle title="Industry Listing Details" backTitle="Back" />
             <div className="mt-8">
                 <ListingProfileDetails />
             </div>

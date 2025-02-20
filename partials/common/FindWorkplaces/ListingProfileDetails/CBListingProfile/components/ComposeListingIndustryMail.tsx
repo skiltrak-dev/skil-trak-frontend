@@ -3,14 +3,10 @@ import {
     Typography,
     draftToHtmlText,
 } from '@components'
-import React from 'react'
-import { LiaTimesSolid } from 'react-icons/lia'
-import { CommonApi } from '@queries'
-import { AuthUtils } from '@utils'
-import { values } from 'lodash'
 import { useNotification } from '@hooks'
-import { ComposeMailForm } from '@partials/common/MailsListing/tabs/MailsInbox/forms'
+import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
+import { LiaTimesSolid } from 'react-icons/lia'
 import { ComposeListingIndustryMailForm } from './ComposeListingIndustryMailForm'
 
 export const ComposeListingIndustryMail = ({
