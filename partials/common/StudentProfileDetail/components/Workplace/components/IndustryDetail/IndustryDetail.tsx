@@ -382,7 +382,10 @@ export const IndustryDetail = ({
                                     />
                                     {/*  */}
                                     <AuthorizedUserComponent
-                                        excludeRoles={[UserRoles.OBSERVER]}
+                                        excludeRoles={[
+                                            UserRoles.OBSERVER,
+                                            UserRoles.RTO,
+                                        ]}
                                     >
                                         {workplace.studentProvidedWorkplace ? (
                                             <StudentProvidedActions
