@@ -16,7 +16,7 @@ import {
 } from '@components'
 import { StudentCellInfo } from './components'
 
-import { Student } from '@types'
+import { Student, SubAdmin } from '@types'
 import { SubAdminApi } from '@queries'
 import { MdBlock } from 'react-icons/md'
 import { useEffect, useState } from 'react'
@@ -29,7 +29,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { SectorCell } from '@partials/admin/student/components'
 
-export const UrgentStudents = () => {
+export const UrgentStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
     const router = useRouter()
 
     // hooks
@@ -109,9 +109,13 @@ export const UrgentStudents = () => {
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} call />
-            },
+            cell: (info) => (
+                <StudentCellInfo
+                    call
+                    student={info.row.original}
+                    isHod={subadmin?.departmentMember?.isHod}
+                />
+            ),
         },
         {
             header: () => 'RTO',

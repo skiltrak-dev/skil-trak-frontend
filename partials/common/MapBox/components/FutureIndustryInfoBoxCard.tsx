@@ -1,4 +1,5 @@
 import {
+    AuthorizedUserComponent,
     Badge,
     GlobalModal,
     MailForm,
@@ -6,14 +7,14 @@ import {
     ShowErrorNotifications,
     Typography,
 } from '@components'
-import { useContextBar, useNotification } from '@hooks'
+import { useContextBar, useNotification, useSubadminProfile } from '@hooks'
 import {
     CommonApi,
     SubAdminApi,
     useAddExistingIndustriesMutation,
 } from '@queries'
-import { IndustryStatus } from '@types'
-import { ellipsisText } from '@utils'
+import { IndustryStatus, SubAdmin } from '@types'
+import { ellipsisText, getUserCredentials, maskText } from '@utils'
 import Image from 'next/image'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
@@ -22,6 +23,7 @@ import { IndustryListingCB } from '../contextBar'
 import { CopyInfoData } from './CopyInfoData'
 import { useRouter } from 'next/router'
 import { ComposeListingIndustryMail } from '@partials/common/FindWorkplaces'
+import { UserRoles } from '@constants'
 
 type FutureIndustryInfoBoxCardProps = {
     item: any
@@ -50,6 +52,8 @@ export const FutureIndustryInfoBoxCard = ({
     const contextBar = useContextBar()
     const [isComposeMail, setIsComposeMail] = useState<boolean>(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const subadmin = useSubadminProfile()
 
     // apply for industry
     const [addExistingIndustry, addExistingIndustryResult] =
@@ -121,6 +125,10 @@ export const FutureIndustryInfoBoxCard = ({
     const onCancelComposeMail = useCallback(() => {
         setModal(null)
     }, [])
+
+    const rolesIncludes = [UserRoles.ADMIN, UserRoles.RTO]
+
+    const role = getUserCredentials()?.role
 
     return (
         <>
@@ -199,14 +207,23 @@ export const FutureIndustryInfoBoxCard = ({
 
                                             <div className="relative group w-fit">
                                                 <Typography variant="muted">
-                                                    {selectedBox?.email}
+                                                    {maskText(
+                                                        selectedBox?.email
+                                                    )}
                                                 </Typography>
-
                                                 {/*  */}
-                                                <CopyInfoData
-                                                    text={selectedBox?.email}
-                                                    type={'Email'}
-                                                />
+                                                {(rolesIncludes?.includes(
+                                                    role
+                                                ) ||
+                                                    subadmin?.departmentMember
+                                                        ?.isHod) && (
+                                                    <CopyInfoData
+                                                        text={
+                                                            selectedBox?.email
+                                                        }
+                                                        type={'Email'}
+                                                    />
+                                                )}
                                             </div>
                                         </div>
                                         <div className="flex flex-col gap-y-1 whitespace-nowrap">
@@ -251,14 +268,26 @@ export const FutureIndustryInfoBoxCard = ({
                                 <div className="flex flex-col gap-y-1 my-1.5">
                                     <div className="relative group w-fit">
                                         <Typography variant="muted">
-                                            {selectedBox?.email}
+                                            {maskText(
+                                                selectedBox?.email,
+                                                rolesIncludes?.includes(role) ||
+                                                    subadmin?.departmentMember
+                                                        ?.isHod
+                                                    ? selectedBox?.email
+                                                          ?.length || 0
+                                                    : 4
+                                            )}
                                         </Typography>
 
                                         {/*  */}
-                                        <CopyInfoData
-                                            text={selectedBox?.email}
-                                            type={'Email'}
-                                        />
+                                        {(rolesIncludes?.includes(role) ||
+                                            subadmin?.departmentMember
+                                                ?.isHod) && (
+                                            <CopyInfoData
+                                                text={selectedBox?.email}
+                                                type={'Email'}
+                                            />
+                                        )}
                                     </div>
                                     <div
                                         onClick={() =>

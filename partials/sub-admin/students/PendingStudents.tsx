@@ -20,7 +20,7 @@ import { StudentCellInfo } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { SubAdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Student, SubAdmin, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { AcceptModal, BlockModal, RejectModal } from './modals'
@@ -29,7 +29,7 @@ import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { setLink } from '@utils'
 
-export const PendingStudents = () => {
+export const PendingStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -115,15 +115,15 @@ export const PendingStudents = () => {
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }: any) => {
-                return (
-                    <div id="student-profile">
-                        <StudentCellInfo student={row.original} />
-                    </div>
-                )
-            },
+            cell: ({ row }) => (
+                <div id="student-profile">
+                    <StudentCellInfo
+                        isHod={subadmin?.departmentMember?.isHod}
+                        student={row.original}
+                />
+                </div>
+            ),
         },
-
         {
             header: () => 'RTO',
             accessorKey: 'rto',

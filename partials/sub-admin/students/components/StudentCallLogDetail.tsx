@@ -7,7 +7,9 @@ import { SubAdminApi } from '@queries'
 export const StudentCallLogDetail = ({
     call,
     student,
+    isHod,
 }: {
+    isHod?: boolean
     call?: boolean
     student: Student
 }) => {
@@ -25,6 +27,7 @@ export const StudentCallLogDetail = ({
         >
             <div>
                 <StudentCellInfo
+                    isHod={isHod}
                     student={{ ...student, callLog: [callLog?.data] }}
                     call={call}
                 />

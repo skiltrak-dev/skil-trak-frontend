@@ -14,10 +14,12 @@ export const IndustryCellInfo = ({
     industry,
     isFavorite,
     call,
+    onlyName = true,
 }: {
     industry: Industry
     isFavorite?: any
     call?: boolean
+    onlyName?: boolean
 }) => {
     const router = useRouter()
 
@@ -107,20 +109,22 @@ export const IndustryCellInfo = ({
                             <AiFillStar className="text-primary" />
                         )} */}
                     </div>
-                    <div className="font-medium text-xs text-gray-500">
-                        {/* <p className="flex items-center gap-x-1">
+                    {onlyName && (
+                        <div className="font-medium text-xs text-gray-500">
+                            {/* <p className="flex items-center gap-x-1">
                             <span>
                                 <MdEmail />
                             </span>
                             {industry?.user?.email}
                         </p> */}
-                        <p className="flex items-center gap-x-1">
-                            <span>
-                                <MdPhoneIphone />
-                            </span>
-                            {industry?.phoneNumber}
-                        </p>
-                    </div>
+                            <p className="flex items-center gap-x-1">
+                                <span>
+                                    <MdPhoneIphone />
+                                </span>
+                                {industry?.phoneNumber}
+                            </p>
+                        </div>
+                    )}
                 </div>
             </a>
         </Link>

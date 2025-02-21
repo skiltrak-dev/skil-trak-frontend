@@ -1,7 +1,7 @@
 import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
 import { useScrollIntoView } from '@hooks'
 import { Student } from '@types'
-import { isBrowser, setLink } from '@utils'
+import { isBrowser, maskText, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -15,7 +15,9 @@ import { MdSnooze } from 'react-icons/md'
 export const StudentCellInfo = ({
     student,
     call,
+    isHod,
 }: {
+    isHod?: boolean
     student: Student
     call?: boolean
 }) => {
@@ -183,7 +185,12 @@ export const StudentCellInfo = ({
                             <span className="text-gray-400">
                                 <FaPhone />
                             </span>
-                            <p className="text-gray-500">{student?.phone}</p>
+                            <p className="text-gray-500">
+                                {maskText(
+                                    student?.phone,
+                                    isHod ? student?.phone?.length : 4
+                                )}
+                            </p>
                         </div>
                     </a>
                 </Link>

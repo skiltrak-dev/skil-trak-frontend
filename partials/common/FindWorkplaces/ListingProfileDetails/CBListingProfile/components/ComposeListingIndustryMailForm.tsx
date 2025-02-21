@@ -29,6 +29,8 @@ export const ComposeListingIndustryMailForm = ({
     industry: any
 }) => {
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
+    const [isLoaded, setIsLoaded] = useState<any>(true)
+
     const inputClasses =
         'placeholder:text-[#686868] border-b border-secondary-dark outline-none h-8 placeholder:text-[11px] px-1.5 text-[13px] text-gray-700'
     const validationSchema = Yup.object({
@@ -45,9 +47,6 @@ export const ComposeListingIndustryMailForm = ({
     const methods = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
         mode: 'all',
-        defaultValues: {
-            receiver: industry?.email ?? 'NA',
-        },
     })
     useEffect(() => {
         if (industry?.email) {

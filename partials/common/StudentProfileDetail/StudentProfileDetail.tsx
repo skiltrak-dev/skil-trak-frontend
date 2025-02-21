@@ -90,14 +90,19 @@ export const StudentProfileDetail = () => {
     useEffect(() => {
         if (profile?.isSuccess && profile?.data) {
             contextBar.show(false)
-            contextBar.setContent(<ProfileViewCB profile={profile?.data} />)
+            contextBar.setContent(
+                <ProfileViewCB
+                    profile={profile?.data}
+                    subadmin={subadmin?.data}
+                />
+            )
         }
 
         return () => {
             contextBar.hide()
             contextBar.setContent(null)
         }
-    }, [profile, mousePosition])
+    }, [profile, mousePosition, subadmin])
 
     useEffect(() => {
         if (profile?.isSuccess && profile?.data) {
@@ -290,7 +295,10 @@ export const StudentProfileDetail = () => {
                 <LoadingAnimation />
             ) : profile?.data && profile?.isSuccess ? (
                 <div className="flex flex-col gap-y-5 mt-8 mb-20 px-0 lg:px-2">
-                    <RtoDetail studentId={profile?.data?.id} />
+                    <RtoDetail
+                        studentId={profile?.data?.id}
+                        isHod={subadmin?.data?.departmentMember?.isHod}
+                    />
                     <div
                         className={`grid grid-cols-1 h-auto ${
                             role === UserRoles.ADMIN || subadmin?.data?.isAdmin

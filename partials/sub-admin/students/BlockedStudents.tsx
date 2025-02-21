@@ -22,7 +22,7 @@ import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { SubAdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Student, SubAdmin, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { AcceptModal, AssignStudentModal } from './modals'
@@ -34,7 +34,7 @@ import { checkListLength, setLink } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { CgUnblock } from 'react-icons/cg'
 
-export const BlockedStudents = () => {
+export const BlockedStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -127,7 +127,10 @@ export const BlockedStudents = () => {
             accessorKey: 'user',
             cell: ({ row }) => (
                 <div id="student-profile">
-                    <StudentCellInfo student={row.original} />
+                    <StudentCellInfo
+                        student={row.original}
+                        isHod={subadmin?.departmentMember?.isHod}
+                    />
                 </div>
             ),
         },

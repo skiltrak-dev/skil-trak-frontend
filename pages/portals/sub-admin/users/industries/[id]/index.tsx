@@ -33,7 +33,10 @@ const IndustryDetail: NextPageWithLayout = () => {
             {industry.isLoading || industry?.isFetching ? (
                 <LoadingAnimation height={'h-[70vh]'} />
             ) : industry.data ? (
-                <IndustryProfileDetail industry={industry?.data} />
+                <IndustryProfileDetail
+                    isHod={profile?.data?.departmentMember?.isHod}
+                    industry={industry?.data}
+                />
             ) : (
                 !industry.isError &&
                 industry.isSuccess && (

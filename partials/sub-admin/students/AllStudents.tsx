@@ -20,7 +20,7 @@ import { StudentCellInfo, SubadminStudentIndustries } from './components'
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Student, SubAdmin, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import {
@@ -41,7 +41,7 @@ import { InterviewModal } from '../workplace/modals'
 import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 
-export const AllStudents = () => {
+export const AllStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
@@ -73,7 +73,7 @@ export const AllStudents = () => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
-    // in the below I want to pass 
+    // in the below I want to pass
 
     const { isSuccess, isLoading, data, isError, isFetching, refetch } =
         SubAdminApi.Student.useList(
@@ -366,13 +366,19 @@ export const AllStudents = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: (info) => (
-                <StudentCellInfo student={info.row.original} call />
+                <StudentCellInfo
+                    isHod={subadmin?.departmentMember?.isHod}
+                    student={info.row.original}
+                    call
+                />
             ),
         },
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell: ({ row }: any) => <RTOCellInfo rto={row.original?.rto} />,
+            cell: ({ row }: any) => (
+                <RTOCellInfo onlyName={false} rto={row.original?.rto} />
+            ),
         },
         {
             accessorKey: 'industry',

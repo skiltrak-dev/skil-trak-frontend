@@ -9,6 +9,7 @@ import {
     NetworkProvider,
     NoteScrollProvider,
     NotificationProvider,
+    SubadminProfileProvider,
     WorkplaceProvider,
 } from '@hooks'
 import { Theme, applyTheme, getCurrentTheme } from '@theme'
@@ -112,31 +113,33 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                             <JoyRideProvider>
                                 <WorkplaceProvider>
                                     <GoogleMapsProvider>
-                                        <NoteScrollProvider>
-                                            <DownloadAssessmentProvider>
-                                                <AlertProvider>
-                                                    <NotificationProvider>
-                                                        <NavbarProvider>
-                                                            <ContextBarProvider>
-                                                                <HeaderWrapperProvider>
-                                                                    <NetworkProvider>
-                                                                        <HeadWrapper>
-                                                                            {/* <LogoutAfterHours> */}
-                                                                            {getLayout(
-                                                                                <Component
-                                                                                    {...pageProps}
-                                                                                />
-                                                                            )}
-                                                                            {/* </LogoutAfterHours> */}
-                                                                        </HeadWrapper>
-                                                                    </NetworkProvider>
-                                                                </HeaderWrapperProvider>
-                                                            </ContextBarProvider>
-                                                        </NavbarProvider>
-                                                    </NotificationProvider>
-                                                </AlertProvider>
-                                            </DownloadAssessmentProvider>
-                                        </NoteScrollProvider>
+                                        <SubadminProfileProvider>
+                                            <NoteScrollProvider>
+                                                <DownloadAssessmentProvider>
+                                                    <AlertProvider>
+                                                        <NotificationProvider>
+                                                            <NavbarProvider>
+                                                                <ContextBarProvider>
+                                                                    <HeaderWrapperProvider>
+                                                                        <NetworkProvider>
+                                                                            <HeadWrapper>
+                                                                                {/* <LogoutAfterHours> */}
+                                                                                {getLayout(
+                                                                                    <Component
+                                                                                        {...pageProps}
+                                                                                    />
+                                                                                )}
+                                                                                {/* </LogoutAfterHours> */}
+                                                                            </HeadWrapper>
+                                                                        </NetworkProvider>
+                                                                    </HeaderWrapperProvider>
+                                                                </ContextBarProvider>
+                                                            </NavbarProvider>
+                                                        </NotificationProvider>
+                                                    </AlertProvider>
+                                                </DownloadAssessmentProvider>
+                                            </NoteScrollProvider>
+                                        </SubadminProfileProvider>
                                     </GoogleMapsProvider>
                                 </WorkplaceProvider>
                             </JoyRideProvider>

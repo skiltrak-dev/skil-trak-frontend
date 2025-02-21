@@ -8,7 +8,7 @@ import { useNotification } from '@hooks'
 import { CallLogsModal } from '@partials/sub-admin/students/modals'
 import { SubAdminApi } from '@queries'
 import { Student } from '@types'
-import { getGender, getUserCredentials } from '@utils'
+import { getGender, getUserCredentials, maskText } from '@utils'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
 import { State } from 'country-state-city'
@@ -17,7 +17,13 @@ import { LatestCallAnswer } from './LatestCallAnswer'
 import { UserProfileDetailCard } from '@partials/common/Cards'
 import { UserRoles } from '@constants'
 
-export const StudentDetail = ({ profile }: { profile: Student }) => {
+export const StudentDetail = ({
+    profile,
+    isHod,
+}: {
+    isHod?: boolean
+    profile: Student
+}) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const role = getUserCredentials()?.role
@@ -75,7 +81,12 @@ export const StudentDetail = ({ profile }: { profile: Student }) => {
                         border={false}
                         title="Phone Number"
                         detail={useRestrictedData(
-                            profile?.phone,
+                            maskText(
+                                profile?.phone,
+                                isHod || role === UserRoles.ADMIN
+                                    ? profile?.phone?.length
+                                    : 4
+                            ),
                             UserRoles.STUDENT
                         )}
                         onClick={() => {

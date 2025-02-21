@@ -7,13 +7,23 @@ import {
     useIsRestricted,
     useRestrictedData,
 } from '@components'
-import { useContextBar, useNotification, useWorkplace } from '@hooks'
+import {
+    useContextBar,
+    useNotification,
+    useSubadminProfile,
+    useWorkplace,
+} from '@hooks'
 import {
     MaxReqLimitReachModal,
     ShowIndustryNotesAndTHModal,
 } from '@partials/common/StudentProfileDetail/components'
 import { useAddExistingIndustriesMutation, SubAdminApi } from '@queries'
-import { ellipsisText, getSectorsDetail } from '@utils'
+import {
+    ellipsisText,
+    getSectorsDetail,
+    getUserCredentials,
+    maskText,
+} from '@utils'
 import Image from 'next/image'
 import { ReactElement, useEffect, useState } from 'react'
 import { FaRegCopy, FaTimes } from 'react-icons/fa'
@@ -78,6 +88,8 @@ export const IndustryInfoBoxCard = ({
     }, [workplaceData])
 
     // apply for industry
+    const subadmin = useSubadminProfile()
+
     const [addExistingIndustry, addExistingIndustryResult] =
         useAddExistingIndustriesMutation()
     const [contactWorkplaceIndustry, contactWorkplaceIndustryResult] =
@@ -136,6 +148,10 @@ export const IndustryInfoBoxCard = ({
             />
         )
     }
+
+    const rolesIncludes = [UserRoles.ADMIN, UserRoles.RTO]
+
+    const role = getUserCredentials()?.role
 
     return (
         <>
@@ -222,16 +238,34 @@ export const IndustryInfoBoxCard = ({
                                             </div>
                                             <div className="relative group w-fit">
                                                 <Typography variant="muted">
-                                                    {item?.data?.user?.email}
+                                                    {maskText(
+                                                        item?.data?.user?.email,
+                                                        rolesIncludes?.includes(
+                                                            role
+                                                        ) ||
+                                                            subadmin
+                                                                ?.departmentMember
+                                                                ?.isHod
+                                                            ? item?.data?.user
+                                                                  ?.email
+                                                                  ?.length || 0
+                                                            : 4
+                                                    )}
                                                 </Typography>
 
-                                                {/*  */}
-                                                <CopyInfoData
-                                                    text={
-                                                        item?.data?.user?.email
-                                                    }
-                                                    type={'Email'}
-                                                />
+                                                {(rolesIncludes?.includes(
+                                                    role
+                                                ) ||
+                                                    subadmin?.departmentMember
+                                                        ?.isHod) && (
+                                                    <CopyInfoData
+                                                        text={
+                                                            item?.data?.user
+                                                                ?.email
+                                                        }
+                                                        type={'Email'}
+                                                    />
+                                                )}
                                             </div>
                                         </div>
                                         <div className="flex flex-col gap-y-1 whitespace-nowrap">

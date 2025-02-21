@@ -5,7 +5,7 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import { Student } from '@types'
+import { Student, SubAdmin } from '@types'
 import {
     AssignToMeStudent,
     ContactStatus,
@@ -22,7 +22,13 @@ import { getUserCredentials } from '@utils'
 import { ViewProfileVisitorsModal } from '@partials/common/modal'
 import { ReactNode, useState } from 'react'
 
-export const ProfileViewCB = ({ profile }: { profile: Student }) => {
+export const ProfileViewCB = ({
+    profile,
+    subadmin,
+}: {
+    profile: Student
+    subadmin?: SubAdmin
+}) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
 
     const onCancelModal = () => setModal(null)
@@ -124,9 +130,15 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             />
 
             {/* Student Detail */}
-            <StudentDetail profile={profile} />
+            <StudentDetail
+                profile={profile}
+                isHod={subadmin?.departmentMember?.isHod}
+            />
             {/* <RtoDetail rto={profile?.rto} /> */}
-            <EmergencyContact profile={profile} />
+            <EmergencyContact
+                profile={profile}
+                isHod={subadmin?.departmentMember?.isHod}
+            />
 
             {/* Student Status */}
             <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>

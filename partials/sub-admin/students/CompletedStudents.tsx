@@ -19,7 +19,7 @@ import { StudentCellInfo, SubadminStudentIndustries } from './components'
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
-import { Student } from '@types'
+import { Student, SubAdmin } from '@types'
 import { useEffect, useState } from 'react'
 import { ChangeStudentStatusModal } from './modals'
 
@@ -35,7 +35,7 @@ import {
 import moment from 'moment'
 import { RTOCellInfo } from '../rto/components'
 
-export const CompletedStudents = () => {
+export const CompletedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
@@ -121,7 +121,13 @@ export const CompletedStudents = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <StudentCellInfo student={info?.row?.original} call />
+                return (
+                    <StudentCellInfo
+                        isHod={subadmin?.departmentMember?.isHod}
+                        student={info?.row?.original}
+                        call
+                    />
+                )
             },
             header: () => <span>Student</span>,
         },

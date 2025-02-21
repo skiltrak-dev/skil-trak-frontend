@@ -18,8 +18,7 @@ import {
 
 // utils
 import { UserRoles } from '@constants'
-import { useNotification } from '@hooks'
-import { AuthApi, SubAdminApi } from '@queries'
+import { AuthApi } from '@queries'
 import { Course, Rto, StudentStatusEnum } from '@types'
 import {
     CourseSelectOption,
@@ -31,9 +30,9 @@ import {
     getUserCredentials,
     onlyAlphabets,
 } from '@utils'
+import { useRouter } from 'next/router'
 import { IoInformationCircle } from 'react-icons/io5'
 import { UpdateDateModal } from '../StudentProfileDetail/modals'
-import { useRouter } from 'next/router'
 
 export const StudentProfileForm = ({
     profile,
@@ -42,14 +41,17 @@ export const StudentProfileForm = ({
     courses,
     rtoDetail,
     student,
+    isHod,
 }: {
-    rtoDetail?: Rto
-    profile: any
     result: any
-    onSubmit: any
+    profile: any
     courses: any
+    onSubmit: any
+    isHod?: boolean
+    rtoDetail?: Rto
     student?: boolean
 }) => {
+    console.log({ isHod })
     const router = useRouter()
 
     const role = getUserCredentials()?.role
@@ -587,40 +589,47 @@ export const StudentProfileForm = ({
                         )}
 
                         {/* Profile Information */}
-                        <div className="flex flex-col md:flex-row gap-x-16 border-t py-2 md:py-4">
-                            <div className="w-full md:w-2/6">
-                                <div className="flex items-center gap-x-1">
-                                    <Typography
-                                        variant={'subtitle'}
-                                        color={'text-gray-500'}
-                                    >
-                                        Profile Information
-                                    </Typography>
-                                    <div className="relative group">
-                                        <IoInformationCircle size={18} />
-                                        <Tooltip>
-                                            Add Profile Information
-                                        </Tooltip>
+                        {([
+                            UserRoles.ADMIN,
+                            UserRoles.STUDENT,
+                            UserRoles.RTO,
+                        ].includes(role) ||
+                            isHod) && (
+                            <div className="flex flex-col md:flex-row gap-x-16 border-t py-2 md:py-4">
+                                <div className="w-full md:w-2/6">
+                                    <div className="flex items-center gap-x-1">
+                                        <Typography
+                                            variant={'subtitle'}
+                                            color={'text-gray-500'}
+                                        >
+                                            Profile Information
+                                        </Typography>
+                                        <div className="relative group">
+                                            <IoInformationCircle size={18} />
+                                            <Tooltip>
+                                                Add Profile Information
+                                            </Tooltip>
+                                        </div>
                                     </div>
+                                    <p className="text-gray-400 text-sm leading-6">
+                                        This will be your information used as
+                                        account login.
+                                    </p>
                                 </div>
-                                <p className="text-gray-400 text-sm leading-6">
-                                    This will be your information used as
-                                    account login.
-                                </p>
-                            </div>
 
-                            <div className="w-full md:w-4/6">
-                                <TextInput
-                                    label={'Email'}
-                                    name={'email'}
-                                    type={'email'}
-                                    placeholder={'Your Email...'}
-                                    validationIcons
-                                    required
-                                    disabled={student}
-                                />
+                                <div className="w-full md:w-4/6">
+                                    <TextInput
+                                        label={'Email'}
+                                        name={'email'}
+                                        type={'email'}
+                                        placeholder={'Your Email...'}
+                                        validationIcons
+                                        required
+                                        disabled={student || isHod}
+                                    />
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         {/* Address Information */}
                         <div className="flex flex-col md:flex-row gap-x-16 border-t py-0 md:py-4">

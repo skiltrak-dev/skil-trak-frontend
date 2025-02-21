@@ -23,7 +23,7 @@ import { StudentCallLogDetail, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { SubAdminApi, useGetSubAdminMyStudentsQuery } from '@queries'
-import { Student, SubAdminStudentsFilterType } from '@types'
+import { Student, SubAdmin, SubAdminStudentsFilterType } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import {
@@ -59,7 +59,7 @@ const filterKeys = [
     'coordinator',
 ]
 
-export const MyStudents = () => {
+export const MyStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
     const router = useRouter()
     const userId = getUserCredentials()?.id
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -73,8 +73,7 @@ export const MyStudents = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    const subadmin = SubAdminApi.SubAdmin.useProfile()
-    const canViewAllStudents = subadmin?.data?.canViewAllStudents
+    const canViewAllStudents = subadmin?.canViewAllStudents
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -264,11 +263,14 @@ export const MyStudents = () => {
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }: any) => {
-                return <StudentCallLogDetail student={row.original} call />
-            },
+            cell: ({ row }: any) => (
+                <StudentCallLogDetail
+                    isHod={subadmin?.departmentMember?.isHod}
+                    student={row.original}
+                    call
+                />
+            ),
         },
-
         {
             header: () => 'RTO',
             accessorKey: 'rto',
@@ -280,7 +282,7 @@ export const MyStudents = () => {
                         {rto.user.name && (
                             <InitialAvatar name={rto.user.name} small />
                         )}
-                        {rto.user.name}
+                        {rto?.user?.name}
                     </div>
                 )
             },

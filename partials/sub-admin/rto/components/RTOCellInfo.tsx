@@ -7,7 +7,13 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
-export const RTOCellInfo = ({ rto }: { rto: Rto }) => {
+export const RTOCellInfo = ({
+    rto,
+    onlyName = true,
+}: {
+    onlyName?: boolean
+    rto: Rto
+}) => {
     const router = useRouter()
     const canAccessRtoProfile = useIsRestricted('canAccessRtoProfile', false)
 
@@ -36,20 +42,22 @@ export const RTOCellInfo = ({ rto }: { rto: Rto }) => {
                 </div>
                 <div>
                     <p className={'font-semibold'}>{rto?.user?.name}</p>
-                    <div className="font-medium text-xs text-gray-500">
-                        <p className="flex items-center gap-x-1">
-                            <span>
-                                <MdEmail />
-                            </span>
-                            {rto?.user?.email}
-                        </p>
-                        <p className="flex items-center gap-x-1">
-                            <span>
-                                <MdPhoneIphone />
-                            </span>
-                            {rto?.phone}
-                        </p>
-                    </div>
+                    {onlyName && (
+                        <div className="font-medium text-xs text-gray-500">
+                            <p className="flex items-center gap-x-1">
+                                <span>
+                                    <MdEmail />
+                                </span>
+                                {rto?.user?.email}
+                            </p>
+                            <p className="flex items-center gap-x-1">
+                                <span>
+                                    <MdPhoneIphone />
+                                </span>
+                                {rto?.phone}
+                            </p>
+                        </div>
+                    )}
                 </div>
             </a>
         </Link>

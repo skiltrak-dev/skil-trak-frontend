@@ -31,7 +31,13 @@ import { ViewProfileVisitorsModal } from '@partials/common/modal'
 import Modal from '@modals/Modal'
 import { useRouter } from 'next/router'
 
-export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
+export const IndustryProfileCB = ({
+    isHod,
+    industry,
+}: {
+    isHod?: boolean
+    industry: Industry
+}) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const router = useRouter()
     const id = router.query.id
@@ -59,7 +65,7 @@ export const IndustryProfileCB = ({ industry }: { industry: Industry }) => {
                 <AuthorizedUserComponent
                     roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
                 >
-                    <ProfileLinks industry={industry} />
+                    <ProfileLinks isHod={isHod} industry={industry} />
                 </AuthorizedUserComponent>
             </div>
 

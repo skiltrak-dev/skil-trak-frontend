@@ -342,12 +342,14 @@ export const IndustryProfileFrom = ({
             <Card>
                 {passwordModal && passwordModal}
                 <ShowErrorNotifications result={result} />
-                <div className="mb-3 flex justify-end">
-                    <Button
-                        text={'Update Password'}
-                        onClick={() => onUpdatePassword(profile?.data)}
-                    />
-                </div>
+                <AuthorizedUserComponent excludeRoles={[UserRoles.SUBADMIN]}>
+                    <div className="mb-3 flex justify-end">
+                        <Button
+                            text={'Update Password'}
+                            onClick={() => onUpdatePassword(profile?.data)}
+                        />
+                    </div>
+                </AuthorizedUserComponent>
                 <FormProvider {...formMethods}>
                     <form
                         className="flex flex-col gap-y-4"
@@ -503,6 +505,7 @@ export const IndustryProfileFrom = ({
                                     placeholder={'Your Email...'}
                                     validationIcons
                                     required
+                                    disabled={role === UserRoles.SUBADMIN}
                                 />
                             </div>
                         </div>
