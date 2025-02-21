@@ -77,9 +77,11 @@ export const useSubadminTicketsColumns = () => {
             accessorKey: 'course',
             header: () => <span>Course</span>,
             cell: (info) => (
-                <Typography variant="muted" capitalize>
-                    {info?.row?.original?.course?.title || 'N/A'}
-                </Typography>
+                <div className="relative z-10">
+                    <Typography variant="muted" capitalize>
+                        {info?.row?.original?.course?.title || 'N/A'}
+                    </Typography>
+                </div>
             ),
         },
         // {
@@ -94,11 +96,13 @@ export const useSubadminTicketsColumns = () => {
         {
             accessorKey: 'lastActivity',
             cell: (info) => (
-                <Typography variant={'label'} capitalize>
-                    <span className="whitespace-pre">
-                        {moment(info.row.original?.updatedAt).fromNow()}
-                    </span>
-                </Typography>
+                <div className="relative z-10">
+                    <Typography variant={'label'} capitalize>
+                        <span className="whitespace-pre">
+                            {moment(info.row.original?.updatedAt).fromNow()}
+                        </span>
+                    </Typography>
+                </div>
             ),
             header: () => <span>Last Activity</span>,
         },

@@ -13,7 +13,7 @@ export const DepartmentCounts = () => {
 
     return (
         <>
-            <div className="grid grid-cols-2 gap-x-5 gap-y-10">
+            <div className="grid grid-cols-4 gap-x-5 gap-y-10">
                 <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-10">
                     <FigureCardVII
                         imageUrl="/images/figure-card/fig-card-1.svg"
@@ -66,6 +66,22 @@ export const DepartmentCounts = () => {
                         '/portals/admin/industry?tab=approved&page=1&pageSize=50'
                     }
                 />
+                {/* 4 */}
+                <FigureCardVII
+                    imageUrl="/images/figure-card/fig-card-3.svg"
+                    count={departmentCounts?.data?.workplaceCount}
+                    title={'All Workplace Request'}
+                    link={'#'}
+                />
+                <FigureCardVII
+                    imageUrl="/images/figure-card/fig-card-6.svg"
+                    count={
+                        departmentCounts?.data?.expiredStudentsWithoutWorkplace
+                    }
+                    title={'Expired Student without workplace'}
+                    link={'#'}
+                />
+                
             </div>
         </>
     )

@@ -33,6 +33,7 @@ export const TicketUser = ({
         },
     ]
     const uniqueId = uniqueIds?.find((data) => data?.value === ticket?.uniqueId)
+
     return (
         <>
             {ticket?.isInternal && (
@@ -42,7 +43,7 @@ export const TicketUser = ({
                     <Typography variant={'xxs'}>{ticket?.uniqueId}</Typography>
                 </div>
             )}
-            <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-2 relative z-10">
                 <div className="shadow-inner-image rounded-full">
                     {forwarded?.action === StatusEnum.FORWARDED &&
                     forwarded?.actionOn ? (

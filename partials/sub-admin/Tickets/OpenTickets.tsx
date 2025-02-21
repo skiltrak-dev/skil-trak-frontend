@@ -56,6 +56,10 @@ export const OpenTickets = () => {
         setIsHighPriority(value)
     }
 
+    const flashingActiveTickets = data?.data?.filter(
+        (ticket: any) => ticket?.status === 'open'
+    )
+
     const priorityOptions = [
         ...Object.entries(ticketPriorityEnum).map(([label, value]) => ({
             label,
@@ -96,7 +100,11 @@ export const OpenTickets = () => {
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
-                    <Table columns={columns} data={data.data}>
+                    <Table
+                        columns={columns}
+                        data={data.data}
+                        // flashingActiveTickets={flashingActiveTickets}
+                    >
                         {({
                             table,
                             pagination,

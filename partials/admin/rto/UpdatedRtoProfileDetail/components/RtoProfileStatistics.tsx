@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Card } from '@components'
 import { AdminApi, RtoApi, SubAdminApi } from '@queries'
 import { ProfileCounts } from './ProfileCounts'
@@ -18,15 +18,18 @@ export const RtoProfileStatistics = ({
     rto: any
 }) => {
     const rtoCourses = rto?.courses
-    const rtoCourseOptions = rtoCourses?.map((course: any) => ({
-        label: `${course?.code} - ${course?.title}`,
-        value: course?.id,
-    }))
-
-    const [selectedCourse, setSelectedCourse] = useState<any>(
-        rtoCourseOptions?.length > 0 ? rtoCourseOptions[0] : null
+    const rtoCourseOptions: any = useMemo(
+        () =>
+            rtoCourses?.map((course: any) => ({
+                label: `${course?.code} - ${course?.title}`,
+                value: course?.id,
+            })),
+        [rtoCourses]
     )
-
+    const [selectedCourse, setSelectedCourse] = useState<any>()
+    useEffect(() => {
+        setSelectedCourse(rtoCourseOptions?.[0])
+    }, [rtoCourseOptions])
     const { data, isLoading, isError, isSuccess } =
         RtoApi.Rto.useRtoProgressByCourse(
             {
@@ -88,7 +91,7 @@ export const RtoProfileStatistics = ({
                 </div>
             </div>
             <div className="flex flex-col">
-                <div className="flex justify-end">
+                {/* <div className="flex justify-end">
                     <Modal>
                         <Modal.Open opens="viewProgressByCourse">
                             <span className="text-sm text-link mb-1 underline cursor-pointer">
@@ -107,7 +110,7 @@ export const RtoProfileStatistics = ({
                             />
                         </Modal.Window>
                     </Modal>
-                </div>
+                </div> */}
                 <div className="flex-grow">
                     <Card shadowType="profile" fullHeight>
                         <RtoProfileProgress
