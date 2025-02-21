@@ -49,8 +49,6 @@ export const RtoDetail = ({
 
     const checkHod = [UserRoles.ADMIN, UserRoles.RTO].includes(role) || isHod
 
-    console.log('IK', rtoDetail?.data?.contactPersons?.[0]?.phone?.length)
-
     return (
         <>
             {modal}

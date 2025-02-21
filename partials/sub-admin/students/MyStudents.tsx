@@ -59,7 +59,7 @@ const filterKeys = [
     'coordinator',
 ]
 
-export const MyStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
+export const MyStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
     const router = useRouter()
     const userId = getUserCredentials()?.id
     const [modal, setModal] = useState<ReactElement | null>(null)
