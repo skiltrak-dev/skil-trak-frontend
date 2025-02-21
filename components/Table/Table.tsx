@@ -91,6 +91,9 @@ export const Table = <Type,>({
         const completeAndActive = activeAndCompleted
             ?.map((student: any) => student?.id)
             ?.includes(row?.original?.id)
+        // const getActiveTickets = flashingActiveTickets
+        //     ?.map((ticket: any) => ticket?.id)
+        //     ?.includes(row?.original?.id)
 
         const status = row?.original?.user?.status
 
@@ -99,6 +102,7 @@ export const Table = <Type,>({
             completeAndActive ? 'blink-green' : '',
             awaitingAgreements ? 'blink' : '',
             expiringInNext45Days ? 'blink' : '',
+            // getActiveTickets ? 'blink-green' : '',
             status === UserStatus.Blocked || status === UserStatus.Rejected
                 ? '!bg-error-light'
                 : status === UserStatus.Pending

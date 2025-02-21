@@ -15,7 +15,7 @@ type TicketUserAssignedToProps = {
 export const TicketUserAssignedTo = ({ ticket }: TicketUserAssignedToProps) => {
     return (
         <>
-            <div className="flex items-center gap-x-1">
+            <div className="flex items-center gap-x-1 relative z-10">
                 {ticket?.name && (
                     <InitialAvatar
                         name={ticket?.name}

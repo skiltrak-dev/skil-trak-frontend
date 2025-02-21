@@ -4,13 +4,16 @@ import { Button } from '@components/buttons'
 import { TextArea, TextInput } from '@components/inputs'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
+import { Turnstile } from '@marsidev/react-turnstile'
 import { CommonApi } from '@queries'
+import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FaPhoneAlt } from 'react-icons/fa'
 import { MdOutlineAlternateEmail } from 'react-icons/md'
 import * as yup from 'yup'
 export const ContactUs = ({ contactUsRef }: any) => {
     const { notification } = useNotification()
+    const [captchaToken, setCaptchaToken] = useState<string | null>(null)
     const [sendUsQuery, sendUsQueryResult] = CommonApi.Messages.useContactUs()
     const validationSchema = yup.object({
         name: yup
@@ -40,8 +43,17 @@ export const ContactUs = ({ contactUsRef }: any) => {
                     description: `Your query sent successfully.`,
                 })
                 formMethods.reset()
+                setCaptchaToken(null)
             }
         })
+    }
+    const handleSubmit = (values: any) => {
+        if (!captchaToken) {
+            alert('Please complete the captcha verification.')
+            return
+        }
+
+        onSubmit({ ...values, captchaToken })
     }
     return (
         <div ref={contactUsRef} className="md:p-24 px-4 py-8">
@@ -97,7 +109,7 @@ export const ContactUs = ({ contactUsRef }: any) => {
                         <Typography variant="h4">Send Us A Message</Typography>
                     </div>
                     <FormProvider {...formMethods}>
-                        <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+                        <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
                             <div className="flex flex-col w-full">
                                 <TextInput
                                     color="bg-[#F1DBC6] bg-opacity-25"
@@ -127,6 +139,14 @@ export const ContactUs = ({ contactUsRef }: any) => {
                                     rows={5}
                                     name="message"
                                     placeholder="Message"
+                                />
+                            </div>
+                            <div className="my-4 flex">
+                                <Turnstile
+                                    siteKey={`${process.env.cloudflareSiteKey}`}
+                                    onSuccess={(token: any) =>
+                                        setCaptchaToken(token)
+                                    }
                                 />
                             </div>
                             <Button

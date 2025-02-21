@@ -20,8 +20,11 @@ export const NavLinkItem = ({ nav, PREFIX }: { PREFIX: string; nav: any }) => {
     const defaultClasses =
         'transition-all duration-300 px-2.5 py-2  flex flex-col md:flex-row gap-x-2 items-center rounded-md'
     useEffect(() => {
-        // if nav.count value changes then update the count 
+        // if nav.count value changes then update the count
     }, [nav.count])
+    const ticketLink = '/portals/sub-admin/tickets?tab=all-tickets'
+    const checkTickCount = nav?.link === ticketLink
+
     return (
         <li className="relative ">
             <Link legacyBehavior href={nav.link}>
@@ -42,7 +45,11 @@ export const NavLinkItem = ({ nav, PREFIX }: { PREFIX: string; nav: any }) => {
                 </a>
             </Link>
             {nav?.count > 0 && (
-                <div className="absolute -top-1 -right-2 bg-success rounded-full w-4 h-4 flex justify-center items-center">
+                <div
+                    className={`absolute ${
+                        checkTickCount ? 'animate-blink bg-error' : 'bg-success'
+                    }  -top-1 -right-2  rounded-full w-4 h-4 flex justify-center items-center`}
+                >
                     <Typography variant="xs" color="text-white" semibold>
                         {nav?.count}
                     </Typography>

@@ -1,9 +1,10 @@
 import { Button, Select, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ageOptions } from '@utils'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
+import { Turnstile } from '@marsidev/react-turnstile'
 
 export const WorkBaseQueryForm = ({
     onSubmit,
@@ -12,6 +13,7 @@ export const WorkBaseQueryForm = ({
     result: any
     onSubmit: (values: any) => void
 }) => {
+    const [captchaToken, setCaptchaToken] = useState<string | null>(null)
     const validationSchema = Yup.object({
         fullName: Yup.string().required('Name is required!'),
         email: Yup.string()
@@ -31,15 +33,25 @@ export const WorkBaseQueryForm = ({
     useEffect(() => {
         if (result?.isSuccess) {
             methods.reset()
+            setCaptchaToken(null)
         }
     }, [result])
+
+    const handleSubmit = (values: any) => {
+        if (!captchaToken) {
+            alert('Please complete the captcha verification.')
+            return
+        }
+
+        onSubmit({ ...values, captchaToken })
+    }
 
     return (
         <div>
             <FormProvider {...methods}>
                 <form
                     className="mt-2 w-full"
-                    onSubmit={methods.handleSubmit(onSubmit)}
+                    onSubmit={methods.handleSubmit(handleSubmit)}
                 >
                     <div className="">
                         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-x-3">
@@ -105,7 +117,12 @@ export const WorkBaseQueryForm = ({
                             />
                         </div>
                     </div>
-
+                    <div className="mt-4 flex justify-center">
+                        <Turnstile
+                            siteKey={`${process.env.cloudflareSiteKey}`}
+                            onSuccess={(token: any) => setCaptchaToken(token)}
+                        />
+                    </div>
                     <div className="mt-4 flex items-center justify-between w-3/5 mx-auto">
                         <Button
                             fullWidth

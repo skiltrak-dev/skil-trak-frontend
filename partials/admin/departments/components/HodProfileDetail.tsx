@@ -197,15 +197,15 @@ export const HodProfileDetail = ({
                 </div>
             </Card>
             <div className="flex flex-col lg:flex-row gap-x-5 w-full mt-10 gap-y-6">
-                <div className="w-full lg:w-1/2">
+                <div className="w-full">
                     <DepartmentCounts />
                 </div>
 
-                <div className="w-full lg:w-1/2">
+                {/* <div className="w-full lg:w-1/2">
                     <Card>
                         <ProgressChart data={data} />
                     </Card>
-                </div>
+                </div> */}
             </div>
             <DepartmentLineChart />
         </>

@@ -114,7 +114,6 @@ const ContactUs = () => {
                                 </a>
                             </div>
                         </div>
-
                         {/*  */}
                         <div className="mx-6 md:mx-0 -mt-24 md:-mt-0 bg-white shadow-[0px_4px_34px_0px_rgba(177,177,177,0.25)] px-4 md:px-8 py-4 md:py-10 rounded-[10px]">
                             <ContactForm

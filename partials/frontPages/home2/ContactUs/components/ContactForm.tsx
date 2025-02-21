@@ -1,6 +1,7 @@
 import { Button, TextArea, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import React, { useEffect } from 'react'
+import { Turnstile } from '@marsidev/react-turnstile'
+import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -11,6 +12,7 @@ export const ContactForm = ({
     onSubmit: (values: any) => void
     result: any
 }) => {
+    const [captchaToken, setCaptchaToken] = useState<string | null>(null)
     const validationSchema = yup.object({
         name: yup
             .string()
@@ -33,13 +35,23 @@ export const ContactForm = ({
     useEffect(() => {
         if (result?.isSuccess) {
             formMethods.reset()
+            setCaptchaToken(null)
         }
     }, [result])
+
+    const handleSubmit = (values: any) => {
+        if (!captchaToken) {
+            alert('Please complete the captcha verification.')
+            return
+        }
+
+        onSubmit({ ...values, captchaToken })
+    }
 
     return (
         <div>
             <FormProvider {...formMethods}>
-                <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+                <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
                     <div className="flex flex-col w-full">
                         <div
                         //  data-aos="fade-left"
@@ -84,6 +96,13 @@ export const ContactForm = ({
                             />
                         </div>
                     </div>
+                    <div className="my-4 flex justify-center">
+                        <Turnstile
+                            siteKey={`${process.env.cloudflareSiteKey}`}
+                            onSuccess={(token: any) => setCaptchaToken(token)}
+                        />
+                    </div>
+
                     <div
                         // data-aos="fade-left"
                         className="w-full md:w-2/3 mx-auto"

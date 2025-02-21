@@ -1,21 +1,34 @@
 import React from 'react'
 import { Rto, UserStatus } from '@types'
 import { ProfileCountsCard, StudentCountCard } from '../cards'
-import { HiUserCircle } from 'react-icons/hi'
-import { IconType } from 'react-icons'
-import {
-    SiHomeassistantcommunitystore,
-    SiSimpleanalytics,
-} from 'react-icons/si'
+
 import { AdminApi, SubAdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
 
+import dynamic from 'next/dynamic'
+
+const HiUserCircle = dynamic(
+    () => import('react-icons/hi').then((mod) => mod.HiUserCircle),
+    { ssr: false }
+)
+const SiHomeassistantcommunitystore = dynamic(
+    () =>
+        import('react-icons/si').then(
+            (mod) => mod.SiHomeassistantcommunitystore
+        ),
+    { ssr: false }
+)
+const SiSimpleanalytics = dynamic(
+    () => import('react-icons/si').then((mod) => mod.SiSimpleanalytics),
+    { ssr: false }
+)
+
 export interface RtoProfileCountDataType {
     title: string
     count: number
-    Icon: IconType
+    Icon: any
     loading: boolean
     background: Background
     link?: {

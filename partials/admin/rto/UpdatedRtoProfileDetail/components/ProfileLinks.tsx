@@ -6,12 +6,49 @@ import { Rto } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
-import { IoMdEyeOff } from 'react-icons/io'
-import { RiEditFill } from 'react-icons/ri'
 import { AllowUpdationModal } from '../../modals'
-import { MdOutlineUpdate } from 'react-icons/md'
-import { RxUpdate } from 'react-icons/rx'
-import { BsUnlockFill } from 'react-icons/bs'
+import dynamic from 'next/dynamic'
+
+// Dynamic imports for icons
+const IoMdEyeOff = dynamic(
+    () => import('react-icons/io').then((mod) => mod.IoMdEyeOff),
+    {
+        loading: () => <span>...</span>,
+        ssr: false,
+    }
+)
+
+const RiEditFill = dynamic(
+    () => import('react-icons/ri').then((mod) => mod.RiEditFill),
+    {
+        loading: () => <span>...</span>,
+        ssr: false,
+    }
+)
+
+const MdOutlineUpdate = dynamic(
+    () => import('react-icons/md').then((mod) => mod.MdOutlineUpdate),
+    {
+        loading: () => <span>...</span>,
+        ssr: false,
+    }
+)
+
+const RxUpdate = dynamic(
+    () => import('react-icons/rx').then((mod) => mod.RxUpdate),
+    {
+        loading: () => <span>...</span>,
+        ssr: false,
+    }
+)
+
+const BsUnlockFill = dynamic(
+    () => import('react-icons/bs').then((mod) => mod.BsUnlockFill),
+    {
+        loading: () => <span>...</span>,
+        ssr: false,
+    }
+)
 
 export const ProfileLinks = ({ rto }: { rto: Rto }) => {
     const router = useRouter()

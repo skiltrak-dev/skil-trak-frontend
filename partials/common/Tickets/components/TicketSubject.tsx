@@ -26,6 +26,7 @@ export const TicketSubject = ({ ticket }: { ticket: any }) => {
                     ? `/portals/rto/tickets/detail/${ticket?.id}`
                     : ''
             }
+            className="relative z-10"
         >
             <div className="flex items-center gap-x-2 mb-1 w-[320px]">
                 <div

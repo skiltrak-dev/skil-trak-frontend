@@ -54,10 +54,13 @@ const nextConfig = {
             'skiltrak-dev.s3.ap-southeast-2.amazonaws.com',
         ],
     },
+    // compress: true,
+    // Enable module optimization
     // experimental: {
+
+    // },
     //     // reactStrictMode: true,
     //     instrumentationHook: true,
-    // },
 }
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.ANALYZE === 'true',

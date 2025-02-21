@@ -22,7 +22,6 @@ export const TicketDetailHeaderCard = ({
     isOpened: boolean
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-
     const onCancel = () => {
         setModal(null)
     }
@@ -37,6 +36,8 @@ export const TicketDetailHeaderCard = ({
 
     const role = getUserCredentials()?.role
     const userId = getUserCredentials()?.id
+
+    const checkCreatorOfTicket = userId === ticket?.createdBy?.id
     // ticket.course.title
     // ticket.course.code
     return (
@@ -80,7 +81,7 @@ export const TicketDetailHeaderCard = ({
 
                         <div className="border-b pb-2">
                             <Typography color={'text-gray-400'} variant={'xs'}>
-                                Created By:
+                                Created By: {ticket?.createdBy?.name ?? 'NA'}
                             </Typography>
                             <TicketUser small ticket={ticket?.createdBy} />
                         </div>
@@ -98,7 +99,7 @@ export const TicketDetailHeaderCard = ({
                         </div>
                         <div className="border-b pb-2">
                             <Typography color={'text-gray-400'} variant={'xs'}>
-                                Assigned To:
+                                Assigned To: {ticket?.assignedTo?.name ?? 'NA'}
                             </Typography>
                             <TicketUser small ticket={ticket?.assignedTo} />
                         </div>
@@ -110,6 +111,7 @@ export const TicketDetailHeaderCard = ({
                                     onCloseClicked()
                                 }
                             }}
+                            disabled={!checkCreatorOfTicket}
                         />
                     </div>
                 </div>

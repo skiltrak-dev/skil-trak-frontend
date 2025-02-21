@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Card } from '@components'
 import { AdminApi, RtoApi } from '@queries'
 import { ProfileCounts } from './ProfileCounts'
@@ -21,14 +21,18 @@ export const RtoDashboardStatistics = ({
     rto?: any
 }) => {
     const rtoCourses = rto?.courses
-    const rtoCourseOptions = rtoCourses?.map((course: any) => ({
-        label: `${course?.code} - ${course?.title}`,
-        value: course?.id,
-    }))
-    const [selectedCourse, setSelectedCourse] = useState<any>(
-        rtoCourseOptions?.length > 0 ? rtoCourseOptions[0] : null
+    const rtoCourseOptions: any = useMemo(
+        () =>
+            rtoCourses?.map((course: any) => ({
+                label: `${course?.code} - ${course?.title}`,
+                value: course?.id,
+            })),
+        [rtoCourses]
     )
-    console.log('selectedCourse', rtoCourseOptions)
+    const [selectedCourse, setSelectedCourse] = useState<any>()
+    useEffect(() => {
+        setSelectedCourse(rtoCourseOptions?.[0])
+    }, [rtoCourseOptions])
     const role = getUserCredentials()?.role
     const count = RtoApi.Rto.useDashboard()
 
@@ -75,7 +79,7 @@ export const RtoDashboardStatistics = ({
                 </div>
             </div>
             <div className="flex flex-col">
-                <div className="flex justify-end">
+                {/* <div className="flex justify-end">
                     <Modal>
                         <Modal.Open opens="viewProgressByCourse">
                             <span className="text-sm text-link mb-1 underline cursor-pointer">
@@ -94,7 +98,7 @@ export const RtoDashboardStatistics = ({
                             />
                         </Modal.Window>
                     </Modal>
-                </div>
+                </div> */}
                 <div className="flex-grow">
                     <Card shadowType="profile" fullHeight>
                         <RtoProfileProgress statisticsCount={count} />

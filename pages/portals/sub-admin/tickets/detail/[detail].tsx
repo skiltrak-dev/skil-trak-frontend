@@ -30,6 +30,11 @@ const TicketDetail: NextPageWithLayout = () => {
     const { setTitle } = useNavbar()
     const router = useRouter()
     const role = getUserCredentials()?.role
+    const userId = getUserCredentials()?.id
+
+    const { notification } = useNotification()
+
+    const dispatch = useDispatch()
 
     const ticketDetail = CommonApi.Tickets.useGetDetail(
         Number(router.query.detail),
