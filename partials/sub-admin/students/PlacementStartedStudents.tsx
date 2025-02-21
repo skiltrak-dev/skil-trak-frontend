@@ -20,7 +20,7 @@ import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { SubAdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Student, SubAdmin, UserStatus } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { BlockModal, UnAssignStudentModal } from './modals'
@@ -34,7 +34,11 @@ import {
     setLink,
 } from '@utils'
 
-export const PlacementStartedStudents = () => {
+export const PlacementStartedStudents = ({
+    subadmin,
+}: {
+    subadmin: SubAdmin
+}) => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -115,9 +119,13 @@ export const PlacementStartedStudents = () => {
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }: any) => {
-                return <StudentCellInfo student={row.original} call />
-            },
+            cell: ({ row }: any) => (
+                <StudentCellInfo
+                    isHod={subadmin?.departmentMember?.isHod}
+                    student={row.original}
+                    call
+                />
+            ),
         },
 
         {

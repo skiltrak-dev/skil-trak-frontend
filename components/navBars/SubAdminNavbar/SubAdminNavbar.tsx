@@ -154,11 +154,11 @@ export const SubAdminNavbar = () => {
                     <NavLinkItem key={i} nav={nav} PREFIX={PREFIX} />
                 ))}
             </ul>
-            <ul className="flex gap-x-2 items-center py-4">
+            {/* <ul className="flex gap-x-2 items-center py-4">
                 {additionalMenuItems.map((nav, i) => (
                     <NavLinkItem key={i} nav={nav} PREFIX={PREFIX} />
                 ))}
-            </ul>
+            </ul> */}
         </div>
     )
 }

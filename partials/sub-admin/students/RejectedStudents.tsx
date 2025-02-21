@@ -21,7 +21,7 @@ import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { SubAdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Student, SubAdmin, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { AcceptModal, AssignStudentModal, BlockModal } from './modals'
@@ -31,7 +31,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { setLink } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
 
-export const RejectedStudents = () => {
+export const RejectedStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -125,7 +125,10 @@ export const RejectedStudents = () => {
             cell: ({ row }: any) => {
                 return (
                     <div id="student-profile">
-                        <StudentCellInfo student={row.original} />
+                        <StudentCellInfo
+                            isHod={subadmin?.departmentMember?.isHod}
+                            student={row.original}
+                        />
                     </div>
                 )
             },

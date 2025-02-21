@@ -17,7 +17,7 @@ export const ComposeListingIndustryMail = ({
     industry: any
 }) => {
     const router = useRouter()
-    const id = router.query?.id
+    const id = industry?.id || router.query?.id
     const [sendMessage, sendMessageResult] =
         CommonApi.FindWorkplace.useComposeListingIndustryMail()
 

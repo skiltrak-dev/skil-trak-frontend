@@ -20,9 +20,8 @@ import {
 import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useActionModal } from '@hooks'
 import { SubAdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Student, SubAdmin, UserStatus } from '@types'
 import { MdBlock } from 'react-icons/md'
 import { BlockModal, ChangeStudentStatusModal } from './modals'
 
@@ -35,12 +34,9 @@ import {
     checkWorkplaceStatus,
     getStudentWorkplaceAppliedIndustry,
     setLink,
-    studentsListWorkplace,
 } from '@utils'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCellInfo } from '../Industries'
 
-export const ArchivedStudents = () => {
+export const ArchivedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -143,7 +139,11 @@ export const ArchivedStudents = () => {
             cell: ({ row }: any) => {
                 return (
                     <div id="student-profile">
-                        <StudentCellInfo student={row.original} call />
+                        <StudentCellInfo
+                            isHod={subadmin?.departmentMember?.isHod}
+                            student={row.original}
+                            call
+                        />
                     </div>
                 )
             },

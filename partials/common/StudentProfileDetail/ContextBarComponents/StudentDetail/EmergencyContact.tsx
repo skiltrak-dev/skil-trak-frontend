@@ -3,12 +3,23 @@ import { Student } from '@types'
 import React from 'react'
 import { StudentDetailCard } from './StudentDetailCard'
 import { UserRoles } from '@constants'
+import { getUserCredentials, maskText } from '@utils'
 
-export const EmergencyContact = ({ profile }: { profile: Student }) => {
+export const EmergencyContact = ({
+    isHod,
+    profile,
+}: {
+    isHod?: boolean
+    profile: Student
+}) => {
+    const rolesIncludes = [UserRoles.ADMIN, UserRoles.RTO]
+
+    const role = getUserCredentials()?.role
+
     return (
         <div className="mt-5">
             <Typography variant="small" medium>
-                Emergency Contact{' '}
+                Emergency Contact
             </Typography>
 
             <div className="mt-1.5 flex flex-col gap-y-1.5">
@@ -20,7 +31,12 @@ export const EmergencyContact = ({ profile }: { profile: Student }) => {
                     <StudentDetailCard
                         title="Phone"
                         detail={useRestrictedData(
-                            profile?.emergencyPersonPhone,
+                            maskText(
+                                profile?.emergencyPersonPhone,
+                                rolesIncludes.includes(role) || isHod
+                                    ? profile?.emergencyPersonPhone?.length
+                                    : 4
+                            ),
                             UserRoles.STUDENT
                         )}
                     />

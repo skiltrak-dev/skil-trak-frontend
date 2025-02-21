@@ -33,7 +33,7 @@ const IndustryListingDetails: NextPageWithLayout = () => {
         <div className="p-5">
             <PageTitle title="Industry Listing Details" backTitle="Back" />
             <div className="mt-8">
-                <ListingProfileDetails />
+                <ListingProfileDetails industry={data} />
             </div>
         </div>
     )

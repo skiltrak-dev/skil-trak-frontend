@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
 // Icons
-import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 
 // components
 import {
@@ -10,38 +10,29 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
-    StudentExpiryDaysLeft,
     Table,
     TableAction,
-    UserCreatedAt,
 } from '@components'
 import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Student, SubAdmin, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
-import { MdBlock, MdPriorityHigh } from 'react-icons/md'
-import {
-    AddToNonContactableStudents,
-    AssignStudentModal,
-    BlockModal,
-    ChangeStudentStatusModal,
-    HighPriorityModal,
-} from './modals'
 
-import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
-import { getStudentWorkplaceAppliedIndustry, setLink } from '@utils'
-import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
-import { RTOCellInfo } from '../rto/components'
-import { InterviewModal } from '../workplace/modals'
+import { setLink } from '@utils'
 import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
+import { RTOCellInfo } from '../rto/components'
 
-export const StudentScheduleEndedList = () => {
+export const StudentScheduleEndedList = ({
+    subadmin,
+}: {
+    subadmin: SubAdmin
+}) => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
@@ -205,7 +196,11 @@ export const StudentScheduleEndedList = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: (info) => (
-                <StudentCellInfo student={info.row.original} call />
+                <StudentCellInfo
+                    call
+                    student={info.row.original}
+                    isHod={subadmin?.departmentMember?.isHod}
+                />
             ),
         },
         {

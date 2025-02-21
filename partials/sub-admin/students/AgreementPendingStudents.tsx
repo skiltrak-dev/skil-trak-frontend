@@ -19,7 +19,7 @@ import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { SubAdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Student, SubAdmin, UserStatus } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { BlockModal, UnAssignStudentModal } from './modals'
@@ -35,7 +35,11 @@ import {
 } from '@utils'
 import moment from 'moment'
 
-export const AgreementPendingStudents = () => {
+export const AgreementPendingStudents = ({
+    subadmin,
+}: {
+    subadmin: SubAdmin
+}) => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -124,7 +128,11 @@ export const AgreementPendingStudents = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }: any) => (
-                <StudentCellInfo student={row.original} call />
+                <StudentCellInfo
+                    call
+                    student={row.original}
+                    isHod={subadmin?.departmentMember?.isHod}
+                />
             ),
         },
 

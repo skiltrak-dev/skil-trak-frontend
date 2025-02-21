@@ -8,9 +8,18 @@ import { ReactElement, useEffect, useState } from 'react'
 import { RtoInsuranceDocModal } from '../../modals'
 import { SubAdminApi } from '@queries'
 import { useWorkplace } from '@hooks'
+import { getUserCredentials, maskText } from '@utils'
 
-export const RtoDetail = ({ studentId }: { studentId: number }) => {
+export const RtoDetail = ({
+    isHod,
+    studentId,
+}: {
+    isHod?: boolean
+    studentId: number
+}) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const role = getUserCredentials()?.role
 
     const router = useRouter()
     const { setWorkplaceRto } = useWorkplace()
@@ -19,6 +28,7 @@ export const RtoDetail = ({ studentId }: { studentId: number }) => {
         skip: !studentId,
         refetchOnMountOrArgChange: 300,
     })
+    const rolesIncludes = [UserRoles.ADMIN, UserRoles.RTO]
 
     useEffect(() => {
         if (rtoDetail?.data && rtoDetail?.isSuccess) {
@@ -36,6 +46,9 @@ export const RtoDetail = ({ studentId }: { studentId: number }) => {
             />
         )
     }
+
+    const checkHod = [UserRoles.ADMIN, UserRoles.RTO].includes(role) || isHod
+
     return (
         <>
             {modal}
@@ -62,11 +75,18 @@ export const RtoDetail = ({ studentId }: { studentId: number }) => {
                                             {rtoDetail?.data?.user?.name}
                                         </span>
                                     </Typography>
+
                                     <Typography
                                         variant="xs"
                                         color="text-[#6B7280]"
                                     >
-                                        {rtoDetail?.data?.user?.email}
+                                        {checkHod
+                                            ? rtoDetail?.data?.user?.email
+                                            : `*****${
+                                                  rtoDetail?.data?.user?.email?.split(
+                                                      '@'
+                                                  )[1]
+                                              }`}
                                     </Typography>
                                 </div>
                             </div>
@@ -76,13 +96,33 @@ export const RtoDetail = ({ studentId }: { studentId: number }) => {
                         <div className="flex flex-col gap-y-2">
                             <ProfileCard
                                 title="RTO Phone Number"
-                                detail={rtoDetail?.data?.phone || '---'}
+                                detail={
+                                    maskText(
+                                        rtoDetail?.data?.phone,
+                                        checkHod ||
+                                            rolesIncludes?.includes(role)
+                                            ? rtoDetail?.data?.phone?.length ||
+                                                  0
+                                            : 3
+                                    ) || '---'
+                                }
                             />
                             <ProfileCard
                                 title="Contact Person Number"
                                 detail={
-                                    rtoDetail?.data?.contactPersons?.[0]
-                                        ?.phone || '---'
+                                    rtoDetail?.data?.contactPersons &&
+                                    rtoDetail?.data?.contactPersons?.length > 0
+                                        ? maskText(
+                                              rtoDetail?.data
+                                                  ?.contactPersons?.[0]?.phone,
+                                              checkHod ||
+                                                  rolesIncludes?.includes(role)
+                                                  ? rtoDetail?.data
+                                                        ?.contactPersons?.[0]
+                                                        ?.phone?.length
+                                                  : 3
+                                          )
+                                        : '---'
                                 }
                             />
                         </div>

@@ -114,7 +114,7 @@ export const SubadminIndustries = () => {
             {
                 label: 'All',
                 href: { pathname: 'industries', query: { tab: 'all' } },
-                element: <AllIndustries />,
+                element: <AllIndustries isHod={isHod} />,
                 badge: {
                     text: count.data?.approved,
                     loading: count.isLoading,

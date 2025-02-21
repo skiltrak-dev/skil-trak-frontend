@@ -1,6 +1,7 @@
 export * from './getAge'
 export * from './getAge'
 export * from './getDate'
+export * from './maskText'
 export * from './filterify'
 export * from './getGender'
 export * from './getLatLng'

@@ -19,7 +19,13 @@ import { CourseManagement } from './components/CourseManagement'
 import { StudentSchedule } from './components/StudentSchedule'
 import { IndustryProfileCB } from './IndustryProfileCB'
 
-export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
+export const IndustryProfileDetail = ({
+    industry,
+    isHod,
+}: {
+    isHod?: boolean
+    industry: Industry
+}) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
     // its incresing the views of profile
@@ -33,7 +39,9 @@ export const IndustryProfileDetail = ({ industry }: { industry: Industry }) => {
 
     useEffect(() => {
         contextBar.show(false)
-        contextBar.setContent(<IndustryProfileCB industry={industry} />)
+        contextBar.setContent(
+            <IndustryProfileCB isHod={isHod} industry={industry} />
+        )
         const showAlert = () => {
             switch (industry?.user?.status) {
                 case UserStatus.Pending:

@@ -14,7 +14,13 @@ import { CiUnlock } from 'react-icons/ci'
 import { User } from '@types'
 import { MailPasswordModal } from '@partials/common/StudentProfileDetail/modals'
 
-export const ProfileLinks = ({ industry }: { industry: Industry }) => {
+export const ProfileLinks = ({
+    isHod,
+    industry,
+}: {
+    isHod?: boolean
+    industry: Industry
+}) => {
     const router = useRouter()
     const { passwordModal, onViewPassword, onUpdatePassword } = useActionModal()
     const [modal, setModal] = useState<ReactNode | null>(null)
@@ -35,20 +41,28 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
 
     const profileLinks = [
         {
-            text: 'Edit Profile',
-            Icon: RiEditFill,
-            onClick: () => {
-                if (role === UserRoles.ADMIN || subadmin?.data?.isAdmin) {
-                    router.push(
-                        `/portals/admin/industry/edit-industry/${industry?.id}`
-                    )
-                } else if (role === UserRoles.SUBADMIN) {
-                    router.push(
-                        `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
-                    )
-                }
-            },
+            ...(role === UserRoles.ADMIN || isHod
+                ? {
+                      text: 'Edit Profile',
+                      Icon: RiEditFill,
+                      onClick: () => {
+                          if (
+                              role === UserRoles.ADMIN ||
+                              subadmin?.data?.isAdmin
+                          ) {
+                              router.push(
+                                  `/portals/admin/industry/edit-industry/${industry?.id}`
+                              )
+                          } else if (role === UserRoles.SUBADMIN) {
+                              router.push(
+                                  `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
+                              )
+                          }
+                      },
+                  }
+                : {}),
         },
+
         {
             ...(role === UserRoles.ADMIN
                 ? {
@@ -68,11 +82,15 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
             },
         },
         {
-            text: 'View Password',
-            Icon: IoMdEyeOff,
-            onClick: () => {
-                onViewPassword(industry)
-            },
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'View Password',
+                      Icon: IoMdEyeOff,
+                      onClick: () => {
+                          onViewPassword(industry)
+                      },
+                  }
+                : {}),
         },
         {
             text: 'Placement Status',

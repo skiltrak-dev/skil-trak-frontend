@@ -8,7 +8,7 @@ import {
     ShowErrorNotifications,
     TechnicalError,
 } from '@components'
-import { checkStudentProfileCompletion } from '@utils'
+import { checkStudentProfileCompletion, getUserCredentials } from '@utils'
 
 //Layouts
 import { SubAdminLayout } from '@layouts'
@@ -24,6 +24,7 @@ import {
     useUpdateStudentProfileMutation,
 } from '@queries'
 import { CompleteProfileBeforeWpModal } from '@partials/common/StudentProfileDetail/components'
+import { UserRoles } from '@constants'
 
 const EditStudentDetail: NextPageWithLayout = () => {
     const contextBar = useContextBar()
@@ -34,6 +35,8 @@ const EditStudentDetail: NextPageWithLayout = () => {
 
     const router = useRouter()
     const { id } = router.query
+
+    const role = getUserCredentials()?.role
 
     const student = useGetSubAdminStudentDetailQuery(Number(id), {
         skip: !id,
@@ -48,7 +51,15 @@ const EditStudentDetail: NextPageWithLayout = () => {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })
+
+    console.log({ role })
+
+    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
+        skip: role !== UserRoles.SUBADMIN,
+    })
     const [updateDetail, updateDetailResult] = useUpdateStudentProfileMutation()
+
+    console.log({ subadmin })
 
     useEffect(() => {
         contextBar.setContent(null)
@@ -236,6 +247,7 @@ const EditStudentDetail: NextPageWithLayout = () => {
                         profile={student}
                         result={updateDetailResult}
                         courses={courses}
+                        isHod={subadmin?.data?.departmentMember?.isHod}
                     />
                 ) : (
                     !student.isError && student.isSuccess && <EmptyData />

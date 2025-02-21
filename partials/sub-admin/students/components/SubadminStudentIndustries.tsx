@@ -40,9 +40,9 @@ export const SubadminStudentIndustries = ({
     }
     const appliedIndustry = studentsListWorkplace(workplace)
     return workplace && workplace?.length > 0 && appliedIndustry ? (
-        <IndustryCellInfo industry={appliedIndustry} />
+        <IndustryCellInfo onlyName={false} industry={appliedIndustry} />
     ) : industries && industries?.length > 0 ? (
-        <IndustryCellInfo industry={industries?.[0]} />
+        <IndustryCellInfo onlyName={false} industry={industries?.[0]} />
     ) : (
         <Typography center>N/A</Typography>
     )
