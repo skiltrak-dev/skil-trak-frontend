@@ -73,7 +73,6 @@ const BlogDetail: NextPageWithLayout = () => {
         router?.query?.slug + ''
     )
 
-    console.log('blogData?.metaData', blogData?.data?.metaData)
     return (
         <div className="">
             <Head>

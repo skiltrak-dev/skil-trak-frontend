@@ -52,14 +52,10 @@ const EditStudentDetail: NextPageWithLayout = () => {
         refetchOnMountOrArgChange: true,
     })
 
-    console.log({ role })
-
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: role !== UserRoles.SUBADMIN,
     })
     const [updateDetail, updateDetailResult] = useUpdateStudentProfileMutation()
-
-    console.log({ subadmin })
 
     useEffect(() => {
         contextBar.setContent(null)

@@ -41,7 +41,6 @@ export const CustomSectorDoc = ({
             if (res?.error) {
                 setResult(res)
             }
-            console.log({ res })
         } catch (e) {
             console.log({ e })
         }

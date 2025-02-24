@@ -201,7 +201,6 @@ const HaveWorkplace: NextPageWithLayout = (props: Props) => {
         //     />
         // )
     }
-    console.log('showEmployerDocModal', showEmployerDocModal)
 
     return (
         <>

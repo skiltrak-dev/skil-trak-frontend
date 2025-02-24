@@ -42,8 +42,6 @@ export const ComposeListingRtoMail = ({
         }
         // formData.append('type', 'email')
 
-        // console.log('aaaaaa', formData)
-
         // sendMessage(formData).then((res: any) => {
         //     if (res?.data) {
         //         notification.success({
