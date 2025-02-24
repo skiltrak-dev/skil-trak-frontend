@@ -1,6 +1,10 @@
 {
     "functions": {
-        "functions/**/*.js": {
+        "pages/**/*.js": {
+            "memory": 1024,
+            "maxDuration": 30
+        },
+        "public/**/*.js": {
             "memory": 1024,
             "maxDuration": 30
         }
