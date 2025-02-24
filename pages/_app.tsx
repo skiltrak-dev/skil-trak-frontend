@@ -97,8 +97,6 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
     const getLayout = Component.getLayout ?? ((page) => page)
 
-    // if (loading) return <PrePageLoading />
-
     return (
         <>
             <GoogleAnalyticsScript />
