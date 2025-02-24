@@ -260,9 +260,6 @@ export const RtoSignUpForm = ({
                         key: process.env.NEXT_PUBLIC_MAP_KEY,
                     } as GeocodeOptions)
                         .then((response) => {
-                            getAddressData(e?.target?.value).then((res) => {
-                                console.log({ ssssssssssssss: res })
-                            })
                             // const s = getAddressData(e?.target?.value)
                             const addressComponents =
                                 response.results[0].address_components
