@@ -33,7 +33,6 @@ export const RtoDashboardStatistics = ({
     useEffect(() => {
         setSelectedCourse(rtoCourseOptions?.[0])
     }, [rtoCourseOptions])
-    const role = getUserCredentials()?.role
     const count = RtoApi.Rto.useDashboard()
 
     const { data, isLoading, isError, isSuccess } =

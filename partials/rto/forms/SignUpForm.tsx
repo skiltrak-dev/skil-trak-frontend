@@ -178,8 +178,6 @@ export const RtoSignUpForm = ({
             ),
     })
 
-    console.log({ onSuburbClicked })
-
     useEffect(() => {
         if (sectorResponse.data?.length) {
             const options = sectorResponse.data?.map((sector: any) => ({
@@ -218,8 +216,6 @@ export const RtoSignUpForm = ({
         resolver: yupResolver(validationSchema),
     })
 
-    console.log({ formMethods })
-
     useEffect(() => {
         if (courseValues && courseValues?.length > 0) {
             formMethods.setValue('courses', courseValues)
@@ -242,7 +238,6 @@ export const RtoSignUpForm = ({
         //     onSubmit(values)
         // }
     }
-    console.log({ formMethods })
 
     const handleAddressChange = (e: any) => {
         setOnSuburbClicked(false)
@@ -305,18 +300,13 @@ export const RtoSignUpForm = ({
     const addressValue = formMethods.watch('addressLine1')
 
     useEffect(() => {
-        console.log('Effect Running:', { addressValue, onSuburbClicked })
-
         if (addressValue && !onSuburbClicked) {
-            console.log('Setting error...')
-
             formMethods.setError('addressLine1', {
                 type: 'manual',
                 message: 'Please select an address from the dropdown',
             })
             formMethods.trigger('addressLine1') // Force UI update
         } else {
-            console.log('Clearing error...')
             // setTimeout(() => {
             //     console.log('Clearing error...')
             //     formMethods.clearErrors('addressLine1')

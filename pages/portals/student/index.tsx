@@ -97,8 +97,6 @@ const StudentDashboard: NextPageWithLayout = () => {
         </Modal>
     )
 
-    console.log('talentPoolProfile?.data', talentPoolProfile)
-
     useEffect(() => {
         if (
             talentPoolProfile?.data &&

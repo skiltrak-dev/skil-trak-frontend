@@ -18,7 +18,6 @@ export const BookAppointmentInfoModal = ({
     studentUser: number
     onCancel: () => void
 }) => {
-    console.log({ approvalDate })
     const router = useRouter()
     const role = getUserCredentials()?.role
 

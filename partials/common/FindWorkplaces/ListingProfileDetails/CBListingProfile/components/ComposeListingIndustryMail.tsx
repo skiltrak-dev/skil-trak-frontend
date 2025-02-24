@@ -41,8 +41,6 @@ export const ComposeListingIndustryMail = ({
             })
         }
 
-        // console.log('aaaaaa', formData)
-
         // sendMessage(formData).then((res: any) => {
         //     if (res?.data) {
         //         notification.success({

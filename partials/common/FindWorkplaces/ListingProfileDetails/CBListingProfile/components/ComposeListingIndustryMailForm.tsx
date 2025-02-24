@@ -43,7 +43,6 @@ export const ComposeListingIndustryMailForm = ({
         // ),
     })
 
-    console.log({ industry })
     const methods = useForm<FormValues>({
         resolver: yupResolver(validationSchema),
         mode: 'all',

@@ -51,7 +51,6 @@ export const StudentProfileForm = ({
     rtoDetail?: Rto
     student?: boolean
 }) => {
-    console.log({ isHod })
     const router = useRouter()
 
     const role = getUserCredentials()?.role
