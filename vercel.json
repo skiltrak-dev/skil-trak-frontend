@@ -1,8 +1,7 @@
 {
     "functions": {
         "src/**": {
-            "memory": 3009,
-            "excludeFiles": "{.next,*.cache,node_modules,public,app}/**"
+            "memory": 3009
         }
     }
 }
