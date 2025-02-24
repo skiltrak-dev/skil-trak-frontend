@@ -1,8 +1,9 @@
 {
     "functions": {
-        "pages/**/*.js": {
+        "pages/api/**/*.js": {
             "memory": 1024,
-            "maxDuration": 30
+            "maxDuration": 30,
+            "excludeFiles": "{node_modules,public,.next,*.cache}/**"
         }
     }
 }
