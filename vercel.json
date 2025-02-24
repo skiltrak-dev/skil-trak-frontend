@@ -1,14 +1,14 @@
 {
     "functions": {
-        "pages/api/**/*.js": {
+        "pages/api/**/*.ts": {
             "memory": 3008,
             "maxDuration": 30
         },
-        "api/**/*.js": {
+        "api/**/*.ts": {
             "memory": 3008,
             "maxDuration": 30
         },
-        "functions/**/*.js": {
+        "functions/**/*.ts": {
             "memory": 3008,
             "maxDuration": 30
         }
