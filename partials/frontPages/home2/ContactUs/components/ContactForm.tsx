@@ -1,6 +1,6 @@
 import { Button, TextArea, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Turnstile } from '@marsidev/react-turnstile'
+// import { Turnstile } from '@marsidev/react-turnstile'
 import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -96,12 +96,12 @@ export const ContactForm = ({
                             />
                         </div>
                     </div>
-                    <div className="my-4 flex justify-center">
+                    {/* <div className="my-4 flex justify-center">
                         <Turnstile
                             siteKey={`${process.env.cloudflareSiteKey}`}
                             onSuccess={(token: any) => setCaptchaToken(token)}
                         />
-                    </div>
+                    </div> */}
 
                     <div
                         // data-aos="fade-left"

@@ -4,7 +4,7 @@ import { ageOptions } from '@utils'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
-import { Turnstile } from '@marsidev/react-turnstile'
+// import { Turnstile } from '@marsidev/react-turnstile'
 
 export const WorkBaseQueryForm = ({
     onSubmit,
@@ -117,12 +117,12 @@ export const WorkBaseQueryForm = ({
                             />
                         </div>
                     </div>
-                    <div className="mt-4 flex justify-center">
+                    {/* <div className="mt-4 flex justify-center">
                         <Turnstile
                             siteKey={`${process.env.cloudflareSiteKey}`}
                             onSuccess={(token: any) => setCaptchaToken(token)}
                         />
-                    </div>
+                    </div> */}
                     <div className="mt-4 flex items-center justify-between w-3/5 mx-auto">
                         <Button
                             fullWidth
