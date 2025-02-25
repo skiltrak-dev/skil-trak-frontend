@@ -3,7 +3,7 @@
         "pages/api/**/*.{ts,js,tsx}": {
             "memory": 1024,
             "maxDuration": 30,
-            "excludeFiles": "{node_modules,public,.next,*.cache}/**"
+            "excludeFiles": "{*.cache}/**"
         }
     }
 }
