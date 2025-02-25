@@ -2,7 +2,7 @@
     "functions": {
         "pages/api/**/*.{ts,js,tsx}": {
             "memory": 1024,
-            "maxDuration": 900,
+            "maxDuration": 800,
             "excludeFiles": "{node_modules,public,.next,*.cache}/**"
         }
     }
