@@ -1,9 +1,0 @@
-{
-    "functions": {
-        "pages/api/**/*.{ts,js,tsx}": {
-            "memory": 1024,
-            "maxDuration": 30,
-            "excludeFiles": "{*.cache}/**"
-        }
-    }
-}

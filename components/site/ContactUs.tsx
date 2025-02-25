@@ -4,7 +4,7 @@ import { Button } from '@components/buttons'
 import { TextArea, TextInput } from '@components/inputs'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
-import { Turnstile } from '@marsidev/react-turnstile'
+// import { Turnstile } from '@marsidev/react-turnstile'
 import { CommonApi } from '@queries'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -141,14 +141,14 @@ export const ContactUs = ({ contactUsRef }: any) => {
                                     placeholder="Message"
                                 />
                             </div>
-                            <div className="my-4 flex">
+                            {/* <div className="my-4 flex">
                                 <Turnstile
                                     siteKey={`${process.env.cloudflareSiteKey}`}
                                     onSuccess={(token: any) =>
                                         setCaptchaToken(token)
                                     }
                                 />
-                            </div>
+                            </div> */}
                             <Button
                                 text={'Submit'}
                                 submit
