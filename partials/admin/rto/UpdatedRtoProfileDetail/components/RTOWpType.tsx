@@ -79,7 +79,6 @@ export const RTOWpType = ({ wpType }: { wpType: WorkplaceTypes }) => {
 
                         // <div
                         //     onClick={() => {
-                        //         console.log('SSSAAA')
                         //         setIsDelete(true)
                         //         // onDeleteWpType(wpType)
                         //     }}
