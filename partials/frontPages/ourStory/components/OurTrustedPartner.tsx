@@ -42,11 +42,6 @@ export const OurTrustedPartner = () => {
             link: 'https://jti.edu.au/',
         },
         {
-            image: 'ntca.png',
-            width: 100,
-            link: 'https://www.ntca.edu.au/',
-        },
-        {
             image: 'hillshire.jpg',
             width: 100,
             link: 'https://hillshire.edu.au/',

@@ -56,19 +56,7 @@ const OurStory: NextPageWithLayout = () => {
                 />
             </Head>
             {/* Welcome Card */}
-            <div
-                onClick={handleSmoothScroll}
-                className="w-full h-full mx-auto max-w-7xl py-5 cursor-pointer"
-            >
-                <Image
-                    src={'/images/our-story/cookry-banner.jpg'}
-                    alt={''}
-                    width={0}
-                    height={0}
-                    sizes={'100vh 100vw'}
-                    className="w-full h-full"
-                />
-            </div>
+
             <div className="bg-[#F7A619] mx-auto max-w-7xl flex flex-col justify-center items-center p-4     md:p-12 rounded-b-md">
                 <h1 className="text-white text-center text-xl md:text-4xl font-extrabold leading-normal [text-shadow:_0px_7px_14px_rgba(0_0_0_/_0.25)]">
                     Welcome to SkilTrak

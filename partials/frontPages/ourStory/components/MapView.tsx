@@ -27,7 +27,6 @@ const customMapStyles = [
 
         stylers: [{ color: '#cde2e8' }],
     },
-
     {
         featureType: 'landscape',
 
