@@ -1,29 +1,16 @@
-import React from 'react'
-import { Rto, UserStatus } from '@types'
+import { UserStatus } from '@types'
 import { ProfileCountsCard, StudentCountCard } from '../cards'
 
-import { AdminApi, SubAdminApi } from '@queries'
-import { useRouter } from 'next/router'
-import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
+import { SubAdminApi } from '@queries'
+import { getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
 
-import dynamic from 'next/dynamic'
-
-const HiUserCircle = dynamic(
-    () => import('react-icons/hi').then((mod) => mod.HiUserCircle),
-    { ssr: false }
-)
-const SiHomeassistantcommunitystore = dynamic(
-    () =>
-        import('react-icons/si').then(
-            (mod) => mod.SiHomeassistantcommunitystore
-        ),
-    { ssr: false }
-)
-const SiSimpleanalytics = dynamic(
-    () => import('react-icons/si').then((mod) => mod.SiSimpleanalytics),
-    { ssr: false }
-)
+import { HiUserCircle } from 'react-icons/hi'
+import {
+    SiHomeassistantcommunitystore,
+    SiSimpleanalytics,
+} from 'react-icons/si'
 
 export interface RtoProfileCountDataType {
     title: string
