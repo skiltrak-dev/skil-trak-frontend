@@ -36,8 +36,6 @@ export const SectorIndustryDocs = ({
     const role = getUserCredentials()?.role
     const checkRto = role === UserRoles.RTO
 
-    console.log({ makeOptionalResult })
-
     return (
         <>
             <ShowErrorNotifications result={result} />
