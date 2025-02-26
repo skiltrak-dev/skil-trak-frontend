@@ -19,7 +19,7 @@ import { PuffLoader } from 'react-spinners'
 import { NotesTemplateStatus } from '../forms'
 import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
 
-export const NoteCard = ({ note }: { note: NoteType }) => {
+export const NoteCard = ({ note }: { note: NoteType | any }) => {
     const { notification } = useNotification()
 
     const [statusChange, statusChangeResult] = CommonApi.Notes.useStatusChange()
@@ -74,7 +74,7 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                     <div className="flex justify-between items-start">
                         <div>
                             <Typography variant="label" semibold>
-                                {note.title}
+                                {note?.title ?? note?.subject}
                             </Typography>
                             {note?.studentNote ? (
                                 <div>
@@ -141,7 +141,7 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                             <span
                                 className="block remove-text-bg"
                                 dangerouslySetInnerHTML={{
-                                    __html: note?.body,
+                                    __html: note?.body ?? note?.message,
                                 }}
                             ></span>
                         </div>
@@ -155,9 +155,13 @@ export const NoteCard = ({ note }: { note: NoteType }) => {
                                             : 'text-gray-500'
                                     } capitalize`}
                                 >
-                                    {note?.author?.name}{' '}
+                                    {note?.author?.name ??
+                                        note?.assignedTo?.name}{' '}
                                     <span className="text-[11px] font-medium capitalize">
-                                        ({note?.author?.role})
+                                        (
+                                        {note?.author?.role ??
+                                            note?.assignedTo?.role}
+                                        )
                                     </span>
                                 </p>
                                 <p

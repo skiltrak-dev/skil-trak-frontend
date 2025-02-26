@@ -14,6 +14,7 @@ import {
     Select,
     SelectOption,
     ShowErrorNotifications,
+    TagsInput,
     TextInput,
     draftToHtmlText,
     htmlToDraftText,
@@ -39,7 +40,7 @@ interface onSubmitType {
     subject: string
     message: EditorState
     template: any
-    attachment: FileList | null
+    attachments: FileList | null
 }
 export const MailForm = ({ action, receiverId, sender }: any) => {
     // const { replyMessage, setReplyMessage, setMessage } = useMessage()
@@ -90,14 +91,14 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
 
     useEffect(() => {
         if (attachmentFiles) {
-            methods.setValue('attachment', attachmentFiles)
+            methods.setValue('attachments', attachmentFiles)
         }
     }, [attachmentFiles])
 
     useEffect(() => {
         if (sendMessageResult.isSuccess) {
             methods.reset()
-            methods.setValue('attachment', null)
+            methods.setValue('attachments', null)
             setSendEmailDraft(true)
             setAttachmentFiles([])
             notification.success({
@@ -148,14 +149,22 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
         const formData = new FormData()
 
         const message = draftToHtmlText(values.message)
+        const ccEmails = values.cc
+            ? values.cc
+                  .split(',')
+                  .map((email) => email.trim())
+                  .filter((email) => email.length > 0)
+            : []
 
-        const { attachment, ...rest } = values
+        const { attachments, ...rest } = values
         const data = {
             subject: values.subject,
             message,
             type: 'email',
             sender: userCredentials?.id,
             receiver: receiverId,
+            ccUsers: ccEmails || undefined,
+
             // receiver: receiverId || 64,
         }
 
@@ -163,9 +172,9 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
             formData.append(key, value)
         })
 
-        attachment &&
-            [...attachment]?.forEach((attached: File) => {
-                formData.append('attachment', attached)
+        attachments &&
+            [...attachments]?.forEach((attached: File) => {
+                formData.append('attachments', attached)
             })
         sendMessage(formData)
         // setReplyMessage(null)
@@ -180,6 +189,11 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
             'message',
             htmlToDraftText(template?.content) as EditorState
         )
+        if (template?.file) {
+            setAttachmentFiles([template.file])
+        } else {
+            setAttachmentFiles([])
+        }
     }
 
     const templates = [
@@ -236,11 +250,39 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     <TextInput
                                         label={'CC (optional)'}
                                         name={'cc'}
-                                        type={'email'}
-                                        placeholder={'CC Email...'}
+                                        // type={'email'}
+                                        placeholder={
+                                            'CC Email Separate email by comma...'
+                                        }
+                                        helpText="Separate email by comma (,)"
                                         validationIcons
                                     />
-                                ) : null}
+                                ) : // <TagsInput
+                                //     label="CC (optional)"
+                                //     name="cc"
+                                //     placeholder="Add email address..."
+                                //     hint="Add multiple emails separated by comma or press Enter"
+                                //     validationIcons
+                                //     onBlur={(emails) => {
+                                //         // Convert the email tags to a comma-separated string
+                                //         const emailString = emails.join(',')
+                                //         methods.setValue('cc', emailString)
+
+                                //         // If you want to automatically save to draft when user leaves the field
+                                //         // if (
+                                //         //     emailString &&
+                                //         //     !ref.current?.contains(
+                                //         //         document.activeElement
+                                //         //     )
+                                //         // ) {
+                                //         //     emailDraft({
+                                //         //         receiver: receiverId,
+                                //         //         cc: emailString,
+                                //         //     })
+                                //         // }
+                                //     }}
+                                // />
+                                null}
                                 <TextInput
                                     label={'Subject'}
                                     name={'subject'}
@@ -342,7 +384,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                                     ]
                                                 )
                                             }}
-                                            name={'attachment'}
+                                            name={'attachments'}
                                             component={onFileUpload}
                                             multiple
                                             limit={Number(1111111111)}
