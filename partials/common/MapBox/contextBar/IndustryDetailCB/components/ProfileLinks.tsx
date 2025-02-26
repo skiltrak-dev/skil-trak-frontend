@@ -1,6 +1,8 @@
 import { Typography } from '@components'
+import { UserRoles } from '@constants'
 import { AcceptingStudentModal } from '@partials/common/IndustryProfileDetail/modal'
 import { Industry } from '@types'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { RiEditFill } from 'react-icons/ri'
@@ -9,6 +11,8 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const router = useRouter()
+
+    const role = getUserCredentials()?.role
 
     const onCancelModal = () => setModal(null)
 
@@ -26,9 +30,13 @@ export const ProfileLinks = ({ industry }: { industry: Industry }) => {
             text: 'View Profile',
             Icon: RiEditFill,
             onClick: () => {
-                router.push(
-                    `/portals/sub-admin/users/industries/${industry?.id}`
-                )
+                if (role === UserRoles.ADMIN) {
+                    router.push(`/portals/admin/industry/${industry?.id}`)
+                } else {
+                    router.push(
+                        `/portals/sub-admin/users/industries/${industry?.id}`
+                    )
+                }
             },
         },
         {

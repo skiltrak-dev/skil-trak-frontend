@@ -197,12 +197,6 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                     <div className="flex justify-end items-center gap-x-1">
                         <button
                             className="px-2 text-sm text-gray-400 hover:text-gray-600"
-                            onClick={() => setTo(!to)}
-                        >
-                            To
-                        </button>
-                        <button
-                            className="px-2 text-sm text-gray-400 hover:text-gray-600"
                             onClick={() => setCc(!cc)}
                         >
                             CC

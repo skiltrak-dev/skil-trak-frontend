@@ -13,7 +13,6 @@ import { useNavbar } from '@hooks'
 import { CommonApi } from '@queries'
 import { SubadminESignFilterType } from '@types'
 import { checkFilteredDataLength } from '@utils'
-import { useRouter } from 'next/router'
 import {
     AllEsignDocumentsUpdated,
     CancelEsignDocumentsUpdated,
@@ -37,8 +36,6 @@ const filterKeys = [
 ]
 
 export const SubadminESign = () => {
-    const router = useRouter()
-
     const navBar = useNavbar()
 
     const [filterAction, setFilterAction] = useState(null)

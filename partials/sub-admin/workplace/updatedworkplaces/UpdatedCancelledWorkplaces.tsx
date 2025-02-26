@@ -18,7 +18,7 @@ import {
 import { useGetCancelledWorkplacesQuery } from '@queries'
 import { useRouter } from 'next/router'
 import { ellipsisText } from '@utils'
-import { UpdatedWorkplaceRequest } from './components'
+import { RtoCellInfo, UpdatedWorkplaceRequest } from './components'
 import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
 import { MdSnooze } from 'react-icons/md'
@@ -146,14 +146,7 @@ export const UpdatedCancelledWorkplaces = () => {
             header: () => 'RTO',
             accessorKey: 'rto',
             cell: ({ row }: any) => (
-                <>
-                    <Typography variant="small" semibold>
-                        {row?.original?.student?.rto?.user?.name ?? 'N/A'}
-                    </Typography>
-                    <Typography variant="small" color="text-gray-500">
-                        {row?.original?.student?.rto?.user?.email ?? 'N/A'}
-                    </Typography>
-                </>
+                <RtoCellInfo rto={row?.original?.student?.rto} />
             ),
         },
         {

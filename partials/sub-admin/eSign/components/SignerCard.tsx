@@ -1,8 +1,9 @@
-import { Typography } from '@components'
+import { Typography, useAuthorizedUserComponent } from '@components'
 import React from 'react'
 import { UserRoles } from '@constants'
-import { EsignDocumentStatus } from '@utils'
+import { EsignDocumentStatus, maskText } from '@utils'
 import { getStatusColor } from './EsignListRowCard'
+import { useSubadminProfile } from '@hooks'
 
 export const SignerCard = ({ signer }: any) => {
     // #128C7F1A
@@ -31,6 +32,14 @@ export const SignerCard = ({ signer }: any) => {
     const backgroundClass = getBackgroundClass(signer?.status)
     const phoneNumber = getPhoneNumber(signer?.user)
 
+    const subadmin = useSubadminProfile()
+    const isPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
+
+    console.log({ phoneNumber: phoneNumber?.length < 5 ? phoneNumber : false })
+
     return (
         <>
             <div
@@ -57,7 +66,12 @@ export const SignerCard = ({ signer }: any) => {
                         </div>
                         <div>
                             <Typography variant="small" color="text-gray-400">
-                                {signer?.user?.email ?? 'NA'}
+                                {maskText(
+                                    signer?.user?.email,
+                                    isPermission
+                                        ? signer?.user?.email?.length
+                                        : 6
+                                ) ?? 'NA'}
                             </Typography>
                         </div>
                         <div>
@@ -72,9 +86,17 @@ export const SignerCard = ({ signer }: any) => {
                                     ? signer?.user?.rto?.phone ?? 'NA'
                                     : null}
                             </Typography> */}
-                            <Typography variant="small" color="text-gray-400">
-                                {phoneNumber}
-                            </Typography>
+                            {phoneNumber && phoneNumber !== 'NA' && (
+                                <Typography
+                                    variant="small"
+                                    color="text-gray-400"
+                                >
+                                    {maskText(
+                                        phoneNumber,
+                                        isPermission ? phoneNumber?.length : 4
+                                    ) ?? 'NA'}{' '}
+                                </Typography>
+                            )}
                         </div>
                     </div>
 

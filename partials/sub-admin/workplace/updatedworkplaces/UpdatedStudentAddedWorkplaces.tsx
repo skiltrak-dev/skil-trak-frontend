@@ -1,28 +1,26 @@
 import {
-    TechnicalError,
-    LoadingAnimation,
-    EmptyData,
-    PageSize,
-    Pagination,
-    Typography,
     Card,
+    EmptyData,
+    LoadingAnimation,
     Table,
-    UserCreatedAt,
+    TechnicalError,
     Tooltip,
     TooltipPosition,
+    Typography,
+    UserCreatedAt,
 } from '@components'
 
 // query
 import { useGetAddedByStudentsWorkplacesQuery } from '@queries'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 import { ColumnDef } from '@tanstack/react-table'
-import Link from 'next/link'
-import { UpdatedWorkplaceRequest } from './components'
 import { ellipsisText } from '@utils'
-import { MdSnooze } from 'react-icons/md'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { FiPhoneOff } from 'react-icons/fi'
 import { LuFlagTriangleRight } from 'react-icons/lu'
+import { MdSnooze } from 'react-icons/md'
+import { RtoCellInfo, UpdatedWorkplaceRequest } from './components'
 
 export const UpdatedStudentAddedWorkplaces = () => {
     const [page, setPage] = useState(1)
@@ -144,14 +142,7 @@ export const UpdatedStudentAddedWorkplaces = () => {
             header: () => 'RTO',
             accessorKey: 'rto',
             cell: ({ row }: any) => (
-                <>
-                    <Typography variant="small" semibold>
-                        {row?.original?.student?.rto?.user?.name ?? 'N/A'}
-                    </Typography>
-                    <Typography variant="small" color="text-gray-500">
-                        {row?.original?.student?.rto?.user?.email ?? 'N/A'}
-                    </Typography>
-                </>
+                <RtoCellInfo rto={row?.original?.student?.rto} />
             ),
         },
         {

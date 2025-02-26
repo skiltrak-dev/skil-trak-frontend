@@ -14,7 +14,7 @@ import {
     Tooltip,
     TooltipPosition,
 } from '@components'
-import { UpdatedWorkplaceRequest } from './components'
+import { RtoCellInfo, UpdatedWorkplaceRequest } from './components'
 
 // query
 import { useGetMyStudentsWorkplacesQuery } from '@queries'
@@ -147,14 +147,7 @@ export const UpdatedMyWorkplaces = () => {
             header: () => 'RTO',
             accessorKey: 'rto',
             cell: ({ row }: any) => (
-                <>
-                    <Typography variant="small" semibold>
-                        {row?.original?.student?.rto?.user?.name ?? 'N/A'}
-                    </Typography>
-                    <Typography variant="small" color="text-gray-500">
-                        {row?.original?.student?.rto?.user?.email ?? 'N/A'}
-                    </Typography>
-                </>
+                <RtoCellInfo rto={row?.original?.student?.rto} />
             ),
         },
         {
