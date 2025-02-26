@@ -116,7 +116,12 @@ export const Mail = ({ message, sender, index }: any) => {
                                 {message?.subject || 'Message Subject'}
                             </Typography>
                             <Typography variant={'label'} color={'gray'}>
-                                {myMessages ? 'You' : message?.sender?.name}
+                                {myMessages
+                                    ? 'You'
+                                    : message?.sender?.coordinator === null
+                                    ? 'Super Admin'
+                                    : message?.sender?.coordinator
+                                          ?.departmentMember?.department?.name}
                             </Typography>
                         </div>
                         <div>
