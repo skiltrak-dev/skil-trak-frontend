@@ -5,30 +5,26 @@ import {
     EmptyData,
     LoadingAnimation,
     Table,
-    TableAction,
     TechnicalError,
     Tooltip,
     TooltipPosition,
     Typography,
+    useAuthorizedUserComponent,
     UserCreatedAt,
 } from '@components'
 
 // query
-import {
-    useGetSubAdminWorkplacesQuery,
-    useGetWorkplaceFoldersQuery,
-} from '@queries'
-import { useRouter } from 'next/router'
+import { useGetSubAdminWorkplacesQuery } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
+import { ellipsisText, maskText } from '@utils'
 import Link from 'next/link'
-import { GetFolders } from '../hooks'
-import { UpdatedWorkplaceRequest } from './components'
-import { ellipsisText } from '@utils'
-import { BiSolidAlarmSnooze } from 'react-icons/bi'
-import { FiPhoneMissed, FiPhoneOff } from 'react-icons/fi'
-import { PiFlagPennantFill } from 'react-icons/pi'
+import { useRouter } from 'next/router'
+import { FiPhoneOff } from 'react-icons/fi'
 import { LuFlagTriangleRight } from 'react-icons/lu'
 import { MdSnooze } from 'react-icons/md'
+import { RtoCellInfo, UpdatedWorkplaceRequest } from './components'
+import { UserRoles } from '@constants'
+import { useSubadminProfile } from '@hooks'
 
 export const ActiveWorkplaceRequest = () => {
     const [page, setPage] = useState(1)
@@ -37,6 +33,7 @@ export const ActiveWorkplaceRequest = () => {
     const [selectedWorkplace, setSelectedWorkplace] = useState<any>(null)
     const router = useRouter()
 
+    const subadmin = useSubadminProfile()
     const subAdminWorkplace = useGetSubAdminWorkplacesQuery(
         {
             skip: itemPerPage * page - itemPerPage,
@@ -81,6 +78,11 @@ export const ActiveWorkplaceRequest = () => {
     //         },
     //     ]
     // }
+
+    const isPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
 
     const Columns: ColumnDef<any>[] = [
         {
@@ -200,14 +202,7 @@ export const ActiveWorkplaceRequest = () => {
             header: () => 'RTO',
             accessorKey: 'rto',
             cell: ({ row }: any) => (
-                <>
-                    <Typography variant="small" semibold>
-                        {row?.original?.student?.rto?.user?.name ?? 'N/A'}
-                    </Typography>
-                    <Typography variant="small" color="text-gray-500">
-                        {row?.original?.student?.rto?.user?.email ?? 'N/A'}
-                    </Typography>
-                </>
+                <RtoCellInfo rto={row?.original?.student?.rto} />
             ),
         },
         {

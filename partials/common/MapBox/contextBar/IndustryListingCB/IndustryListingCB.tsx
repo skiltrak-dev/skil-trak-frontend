@@ -6,9 +6,10 @@ import {
     LoadingAnimation,
     NoData,
     Typography,
+    useAuthorizedUserComponent,
 } from '@components'
 import { UserRoles } from '@constants'
-import { useNotification } from '@hooks'
+import { useNotification, useSubadminProfile } from '@hooks'
 import { UserProfileDetailCard } from '@partials/common/Cards'
 import {
     IndustryListingCallModal,
@@ -17,7 +18,7 @@ import {
 import { useIndustryListingActions } from '@partials/common/FindWorkplaces/hooks/useIndustryListingActions'
 import { CommonApi } from '@queries'
 import { IndustryStatus, Sector } from '@types'
-import { getUserCredentials } from '@utils'
+import { getUserCredentials, maskText } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
@@ -90,6 +91,13 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
         }
     }
 
+    const subadmin = useSubadminProfile()
+
+    const isPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
+
     return (
         <>
             {modal}
@@ -120,7 +128,12 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
                                     </span>
                                 </Typography>
                                 <Typography variant="xs" color="text-[#6B7280]">
-                                    {detail?.data?.email}
+                                    {maskText(
+                                        detail?.data?.email,
+                                        isPermission
+                                            ? detail?.data?.email?.length
+                                            : 4
+                                    )}
                                 </Typography>
                             </div>
                         </div>

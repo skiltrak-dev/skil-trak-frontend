@@ -1,14 +1,19 @@
-import { InitialAvatar } from '@components'
-import { Student } from '@types'
-import { setLink } from '@utils'
-import Image from 'next/image'
+import { InitialAvatar, useAuthorizedUserComponent } from '@components'
+import { UserRoles } from '@constants'
+import { useSubadminProfile } from '@hooks'
+import { maskText, setLink } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaEnvelope, FaPhone } from 'react-icons/fa'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const AssessmentCellInfo = ({ item }: { item: any }) => {
     const router = useRouter()
+    const subadmin = useSubadminProfile()
+    const isPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
+
     return (
         <div className="flex items-center relative">
             <div className="flex items-center gap-x-2">
@@ -64,7 +69,12 @@ export const AssessmentCellInfo = ({ item }: { item: any }) => {
                                 <FaEnvelope />
                             </span>
                             <p className="text-gray-500">
-                                {item?.student?.user?.email}
+                                {maskText(
+                                    item?.student?.user?.email,
+                                    isPermission
+                                        ? item?.student?.user?.email?.length
+                                        : 5
+                                )}
                             </p>
                         </div>
                         <div className="flex items-center gap-x-2 text-sm">
@@ -72,7 +82,12 @@ export const AssessmentCellInfo = ({ item }: { item: any }) => {
                                 <FaPhone />
                             </span>
                             <p className="text-gray-500">
-                                {item?.student?.phone}
+                                {maskText(
+                                    item?.student?.phone,
+                                    isPermission
+                                        ? item?.student?.phone?.length
+                                        : 4
+                                )}
                             </p>
                         </div>
                     </a>

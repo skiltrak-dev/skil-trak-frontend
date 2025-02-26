@@ -1,16 +1,22 @@
-import React, { ReactElement, useState } from 'react'
-import { SubAdminApi, useGetSubAdminIndustriesProfileQuery } from '@queries'
+import {
+    ActionButton,
+    LoadingAnimation,
+    Typography,
+    useAuthorizedUserComponent,
+} from '@components'
+import { useSubadminProfile } from '@hooks'
 import {
     IndustryContactPerson,
     IndustryDetail,
     IndustryProfileAvatar,
-    IndustrySectors,
 } from '@partials/common/IndustryProfileDetail'
-import { ProfileLinks } from './components'
-import { ActionButton, Typography } from '@components'
-import { AddNoteModal, ViewNoteModal } from './modal'
 import { UpdatedCourseList } from '@partials/common/UpdatedCourseList'
-import { getSectors } from '@utils'
+import { useGetSubAdminIndustriesProfileQuery } from '@queries'
+import { getSectors, maskText } from '@utils'
+import { ReactElement, useState } from 'react'
+import { ProfileLinks } from './components'
+import { AddNoteModal, ViewNoteModal } from './modal'
+import { UserRoles } from '@constants'
 
 export const IndustryDetailCB = ({
     id,
@@ -25,7 +31,6 @@ export const IndustryDetailCB = ({
         skip: !id,
         refetchOnMountOrArgChange: true,
     })
-    const profile = SubAdminApi.SubAdmin.useProfile()
 
     const sectorsWithCourses = getSectors(industry?.data?.courses)
 
@@ -49,66 +54,99 @@ export const IndustryDetailCB = ({
             />
         )
     }
+
+    const subadmin = useSubadminProfile()
+    const isPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
+
     return (
         <div>
-            {modal}
-            <div className="flex justify-between items-center">
+            {industry?.isLoading ? (
+                <LoadingAnimation size={70} />
+            ) : (
                 <div>
-                    <IndustryProfileAvatar
-                        avatar={industry?.data?.user?.avatar as string}
-                    />
-                </div>
-                <ProfileLinks industry={industry?.data} />
-            </div>
-            {/*  */}
-            <div className="flex justify-between items-center gap-x-3">
-                <div className="mt-2">
-                    <Typography semibold>
-                        <span className="text-[15px]">
-                            {' '}
-                            {industry?.data?.user?.name}
-                        </span>
-                    </Typography>
-                    <Typography variant="xs" color="text-[#6B7280]">
+                    {modal}
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <IndustryProfileAvatar
+                                avatar={industry?.data?.user?.avatar as string}
+                            />
+                        </div>
+                        <ProfileLinks industry={industry?.data} />
+                    </div>
+                    {/*  */}
+                    <div className="flex justify-between items-center gap-x-3">
+                        <div className="mt-2">
+                            <Typography semibold>
+                                <span className="text-[15px]">
+                                    {industry?.data?.user?.name}
+                                </span>
+                            </Typography>
+
+                            <Typography variant="xs" color="text-[#6B7280]">
+                                {industry?.data?.isSnoozed
+                                    ? '---'
+                                    : maskText(
+                                          industry?.data?.user?.email,
+                                          isPermission
+                                              ? industry?.data?.user?.email
+                                                    ?.length || 0
+                                              : 4
+                                      )}
+                            </Typography>
+
+                            {/* <Typography variant="xs" color="text-[#6B7280]">
                         {industry?.data?.isSnoozed
                             ? '---'
                             : industry?.data?.user?.email}
                     </Typography>
-                </div>
-            </div>
-            {/*  */}
-            <IndustryDetail industry={industry?.data} />
-            <IndustryContactPerson industry={industry?.data} />
-            {/*  */}
-            {/*  */}
-            {!profile?.data?.isAssociatedWithRto ? (
-                <div className="flex items-center gap-x-2 py-3">
-                    <Typography variant="label">Note: </Typography>
-                    <div className="flex items-center">
-                        <ActionButton
-                            variant="info"
-                            simple
-                            onClick={() => {
-                                onViewNoteClicked()
-                            }}
-                        >
-                            View
-                        </ActionButton>
-                        <ActionButton
-                            variant="info"
-                            simple
-                            onClick={() => {
-                                onCreateNoteClicked()
-                            }}
-                        >
-                            Add
-                        </ActionButton>
+
+                    <Typography variant="xs" color="text-[#6B7280]">
+                        {industry?.data?.isSnoozed
+                            ? '---'
+                            : maskText(industry?.data?.user?.email)}
+                    </Typography> */}
+                        </div>
                     </div>
+                    {/*  */}
+                    <IndustryDetail industry={industry?.data} />
+                    <IndustryContactPerson industry={industry?.data} />
+                    {/*  */}
+                    {/*  */}
+                    {!subadmin?.isAssociatedWithRto ? (
+                        <div className="flex items-center gap-x-2 py-3">
+                            <Typography variant="label">Note: </Typography>
+                            <div className="flex items-center">
+                                <ActionButton
+                                    variant="info"
+                                    simple
+                                    onClick={() => {
+                                        onViewNoteClicked()
+                                    }}
+                                >
+                                    View
+                                </ActionButton>
+                                <ActionButton
+                                    variant="info"
+                                    simple
+                                    onClick={() => {
+                                        onCreateNoteClicked()
+                                    }}
+                                >
+                                    Add
+                                </ActionButton>
+                            </div>
+                        </div>
+                    ) : null}
+                    {/*  */}{' '}
+                    <UpdatedCourseList
+                        sectorsWithCourses={sectorsWithCourses}
+                    />
+                    {/* <IndustrySectors courses={industry?.data?.courses} /> */}
                 </div>
-            ) : null}
-            {/*  */}{' '}
-            <UpdatedCourseList sectorsWithCourses={sectorsWithCourses} />
-            {/* <IndustrySectors courses={industry?.data?.courses} /> */}
+            )}
         </div>
     )
 }

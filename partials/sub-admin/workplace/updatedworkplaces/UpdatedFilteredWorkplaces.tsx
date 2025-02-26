@@ -1,25 +1,19 @@
-import React from 'react'
-
 import {
-    TechnicalError,
-    LoadingAnimation,
-    EmptyData,
-    PageSize,
-    Pagination,
     Card,
+    EmptyData,
     Table,
-    UserCreatedAt,
-    Typography,
     Tooltip,
     TooltipPosition,
+    Typography,
+    UserCreatedAt,
 } from '@components'
-import { UpdatedWorkplaceRequest } from './components'
+import { ColumnDef } from '@tanstack/react-table'
 import { ellipsisText } from '@utils'
 import Link from 'next/link'
-import { ColumnDef } from '@tanstack/react-table'
-import { MdSnooze } from 'react-icons/md'
 import { FiPhoneOff } from 'react-icons/fi'
 import { LuFlagTriangleRight } from 'react-icons/lu'
+import { MdSnooze } from 'react-icons/md'
+import { RtoCellInfo, UpdatedWorkplaceRequest } from './components'
 
 export const UpdatedFilteredWorkplaces = ({
     setPage,
@@ -134,14 +128,7 @@ export const UpdatedFilteredWorkplaces = ({
             header: () => 'RTO',
             accessorKey: 'rto',
             cell: ({ row }: any) => (
-                <>
-                    <Typography variant="small" semibold>
-                        {row?.original?.student?.rto?.user?.name ?? 'N/A'}
-                    </Typography>
-                    <Typography variant="small" color="text-gray-500">
-                        {row?.original?.student?.rto?.user?.email ?? 'N/A'}
-                    </Typography>
-                </>
+                <RtoCellInfo rto={row?.original?.student?.rto} />
             ),
         },
         {

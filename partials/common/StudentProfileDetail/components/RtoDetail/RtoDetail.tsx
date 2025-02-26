@@ -1,4 +1,10 @@
-import { AuthorizedUserComponent, Card, NoData, Typography } from '@components'
+import {
+    useAuthorizedUserComponent,
+    AuthorizedUserComponent,
+    Card,
+    NoData,
+    Typography,
+} from '@components'
 import { ProfileCard } from '@partials/admin/sub-admin/SubadminProfileDetail/components/ProfileDetail/ProfileCard'
 import { Rto } from '@types'
 import { Avatar } from '../../ContextBarComponents'
@@ -47,7 +53,10 @@ export const RtoDetail = ({
         )
     }
 
-    const checkHod = [UserRoles.ADMIN, UserRoles.RTO].includes(role) || isHod
+    const isPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN, UserRoles.RTO],
+        isHod,
+    })
 
     return (
         <>
@@ -80,13 +89,13 @@ export const RtoDetail = ({
                                         variant="xs"
                                         color="text-[#6B7280]"
                                     >
-                                        {checkHod
-                                            ? rtoDetail?.data?.user?.email
-                                            : `*****${
-                                                  rtoDetail?.data?.user?.email?.split(
-                                                      '@'
-                                                  )[1]
-                                              }`}
+                                        {maskText(
+                                            rtoDetail?.data?.user?.email,
+                                            isPermission
+                                                ? rtoDetail?.data?.user?.email
+                                                      ?.length
+                                                : 6
+                                        ) || '---'}
                                     </Typography>
                                 </div>
                             </div>
@@ -99,8 +108,7 @@ export const RtoDetail = ({
                                 detail={
                                     maskText(
                                         rtoDetail?.data?.phone,
-                                        checkHod ||
-                                            rolesIncludes?.includes(role)
+                                        isPermission
                                             ? rtoDetail?.data?.phone?.length ||
                                                   0
                                             : 3
@@ -115,8 +123,7 @@ export const RtoDetail = ({
                                         ? maskText(
                                               rtoDetail?.data
                                                   ?.contactPersons?.[0]?.phone,
-                                              checkHod ||
-                                                  rolesIncludes?.includes(role)
+                                              isPermission
                                                   ? rtoDetail?.data
                                                         ?.contactPersons?.[0]
                                                         ?.phone?.length

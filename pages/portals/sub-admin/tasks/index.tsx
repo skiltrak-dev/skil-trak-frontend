@@ -98,13 +98,13 @@ const SubAdminTasks: NextPageWithLayout = () => {
                 loading: statistics.isLoading,
             },
         },
-        {
-            title: 'My Student Report',
-            description: 'My Student Report',
-            link: 'tasks/my-students-report',
-            animation: Animations.Student.Appointments.MyStudentsReport,
-            id: 'my-student-report',
-        },
+        // {
+        //     title: 'My Student Report',
+        //     description: 'My Student Report',
+        //     link: 'tasks/my-students-report',
+        //     animation: Animations.Student.Appointments.MyStudentsReport,
+        //     id: 'my-student-report',
+        // },
         {
             title: 'Industry Listing',
             description: 'Industry Listing',

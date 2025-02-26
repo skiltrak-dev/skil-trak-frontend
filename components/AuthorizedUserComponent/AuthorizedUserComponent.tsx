@@ -1,23 +1,24 @@
 import { getUserCredentials } from '@utils'
 import { ReactNode } from 'react'
+import { useAuthorizedUserComponent } from './useAuthorizedUserComponent'
 
 export const AuthorizedUserComponent = ({
     roles,
     children,
     excludeRoles,
+    isHod,
 }: {
+    isHod?: boolean
     roles?: string[]
     excludeRoles?: string[]
     children: ReactNode
 }) => {
-    const role = getUserCredentials()?.role
+    const hasPermission = useAuthorizedUserComponent({
+        roles,
+        children,
+        excludeRoles,
+        isHod,
+    })
 
-    const hasPermission = !roles?.length || roles.includes(role)
-
-    // If excludeRoles is provided, check if user is not excluded
-    const isNotExcluded = !excludeRoles?.length || !excludeRoles.includes(role)
-
-    return hasPermission && isNotExcluded ? <>{children}</> : null
-
-    return roles?.includes(role) ? <> {children} </> : null
+    return hasPermission ? <>{children}</> : null
 }

@@ -1,28 +1,26 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // Icons
-import { FaEnvelope, FaEye, FaPhoneSquareAlt } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 
 // components
 import {
     InitialAvatar,
     TableAction,
-    TableActionOption,
     Typography,
     UserCreatedAt,
 } from '@components'
 
 // types
-import { Student } from '@types'
-import { ArchiveModal, AssessmentCellInfo, DeleteModal } from '../components'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { ReactElement, useState } from 'react'
-import { BsArchiveFill } from 'react-icons/bs'
-import { AiFillDelete } from 'react-icons/ai'
 import { Result } from '@constants'
 import { setLink } from '@utils'
+import { ReactElement, useState } from 'react'
+import { AiFillDelete } from 'react-icons/ai'
+import { BsArchiveFill } from 'react-icons/bs'
+import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { ArchiveModal, AssessmentCellInfo, DeleteModal } from '../components'
+import { RTOCellInfo } from '@partials/sub-admin/rto/components'
 
 export const useColumns = () => {
     const router = useRouter()
@@ -99,49 +97,13 @@ export const useColumns = () => {
         },
         {
             header: () => 'RTO',
-            accessorKey: 'rto',
-            cell: ({ row }: any) => {
-                const {
-                    id,
-                    phone,
-                    user: { name, email, avatar },
-                } = row.original?.student?.rto || {}
-
-                return (
-                    <Link
-                        legacyBehavior
-                        href={`/portals/sub-admin/users/rtos/${id}?tab=overview`}
-                    >
-                        <a className="flex items-center gap-x-2">
-                            <div className="shadow-inner-image rounded-full">
-                                {name && (
-                                    <InitialAvatar
-                                        name={name}
-                                        imageUrl={avatar}
-                                    />
-                                )}
-                            </div>
-                            <div>
-                                <p className={'font-semibold'}>{name}</p>
-                                <div className="font-medium text-xs text-gray-500">
-                                    <p className="flex items-center gap-x-1">
-                                        <span>
-                                            <MdEmail />
-                                        </span>
-                                        {email}
-                                    </p>
-                                    <p className="flex items-center gap-x-1">
-                                        <span>
-                                            <MdPhoneIphone />
-                                        </span>
-                                        {phone}
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    </Link>
-                )
-            },
+            accessorKey: 'rto1',
+            cell: ({ row }: any) => (
+                <RTOCellInfo
+                    rto={row?.original?.student?.rto}
+                    onlyName={false}
+                />
+            ),
         },
         {
             header: () => 'Result',
