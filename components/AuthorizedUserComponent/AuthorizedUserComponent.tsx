@@ -15,7 +15,6 @@ export const AuthorizedUserComponent = ({
 }) => {
     const hasPermission = useAuthorizedUserComponent({
         roles,
-        children,
         excludeRoles,
         isHod,
     })
