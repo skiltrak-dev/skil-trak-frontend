@@ -1,5 +1,11 @@
-import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
-import { useScrollIntoView } from '@hooks'
+import {
+    InitialAvatar,
+    Tooltip,
+    TooltipPosition,
+    useAuthorizedUserComponent,
+} from '@components'
+import { UserRoles } from '@constants'
+import { useScrollIntoView, useSubadminProfile } from '@hooks'
 import { Student } from '@types'
 import { isBrowser, maskText, setLink } from '@utils'
 import moment from 'moment'
@@ -39,6 +45,13 @@ export const StudentCellInfo = ({
     const createdAt = moment(callLog?.createdAt, 'YYYY-MM-DD')
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
+
+    const subadmin = useSubadminProfile()
+    const isPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
+
     return (
         <div
             className="flex items-center relative z-10"
@@ -178,7 +191,12 @@ export const StudentCellInfo = ({
                                 <FaEnvelope />
                             </span>
                             <p className="text-gray-500">
-                                {false ? '---' : student?.user?.email}
+                                {maskText(
+                                    student?.user?.email,
+                                    isPermission
+                                        ? student?.user?.email?.length || 0
+                                        : 4
+                                )}
                             </p>
                         </div>
                         <div className="flex items-center gap-x-2 text-sm">

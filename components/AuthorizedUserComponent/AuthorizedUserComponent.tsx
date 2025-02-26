@@ -1,4 +1,3 @@
-import { getUserCredentials } from '@utils'
 import { ReactNode } from 'react'
 import { useAuthorizedUserComponent } from './useAuthorizedUserComponent'
 
