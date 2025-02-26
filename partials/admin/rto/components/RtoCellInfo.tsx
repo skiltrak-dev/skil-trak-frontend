@@ -1,11 +1,12 @@
 import {
-    AuthorizedUserComponent,
     HideRestrictedData,
     InitialAvatar,
+    useAuthorizedUserComponent,
 } from '@components'
 import { UserRoles } from '@constants'
+import { useSubadminProfile } from '@hooks'
 import { Rto } from '@types'
-import { QueryType, queryToUrl } from '@utils'
+import { QueryType, maskText, queryToUrl } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
@@ -13,6 +14,12 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
     const router = useRouter()
     const query = queryToUrl(router.query as QueryType)
+
+    const subadmin = useSubadminProfile()
+    const isPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
     return (
         <Link legacyBehavior href={`/portals/admin/rto/${rto?.id}?tab=sectors`}>
             <a
@@ -39,7 +46,10 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
                                 <span>
                                     <MdEmail />
                                 </span>
-                                {rto?.user?.email}
+                                {maskText(
+                                    rto?.user?.email,
+                                    isPermission ? rto?.user?.email?.length : 4
+                                )}
                             </p>
                         </HideRestrictedData>
 
