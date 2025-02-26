@@ -59,6 +59,8 @@ export const Mail = ({ message, sender, index }: any) => {
     const myMessages =
         AuthUtils.getUserCredentials()?.id === message?.sender?.id
 
+    console.log('message?.attachments:::', message?.attachments)
+
     return (
         <div
             id={message?.id}
@@ -123,6 +125,23 @@ export const Mail = ({ message, sender, index }: any) => {
                                     : message?.sender?.coordinator
                                           ?.departmentMember?.department?.name}
                             </Typography>
+                            {message?.ccUsers &&
+                                message?.ccUsers?.length > 0 && (
+                                    <div className="flex flex-wrap items-center gap-y-3 gap-x-1">
+                                        <Typography variant="muted">
+                                            CC:
+                                        </Typography>
+                                        {message?.ccUsers.map((ccUser: any) => {
+                                            return (
+                                                <div className="flex items-center gap-x-1">
+                                                    <Typography variant="muted">
+                                                        {ccUser?.user?.name},
+                                                    </Typography>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                )}
                         </div>
                         <div>
                             <Typography variant={'small'} color={'grayLight'}>

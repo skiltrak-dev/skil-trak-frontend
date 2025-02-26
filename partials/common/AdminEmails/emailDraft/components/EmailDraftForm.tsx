@@ -1,4 +1,10 @@
-import { Button, Card, ShowErrorNotifications, TextInput, Typography } from '@components'
+import {
+    Button,
+    Card,
+    ShowErrorNotifications,
+    TextInput,
+    Typography,
+} from '@components'
 import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { BulkEmailEditor } from '../../bulkEmail'
@@ -18,8 +24,8 @@ export const EmailDraftForm = (props: Props) => {
     const id = router?.query?.id
     const { notification } = useNotification()
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
-    const [createNewDraft, resultCreateNewDraft] = CommonApi.Messages.useCreateDraft()
-
+    const [createNewDraft, resultCreateNewDraft] =
+        CommonApi.Messages.useCreateDraft()
 
     const validationSchema = yup.object().shape({
         subject: yup.string().required('Subject is required'),
@@ -70,11 +76,7 @@ export const EmailDraftForm = (props: Props) => {
             )
         }
         const formData = new FormData()
-        const {
-            attachment,
-            subject,
-            ...rest
-        } = data
+        const { attachment, subject, content: cu, ...rest } = data
         Object.entries(rest)?.forEach(([key, value]: any) => {
             formData.append(key, value)
         })
@@ -87,7 +89,6 @@ export const EmailDraftForm = (props: Props) => {
         formData.append('content', content)
 
         createNewDraft(formData)
-
     }
 
     useEffect(() => {
@@ -107,11 +108,10 @@ export const EmailDraftForm = (props: Props) => {
     }, [resultCreateNewDraft])
     return (
         <>
+            <ShowErrorNotifications result={resultCreateNewDraft} />
             <Card>
-                <div className='px-2 py-4'>
-                    <Typography variant="h4">
-                        Create Email Draft
-                    </Typography>
+                <div className="px-2 py-4">
+                    <Typography variant="h4">Create Email Draft</Typography>
                 </div>
 
                 <FormProvider {...formMethods}>
@@ -119,13 +119,17 @@ export const EmailDraftForm = (props: Props) => {
                         className="flex flex-col"
                         onSubmit={formMethods.handleSubmit(onSubmit)}
                     >
-                        <TextInput label={'Subject'} name={'subject'} placeholder='Subject' />
+                        <TextInput
+                            label={'Subject'}
+                            name={'subject'}
+                            placeholder="Subject"
+                        />
                         <BulkEmailEditor
                             name={'content'}
                             label={'Email Content'}
                         />
                         <ShowErrorNotifications result={resultCreateNewDraft} />
-                        <div className='flex justify-between items-center py-2'>
+                        <div className="flex justify-between items-center py-2">
                             <FileUpload
                                 onChange={(docs: FileList) => {
                                     setAttachmentFiles((preVal: any) => [
@@ -138,7 +142,12 @@ export const EmailDraftForm = (props: Props) => {
                                 multiple
                                 limit={Number(1111111111)}
                             />
-                            <Button disabled={resultCreateNewDraft?.isLoading} loading={resultCreateNewDraft?.isLoading} submit text="Create" />
+                            <Button
+                                disabled={resultCreateNewDraft?.isLoading}
+                                loading={resultCreateNewDraft?.isLoading}
+                                submit
+                                text="Create"
+                            />
                         </div>
                     </form>
                 </FormProvider>

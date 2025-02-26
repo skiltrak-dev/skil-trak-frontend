@@ -67,7 +67,7 @@ export const MailListCard = ({
                 break
         }
     }
-
+    console.log('user', user)
     return (
         <>
             {modal}
@@ -105,7 +105,7 @@ export const MailListCard = ({
                         variant={mailDetail?.isSeen ? 'small' : 'muted'}
                         bold={mailDetail?.isSeen ? false : true}
                     >
-                        {user?.name ?? 'NA'}
+                        {user?.role === 'admin' ? 'Super Admin' : user?.name}
                     </Typography>
                 </div>
                 <div className="ml-2 w-full flex items-center gap-x-1 relative">

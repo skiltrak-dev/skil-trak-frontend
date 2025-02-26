@@ -20,6 +20,7 @@ export const NotesView = ({
         { id: userId, isPinned },
         { skip: !userId || !isViewd }
     )
+
     return (
         <div className="px-4 py-3 box-border">
             {notes.isError ? (
