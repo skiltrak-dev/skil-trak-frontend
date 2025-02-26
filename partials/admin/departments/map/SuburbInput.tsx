@@ -32,7 +32,6 @@ export const SuburbInput = () => {
                 //                     map.setCenter({ lat, lng })
                 //                     map.setZoom(8)
                 //                 }
-                //                 console.log(lat, lng)
                 //             })
                 //             .catch(console.error)
                 //     }
