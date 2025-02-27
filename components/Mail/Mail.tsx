@@ -59,8 +59,6 @@ export const Mail = ({ message, sender, index }: any) => {
     const myMessages =
         AuthUtils.getUserCredentials()?.id === message?.sender?.id
 
-    console.log('message?.attachments:::', message?.attachments)
-
     return (
         <div
             id={message?.id}

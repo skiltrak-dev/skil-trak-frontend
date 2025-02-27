@@ -87,6 +87,7 @@ export const Attachments = ({ attachments }: { attachments: string[] }) => {
     //         )
     //     }
     // }
+
     return (
         <>
             {modal}

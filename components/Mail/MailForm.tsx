@@ -59,6 +59,8 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
 
     const [sendMessage, sendMessageResult] = CommonApi.Messages.useSendMessage()
     const [emailDraft, emailDraftResult] = CommonApi.Draft.useEmailDraft()
+
+    const [templateAttachment, setTemplateAttachment] = useState<any>(null)
     const getEmailDraft = CommonApi.Draft.useGetEmailDraft(receiverId, {
         skip: !receiverId,
     })
@@ -105,6 +107,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                 title: 'Email Sent',
                 description: 'Email Sent Successfully',
             })
+            setTemplateAttachment(null)
         }
         if (sendMessageResult.isError) {
             setSendEmailDraft(true)
@@ -164,6 +167,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
             sender: userCredentials?.id,
             receiver: receiverId,
             ccUsers: ccEmails || undefined,
+            oldAttachment: attachmentFiles?.[0] || '',
 
             // receiver: receiverId || 64,
         }
@@ -172,10 +176,19 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
             formData.append(key, value)
         })
 
-        attachments &&
-            [...attachments]?.forEach((attached: File) => {
+        // attachments &&
+        //     [...attachments]?.forEach((attached: File) => {
+        //         formData.append('attachments', attached)
+        //     })
+        if (attachments) {
+            const newAttachments = [...attachments].filter(
+                (file) => !templateAttachment || file !== templateAttachment
+            )
+
+            newAttachments.forEach((attached: File) => {
                 formData.append('attachments', attached)
             })
+        }
         sendMessage(formData)
         // setReplyMessage(null)
     }
@@ -190,8 +203,10 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
             htmlToDraftText(template?.content) as EditorState
         )
         if (template?.file) {
+            setTemplateAttachment(template.file)
             setAttachmentFiles([template.file])
         } else {
+            setTemplateAttachment(null)
             setAttachmentFiles([])
         }
     }
