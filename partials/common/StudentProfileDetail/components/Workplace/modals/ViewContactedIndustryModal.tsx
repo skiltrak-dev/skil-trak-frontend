@@ -89,6 +89,57 @@ export const ViewContactedIndustryModal = ({
         (industry: any) => industry?.listing !== null
     )
 
+    const Actions = ({ industry }: { industry: any }) => (
+        <>
+            {industry?.intrested === null ? (
+                <div className="flex items-center gap-x-2">
+                    <div
+                        title="Not Interested"
+                        className="bg-red-400 rounded-md p-1 cursor-pointer"
+                        onClick={() => onClickNotInterested(industry)}
+                    >
+                        {interestedResult.isLoading ? (
+                            <>
+                                <PuffLoader
+                                    size={12}
+                                    color={'text-gray-300'}
+                                    data-testid="puff-loader"
+                                />
+                            </>
+                        ) : (
+                            <IoClose size={10} className="text-white" />
+                        )}
+                    </div>
+                    <div
+                        title="Interested"
+                        className="bg-green-400 rounded-md p-1 cursor-pointer"
+                        onClick={() => onClickInterested(industry)}
+                    >
+                        {interestedResult.isLoading ? (
+                            <>
+                                <PuffLoader
+                                    size={12}
+                                    color={'text-gray-300'}
+                                    data-testid="puff-loader"
+                                />
+                            </>
+                        ) : (
+                            <FaCheck size={10} className="text-white" />
+                        )}
+                    </div>
+                </div>
+            ) : industry?.intrested ? (
+                <Typography variant="muted" color="text-green-400">
+                    Interested
+                </Typography>
+            ) : !industry?.intrested ? (
+                <Typography variant="muted" color="text-red-400">
+                    Not Interested
+                </Typography>
+            ) : null}
+        </>
+    )
+
     return (
         <>
             <ShowErrorNotifications result={interestedResult} />
@@ -184,6 +235,7 @@ export const ViewContactedIndustryModal = ({
                                                         </Typography>
                                                     </div>
                                                 </Link>
+                                                <Actions industry={industry} />
                                             </div>
                                         )
                                     )}
@@ -262,81 +314,7 @@ export const ViewContactedIndustryModal = ({
                                                     </div>
                                                 </div>
 
-                                                {industry?.intrested ===
-                                                null ? (
-                                                    <div className="flex items-center gap-x-2">
-                                                        <div
-                                                            title="Not Interested"
-                                                            className="bg-red-400 rounded-md p-1 cursor-pointer"
-                                                            onClick={() =>
-                                                                onClickNotInterested(
-                                                                    industry
-                                                                )
-                                                            }
-                                                        >
-                                                            {interestedResult.isLoading ? (
-                                                                <>
-                                                                    <PuffLoader
-                                                                        size={
-                                                                            12
-                                                                        }
-                                                                        color={
-                                                                            'text-gray-300'
-                                                                        }
-                                                                        data-testid="puff-loader"
-                                                                    />
-                                                                </>
-                                                            ) : (
-                                                                <IoClose
-                                                                    size={10}
-                                                                    className="text-white"
-                                                                />
-                                                            )}
-                                                        </div>
-                                                        <div
-                                                            title="Interested"
-                                                            className="bg-green-400 rounded-md p-1 cursor-pointer"
-                                                            onClick={() =>
-                                                                onClickInterested(
-                                                                    industry
-                                                                )
-                                                            }
-                                                        >
-                                                            {interestedResult.isLoading ? (
-                                                                <>
-                                                                    <PuffLoader
-                                                                        size={
-                                                                            12
-                                                                        }
-                                                                        color={
-                                                                            'text-gray-300'
-                                                                        }
-                                                                        data-testid="puff-loader"
-                                                                    />
-                                                                </>
-                                                            ) : (
-                                                                <FaCheck
-                                                                    size={10}
-                                                                    className="text-white"
-                                                                />
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                ) : industry?.intrested ? (
-                                                    <Typography
-                                                        variant="muted"
-                                                        color="text-green-400"
-                                                    >
-                                                        Interested
-                                                    </Typography>
-                                                ) : !industry?.intrested ? (
-                                                    <Typography
-                                                        variant="muted"
-                                                        color="text-red-400"
-                                                    >
-                                                        Not Interested
-                                                    </Typography>
-                                                ) : null}
+                                                <Actions industry={industry} />
                                             </div>
                                         </div>
                                     ))}
