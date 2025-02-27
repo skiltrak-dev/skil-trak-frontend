@@ -28,12 +28,20 @@ export const EmergencyContact = ({
                         title="Name"
                         detail={profile?.emergencyPerson}
                     />
+
                     <StudentDetailCard
                         title="Phone"
                         detail={useRestrictedData(
                             maskText(
                                 profile?.emergencyPersonPhone,
-                                rolesIncludes.includes(role) || isHod
+                                (rolesIncludes.includes(role) || isHod) &&
+                                    profile?.emergencyPersonPhone &&
+                                    profile?.emergencyPersonPhone?.toLocaleUpperCase() !==
+                                        'NA'
+                                    ? profile?.emergencyPersonPhone?.length
+                                    : profile?.emergencyPersonPhone &&
+                                      profile?.emergencyPersonPhone?.toLocaleUpperCase() ===
+                                          'NA'
                                     ? profile?.emergencyPersonPhone?.length
                                     : 4
                             ),
