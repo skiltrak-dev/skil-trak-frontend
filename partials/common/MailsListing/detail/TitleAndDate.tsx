@@ -8,11 +8,22 @@ import { HiOutlineReply } from 'react-icons/hi'
 export const TitleAndDate = ({ mailDetail }: { mailDetail: any }) => {
     const [showDropdownOptions, setShowDropdownOptions] =
         useState<boolean>(false)
+    console.log('mailDetail', mailDetail)
 
     const shortDetail = [
         {
             text: 'from',
-            data: `${mailDetail?.sender?.name} (${mailDetail?.sender?.email})`,
+            data: `${
+                mailDetail?.sender?.role === 'admin'
+                    ? `Admin`
+                    : mailDetail?.sender?.name
+            } (${
+                mailDetail?.sender?.email === 'admin.stagging@skiltrak.com'
+                    ? 'admin.stagging@skiltrak.com'
+                    : mailDetail?.sender?.email === 'admin@skiltrak.com.au'
+                    ? 'admin@skiltrak.com.au'
+                    : mailDetail?.sender?.email
+            })`,
         },
         {
             text: 'to',
