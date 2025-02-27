@@ -62,15 +62,6 @@ export const SnoozedStudents = () => {
             },
             Icon: FaEye,
         },
-        {
-            text: 'Old Profile',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/sub-admin/students/${student.id}?tab=overview`
-                )
-            },
-            Icon: FaEye,
-        },
     ]
 
     const Columns: ColumnDef<Student>[] = [

@@ -93,15 +93,6 @@ export const BlockedStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
             Icon: FaEye,
         },
         {
-            text: 'Old Profile',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/sub-admin/students/${student.id}?tab=overview`
-                )
-            },
-            Icon: FaEye,
-        },
-        {
             text: 'Un Block',
             onClick: (student: Student) => onAcceptClicked(student),
             Icon: AiFillCheckCircle,

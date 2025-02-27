@@ -85,15 +85,6 @@ export const PendingStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
             Icon: FaEye,
         },
         {
-            text: 'Old Profile',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/sub-admin/students/${student.id}?tab=overview`
-                )
-            },
-            Icon: FaEye,
-        },
-        {
             text: 'Approve',
             onClick: (student: Student) => onAcceptClicked(student),
         },
@@ -120,7 +111,7 @@ export const PendingStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
                     <StudentCellInfo
                         isHod={subadmin?.departmentMember?.isHod}
                         student={row.original}
-                />
+                    />
                 </div>
             ),
         },

@@ -5,15 +5,16 @@ import {
     AuthorizedUserComponent,
     ShowErrorNotifications,
     Typography,
+    useAuthorizedUserComponent,
     useIsRestricted,
     useRestrictedData,
 } from '@components'
-import { useNotification } from '@hooks'
+import { useNotification, useSubadminProfile } from '@hooks'
 import { UserProfileDetailCard } from '@partials/common/Cards'
 import { SubAdminApi } from '@queries'
 import { IndustryCallLogModal } from '@partials/sub-admin/Industries'
 import moment from 'moment'
-import { getUserCredentials } from '@utils'
+import { getUserCredentials, maskText } from '@utils'
 
 export const IndustryDetail = ({ industry }: { industry: Industry }) => {
     const { notification } = useNotification()
@@ -35,6 +36,12 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
     }
     const role = getUserCredentials()?.role
     const checkRto = role === UserRoles.RTO
+
+    const subadmin = useSubadminProfile()
+    const isPermission = useAuthorizedUserComponent({
+        isHod: subadmin?.departmentMember?.isHod,
+        roles: [UserRoles.ADMIN, UserRoles.INDUSTRY, UserRoles.RTO],
+    })
     return (
         <div className="py-3.5 border-b border-secondary-dark flex flex-col gap-y-0.5">
             {modal}
@@ -79,7 +86,13 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                                 : useRestrictedData(
                                       industry?.isSnoozed
                                           ? '---'
-                                          : industry?.phoneNumber,
+                                          : maskText(
+                                                industry?.phoneNumber,
+                                                isPermission
+                                                    ? industry?.phoneNumber
+                                                          ?.length || 0
+                                                    : 4
+                                            ),
                                       UserRoles.INDUSTRY
                                   )
                         }

@@ -186,15 +186,6 @@ export const FilteredStudents = ({
                 Icon: FaEye,
             },
             {
-                text: 'Old Profile',
-                onClick: (student: Student) => {
-                    router.push(
-                        `/portals/sub-admin/students/${student.id}?tab=overview`
-                    )
-                },
-                Icon: FaEye,
-            },
-            {
                 text: student?.subadmin ? 'Un Assign' : 'Assign to me',
                 onClick: (student: Student) => onAssignStudentClicked(student),
                 Icon: MdBlock,

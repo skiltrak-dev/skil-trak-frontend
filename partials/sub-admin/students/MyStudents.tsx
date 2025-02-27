@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 
 // Icons
-import { FaEye } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
 // components
 import {
@@ -219,13 +219,13 @@ export const MyStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
                 Icon: FaEye,
             },
             {
-                text: 'Old Profile',
+                text: 'Edit',
                 onClick: (student: Student) => {
                     router.push(
-                        `/portals/sub-admin/students/${student.id}?tab=overview`
+                        `/portals/sub-admin/students/${student?.id}/edit-student`
                     )
                 },
-                Icon: FaEye,
+                Icon: FaEdit,
             },
             {
                 text: student?.nonContactable

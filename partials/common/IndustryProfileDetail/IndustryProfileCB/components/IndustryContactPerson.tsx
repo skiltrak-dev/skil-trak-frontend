@@ -1,11 +1,16 @@
-import { Typography, useIsRestricted, useRestrictedData } from '@components'
+import {
+    Typography,
+    useAuthorizedUserComponent,
+    useIsRestricted,
+    useRestrictedData,
+} from '@components'
 import { UserProfileDetailCard } from '@partials/common/Cards'
 import { Industry } from '@types'
 import React from 'react'
 import { SubAdminApi } from '@queries'
-import { useNotification } from '@hooks'
+import { useNotification, useSubadminProfile } from '@hooks'
 import { UserRoles } from '@constants'
-import { getUserCredentials } from '@utils'
+import { getUserCredentials, maskText } from '@utils'
 
 export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
     const [callLog, callLogResult] = SubAdminApi.Industry.useIndustryCallLog()
@@ -15,6 +20,13 @@ export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
     const { notification } = useNotification()
     const role = getUserCredentials()?.role
     const checkRto = role === UserRoles.RTO
+
+    const subadmin = useSubadminProfile()
+    const isPermission = useAuthorizedUserComponent({
+        isHod: subadmin?.departmentMember?.isHod,
+        roles: [UserRoles.ADMIN, UserRoles.INDUSTRY, UserRoles.RTO],
+    })
+
     return (
         <div className="py-3.5 border-b border-secondary-dark flex flex-col gap-y-0.5">
             <Typography variant="small" medium>
@@ -33,7 +45,13 @@ export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
                         detail={useRestrictedData(
                             industry?.isSnoozed
                                 ? '---'
-                                : industry?.contactPersonNumber,
+                                : maskText(
+                                      industry?.contactPersonNumber,
+                                      isPermission
+                                          ? industry?.contactPersonNumber
+                                                ?.length || 0
+                                          : 4
+                                  ),
                             UserRoles.INDUSTRY
                         )}
                         onClick={

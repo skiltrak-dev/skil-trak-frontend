@@ -1,7 +1,9 @@
-import { InitialAvatar } from '@components'
+import { InitialAvatar, useAuthorizedUserComponent } from '@components'
+import { UserRoles } from '@constants'
+import { useSubadminProfile } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Industry } from '@types'
-import { setLink } from '@utils'
+import { maskText, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -39,6 +41,15 @@ export const IndustryCellInfo = ({
     const createdAt = moment(callLog?.createdAt, 'YYYY-MM-DD')
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
+
+    const subadmin = useSubadminProfile()
+    const isPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
+
+    console.log({ isPermission: subadmin?.departmentMember?.isHod })
+
     return (
         <Link
             legacyBehavior
@@ -121,7 +132,12 @@ export const IndustryCellInfo = ({
                                 <span>
                                     <MdPhoneIphone />
                                 </span>
-                                {industry?.phoneNumber}
+                                {maskText(
+                                    industry?.phoneNumber,
+                                    isPermission
+                                        ? industry?.phoneNumber?.length
+                                        : 4
+                                )}
                             </p>
                         </div>
                     )}

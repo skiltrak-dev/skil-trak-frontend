@@ -18,11 +18,10 @@ import {
 } from '@components'
 
 import { useActionModal } from '@hooks'
-import { SubAdminApi, useGetFavouriteIndustriesQuery } from '@queries'
+import { useGetFavouriteIndustriesQuery } from '@queries'
 import { Industry } from '@types'
 import { setLink } from '@utils'
 import { MdFavorite } from 'react-icons/md'
-import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal } from './modals'
 

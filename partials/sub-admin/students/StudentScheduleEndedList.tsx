@@ -206,7 +206,9 @@ export const StudentScheduleEndedList = ({
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell: ({ row }: any) => <RTOCellInfo rto={row.original?.rto} />,
+            cell: ({ row }: any) => (
+                <RTOCellInfo rto={row.original?.rto} onlyName={false} />
+            ),
         },
         {
             accessorKey: 'industry',
