@@ -1,15 +1,10 @@
 import { InitialAvatar } from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
 import { UserRoles } from '@constants'
-import { Student, User } from '@types'
+import { useMaskText } from '@hooks'
+import { User } from '@types'
 import { State } from 'country-state-city'
-import React from 'react'
-import {
-    FaEnvelope,
-    FaLocationArrow,
-    FaMapMarkerAlt,
-    FaPhone,
-} from 'react-icons/fa'
+import { FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa'
 
 export const UserCellInfo = ({ user }: { user: User }) => {
     const profile: any = user
@@ -56,13 +51,17 @@ export const UserCellInfo = ({ user }: { user: User }) => {
                     <div className="flex items-center gap-x-2 text-sm">
                         <FaEnvelope className="text-gray-400" />
                         <Typography variant={'label'} color={'text-gray-500'}>
-                            {user?.email}
+                            {useMaskText({ key: user?.email })}
                         </Typography>
                     </div>
                     <div className="flex items-center gap-x-2 text-sm">
                         <FaPhone className="text-gray-400" />
                         <Typography variant={'label'} color={'text-gray-500'}>
-                            {userProfile?.phone || userProfile?.phoneNumber}
+                            {useMaskText({
+                                key:
+                                    userProfile?.phone ||
+                                    userProfile?.phoneNumber,
+                            })}
                         </Typography>
                     </div>
                     <div className="flex items-center gap-x-2 text-sm">
@@ -109,7 +108,9 @@ export const UserCellInfo = ({ user }: { user: User }) => {
                                     variant={'small'}
                                     color={'text-gray-500'}
                                 >
-                                    {userProfile?.contactPersonNumber}
+                                    {useMaskText({
+                                        key: userProfile?.contactPersonNumber,
+                                    }) || 'N/A'}
                                 </Typography>
                             </div>
                         </div>

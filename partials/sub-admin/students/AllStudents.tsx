@@ -307,13 +307,13 @@ export const AllStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
                 Icon: FaEye,
             },
             {
-                text: 'Old Profile',
+                text: 'Edit',
                 onClick: (student: Student) => {
                     router.push(
-                        `/portals/sub-admin/students/${student.id}?tab=overview`
+                        `/portals/sub-admin/students/${student?.id}/edit-student`
                     )
                 },
-                Icon: FaEye,
+                Icon: FaEdit,
             },
             {
                 text: student?.subadmin ? 'Un Assign' : 'Assign to me',

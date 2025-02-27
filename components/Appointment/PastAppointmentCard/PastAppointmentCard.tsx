@@ -1,3 +1,4 @@
+import { useMaskText } from '@hooks'
 import { Appointment } from '@types'
 import moment from 'moment'
 
@@ -35,7 +36,10 @@ export const PastAppointmentCard = ({ appointment }: PastAppointmentProps) => {
                                         {appointment?.appointmentFor?.name}
                                     </p>
                                     <p className="text-sm">
-                                        {appointment?.appointmentFor?.email}
+                                        {useMaskText({
+                                            key: appointment?.appointmentFor
+                                                ?.email,
+                                        })}
                                     </p>
                                 </div>
                             ) : (

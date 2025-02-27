@@ -19,7 +19,7 @@ import { MouseEvent, ReactElement, useRef, useState } from 'react'
 import { TbCalendarTime } from 'react-icons/tb'
 import { Appointment, appointmentWithUser } from '@types'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-import { useNotification } from '@hooks'
+import { useMaskText, useNotification } from '@hooks'
 import { Badge } from '@components/Badge'
 import { getUserCredentials, isLessThan24HoursDifference } from '@utils'
 import { GiNotebook } from 'react-icons/gi'
@@ -321,10 +321,11 @@ export const AppointmentViewModal = ({
                                                     variant="small"
                                                     color={'text-gray-500'}
                                                 >
-                                                    {
-                                                        appointment?.data
-                                                            ?.cancelledBy?.email
-                                                    }
+                                                    {useMaskText({
+                                                        key: appointment?.data
+                                                            ?.cancelledBy
+                                                            ?.email,
+                                                    })}
                                                 </Typography>
                                             </div>
                                         ) : (

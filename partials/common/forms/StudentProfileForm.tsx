@@ -14,6 +14,7 @@ import {
     TextInput,
     Tooltip,
     Typography,
+    useAuthorizedUserComponent,
 } from '@components'
 
 // utils
@@ -33,6 +34,7 @@ import {
 import { useRouter } from 'next/router'
 import { IoInformationCircle } from 'react-icons/io5'
 import { UpdateDateModal } from '../StudentProfileDetail/modals'
+import { useSubadminProfile } from '@hooks'
 
 export const StudentProfileForm = ({
     profile,
@@ -310,6 +312,12 @@ export const StudentProfileForm = ({
         )
     }
 
+    const subadmin = useSubadminProfile()
+    const isPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN, UserRoles.STUDENT, UserRoles.RTO],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
+
     return (
         <>
             {modal}
@@ -359,13 +367,15 @@ export const StudentProfileForm = ({
                                         validationIcons
                                         required
                                     />
-                                    <TextInput
-                                        label={'Phone Number'}
-                                        name={'phone'}
-                                        placeholder={'Your phone number...'}
-                                        validationIcons
-                                        required
-                                    />
+                                    {isPermission && (
+                                        <TextInput
+                                            label={'Phone Number'}
+                                            name={'phone'}
+                                            placeholder={'Your phone number...'}
+                                            validationIcons
+                                            required
+                                        />
+                                    )}
 
                                     <TextInput
                                         label={'Batch'}
@@ -438,13 +448,17 @@ export const StudentProfileForm = ({
                                         validationIcons
                                         required
                                     />
-                                    <TextInput
-                                        label={'Emergency Person Phone'}
-                                        name={'emergencyPersonPhone'}
-                                        placeholder={'emergencyPersonPhone...'}
-                                        validationIcons
-                                        required
-                                    />
+                                    {isPermission && (
+                                        <TextInput
+                                            label={'Emergency Person Phone'}
+                                            name={'emergencyPersonPhone'}
+                                            placeholder={
+                                                'emergencyPersonPhone...'
+                                            }
+                                            validationIcons
+                                            required
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>

@@ -4,18 +4,18 @@ import {
     useIsRestricted,
     useRestrictedData,
 } from '@components'
-import { useNotification } from '@hooks'
+import { useMaskText, useNotification } from '@hooks'
 import { CallLogsModal } from '@partials/sub-admin/students/modals'
 import { SubAdminApi } from '@queries'
 import { Student } from '@types'
 import { getGender, getUserCredentials, maskText } from '@utils'
+import { State } from 'country-state-city'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
-import { State } from 'country-state-city'
 
-import { LatestCallAnswer } from './LatestCallAnswer'
-import { UserProfileDetailCard } from '@partials/common/Cards'
 import { UserRoles } from '@constants'
+import { UserProfileDetailCard } from '@partials/common/Cards'
+import { LatestCallAnswer } from './LatestCallAnswer'
 
 export const StudentDetail = ({
     profile,
@@ -64,7 +64,6 @@ export const StudentDetail = ({
                         detail={profile?.studentId}
                         onClick={() => {
                             navigator.clipboard.writeText(profile?.studentId)
-
                             notification.success({
                                 title: 'Copied',
                                 description: 'Student Id Copied',
@@ -81,12 +80,7 @@ export const StudentDetail = ({
                         border={false}
                         title="Phone Number"
                         detail={useRestrictedData(
-                            maskText(
-                                profile?.phone,
-                                isHod || role === UserRoles.ADMIN
-                                    ? profile?.phone?.length
-                                    : 4
-                            ),
+                            useMaskText({ key: profile?.phone }),
                             UserRoles.STUDENT
                         )}
                         onClick={() => {

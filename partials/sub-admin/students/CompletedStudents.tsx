@@ -105,7 +105,7 @@ export const CompletedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
             text: 'Edit',
             onClick: (student: Student) => {
                 router.push(
-                    `/portals/admin/student/edit-student/${student?.id}`
+                    `/portals/sub-admin/students/${student?.id}/edit-student`
                 )
             },
             Icon: FaEdit,
@@ -134,7 +134,9 @@ export const CompletedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell: ({ row }: any) => <RTOCellInfo rto={row.original?.rto} />,
+            cell: ({ row }: any) => (
+                <RTOCellInfo rto={row.original?.rto} onlyName={false} />
+            ),
         },
         {
             accessorKey: 'industry',

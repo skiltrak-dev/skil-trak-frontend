@@ -93,15 +93,6 @@ export const PlacementStartedStudents = ({
             Icon: FaEye,
         },
         {
-            text: 'Old Profile',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/sub-admin/students/${student.id}?tab=overview`
-                )
-            },
-            Icon: FaEye,
-        },
-        {
             text: 'Block',
             onClick: (student: Student) => onBlockClicked(student),
             Icon: MdBlock,

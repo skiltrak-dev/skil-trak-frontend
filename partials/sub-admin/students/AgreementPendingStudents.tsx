@@ -34,6 +34,7 @@ import {
     setLink,
 } from '@utils'
 import moment from 'moment'
+import { RTOCellInfo } from '../rto/components'
 
 export const AgreementPendingStudents = ({
     subadmin,
@@ -139,18 +140,9 @@ export const AgreementPendingStudents = ({
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell({ row }: any) {
-                const { rto } = row.original
-
-                return (
-                    <div className="flex gap-x-2 items-center">
-                        {rto.user.name && (
-                            <InitialAvatar name={rto.user.name} small />
-                        )}
-                        {rto.user.name}
-                    </div>
-                )
-            },
+            cell: ({ row }: any) => (
+                <RTOCellInfo rto={row.original?.rto} onlyName={false} />
+            ),
         },
         {
             accessorKey: 'industry',

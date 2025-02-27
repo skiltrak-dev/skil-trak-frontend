@@ -125,15 +125,6 @@ export const ChangeWorkplaceStatus = ({
             status: 'caseOfficerAssigned',
         },
         {
-            primaryText: 'Waiting For Student',
-            secondaryText: 'Waiting For Student',
-            color: 'text-primary-light',
-            onClick: (isCleared: any) => {
-                isCleared(true)
-            },
-            status: WorkplaceCurrentStatus.AwaitingStudentResponse,
-        },
-        {
             primaryText: 'Interview',
             secondaryText: 'with Case Officer',
             color: 'text-primary-light',
@@ -143,6 +134,16 @@ export const ChangeWorkplaceStatus = ({
             },
             status: 'interview',
         },
+        {
+            primaryText: 'Waiting For Student',
+            secondaryText: 'Waiting For Student',
+            color: 'text-primary-light',
+            onClick: (isCleared: any) => {
+                isCleared(true)
+            },
+            status: WorkplaceCurrentStatus.AwaitingStudentResponse,
+        },
+
         {
             primaryText: 'Meeting',
             secondaryText: 'with Workplace Supervisor (Orientation)',

@@ -106,15 +106,6 @@ export const ArchivedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
             Icon: FaEye,
         },
         {
-            text: 'Old Profile',
-            onClick: (student: Student) => {
-                router.push(
-                    `/portals/sub-admin/students/${student.id}?tab=overview`
-                )
-            },
-            Icon: FaEye,
-        },
-        {
             text: 'Change Status',
             onClick: (student: Student) => onChangeStatus(student),
             Icon: FaEdit,
