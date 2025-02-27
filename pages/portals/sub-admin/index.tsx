@@ -11,6 +11,7 @@ import {
     Modal,
     NoData,
     PageTitle,
+    Typography,
 } from '@components'
 // icons
 import { FaSchool } from 'react-icons/fa'
@@ -136,9 +137,11 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                     onConfirmClick={onViewPendingReq}
                     title={'Pending Industry Requests'}
                     confirmText={'View Pending Requests'}
-                    subtitle={'Pending Industry Requests'}
+                    subtitle={' '}
                 >
-                    There are pending industry requests in your account.
+                    <Typography variant="label" medium>
+                        There are pending industry requests in your account.
+                    </Typography>
                 </Modal>
             )
             setViewedPendingIndustriesModal((view: number) => Number(view + 1))
