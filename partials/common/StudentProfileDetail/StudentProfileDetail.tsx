@@ -86,9 +86,18 @@ export const StudentProfileDetail = () => {
         refetchOnMountOrArgChange: true,
         refetchOnFocus: true,
     })
+    useEffect(() => {
+        router.push({
+            pathname: router.pathname,
+            query: {
+                ...router.query,
+                tab: '',
+            },
+        })
+    }, [])
 
     useEffect(() => {
-        if (profile?.isSuccess && profile?.data) {
+        if (profile?.isSuccess && profile?.data && !router.query?.tab) {
             contextBar.show(false)
             contextBar.setContent(
                 <ProfileViewCB
