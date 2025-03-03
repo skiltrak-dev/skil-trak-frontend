@@ -4,6 +4,7 @@ import React from 'react'
 import { StudentDetailCard } from './StudentDetailCard'
 import { UserRoles } from '@constants'
 import { getUserCredentials, maskText } from '@utils'
+import { useMaskText } from '@hooks'
 
 export const EmergencyContact = ({
     isHod,
@@ -15,6 +16,8 @@ export const EmergencyContact = ({
     const rolesIncludes = [UserRoles.ADMIN, UserRoles.RTO]
 
     const role = getUserCredentials()?.role
+
+    console.log('profile?.emergencyPersonPhone', profile?.emergencyPersonPhone)
 
     return (
         <div className="mt-5">
@@ -32,19 +35,7 @@ export const EmergencyContact = ({
                     <StudentDetailCard
                         title="Phone"
                         detail={useRestrictedData(
-                            maskText(
-                                profile?.emergencyPersonPhone,
-                                (rolesIncludes.includes(role) || isHod) &&
-                                    profile?.emergencyPersonPhone &&
-                                    profile?.emergencyPersonPhone?.toLocaleUpperCase() !==
-                                        'NA'
-                                    ? profile?.emergencyPersonPhone?.length
-                                    : profile?.emergencyPersonPhone &&
-                                      profile?.emergencyPersonPhone?.toLocaleUpperCase() ===
-                                          'NA'
-                                    ? profile?.emergencyPersonPhone?.length
-                                    : 4
-                            ),
+                            useMaskText({ key: profile?.emergencyPersonPhone }),
                             UserRoles.STUDENT
                         )}
                     />

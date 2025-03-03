@@ -19,5 +19,16 @@ export const useMaskText = ({
         isHod: subadmin?.departmentMember?.isHod,
     })
 
-    return maskText(key, isPermission ? key?.length || 0 : keyLength || 4)
+    return maskText(
+        key,
+        isPermission
+            ? key?.length || 0
+            : keyLength !== undefined
+            ? keyLength
+            : key && key?.length > 3
+            ? 4
+            : key && key?.length > 0
+            ? key?.length
+            : 0
+    )
 }
