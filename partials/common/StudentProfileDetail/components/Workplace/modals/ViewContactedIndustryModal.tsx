@@ -10,7 +10,8 @@ import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { CommonApi, SubAdminApi } from '@queries'
 import { Industry } from '@types'
-import { getUserCredentials } from '@utils'
+import { ellipsisText, getUserCredentials } from '@utils'
+import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaCheck } from 'react-icons/fa6'
@@ -173,72 +174,93 @@ export const ViewContactedIndustryModal = ({
                                 <LoadingAnimation size={85} />
                             ) : Industries && Industries?.length > 0 ? (
                                 <>
-                                    {Industries?.map(
-                                        (industry: {
-                                            distance: string
-                                            industry: Industry
-                                        }) => (
-                                            <div className="bg-secondary py-1 px-4 rounded-lg flex flex-col lg:flex-row justify-between lg:items-center">
-                                                <Link
-                                                    href={
-                                                        role === UserRoles.ADMIN
-                                                            ? `/portals/admin/industry/${industry?.industry?.id}?tab=sectors`
-                                                            : role ===
-                                                              UserRoles.SUBADMIN
-                                                            ? `/portals/sub-admin/users/industries/${industry?.industry?.id}?tab=overview`
-                                                            : '#'
-                                                    }
-                                                    className="flex items-center gap-x-2 cursor-pointer"
-                                                >
-                                                    {industry?.industry?.user
-                                                        ?.name && (
-                                                        <InitialAvatar
-                                                            name={
-                                                                industry
-                                                                    ?.industry
-                                                                    ?.user?.name
-                                                            }
-                                                            imageUrl={
-                                                                industry
-                                                                    ?.industry
-                                                                    ?.user
-                                                                    ?.avatar
-                                                            }
-                                                        />
-                                                    )}
-                                                    <div>
-                                                        <div className="flex items-center gap-x-0.5">
+                                    {Industries?.map((industry: any) => (
+                                        <div className="bg-secondary py-1 px-4 rounded-lg flex flex-col lg:flex-row justify-between lg:items-center">
+                                            <Link
+                                                href={
+                                                    role === UserRoles.ADMIN
+                                                        ? `/portals/admin/industry/${industry?.industry?.id}?tab=sectors`
+                                                        : role ===
+                                                          UserRoles.SUBADMIN
+                                                        ? `/portals/sub-admin/users/industries/${industry?.industry?.id}?tab=overview`
+                                                        : '#'
+                                                }
+                                                className="flex items-center gap-x-2 cursor-pointer"
+                                            >
+                                                {industry?.industry?.user
+                                                    ?.name && (
+                                                    <InitialAvatar
+                                                        name={
+                                                            industry?.industry
+                                                                ?.user?.name
+                                                        }
+                                                        imageUrl={
+                                                            industry?.industry
+                                                                ?.user?.avatar
+                                                        }
+                                                    />
+                                                )}
+
+                                                <div>
+                                                    <div className="flex items-center gap-x-8">
+                                                        <Typography
+                                                            variant={'label'}
+                                                        >
+                                                            <span
+                                                                title={
+                                                                    industry
+                                                                        ?.industry
+                                                                        ?.user
+                                                                        ?.name
+                                                                }
+                                                                className="cursor-pointer"
+                                                            >
+                                                                {ellipsisText(
+                                                                    industry
+                                                                        ?.industry
+                                                                        ?.user
+                                                                        ?.name,
+                                                                    15
+                                                                )}
+                                                            </span>
+                                                        </Typography>
+                                                        <div
+                                                            title={moment(
+                                                                industry?.createdAt
+                                                            )?.format(
+                                                                'ddd, DD.MMM.YYYY [at] hh:mm a'
+                                                            )}
+                                                            className=""
+                                                        >
+                                                            {' '}
                                                             <Typography
-                                                                variant={
-                                                                    'label'
+                                                                variant={'xxs'}
+                                                                color={
+                                                                    'text-link'
                                                                 }
                                                             >
-                                                                <span className="cursor-pointer">
-                                                                    {
-                                                                        industry
-                                                                            ?.industry
-                                                                            ?.user
-                                                                            ?.name
-                                                                    }
-                                                                </span>
+                                                                {moment(
+                                                                    industry?.createdAt
+                                                                )?.format(
+                                                                    'DD-MM-YY/hh:mm a'
+                                                                )}
                                                             </Typography>
                                                         </div>
-                                                        <Typography
-                                                            variant={'muted'}
-                                                            color={'gray'}
-                                                        >
-                                                            {
-                                                                industry
-                                                                    ?.industry
-                                                                    ?.addressLine1
-                                                            }
-                                                        </Typography>
                                                     </div>
-                                                </Link>
-                                                <Actions industry={industry} />
-                                            </div>
-                                        )
-                                    )}
+                                                    <Typography
+                                                        variant={'xxs'}
+                                                        color={'gray'}
+                                                    >
+                                                        {
+                                                            industry?.industry
+                                                                ?.addressLine1
+                                                        }
+                                                    </Typography>
+                                                </div>
+                                            </Link>
+                                            <Actions industry={industry} />
+                                        </div>
+                                    ))}
                                 </>
                             ) : (
                                 contactedIndustries.isSuccess && (
@@ -286,23 +308,56 @@ export const ViewContactedIndustryModal = ({
                                                     </Link>
 
                                                     <div>
-                                                        <div className="flex items-center gap-x-6 justify-between w-full">
+                                                        <div className="flex items-center gap-x-8">
                                                             <Typography
                                                                 variant={
                                                                     'label'
                                                                 }
                                                             >
-                                                                <span className="cursor-pointer">
-                                                                    {
+                                                                <span
+                                                                    title={
                                                                         industry
                                                                             ?.listing
                                                                             ?.businessName
                                                                     }
+                                                                    className="cursor-pointer"
+                                                                >
+                                                                    {ellipsisText(
+                                                                        industry
+                                                                            ?.listing
+                                                                            ?.businessName,
+                                                                        15
+                                                                    )}
                                                                 </span>
                                                             </Typography>
+                                                            <div
+                                                                title={moment(
+                                                                    industry?.createdAt
+                                                                )?.format(
+                                                                    'ddd, DD.MMM.YYYY [at] hh:mm a'
+                                                                )}
+                                                                className=""
+                                                            >
+                                                                {' '}
+                                                                <Typography
+                                                                    variant={
+                                                                        'xxs'
+                                                                    }
+                                                                    color={
+                                                                        'text-link'
+                                                                    }
+                                                                >
+                                                                    {moment(
+                                                                        industry?.createdAt
+                                                                    )?.format(
+                                                                        'DD-MM-YYYY'
+                                                                    )}
+                                                                </Typography>
+                                                            </div>
                                                         </div>
+
                                                         <Typography
-                                                            variant={'muted'}
+                                                            variant={'xxs'}
                                                             color={'gray'}
                                                         >
                                                             {
