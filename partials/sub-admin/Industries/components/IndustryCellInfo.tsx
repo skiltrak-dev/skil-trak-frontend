@@ -1,17 +1,15 @@
-import { InitialAvatar, useAuthorizedUserComponent } from '@components'
-import { UserRoles } from '@constants'
-import { useSubadminProfile } from '@hooks'
+import { InitialAvatar } from '@components'
+import { useMaskText } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Industry } from '@types'
-import { maskText, setLink } from '@utils'
+import { setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiFillStar } from 'react-icons/ai'
 import { FaHandshake, FaHireAHelper } from 'react-icons/fa'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
-import { MdEmail, MdPhoneIphone, MdSnooze } from 'react-icons/md'
-
+import { MdPhoneIphone, MdSnooze } from 'react-icons/md'
 export const IndustryCellInfo = ({
     industry,
     isFavorite,
@@ -41,14 +39,6 @@ export const IndustryCellInfo = ({
     const createdAt = moment(callLog?.createdAt, 'YYYY-MM-DD')
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
-
-    const subadmin = useSubadminProfile()
-    const isPermission = useAuthorizedUserComponent({
-        roles: [UserRoles.ADMIN],
-        isHod: subadmin?.departmentMember?.isHod,
-    })
-
-    console.log({ isPermission: subadmin?.departmentMember?.isHod })
 
     return (
         <Link
@@ -132,12 +122,9 @@ export const IndustryCellInfo = ({
                                 <span>
                                     <MdPhoneIphone />
                                 </span>
-                                {maskText(
-                                    industry?.phoneNumber,
-                                    isPermission
-                                        ? industry?.phoneNumber?.length
-                                        : 4
-                                )}
+                                {useMaskText({
+                                    key: industry?.phoneNumber,
+                                })}
                             </p>
                         </div>
                     )}
