@@ -10,6 +10,7 @@ import { ClipLoader } from 'react-spinners'
 export type SwitchProps = InputProps & {
     defaultChecked?: boolean
     customStyleClass?: 'profileSwitch'
+    isChecked?: boolean
 }
 
 export const Switch = ({
@@ -31,6 +32,7 @@ export const Switch = ({
     required,
     disabled,
     customStyleClass,
+    isChecked,
 }: SwitchProps) => {
     const formContext = useFormContext()
     const [checked, setChecked] = useState<boolean | null | undefined>(false)
@@ -67,8 +69,8 @@ export const Switch = ({
                             onBlur
                         )}
                         {...(value ? { value } : {})}
-                        defaultChecked={checked}
-                        checked={checked}
+                        // defaultChecked={checked}
+                        checked={isChecked ?? checked}
                     />
                     <span className="slider"></span>
                 </label>

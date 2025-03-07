@@ -20,6 +20,7 @@ import {
     BlockedStudent,
     CompletedStudents,
     FilteredStudents,
+    FlaggedSStudentsList,
     PendingStudent,
     PlacementStartedStudents,
     RejectedStudent,
@@ -150,6 +151,18 @@ const StudentList: NextPageWithLayout = () => {
                 loading: isLoading,
             },
             element: <ApprovedStudent />,
+        },
+        {
+            label: 'Flagged Students',
+            href: {
+                pathname: 'student',
+                query: { tab: 'flagged', page: 1, pageSize: 50 },
+            },
+            badge: {
+                text: data?.reported,
+                loading: isLoading,
+            },
+            element: <FlaggedSStudentsList />,
         },
         {
             label: 'Rejected',

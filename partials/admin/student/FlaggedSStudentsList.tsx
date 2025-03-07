@@ -5,6 +5,7 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
+    NoData,
     StudentExpiryDaysLeft,
     Table,
     TableAction,
@@ -14,7 +15,7 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFileExport, FaFlag } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
@@ -39,8 +40,13 @@ import { useActionModal } from '@hooks'
 import moment from 'moment'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
+import Modal from '@modals/Modal'
+import {
+    FlagStudentModal,
+    SwitchOffFlagModal,
+} from '@partials/common/StudentProfileDetail/modals'
 
-export const ApprovedStudent = () => {
+export const FlaggedSStudentsList = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -87,15 +93,14 @@ export const ApprovedStudent = () => {
 
     // admin/students/reported/list
     const { isLoading, isFetching, data, isError } =
-        AdminApi.Students.useListQuery(
+        AdminApi.Students.useFlaggedStudents(
             {
-                search: `status:${UserStatus.Approved}`,
+                // search: `status:${UserStatus.Approved}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
             { refetchOnMountOrArgChange: 30 }
         )
-        // AdminApi.Students.useFlaggedStudents
 
     // ================= Blinking/Flashing rows of students ================
     const activeAndCompleted = data?.data?.filter((student: any) => {
@@ -265,6 +270,23 @@ export const ApprovedStudent = () => {
         dateObjects.push(dateObject)
     }
 
+    const onMakeProblamatic = (student: Student) => {
+        setModal(
+            <FlagStudentModal
+                onCancel={onModalCancelClicked}
+                studentId={student?.id}
+            />
+        )
+    }
+    const onSwitchOffFlag = (student: Student) => {
+        setModal(
+            <SwitchOffFlagModal
+                onCancel={onModalCancelClicked}
+                studentId={student?.id}
+            />
+        )
+    }
+
     const tableActionOptions = (student: any) => {
         return [
             {
@@ -276,51 +298,68 @@ export const ApprovedStudent = () => {
                 Icon: FaEye,
             },
             {
-                text: 'Edit',
+                text:
+                    // !student?.isReported && student?.hasIssue
+                    //     ? 'Report to RTO'
+                    //     :
+                    'Cancel',
                 onClick: (student: Student) => {
-                    router.push(
-                        `/portals/admin/student/edit-student/${student?.id}`
-                    )
+                    onSwitchOffFlag(student)
+                    // if (student?.isReported || student?.hasIssue) {
+                    //   onMakeProblamatic(student)
+                    // }
+                    // else {
+                    // onSwitchOffFlag(student)
+                    // }
                 },
-                Icon: FaEdit,
+                Icon: FaFlag,
             },
-            {
-                text: 'Change Status',
-                onClick: (student: Student) => onChangeStatus(student),
-                Icon: FaEdit,
-            },
-            {
-                text: 'Change Expiry',
-                onClick: (student: Student) => onDateClick(student),
-                Icon: FaEdit,
-            },
-            {
-                text: 'View Password',
-                onClick: (student: Student) =>
-                    onViewPassword({ user: student?.user }),
-                Icon: RiLockPasswordFill,
-            },
-            {
-                text: 'Block',
-                onClick: (student: Student) => onBlockClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: student?.isHighPriority
-                    ? 'Remove Mark High Priority'
-                    : 'Mark High Priority',
-                onClick: (student: Student) =>
-                    onMarkAsHighPriorityClicked(student),
-                Icon: MdPriorityHigh,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Archive',
-                onClick: (student: Student) => onArchiveClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
-            },
+            // {
+            //     text: 'Edit',
+            //     onClick: (student: Student) => {
+            //         router.push(
+            //             `/portals/admin/student/edit-student/${student?.id}`
+            //         )
+            //     },
+            //     Icon: FaEdit,
+            // },
+            // {
+            //     text: 'Change Status',
+            //     onClick: (student: Student) => onChangeStatus(student),
+            //     Icon: FaEdit,
+            // },
+            // {
+            //     text: 'Change Expiry',
+            //     onClick: (student: Student) => onDateClick(student),
+            //     Icon: FaEdit,
+            // },
+            // {
+            //     text: 'View Password',
+            //     onClick: (student: Student) =>
+            //         onViewPassword({ user: student?.user }),
+            //     Icon: RiLockPasswordFill,
+            // },
+            // {
+            //     text: 'Block',
+            //     onClick: (student: Student) => onBlockClicked(student),
+            //     Icon: MdBlock,
+            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            // },
+            // {
+            //     text: student?.isHighPriority
+            //         ? 'Remove Mark High Priority'
+            //         : 'Mark High Priority',
+            //     onClick: (student: Student) =>
+            //         onMarkAsHighPriorityClicked(student),
+            //     Icon: MdPriorityHigh,
+            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            // },
+            // {
+            //     text: 'Archive',
+            //     onClick: (student: Student) => onArchiveClicked(student),
+            //     Icon: MdBlock,
+            //     color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
+            // },
         ]
     }
 
@@ -355,14 +394,44 @@ export const ApprovedStudent = () => {
             cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
-            accessorKey: 'expiry',
-            header: () => <span>Expiry Countdown</span>,
-            cell: (info) => (
-                <StudentExpiryDaysLeft
-                    expiryDate={info.row.original?.expiryDate}
-                />
-            ),
+            accessorKey: 'statusHistory',
+            header: () => <span>Flag Comment</span>,
+            cell: (info) => {
+                return (
+                    <Modal>
+                        <Modal.Open>
+                            <Button variant={'info'} text="View" outline />
+                        </Modal.Open>
+                        <Modal.Window>
+                            <div className="p-5 flex flex-col justify-center items-center gap-y-4">
+                                <Typography variant="title">
+                                    Reported Comment
+                                </Typography>
+                                {info.row?.original?.statusHistory &&
+                                info.row?.original?.statusHistory?.length >
+                                    0 ? (
+                                    <Typography variant="body">
+                                        {info.row?.original?.statusHistory?.[0]
+                                            ?.comment ?? 'NA'}
+                                    </Typography>
+                                ) : (
+                                    <NoData text="No Data found" />
+                                )}
+                            </div>
+                        </Modal.Window>
+                    </Modal>
+                )
+            },
         },
+        // {
+        //     accessorKey: 'expiry',
+        //     header: () => <span>Expiry Countdown</span>,
+        //     cell: (info) => (
+        //         <StudentExpiryDaysLeft
+        //             expiryDate={info.row.original?.expiryDate}
+        //         />
+        //     ),
+        // },
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
@@ -370,30 +439,30 @@ export const ApprovedStudent = () => {
                 <CaseOfficerAssignedStudent student={row.original} />
             ),
         },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: (info) => {
-                return (
-                    <>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'Do MMM YYYY'
-                                )}
-                            </span>
-                        </Typography>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'hh:mm:ss a'
-                                )}
-                            </span>
-                        </Typography>
-                    </>
-                )
-            },
-        },
+        // {
+        //     accessorKey: 'createdAt',
+        //     header: () => <span>Created At</span>,
+        //     cell: (info) => {
+        //         return (
+        //             <>
+        //                 <Typography variant={'small'} color={'text-gray-600'}>
+        //                     <span className="font-semibold whitespace-pre">
+        //                         {moment(info?.row?.original?.createdAt).format(
+        //                             'Do MMM YYYY'
+        //                         )}
+        //                     </span>
+        //                 </Typography>
+        //                 <Typography variant={'small'} color={'text-gray-600'}>
+        //                     <span className="font-semibold whitespace-pre">
+        //                         {moment(info?.row?.original?.createdAt).format(
+        //                             'hh:mm:ss a'
+        //                         )}
+        //                     </span>
+        //                 </Typography>
+        //             </>
+        //         )
+        //     },
+        // },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
@@ -471,8 +540,8 @@ export const ApprovedStudent = () => {
             <div className="flex flex-col gap-y-4">
                 <div className="flex">
                     <PageHeading
-                        title={'Approved Students'}
-                        subtitle={'List of Approved Students'}
+                        title={'Flagged Students'}
+                        subtitle={'List of Flagged Students'}
                     />
                     {data && data?.data.length ? (
                         <div className="">
@@ -575,10 +644,8 @@ export const ApprovedStudent = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Approved Student!'}
-                                description={
-                                    'You have not approved any Student request yet'
-                                }
+                                title={'No Flagged Student!'}
+                                description={'You have not flagged student'}
                                 height={'50vh'}
                             />
                         )

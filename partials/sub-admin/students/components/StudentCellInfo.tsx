@@ -114,13 +114,31 @@ export const StudentCellInfo = ({
                                         </div>
                                     )}
                                     {student?.hasIssue && (
-                                        <div className="group relative ">
-                                            <LuFlagTriangleRight className="text-red-600 text-xl" />
-                                            <Tooltip
-                                                position={TooltipPosition.left}
-                                            >
-                                                Flagged Issue
-                                            </Tooltip>
+                                        <div className="flex items-center">
+                                            <div className="group relative ">
+                                                <LuFlagTriangleRight className="text-red-600 text-xl" />
+                                                <Tooltip
+                                                    position={
+                                                        TooltipPosition.left
+                                                    }
+                                                >
+                                                    Flagged Issue
+                                                </Tooltip>
+                                            </div>
+                                            {student?.isReported && (
+                                                <div className="group relative">
+                                                    <div className="text-red-600 text-lg font-bold">
+                                                        R
+                                                    </div>
+                                                    <Tooltip
+                                                        position={
+                                                            TooltipPosition.left
+                                                        }
+                                                    >
+                                                        Reported to RTO
+                                                    </Tooltip>
+                                                </div>
+                                            )}
                                         </div>
                                     )}
                                     {student?.isHighPriority && (

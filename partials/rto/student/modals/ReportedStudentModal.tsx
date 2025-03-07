@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { SubAdminApi } from '@queries'
+import { RtoApi, SubAdminApi } from '@queries'
 import { useNotification } from '@hooks'
 import { MdSnooze } from 'react-icons/md'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -14,16 +14,16 @@ import {
     Typography,
 } from '@components'
 
-export const FlagStudentModal = ({
+export const ReportedStudentModal = ({
     onCancel,
-    studentId,
+    student,
 }: {
-    studentId: number
+    student: any
     onCancel: () => void
 }) => {
     const [problamaticStudent, problamaticStudentResult] =
-        SubAdminApi.Student.useProblamaticStudent()
-
+        RtoApi.Students.useUpdateReportedStudentComment()
+    const id = student?.id
     const { notification } = useNotification()
 
     const validationSchema = Yup.object({
@@ -33,31 +33,35 @@ export const FlagStudentModal = ({
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         mode: 'all',
+        defaultValues: {
+            comment: student?.statusHistory?.[0]?.comment ?? '',
+        },
     })
 
     const onSubmit = (values: any) => {
-        const isReported = values?.isReported === 'yes' ? true : false
-        const body = {
-            isReported: isReported,
-            comment: values?.comment,
-        }
-        problamaticStudent({ studentId, body }).then((res: any) => {
-            if (res?.data) {
-                notification.success({
-                    title: 'Mark As Flaged',
-                    description: `Marked As Flaged`,
-                })
-                onCancel()
+        const comment = values?.comment
+        const commentId = student?.statusHistory?.[0]?.id
+
+        problamaticStudent({ id, commentId, body: { comment: comment } }).then(
+            (res: any) => {
+                if (res?.data) {
+                    notification.success({
+                        title: 'Reported Comment Updated',
+                        description: `Reported comment updated`,
+                    })
+                    onCancel()
+                }
             }
-        })
+        )
     }
     return (
         <>
             <ShowErrorNotifications result={problamaticStudentResult} />
             <Modal
-                title="Flagged Student"
+                // titleIcon={MdSnooze}
+                title="Reported Student"
                 onCancelClick={onCancel}
-                subtitle="Flagged Student"
+                subtitle="Reported Student"
                 loading={problamaticStudentResult.isLoading}
                 onConfirmClick={methods.handleSubmit(onSubmit)}
             >
@@ -70,20 +74,24 @@ export const FlagStudentModal = ({
                             placeholder={'reason...'}
                             rows={5}
                         />
-                        <Typography variant="small" italic semibold>
+                        {/* <Typography variant="small" italic semibold>
                             Do you want to report this to the Training
                             Organization?
                         </Typography>
                         <div className="flex items-center gap-x-4 mt-4">
-                            <RadioGroup
-                                // label={'aaaa'}
+                            <RadioButton
                                 name="isReported"
-                                options={[
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' },
-                                ]}
+                                group
+                                label={'Yes'}
+                                value={true}
                             />
-                        </div>
+                            <RadioButton
+                                name="isReported"
+                                group
+                                label={'No'}
+                                value={false}
+                            />
+                        </div> */}
                     </form>
                 </FormProvider>
             </Modal>

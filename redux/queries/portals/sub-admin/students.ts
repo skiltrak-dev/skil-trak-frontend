@@ -48,6 +48,18 @@ export const studentsEndpoints = (
             'Students',
         ],
     }),
+    getSubAdminFlaggedStudents: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/students/reported/list`,
+            params,
+        }),
+        providesTags: [
+            'SubAdminStudents',
+            'BulkUsersDelete',
+            'BulkStatus',
+            'Students',
+        ],
+    }),
     getRtoSubadminStudents: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/students/list-all`,
@@ -587,11 +599,8 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
-    problamaticStudent: builder.mutation<
-        any,
-        { studentId: number; comment?: string }
-    >({
-        query: ({ studentId, ...body }) => ({
+    problamaticStudent: builder.mutation<any, any>({
+        query: ({ studentId, body }) => ({
             url: `shared/student/${studentId}/has-issue/toggle`,
             method: 'PATCH',
             body,

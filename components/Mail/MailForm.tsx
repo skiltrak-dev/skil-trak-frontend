@@ -56,11 +56,12 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     const [cc, setCc] = useState(false)
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
     const [mailContent, setMailContent] = useState<any>([])
-
+    
     const [sendMessage, sendMessageResult] = CommonApi.Messages.useSendMessage()
     const [emailDraft, emailDraftResult] = CommonApi.Draft.useEmailDraft()
-
+    
     const [templateAttachment, setTemplateAttachment] = useState<any>(null)
+    console.log('templateAttachment', templateAttachment)
     const getEmailDraft = CommonApi.Draft.useGetEmailDraft(receiverId, {
         skip: !receiverId,
     })
@@ -167,7 +168,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
             sender: userCredentials?.id,
             receiver: receiverId,
             ccUsers: ccEmails || undefined,
-            oldAttachment: attachmentFiles?.[0] || '',
+            oldAttachment: templateAttachment || '',
 
             // receiver: receiverId || 64,
         }

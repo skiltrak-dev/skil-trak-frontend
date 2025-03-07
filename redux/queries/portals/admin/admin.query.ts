@@ -183,6 +183,7 @@ const {
     // ------ STUDENT ------ //
     useStudentCountQuery,
     useStudentsQuery,
+    useGetFlaggedStudentsQuery,
     useStudentProfileQuery,
     useCompletedStudentsQuery,
     useGetSnoozedStudentsQuery,
@@ -463,6 +464,7 @@ export const AdminApi = {
 
     Students: {
         useListQuery: useStudentsQuery,
+        useFlaggedStudents: useGetFlaggedStudentsQuery,
         useProfile: useStudentProfileQuery,
         useCountQuery: useStudentCountQuery,
         useRemove: useStudentRemoveMutation,

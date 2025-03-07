@@ -25,7 +25,7 @@ export const AssessmentFileCard = ({
     const [remove, removeResult] = AdminApi.Rtos.useRemoveAssessmentTools()
 
     const contextBar = useContextBar()
-
+    console.log('assessmentTool', assessmentTool)
     const onEditAssessment = () => {
         contextBar.setTitle('Add Assessment')
         contextBar.setContent(

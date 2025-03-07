@@ -66,6 +66,7 @@ export const {
     // ------ STUDENT ------ //
     useStudentsCountQuery,
     useGetRtoStudentsListQuery,
+    useUpdateReportedStudentCommentMutation,
     useStudentsImportMutation,
     useAddStudentMutation,
     useRtoCompletedStudentsQuery,
@@ -77,6 +78,7 @@ export const {
     useGetPlacementStartedReportQuery,
     useGetStudentsResultsReportQuery,
     useGetTerminatedWorkplaceReportQuery,
+    useGetRtoReportedStudentsListQuery,
 
     // ------ COORDINATOR ------ //
     useGetRtoCoordinatorsQuery,
@@ -190,6 +192,9 @@ export const RtoApi = {
             useAssignRtoCoordinatorToMultiStudentsMutation,
         useReportDownloadLink: useGetReportDownloadLinkQuery,
         useExportStudentList: useGetExportStudentListQuery,
+        useRtoReportedStudentsList: useGetRtoReportedStudentsListQuery,
+        useUpdateReportedStudentComment:
+            useUpdateReportedStudentCommentMutation,
     },
     Coordinator: {
         useCreate: useCoordinatorCreateMutation,

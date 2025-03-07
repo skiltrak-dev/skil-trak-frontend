@@ -193,7 +193,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         <>
             {modal}
             <div className="mb-4 flex justify-between items-center">
-                <PageTitle title={'Dashboard'} />
+                {/* <PageTitle title={'Dashboard'} /> */}
                 {subadmin?.data?.globalSearchAccess && (
                     <Button
                         text="Global Search"
@@ -340,7 +340,11 @@ const SubAdminDashboard: NextPageWithLayout = () => {
 }
 
 SubAdminDashboard.getLayout = (page: ReactElement) => {
-    return <SubAdminLayout>{page}</SubAdminLayout>
+    return (
+        <SubAdminLayout pageTitle={{ title: 'Dashboard' }}>
+            {page}
+        </SubAdminLayout>
+    )
 }
 
 export default SubAdminDashboard

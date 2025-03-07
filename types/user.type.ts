@@ -55,6 +55,7 @@ export interface UserCount {
     unAssigned: number
     placementStarted: number
     schedule: number
+    reported: number
 }
 
 export interface SubadminCount extends UserCount {
@@ -114,6 +115,8 @@ export interface Student extends BaseResponse {
     isInternational: boolean
     familyName: string
     hasIssue: boolean
+    isReported: boolean
+    statusHistory: any
     phone: string
     dob: Date
     isHighPriority: boolean
