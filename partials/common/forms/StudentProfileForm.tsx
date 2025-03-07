@@ -522,7 +522,7 @@ export const StudentProfileForm = ({
                                                 }
                                                 disabled={
                                                     sectorResponse.isLoading ||
-                                                    student
+                                                    isHod
                                                 }
                                                 onChange={(e: any) => {
                                                     onSectorChanged(e)
@@ -542,7 +542,7 @@ export const StudentProfileForm = ({
                                             loading={sectorResponse.isLoading}
                                             disabled={
                                                 sectorResponse.isLoading ||
-                                                student
+                                                isHod
                                             }
                                             onChange={(e: any) => {
                                                 onSectorChanged(e)
@@ -568,7 +568,7 @@ export const StudentProfileForm = ({
                                                 onChange={(e: any) => {
                                                     setCourseValues(e)
                                                 }}
-                                                disabled={student}
+                                                disabled={isHod}
                                                 components={{
                                                     Option: CourseSelectOption,
                                                 }}
@@ -591,7 +591,7 @@ export const StudentProfileForm = ({
                                                 setCourseValues(e)
                                             }}
                                             validationIcons
-                                            disabled={student}
+                                            disabled={isHod}
                                             formatOptionLabel={
                                                 formatOptionLabel
                                             }

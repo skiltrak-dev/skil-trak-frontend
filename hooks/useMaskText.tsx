@@ -15,7 +15,12 @@ export const useMaskText = ({
 }) => {
     const subadmin = useSubadminProfile()
     const isPermission = useAuthorizedUserComponent({
-        roles: roles || [UserRoles.ADMIN],
+        roles: roles || [
+            UserRoles.ADMIN,
+            UserRoles.INDUSTRY,
+            UserRoles.RTO,
+            UserRoles.STUDENT,
+        ],
         isHod: subadmin?.departmentMember?.isHod,
     })
 

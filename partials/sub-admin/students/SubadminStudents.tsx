@@ -25,6 +25,7 @@ import {
     PlacementStartedStudents,
     RejectedStudents,
     StudentScheduleEndedList,
+    SubAdminFlaggedStudents,
     UrgentStudents,
 } from '@partials/sub-admin/students'
 
@@ -163,6 +164,19 @@ export const SubadminStudents = () => {
             },
             href: { pathname: 'students', query: { tab: 'my-students' } },
             element: <MyStudents subadmin={subadmin?.data as SubAdmin} />,
+        },
+        {
+            label: 'Reported Students',
+            badge: {
+                text: studentCount?.reported,
+                loading: count.isLoading,
+            },
+            href: { pathname: 'students', query: { tab: 'reported' } },
+            element: (
+                <SubAdminFlaggedStudents
+                    subadmin={subadmin?.data as SubAdmin}
+                />
+            ),
         },
         {
             label: 'Placement Started Students',

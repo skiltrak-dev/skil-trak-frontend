@@ -283,6 +283,7 @@ export const {
 
     // ----- STUDENTS-------//
     useGetSubAdminStudentsQuery,
+    useGetSubAdminFlaggedStudentsQuery,
     useGetRtoSubadminStudentsQuery,
     useGetSubAdminSnoozedStudentsQuery,
     useGetSubAdminUrgentStudentsQuery,
@@ -522,6 +523,7 @@ export const SubAdminApi = {
         useProblamaticStudent: useProblamaticStudentMutation,
         useCount: useSubAdminStudentCountQuery,
         useList: useGetSubAdminStudentsQuery,
+        useSubAdminFlaggedStudents: useGetSubAdminFlaggedStudentsQuery,
         useRtoSubadminStudentsList: useGetRtoSubadminStudentsQuery,
         useSnoozedStudents: useGetSubAdminSnoozedStudentsQuery,
         useUrgentStudents: useGetSubAdminUrgentStudentsQuery,

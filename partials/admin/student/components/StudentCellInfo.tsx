@@ -7,7 +7,7 @@ import {
 } from '@components'
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
 import { UserRoles } from '@constants'
-import { useScrollIntoView } from '@hooks'
+import { useScrollIntoView, useSubadminProfile } from '@hooks'
 import { Student } from '@types'
 import { QueryType, isBrowser, queryToUrl, setLink } from '@utils'
 import moment from 'moment'
@@ -29,8 +29,10 @@ export const StudentCellInfo = ({
     showHignPriority?: boolean
 }) => {
     const router = useRouter()
+    const subadmin = useSubadminProfile()
+    const isHod = subadmin?.departmentMember?.isHod
 
-    const query = queryToUrl(router?.query as QueryType)
+    // const query = queryToUrl(router?.query as QueryType)
 
     useScrollIntoView(student) // Scroll into view with scroll ID
 
@@ -120,11 +122,27 @@ export const StudentCellInfo = ({
                                 </div>
                             )}
                             {student?.hasIssue && (
-                                <div className="group relative">
-                                    <LuFlagTriangleRight className="text-red-600 text-xl" />
-                                    <Tooltip position={TooltipPosition.left}>
-                                        Flagged Issue
-                                    </Tooltip>
+                                <div className="flex items-center">
+                                    <div className="group relative ">
+                                        <LuFlagTriangleRight className="text-red-600 text-xl" />
+                                        <Tooltip
+                                            position={TooltipPosition.left}
+                                        >
+                                            Flagged Issue
+                                        </Tooltip>
+                                    </div>
+                                    {student?.isReported && (
+                                        <div className="group relative">
+                                            <div className="text-red-600 text-lg font-bold">
+                                                R
+                                            </div>
+                                            <Tooltip
+                                                position={TooltipPosition.left}
+                                            >
+                                                Reported to RTO
+                                            </Tooltip>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                             {router.pathname !== '/portals/admin/talent-pool' &&
@@ -175,12 +193,19 @@ export const StudentCellInfo = ({
                             </div>
                         ) : null}
                     </div>
-                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                    <AuthorizedUserComponent
+                        roles={[
+                            UserRoles.ADMIN,
+                            UserRoles.RTO,
+                            UserRoles.INDUSTRY,
+                        ]}
+                        isHod={isHod}
+                    >
                         <div className="font-medium text-xs text-gray-500">
                             <p className="flex items-center gap-x-1">
-                                <span>
+                                <div>
                                     <MdEmail />
-                                </span>
+                                </div>
                                 <HideRestrictedData type={UserRoles.STUDENT}>
                                     {student?.user?.email}
                                 </HideRestrictedData>

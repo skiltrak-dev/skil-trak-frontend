@@ -28,6 +28,7 @@ import {
     PendingStudent,
     ProblematicStudent,
     RejectedStudent,
+    ReportedStudentsList,
 } from '@partials/rto/student'
 import { useRouter } from 'next/router'
 import { FaChevronDown, FaFileImport, FaUserGraduate } from 'react-icons/fa'
@@ -175,6 +176,15 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
             },
             href: { pathname: 'students', query: { tab: 'problem' } },
             element: <ProblematicStudent />,
+        },
+        {
+            label: 'Reported Student',
+            badge: {
+                text: count?.data?.reported,
+                loading: count.isLoading,
+            },
+            href: { pathname: 'students', query: { tab: 'reported' } },
+            element: <ReportedStudentsList />,
         },
     ]
 

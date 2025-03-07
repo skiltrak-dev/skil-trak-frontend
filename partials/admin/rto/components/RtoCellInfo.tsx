@@ -17,7 +17,7 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
 
     const subadmin = useSubadminProfile()
     const isPermission = useAuthorizedUserComponent({
-        roles: [UserRoles.ADMIN],
+        roles: [UserRoles.ADMIN, UserRoles.RTO],
         isHod: subadmin?.departmentMember?.isHod,
     })
     return (

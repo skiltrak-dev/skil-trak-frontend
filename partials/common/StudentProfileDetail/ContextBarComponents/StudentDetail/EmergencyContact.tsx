@@ -17,7 +17,6 @@ export const EmergencyContact = ({
 
     const role = getUserCredentials()?.role
 
-    console.log('profile?.emergencyPersonPhone', profile?.emergencyPersonPhone)
 
     return (
         <div className="mt-5">

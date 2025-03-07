@@ -2,17 +2,20 @@ import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
 // Icons
-import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
+import { FaEdit, FaEye, FaFlag, FaUsers } from 'react-icons/fa'
 
 // components
 import {
+    Button,
     Card,
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
+    NoData,
     StudentExpiryDaysLeft,
     Table,
     TableAction,
+    Typography,
     UserCreatedAt,
 } from '@components'
 import { StudentCellInfo, SubadminStudentIndustries } from './components'
@@ -40,8 +43,17 @@ import { RTOCellInfo } from '../rto/components'
 import { InterviewModal } from '../workplace/modals'
 import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
+import Modal from '@modals/Modal'
+import {
+    FlagStudentModal,
+    SwitchOffFlagModal,
+} from '@partials/common/StudentProfileDetail/modals'
 
-export const AllStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
+export const SubAdminFlaggedStudents = ({
+    subadmin,
+}: {
+    subadmin: SubAdmin
+}) => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
@@ -78,9 +90,9 @@ export const AllStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
     // subadmin/students/reported/list
     // useSubAdminFlaggedStudents
     const { isSuccess, isLoading, data, isError, isFetching, refetch } =
-        SubAdminApi.Student.useList(
+        SubAdminApi.Student.useSubAdminFlaggedStudents(
             {
-                search: `status:${UserStatus.Approved}`,
+                // search: `status:${UserStatus.Approved}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -296,7 +308,25 @@ export const AllStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
         )
     }
 
+    const onMakeProblamatic = (student: Student) => {
+        setModal(
+            <FlagStudentModal
+                onCancel={onModalCancelClicked}
+                studentId={student?.id}
+            />
+        )
+    }
+    const onSwitchOffFlag = (student: Student) => {
+        setModal(
+            <SwitchOffFlagModal
+                onCancel={onModalCancelClicked}
+                studentId={student?.id}
+            />
+        )
+    }
+
     const tableActionOptions = (student: any) => {
+        console.log('student', student)
         return [
             {
                 text: 'View',
@@ -309,57 +339,72 @@ export const AllStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
                 Icon: FaEye,
             },
             {
-                text: 'Edit',
+                text:
+                    !student?.isReported && student?.hasIssue
+                        ? 'Report to RTO'
+                        : 'Cancel',
                 onClick: (student: Student) => {
-                    router.push(
-                        `/portals/sub-admin/students/${student?.id}/edit-student`
-                    )
+                    if (!student?.isReported && student?.hasIssue) {
+                        onMakeProblamatic(student)
+                    } else {
+                        onSwitchOffFlag(student)
+                    }
                 },
-                Icon: FaEdit,
+                Icon: FaFlag,
             },
-            {
-                text: student?.subadmin ? 'Un Assign' : 'Assign to me',
-                onClick: (student: Student) => onAssignStudentClicked(student),
-                Icon: MdBlock,
-            },
-            {
-                text: student?.nonContactable
-                    ? 'Add to Contactable'
-                    : 'Add to Not Contactable',
-                onClick: (student: Student) =>
-                    onNonContactableStudents(student),
-                Icon: MdBlock,
-            },
-            {
-                text: 'Interview',
-                onClick: (student: Student) => onInterviewClicked(student),
-                Icon: FaUsers,
-            },
-            {
-                text: 'Change Status',
-                onClick: (student: Student) => onChangeStatus(student),
-                Icon: FaEdit,
-            },
-            {
-                text: 'Block',
-                onClick: (student: Student) => onBlockClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: student?.isHighPriority
-                    ? 'Remove Mark High Priority'
-                    : 'Mark High Priority',
-                onClick: (student: Student) =>
-                    onMarkAsHighPriorityClicked(student),
-                Icon: MdPriorityHigh,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Change Expiry',
-                onClick: (student: Student) => onDateClick(student),
-                Icon: FaEdit,
-            },
+
+            // {
+            //     text: 'Edit',
+            //     onClick: (student: Student) => {
+            //         router.push(
+            //             `/portals/sub-admin/students/${student?.id}/edit-student`
+            //         )
+            //     },
+            //     Icon: FaEdit,
+            // },
+            // {
+            //     text: student?.subadmin ? 'Un Assign' : 'Assign to me',
+            //     onClick: (student: Student) => onAssignStudentClicked(student),
+            //     Icon: MdBlock,
+            // },
+            // {
+            //     text: student?.nonContactable
+            //         ? 'Add to Contactable'
+            //         : 'Add to Not Contactable',
+            //     onClick: (student: Student) =>
+            //         onNonContactableStudents(student),
+            //     Icon: MdBlock,
+            // },
+            // {
+            //     text: 'Interview',
+            //     onClick: (student: Student) => onInterviewClicked(student),
+            //     Icon: FaUsers,
+            // },
+            // {
+            //     text: 'Change Status',
+            //     onClick: (student: Student) => onChangeStatus(student),
+            //     Icon: FaEdit,
+            // },
+            // {
+            //     text: 'Block',
+            //     onClick: (student: Student) => onBlockClicked(student),
+            //     Icon: MdBlock,
+            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            // },
+            // {
+            //     text: student?.isHighPriority
+            //         ? 'Remove Mark High Priority'
+            //         : 'Mark High Priority',
+            //     onClick: (student: Student) =>
+            //         onMarkAsHighPriorityClicked(student),
+            //     Icon: MdPriorityHigh,
+            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            // },
+            // {
+            //     text: 'Change Expiry',
+            //     onClick: (student: Student) => onDateClick(student),
+            //     Icon: FaEdit,
+            // },
         ]
     }
 
@@ -382,21 +427,51 @@ export const AllStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
                 <RTOCellInfo onlyName={false} rto={row.original?.rto} />
             ),
         },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info) => (
-                <SubadminStudentIndustries
-                    workplace={info.row.original?.workplace}
-                    industries={info.row.original?.industries}
-                />
-            ),
-        },
+        // {
+        //     accessorKey: 'industry',
+        //     header: () => <span>Industry</span>,
+        //     cell: (info) => (
+        //         <SubadminStudentIndustries
+        //             workplace={info.row.original?.workplace}
+        //             industries={info.row.original?.industries}
+        //         />
+        //     ),
+        // },
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: ({ row }: any) => {
                 return <SectorCell student={row.original} />
+            },
+        },
+        {
+            accessorKey: 'statusHistory',
+            header: () => <span>Flag Comment</span>,
+            cell: (info) => {
+                return (
+                    <Modal>
+                        <Modal.Open>
+                            <Button variant={'info'} text="View" outline />
+                        </Modal.Open>
+                        <Modal.Window>
+                            <div className="p-5 flex flex-col justify-center items-center gap-y-4">
+                                <Typography variant="title">
+                                    Reported Comment
+                                </Typography>
+                                {info.row?.original?.statusHistory &&
+                                info.row?.original?.statusHistory?.length >
+                                    0 ? (
+                                    <Typography variant="body">
+                                        {info.row?.original?.statusHistory?.[0]
+                                            ?.comment ?? 'NA'}
+                                    </Typography>
+                                ) : (
+                                    <NoData text="No Data found" />
+                                )}
+                            </div>
+                        </Modal.Window>
+                    </Modal>
+                )
             },
         },
         {

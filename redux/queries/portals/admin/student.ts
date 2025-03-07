@@ -51,6 +51,24 @@ export const studentEndpoints = (
         }),
         providesTags: ['Students'],
     }),
+    getFlaggedStudents: builder.query<
+        PaginatedResponse<Student>,
+        PaginationValues
+    >({
+        query: (params) => ({
+            url: `${PREFIX}students/reported/list`,
+            params,
+        }),
+        providesTags: [
+            'Students',
+            'SubAdminStudents',
+            'Notes',
+            'AllCommunications',
+            'SubAdminWorkplace',
+            'BulkUsersDelete',
+            'BulkStatus',
+        ],
+    }),
 
     completedStudents: builder.query<
         PaginatedResponse<Student>,

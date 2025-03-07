@@ -19,6 +19,17 @@ export const studentEndpoints = (
         }),
         invalidatesTags: ['Rto-Students'],
     }),
+    updateReportedStudentComment: builder.mutation<any, any>({
+        query: ({ id, commentId, body }) => {
+            console.log('body::::::', body)
+            return {
+                url: `${PREFIX}/reported/student/${id}/comment/${commentId}/update`,
+                method: 'PATCH',
+                body,
+            }
+        },
+        invalidatesTags: ['Rto-Students'],
+    }),
     addStudent: builder.mutation<any, any>({
         query: (body) => ({
             url: `${PREFIX}/student/add`,
@@ -67,7 +78,15 @@ export const studentEndpoints = (
         },
         providesTags: ['Rto-Students'],
     }),
-
+    getRtoReportedStudentsList: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `${PREFIX}/students/reported/list`,
+                params,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
     assignRtoCoordinatorToStudents: builder.mutation<
         any,
         { subAdmin: number; studentId: number }
