@@ -130,30 +130,32 @@ export const AddIndustryQuestionForm = ({
                                                                         }
                                                                         className="flex gap-2"
                                                                     >
-                                                                        <TextInput
-                                                                            name={`sectorsBaseCap[${index}].sectorId`}
-                                                                            placeholder="Sector"
-                                                                            showError={
-                                                                                false
-                                                                            }
-                                                                            value={
-                                                                                sector?.label
-                                                                            }
-                                                                            label={
-                                                                                sector?.label
-                                                                            }
-                                                                            disabled
-                                                                            onChange={(
-                                                                                e: any
-                                                                            ) => {
-                                                                                methods.setValue(
-                                                                                    `sectorsBaseCap[${index}].sector`,
-                                                                                    e
-                                                                                        .target
-                                                                                        .value
-                                                                                )
-                                                                            }}
-                                                                        />
+                                                                        <div className="hidden">
+                                                                            <TextInput
+                                                                                name={`sectorsBaseCap[${index}].sectorId`}
+                                                                                placeholder="Sector"
+                                                                                showError={
+                                                                                    false
+                                                                                }
+                                                                                value={
+                                                                                    sector?.label
+                                                                                }
+                                                                                label={
+                                                                                    sector?.label
+                                                                                }
+                                                                                disabled
+                                                                                onChange={(
+                                                                                    e: any
+                                                                                ) => {
+                                                                                    methods.setValue(
+                                                                                        `sectorsBaseCap[${index}].sector`,
+                                                                                        e
+                                                                                            .target
+                                                                                            .label
+                                                                                    )
+                                                                                }}
+                                                                            />
+                                                                        </div>
                                                                         <TextInput
                                                                             name={`sectorsBaseCap[${index}].capacity`}
                                                                             placeholder="Capacity"
@@ -161,7 +163,7 @@ export const AddIndustryQuestionForm = ({
                                                                             showError={
                                                                                 false
                                                                             }
-                                                                            label={`Cap for ${sector?.label}`}
+                                                                            label={`Capacity for ${sector?.label}`}
                                                                             min={
                                                                                 1
                                                                             }

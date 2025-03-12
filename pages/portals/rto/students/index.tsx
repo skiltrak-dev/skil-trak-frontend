@@ -168,15 +168,15 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
             href: { pathname: 'students', query: { tab: 'completed' } },
             element: <CompletedStudents />,
         },
-        {
-            label: 'Problematic Student',
-            badge: {
-                text: count?.data?.problematicStudents,
-                loading: count.isLoading,
-            },
-            href: { pathname: 'students', query: { tab: 'problem' } },
-            element: <ProblematicStudent />,
-        },
+        // {
+        //     label: 'Problematic Student',
+        //     badge: {
+        //         text: count?.data?.problematicStudents,
+        //         loading: count.isLoading,
+        //     },
+        //     href: { pathname: 'students', query: { tab: 'problem' } },
+        //     element: <ProblematicStudent />,
+        // },
         {
             label: 'Reported Student',
             badge: {

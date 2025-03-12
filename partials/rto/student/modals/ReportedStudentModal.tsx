@@ -21,6 +21,7 @@ export const ReportedStudentModal = ({
     student: any
     onCancel: () => void
 }) => {
+    console.log('student', student)
     const [problamaticStudent, problamaticStudentResult] =
         RtoApi.Students.useUpdateReportedStudentComment()
     const id = student?.id
@@ -34,7 +35,7 @@ export const ReportedStudentModal = ({
         resolver: yupResolver(validationSchema),
         mode: 'all',
         defaultValues: {
-            comment: student?.statusHistory?.[0]?.comment ?? '',
+            comment: student?.statusHistory?.[0]?.response ?? '',
         },
     })
 
@@ -46,14 +47,15 @@ export const ReportedStudentModal = ({
             (res: any) => {
                 if (res?.data) {
                     notification.success({
-                        title: 'Reported Comment Updated',
-                        description: `Reported comment updated`,
+                        title: 'Reported Comment',
+                        description: `Reported comment`,
                     })
                     onCancel()
                 }
             }
         )
     }
+
     return (
         <>
             <ShowErrorNotifications result={problamaticStudentResult} />
