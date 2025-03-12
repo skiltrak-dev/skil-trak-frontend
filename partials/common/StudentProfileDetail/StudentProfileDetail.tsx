@@ -241,7 +241,7 @@ export const StudentProfileDetail = () => {
                     >
                         <IoArrowBackOutline className="transition-all inline-flex text-lg text-gray-600 group-hover:-translate-x-1" />
                     </div>
-                    <PageTitle title="Student Profile" />
+                    {/* <PageTitle title="Student Profile" /> */}
                 </div>
                 {quickSearch ? (
                     <div

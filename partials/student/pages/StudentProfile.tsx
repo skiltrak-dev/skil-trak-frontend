@@ -294,13 +294,13 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                         >
                             Un Block
                         </ActionButton>
-                        <ActionButton
+                        {/* <ActionButton
                             Icon={FaBan}
                             variant={'error'}
                             onClick={() => onDeleteClicked(data)}
                         >
                             Delete
-                        </ActionButton>
+                        </ActionButton> */}
                     </div>
                 )
             case UserStatus.Rejected:
@@ -379,11 +379,11 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                             <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
                             <span className="ml-2">{'Students'}</span>
                         </div>
-                        {!noTitle ? (
+                        {/* {!noTitle ? (
                             <PageTitle title="Student Profile" />
                         ) : (
                             <div />
-                        )}
+                        )} */}
                     </div>
                     {isSuccess && data && (
                         <div className="flex flex-col items-end gap-y-2 ml-auto">

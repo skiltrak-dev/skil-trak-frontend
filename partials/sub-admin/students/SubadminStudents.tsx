@@ -166,12 +166,12 @@ export const SubadminStudents = () => {
             element: <MyStudents subadmin={subadmin?.data as SubAdmin} />,
         },
         {
-            label: 'Reported Students',
+            label: 'Flagged Students',
             badge: {
-                text: studentCount?.reported,
+                text: studentCount?.Flagged,
                 loading: count.isLoading,
             },
-            href: { pathname: 'students', query: { tab: 'reported' } },
+            href: { pathname: 'students', query: { tab: 'Flagged' } },
             element: (
                 <SubAdminFlaggedStudents
                     subadmin={subadmin?.data as SubAdmin}

@@ -8,6 +8,7 @@ import {
     TableAction,
     TableActionOption,
     Tooltip,
+    TruncatedTextWithTooltip,
     Typography,
     UserCreatedAt,
 } from '@components'
@@ -16,9 +17,9 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit } from 'react-icons/fa'
 
 import { useActionModal, useContextBar } from '@hooks'
-import { IndustryStatus, SubAdmin } from '@types'
+import { IndustryStatus, RtoStatus, SubAdmin } from '@types'
 import { useRouter } from 'next/router'
-import { MdBlock, MdDelete, MdOutlineFavorite } from 'react-icons/md'
+import { MdBlock, MdDelete, MdOutlineFavorite, MdSnooze } from 'react-icons/md'
 // import { RtoCell, SectorCell, SubAdminCell } from './components'
 // import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import { ReactElement, useState } from 'react'
@@ -33,15 +34,19 @@ import { FiLogIn } from 'react-icons/fi'
 //     DeleteFutureIndustryModal,
 //     DeleteMultiFutureIndustryModal,
 // } from './modal'
-import { checkListLength } from '@utils'
+import { checkListLength, ellipsisText } from '@utils'
 import Image from 'next/image'
 import {
     RtoDoNotDisturbModal,
     RtoDefaultModal,
     RtoFavoriteModal,
     RtoListingDeleteModal,
+    RtoFollowUpModal,
+    RtoSnoozedModal,
 } from './modal'
 import { AddRtoListing } from './contextBar'
+import Link from 'next/link'
+import { RiChatFollowUpLine } from 'react-icons/ri'
 // import { AddIndustry } from './tabs'
 
 export const FilteredRtoListing = ({
@@ -116,7 +121,7 @@ export const FilteredRtoListing = ({
     //     )
     // }
 
-    const onEditRtoListing = (rtoData: any) => {
+    const onEditRto = (rtoData: any) => {
         contextBar.setContent(
             <AddRtoListing
                 industryData={rtoData}
@@ -129,38 +134,64 @@ export const FilteredRtoListing = ({
         contextBar.setTitle('Edit Future Industry')
     }
 
-    const tableActionOptions = (industry: any) => {
-        const stored = localStorage.setItem(
-            'signup-data',
-            JSON.stringify(industry)
+    const onFollowUpClicked = (rto: any) => {
+        setModal(
+            <RtoFollowUpModal
+                rto={rto}
+                onCancel={() => onModalCancelClicked()}
+            />
         )
+    }
+    const onSnoozedClicked = (rto: any) => {
+        setModal(
+            <RtoSnoozedModal
+                rto={rto}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const tableActionOptions = (rto: any) => {
+        const stored = localStorage.setItem('signup-data', JSON.stringify(rto))
         return [
             {
                 text: 'Default',
-                onClick: (industry: any) => onDefaultClicked(industry),
+                onClick: (rto: any) => onDefaultClicked(rto),
                 Icon: AiFillCheckCircle,
                 color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
             },
+            {
+                text: 'Favorite',
+                onClick: (rto: any) => onFavoriteClicked(rto),
+                Icon: MdOutlineFavorite,
+                color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
+            },
+            {
+                text: 'Do Not Disturb',
+                onClick: (rto: any) => onDoNotDisturbClicked(rto),
+                Icon: AiFillWarning,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Follow Up',
+                onClick: (rto: any) => onFollowUpClicked(rto),
+                Icon: RiChatFollowUpLine,
+                color: 'text-indigo-500 hover:bg-indigo-100 hover:border-indigo-200',
+            },
+            {
+                text: 'Snoozed',
+                onClick: (rto: any) => onSnoozedClicked(rto),
+                Icon: MdSnooze,
+                color: 'text-gray-500 hover:bg-gray-100 hover:border-gray-200',
+            },
             // {
-            //     text: industry?.signedUp
+            //     text: rto?.signedUp
             //         ? 'Remove From Signup'
             //         : 'Add to Signup',
             //     onClick: (industry: any) => onAddToSignupClicked(industry),
             //     Icon: AiFillCheckCircle,
             //     color: `'text-green-500 hover:bg-green-100 hover:border-green-200'`,
             // },
-            {
-                text: 'Favorite',
-                onClick: (industry: any) => onFavoriteClicked(industry),
-                Icon: MdOutlineFavorite,
-                color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
-            },
-            {
-                text: 'Do Not Disturb',
-                onClick: (industry: any) => onDoNotDisturbClicked(industry),
-                Icon: AiFillWarning,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
+
             // {
             //     text: 'SignUp',
             //     onClick: (industry: any) => {
@@ -168,14 +199,16 @@ export const FilteredRtoListing = ({
             //             'signup-data',
             //             JSON.stringify(industry)
             //         )
-            //         router.push(`/auth/signup/industry?step=account-info`)
+            //         router.push(
+            //             `/portals/admin/future-industries/signup-future-industry`
+            //         )
             //     },
             //     Icon: FiLogIn,
             // },
             {
                 text: 'Edit',
                 onClick: (rto: any) => {
-                    onEditRtoListing(rto)
+                    onEditRto(rto)
                 },
                 Icon: BiPencil,
             },
@@ -189,13 +222,42 @@ export const FilteredRtoListing = ({
         ]
     }
 
+    const statusConfig: any = {
+        [RtoStatus.FAVOURITE]: {
+            label: 'Favorite',
+            color: 'text-green-500',
+            icon: <MdOutlineFavorite className="text-green-500" />,
+        },
+        [RtoStatus.DO_NOT_DISTURB]: {
+            label: 'Do Not Disturb',
+            color: 'text-red-500',
+            icon: <AiFillWarning className="text-red-500 text-lg" />,
+        },
+        [RtoStatus.FOLLOW_UP]: {
+            label: 'Follow Up',
+            color: 'text-indigo-500',
+            icon: <RiChatFollowUpLine className="text-indigo-500 text-lg" />,
+        },
+        [RtoStatus.SNOOZED]: {
+            label: 'Snoozed',
+            color: 'text-gray-500',
+            icon: <MdSnooze className="text-gray-500 text-lg" />,
+        },
+    }
+
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'businessName',
             header: () => <span>Name</span>,
             cell: (info) => {
+                const isDuplicated = industries?.dupicatedListing
+                    ?.map((e: any) => e?.listing_email)
+                    ?.includes(info?.row?.original?.email)
                 return (
-                    <div className="flex items-center gap-x-1.5">
+                    <Link
+                        href={`/portals/sub-admin/tasks/rto-listing/${info?.row?.original?.id}`}
+                        className={`flex items-center gap-x-1.5`}
+                    >
                         {info?.row?.original?.businessName && (
                             <InitialAvatar
                                 name={info?.row?.original?.businessName}
@@ -218,11 +280,32 @@ export const FilteredRtoListing = ({
                                     </div>
                                 )}
                             </div>
-                            <Typography variant={'label'}>
-                                {info?.row?.original?.email}
-                            </Typography>
+                            {/* <Highlighter
+                                highlightClassName="YourHighlightClass"
+                                searchWords={
+                                    isDuplicated
+                                        ? [info?.row?.original?.email]
+                                        : ['']
+                                }
+                                autoEscape={true}
+                                textToHighlight={info?.row?.original?.email}
+                            /> */}
+                            <div
+                                className={` relative group ${
+                                    isDuplicated ? 'bg-gray-300' : ''
+                                } px-1.5 rounded-md`}
+                            >
+                                <TruncatedTextWithTooltip
+                                    text={info.row.original?.email}
+                                    maxLength={20}
+                                />
+
+                                {isDuplicated ? (
+                                    <Tooltip>Duplicated Found</Tooltip>
+                                ) : null}
+                            </div>
                         </div>
-                    </div>
+                    </Link>
                 )
             },
         },
@@ -231,39 +314,60 @@ export const FilteredRtoListing = ({
             header: () => <span>Phone</span>,
         },
         {
+            accessorKey: 'rtoCode',
+            header: () => <span>RTO Code</span>,
+        },
+        {
+            accessorKey: 'contactPerson',
+            header: () => <span>Contact Person</span>,
+        },
+        {
             accessorKey: 'address',
             header: () => <span>Address</span>,
+            cell: (info) => (
+                <TruncatedTextWithTooltip text={info.row.original?.address} />
+            ),
         },
+        // {
+        //     accessorKey: 'country.name',
+        //     header: () => <span>Region</span>,
+        // },
+        // {
+        //     accessorKey: 'region.name',
+        //     header: () => <span>State</span>,
+        // },
         {
             accessorKey: 'status',
             header: () => <span>Status</span>,
-            cell: (info) => {
-                return (
-                    <div>
-                        {info.row.original.status ===
-                        IndustryStatus.FAVOURITE ? (
-                            <div className="rounded-lg flex items-center gap-x-2">
-                                <p className="text-green-500 font-semibold">
-                                    Favorite
-                                </p>
-                                <MdOutlineFavorite className="text-green-500" />
-                            </div>
-                        ) : info.row.original.status ===
-                          IndustryStatus.DO_NOT_DISTURB ? (
-                            <div className="rounded-lg flex items-center gap-x-2">
-                                <p className="text-red-500 font-semibold">
-                                    Do Not Disturb
-                                </p>
-                                <AiFillWarning className="text-red-500 text-lg" />
-                            </div>
-                        ) : (
-                            <div className="flex items-center gap-x-2">
-                                ----
-                            </div>
-                        )}
+            cell: ({ row }) => {
+                const { status } = row.original
+                const statusData = statusConfig[status]
+
+                return statusData ? (
+                    <div className="rounded-lg flex items-center gap-x-2">
+                        <p className={`${statusData.color} font-semibold`}>
+                            {statusData.label}
+                        </p>
+                        {statusData?.icon}
                     </div>
+                ) : (
+                    <div className="flex items-center gap-x-2">----</div>
                 )
             },
+        },
+        {
+            accessorKey: 'note',
+            header: () => <span>Note</span>,
+            cell: (info) => (
+                <div title={info?.row?.original?.note}>
+                    {ellipsisText(info.row.original?.note, 16) || 'N/A'}
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'createdBy',
+            header: () => <span>Created By</span>,
+            cell: (info) => <>{info.row.original?.createdBy?.name || 'N/A'}</>,
         },
         {
             accessorKey: 'createdAt',
@@ -272,6 +376,7 @@ export const FilteredRtoListing = ({
                 <UserCreatedAt createdAt={info.row.original?.createdAt} />
             ),
         },
+
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,

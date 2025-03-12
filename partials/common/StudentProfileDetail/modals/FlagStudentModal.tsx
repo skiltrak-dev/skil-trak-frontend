@@ -28,6 +28,7 @@ export const FlagStudentModal = ({
 
     const validationSchema = Yup.object({
         comment: Yup.string().required('Please provide the note'),
+        isReported: Yup.string().required('Please select the option'),
     })
 
     const methods = useForm({
@@ -82,6 +83,7 @@ export const FlagStudentModal = ({
                                     { value: 'yes', label: 'Yes' },
                                     { value: 'no', label: 'No' },
                                 ]}
+                                required
                             />
                         </div>
                     </form>

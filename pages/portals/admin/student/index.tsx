@@ -20,7 +20,7 @@ import {
     BlockedStudent,
     CompletedStudents,
     FilteredStudents,
-    FlaggedSStudentsList,
+    FlaggedStudentsList,
     PendingStudent,
     PlacementStartedStudents,
     RejectedStudent,
@@ -162,7 +162,7 @@ const StudentList: NextPageWithLayout = () => {
                 text: data?.reported,
                 loading: isLoading,
             },
-            element: <FlaggedSStudentsList />,
+            element: <FlaggedStudentsList />,
         },
         {
             label: 'Rejected',

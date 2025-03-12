@@ -340,15 +340,18 @@ export const SubAdminFlaggedStudents = ({
             },
             {
                 text:
-                    !student?.isReported && student?.hasIssue
-                        ? 'Report to RTO'
-                        : 'Cancel',
+                    // !student?.isReported && student?.hasIssue
+                    //     ? 'Report to RTO'
+                    //     :
+                    'Cancel',
                 onClick: (student: Student) => {
-                    if (!student?.isReported && student?.hasIssue) {
-                        onMakeProblamatic(student)
-                    } else {
-                        onSwitchOffFlag(student)
-                    }
+                    onSwitchOffFlag(student)
+                    // if (student?.isReported || student?.hasIssue) {
+                    //   onMakeProblamatic(student)
+                    // }
+                    // else {
+                    // onSwitchOffFlag(student)
+                    // }
                 },
                 Icon: FaFlag,
             },
@@ -461,10 +464,48 @@ export const SubAdminFlaggedStudents = ({
                                 {info.row?.original?.statusHistory &&
                                 info.row?.original?.statusHistory?.length >
                                     0 ? (
-                                    <Typography variant="body">
+                                    <div className="flex gap-x-4 w-full h-full">
+                                        <div
+                                            className={`flex flex-col gap-y-1 ${
+                                                info.row?.original
+                                                    ?.statusHistory?.[0]
+                                                    ?.response
+                                                    ? 'w-1/2'
+                                                    : 'w-full'
+                                            }`}
+                                        >
+                                            <Typography
+                                                variant="label"
+                                                semibold
+                                            >
+                                                Coordinator Comment
+                                            </Typography>
+                                            <Typography variant="body">
+                                                {info.row?.original
+                                                    ?.statusHistory?.[0]
+                                                    ?.comment ?? 'NA'}
+                                            </Typography>
+                                        </div>
                                         {info.row?.original?.statusHistory?.[0]
-                                            ?.comment ?? 'NA'}
-                                    </Typography>
+                                            ?.response && (
+                                            <>
+                                                <div className="w-[2px] bg-gray-200 h-auto min-h-full mx-4"></div>
+                                                <div className="flex flex-col gap-y-1 w-1/2">
+                                                    <Typography
+                                                        variant="label"
+                                                        semibold
+                                                    >
+                                                        RTO Comment
+                                                    </Typography>
+                                                    <Typography variant="body">
+                                                        {info.row?.original
+                                                            ?.statusHistory?.[0]
+                                                            ?.response ?? 'NA'}
+                                                    </Typography>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
                                 ) : (
                                     <NoData text="No Data found" />
                                 )}
