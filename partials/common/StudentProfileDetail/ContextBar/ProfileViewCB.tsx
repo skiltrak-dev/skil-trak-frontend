@@ -127,6 +127,7 @@ export const ProfileViewCB = ({
                 studentId={profile?.id}
                 hasIssue={profile?.hasIssue}
                 disabled={role === UserRoles.OBSERVER}
+                isReported={profile?.isReported}
             />
 
             {/* Student Detail */}
