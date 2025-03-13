@@ -21,7 +21,6 @@ export const ReportedStudentModal = ({
     student: any
     onCancel: () => void
 }) => {
-    console.log('student', student)
     const [problamaticStudent, problamaticStudentResult] =
         RtoApi.Students.useUpdateReportedStudentComment()
     const id = student?.id
@@ -35,13 +34,16 @@ export const ReportedStudentModal = ({
         resolver: yupResolver(validationSchema),
         mode: 'all',
         defaultValues: {
-            comment: student?.statusHistory?.[0]?.response ?? '',
+            comment:
+                student?.statusHistory?.[student?.statusHistory?.length - 1]
+                    ?.response ?? '',
         },
     })
 
     const onSubmit = (values: any) => {
         const comment = values?.comment
-        const commentId = student?.statusHistory?.[0]?.id
+        const commentId =
+            student?.statusHistory?.[student?.statusHistory?.length - 1]?.id
 
         problamaticStudent({ id, commentId, body: { comment: comment } }).then(
             (res: any) => {

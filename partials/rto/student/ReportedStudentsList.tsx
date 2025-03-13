@@ -293,8 +293,11 @@ export const ReportedStudentsList = () => {
                                         <div
                                             className={`flex flex-col gap-y-1 ${
                                                 info.row?.original
-                                                    ?.statusHistory?.[0]
-                                                    ?.response
+                                                    ?.statusHistory?.[
+                                                    info.row?.original
+                                                        ?.statusHistory
+                                                        ?.length - 1
+                                                ]?.response
                                                     ? 'w-1/2'
                                                     : 'w-full'
                                             }`}
@@ -311,8 +314,10 @@ export const ReportedStudentsList = () => {
                                                     ?.comment ?? 'NA'}
                                             </Typography>
                                         </div>
-                                        {info.row?.original?.statusHistory?.[0]
-                                            ?.response && (
+                                        {info.row?.original?.statusHistory?.[
+                                            info.row?.original?.statusHistory
+                                                ?.length - 1
+                                        ]?.response && (
                                             <>
                                                 <div className="w-[2px] bg-gray-200 h-auto min-h-full mx-4"></div>
                                                 <div className="flex flex-col gap-y-1 w-1/2">
@@ -324,8 +329,11 @@ export const ReportedStudentsList = () => {
                                                     </Typography>
                                                     <Typography variant="body">
                                                         {info.row?.original
-                                                            ?.statusHistory?.[0]
-                                                            ?.response ?? 'NA'}
+                                                            ?.statusHistory?.[
+                                                            info.row?.original
+                                                                ?.statusHistory
+                                                                ?.length - 1
+                                                        ]?.response ?? 'NA'}
                                                     </Typography>
                                                 </div>
                                             </>

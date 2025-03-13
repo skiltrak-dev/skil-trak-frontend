@@ -15,10 +15,12 @@ export const ProblamaticStudent = ({
     hasIssue,
     disabled,
     studentId,
+    isReported,
 }: {
     disabled: boolean
     hasIssue: boolean
     studentId: number
+    isReported?: boolean
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [isChecked, setIsChecked] = useState(hasIssue)
@@ -97,9 +99,19 @@ export const ProblamaticStudent = ({
             {modal}
             <ShowErrorNotifications result={problamaticStudentResult} />
             <div className="py-3 border-b border-secondary-dark">
-                <Typography variant="small" medium>
-                    Flagged Student
-                </Typography>
+                <div className="flex gap-x-2 items-center">
+                    <Typography variant="small" medium>
+                        Flagged Student
+                    </Typography>
+                    {isReported && (
+                        <div
+                            title="Reported to RTO"
+                            className="text-red-600 px-2 text-center cursor-pointer font-bold border rounded-lg border-red-500"
+                        >
+                            R
+                        </div>
+                    )}
+                </div>
                 <div className="grid grid-cols-5 items-center  mt-2">
                     <div className="col-span-2">
                         <Typography variant="small" normal>
