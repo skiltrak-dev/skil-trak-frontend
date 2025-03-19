@@ -25,6 +25,7 @@ import {
     BlockedStudent,
     CompletedStudents,
     FilteredStudents,
+    IncompleteSubmissionStudent,
     PendingStudent,
     ProblematicStudent,
     RejectedStudent,
@@ -131,6 +132,19 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
             },
             href: { pathname: 'students', query: { tab: 'active' } },
             element: <ApprovedStudent />,
+        },
+        // IncompleteSubmissionStudent
+        {
+            label: 'Incomplete Submission',
+            badge: {
+                text: count?.data?.inCompleteSubmissions,
+                loading: count.isLoading,
+            },
+            href: {
+                pathname: 'students',
+                query: { tab: 'incomplete-submission' },
+            },
+            element: <IncompleteSubmissionStudent />,
         },
         {
             label: 'Rejected',

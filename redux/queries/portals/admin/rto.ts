@@ -285,6 +285,20 @@ export const rtoEndpoints = (
         }),
         invalidatesTags: ['RTOS'],
     }),
+    rtoAllowPartialSubmission: builder.mutation<
+        any,
+        {
+            id: number
+            allowPartialSubmission: boolean
+        }
+    >({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/rto/${id}/toggle/incomplete-submission`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
 
     studentAccountsExists: builder.query<Rto, number>({
         query: (id: number) => `${PREFIX}/rtos/view/${id}`,

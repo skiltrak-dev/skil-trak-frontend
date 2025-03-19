@@ -159,6 +159,7 @@ const {
     useRtoStatusChangeMutation,
     useRtoStudentsLogsListQuery,
     useRtoAllowPermissionsMutation,
+    useRtoAllowPartialSubmissionMutation,
     useRtoCreateAssessmentToolsMutation,
     useRtoUpdateAssessmentToolsMutation,
     useRtoRemoveAssessmentToolsMutation,
@@ -436,6 +437,8 @@ export const AdminApi = {
         useChangeStatusMutation: useRtoStatusChangeMutation,
         useRtoStudentsLogsList: useRtoStudentsLogsListQuery,
         allowPermissions: useRtoAllowPermissionsMutation,
+        allowPartialSubmission:
+            useRtoAllowPartialSubmissionMutation,
         useRemove: useRtoRemoveMutation,
         rtoAutoComplete: useRtoAutoCompleteMutation,
         useCreateAssessmentTools: useRtoCreateAssessmentToolsMutation,

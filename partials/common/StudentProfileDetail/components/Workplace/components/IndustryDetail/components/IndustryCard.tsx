@@ -114,6 +114,27 @@ export const IndustryCard = ({
                         </div>
                     </Link>
                     <div className="flex items-center gap-x-2 ml-auto">
+                        {/* <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                            {applied &&
+                                !workplace?.byExistingAbn &&
+                                !workplace?.studentProvidedWorkplace && (
+                                    <AuthorizedUserComponent
+                                        excludeRoles={[UserRoles.OBSERVER]}
+                                    >
+                                        <div className="flex justify-end gap-x-2 top-0 right-0">
+                                            <ActionButton
+                                                rounded
+                                                Icon={MdDelete}
+                                                variant={'error'}
+                                                onClick={() =>
+                                                    onDeleteIndustry(industry)
+                                                }
+                                                title="Delete Industry"
+                                            />
+                                        </div>
+                                    </AuthorizedUserComponent>
+                                )}
+                        </AuthorizedUserComponent> */}
                         {/* {applied &&
                             !workplace?.byExistingAbn &&
                             !workplace?.studentProvidedWorkplace && (

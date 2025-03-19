@@ -27,6 +27,7 @@ export interface AssessmentSubmissionsCount {
     competent?: number
     reOpened?: number
     archived?: number
+    allDocumentSubmitted?: number
 }
 
 export interface AssessmentEvidenceType extends BaseResponse {

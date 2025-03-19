@@ -5,4 +5,5 @@ export enum Result {
     Competent = 'competent',
     ReOpened = 'reOpened',
     Archived = 'archived',
+    AllDocumentSubmitted = 'allDocumentSubmitted',
 }

@@ -36,7 +36,10 @@ export const useColumns = () => {
     const onDeleteClicked = (student: any) => {
         setModal(<DeleteModal item={student} onCancel={onModalCancelClicked} />)
     }
-
+    const insertSpacesBetweenWords = (text: string) => {
+        if (!text) return ''
+        return text.replace(/([a-z])([A-Z])/g, '$1 $2')
+    }
     const tableActionOptions = (student: any) => {
         return [
             {
@@ -110,7 +113,7 @@ export const useColumns = () => {
             accessorKey: 'result',
             cell: ({ row }: any) => (
                 <Typography variant={'label'} capitalize>
-                    {row.original?.result}
+                    {insertSpacesBetweenWords(row.original?.result)}
                 </Typography>
             ),
         },

@@ -51,4 +51,12 @@ export const coordinatorEndpoints = (
         }),
         invalidatesTags: ['Rto-Coordinators'],
     }),
+
+    hasAccessAllStudents: builder.mutation<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}/coordinator/${id}/toggle/has-access-all/students`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Rto-Coordinators'],
+    }),
 })

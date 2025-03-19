@@ -65,6 +65,8 @@ export const IndustryStatus = ({
         }
     }, [findStatusIndex, workplace?.currentStatus])
 
+   
+
     const excludedRoles = [UserRoles.RTO, UserRoles.OBSERVER]
 
     return (
