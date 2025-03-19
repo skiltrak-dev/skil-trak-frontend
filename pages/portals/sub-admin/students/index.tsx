@@ -35,6 +35,10 @@ const filterKeys = [
 
 const Students: NextPageWithLayout = (props: Props) => {
     const profile = SubAdminApi.SubAdmin.useProfile()
+    console.log(
+        'profile?.data?.hasAllStudentAccess',
+        profile?.data?.hasAllStudentAccess
+    )
     return (
         <div>
             {profile?.isError && <TechnicalError />}
@@ -42,9 +46,10 @@ const Students: NextPageWithLayout = (props: Props) => {
                 <LoadingAnimation />
             ) : profile?.isSuccess ? (
                 profile?.data?.isAssociatedWithRto &&
-                profile.data?.hasAllStudentAccess ? (
+                !profile?.data?.hasAllStudentAccess ? (
                     <RtoSubadminStudent />
-                ) : profile?.data?.canViewAllStudents ? (
+                ) : profile?.data?.canViewAllStudents ||
+                  profile?.data?.hasAllStudentAccess ? (
                     <SubadminStudents />
                 ) : (
                     <MyStudents />

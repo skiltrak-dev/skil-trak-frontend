@@ -136,6 +136,7 @@ export const SubadminStudents = () => {
             })
         }
     }, [])
+    console.log('studentCount?.Flagged', studentCount?.Flagged)
 
     const tabs: TabProps[] = [
         {
@@ -168,7 +169,7 @@ export const SubadminStudents = () => {
         {
             label: 'Flagged Students',
             badge: {
-                text: studentCount?.Flagged,
+                text: studentCount?.reported,
                 loading: count.isLoading,
             },
             href: { pathname: 'students', query: { tab: 'Flagged' } },
