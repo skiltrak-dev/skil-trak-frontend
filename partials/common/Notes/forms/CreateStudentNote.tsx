@@ -546,11 +546,11 @@ export const CreateStudentNote = ({
                                             name={'status'}
                                             options={[
                                                 {
-                                                    label: 'Successfully',
+                                                    label: 'Successfull',
                                                     value: NotesTemplateStatus.Success,
                                                 },
                                                 {
-                                                    label: 'Unsuccessfully',
+                                                    label: 'Unsuccessfull',
                                                     value: NotesTemplateStatus.Failure,
                                                 },
                                             ]}

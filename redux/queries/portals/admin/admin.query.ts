@@ -1,31 +1,30 @@
-import { courseEndpoints } from './course'
-import { industryEndpoints } from './industry'
-import { talentPoolEndpoints } from './talentPool'
-
 import { AdminStats, SMSFormQueryType } from '@types'
 import { emptySplitApi } from '../empty.query'
 import { appointmentTypeEndpoints } from './appointment-type'
 import { blogsEndpoints } from './blogs'
+import { courseEndpoints } from './course'
 import { departmentEndpoints } from './department'
 import { documentsEndpoints } from './documents'
 import { folderEndpoints } from './folder'
 import { generateKeysEndpoints } from './generate-key'
+import { industryEndpoints } from './industry'
 import { industryRplEndpoints } from './industyRpl'
 import { insuranceEndpoints } from './insurance'
 import { jobEndpoints } from './job'
+import { kpiProgressEndpoints } from './kpiProgress'
+import { notesTemplatesEndpoints } from './notesTemplates'
 import { profileEndpoints } from './profile'
 import { rtoEndpoints } from './rto'
 import { sectorEndpoints } from './sector'
 import { studentEndpoints } from './student'
 import { subAdminEndpoints } from './sub-admin'
 import { subscriberEndpoints } from './subscribers'
+import { talentPoolEndpoints } from './talentPool'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { wptypesEndpoints } from './wptypes'
-import { notesTemplatesEndpoints } from './notesTemplates'
-import { Notes } from '@components/sections/subAdmin'
-const PREFIX = 'admin'
 
+const PREFIX = 'admin'
 export const adminApi = emptySplitApi.injectEndpoints({
     // ---------- ADMIN ENDPOINTS ---------- //
     endpoints: (build) => ({
@@ -69,10 +68,10 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...rtoEndpoints(build),
         ...jobEndpoints(build),
         ...blogsEndpoints(build),
-        ...studentEndpoints(build),
         ...sectorEndpoints(build),
         ...courseEndpoints(build),
         ...folderEndpoints(build),
+        ...studentEndpoints(build),
         ...wptypesEndpoints(build),
         ...profileEndpoints(build),
         ...subAdminEndpoints(build),
@@ -84,6 +83,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...subscriberEndpoints(build),
         ...talentPoolEndpoints(build),
         ...departmentEndpoints(build),
+        ...kpiProgressEndpoints(build),
         ...industryRplEndpoints(build),
         ...generateKeysEndpoints(build),
         ...notesTemplatesEndpoints(build),
@@ -147,6 +147,28 @@ const {
     useGetDepartmentSectorsQuery,
     useGetDepartmentLineChartCountsQuery,
 
+    // ------ KPI ------ //
+    useAddKpiTypeMutation,
+    useKpiDeptListQuery,
+    useKpiTypesListQuery,
+    useKpiTargetsListQuery,
+    useAddKpiTargetMutation,
+    useRemoveTargetMutation,
+    useEmployeeCountsQuery,
+    useSubadminDetailQuery,
+    useSubadminReportListQuery,
+    useSubadminKpiAppointmentDetailsQuery,
+    useSubadminKpiWorkplaceDetailsQuery,
+    useSubadminKpiCompletedDetailsQuery,
+    useSubadminKpiStudentAgreementDetailsQuery,
+    useSubadminKpiWorkplaceAgreementDetailsQuery,
+    useSubadminKpiCallIndustriesDetailsQuery,
+    useSubadminKpiCallStudentsDetailsQuery,
+    useSubadminKpiFlagedStudentsDetailsQuery,
+    useSubadminKpiSnoozedStudentsDetailsQuery,
+    useEmployeeProgressCountsByDeptQuery,
+    useOverAllEmployeeProgressCountsQuery,
+
     // ------ RTO ------ //
     useRtoCountQuery,
     useRtosQuery,
@@ -163,6 +185,7 @@ const {
     useRtoUpdateAssessmentToolsMutation,
     useRtoRemoveAssessmentToolsMutation,
     useRtoAssessmentToolArchiveMutation,
+
     useCheckStudentEmailMutation,
 
     useRtoSectorsQuery,
@@ -427,6 +450,28 @@ export const AdminApi = {
         useDepartmentSectors: useGetDepartmentSectorsQuery,
         useDepartmentLineChartCounts: useGetDepartmentLineChartCountsQuery,
     },
+    Kpi: {
+        kpiTypes: useKpiTypesListQuery,
+        kpiDeptList: useKpiDeptListQuery,
+        addKpiType: useAddKpiTypeMutation,
+        removeTarget: useRemoveTargetMutation,
+        addKpiTarget: useAddKpiTargetMutation,
+        kpiTargetsList: useKpiTargetsListQuery,
+        subadminDetail: useSubadminDetailQuery,
+        employeeCounts: useEmployeeCountsQuery,
+        subadminReportList: useSubadminReportListQuery,
+        employeeProgressByDept: useEmployeeProgressCountsByDeptQuery,
+        appointmentDetails: useSubadminKpiAppointmentDetailsQuery,
+        workplaceDetails: useSubadminKpiWorkplaceDetailsQuery,
+        completedDetails: useSubadminKpiCompletedDetailsQuery,
+        studentAgreementDetails: useSubadminKpiStudentAgreementDetailsQuery,
+        workplaceAgreementDetails: useSubadminKpiWorkplaceAgreementDetailsQuery,
+        callIndustries: useSubadminKpiCallIndustriesDetailsQuery,
+        callStududents: useSubadminKpiCallStudentsDetailsQuery,
+        flaggedStudents: useSubadminKpiFlagedStudentsDetailsQuery,
+        snoozedStudents: useSubadminKpiSnoozedStudentsDetailsQuery,
+        overAllEmployeeProgressCounts: useOverAllEmployeeProgressCountsQuery,
+    },
     Rtos: {
         useCountQuery: useRtoCountQuery,
         useStatisticsCount: useRtoStatisticsCountQuery,
@@ -443,6 +488,7 @@ export const AdminApi = {
         useUpdateAssessmentTools: useRtoUpdateAssessmentToolsMutation,
         useRemoveAssessmentTools: useRtoRemoveAssessmentToolsMutation,
         useArchiveAssessmentTools: useRtoAssessmentToolArchiveMutation,
+
         useRtoImportStudents: useRtoImportStudentsMutation,
         useRtoAddStudent: useRtoAddStudentMutation,
         useRtoStudentAccountCheck:

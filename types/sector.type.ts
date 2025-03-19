@@ -1,7 +1,4 @@
-import {
-    AssessmentCourseType,
-    AssessmentEvidenceFolder,
-} from './assessment-evidence.type'
+import { AssessmentEvidenceFolder } from './assessment-evidence.type'
 import { BaseResponse } from './base.type'
 import { Folder } from './folder.type'
 

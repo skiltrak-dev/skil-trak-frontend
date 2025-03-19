@@ -136,6 +136,8 @@ export interface Student extends BaseResponse {
     nonContactable: boolean
     user: User
     rto: Rto
+    snoozedAt: Date | undefined
+    snoozedDate: Date | undefined
     rtoCoordinator: SubAdmin
     location: string
     studentStatus: StudentStatusEnum
@@ -146,13 +148,23 @@ export interface Student extends BaseResponse {
     gender: string
     tickets: any
     isSnoozed: boolean
-    snoozedDate: Date
     isAddressUpdated: boolean
 }
 
 interface UserExtend extends User {
     rto: Rto
     coordinator: SubAdmin
+}
+
+export interface DeptMember extends BaseResponse {
+    isHod: boolean
+    department: Department
+}
+
+export interface Department extends BaseResponse {
+    name: string
+    code: string
+    email: null
 }
 
 export interface SubAdmin extends BaseResponse {
@@ -191,7 +203,7 @@ export interface SubAdmin extends BaseResponse {
     canViewAllStudents: boolean
     canCreateInternalTicket: boolean
     canViewRtoList: boolean
-    departmentMember: { isHod: boolean }
+    departmentMember: DeptMember
     studentsCount: number
 }
 
@@ -273,4 +285,35 @@ export interface ApiCallResult {
     data: any
     endpointName: any
     startedTimeStamp: any
+}
+
+export interface KpiVerification {
+    id: number
+    isVerified: boolean
+}
+
+export interface KpiTarget {
+    id: number
+    verified: boolean
+    user: AppointmentAchievments
+    departmentMember: DeptMember
+}
+
+export interface AppointmentAchievments extends User {
+    appointments: number
+    workplaceRequests: number
+    agreementByStudent: number
+    agreementByWorkplace: number
+    completed: number
+    progress: number
+    targets: Targets
+    // kpiData :
+}
+
+export interface Targets {
+    appointments: number
+    workplaceRequests: number
+    AgreementByStudent: number
+    AgreementByWorkplace: number
+    completed: number
 }

@@ -1,6 +1,3 @@
-import React, { ReactElement, useState } from 'react'
-import { Industry } from '@types'
-import { UserRoles } from '@constants'
 import {
     AuthorizedUserComponent,
     ShowErrorNotifications,
@@ -9,12 +6,15 @@ import {
     useIsRestricted,
     useRestrictedData,
 } from '@components'
-import { useNotification, useSubadminProfile } from '@hooks'
+import { UserRoles } from '@constants'
+import { useMaskText, useNotification, useSubadminProfile } from '@hooks'
 import { UserProfileDetailCard } from '@partials/common/Cards'
-import { SubAdminApi } from '@queries'
 import { IndustryCallLogModal } from '@partials/sub-admin/Industries'
+import { SubAdminApi } from '@queries'
+import { Industry } from '@types'
+import { getUserCredentials } from '@utils'
 import moment from 'moment'
-import { getUserCredentials, maskText } from '@utils'
+import { ReactElement, useState } from 'react'
 
 export const IndustryDetail = ({ industry }: { industry: Industry }) => {
     const { notification } = useNotification()
@@ -86,13 +86,9 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                                 : useRestrictedData(
                                       industry?.isSnoozed
                                           ? '---'
-                                          : maskText(
-                                                industry?.phoneNumber,
-                                                isPermission
-                                                    ? industry?.phoneNumber
-                                                          ?.length || 0
-                                                    : 4
-                                            ),
+                                          : useMaskText({
+                                                key: industry?.phoneNumber,
+                                            }),
                                       UserRoles.INDUSTRY
                                   )
                         }

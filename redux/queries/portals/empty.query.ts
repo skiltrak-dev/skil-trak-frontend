@@ -112,6 +112,7 @@ const studentTagTypes = [
 const commonTagTypes = [
     'RTO',
     'User',
+    'KPIS',
     'Count',
     'Draft',
     'Notes',

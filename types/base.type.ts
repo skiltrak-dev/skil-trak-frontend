@@ -1,5 +1,5 @@
 export interface BaseResponse {
-    createdAt?: Date
-    isActive?: boolean
-    updatedAt?: Date
+    createdAt: Date
+    isActive: boolean
+    updatedAt: Date
 }

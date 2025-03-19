@@ -95,8 +95,8 @@ export const NoteCard = ({ note }: { note: NoteType | any }) => {
                                         </Typography>
                                         <Typography variant="xs" semibold>
                                             {note?.isSuccess
-                                                ? 'Successfully'
-                                                : 'Unsuccessfully'}{' '}
+                                                ? 'Successfull'
+                                                : 'Unsuccessfull'}{' '}
                                         </Typography>
                                     </div>
                                 </div>

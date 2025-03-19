@@ -20,11 +20,11 @@ export const Socket = ({ children }: any) => {
     const [socket, setSocket] = useState<any | null>(null)
 
     const { notification } = useNotification()
-    useEffect(() => {
-        setSocket(
-            io(`${process.env.NEXT_PUBLIC_SOCKET_END_POINT}`, { secure: true })
-        )
-    }, [])
+    // useEffect(() => {
+    //     setSocket(
+    //         io(`${process.env.NEXT_PUBLIC_SOCKET_END_POINT}`, { secure: true })
+    //     )
+    // }, [])
 
     useEffect(() => {
         if (AuthUtils.isAuthenticated()) {
