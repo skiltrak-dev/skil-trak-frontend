@@ -11,7 +11,7 @@ export function Navbar2() {
     const router = useRouter()
 
     const { data, isLoading, isError } = adminApi.useGetCategoriesQuery({})
-    
+
     const blogsMenuOptions = data?.data?.map((category: any) => ({
         text: category?.title ?? 'NA',
         url: `/blogs?category=${category?.id}`,
@@ -53,9 +53,9 @@ export function Navbar2() {
             url: '/blogs',
         },
         {
-            text: 'Placement',
-            url: '/blogs',
-            subMenus: blogsMenuOptions,
+            text: 'Placements',
+            url: '/blogs?category=34',
+            // subMenus: blogsMenuOptions,
         },
         {
             text: 'About Us',

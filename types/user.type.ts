@@ -98,6 +98,7 @@ export interface Rto extends BaseResponse {
     allowAutoComplete: boolean
     autoReleaseLogBook: boolean
     allowAutoReport: boolean
+    allowPartialSubmission: boolean
     reportType: ReportingType
     user: User
     package: Packages
@@ -191,6 +192,7 @@ export interface SubAdmin extends BaseResponse {
     canViewAllStudents: boolean
     canCreateInternalTicket: boolean
     canViewRtoList: boolean
+    hasAllStudentAccess: boolean
     departmentMember: { isHod: boolean }
     studentsCount: number
 }

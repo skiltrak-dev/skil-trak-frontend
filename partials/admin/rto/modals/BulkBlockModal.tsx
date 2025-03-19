@@ -9,7 +9,7 @@ export const BulkBlockModal = ({
     rto,
 }: {
     onCancel: () => void
-    rto: number[]
+    rto: any
 }) => {
     const { notification } = useNotification()
 

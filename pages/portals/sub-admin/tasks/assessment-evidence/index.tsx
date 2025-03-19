@@ -25,6 +25,7 @@ import {
 } from '@components'
 // queries
 import {
+    AllDocumentsSubmitted,
     ArchivedAssessment,
     CompetentAssessment,
     FilteredAssessments,
@@ -155,6 +156,19 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
                 loading: count.isLoading,
             },
             element: <CompetentAssessment />,
+        },
+        // AllDocumentsSubmitted
+        {
+            label: 'All Documents Submitted',
+            href: {
+                pathname: 'assessment-evidence',
+                query: { tab: Result.AllDocumentSubmitted },
+            },
+            badge: {
+                text: assessMentCount?.allDocumentSubmitted,
+                loading: count.isLoading,
+            },
+            element: <AllDocumentsSubmitted />,
         },
         {
             label: 'Non-Competent',

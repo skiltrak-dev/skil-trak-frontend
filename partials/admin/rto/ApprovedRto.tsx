@@ -10,7 +10,7 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaBook, FaEdit, FaEye } from 'react-icons/fa'
+import { FaBook, FaEdit, FaEye, FaHourglassHalf } from 'react-icons/fa'
 
 import { UserRoles } from '@constants'
 import { useActionModal, useContextBar } from '@hooks'
@@ -31,6 +31,7 @@ import {
     BulkBlockModal,
     ReleaseLogbookPermissionModal,
 } from './modals'
+import { AllowPartialSubmissionModal } from './modals/AllowPartialSubmissionModal'
 
 export const ApprovedRto = () => {
     const router = useRouter()
@@ -100,6 +101,14 @@ export const ApprovedRto = () => {
     const onAllowPermissions = (rto: Rto) => {
         setModal(
             <AllowPermissionsModal
+                rto={rto}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onAllowPartialSubmission = (rto: Rto) => {
+        setModal(
+            <AllowPartialSubmissionModal
                 rto={rto}
                 onCancel={() => onModalCancelClicked()}
             />
@@ -188,6 +197,15 @@ export const ApprovedRto = () => {
                           : `Allow Auto Complete`,
                       onClick: (rto: Rto) => onAllowAutoComplete(rto),
                       Icon: MdIncompleteCircle,
+                  }
+                : {}),
+        },
+        {
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'Allow Partial Submission',
+                      onClick: (rto: Rto) => onAllowPartialSubmission(rto),
+                      Icon: FaHourglassHalf,
                   }
                 : {}),
         },

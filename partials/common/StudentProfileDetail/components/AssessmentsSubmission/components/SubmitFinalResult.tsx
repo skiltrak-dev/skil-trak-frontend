@@ -82,6 +82,10 @@ export const SubmitFinalResult = ({
         { label: 'Competent', value: Result.Competent },
         { label: 'Not Competent', value: Result.NotCompetent },
         { label: 'Re-Open', value: Result.ReOpened },
+        {
+            label: 'All Documents Submitted',
+            value: Result.AllDocumentSubmitted,
+        },
     ]
     return (
         <>
