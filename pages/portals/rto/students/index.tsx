@@ -191,15 +191,15 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         //     href: { pathname: 'students', query: { tab: 'problem' } },
         //     element: <ProblematicStudent />,
         // },
-        {
-            label: 'Reported Student',
-            badge: {
-                text: count?.data?.reported,
-                loading: count.isLoading,
-            },
-            href: { pathname: 'students', query: { tab: 'reported' } },
-            element: <ReportedStudentsList />,
-        },
+        // {
+        //     label: 'Reported Student',
+        //     badge: {
+        //         text: count?.data?.reported,
+        //         loading: count.isLoading,
+        //     },
+        //     href: { pathname: 'students', query: { tab: 'reported' } },
+        //     element: <ReportedStudentsList />,
+        // },
     ]
 
     const delayedSearch = useCallback(
