@@ -18,6 +18,7 @@ import React, {
 import { PageSize } from './components/PageSize'
 import { Pagination } from './components/Pagination'
 import { useRouter } from 'next/router'
+import { useSubadminProfile } from '@hooks'
 
 interface pageSize {
     (
@@ -77,6 +78,8 @@ export const Table = <Type,>({
     findExpiringInNext45Days,
     activeAndCompleted,
 }: TableProps<Type>) => {
+    const rtoSubAdmin = useSubadminProfile()?.isAssociatedWithRto
+    console.log('rtoSubAdmin', rtoSubAdmin)
     //======================== Blinking rows ===========================
     const getTdClassNames = (row: any) => {
         const isUnanswered = findCallLogsUnanswered
@@ -98,10 +101,10 @@ export const Table = <Type,>({
         const status = row?.original?.user?.status
 
         return [
-            isUnanswered ? 'blink' : '',
-            completeAndActive ? 'blink-green' : '',
-            awaitingAgreements ? 'blink' : '',
-            expiringInNext45Days ? 'blink' : '',
+            isUnanswered && !rtoSubAdmin ? 'blink' : '',
+            completeAndActive && !rtoSubAdmin ? 'blink-green' : '',
+            awaitingAgreements && !rtoSubAdmin ? 'blink' : '',
+            expiringInNext45Days && !rtoSubAdmin ? 'blink' : '',
             // getActiveTickets ? 'blink-green' : '',
             status === UserStatus.Blocked || status === UserStatus.Rejected
                 ? '!bg-error-light'

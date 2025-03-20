@@ -136,7 +136,6 @@ export const SubadminStudents = () => {
             })
         }
     }, [])
-    console.log('studentCount?.Flagged', studentCount?.Flagged)
 
     const tabs: TabProps[] = [
         {
