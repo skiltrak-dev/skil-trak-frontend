@@ -35,10 +35,6 @@ const filterKeys = [
 
 const Students: NextPageWithLayout = (props: Props) => {
     const profile = SubAdminApi.SubAdmin.useProfile()
-    console.log(
-        'profile?.data?.hasAllStudentAccess',
-        profile?.data?.hasAllStudentAccess
-    )
     return (
         <div>
             {profile?.isError && <TechnicalError />}
