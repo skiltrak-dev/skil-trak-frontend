@@ -13,30 +13,23 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaBook, FaEdit, FaEye, FaHourglassHalf } from 'react-icons/fa'
 
 import { UserRoles } from '@constants'
-import { useActionModal, useContextBar } from '@hooks'
+import { useActionModal, useContextBar, useModal } from '@hooks'
 import { AdminApi, commonApi } from '@queries'
 import { Rto, UserStatus } from '@types'
 import { checkListLength, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdBlock, MdIncompleteCircle, MdOutlineUpdate } from 'react-icons/md'
 import { RtoCellInfo, SectorCell } from './components'
 import { ViewSubAdminsCB } from './contextBar'
 import {
-    AllowAutoCompleteModal,
-    AllowPermissionsModal,
-    AllowUpdationModal,
-    ArchiveModal,
-    BlockModal,
-    BulkBlockModal,
-    ReleaseLogbookPermissionModal,
+    getAdminRtoModal
 } from './modals'
-import { AllowPartialSubmissionModal } from './modals/AllowPartialSubmissionModal'
 
 export const ApprovedRto = () => {
     const router = useRouter()
 
-    const [modal, setModal] = useState<ReactElement | null>(null)
+    // const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -47,6 +40,11 @@ export const ApprovedRto = () => {
     }, [router])
 
     // hooks
+    const { modal, openModal, closeModal } = useModal()
+
+    const handleOpenModal = (type: string, rto: Rto) => {
+        openModal(getAdminRtoModal(type, rto, closeModal))
+    }
     const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, isFetching, data, isError } = AdminApi.Rtos.useListQuery(
@@ -61,69 +59,7 @@ export const ApprovedRto = () => {
     )
 
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-    const onArchiveClicked = (rto: Rto) => {
-        setModal(
-            <ArchiveModal item={rto} onCancel={() => onModalCancelClicked()} />
-        )
-    }
-    const onBlockClicked = (rto: Rto) => {
-        setModal(
-            <BlockModal rto={rto} onCancel={() => onModalCancelClicked()} />
-        )
-    }
-    const onBulkBlockClicked = (rto: any) => {
-        setModal(
-            <BulkBlockModal rto={rto} onCancel={() => onModalCancelClicked()} />
-        )
-    }
-
-    const onAllowUpdation = (rto: Rto) => {
-        setModal(
-            <AllowUpdationModal
-                rto={rto}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onAllowAutoComplete = (rto: Rto) => {
-        setModal(
-            <AllowAutoCompleteModal
-                rto={rto}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onAllowPermissions = (rto: Rto) => {
-        setModal(
-            <AllowPermissionsModal
-                rto={rto}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-    const onAllowPartialSubmission = (rto: Rto) => {
-        setModal(
-            <AllowPartialSubmissionModal
-                rto={rto}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onReleaseLogbook = (rto: Rto) => {
-        setModal(
-            <ReleaseLogbookPermissionModal
-                rto={rto}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
+   
     const contextBar = useContextBar()
     const onViewSubAdminsClicked = (rto: Rto) => {
         contextBar.setTitle('Sub Admins')
@@ -170,7 +106,8 @@ export const ApprovedRto = () => {
                       text: rto?.autoReleaseLogBook
                           ? 'Remove Logbook'
                           : 'Allow Logbook',
-                      onClick: (rto: Rto) => onReleaseLogbook(rto),
+                      onClick: (rto: Rto) =>
+                          handleOpenModal('releaseLogbook', rto),
                       Icon: FaBook,
                       color: rto?.autoReleaseLogBook
                           ? 'bg-error-light text-error-dark'
@@ -184,7 +121,8 @@ export const ApprovedRto = () => {
                       text: rto?.allowUpdate
                           ? 'Remove Updation'
                           : `Allow Updation`,
-                      onClick: (rto: Rto) => onAllowUpdation(rto),
+                      onClick: (rto: Rto) =>
+                          handleOpenModal('allowUpdation', rto),
                       Icon: MdOutlineUpdate,
                   }
                 : {}),
@@ -195,7 +133,8 @@ export const ApprovedRto = () => {
                       text: rto?.allowAutoComplete
                           ? 'Remove Auto Complete'
                           : `Allow Auto Complete`,
-                      onClick: (rto: Rto) => onAllowAutoComplete(rto),
+                      onClick: (rto: Rto) =>
+                          handleOpenModal('allowAutoComplete', rto),
                       Icon: MdIncompleteCircle,
                   }
                 : {}),
@@ -204,7 +143,8 @@ export const ApprovedRto = () => {
             ...(role === UserRoles.ADMIN
                 ? {
                       text: 'Allow Partial Submission',
-                      onClick: (rto: Rto) => onAllowPartialSubmission(rto),
+                      onClick: (rto: Rto) =>
+                          handleOpenModal('allowPartialSubmission', rto),
                       Icon: FaHourglassHalf,
                   }
                 : {}),
@@ -213,7 +153,8 @@ export const ApprovedRto = () => {
             ...(role === UserRoles.ADMIN
                 ? {
                       text: 'Permissions',
-                      onClick: (rto: Rto) => onAllowPermissions(rto),
+                      onClick: (rto: Rto) =>
+                          handleOpenModal('allowPermissions', rto),
                       Icon: MdIncompleteCircle,
                   }
                 : {}),
@@ -225,13 +166,13 @@ export const ApprovedRto = () => {
         },
         {
             text: 'Archive',
-            onClick: (rto: Rto) => onArchiveClicked(rto),
+            onClick: (rto: Rto) => handleOpenModal('archive', rto),
             Icon: MdBlock,
             color: 'text-primary hover:bg-primary-light hover:border-primary-dark',
         },
         {
             text: 'Block',
-            onClick: (rto: Rto) => onBlockClicked(rto),
+            onClick: (rto: Rto) => handleOpenModal('block', rto),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -296,7 +237,7 @@ export const ApprovedRto = () => {
                 <ActionButton
                     Icon={MdBlock}
                     variant="error"
-                    onClick={() => onBlockClicked(item)}
+                    onClick={() => handleOpenModal('block', item)}
                 >
                     Block
                 </ActionButton>
@@ -305,9 +246,11 @@ export const ApprovedRto = () => {
         common: (items: Rto[]) => (
             <ActionButton
                 onClick={() => {
-                    const arrayOfIds = items.map((id: any) => id?.user.id)
+                    const arrayOfIds = items?.map((id: any) => id?.user.id)
+                    const rtos: any = arrayOfIds
                     // onBlockClicked(items)
-                    onBulkBlockClicked(arrayOfIds)
+                    // onBulkBlockClicked(arrayOfIds)
+                    handleOpenModal('bulkBlock', rtos)
                     // bulkAction({ ids: arrayOfIds, status: 'blocked' })
                 }}
                 Icon={MdBlock}

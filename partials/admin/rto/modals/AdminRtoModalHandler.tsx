@@ -7,10 +7,16 @@ import { AllowAutoCompleteModal } from './AllowAutoCompleteModal'
 import { AllowPermissionsModal } from './AllowPermissionsModal'
 import { ReleaseLogbookPermissionModal } from './ReleaseLogbookPermissionModal'
 import { Rto } from '@types'
+import { AllowPartialSubmissionModal } from './AllowPartialSubmissionModal'
+import { DeleteModal } from './DeleteModal'
+import { UnblockModal } from './UnblockModal'
+import { BulkUnBlockModal } from './BulkUnBlockModal'
+import { AcceptModal } from './AcceptModal'
+import { RejectModal } from './RejectModal'
 
 export const getAdminRtoModal = (
     type: string,
-    rto: Rto,
+    rto: any,
     onCancel: () => void
 ): ReactNode => {
     const modals: Record<string, ReactNode> = {
@@ -27,6 +33,19 @@ export const getAdminRtoModal = (
         releaseLogbook: (
             <ReleaseLogbookPermissionModal rto={rto} onCancel={onCancel} />
         ),
+        allowPartialSubmission: (
+            <AllowPartialSubmissionModal rto={rto} onCancel={onCancel} />
+        ),
+        // Archive tabs modal
+        delete: <DeleteModal rto={rto} onCancel={onCancel} />,
+
+        // Block tabs Modal
+        unblock: <UnblockModal rto={rto} onCancel={onCancel} />,
+        bulkUnBlock: <BulkUnBlockModal rto={rto} onCancel={onCancel} />,
+        
+        // Pending tabs Modal
+        accept: <AcceptModal rto={rto} onCancel={onCancel} />,
+        reject: <RejectModal rto={rto} onCancel={onCancel} />,
     }
 
     return modals[type]

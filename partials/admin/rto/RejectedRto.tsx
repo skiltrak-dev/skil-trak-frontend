@@ -21,12 +21,13 @@ import { Rto, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RtoCellInfo } from './components'
-import { AcceptModal, DeleteModal } from './modals'
+import { AcceptModal, DeleteModal, getAdminRtoModal } from './modals'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
+import { useModal } from '@hooks'
 
 export const RejectedRto = () => {
-    const [modal, setModal] = useState<ReactElement | null>(null)
+    // const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
 
     const [filterAction, setFilterAction] = useState(null)
@@ -39,25 +40,17 @@ export const RejectedRto = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
+    const { modal, openModal, closeModal } = useModal()
+
+    const handleOpenModal = (type: string, rto: Rto) => {
+        openModal(getAdminRtoModal(type, rto, closeModal))
+    }
+
     const { isLoading, data, isError } = AdminApi.Rtos.useListQuery({
         search: `status:${UserStatus.Rejected}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-    const onAcceptClicked = (rto: Rto) => {
-        setModal(
-            <AcceptModal rto={rto} onCancel={() => onModalCancelClicked()} />
-        )
-    }
-    const onDeleteClicked = (rto: Rto) => {
-        setModal(
-            <DeleteModal rto={rto} onCancel={() => onModalCancelClicked()} />
-        )
-    }
 
     const tableActionOptions: TableActionOption[] = [
         {
@@ -83,14 +76,14 @@ export const RejectedRto = () => {
         },
         {
             text: 'Accept',
-            onClick: (rto: Rto) => onAcceptClicked(rto),
+            onClick: (rto: Rto) => handleOpenModal('accept', rto),
             color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
         },
         {
             ...(role === UserRoles.ADMIN
                 ? {
                       text: 'Delete',
-                      onClick: (rto: Rto) => onDeleteClicked(rto),
+                      onClick: (rto: Rto) => handleOpenModal('delete', rto),
                       Icon: FaTrash,
                       color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
                   }
@@ -152,14 +145,14 @@ export const RejectedRto = () => {
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton
                     variant="success"
-                    onClick={() => onAcceptClicked(item)}
+                    onClick={() => handleOpenModal('accept', item)}
                 >
                     Accept
                 </ActionButton>
                 <ActionButton
                     Icon={FaTrash}
                     variant="error"
-                    onClick={() => onDeleteClicked(item)}
+                    onClick={() => handleOpenModal('delete', item)}
                 >
                     Delete
                 </ActionButton>
