@@ -135,32 +135,36 @@ export const WorkplaceMapBoxView = ({
 
     return (
         <div className="w-full">
-            <Map
-                mapboxAccessToken={MAPBOX_TOKEN}
-                initialViewState={{
-                    ...midpoint,
-                    zoom: 8,
-                }}
-                style={{ width: '100%', height: '280px' }}
-                mapStyle="mapbox://styles/mapbox/streets-v11"
-            >
-                {showPopup && (
-                    <Popup
-                        longitude={industryLocationCoordinates?.longitude}
-                        latitude={industryLocationCoordinates?.latitude}
-                        closeButton={false}
-                        className="workplace-popup"
-                        closeOnClick={false}
-                        style={{
-                            width: '280px',
-                            // height: '100%',
+            {industryLocationCoordinates?.longitude &&
+                studentLocationCoordinates?.longitude && (
+                    <Map
+                        mapboxAccessToken={MAPBOX_TOKEN}
+                        initialViewState={{
+                            ...midpoint,
+                            zoom: 8,
                         }}
+                        style={{ width: '100%', height: '280px' }}
+                        mapStyle="mapbox://styles/mapbox/streets-v11"
                     >
-                        <RxCross2
-                            className="absolute top-2 right-2 cursor-pointer"
-                            onClick={() => setShowPopup(false)}
-                        />
-                        {/* <div className="mb-2">
+                        {showPopup && (
+                            <Popup
+                                longitude={
+                                    industryLocationCoordinates?.longitude
+                                }
+                                latitude={industryLocationCoordinates?.latitude}
+                                closeButton={false}
+                                className="workplace-popup"
+                                closeOnClick={false}
+                                style={{
+                                    width: '280px',
+                                    // height: '100%',
+                                }}
+                            >
+                                <RxCross2
+                                    className="absolute top-2 right-2 cursor-pointer"
+                                    onClick={() => setShowPopup(false)}
+                                />
+                                {/* <div className="mb-2">
                             <Typography variant="xs" semibold>
                                 {workplaceName}
                             </Typography>
@@ -185,96 +189,103 @@ export const WorkplaceMapBoxView = ({
                                 </div>
                             ))}
                         </div> */}
-                        <div
-                            // className="relative bg-white rounded-md shadow-md"
-                            style={{
-                                width: '280px',
-                                padding: '10px',
-                                overflow: 'hidden',
-                            }}
-                        >
-                            <div className="mb-2">
-                                <Typography variant="xs" semibold>
-                                    {workplaceName}
-                                </Typography>
-                                <Typography variant="xxs" bold>
-                                    Distance From Student Location
-                                </Typography>
-                            </div>
-
-                            <div className="flex gap-x-4">
-                                {travelInfo.map((info, index) => (
-                                    <div
-                                        key={index}
-                                        className="overflow-hidden"
-                                    >
-                                        <Typography variant="xxs">
-                                            {info.mode.charAt(0).toUpperCase() +
-                                                info.mode.slice(1)}
+                                <div
+                                    // className="relative bg-white rounded-md shadow-md"
+                                    style={{
+                                        width: '280px',
+                                        padding: '10px',
+                                        overflow: 'hidden',
+                                    }}
+                                >
+                                    <div className="mb-2">
+                                        <Typography variant="xs" semibold>
+                                            {workplaceName}
                                         </Typography>
-                                        <Typography medium variant="xs">
-                                            {info.duration}
-                                        </Typography>
-                                        <Typography medium variant="xxs">
-                                            ({info.distance})
+                                        <Typography variant="xxs" bold>
+                                            Distance From Student Location
                                         </Typography>
                                     </div>
-                                ))}
-                            </div>
-                            <div
-                                className="absolute left-1/2 -bottom-2 w-0 h-0"
-                                style={{
-                                    borderLeft: '8px solid transparent',
-                                    borderRight: '8px solid transparent',
-                                    borderTop: '8px solid white',
-                                    transform: 'translateX(-50%)',
-                                }}
-                            />
-                        </div>
-                    </Popup>
-                )}
-                <NavigationControl />
 
-                {directions && (
-                    <Source type="geojson" data={directions}>
-                        <Layer
-                            id="route"
-                            type="line"
-                            paint={{
-                                'line-color': '#1a73e8',
-                                'line-width': 4,
-                            }}
-                        />
-                    </Source>
-                )}
+                                    <div className="flex gap-x-4">
+                                        {travelInfo.map((info, index) => (
+                                            <div
+                                                key={index}
+                                                className="overflow-hidden"
+                                            >
+                                                <Typography variant="xxs">
+                                                    {info.mode
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                        info.mode.slice(1)}
+                                                </Typography>
+                                                <Typography medium variant="xs">
+                                                    {info.duration}
+                                                </Typography>
+                                                <Typography
+                                                    medium
+                                                    variant="xxs"
+                                                >
+                                                    ({info.distance})
+                                                </Typography>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div
+                                        className="absolute left-1/2 -bottom-2 w-0 h-0"
+                                        style={{
+                                            borderLeft: '8px solid transparent',
+                                            borderRight:
+                                                '8px solid transparent',
+                                            borderTop: '8px solid white',
+                                            transform: 'translateX(-50%)',
+                                        }}
+                                    />
+                                </div>
+                            </Popup>
+                        )}
+                        <NavigationControl />
 
-                <Marker
-                    longitude={studentLocationCoordinates.longitude}
-                    latitude={studentLocationCoordinates.latitude}
+                        {directions && (
+                            <Source type="geojson" data={directions}>
+                                <Layer
+                                    id="route"
+                                    type="line"
+                                    paint={{
+                                        'line-color': '#1a73e8',
+                                        'line-width': 4,
+                                    }}
+                                />
+                            </Source>
+                        )}
+
+                        {/* <Marker
+                    longitude={studentLocationCoordinates?.longitude}
+                    latitude={studentLocationCoordinates?.latitude}
                 >
                     <img
                         src="/images/icons/student-red-map-pin.png"
                         alt="Student Location"
                         style={{ width: '29px', height: '38px' }}
                     />
-                </Marker>
+                </Marker> */}
 
-                <Marker
-                    longitude={industryLocationCoordinates.longitude}
-                    latitude={industryLocationCoordinates.latitude}
-                    onClick={() => setShowPopup(true)}
-                >
-                    <img
-                        src="/images/icons/industry-pin-map-pin.png"
-                        alt="Industry Location"
-                        style={{
-                            width: '29px',
-                            height: '38px',
-                            cursor: 'pointer',
-                        }}
-                    />
-                </Marker>
-            </Map>
+                        <Marker
+                            longitude={industryLocationCoordinates.longitude}
+                            latitude={industryLocationCoordinates.latitude}
+                            onClick={() => setShowPopup(true)}
+                        >
+                            <img
+                                src="/images/icons/industry-pin-map-pin.png"
+                                alt="Industry Location"
+                                style={{
+                                    width: '29px',
+                                    height: '38px',
+                                    cursor: 'pointer',
+                                }}
+                            />
+                        </Marker>
+                    </Map>
+                )}
         </div>
     )
 }
