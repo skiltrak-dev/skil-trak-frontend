@@ -5,15 +5,15 @@ import {
     TableSkeleton,
     TechnicalError,
 } from '@components'
-import { SubAdminLayout } from '@layouts'
 import {
     FilterHodCoordinators,
     HodCoordinatorsList,
     HodCoordinatorsListProvider,
     useHodCoordinatorsList,
 } from '@partials/sub-admin/hodCoordinators'
-import { AdminSubadminFilter, NextPageWithLayout } from '@types'
+import { SubAdminLayout } from '@layouts'
 import Link from 'next/link'
+import { AdminSubadminFilter, NextPageWithLayout } from '@types'
 import { ReactElement } from 'react'
 
 const filterKeys = ['name', 'email', 'courseId']

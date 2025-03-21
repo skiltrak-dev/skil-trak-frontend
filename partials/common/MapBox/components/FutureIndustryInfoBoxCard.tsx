@@ -7,7 +7,12 @@ import {
     ShowErrorNotifications,
     Typography,
 } from '@components'
-import { useContextBar, useNotification, useSubadminProfile } from '@hooks'
+import {
+    useContextBar,
+    useMaskText,
+    useNotification,
+    useSubadminProfile,
+} from '@hooks'
 import {
     CommonApi,
     SubAdminApi,
@@ -207,9 +212,9 @@ export const FutureIndustryInfoBoxCard = ({
 
                                             <div className="relative group w-fit">
                                                 <Typography variant="muted">
-                                                    {maskText(
-                                                        selectedBox?.email
-                                                    )}
+                                                    {useMaskText({
+                                                        key: selectedBox?.email,
+                                                    })}
                                                 </Typography>
                                                 {/*  */}
                                                 {(rolesIncludes?.includes(
@@ -268,15 +273,9 @@ export const FutureIndustryInfoBoxCard = ({
                                 <div className="flex flex-col gap-y-1 my-1.5">
                                     <div className="relative group w-fit">
                                         <Typography variant="muted">
-                                            {maskText(
-                                                selectedBox?.email,
-                                                rolesIncludes?.includes(role) ||
-                                                    subadmin?.departmentMember
-                                                        ?.isHod
-                                                    ? selectedBox?.email
-                                                          ?.length || 0
-                                                    : 4
-                                            )}
+                                            {useMaskText({
+                                                key: selectedBox?.email,
+                                            })}
                                         </Typography>
 
                                         {/*  */}

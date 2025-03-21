@@ -3,7 +3,7 @@ import React from 'react'
 import { UserRoles } from '@constants'
 import { EsignDocumentStatus, maskText } from '@utils'
 import { getStatusColor } from './EsignListRowCard'
-import { useSubadminProfile } from '@hooks'
+import { useMaskText, useSubadminProfile } from '@hooks'
 
 export const SignerCard = ({ signer }: any) => {
     // #128C7F1A
@@ -66,12 +66,9 @@ export const SignerCard = ({ signer }: any) => {
                         </div>
                         <div>
                             <Typography variant="small" color="text-gray-400">
-                                {maskText(
-                                    signer?.user?.email,
-                                    isPermission
-                                        ? signer?.user?.email?.length
-                                        : 6
-                                ) ?? 'NA'}
+                                {useMaskText({
+                                    key: signer?.user?.email,
+                                })}
                             </Typography>
                         </div>
                         <div>
@@ -91,10 +88,9 @@ export const SignerCard = ({ signer }: any) => {
                                     variant="small"
                                     color="text-gray-400"
                                 >
-                                    {maskText(
-                                        phoneNumber,
-                                        isPermission ? phoneNumber?.length : 4
-                                    ) ?? 'NA'}{' '}
+                                    {useMaskText({
+                                        key: phoneNumber,
+                                    })}
                                 </Typography>
                             )}
                         </div>

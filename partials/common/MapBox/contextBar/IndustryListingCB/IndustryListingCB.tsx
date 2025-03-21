@@ -9,7 +9,7 @@ import {
     useAuthorizedUserComponent,
 } from '@components'
 import { UserRoles } from '@constants'
-import { useNotification, useSubadminProfile } from '@hooks'
+import { useMaskText, useNotification, useSubadminProfile } from '@hooks'
 import { UserProfileDetailCard } from '@partials/common/Cards'
 import {
     IndustryListingCallModal,
@@ -128,12 +128,9 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
                                     </span>
                                 </Typography>
                                 <Typography variant="xs" color="text-[#6B7280]">
-                                    {maskText(
-                                        detail?.data?.email,
-                                        isPermission
-                                            ? detail?.data?.email?.length
-                                            : 4
-                                    )}
+                                    {useMaskText({
+                                        key: detail?.data?.email,
+                                    })}
                                 </Typography>
                             </div>
                         </div>

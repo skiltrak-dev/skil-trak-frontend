@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RtoInsuranceDocModal } from '../../modals'
 import { SubAdminApi } from '@queries'
-import { useWorkplace } from '@hooks'
+import { useMaskText, useWorkplace } from '@hooks'
 import { getUserCredentials, maskText } from '@utils'
 
 export const RtoDetail = ({
@@ -89,13 +89,9 @@ export const RtoDetail = ({
                                         variant="xs"
                                         color="text-[#6B7280]"
                                     >
-                                        {maskText(
-                                            rtoDetail?.data?.user?.email,
-                                            isPermission
-                                                ? rtoDetail?.data?.user?.email
-                                                      ?.length
-                                                : 6
-                                        ) || '---'}
+                                        {useMaskText({
+                                            key: rtoDetail?.data?.user?.email,
+                                        })}
                                     </Typography>
                                 </div>
                             </div>

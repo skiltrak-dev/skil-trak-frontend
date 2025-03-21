@@ -5,7 +5,7 @@ import {
     useAuthorizedUserComponent,
 } from '@components'
 import { UserRoles } from '@constants'
-import { useScrollIntoView, useSubadminProfile } from '@hooks'
+import { useMaskText, useScrollIntoView, useSubadminProfile } from '@hooks'
 import { Student } from '@types'
 import { isBrowser, maskText, setLink } from '@utils'
 import moment from 'moment'
@@ -209,12 +209,9 @@ export const StudentCellInfo = ({
                                 <FaEnvelope />
                             </span>
                             <p className="text-gray-500">
-                                {maskText(
-                                    student?.user?.email,
-                                    isPermission
-                                        ? student?.user?.email?.length || 0
-                                        : 4
-                                )}
+                                {useMaskText({
+                                    key: student?.user?.email,
+                                })}
                             </p>
                         </div>
                         <div className="flex items-center gap-x-2 text-sm">
@@ -222,10 +219,9 @@ export const StudentCellInfo = ({
                                 <FaPhone />
                             </span>
                             <p className="text-gray-500">
-                                {maskText(
-                                    student?.phone,
-                                    isHod ? student?.phone?.length : 4
-                                )}
+                                {useMaskText({
+                                    key: student?.phone,
+                                })}
                             </p>
                         </div>
                     </a>
