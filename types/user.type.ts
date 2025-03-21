@@ -312,7 +312,7 @@ export interface AppointmentAchievments extends User {
     completed: number
     progress: number
     targets: Targets
-    // kpiData :
+    kpiData: any
 }
 
 export interface Targets {
