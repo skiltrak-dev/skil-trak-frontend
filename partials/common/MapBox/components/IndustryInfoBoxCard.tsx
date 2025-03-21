@@ -9,6 +9,7 @@ import {
 } from '@components'
 import {
     useContextBar,
+    useMaskText,
     useNotification,
     useSubadminProfile,
     useWorkplace,
@@ -238,19 +239,10 @@ export const IndustryInfoBoxCard = ({
                                             </div>
                                             <div className="relative group w-fit">
                                                 <Typography variant="muted">
-                                                    {maskText(
-                                                        item?.data?.user?.email,
-                                                        rolesIncludes?.includes(
-                                                            role
-                                                        ) ||
-                                                            subadmin
-                                                                ?.departmentMember
-                                                                ?.isHod
-                                                            ? item?.data?.user
-                                                                  ?.email
-                                                                  ?.length || 0
-                                                            : 4
-                                                    )}
+                                                    {useMaskText({
+                                                        key: item?.data?.user
+                                                            ?.email,
+                                                    })}
                                                 </Typography>
 
                                                 {(rolesIncludes?.includes(

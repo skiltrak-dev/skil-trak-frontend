@@ -4,7 +4,7 @@ import {
     Typography,
     useAuthorizedUserComponent,
 } from '@components'
-import { useSubadminProfile } from '@hooks'
+import { useMaskText, useSubadminProfile } from '@hooks'
 import {
     IndustryContactPerson,
     IndustryDetail,
@@ -88,13 +88,9 @@ export const IndustryDetailCB = ({
                             <Typography variant="xs" color="text-[#6B7280]">
                                 {industry?.data?.isSnoozed
                                     ? '---'
-                                    : maskText(
-                                          industry?.data?.user?.email,
-                                          isPermission
-                                              ? industry?.data?.user?.email
-                                                    ?.length || 0
-                                              : 4
-                                      )}
+                                    : useMaskText({
+                                          key: industry?.data?.user?.email,
+                                      })}
                             </Typography>
 
                             {/* <Typography variant="xs" color="text-[#6B7280]">
