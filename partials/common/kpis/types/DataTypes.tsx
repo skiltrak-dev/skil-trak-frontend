@@ -203,6 +203,7 @@ export interface SerialNumberProps {
         original: {
             id: number
         }
+        index: number
     }
 }
 
