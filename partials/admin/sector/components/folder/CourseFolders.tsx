@@ -4,6 +4,7 @@ import { AdminApi } from '@queries'
 import {
     AddFolderFormType,
     Course,
+    Folder,
     FolderCategoryEnum,
     TypeOptionsEnum,
 } from '@types'
@@ -105,14 +106,16 @@ export const CourseFolders = ({
                     <CourseFolderForm
                         onSubmit={onSubmit}
                         onCancel={onFormCancel}
-                        initialValues={{
-                            name: '',
-                            capacity: 0,
-                            type: TypeOptionsEnum.Documents,
-                            category,
-                            description: '',
-                            isRequired: false,
-                        }}
+                        // initialValues={
+                        //     {
+                        //         name: '',
+                        //         capacity: 0,
+                        //         type: TypeOptionsEnum.Documents,
+                        //         category,
+                        //         description: '',
+                        //         isRequired: false,
+                        //     } as Folder
+                        // }
                         result={
                             category === FolderCategoryEnum.IndustryCheck
                                 ? addFolderResult
