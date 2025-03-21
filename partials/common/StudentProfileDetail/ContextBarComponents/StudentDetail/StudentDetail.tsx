@@ -172,7 +172,7 @@ export const StudentDetail = ({
                                               'g'
                                           ),
                                           ''
-                                      )} ${profile?.state}, Australia`
+                                      )} ${profile?.state}, Australia` || 'NA'
                         }
                     />
                 </div>

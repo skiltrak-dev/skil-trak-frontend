@@ -80,6 +80,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
     }, [router])
 
     const count = RtoApi.Students.useCount()
+    const { data: rto, isLoading } = RtoApi.Rto.useProfile()
     const filteredStudents = useGetRtoStudentsQuery(
         {
             search: `${JSON.stringify({
@@ -134,18 +135,23 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
             element: <ApprovedStudent />,
         },
         // IncompleteSubmissionStudent
-        {
-            label: 'Incomplete Submission',
-            badge: {
-                text: count?.data?.inCompleteSubmissions,
-                loading: count.isLoading,
-            },
-            href: {
-                pathname: 'students',
-                query: { tab: 'incomplete-submission' },
-            },
-            element: <IncompleteSubmissionStudent />,
-        },
+        // TODO : Allow partial submission un comment
+        // ...(rto?.allowPartialSubmission
+        //     ? [
+        //           {
+        //               label: 'Incomplete Submission',
+        //               badge: {
+        //                   text: count?.data?.inCompleteSubmissions,
+        //                   loading: count.isLoading,
+        //               },
+        //               href: {
+        //                   pathname: 'students',
+        //                   query: { tab: 'incomplete-submission' },
+        //               },
+        //               element: <IncompleteSubmissionStudent />,
+        //           },
+        //       ]
+        //     : []),
         {
             label: 'Rejected',
             badge: {
@@ -201,7 +207,7 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         //     element: <ReportedStudentsList />,
         // },
 
-        //TODO: Un Comment REporeted student
+        //TODO: Un Comment Reported student
     ]
 
     const delayedSearch = useCallback(

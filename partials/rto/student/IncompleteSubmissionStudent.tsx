@@ -441,9 +441,9 @@ export const IncompleteSubmissionStudent = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Approved Student!'}
+                                title={'No Incomplete Submission!'}
                                 description={
-                                    'You have not approved any Student request yet'
+                                    'You have not Incomplete Submission found'
                                 }
                                 height={'50vh'}
                             />
