@@ -39,6 +39,7 @@ export * from './PrePageLoading'
 export * from './VisibilityObserver'
 export * from './LoadedData'
 export * from './TagsInput'
+export * from './CreatedAtDate'
 
 export * from './LoogbookEditor'
 

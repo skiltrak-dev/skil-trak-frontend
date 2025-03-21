@@ -246,7 +246,11 @@ export const Courses = ({
 
     const result = getCourseResult(selectedCourse?.results)
 
-    const allCommentsAdded = getFolders?.data?.assessmentEvidence?.every(
+    const all =
+        getFolders?.data?.assessmentEvidence ||
+        (getFolders?.data as AssessmentEvidenceDetailType[] | undefined)
+
+    const allCommentsAdded = all?.every(
         (f: any) => f?.studentResponse[0]?.comment
     )
 

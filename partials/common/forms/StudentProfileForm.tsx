@@ -19,8 +19,9 @@ import {
 
 // utils
 import { UserRoles } from '@constants'
+import { useSubadminProfile } from '@hooks'
 import { AuthApi } from '@queries'
-import { Course, Rto, StudentStatusEnum } from '@types'
+import { Course, OptionType, Rto, StudentStatusEnum } from '@types'
 import {
     CourseSelectOption,
     ageOptions,
@@ -31,10 +32,8 @@ import {
     getUserCredentials,
     onlyAlphabets,
 } from '@utils'
-import { useRouter } from 'next/router'
 import { IoInformationCircle } from 'react-icons/io5'
 import { UpdateDateModal } from '../StudentProfileDetail/modals'
-import { useSubadminProfile } from '@hooks'
 
 export const StudentProfileForm = ({
     profile,
@@ -53,8 +52,6 @@ export const StudentProfileForm = ({
     rtoDetail?: Rto
     student?: boolean
 }) => {
-    const router = useRouter()
-
     const role = getUserCredentials()?.role
 
     const sectorResponse = AuthApi.useSectors({})
@@ -65,6 +62,7 @@ export const StudentProfileForm = ({
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const [courseValues, setCourseValues] = useState<any>([])
+    const [selectedRto, setSelectedRto] = useState<any>(null)
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [sectors, setSectors] = useState<any | null>(null)
     const [courseOptions, setCourseOptions] = useState([])
@@ -273,6 +271,7 @@ export const StudentProfileForm = ({
                     ? 'domestic'
                     : ''
             )
+            setSelectedRto(profile?.data?.rto?.id)
             setSelectedAge(profile?.data?.age)
             setIsAddressUpdated(profile?.data?.isAddressUpdated)
         }
@@ -462,8 +461,30 @@ export const StudentProfileForm = ({
                                 </div>
                             </div>
                         </div>
+                        <Select
+                            label={'RTO'}
+                            // value={sectorsValue}
+                            {...(Object.values(rtoDefaultOptions)?.filter(
+                                (f) => f !== undefined
+                            )?.length > 0 && {
+                                defaultValue: rtoDefaultOptions,
+                            })}
+                            name={'rto'}
+                            options={rtoOptions}
+                            placeholder={'Select RTO...'}
+                            onlyValue
+                            loading={rtoResponse.isLoading}
+                            validationIcons
+                            disabled={student}
+                            value={rtoOptions?.find(
+                                (rto: OptionType) => rto?.value === selectedRto
+                            )}
+                            onChange={(e: any) => {
+                                setSelectedRto(e)
+                            }}
+                        />
 
-                        {Object.values(rtoDefaultOptions)?.filter(
+                        {/* {Object.values(rtoDefaultOptions)?.filter(
                             (f) => f !== undefined
                         )?.length > 0 && (
                             <Select
@@ -495,7 +516,7 @@ export const StudentProfileForm = ({
                                 validationIcons
                                 disabled={student}
                             />
-                        )}
+                        )} */}
 
                         {courses.isSuccess && (
                             <div className="w-full md:w-4/6 grid grid-cols-1 gap-y-4">

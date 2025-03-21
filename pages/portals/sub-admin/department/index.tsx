@@ -45,6 +45,16 @@ const CoordinatorsListContent = () => {
                         <div>
                             <Link
                                 href={
+                                    '/portals/sub-admin/department/kpis-by-dept'
+                                }
+                                className="text-link text-sm bg-blue-100 px-4 py-2 rounded-md"
+                            >
+                                KPIS
+                            </Link>
+                        </div>
+                        <div>
+                            <Link
+                                href={
                                     '/portals/sub-admin/department/students?tab=all-students'
                                 }
                                 className="text-link text-sm bg-blue-100 px-4 py-2 rounded-md"

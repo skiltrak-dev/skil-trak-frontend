@@ -5,7 +5,13 @@ import { ViewSectorsCB } from '../contextBar'
 import { CourseDot } from './CourseDot'
 import { useEffect } from 'react'
 
-export const SectorCell = ({ student }: { student: Student }) => {
+export const SectorCell = ({
+    student,
+    hideButton,
+}: {
+    hideButton?: boolean
+    student: Student
+}) => {
     const contextBar = useContextBar()
 
     useEffect(() => {
@@ -27,13 +33,15 @@ export const SectorCell = ({ student }: { student: Student }) => {
     return (
         <div className="w-fit">
             <div className="flex flex-col items-center">
-                <ActionButton
-                    variant="link"
-                    onClick={() => onViewSectorClicked(student)}
-                    simple
-                >
-                    <span className="whitespace-pre">View / Edit</span>
-                </ActionButton>
+                {!hideButton && (
+                    <ActionButton
+                        variant="link"
+                        onClick={() => onViewSectorClicked(student)}
+                        simple
+                    >
+                        <span className="whitespace-pre">View / Edit</span>
+                    </ActionButton>
+                )}
                 <div className="flex gap-x-1">
                     {student?.courses?.map((c: Course) => (
                         <CourseDot key={c?.id} course={c} />

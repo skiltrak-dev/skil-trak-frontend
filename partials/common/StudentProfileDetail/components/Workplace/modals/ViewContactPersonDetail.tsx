@@ -1,4 +1,5 @@
 import { Badge, Modal, WorkplaceAvatar } from '@components'
+import { useMaskText } from '@hooks'
 import React from 'react'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 
@@ -31,7 +32,9 @@ export const ViewContactPersonDetail = ({
                                 </p>
                             </div>
                             <p className="text-slate-400 text-xs 2xl:text-sm">
-                                {appliedIndustry?.industry?.user?.email}
+                                {useMaskText({
+                                    key: appliedIndustry?.industry?.user?.email,
+                                })}
                             </p>
                         </div>
                         <div>
@@ -63,16 +66,16 @@ export const ViewContactPersonDetail = ({
                                 <div className="flex justify-between gap-x-4">
                                     <div>
                                         <p className="font-medium text-xs 2xl:text-base">
-                                            {
-                                                appliedIndustry?.industry
-                                                    ?.contactPerson
-                                            }
+                                            {useMaskText({
+                                                key: appliedIndustry?.industry
+                                                    ?.contactPerson,
+                                            })}
                                         </p>
                                         <p className="text-[10.5px] 2xl:text-sm font-medium text-slate-400">
-                                            {
-                                                appliedIndustry?.industry
-                                                    ?.contactPersonNumber
-                                            }
+                                            {useMaskText({
+                                                key: appliedIndustry?.industry
+                                                    ?.contactPersonNumber,
+                                            })}
                                         </p>
                                     </div>
                                 </div>

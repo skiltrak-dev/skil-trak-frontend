@@ -16,6 +16,7 @@ import { talentPoolEndpoints } from './talentPool'
 import { todoListEndpoints } from './todoList'
 import { subadminVolunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
+import { deptKpiProgressEndpoints } from './deptKpiProgress'
 export const subAdminApi = emptySplitApi.injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',
@@ -179,6 +180,7 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
         ...setScheduleEndpoints(build),
         ...subAdminRtoEndpoints(build),
         ...studentsLogbookEndpoints(build),
+        ...deptKpiProgressEndpoints(build),
         ...subAdminSettingEndpoints(build),
         ...setUnavailabilityEndpoints(build),
         ...subadminVolunteerEndpoints(build),
@@ -215,6 +217,17 @@ export const {
     useGetDepartmentPendingIndustriesQuery,
     useGetDepartmentCoursesRequestListQuery,
     useDepartmentCourseRequestMutation,
+
+    // ----- KPIS ----- //
+    useDeptEmployeeCountsQuery,
+    useDeptSubadminDetailQuery,
+    useVerifyDeptSubadminMutation,
+    useDeptEmployeeProgressCountsQuery,
+    useDeptEmployeeProgressByMonthQuery,
+    useDeptKpiTargetListQuery,
+    useSaveDeptKpiTargetMutation,
+    useDeptSubadminReportListQuery,
+
     // -------- Rtos Listing --------//
     useImportRtosListMutation,
     useGetAllRtosListQuery,
@@ -476,6 +489,16 @@ export const {
 export const SubAdminApi = {
     Count: {
         statistics: useSubadminStatisticsQuery,
+    },
+    Kpi: {
+        deptKpiTargetList: useDeptKpiTargetListQuery,
+        deptEmployeeCounts: useDeptEmployeeCountsQuery,
+        deptSubadminDetail: useDeptSubadminDetailQuery,
+        saveDeptKpiTarget: useSaveDeptKpiTargetMutation,
+        verifyDeptSubadmin: useVerifyDeptSubadminMutation,
+        deptSubadminReportList: useDeptSubadminReportListQuery,
+        deptEmployeeProgressCounts: useDeptEmployeeProgressCountsQuery,
+        deptEmployeeProgressByMonth: useDeptEmployeeProgressByMonthQuery,
     },
     SubAdmin: {
         useProfile: useProfileQuery,

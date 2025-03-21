@@ -1,3 +1,4 @@
+export * from './kpis'
 export * from './forms'
 export * from './Notes'
 export * from './NotesTab'

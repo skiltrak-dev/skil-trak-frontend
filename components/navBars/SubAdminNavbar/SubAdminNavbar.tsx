@@ -109,20 +109,20 @@ export const SubAdminNavbar = () => {
     ]
 
     const additionalMenuItems = [
-        {
-            link: Routes.MyStudentsReports,
-            text: 'My Students Reports',
-            Icon: HiDocumentReport,
-            activeClasses: 'bg-blue-100 text-blue-700',
-            inActiveClasses: 'text-slate-700',
-        },
-        {
-            link: Routes.Report,
-            text: 'My Reports',
-            Icon: HiDocumentReport,
-            activeClasses: 'bg-blue-100 text-blue-700',
-            inActiveClasses: 'text-slate-700',
-        },
+        // {
+        //     link: Routes.MyStudentsReports,
+        //     text: 'My Students Reports',
+        //     Icon: HiDocumentReport,
+        //     activeClasses: 'bg-blue-100 text-blue-700',
+        //     inActiveClasses: 'text-slate-700',
+        // },
+        // {
+        //     link: Routes.Report,
+        //     text: 'My Reports',
+        //     Icon: HiDocumentReport,
+        //     activeClasses: 'bg-blue-100 text-blue-700',
+        //     inActiveClasses: 'text-slate-700',
+        // },
         {
             link: Routes.Settings,
             Icon: IoMdSettings,
@@ -154,11 +154,11 @@ export const SubAdminNavbar = () => {
                     <NavLinkItem key={i} nav={nav} PREFIX={PREFIX} />
                 ))}
             </ul>
-            {/* <ul className="flex gap-x-2 items-center py-4">
+            <ul className="flex gap-x-2 items-center py-4">
                 {additionalMenuItems.map((nav, i) => (
                     <NavLinkItem key={i} nav={nav} PREFIX={PREFIX} />
                 ))}
-            </ul> */}
+            </ul>
         </div>
     )
 }

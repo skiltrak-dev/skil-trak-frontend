@@ -43,7 +43,7 @@ import { RiShieldUserFill, RiVoiceRecognitionLine } from 'react-icons/ri'
 import { AdminApi, CommonApi, SubAdminApi } from '@queries'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
-import { TbEyeSearch } from 'react-icons/tb'
+import { TbClockCheck, TbEyeSearch } from 'react-icons/tb'
 
 export type RouteNavLinkCountType = {
     loading: boolean
@@ -179,6 +179,12 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
         {
             type: 'title',
             text: 'Management',
+        },
+        {
+            text: 'KPIS',
+            path: getRoutePath('/kpis-progress'),
+            Icon: TbClockCheck,
+            visible: checkIsHod,
         },
         {
             text: 'Talent Pool',
