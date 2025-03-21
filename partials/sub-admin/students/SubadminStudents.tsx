@@ -165,19 +165,19 @@ export const SubadminStudents = () => {
             href: { pathname: 'students', query: { tab: 'my-students' } },
             element: <MyStudents subadmin={subadmin?.data as SubAdmin} />,
         },
-        {
-            label: 'Flagged Students',
-            badge: {
-                text: studentCount?.Flagged,
-                loading: count.isLoading,
-            },
-            href: { pathname: 'students', query: { tab: 'Flagged' } },
-            element: (
-                <SubAdminFlaggedStudents
-                    subadmin={subadmin?.data as SubAdmin}
-                />
-            ),
-        },
+        // {
+        //     label: 'Flagged Students',
+        //     badge: {
+        //         text: studentCount?.reported,
+        //         loading: count.isLoading,
+        //     },
+        //     href: { pathname: 'students', query: { tab: 'Flagged' } },
+        //     element: (
+        //         <SubAdminFlaggedStudents
+        //             subadmin={subadmin?.data as SubAdmin}
+        //         />
+        //     ),
+        // },
         {
             label: 'Placement Started Students',
             badge: {

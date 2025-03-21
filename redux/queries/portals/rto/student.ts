@@ -21,7 +21,6 @@ export const studentEndpoints = (
     }),
     updateReportedStudentComment: builder.mutation<any, any>({
         query: ({ id, commentId, body }) => {
-            console.log('body::::::', body)
             return {
                 url: `${PREFIX}/reported/student/${id}/comment/${commentId}/update`,
                 method: 'PATCH',
@@ -41,6 +40,10 @@ export const studentEndpoints = (
 
     studentsImportedList: builder.query<any, any>({
         query: () => `${PREFIX}/students/imported-lists`,
+        providesTags: ['Rto-Students'],
+    }),
+    getIncompleteSubmissionStudents: builder.query<any, any>({
+        query: () => `${PREFIX}/students/incomplete-submission/list`,
         providesTags: ['Rto-Students'],
     }),
     sendVerificationCode: builder.mutation<any, { listing?: boolean }>({

@@ -41,9 +41,11 @@ const Students: NextPageWithLayout = (props: Props) => {
             {profile.isLoading ? (
                 <LoadingAnimation />
             ) : profile?.isSuccess ? (
-                profile?.data?.isAssociatedWithRto ? (
+                profile?.data?.isAssociatedWithRto &&
+                !profile?.data?.hasAllStudentAccess ? (
                     <RtoSubadminStudent />
-                ) : profile?.data?.canViewAllStudents ? (
+                ) : profile?.data?.canViewAllStudents ||
+                  profile?.data?.hasAllStudentAccess ? (
                     <SubadminStudents />
                 ) : (
                     <MyStudents />

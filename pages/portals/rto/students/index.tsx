@@ -25,6 +25,7 @@ import {
     BlockedStudent,
     CompletedStudents,
     FilteredStudents,
+    IncompleteSubmissionStudent,
     PendingStudent,
     ProblematicStudent,
     RejectedStudent,
@@ -132,6 +133,19 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
             href: { pathname: 'students', query: { tab: 'active' } },
             element: <ApprovedStudent />,
         },
+        // IncompleteSubmissionStudent
+        {
+            label: 'Incomplete Submission',
+            badge: {
+                text: count?.data?.inCompleteSubmissions,
+                loading: count.isLoading,
+            },
+            href: {
+                pathname: 'students',
+                query: { tab: 'incomplete-submission' },
+            },
+            element: <IncompleteSubmissionStudent />,
+        },
         {
             label: 'Rejected',
             badge: {
@@ -177,15 +191,17 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
         //     href: { pathname: 'students', query: { tab: 'problem' } },
         //     element: <ProblematicStudent />,
         // },
-        {
-            label: 'Reported Student',
-            badge: {
-                text: count?.data?.reported,
-                loading: count.isLoading,
-            },
-            href: { pathname: 'students', query: { tab: 'reported' } },
-            element: <ReportedStudentsList />,
-        },
+        // {
+        //     label: 'Reported Student',
+        //     badge: {
+        //         text: count?.data?.reported,
+        //         loading: count.isLoading,
+        //     },
+        //     href: { pathname: 'students', query: { tab: 'reported' } },
+        //     element: <ReportedStudentsList />,
+        // },
+
+        //TODO: Un Comment REporeted student
     ]
 
     const delayedSearch = useCallback(

@@ -22,6 +22,7 @@ export const Footer4 = () => {
         { href: '/features', label: 'Features' },
         { href: '/contact-us', label: 'Contact Us' },
         { href: '/blogs', label: 'Blogs' },
+        { href: '/blogs?category=34', label: 'Placements' },
     ]
 
     return (

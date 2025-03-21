@@ -51,21 +51,22 @@ export const Actions = ({
     const onModalCancelClicked = () => setModal(null)
 
     const onApproveModal = () => {
-        if (student?.user?.schedules && student?.user?.schedules?.length > 0) {
-            setModal(
-                <ApproveRequestModal
-                    appliedIndustryId={appliedIndustry?.id}
-                    onCancel={onModalCancelClicked}
-                />
-            )
-        } else {
-            setModal(
-                <ShowScheduleInfoBeforeApproveWPModal
-                    onCancel={onModalCancelClicked}
-                    appliedIndustryId={appliedIndustry?.id}
-                />
-            )
-        }
+        // if (student?.user?.schedules && student?.user?.schedules?.length > 0) {
+        setModal(
+            <ApproveRequestModal
+                appliedIndustryId={appliedIndustry?.id}
+                onCancel={onModalCancelClicked}
+            />
+        )
+        // }
+        // else {
+        //     setModal(
+        //         <ShowScheduleInfoBeforeApproveWPModal
+        //             onCancel={onModalCancelClicked}
+        //             appliedIndustryId={appliedIndustry?.id}
+        //         />
+        //     )
+        // }
     }
 
     return (

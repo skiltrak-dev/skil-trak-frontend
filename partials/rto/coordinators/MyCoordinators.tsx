@@ -16,7 +16,7 @@ import { CoursesCell } from '@partials/rto/coordinators'
 import { RtoApi } from '@queries'
 import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
-import { DeleteRtoCoordinatorModal } from './modal'
+import { AllowAllStudentsAccessModal, DeleteRtoCoordinatorModal } from './modal'
 import { SubAdmin } from '@types'
 import { EditCoordinatorCB } from './contextBar'
 import { useContextBar } from '@hooks'
@@ -53,6 +53,14 @@ export const MyCoordinators = () => {
             />
         )
     }
+    const onHasAllowAllStudentsAccess = (coordinator: any) => {
+        setModal(
+            <AllowAllStudentsAccessModal
+                coordinator={coordinator}
+                onCancel={onCancelModal}
+            />
+        )
+    }
 
     const onEditClicked = (coordinator: SubAdmin) => {
         contextBar.show(false)
@@ -86,6 +94,13 @@ export const MyCoordinators = () => {
                       Icon: '',
                   }
                 : null),
+        },
+        {
+            text: 'Allow All Students Access',
+            onClick: (coordinator: any) => {
+                onHasAllowAllStudentsAccess(coordinator)
+            },
+            Icon: '',
         },
     ]
 

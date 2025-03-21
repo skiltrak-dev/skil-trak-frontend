@@ -4,13 +4,12 @@ import {
     useIsRestricted,
     useRestrictedData,
 } from '@components'
-import { UserProfileDetailCard } from '@partials/common/Cards'
-import { Industry } from '@types'
-import React from 'react'
-import { SubAdminApi } from '@queries'
-import { useNotification, useSubadminProfile } from '@hooks'
 import { UserRoles } from '@constants'
-import { getUserCredentials, maskText } from '@utils'
+import { useMaskText, useNotification, useSubadminProfile } from '@hooks'
+import { UserProfileDetailCard } from '@partials/common/Cards'
+import { SubAdminApi } from '@queries'
+import { Industry } from '@types'
+import { getUserCredentials } from '@utils'
 
 export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
     const [callLog, callLogResult] = SubAdminApi.Industry.useIndustryCallLog()
@@ -45,13 +44,9 @@ export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
                         detail={useRestrictedData(
                             industry?.isSnoozed
                                 ? '---'
-                                : maskText(
-                                      industry?.contactPersonNumber,
-                                      isPermission
-                                          ? industry?.contactPersonNumber
-                                                ?.length || 0
-                                          : 4
-                                  ),
+                                : useMaskText({
+                                      key: industry?.contactPersonNumber,
+                                  }),
                             UserRoles.INDUSTRY
                         )}
                         onClick={
