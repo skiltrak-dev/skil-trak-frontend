@@ -164,6 +164,7 @@ const {
     useSubadminKpiWorkplaceAgreementDetailsQuery,
     useSubadminKpiCallIndustriesDetailsQuery,
     useSubadminKpiCallStudentsDetailsQuery,
+    useOverAllEmployeeProgressByMonthQuery,
     useSubadminKpiFlagedStudentsDetailsQuery,
     useSubadminKpiSnoozedStudentsDetailsQuery,
     useEmployeeProgressCountsByDeptQuery,
@@ -471,6 +472,7 @@ export const AdminApi = {
         flaggedStudents: useSubadminKpiFlagedStudentsDetailsQuery,
         snoozedStudents: useSubadminKpiSnoozedStudentsDetailsQuery,
         overAllEmployeeProgressCounts: useOverAllEmployeeProgressCountsQuery,
+        overAllEmployeeProgressByMonth: useOverAllEmployeeProgressByMonthQuery,
     },
     Rtos: {
         useCountQuery: useRtoCountQuery,

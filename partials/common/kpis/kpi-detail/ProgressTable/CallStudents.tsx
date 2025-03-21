@@ -5,6 +5,7 @@ import { DataKpiTable } from '../DataKpiTable'
 import { useState } from 'react'
 import { CreatedAtDate, Typography } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
+import moment, { Moment } from 'moment'
 
 // Call Student-specific columns
 const callStudentColumns: ColumnDef<any>[] = [
@@ -48,7 +49,13 @@ const callStudentColumns: ColumnDef<any>[] = [
     },
 ]
 
-export const CallStudents = () => {
+export const CallStudents = ({
+    startDate,
+    endDate,
+}: {
+    startDate: Moment | null
+    endDate: Moment | null
+}) => {
     const router = useRouter()
 
     const [page, setPage] = useState(1)
@@ -59,6 +66,9 @@ export const CallStudents = () => {
             limit: itemPerPage,
             id: Number(router.query.id),
             skip: itemPerPage * page - itemPerPage,
+            search: `startDate:${moment(startDate).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`,
         },
         {
             skip: !router.query.id,

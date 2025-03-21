@@ -1,4 +1,5 @@
 'use client'
+import { LoadingAnimation, NoData } from '@components'
 import {
     BarElement,
     CategoryScale,
@@ -86,10 +87,10 @@ export const BarChart = ({
                     display: false,
                 },
                 beginAtZero: true,
-                max: employeeCounts?.finalCounts
+                max: employeeCounts?.data?.finalCounts
                     ? Math.max(
                           ...(Object?.values(
-                              employeeCounts?.finalCounts
+                              employeeCounts?.data?.finalCounts
                           ) as number[])
                       )
                     : 0,
@@ -98,11 +99,13 @@ export const BarChart = ({
     }
 
     const data = {
-        labels: employeeCounts ? Object?.keys(employeeCounts?.finalCounts) : [],
+        labels: employeeCounts?.data
+            ? Object?.keys(employeeCounts?.data?.finalCounts)
+            : [],
         datasets: [
             {
-                data: employeeCounts
-                    ? Object?.values(employeeCounts?.finalCounts)
+                data: employeeCounts?.data
+                    ? Object?.values(employeeCounts?.data?.finalCounts)
                     : [],
                 backgroundColor: '#AEC6D0',
                 hoverBackgroundColor: '#214BDD',
@@ -120,7 +123,8 @@ export const BarChart = ({
     }
 
     return (
-        <div className="px-3 mx-auto pt-4 pb-4 bg-white rounded-2xl shadow-md">
+        // <div className="px-3 mx-auto pt-4 pb-4 bg-white rounded-2xl shadow-md h-full">
+        <>
             <div className="flex items-center mb-4">
                 <div className="p-2 border border-[#1436B033] rounded-lg">
                     <RiUserLine className="text-[#1436B0] text-base" />
@@ -130,7 +134,7 @@ export const BarChart = ({
 
             <div className="flex items-center gap-3">
                 <div className="text-3xl font-medium">
-                    {employeeCounts?.totalSubadmins}
+                    {employeeCounts?.data?.totalSubadmins}
                 </div>
                 {/* <div className="text-base text-green-500 font-medium">
                     +{newEmployees}{' '}
@@ -144,9 +148,18 @@ export const BarChart = ({
                 Total employee
             </p>
 
-            <div className="h-56 mt-6 -mb-[24px]">
-                <Bar options={options} data={data} />
-            </div>
-        </div>
+            {employeeCounts?.isError && (
+                <NoData text="There is Some Technical Error!" />
+            )}
+            {employeeCounts?.isLoading ? (
+                <LoadingAnimation />
+            ) : employeeCounts?.data && employeeCounts?.isSuccess ? (
+                <div className="h-60 mt-6 ">
+                    <Bar options={options} data={data} />
+                </div>
+            ) : employeeCounts?.isSuccess ? (
+                <NoData text="No Counts Found!" />
+            ) : null}
+        </>
     )
 }

@@ -6,6 +6,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { DataKpiTable } from '../../DataKpiTable'
 import { RiGitPullRequestFill } from 'react-icons/ri'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
+import moment, { Moment } from 'moment'
 
 const workplaceColumns: ColumnDef<IWorkplaceIndustries>[] = [
     {
@@ -51,7 +52,13 @@ const workplaceColumns: ColumnDef<IWorkplaceIndustries>[] = [
     },
 ]
 
-export const WorkplaceRequest = () => {
+export const WorkplaceRequest = ({
+    endDate,
+    startDate,
+}: {
+    startDate: Moment | null
+    endDate: Moment | null
+}) => {
     const router = useRouter()
 
     const [page, setPage] = useState(1)
@@ -62,9 +69,12 @@ export const WorkplaceRequest = () => {
             limit: itemPerPage,
             id: Number(router.query.id),
             skip: itemPerPage * page - itemPerPage,
+            search: `startDate:${moment(startDate).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`,
         },
         {
-            skip: !router.query.id,
+            skip: !router.query.id || !startDate || !endDate,
         }
     )
 

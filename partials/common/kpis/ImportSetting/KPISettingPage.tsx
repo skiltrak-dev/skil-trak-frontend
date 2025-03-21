@@ -1,17 +1,16 @@
 'use client'
-import { useState } from 'react'
+import { LoadingAnimation, NoData } from '@components'
+import { MetricField } from '@partials/common/kpis'
 import { AdminApi } from '@queries'
-import { RiUserLine } from 'react-icons/ri'
+import { useState } from 'react'
 import { DepartmentItem } from './DepartmentItem'
-import { DepartmentData, MetricField } from '@partials/common/kpis'
-import { LoadingAnimation, NoData, TechnicalError } from '@components'
 
 export const KPISettingPage = () => {
     const [openDepartment, setOpenDepartment] = useState<number | null>(null)
 
     const kpiDetList = AdminApi.Kpi.kpiDeptList()
 
-    const initialMetrics: MetricField[] = [
+    const initialMetrics: any[] = [
         {
             id: 'appointment',
             name: 'Appointment',
@@ -49,50 +48,12 @@ export const KPISettingPage = () => {
         },
     ]
 
-    const [departments, setDepartments] = useState<DepartmentData[]>([
-        {
-            id: 1,
-            icon: <RiUserLine className="text-[#1436B0] text-base" />,
-            title: 'Department of Health',
-            metrics: [...initialMetrics],
-        },
-        {
-            id: 2,
-            icon: <RiUserLine className="text-[#1436B0] text-base" />,
-            title: 'Department of Care',
-            metrics: [...initialMetrics],
-        },
-        {
-            id: 3,
-            icon: <RiUserLine className="text-[#1436B0] text-base" />,
-            title: 'Department of B2C',
-            metrics: [...initialMetrics],
-        },
-    ])
-
     const toggleDepartment = (id: number) => {
         setOpenDepartment((prev) => (prev === id ? null : id))
     }
 
     const isDepartmentOpen = (id: number) => {
         return openDepartment === id
-    }
-
-    const handleSaveDepartment = (
-        deptId: number,
-        updatedMetrics: MetricField[]
-    ) => {
-        setDepartments((prevDepts) =>
-            prevDepts.map((dept) => {
-                if (dept.id === deptId) {
-                    return {
-                        ...dept,
-                        metrics: updatedMetrics,
-                    }
-                }
-                return dept
-            })
-        )
     }
 
     return (
@@ -113,7 +74,6 @@ export const KPISettingPage = () => {
                             }}
                             isOpen={isDepartmentOpen(item.id)}
                             onToggle={() => toggleDepartment(item.id)}
-                            onSave={handleSaveDepartment}
                         />
                     ))
                 ) : kpiDetList?.isSuccess ? (

@@ -1,35 +1,25 @@
-'use client'
-
-import { LoadingAnimation, NoData, ShowErrorNotifications } from '@components'
+import {
+    Card,
+    LoadingAnimation,
+    NoData,
+    ShowErrorNotifications,
+} from '@components'
+import React, { useEffect, useState } from 'react'
+import { MetricInput, MetricSelector, SaveButton } from '../ImportSetting'
+import { AdminApi, SubAdminApi } from '@queries'
+import { MetricField } from '../types'
 import { useNotification } from '@hooks'
-import { DepartmentItemProps, MetricField } from '@partials/common/kpis'
-import { AdminApi } from '@queries'
-import { useEffect, useState } from 'react'
-import { DepartmentHeader } from './DepartmentHeader'
-import { MetricInput } from './MetricInput'
-import { MetricSelector } from './MetricSelector'
-import { SaveButton } from './SaveButton'
 
-export const DepartmentItem = ({
-    department,
-    isOpen,
-    onToggle,
-}: DepartmentItemProps) => {
+export const DeptImportSetting = () => {
     const [editedMetrics, setEditedMetrics] = useState<MetricField[]>([])
-
     const [hasChanges, setHasChanges] = useState(false)
     const [selectedMetric, setSelectedMetric] = useState('')
 
-    const activeMetrics = editedMetrics.filter((m) => m)
-    const removedMetrics = editedMetrics.filter((m) => !m.isActive)
+    const { notification } = useNotification()
 
     const itemsList = AdminApi.Kpi.kpiTypes()
-    const kpiTargets = AdminApi.Kpi.kpiTargetsList(Number(department.id), {
-        skip: !department || !isOpen,
-    })
-    const [saveTarget, saveTargetResult] = AdminApi.Kpi.addKpiTarget()
-
-    const { notification } = useNotification()
+    const kpiTargets = SubAdminApi.Kpi.deptKpiTargetList()
+    const [saveTarget, saveTargetResult] = SubAdminApi.Kpi.saveDeptKpiTarget()
 
     useEffect(() => {
         if (kpiTargets?.isSuccess) {
@@ -59,11 +49,6 @@ export const DepartmentItem = ({
                 metric.id === metricId ? { ...metric, value: numValue } : metric
             )
         )
-        // setNewLyAddedMetrics((prev) =>
-        //     prev.map((metric) =>
-        //         metric.id === metricId ? { ...metric, value: numValue } : metric
-        //     )
-        // )
 
         setHasChanges(true)
     }
@@ -75,28 +60,6 @@ export const DepartmentItem = ({
 
         setHasChanges(true)
     }
-
-    const handleAddMetric = () => {
-        if (!selectedMetric) return
-
-        const addedMetrics = addMoreList?.find(
-            (metric: any) => metric.id === Number(selectedMetric)
-        )
-
-        setEditedMetrics([...editedMetrics, addedMetrics])
-
-        // setEditedMetrics((prev) =>
-        //     prev.map((metric) =>
-        //         metric.id === selectedMetric
-        //             ? { ...metric, isActive: true }
-        //             : metric
-        //     )
-        // )
-
-        setSelectedMetric('')
-        setHasChanges(true)
-    }
-
     const handleSave = async () => {
         if (!hasChanges) return
 
@@ -104,7 +67,6 @@ export const DepartmentItem = ({
             target: editedMetrics?.map((target) => ({
                 value: target?.value,
                 kpiType: target.id,
-                department: department.id,
             })),
         })
 
@@ -115,25 +77,27 @@ export const DepartmentItem = ({
             })
         }
         // onSave(department.id, editedMetrics)
-        // setHasChanges(false)
+        setHasChanges(false)
     }
 
-    console.log({ editedMetrics })
+    const handleAddMetric = () => {
+        if (!selectedMetric) return
+
+        const addedMetrics = addMoreList?.find(
+            (metric: any) => metric.id === Number(selectedMetric)
+        )
+
+        setEditedMetrics([...editedMetrics, addedMetrics])
+
+        setSelectedMetric('')
+        setHasChanges(true)
+    }
 
     return (
-        <div>
+        <Card>
             <ShowErrorNotifications result={saveTargetResult} />
-            <DepartmentHeader
-                department={department}
-                isOpen={isOpen}
-                onToggle={onToggle}
-                activeMetrics={editedMetrics}
-            />
-
             <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                }`}
+                className={`overflow-hidden transition-all duration-300 ease-in-out`}
             >
                 <div className="mx-4 p-4 rounded-lg">
                     <hr />
@@ -175,8 +139,6 @@ export const DepartmentItem = ({
                     </div>
                 </div>
             </div>
-
-            <hr />
-        </div>
+        </Card>
     )
 }

@@ -1,20 +1,17 @@
 import { Typography } from '@components'
 import { AdminLayout } from '@layouts'
 import {
-    DataProvider,
-    BarChart,
-    DepartmentDetails,
-    EmployeeTableColumns,
-    LineChart,
-    RadialChart,
-    WeekFilter,
-    EmployeeCounts,
+    AllEmployeeGraphCount,
     AllEmployeeProgressCount,
+    DataProvider,
+    DepartmentDetails,
+    EmployeeCounts,
+    EmployeeTableColumns,
+    WeekFilter,
 } from '@partials/common'
 import { Moment } from 'moment'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { IoIosAddCircle } from 'react-icons/io'
 import { LuSettings } from 'react-icons/lu'
 import { PiUsersBold } from 'react-icons/pi'
@@ -71,7 +68,7 @@ const Kpis = () => {
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-                        <div className="w-full md:col-span-1">
+                        <div className="w-full h-full md:col-span-1">
                             <EmployeeCounts />
                         </div>
                         <div className="w-full md:col-span-1">
@@ -80,7 +77,7 @@ const Kpis = () => {
                             />
                         </div>
                         <div className="w-full md:col-span-2">
-                            <LineChart />
+                            <AllEmployeeGraphCount />
                         </div>
                     </div>
                     <div>

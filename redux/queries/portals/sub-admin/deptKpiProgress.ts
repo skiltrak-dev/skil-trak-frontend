@@ -26,6 +26,11 @@ export const deptKpiProgressEndpoints = (
         providesTags: ['KPIS'],
     }),
 
+    deptEmployeeProgressByMonth: builder.query<any, void>({
+        query: () => `${PREFIX}/department/data/monthly`,
+        providesTags: ['KPIS'],
+    }),
+
     deptSubadminDetail: builder.query<any, number>({
         query: (id) => `${PREFIX}/subadmin/${id}/kpi-details`,
         providesTags: ['KPIS'],
@@ -37,5 +42,18 @@ export const deptKpiProgressEndpoints = (
             method: 'PATCH',
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
+    deptKpiTargetList: builder.query<any, void>({
+        query: () => `${PREFIX}/department/targets`,
+        providesTags: ['KPIS'],
+    }),
+
+    saveDeptKpiTarget: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}/target-add/for-department/by-hod`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['KPIS'],
     }),
 })

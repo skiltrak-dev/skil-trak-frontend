@@ -1,14 +1,9 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
-import {
-    Course,
-    PaginatedResponse,
-    PaginationValues,
-    PaginationWithSearch,
-} from '@types'
+import { PaginationWithSearch } from '@types'
 
-type KpiProgress = PaginationValues & { id: number }
+type KpiProgress = PaginationWithSearch & { id: number }
 
 const PREFIX = 'kpi'
 export const kpiProgressEndpoints = (
@@ -67,6 +62,10 @@ export const kpiProgressEndpoints = (
             url: `${PREFIX}/subadmins/average`,
             params,
         }),
+        providesTags: ['KPIS'],
+    }),
+    overAllEmployeeProgressByMonth: builder.query<any, void>({
+        query: () => `${PREFIX}/subadmins/average/monthly`,
         providesTags: ['KPIS'],
     }),
 

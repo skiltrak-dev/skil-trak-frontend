@@ -7,6 +7,7 @@ import { CreatedAtDate } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
 import { Student } from '@types'
 import { SectorCell } from '@partials/admin/student/components'
+import moment, { Moment } from 'moment'
 
 // Call Student-specific columns
 const callStudentColumns: ColumnDef<Student>[] = [
@@ -48,7 +49,13 @@ const callStudentColumns: ColumnDef<Student>[] = [
     },
 ]
 
-export const SnoozedStudents = () => {
+export const SnoozedStudents = ({
+    startDate,
+    endDate,
+}: {
+    startDate: Moment | null
+    endDate: Moment | null
+}) => {
     const router = useRouter()
 
     const [page, setPage] = useState(1)
@@ -59,9 +66,12 @@ export const SnoozedStudents = () => {
             limit: itemPerPage,
             id: Number(router.query.id),
             skip: itemPerPage * page - itemPerPage,
+            search: `startDate:${moment(startDate).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`,
         },
         {
-            skip: !router.query.id,
+            skip: !router.query.id || !startDate || !endDate,
         }
     )
     return (

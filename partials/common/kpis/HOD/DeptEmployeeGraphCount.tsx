@@ -1,18 +1,17 @@
-import React from 'react'
-import { RadialChart } from '../Charts'
+import { LineChart } from '../Charts'
 import { SubAdminApi } from '@queries'
 import moment, { Moment } from 'moment'
 import { Card, LoadingAnimation, NoData } from '@components'
 
-export const DeptEmployeeProgressCount = ({
+export const DeptEmployeeGraphCount = ({
     startDate,
     endDate,
 }: {
     startDate?: Moment | null
     endDate?: Moment | null
 }) => {
-    const deptEmployeeProgressCounts =
-        SubAdminApi.Kpi.deptEmployeeProgressCounts(
+    const deptEmployeeProgressByMonth =
+        SubAdminApi.Kpi.deptEmployeeProgressByMonth(
             {
                 search: `startDate:${moment(startDate).format(
                     'YYYY-MM-DD'
@@ -25,7 +24,7 @@ export const DeptEmployeeProgressCount = ({
 
     return (
         <Card fullHeight>
-            <RadialChart employeeProgressCounts={deptEmployeeProgressCounts} />
+            <LineChart employeeProgress={deptEmployeeProgressByMonth} />
         </Card>
     )
 }

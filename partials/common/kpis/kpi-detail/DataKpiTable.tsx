@@ -26,8 +26,8 @@ export const DataKpiTable = <Type,>({
     setPage,
 }: DataKpiTableProps<Type>) => {
     const table = useReactTable({
+        columns,
         data: data?.data?.data,
-        columns: columns,
         getCoreRowModel: getCoreRowModel(),
     })
 

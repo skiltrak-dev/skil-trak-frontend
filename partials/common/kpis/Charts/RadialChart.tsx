@@ -1,5 +1,4 @@
 import { LoadingAnimation, NoData, Typography } from '@components'
-import { AdminApi } from '@queries'
 import {
     ArcElement,
     Chart as ChartJS,
@@ -8,8 +7,6 @@ import {
     TooltipItem,
 } from 'chart.js'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
-import moment, { Moment } from 'moment'
-import React from 'react'
 import { Doughnut } from 'react-chartjs-2'
 import { BsArrowUpRightCircleFill } from 'react-icons/bs'
 import { GiSpeedometer } from 'react-icons/gi'
@@ -123,8 +120,8 @@ export const RadialChart = ({
         },
     }
 
-    const firstValues = employeeProgressCounts
-        ? Object.entries(employeeProgressCounts)
+    const firstValues = employeeProgressCounts?.data
+        ? Object.entries(employeeProgressCounts?.data)
               ?.filter(([key]) => key !== 'overAll' && key !== 'previousMonth')
               .map(([key, value]) => ({ key, value }))
               .sort((a, b) => kpiKeys?.indexOf(a.key) - kpiKeys?.indexOf(b.key))
@@ -142,7 +139,8 @@ export const RadialChart = ({
     }
 
     return (
-        <div className="h-full px-3 mx-auto pt-4 pb-2 bg-white rounded-2xl shadow-md">
+        // <div className="h-full px-3 mx-auto pt-4 pb-2 bg-white rounded-2xl shadow-md">
+        <>
             <div className="flex items-center mb-4">
                 <div className="p-2 border border-[#1436B033] rounded-lg">
                     <GiSpeedometer className="text-[#1436B0] text-base" />
@@ -150,36 +148,51 @@ export const RadialChart = ({
                 <h2 className="ml-3 text-base font-medium">Overall Employee</h2>
             </div>
 
-            <div className="flex flex-col items-center">
-                <div className="relative h-64">
-                    <Doughnut data={datas} options={options} />
-                    <div className="absolute inset-1 flex items-center justify-center flex-col">
-                        <Typography variant="h1">
-                            {Math.round(
-                                Number(employeeProgressCounts?.overAll)
-                            )}
-                            %
-                        </Typography>
-                        <p className="flex flex-row items-center gap-1 text-base text-gray-500">
-                            <BsArrowUpRightCircleFill />
-                            Average
-                        </p>
-                        <div className="-inset-[6px] pl-7 text-[9px] absolute flex flex-col items-center justify-end">
-                            {firstValues?.map((value, index) => (
-                                <div key={index} className="">
-                                    <div className="flex flex-col rounded-lg text-[#1CA844]">
-                                        {Number(value?.value)?.toFixed(1)}%
+            {employeeProgressCounts?.isError && (
+                <NoData text="There is Some Technical Error!" />
+            )}
+            {employeeProgressCounts?.isLoading ? (
+                <LoadingAnimation />
+            ) : employeeProgressCounts?.data &&
+              employeeProgressCounts?.isSuccess ? (
+                <div className="flex flex-col items-center">
+                    <div className="relative h-64">
+                        <Doughnut data={datas} options={options} />
+                        <div className="absolute inset-1 flex items-center justify-center flex-col">
+                            <Typography variant="h1">
+                                {Math.round(
+                                    Number(
+                                        employeeProgressCounts?.data?.overAll
+                                    )
+                                )}
+                                %
+                            </Typography>
+                            <p className="flex flex-row items-center gap-1 text-base text-gray-500">
+                                <BsArrowUpRightCircleFill />
+                                Average
+                            </p>
+                            <div className="-inset-[6px] pl-7 text-[9px] absolute flex flex-col items-center justify-end">
+                                {firstValues?.map((value, index) => (
+                                    <div key={index} className="">
+                                        <div className="flex flex-col rounded-lg text-[#1CA844]">
+                                            {Number(value?.value)?.toFixed(1)}%
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     </div>
+                    <p className="text-sm text-green-500 mt-4">
+                        +
+                        {Number(
+                            employeeProgressCounts?.data?.previousMonth
+                        )?.toFixed(2)}
+                        % in past 1 month
+                    </p>
                 </div>
-                <p className="text-sm text-green-500 mt-4">
-                    +{Number(employeeProgressCounts?.previousMonth)?.toFixed(2)}
-                    % in past 1 month
-                </p>
-            </div>
-        </div>
+            ) : employeeProgressCounts?.isSuccess ? (
+                <NoData text="No Counts Found!" />
+            ) : null}
+        </>
     )
 }

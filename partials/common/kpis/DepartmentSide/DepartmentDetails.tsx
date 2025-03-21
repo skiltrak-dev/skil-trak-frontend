@@ -1,6 +1,6 @@
 'use client'
 
-import { LoadingAnimation, NoData, Typography } from '@components'
+import { Card, LoadingAnimation, NoData, Typography } from '@components'
 import {
     DepartmentInfo,
     DoughnutChart,
@@ -170,7 +170,8 @@ export const DepartmentDetails = ({
               ]
 
     return (
-        <div className=" lg:max-w-2xl rounded-lg bg-white mx-auto p-4">
+        // <div className=" lg:max-w-2xl rounded-lg bg-white mx-auto p-4">
+        <Card>
             <div className="relative mb-4">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
@@ -282,6 +283,6 @@ export const DepartmentDetails = ({
             ) : employeeProgressCountsByDept?.isSuccess ? (
                 <NoData text="No Data Found!" />
             ) : null}
-        </div>
+        </Card>
     )
 }

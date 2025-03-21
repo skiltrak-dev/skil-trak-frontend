@@ -2,7 +2,7 @@ import React from 'react'
 import { RadialChart } from '../Charts'
 import { AdminApi } from '@queries'
 import moment, { Moment } from 'moment'
-import { LoadingAnimation, NoData } from '@components'
+import { Card, LoadingAnimation, NoData } from '@components'
 
 export const AllEmployeeProgressCount = ({
     startDate,
@@ -24,20 +24,10 @@ export const AllEmployeeProgressCount = ({
         )
 
     return (
-        <>
-            {overAllEmployeeProgressCounts?.isError && (
-                <NoData text="There is Some Technical Error!" />
-            )}
-            {overAllEmployeeProgressCounts?.isLoading ? (
-                <LoadingAnimation />
-            ) : overAllEmployeeProgressCounts?.data &&
-              overAllEmployeeProgressCounts?.isSuccess ? (
-                <RadialChart
-                    employeeProgressCounts={overAllEmployeeProgressCounts?.data}
-                />
-            ) : overAllEmployeeProgressCounts?.isSuccess ? (
-                <NoData text="No Counts Found!" />
-            ) : null}
-        </>
+        <Card fullHeight>
+            <RadialChart
+                employeeProgressCounts={overAllEmployeeProgressCounts}
+            />
+        </Card>
     )
 }

@@ -223,6 +223,9 @@ export const {
     useDeptSubadminDetailQuery,
     useVerifyDeptSubadminMutation,
     useDeptEmployeeProgressCountsQuery,
+    useDeptEmployeeProgressByMonthQuery,
+    useDeptKpiTargetListQuery,
+    useSaveDeptKpiTargetMutation,
     useDeptSubadminReportListQuery,
 
     // -------- Rtos Listing --------//
@@ -488,11 +491,14 @@ export const SubAdminApi = {
         statistics: useSubadminStatisticsQuery,
     },
     Kpi: {
+        deptKpiTargetList: useDeptKpiTargetListQuery,
         deptEmployeeCounts: useDeptEmployeeCountsQuery,
         deptSubadminDetail: useDeptSubadminDetailQuery,
+        saveDeptKpiTarget: useSaveDeptKpiTargetMutation,
         verifyDeptSubadmin: useVerifyDeptSubadminMutation,
         deptSubadminReportList: useDeptSubadminReportListQuery,
         deptEmployeeProgressCounts: useDeptEmployeeProgressCountsQuery,
+        deptEmployeeProgressByMonth: useDeptEmployeeProgressByMonthQuery,
     },
     SubAdmin: {
         useProfile: useProfileQuery,

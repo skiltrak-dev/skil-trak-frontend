@@ -32,6 +32,7 @@ export interface MetricField {
     value: number
     color: string
     isActive: boolean
+    targetId: string
 }
 
 export interface DepartmentData {
@@ -44,7 +45,6 @@ export interface DepartmentItemProps {
     department: DepartmentData
     isOpen: boolean
     onToggle: () => void
-    onSave: (deptId: number, updatedMetrics: MetricField[]) => void
 }
 
 export interface TableProps<T> {

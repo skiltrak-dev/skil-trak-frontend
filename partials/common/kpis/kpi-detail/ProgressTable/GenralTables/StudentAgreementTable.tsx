@@ -1,15 +1,20 @@
+import { CreatedAtDate, Typography } from '@components'
 import { AdminApi } from '@queries'
+import { ColumnDef } from '@tanstack/react-table'
+import { KpiTypes } from '@types'
+import moment, { Moment } from 'moment'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { RiMap2Line } from 'react-icons/ri'
 import { DataKpiTable } from '../../DataKpiTable'
-import { useState } from 'react'
-import { CreatedAtDate, Typography } from '@components'
-import { ColumnDef } from '@tanstack/react-table'
-import { IWorkplaceIndustries } from 'redux/queryTypes'
-import moment from 'moment'
-import { FileType, KpiTypes } from '@types'
 
-export const StudentAgreementTable = () => {
+export const StudentAgreementTable = ({
+    startDate,
+    endDate,
+}: {
+    startDate: Moment | null
+    endDate: Moment | null
+}) => {
     const router = useRouter()
 
     const [page, setPage] = useState(1)
@@ -20,9 +25,12 @@ export const StudentAgreementTable = () => {
             limit: itemPerPage,
             id: Number(router.query.id),
             skip: itemPerPage * page - itemPerPage,
+            search: `startDate:${moment(startDate).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`,
         },
         {
-            skip: !router.query.id,
+            skip: !router.query.id || !startDate || !endDate,
         }
     )
 

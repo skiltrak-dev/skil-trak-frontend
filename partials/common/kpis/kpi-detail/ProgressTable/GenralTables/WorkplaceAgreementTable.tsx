@@ -7,10 +7,16 @@ import { RiMap2Line } from 'react-icons/ri'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { DataKpiTable } from '../../DataKpiTable'
 import { KpiTypes } from '@types'
+import moment, { Moment } from 'moment'
 
-export const WorkplaceAgreementTable = () => {
+export const WorkplaceAgreementTable = ({
+    startDate,
+    endDate,
+}: {
+    startDate: Moment | null
+    endDate: Moment | null
+}) => {
     const router = useRouter()
-
     const [page, setPage] = useState(1)
     const [itemPerPage] = useState(10)
 
@@ -19,9 +25,12 @@ export const WorkplaceAgreementTable = () => {
             limit: itemPerPage,
             id: Number(router.query.id),
             skip: itemPerPage * page - itemPerPage,
+            search: `startDate:${moment(startDate).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`,
         },
         {
-            skip: !router.query.id,
+            skip: !router.query.id || !startDate || !endDate,
         }
     )
 

@@ -1,5 +1,4 @@
 'use client'
-import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { CircularProgress } from '../Common/CircularProgress'
 import {
@@ -15,8 +14,10 @@ import {
 } from './ProgressTable'
 
 import { AuthorizedUserComponent, InitialAvatar, Typography } from '@components'
-import { UserStatus } from '@types'
 import { UserRoles } from '@constants'
+import { UserStatus } from '@types'
+import { Moment } from 'moment'
+import { WeekFilter } from '../Common'
 import { VerifyAction } from '../HOD'
 
 const SECTIONS_CONFIG = [
@@ -51,9 +52,14 @@ const SECTIONS_CONFIG = [
 ]
 
 export const StudentKpiDetails = ({ subadmin }: { subadmin: any }) => {
-    const pathname = usePathname()
     const [activeSection, setActiveSection] = useState(SECTIONS_CONFIG[0].label)
-    const isAdminEmployeeDetail = pathname === '/admin/admin-employee-detail'
+    const [startDate, setStartDate] = useState<Moment | null>(null)
+    const [endDate, setEndDate] = useState<Moment | null>(null)
+
+    const handleDatesChange = (startDate: Moment, endDate: Moment) => {
+        setStartDate(startDate)
+        setEndDate(endDate)
+    }
 
     const activeSectionConfig = SECTIONS_CONFIG.find(
         (section) => section.label === activeSection
@@ -134,12 +140,17 @@ export const StudentKpiDetails = ({ subadmin }: { subadmin: any }) => {
                     </nav>
                 </div>
 
+                <WeekFilter handleDatesChange={handleDatesChange} />
+
                 <div className="mt-4 space-y-4">
                     {activeSectionConfig && (
                         <div className="space-y-4">
                             {activeSectionConfig.components.map(
                                 ({ component: Component, key }) => (
-                                    <Component key={key} />
+                                    <Component
+                                        key={key}
+                                        {...{ startDate, endDate }}
+                                    />
                                 )
                             )}
 

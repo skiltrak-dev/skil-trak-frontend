@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { Industry } from '@types'
 import { CreatedAtDate, Typography } from '@components'
+import moment, { Moment } from 'moment'
 
 const callIndustriesColumns: ColumnDef<Industry>[] = [
     {
@@ -58,7 +59,13 @@ const callIndustriesColumns: ColumnDef<Industry>[] = [
     },
 ]
 
-export const CallIndustriesTable = () => {
+export const CallIndustriesTable = ({
+    endDate,
+    startDate,
+}: {
+    startDate: Moment | null
+    endDate: Moment | null
+}) => {
     const router = useRouter()
 
     const [page, setPage] = useState(1)
@@ -69,6 +76,9 @@ export const CallIndustriesTable = () => {
             limit: itemPerPage,
             id: Number(router.query.id),
             skip: itemPerPage * page - itemPerPage,
+            search: `startDate:${moment(startDate).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`,
         },
         {
             skip: !router.query.id,

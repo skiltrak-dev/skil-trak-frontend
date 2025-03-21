@@ -1,11 +1,12 @@
+import { SectorCell } from '@partials/admin/student/components'
 import { AdminApi } from '@queries'
-import { useRouter } from 'next/router'
-import { FaFlag } from 'react-icons/fa6'
-import { DataKpiTable } from '../DataKpiTable'
-import { useState } from 'react'
-import { CourseDot, SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { Student } from '@types'
+import moment, { Moment } from 'moment'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { FaFlag } from 'react-icons/fa6'
+import { DataKpiTable } from '../DataKpiTable'
 
 // Call Student-specific columns
 const callStudentColumns: ColumnDef<Student>[] = [
@@ -33,7 +34,13 @@ const callStudentColumns: ColumnDef<Student>[] = [
     },
 ]
 
-export const FlagStudents = () => {
+export const FlagStudents = ({
+    startDate,
+    endDate,
+}: {
+    startDate: Moment | null
+    endDate: Moment | null
+}) => {
     const router = useRouter()
 
     const [page, setPage] = useState(1)
@@ -43,6 +50,9 @@ export const FlagStudents = () => {
         {
             limit: itemPerPage,
             id: Number(router.query.id),
+            search: `startDate:${moment(startDate).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`,
             skip: itemPerPage * page - itemPerPage,
         },
         {

@@ -1,10 +1,10 @@
 import { SubAdminLayout } from '@layouts'
 import {
     DataProvider,
+    DeptEmployeeGraphCount,
     DeptEmployeeProgressCount,
     HodEmployeeCounts,
     HodTableColumns,
-    LineChart,
     WeekFilter,
 } from '@partials/common'
 import { Moment } from 'moment'
@@ -23,7 +23,7 @@ const Kpis = () => {
     }
     return (
         <DataProvider>
-            <div className="flex flex-col pb-6 px-2 sm:px-4 md:px-6 pt-4 md:pt-6">
+            <div className="flex flex-col pb-6 pt-4 md:pt-6">
                 <div className="flex flex-col sm:flex-row justify-between w-full gap-4 sm:gap-0">
                     <div className="flex justify-center sm:justify-start items-center">
                         <p className="bg-white p-3 md:p-4 border border-[#1436B033] rounded-xl">
@@ -36,7 +36,9 @@ const Kpis = () => {
                     <button className="flex justify-center items-center p-3 md:p-4 font-medium bg-white border border-[#1436B033] rounded-xl">
                         <LuSettings className="text-lg md:text-xl text-[#1436B0]" />
                         <Link
-                            href={'/hod/import-setting'}
+                            href={
+                                '/portals/sub-admin/department/kpis-by-dept/import-setting'
+                            }
                             className="pl-2 md:pl-3 text-sm md:text-base"
                         >
                             Import Settings
@@ -54,7 +56,7 @@ const Kpis = () => {
                         />
                     </div>
                     <div className="w-full md:col-span-2">
-                        <LineChart />
+                        <DeptEmployeeGraphCount {...{ startDate, endDate }} />
                     </div>
                 </div>
                 <div>

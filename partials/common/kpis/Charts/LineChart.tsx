@@ -16,6 +16,7 @@ import { useEffect, useRef } from 'react'
 import { Line } from 'react-chartjs-2'
 import { FaArrowTrendUp } from 'react-icons/fa6'
 import { useDataContext } from '../Employees/DataProvider'
+import { LoadingAnimation, NoData } from '@components'
 
 ChartJS.register(
     CategoryScale,
@@ -29,7 +30,7 @@ ChartJS.register(
     Filler
 )
 
-export const LineChart = () => {
+export const LineChart = ({ employeeProgress }: { employeeProgress: any }) => {
     const chartRef = useRef<ChartJS<'line'>>(null)
     const { filteredEmployees } = useDataContext()
 
@@ -89,12 +90,24 @@ export const LineChart = () => {
         setTimeout(updateGradient, 100)
     }, [filteredEmployees])
 
+    console.log({ employeeGraphCountssasasa: calculateAverageMetrics() })
+
     const data = {
-        labels: [0, 6, 11, 12, 15, 18, 21, 28, 31],
+        labels:
+            employeeProgress?.data && employeeProgress?.data?.length > 0
+                ? [...employeeProgress?.data?.map((item: any) => item?.month)]
+                : [],
         datasets: [
             {
                 label: 'KPI Performance',
-                data: calculateAverageMetrics(),
+                data:
+                    employeeProgress?.data && employeeProgress?.data?.length > 0
+                        ? [
+                              ...employeeProgress?.data?.map((item: any) =>
+                                  Math.round(item?.overall)
+                              ),
+                          ]
+                        : [],
                 borderColor: '#2563eb',
                 backgroundColor: 'rgba(37, 99, 235, 0.2)',
                 pointBackgroundColor: '#2563eb',
@@ -105,6 +118,8 @@ export const LineChart = () => {
             },
         ],
     }
+
+    console.log({ data })
 
     const totalDuration = 1000
     const delayBetweenPoints = totalDuration / data.datasets[0].data.length
@@ -168,7 +183,7 @@ export const LineChart = () => {
         },
         scales: {
             x: {
-                type: 'linear',
+                type: 'category',
                 grid: { display: false },
                 ticks: { font: { size: 12 } },
                 border: { display: false },
@@ -193,7 +208,8 @@ export const LineChart = () => {
     }
 
     return (
-        <div className="px-3 mx-auto pt-4 pb-2 bg-white rounded-2xl shadow-md">
+        // <div className="px-3 mx-auto pt-4 pb-2 bg-white rounded-2xl shadow-md">
+        <>
             <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center">
                     <div className="p-2 border border-[#1436B033] rounded-lg">
@@ -205,11 +221,20 @@ export const LineChart = () => {
                 </div>
             </div>
 
-            <div className="flex flex-col pt-1">
-                <div className="h-72 mb-2">
-                    <Line ref={chartRef} data={data} options={options} />
+            {employeeProgress?.isError && (
+                <NoData text="There is Some Technical Error!" />
+            )}
+            {employeeProgress?.isLoading ? (
+                <LoadingAnimation />
+            ) : employeeProgress?.data && employeeProgress?.isSuccess ? (
+                <div className="flex flex-col pt-1">
+                    <div className="h-72 mb-2">
+                        <Line ref={chartRef} data={data} options={options} />
+                    </div>
                 </div>
-            </div>
-        </div>
+            ) : employeeProgress?.isSuccess ? (
+                <NoData text="No Counts Found!" />
+            ) : null}
+        </>
     )
 }

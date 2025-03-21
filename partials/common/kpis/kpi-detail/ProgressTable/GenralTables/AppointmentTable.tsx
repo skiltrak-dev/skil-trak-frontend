@@ -7,9 +7,15 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Appointment } from '@types'
 import { UserRoles } from '@constants'
 import { CreatedAtDate, Typography } from '@components'
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 
-export const AppointmentTable = () => {
+export const AppointmentTable = ({
+    startDate,
+    endDate,
+}: {
+    startDate: Moment | null
+    endDate: Moment | null
+}) => {
     const router = useRouter()
     const [page, setPage] = useState(1)
     const [itemPerPage] = useState(10)
@@ -19,9 +25,12 @@ export const AppointmentTable = () => {
             limit: itemPerPage,
             id: Number(router.query.id),
             skip: itemPerPage * page - itemPerPage,
+            search: `startDate:${moment(startDate).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`,
         },
         {
-            skip: !router.query.id,
+            skip: !router.query.id || !startDate || !endDate,
         }
     )
 
