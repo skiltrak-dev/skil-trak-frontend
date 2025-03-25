@@ -26,9 +26,6 @@ const Kpis = () => {
         setEndDate(endDate)
     }
 
-    console.log('startDate', startDate)
-    console.log('endDate', endDate)
-
     return (
         <div>
             <DataProvider>

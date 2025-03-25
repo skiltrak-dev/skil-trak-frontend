@@ -35,7 +35,6 @@ export const AppointmentTable = ({
     )
 
     const getStudent = (appointment: Appointment) => {
-        console.log({ heeaa: appointment })
         const student =
             appointment?.appointmentBy?.role === UserRoles.STUDENT
                 ? appointment?.appointmentBy

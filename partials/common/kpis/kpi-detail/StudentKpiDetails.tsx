@@ -32,13 +32,13 @@ const SECTIONS_CONFIG = [
         ],
     },
     {
-        label: 'Call industries',
+        label: 'Call Industries',
         components: [
             { component: CallIndustriesTable, key: 'call-industries' },
         ],
     },
     {
-        label: 'call Student',
+        label: 'Call Student',
         components: [{ component: CallStudents, key: 'call-students' }],
     },
     {
@@ -46,20 +46,23 @@ const SECTIONS_CONFIG = [
         components: [{ component: SnoozedStudents, key: 'snoozed' }],
     },
     {
-        label: 'Flaged',
+        label: 'Flagged',
         components: [{ component: FlagStudents, key: 'flagedTable' }],
     },
 ]
 
-export const StudentKpiDetails = ({ subadmin }: { subadmin: any }) => {
+export const StudentKpiDetails = ({
+    endDate,
+    subadmin,
+    startDate,
+    handleDatesChange,
+}: {
+    endDate: any
+    subadmin: any
+    startDate: any
+    handleDatesChange: any
+}) => {
     const [activeSection, setActiveSection] = useState(SECTIONS_CONFIG[0].label)
-    const [startDate, setStartDate] = useState<Moment | null>(null)
-    const [endDate, setEndDate] = useState<Moment | null>(null)
-
-    const handleDatesChange = (startDate: Moment, endDate: Moment) => {
-        setStartDate(startDate)
-        setEndDate(endDate)
-    }
 
     const activeSectionConfig = SECTIONS_CONFIG.find(
         (section) => section.label === activeSection

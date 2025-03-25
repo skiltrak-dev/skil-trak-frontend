@@ -76,11 +76,7 @@ export const DoughnutChart = ({ segments, empty }: DoughnutChartProps) => {
                                 className="text-[44px] font-semibold"
                                 style={{ color: segments[hoveredIndex].color }}
                             >
-                                {(
-                                    (segments[hoveredIndex].value / total) *
-                                    100
-                                ).toFixed(0)}
-                                %
+                                {segments[hoveredIndex].value.toFixed(0)}%
                             </div>
                         </div>
                     ) : (

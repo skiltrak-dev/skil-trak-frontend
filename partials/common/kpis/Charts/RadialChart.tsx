@@ -29,23 +29,23 @@ export const RadialChart = ({
     const datasets = [
         {
             label: metricLabels.agreementByWorkplace,
-            backgroundColor: ['#207D04', 'rgba(0,0,0,0)'],
+            backgroundColor: ['#207D04', '#efefef'],
         },
         {
             label: metricLabels.agreementByStudent,
-            backgroundColor: ['#35E100', 'rgba(0,0,0,0)'],
+            backgroundColor: ['#35E100', '#efefef'],
         },
         {
             label: metricLabels.completed,
-            backgroundColor: ['#FF0303', 'rgba(0,0,0,0)'],
+            backgroundColor: ['#FF0303', '#efefef'],
         },
         {
             label: metricLabels.workplace,
-            backgroundColor: ['#F5A70C', 'rgba(0,0,0,0)'],
+            backgroundColor: ['#F5A70C', '#efefef'],
         },
         {
             label: metricLabels.appointment,
-            backgroundColor: ['#0365F5', 'rgba(0,0,0,0)'],
+            backgroundColor: ['#0365F5', '#efefef'],
         },
     ]
 
@@ -127,7 +127,7 @@ export const RadialChart = ({
               .sort((a, b) => kpiKeys?.indexOf(a.key) - kpiKeys?.indexOf(b.key))
         : []
 
-    firstValues.reverse()
+    // firstValues.reverse()
 
     const datas = {
         labels: datasets.map((dataset) => dataset.label),
@@ -137,6 +137,8 @@ export const RadialChart = ({
         })),
         weight: 30,
     }
+
+    console.log({ datas })
 
     return (
         // <div className="h-full px-3 mx-auto pt-4 pb-2 bg-white rounded-2xl shadow-md">
@@ -172,13 +174,18 @@ export const RadialChart = ({
                                 Average
                             </p>
                             <div className="-inset-[6px] pl-7 text-[9px] absolute flex flex-col items-center justify-end">
-                                {firstValues?.map((value, index) => (
-                                    <div key={index} className="">
-                                        <div className="flex flex-col rounded-lg text-[#1CA844]">
-                                            {Number(value?.value)?.toFixed(1)}%
+                                {[...firstValues?.reverse()]?.map(
+                                    (value, index) => (
+                                        <div key={index} className="">
+                                            <div className="flex flex-col rounded-lg text-[#1CA844]">
+                                                {Number(value?.value)?.toFixed(
+                                                    1
+                                                )}
+                                                %
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    )
+                                )}
                             </div>
                         </div>
                     </div>
