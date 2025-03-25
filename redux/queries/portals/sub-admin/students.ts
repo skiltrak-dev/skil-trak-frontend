@@ -357,7 +357,11 @@ export const studentsEndpoints = (
             method: 'PATCH',
             params: { status },
         }),
-        invalidatesTags: ['SubAdminStudents'],
+        invalidatesTags: [
+            'SubAdminStudents',
+            'Industries',
+            'SubAdminIndustries',
+        ],
     }),
 
     getRequiredDocs: builder.query<any, any>({

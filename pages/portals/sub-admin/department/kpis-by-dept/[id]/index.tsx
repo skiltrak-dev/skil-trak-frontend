@@ -1,18 +1,42 @@
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
-import { SubAdminLayout } from '@layouts'
-import { StudentKpiDetails } from '@partials/common'
-import { AdminApi } from '@queries'
 import Link from 'next/link'
+import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
-import { PiUsersBold } from 'react-icons/pi'
+import moment, { Moment } from 'moment'
+import { SubAdminLayout } from '@layouts'
 import { RxCross2 } from 'react-icons/rx'
+import { PiUsersBold } from 'react-icons/pi'
+import { ReactElement, useEffect, useState } from 'react'
+import { StudentKpiDetails } from '@partials/common'
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { getMonthDates } from '@partials/common/kpis/Common/year-week-filter/functions'
 
 const HodKpiDetail = () => {
     const router = useRouter()
-    const subadmin = AdminApi.Kpi.subadminDetail(Number(router?.query?.id), {
-        skip: !router?.query?.id,
-    })
+
+    const [startDate, setStartDate] = useState<Moment | null>(null)
+    const [endDate, setEndDate] = useState<Moment | null>(null)
+
+    useEffect(() => {
+        const { startDate, endDate } = getMonthDates()
+        handleDatesChange(startDate, endDate)
+    }, [])
+
+    const subadmin = AdminApi.Kpi.subadminDetail(
+        {
+            id: Number(router?.query?.id),
+            search: `startDate:${moment(startDate).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`,
+        },
+        {
+            skip: !router?.query?.id || !startDate || !endDate,
+        }
+    )
+
+    const handleDatesChange = (startDate: Moment, endDate: Moment) => {
+        setStartDate(startDate)
+        setEndDate(endDate)
+    }
     // useSubadminProfile
     return (
         <div>
@@ -37,7 +61,11 @@ const HodKpiDetail = () => {
                         </button>
                     </div>
                     <hr className="" />
-                    <StudentKpiDetails subadmin={subadmin?.data} />
+                    <StudentKpiDetails
+                        subadmin={subadmin?.data}
+                        {...{ startDate, endDate }}
+                        handleDatesChange={handleDatesChange}
+                    />
                 </div>
             ) : subadmin?.isSuccess ? (
                 <EmptyData />

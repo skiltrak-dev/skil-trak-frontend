@@ -209,7 +209,8 @@ export const DepartmentDetails = ({
                 <NoData text="Technical Error!" />
             ) : null}
 
-            {employeeProgressCountsByDept?.isLoading ? (
+            {employeeProgressCountsByDept?.isLoading ||
+            employeeProgressCountsByDept?.isFetching ? (
                 <LoadingAnimation />
             ) : employeeProgressCountsByDept?.data &&
               employeeProgressCountsByDept?.isSuccess ? (
@@ -224,43 +225,55 @@ export const DepartmentDetails = ({
                             </div>
 
                             <div className="">
-                                <h2 className="text-[#809FB8] font-normal text-[13px]">
+                                <Typography
+                                    variant="label"
+                                    color="text-[#809FB8]"
+                                    normal
+                                >
                                     Department Of
-                                </h2>
+                                </Typography>
                                 <div className="flex items-center justify-between">
-                                    <h1 className="text-xl font-normal">
+                                    <Typography variant="title" medium>
                                         {selectedDept?.label}
-                                    </h1>
-                                    <span className="flex flex-row items-center justify-between text-base font-bold text-[#1AD598] ">
+                                    </Typography>
+                                    {/* <span className="flex flex-row items-center justify-between text-base font-bold text-[#1AD598] ">
                                         <FaCaretUp />{' '}
                                         {currentDept?.growth?.toFixed(2)}%
-                                    </span>
+                                    </span> */}
                                 </div>
                             </div>
                         </div>
 
                         <div className="space-y-4 lg:mb-0 mt-10 lg:mt-4">
                             {currentDept?.metrics?.map((metric, index) => (
-                                <div key={index} className="flex items-center">
-                                    <div
-                                        className="w-32 font-normal text-base"
-                                        style={{ color: metric?.color }}
+                                <div
+                                    key={index}
+                                    className="flex items-center gap-x-2"
+                                >
+                                    <Typography
+                                        variant="label"
+                                        color={`text-[${metric?.color}]`}
+                                        block
                                     >
                                         {metric?.label}
-                                    </div>
+                                    </Typography>
+
                                     <div className="flex-1 bg-gray-200 rounded-lg">
                                         <div
                                             className="h-2 rounded-full transition-all duration-300"
                                             style={{
                                                 backgroundColor: metric?.color,
-                                                width: `${metric?.value}%`,
+                                                width: `${
+                                                    metric?.value > 100
+                                                        ? 100
+                                                        : metric?.value
+                                                }%`,
                                             }}
                                         ></div>
                                     </div>
                                     <Typography variant="label">
                                         {metric?.value?.toFixed(1)}%
                                     </Typography>
-                                    {/* <div className="w-8 text-right"></div> */}
                                 </div>
                             ))}
                         </div>

@@ -9,6 +9,7 @@ import {
 import { UserRoles } from '@constants'
 import { useMaskText, useNotification, useSubadminProfile } from '@hooks'
 import { UserProfileDetailCard } from '@partials/common/Cards'
+import { LatestCallAnswer } from '@partials/common/StudentProfileDetail/ContextBarComponents/StudentDetail/LatestCallAnswer'
 import { IndustryCallLogModal } from '@partials/sub-admin/Industries'
 import { SubAdminApi } from '@queries'
 import { Industry } from '@types'
@@ -141,6 +142,21 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                             </div>
                         </AuthorizedUserComponent>
                     </UserProfileDetailCard>
+                    {industry?.callLog?.[0] &&
+                    industry?.callLog?.[0]?.isAnswered === null ? (
+                        <div className="px-2.5 pb-2 flex justify-between">
+                            <Typography
+                                normal
+                                variant="xs"
+                                color="text-gray-500 block"
+                            >
+                                Last Call Log
+                            </Typography>
+                            <LatestCallAnswer
+                                callLog={industry?.callLog?.[0]}
+                            />
+                        </div>
+                    ) : null}
                 </div>
                 <div>
                     <UserProfileDetailCard
