@@ -158,18 +158,19 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             element: <CompetentAssessment />,
         },
         // AllDocumentsSubmitted
-        {
-            label: 'All Documents Submitted',
-            href: {
-                pathname: 'assessment-evidence',
-                query: { tab: Result.AllDocumentSubmitted },
-            },
-            badge: {
-                text: assessMentCount?.allDocumentSubmitted,
-                loading: count.isLoading,
-            },
-            element: <AllDocumentsSubmitted />,
-        },
+        // TODO: Add this tab when the backend is ready
+        // {
+        //     label: 'All Documents Submitted',
+        //     href: {
+        //         pathname: 'assessment-evidence',
+        //         query: { tab: Result.AllDocumentSubmitted },
+        //     },
+        //     badge: {
+        //         text: assessMentCount?.allDocumentSubmitted,
+        //         loading: count.isLoading,
+        //     },
+        //     element: <AllDocumentsSubmitted />,
+        // },
         {
             label: 'Non-Competent',
             href: {
@@ -227,6 +228,8 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         ...(studentId?.studentId ? studentId : {}),
         ...(studentName?.name ? studentName : {}),
     })
+
+    
 
     return (
         <>
