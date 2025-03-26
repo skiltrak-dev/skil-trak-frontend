@@ -102,8 +102,11 @@ export const DeptImportSetting = () => {
                 <div className="mx-4 p-4 rounded-lg">
                     <hr />
                     <div className="my-4">
+                        {itemsList?.isError || kpiTargets.isError ? (
+                            <NoData text="There is Some Technical Error, try reload the page!" />
+                        ) : null}
                         <div className="grid grid-cols-2 gap-8">
-                            {itemsList?.isLoading ? (
+                            {itemsList?.isLoading || kpiTargets.isLoading ? (
                                 <LoadingAnimation size={60} />
                             ) : itemsList?.data &&
                               itemsList?.data?.length > 0 ? (
