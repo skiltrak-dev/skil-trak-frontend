@@ -1,8 +1,6 @@
-import React, { ReactElement, useState } from 'react'
-import { SubAdminApi } from '@queries'
-import { Button, ShowErrorNotifications } from '@components'
+import { Button } from '@components'
 import { useRouter } from 'next/router'
-import { useNotification } from '@hooks'
+import { ReactElement, useState } from 'react'
 import { VerifySubadminModal } from '../modal'
 
 export const VerifyAction = ({ subadmin }: { subadmin: any }) => {
@@ -12,7 +10,7 @@ export const VerifyAction = ({ subadmin }: { subadmin: any }) => {
 
     const onCancel = () => setModal(null)
 
-    const handleVerify = async () => {
+    const handleVerify = () => {
         setModal(
             <VerifySubadminModal onCancel={onCancel} subAdmin={subadmin} />
         )
@@ -26,6 +24,9 @@ export const VerifyAction = ({ subadmin }: { subadmin: any }) => {
                     text={'Verify'}
                     fullHeight
                     fullWidth
+                    disabled={
+                        subadmin?.kpiData && subadmin?.kpiData?.length > 0
+                    }
                     onClick={() => handleVerify()}
                 />
             </div>

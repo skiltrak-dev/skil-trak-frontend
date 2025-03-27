@@ -1,71 +1,36 @@
 'use client'
-import { useState } from 'react'
-import { CircularProgress } from '../Common/CircularProgress'
-import {
-    AppointmentTable,
-    CallIndustriesTable,
-    CallStudents,
-    Completed,
-    FlagStudents,
-    SnoozedStudents,
-    StudentAgreementTable,
-    WorkplaceAgreementTable,
-    WorkplaceRequest,
-} from './ProgressTable'
+import { useMemo } from 'react'
 
 import { AuthorizedUserComponent, InitialAvatar, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { UserStatus } from '@types'
-import { Moment } from 'moment'
-import { WeekFilter } from '../Common'
+import { useRouter } from 'next/router'
 import { VerifyAction } from '../HOD'
-
-const SECTIONS_CONFIG = [
-    {
-        label: 'General',
-        components: [
-            { component: AppointmentTable, key: 'appointment' },
-            { component: WorkplaceRequest, key: 'workplace-request' },
-            { component: Completed, key: 'completed' },
-            { component: StudentAgreementTable, key: 'student-agreement' },
-            { component: WorkplaceAgreementTable, key: 'workplace-agreement' },
-        ],
-    },
-    {
-        label: 'Call Industries',
-        components: [
-            { component: CallIndustriesTable, key: 'call-industries' },
-        ],
-    },
-    {
-        label: 'Call Student',
-        components: [{ component: CallStudents, key: 'call-students' }],
-    },
-    {
-        label: 'Snoozed',
-        components: [{ component: SnoozedStudents, key: 'snoozed' }],
-    },
-    {
-        label: 'Flagged',
-        components: [{ component: FlagStudents, key: 'flagedTable' }],
-    },
-]
+import { SECTIONS_CONFIG } from './kpiComponentsData'
+import { SubadminDetailProgress } from './SubadminDetailProgress'
+import { WeekFilter } from '../Common'
 
 export const StudentKpiDetails = ({
     endDate,
     subadmin,
     startDate,
+    activeSection,
+    setActiveSection,
     handleDatesChange,
 }: {
+    activeSection: string
+    setActiveSection: (val: string) => void
     endDate: any
-    subadmin: any
     startDate: any
+    subadmin: any
     handleDatesChange: any
 }) => {
-    const [activeSection, setActiveSection] = useState(SECTIONS_CONFIG[0].label)
+    const router = useRouter()
 
-    const activeSectionConfig = SECTIONS_CONFIG.find(
-        (section) => section.label === activeSection
+    const activeSectionConfig = useMemo(
+        () =>
+            SECTIONS_CONFIG.find((section) => section.label === activeSection),
+        [activeSection]
     )
 
     return (
@@ -85,12 +50,11 @@ export const StudentKpiDetails = ({
                         </div>
 
                         <div></div>
-                        <div className="flex items-center gap-2 ">
-                            <CircularProgress
-                                value={Math.round(Number(subadmin?.overAll))}
-                            />
-                            <Typography variant="label">Efficiency</Typography>
-                        </div>
+
+                        <SubadminDetailProgress
+                            endDate={endDate}
+                            startDate={startDate}
+                        />
                     </div>
 
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
@@ -123,7 +87,6 @@ export const StudentKpiDetails = ({
                         </div>
                     </div>
                 </div>
-
                 <div className="mt-4 bg-[#EDEDED] rounded-lg overflow-x-auto">
                     <nav className="flex flex-nowrap gap-1 p-1 min-w-max">
                         {SECTIONS_CONFIG.map((section) => (

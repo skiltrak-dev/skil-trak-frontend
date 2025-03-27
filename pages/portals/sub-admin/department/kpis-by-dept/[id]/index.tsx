@@ -5,13 +5,16 @@ import moment, { Moment } from 'moment'
 import { SubAdminLayout } from '@layouts'
 import { RxCross2 } from 'react-icons/rx'
 import { PiUsersBold } from 'react-icons/pi'
-import { ReactElement, useEffect, useState } from 'react'
-import { StudentKpiDetails } from '@partials/common'
+import { StudentKpiDetails, WeekFilter } from '@partials/common'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { getMonthDates } from '@partials/common/kpis/Common/year-week-filter/functions'
+import { SECTIONS_CONFIG } from '@partials/common/kpis/kpi-detail/kpiComponentsData'
 
 const HodKpiDetail = () => {
     const router = useRouter()
+
+    const [activeSection, setActiveSection] = useState(SECTIONS_CONFIG[0].label)
 
     const [startDate, setStartDate] = useState<Moment | null>(null)
     const [endDate, setEndDate] = useState<Moment | null>(null)
@@ -21,23 +24,33 @@ const HodKpiDetail = () => {
         handleDatesChange(startDate, endDate)
     }, [])
 
+    const searchParams = useMemo(() => {
+        if (startDate && endDate) {
+            return `startDate:${moment(startDate).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`
+        }
+        return ''
+    }, [startDate, endDate])
+
     const subadmin = AdminApi.Kpi.subadminDetail(
         {
             id: Number(router?.query?.id),
-            search: `startDate:${moment(startDate).format(
-                'YYYY-MM-DD'
-            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`,
         },
         {
-            skip: !router?.query?.id || !startDate || !endDate,
+            skip: !router?.query?.id,
+            refetchOnMountOrArgChange: true,
         }
     )
 
-    const handleDatesChange = (startDate: Moment, endDate: Moment) => {
-        setStartDate(startDate)
-        setEndDate(endDate)
-    }
-    // useSubadminProfile
+    const handleDatesChange = useCallback(
+        (startDate: Moment, endDate: Moment) => {
+            setStartDate(startDate)
+            setEndDate(endDate)
+        },
+        []
+    )
+
     return (
         <div>
             {subadmin?.isError ? <TechnicalError /> : null}
@@ -61,9 +74,15 @@ const HodKpiDetail = () => {
                         </button>
                     </div>
                     <hr className="" />
+
                     <StudentKpiDetails
                         subadmin={subadmin?.data}
-                        {...{ startDate, endDate }}
+                        {...{
+                            startDate,
+                            endDate,
+                            activeSection,
+                            setActiveSection,
+                        }}
                         handleDatesChange={handleDatesChange}
                     />
                 </div>
