@@ -37,7 +37,7 @@ export const VerifySubadminModal = ({
                 Icon={FaTrash}
                 variant="error"
                 title="Are you sure!"
-                description={`You are about to delete "${subAdmin?.name}". Do you wish to continue?`}
+                description={`You are about to verify "${subAdmin?.name}". Do you wish to continue?`}
                 onConfirm={onConfirmUClicked}
                 onCancel={onCancel}
                 input

@@ -114,7 +114,7 @@ export const IndustryCard = ({
                         </div>
                     </Link>
                     <div className="flex items-center gap-x-2 ml-auto">
-                        {/* <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                             {applied &&
                                 !workplace?.byExistingAbn &&
                                 !workplace?.studentProvidedWorkplace && (
@@ -134,7 +134,7 @@ export const IndustryCard = ({
                                         </div>
                                     </AuthorizedUserComponent>
                                 )}
-                        </AuthorizedUserComponent> */}
+                        </AuthorizedUserComponent>
                         {/* {applied &&
                             !workplace?.byExistingAbn &&
                             !workplace?.studentProvidedWorkplace && (

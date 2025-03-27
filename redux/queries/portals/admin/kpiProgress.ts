@@ -84,9 +84,13 @@ export const kpiProgressEndpoints = (
         providesTags: ['KPIS'],
     }),
 
-    subadminDetail: builder.query<any, { id: number; search: string }>({
+    subadminDetail: builder.query<any, { id: number }>({
+        query: ({ id }) => `${PREFIX}/subadmin/${id}/kpi-details`,
+        providesTags: ['KPIS'],
+    }),
+    subadminProgress: builder.query<any, { id: number; search: string }>({
         query: ({ id, ...params }) => ({
-            url: `${PREFIX}/subadmin/${id}/kpi-details`,
+            url: `${PREFIX}/subadmin/${id}/kpi-progress`,
             params,
         }),
         providesTags: ['KPIS'],

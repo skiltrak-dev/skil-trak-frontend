@@ -9,9 +9,12 @@ import { useRouter } from 'next/router'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import moment, { Moment } from 'moment'
 import { getMonthDates } from '@partials/common/kpis/Common/year-week-filter/functions'
+import { SECTIONS_CONFIG } from '@partials/common/kpis/kpi-detail/kpiComponentsData'
 
 const KpiDetail = () => {
     const router = useRouter()
+
+    const [activeSection, setActiveSection] = useState(SECTIONS_CONFIG[0].label)
 
     const [startDate, setStartDate] = useState<Moment | null>(null)
     const [endDate, setEndDate] = useState<Moment | null>(null)
@@ -22,14 +25,9 @@ const KpiDetail = () => {
         setEndDate(endDate)
     }, [])
 
-    console.log({ startDate, endDate })
-
     const subadmin = AdminApi.Kpi.subadminDetail(
         {
             id: Number(router?.query?.id),
-            search: `startDate:${moment(new Date()).format(
-                'YYYY-MM-DD'
-            )},endDate:${moment(new Date()).format('YYYY-MM-DD')}`,
         },
         {
             skip: !router?.query?.id,
@@ -70,7 +68,12 @@ const KpiDetail = () => {
                     <hr className="" />
                     <StudentKpiDetails
                         subadmin={subadmin?.data}
-                        {...{ startDate, endDate }}
+                        {...{
+                            startDate,
+                            endDate,
+                            activeSection,
+                            setActiveSection,
+                        }}
                         handleDatesChange={handleDatesChange}
                     />
                 </div>
