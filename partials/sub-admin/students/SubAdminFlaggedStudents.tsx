@@ -326,7 +326,6 @@ export const SubAdminFlaggedStudents = ({
     }
 
     const tableActionOptions = (student: any) => {
-        console.log('student', student)
         return [
             {
                 text: 'View',

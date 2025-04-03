@@ -84,10 +84,8 @@ export const AddAssessmentToolCB = ({ edit, assessment, rtoUser }: Props) => {
     })
 
     const onSubmit = async (values: RtoAssessmentToolFormType) => {
-        console.log('fileData', fileData)
         // delete values.file
         const valuesWithoutFile = omit(values, 'file', 'isLogBook')
-        console.log('values', values)
         const formData = new FormData()
         formData.append('file', fileData)
         Object.entries(valuesWithoutFile).map(([key, value]) => {

@@ -79,7 +79,6 @@ export const Table = <Type,>({
     activeAndCompleted,
 }: TableProps<Type>) => {
     const rtoSubAdmin = useSubadminProfile()?.isAssociatedWithRto
-    console.log('rtoSubAdmin', rtoSubAdmin)
     //======================== Blinking rows ===========================
     const getTdClassNames = (row: any) => {
         const isUnanswered = findCallLogsUnanswered

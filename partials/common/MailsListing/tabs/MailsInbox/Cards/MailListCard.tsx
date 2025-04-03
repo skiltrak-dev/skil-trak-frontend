@@ -67,7 +67,6 @@ export const MailListCard = ({
                 break
         }
     }
-    console.log('user', user)
     return (
         <>
             {modal}

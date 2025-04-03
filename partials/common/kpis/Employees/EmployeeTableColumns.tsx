@@ -64,8 +64,6 @@ export const EmployeeTableColumns = ({
     )
     const itemsList = AdminApi.Kpi.kpiTypes()
 
-    console.log({ itemsList })
-
     const metricsConfigurations: MetricsConfig[] = [
         {
             accessorKey: 'appointmentMetrics',

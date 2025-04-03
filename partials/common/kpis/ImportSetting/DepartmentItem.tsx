@@ -98,7 +98,6 @@ export const DepartmentItem = ({
     }
 
     const handleSave = async () => {
-        console.log('Test')
         if (!hasChanges) return
 
         const res: any = await saveTarget({

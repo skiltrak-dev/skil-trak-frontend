@@ -27,14 +27,6 @@ export const AddTypeForm = ({ onSubmit, result }: SectorFormProps) => {
         value,
     }))
 
-    console.log(
-        'saadKhan',
-        nameOptions?.filter(
-            (a) =>
-                !itemsList?.data?.map((aa: any) => aa?.name)?.includes(a?.value)
-        )
-    )
-
     const abc = nameOptions?.filter(
         (a) => !itemsList?.data?.map((aa: any) => aa?.name)?.includes(a?.value)
     )

@@ -38,8 +38,6 @@ export const SignerCard = ({ signer }: any) => {
         isHod: subadmin?.departmentMember?.isHod,
     })
 
-    console.log({ phoneNumber: phoneNumber?.length < 5 ? phoneNumber : false })
-
     return (
         <>
             <div
