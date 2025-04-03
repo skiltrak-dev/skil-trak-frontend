@@ -1,12 +1,7 @@
 import Head from 'next/head'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useState } from 'react'
 
-import {
-    Accordion,
-    LoadingAnimation,
-    NoData,
-    TechnicalError,
-} from '@components'
+import { Accordion, NoData } from '@components'
 import { SiteLayout } from '@layouts'
 import { HeroSectionBlog } from '@partials/common/Blogs'
 import { NextPageWithLayout } from '@types'
@@ -22,7 +17,6 @@ import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 // } from '@radix-ui/react-accordion'
 import { ellipsisText } from '@utils'
-import { CommonApi } from '@queries'
 
 const FacebookShare = dynamic<any>(
     () => import('react-share-kit').then((mod) => mod.FacebookShare),
@@ -45,7 +39,6 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
     const [activeAccordion, setActiveAccordion] = useState<number | null>(null)
 
     const router = useRouter()
-    const slugUrl = router.query.slug
 
     // const blogData = CommonApi.Website.useGetSingleBlog(slugUrl, {
     //     skip: !slugUrl,
@@ -59,7 +52,7 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
         }
     }
 
-    const shareUrl = `https://www.skiltrak.com.au/blogs/${router.query.slug}`
+    const shareUrl = `https://www.skiltrak.com.au/blogs/${router.query?.slug}`
 
     const canonicalSlugs = [
         'how-registered-training-organisations-rtos-can-ensure-compliance-durin',
@@ -134,7 +127,7 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                     </h1>
                     <div className="prose prose-lg max-w-none">
                         <div
-                            className="blog-content text-gray-700 leading-relaxed"
+                            className="blog-content flex flex-col gap-y-3 customTailwingStyles text-gray-700 leading-relaxed"
                             dangerouslySetInnerHTML={{
                                 __html: blogData?.content || '',
                             }}
@@ -229,8 +222,8 @@ export async function getStaticPaths() {
         )
         const blogs = await res.json()
 
-        const paths = blogs.map((blog: any) => ({
-            params: { slug: blog.slug },
+        const paths = blogs?.map((blog: any) => ({
+            params: { slug: blog?.slug || '' },
         }))
 
         return {

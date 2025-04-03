@@ -8,7 +8,6 @@ import { HiOutlineReply } from 'react-icons/hi'
 export const TitleAndDate = ({ mailDetail }: { mailDetail: any }) => {
     const [showDropdownOptions, setShowDropdownOptions] =
         useState<boolean>(false)
-    console.log('mailDetail', mailDetail)
 
     const shortDetail = [
         {

@@ -99,7 +99,7 @@ export const WorkplaceAgreementTable = ({
             setPage={setPage}
             colors="green"
             Icon={RiMap2Line}
-            title="Agreement by workplace Generated request"
+            title="Agreement (Workplace Request)"
             columns={agreementColumns}
             data={workplace}
         />

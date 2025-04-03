@@ -56,7 +56,7 @@ export const MetricsHeader = ({
                 <div
                     className="p-1 bg-white border rounded-lg border-[#1436b05b]"
                     data-tooltip-id="handshake-tooltip"
-                    data-tooltip-content="Agreement by student"
+                    data-tooltip-content="Agreement (Student Provided Workplace)"
                 >
                     <FaRegHandshake className="text-lg text-[#35E100]" />
                     <Tooltip id="handshake-tooltip" place="top" />
@@ -67,7 +67,7 @@ export const MetricsHeader = ({
                 <div
                     className="p-1 bg-white border rounded-lg border-[#1436b05b]"
                     data-tooltip-id="contract-tooltip"
-                    data-tooltip-content="Agreement by workplace"
+                    data-tooltip-content="Agreement (Workplace Requested)"
                 >
                     <LiaFileContractSolid className="text-lg text-[#207D04]" />
                     <Tooltip id="contract-tooltip" place="top" />

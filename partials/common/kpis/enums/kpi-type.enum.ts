@@ -1,7 +1,7 @@
 export enum KpiTypesEnum {
-    AgreementByStudent = 'agreementByStudent',
+    'Agreement (Provided Workplace)' = 'agreementByStudent',
     Completed = 'completed',
     WorkplaceRequest = 'workplaceRequest',
-    AgreementByWorkplace = 'AgreementByWorkplace',
+    'Agreement (Workplace Requested)' = 'AgreementByWorkplace',
     Appointment = 'appointment',
 }

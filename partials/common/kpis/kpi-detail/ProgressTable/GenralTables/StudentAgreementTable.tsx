@@ -111,7 +111,7 @@ export const StudentAgreementTable = ({
             Icon={RiMap2Line}
             setPage={setPage}
             columns={agreementColumns}
-            title="Agreement by student provided workplace"
+            title="Agreement (Student Provided Workplace)"
         />
     )
 }
