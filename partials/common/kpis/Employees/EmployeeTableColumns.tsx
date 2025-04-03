@@ -32,6 +32,7 @@ interface MetricsConfig {
         | 'Agreement by student'
         | 'Agreement by workplace'
     targetKey: string
+    dbKey: string
     achievementKey: keyof AppointmentAchievments
 }
 
@@ -61,42 +62,53 @@ export const EmployeeTableColumns = ({
         },
         { refetchOnMountOrArgChange: 30, skip: !startDate || !endDate }
     )
+    const itemsList = AdminApi.Kpi.kpiTypes()
+
+    console.log({ itemsList })
 
     const metricsConfigurations: MetricsConfig[] = [
         {
             accessorKey: 'appointmentMetrics',
             label: 'Appointment',
             targetKey: 'appointments',
+            dbKey: 'appointment',
             achievementKey: 'appointments',
         },
         {
             accessorKey: 'workplaceMetrics',
             label: 'Workplace request',
             targetKey: 'workplaceRequests',
+            dbKey: 'workplaceRequest',
             achievementKey: 'workplaceRequests',
         },
         {
             accessorKey: 'completedMetrics',
             label: 'Completed',
             targetKey: 'completed',
+            dbKey: 'completed',
             achievementKey: 'completed',
         },
         {
             accessorKey: 'studentAgreementMetrics',
             label: 'Agreement by student',
             targetKey: 'AgreementByStudent',
+            dbKey: 'agreementByStudent',
             achievementKey: 'agreementByStudent',
         },
         {
             accessorKey: 'workplaceAgreementMetrics',
             label: 'Agreement by workplace',
             targetKey: 'AgreementByWorkplace',
+            dbKey: 'AgreementByWorkplace',
             achievementKey: 'agreementByWorkplace',
         },
     ]
 
-    const metricsColumns: ColumnDef<KpiTarget>[] = metricsConfigurations.map(
-        (metric) => ({
+    const itemsAdded = itemsList?.data?.map((item: any) => item?.name)
+
+    const metricsColumns: ColumnDef<KpiTarget>[] = metricsConfigurations
+        ?.filter((item) => itemsAdded?.includes(item?.dbKey))
+        .map((metric) => ({
             accessorKey: metric.accessorKey,
             header: () => <MetricsHeader keyData={metric.label} />,
             cell: ({ row }) => {
@@ -114,8 +126,7 @@ export const EmployeeTableColumns = ({
                 )
             },
             enableSorting: false,
-        })
-    )
+        }))
 
     const columns: ColumnDef<KpiTarget>[] = [
         {

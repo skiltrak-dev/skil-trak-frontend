@@ -98,6 +98,7 @@ export const DepartmentItem = ({
     }
 
     const handleSave = async () => {
+        console.log('Test')
         if (!hasChanges) return
 
         const res: any = await saveTarget({
@@ -113,12 +114,10 @@ export const DepartmentItem = ({
                 title: 'Success',
                 description: 'Kpi Target added successfully',
             })
+            setHasChanges(false)
+            onToggle()
         }
-        // onSave(department.id, editedMetrics)
-        // setHasChanges(false)
     }
-
-    console.log({ editedMetrics })
 
     return (
         <div>
@@ -139,7 +138,10 @@ export const DepartmentItem = ({
                     <hr />
                     <div className="my-4">
                         <div className="grid grid-cols-2 gap-8">
-                            {itemsList?.isLoading ? (
+                            {itemsList?.isLoading ||
+                            itemsList?.isFetching ||
+                            kpiTargets?.isLoading ||
+                            kpiTargets?.isFetching ? (
                                 <LoadingAnimation size={60} />
                             ) : itemsList?.data &&
                               itemsList?.data?.length > 0 ? (
@@ -154,7 +156,6 @@ export const DepartmentItem = ({
                             ) : itemsList?.isSuccess ? (
                                 <NoData text="" />
                             ) : null}
-
                             {addMoreList?.length > 0 && (
                                 <MetricSelector
                                     removedMetrics={addMoreList}
