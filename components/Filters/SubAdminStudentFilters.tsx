@@ -1,13 +1,19 @@
-import { Checkbox, Select, TextInput } from '@components/inputs'
+import { Select, TextInput } from '@components/inputs'
 
 // query
-import { CommonApi, SubAdminApi } from '@queries'
+import { AdminApi, CommonApi, SubAdminApi } from '@queries'
 
+import {
+    OptionType,
+    SubAdmin,
+    SubAdminStudentsFilterType,
+    UserStatus,
+} from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
-import { SelectOption } from './types'
 import { workplaceProgressOptions } from './StudentFilters'
-import { OptionType, SubAdminStudentsFilterType, UserStatus } from '@types'
+import { SelectOption } from './types'
+import { useSubadminProfile } from '@hooks'
 
 interface ItemFilterProps {
     onFilterChange: (values: SubAdminStudentsFilterType) => void
@@ -17,10 +23,13 @@ export const SubAdminStudentFilters = ({
     onFilterChange,
     filter,
 }: ItemFilterProps) => {
+    const subadmin = useSubadminProfile()
+
     // query
     const getIndustries = CommonApi.Filter.useIndustries()
     const getRtos = CommonApi.Filter.useSubAdminRtos()
     const getCourses = CommonApi.Filter.useCourses()
+    const coordinators = AdminApi.SubAdmins.useSubAdminsFilterList()
 
     const { data: departmentCoordinators } =
         SubAdminApi.SubAdmin.useCoordinatorsDropDown()
@@ -31,8 +40,7 @@ export const SubAdminStudentFilters = ({
             value: coordinator?.id,
         })
     )
-    const subadmin = SubAdminApi.SubAdmin.useProfile()
-    const checkIsHod = subadmin?.data?.departmentMember?.isHod
+    const checkIsHod = subadmin?.departmentMember?.isHod
 
     const industryOptions = getIndustries?.data?.map((industry: any) => ({
         value: industry?.id,
@@ -49,6 +57,13 @@ export const SubAdminStudentFilters = ({
         value: course?.id,
         label: course?.title,
     }))
+
+    const coordinatorOptions = coordinators?.data?.map(
+        (subadmin: SubAdmin) => ({
+            value: subadmin?.id,
+            label: subadmin?.user?.name,
+        })
+    )
 
     const noWorkplaceOption = [
         {
@@ -220,6 +235,25 @@ export const SubAdminStudentFilters = ({
                         onChange={(e: any) =>
                             onFilterChange({ ...filter, coordinator: e?.value })
                         }
+                    />
+                )}
+
+                {subadmin?.isManager && (
+                    <Select
+                        label={'Search by Coordinator'}
+                        name={'subadminId'}
+                        options={coordinatorOptions}
+                        placeholder={'Select Coordinator...'}
+                        value={coordinatorOptions?.find(
+                            (subadmin: SelectOption) =>
+                                subadmin.value === Number(filter?.subadminId)
+                        )}
+                        onChange={(e: any) => {
+                            onFilterChange({ ...filter, subadminId: e?.value })
+                        }}
+                        showError={false}
+                        loading={coordinators.isLoading}
+                        disabled={coordinators.isLoading}
                     />
                 )}
             </div>

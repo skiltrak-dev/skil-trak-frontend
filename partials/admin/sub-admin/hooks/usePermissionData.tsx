@@ -1,19 +1,15 @@
+import { UserRoles } from '@constants'
+import { useCheckPermission } from '@partials/admin/hooks'
+import { SubAdmin } from '@types'
+import { getUserCredentials } from '@utils'
 import { FaSchool } from 'react-icons/fa'
 import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import { usePermission } from '../hooks'
-import { SubAdmin } from '@types'
-import { SubAdminApi } from '@queries'
-import { getUserCredentials } from '@utils'
-import { UserRoles } from '@constants'
-import { useCheckPermission } from '@partials/admin/hooks'
 
 export const usePermissionData = (subadmin: SubAdmin) => {
     const { Actions, results } = usePermission()
     const role = getUserCredentials()?.role
-    const subAdmin = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: role !== UserRoles.SUBADMIN,
-        refetchOnMountOrArgChange: true,
-    })
+
     const {
         isAdmin,
         isHod,
@@ -29,6 +25,14 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             isLoading: results?.resultCanGlobalSearch.isLoading,
             Icon: FaSchool,
             key: 'globalSearchAccess',
+        },
+        {
+            text: 'Allow Manager',
+            onClick: () => Actions?.onIsManagerClicked(subadmin),
+            toggle: subadmin?.isManager,
+            isLoading: results?.resultToggleManager.isLoading,
+            Icon: FaSchool,
+            key: 'isManager',
         },
         {
             text: 'Allow Rto Listing',

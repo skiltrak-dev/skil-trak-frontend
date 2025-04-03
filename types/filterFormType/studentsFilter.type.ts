@@ -36,4 +36,5 @@ export interface SubAdminStudentsFilterType {
     snoozed: boolean
     nonContactable: boolean
     coordinator: string
+    subadminId: string
 }

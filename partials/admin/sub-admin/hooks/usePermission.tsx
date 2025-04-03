@@ -7,6 +7,16 @@ export const usePermission = () => {
 
     const { queries, results } = usePermissionQueries()
 
+    const onIsManagerClicked = (subAdmin: SubAdmin) => {
+        queries.toggleManager(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Changed Status For Manager.`,
+                })
+            }
+        })
+    }
     const onCanGlobalSearchClicked = (subAdmin: SubAdmin) => {
         queries.canGlobalSearch(subAdmin?.id).then((res: any) => {
             if (res?.data) {
@@ -258,6 +268,7 @@ export const usePermission = () => {
     return {
         results,
         Actions: {
+            onIsManagerClicked,
             onCanViewRtoList,
             onCanViewAllStudentsClicked,
             onAllowRtoListingClicked,

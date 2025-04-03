@@ -7,9 +7,6 @@ import {
 import { SubAdmin } from '@types'
 import { MdCancel } from 'react-icons/md'
 import { usePermissionData } from '../hooks'
-import { getUserCredentials } from '@utils'
-import { SubAdminApi } from '@queries'
-import { UserRoles } from '@constants'
 
 export const AllowPermissionModal = ({
     subadmin,
@@ -19,7 +16,7 @@ export const AllowPermissionModal = ({
     onCancel: () => void
 }) => {
     const { permissions, responses } = usePermissionData(subadmin)
-   
+
     return (
         <>
             {responses?.map((res: any, i: number) => (
