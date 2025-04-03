@@ -286,9 +286,7 @@ export const DepartmentDetails = ({
                                 className="flex justify-between text-[#1F1717] font-normal items-center p-2 rounded-lg"
                             >
                                 <span className="">{activity?.label}</span>
-                                <span className="">
-                                    {activity?.value?.toFixed(1)}
-                                </span>
+                                <span className="">{activity?.value}</span>
                             </div>
                         ))}
                     </div>
