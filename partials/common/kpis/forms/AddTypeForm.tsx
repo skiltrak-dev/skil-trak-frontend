@@ -1,9 +1,9 @@
-import { Button, Select, TextInput, Typography } from '@components'
+import { Button, Select, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { AdminApi } from '@queries'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { KpiTypesEnum } from '../enums'
-import { AdminApi } from '@queries'
 
 interface SectorFormProps {
     onSubmit: any
@@ -27,8 +27,16 @@ export const AddTypeForm = ({ onSubmit, result }: SectorFormProps) => {
         value,
     }))
 
-    const abc = nameOptions?.filter(
-        (a) => !itemsList?.data?.map((aa: any) => aa?.name)?.includes(a?.value)
+    const objectConverted = nameOptions.reduce((obj: any, item) => {
+        obj[item.value] = item?.label
+        return obj
+    }, {})
+
+    const updatedNameOptions = nameOptions?.filter(
+        (name) =>
+            !itemsList?.data
+                ?.map((item: any) => item?.name)
+                ?.includes(name?.value)
     )
 
     return (
@@ -52,7 +60,7 @@ export const AddTypeForm = ({ onSubmit, result }: SectorFormProps) => {
                             <Select
                                 name="name"
                                 label={'Add Type'}
-                                options={abc}
+                                options={updatedNameOptions}
                                 onlyValue
                             />
                         </div>
@@ -81,7 +89,7 @@ export const AddTypeForm = ({ onSubmit, result }: SectorFormProps) => {
                             {itemsList?.data?.map((uj: any) => (
                                 <div className="px-1 py-0.5 rounded bg-secondary-dark">
                                     <Typography uppercase variant="small">
-                                        {uj?.name}
+                                        {objectConverted[uj?.name]}
                                     </Typography>
                                 </div>
                             ))}

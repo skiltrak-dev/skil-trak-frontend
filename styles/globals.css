@@ -713,3 +713,32 @@
         font-size: 50% !important; /* Enforce 50% font size */
     }
 }
+
+.customTailwingStyles h1 {
+    font-weight: bold;
+    font-size: 27px !important;
+}
+
+.customTailwingStyles h2 {
+    font-weight: bold;
+    font-size: 23px !important;
+}
+
+.customTailwingStyles h3 {
+    font-weight: bold;
+    font-size: 19px !important;
+}
+
+.customTailwingStyles h4 {
+    font-weight: bold;
+    font-size: 15px !important;
+}
+
+.customTailwingStyles a {
+    color: #36c !important;
+}
+
+.customTailwingStyles a:hover {
+    color: #36c !important;
+    text-decoration-line: underline;
+}

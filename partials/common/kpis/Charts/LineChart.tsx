@@ -90,8 +90,6 @@ export const LineChart = ({ employeeProgress }: { employeeProgress: any }) => {
         setTimeout(updateGradient, 100)
     }, [filteredEmployees])
 
-    console.log({ employeeGraphCountssasasa: calculateAverageMetrics() })
-
     const data = {
         labels:
             employeeProgress?.data && employeeProgress?.data?.length > 0
