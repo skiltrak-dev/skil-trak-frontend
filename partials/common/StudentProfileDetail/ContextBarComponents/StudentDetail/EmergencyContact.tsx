@@ -1,10 +1,9 @@
 import { Typography, useRestrictedData } from '@components'
-import { Student } from '@types'
-import React from 'react'
-import { StudentDetailCard } from './StudentDetailCard'
 import { UserRoles } from '@constants'
-import { getUserCredentials, maskText } from '@utils'
-import { useMaskText } from '@hooks'
+import { useMaskText, useNotification } from '@hooks'
+import { Student } from '@types'
+import { getUserCredentials } from '@utils'
+import { StudentDetailCard } from './StudentDetailCard'
 
 export const EmergencyContact = ({
     isHod,
@@ -13,10 +12,9 @@ export const EmergencyContact = ({
     isHod?: boolean
     profile: Student
 }) => {
-    const rolesIncludes = [UserRoles.ADMIN, UserRoles.RTO]
+    const { notification } = useNotification()
 
     const role = getUserCredentials()?.role
-
 
     return (
         <div className="mt-5">
@@ -37,6 +35,18 @@ export const EmergencyContact = ({
                             useMaskText({ key: profile?.emergencyPersonPhone }),
                             UserRoles.STUDENT
                         )}
+                        onClick={() => {
+                            if (role !== UserRoles.OBSERVER) {
+                                navigator.clipboard.writeText(
+                                    profile?.emergencyPersonPhone
+                                )
+
+                                notification.success({
+                                    title: 'Copied',
+                                    description: 'Phone Number Copied',
+                                })
+                            }
+                        }}
                     />
                 </div>
             </div>
