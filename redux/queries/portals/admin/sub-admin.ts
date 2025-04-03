@@ -324,4 +324,12 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
+
+    toggleIsManager: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/subadmin/${id}/toggle-manager-status`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdmins'],
+    }),
 })
