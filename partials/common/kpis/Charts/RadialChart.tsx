@@ -138,8 +138,6 @@ export const RadialChart = ({
         weight: 30,
     }
 
-    console.log({ datas })
-
     return (
         // <div className="h-full px-3 mx-auto pt-4 pb-2 bg-white rounded-2xl shadow-md">
         <>

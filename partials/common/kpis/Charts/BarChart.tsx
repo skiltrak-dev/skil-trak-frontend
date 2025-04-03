@@ -47,7 +47,6 @@ export const BarChart = ({
                 callbacks: {
                     title: (tooltipItem: any) => tooltipItem?.label,
                     label: (tooltipItem: any) => {
-                        console.log({ tooltipItem })
                         return `${tooltipItem?.raw} employees added`
                     },
                 },
