@@ -12,21 +12,17 @@ import {
     UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
-import { ProgressCell, SectorCell } from '@partials/admin/student/components'
+import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { Student, UserStatus } from '@types'
-import {
-    activeWorkplace,
-    checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
-    latestWorkplace,
-    setLink,
-} from '@utils'
+import { getStudentWorkplaceAppliedIndustry, setLink } from '@utils'
+import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
 import { MdBlock } from 'react-icons/md'
 import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
+import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 import { RTOCellInfo } from '../rto/components'
 import { InterviewModal } from '../workplace/modals'
 import { StudentCellInfo, SubadminStudentIndustries } from './components'
@@ -36,8 +32,6 @@ import {
     BlockModal,
     ChangeStudentStatusModal,
 } from './modals'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
-import moment from 'moment'
 
 export const FilteredStudents = ({
     filter,
