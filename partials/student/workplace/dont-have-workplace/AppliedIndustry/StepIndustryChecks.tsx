@@ -23,9 +23,9 @@ export const StepIndustryChecks = ({
             <Button
                 variant={'primary'}
                 text={'Upload Documents'}
-                onClick={() => {
+                onClick={() =>
                     setIndustrySelection(appliedIndustry?.industry?.id)
-                }}
+                }
             />
         </div>
     )

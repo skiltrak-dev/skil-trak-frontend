@@ -40,15 +40,15 @@ export const GlobalSearchList = ({
                 </Typography>
             ),
         },
-        {
-            header: () => 'Email',
-            accessorKey: 'email',
-            cell: ({ row }) => (
-                <Typography variant="small" semibold>
-                    {row?.original?.email}
-                </Typography>
-            ),
-        },
+        // {
+        //     header: () => 'Email',
+        //     accessorKey: 'email',
+        //     cell: ({ row }) => (
+        //         <Typography variant="small" semibold>
+        //             {row?.original?.email}
+        //         </Typography>
+        //     ),
+        // },
         {
             header: () => 'Courses',
             accessorKey: 'courses',

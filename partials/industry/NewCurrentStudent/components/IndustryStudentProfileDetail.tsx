@@ -57,9 +57,12 @@ export const IndustryStudentProfileDetail = ({ data }: { data: any }) => {
                                     {profile?.student?.user?.name}
                                 </span>
                             </Typography>
-                            <Typography variant="xs" color="text-[#6B7280]">
-                                {profile?.student?.user?.email}
-                            </Typography>
+                            {profile?.industries?.[0]
+                                ?.awaitingAgreementSigned && (
+                                <Typography variant="xs" color="text-[#6B7280]">
+                                    {profile?.student?.user?.email}
+                                </Typography>
+                            )}
                         </div>
                         <div className="w-full">
                             <UpdatedStudentExpiryTime

@@ -6,7 +6,9 @@ import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 export const StudentCellInfo = ({
     student,
     id,
+    wpIndustry,
 }: {
+    wpIndustry?: any
     student: Student
     id: number
 }) => {
@@ -29,14 +31,16 @@ export const StudentCellInfo = ({
                         {student?.studentId}
                     </p>
                     <p className="font-semibold">{student?.user?.name}</p>
-                    <div className="font-medium text-xs text-gray-500">
-                        <p className="flex items-center gap-x-1">
-                            <span>
-                                <MdEmail />
-                            </span>
-                            {student?.user?.email}
-                        </p>
-                    </div>
+                    {wpIndustry?.awaitingAgreementSigned && (
+                        <div className="font-medium text-xs text-gray-500">
+                            <p className="flex items-center gap-x-1">
+                                <span>
+                                    <MdEmail />
+                                </span>
+                                {student?.user?.email}
+                            </p>
+                        </div>
+                    )}
                 </div>
             </a>
         </Link>

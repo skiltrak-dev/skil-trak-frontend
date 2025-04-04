@@ -40,7 +40,6 @@
 //                     name={'availability?.name'}
 //                     label={'Available'}
 //                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
-//                         console.log('HEHEHEHEHEHE')
 //                         setIsAvailable(e.target.checked)
 //                         setIsChanged(true)
 //                         // onChange({})

@@ -98,6 +98,7 @@ export const Approved = () => {
                 <StudentCellInfo
                     id={info.row.original?.id}
                     student={info.row.original?.student}
+                    wpIndustry={info.row.original?.industries?.[0]}
                 />
             ),
             header: () => <span>Student</span>,
@@ -117,14 +118,17 @@ export const Approved = () => {
                         </div>
                         <div>
                             <p className={`font-medium`}>{rto?.user?.name}</p>
-                            <div className="font-medium text-xs text-gray-500">
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdEmail />
-                                    </span>
-                                    {rto?.user?.email}
-                                </p>
-                            </div>
+                            {info.row.original?.industries?.[0]
+                                ?.awaitingAgreementSigned && (
+                                <div className="font-medium text-xs text-gray-500">
+                                    <p className="flex items-center gap-x-1">
+                                        <span>
+                                            <MdEmail />
+                                        </span>
+                                        {rto?.user?.email}
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )
