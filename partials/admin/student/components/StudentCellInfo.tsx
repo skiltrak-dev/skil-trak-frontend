@@ -14,6 +14,7 @@ import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { BiMessageRoundedDots } from 'react-icons/bi'
+import { BsFillSendArrowUpFill } from 'react-icons/bs'
 import { FiPhoneOff } from 'react-icons/fi'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { LuFlagTriangleRight } from 'react-icons/lu'
@@ -171,14 +172,23 @@ export const StudentCellInfo = ({
                                     />
                                 </div>
                             ) : null)}
+                        {student?.isTransferred ? (
+                            <div className="w-5 h-5 flex items-center justify-center rounded relative group">
+                                <BsFillSendArrowUpFill
+                                    size={17}
+                                    className="text-success-dark"
+                                />
+                                <Tooltip>Transfered Student</Tooltip>
+                            </div>
+                        ) : null}
                     </div>
 
                     <div className="flex items-center gap-x-1.5">
                         <p className="font-semibold">
-                            {student?.user?.name}{' '}
+                            {student?.user?.name || ''}{' '}
                             {student?.familyName?.toLowerCase() === 'na'
                                 ? ''
-                                : student?.familyName}
+                                : student?.familyName || ''}
                         </p>
                         {student?.tickets && student?.tickets?.length > 0 ? (
                             <div className="w-5 h-5 flex items-center justify-center rounded relative group">

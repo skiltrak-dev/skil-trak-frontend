@@ -130,6 +130,7 @@ export interface Student extends BaseResponse {
     expiryDate: Date
     addressLine1: string
     addressLine2: string
+    courseDescription: string
     suburb: string
     state: string
     zipCode: string
@@ -149,6 +150,7 @@ export interface Student extends BaseResponse {
     gender: string
     tickets: any
     isSnoozed: boolean
+    isTransferred: boolean
     isAddressUpdated: boolean
 }
 

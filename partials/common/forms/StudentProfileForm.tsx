@@ -447,17 +447,13 @@ export const StudentProfileForm = ({
                                         validationIcons
                                         required
                                     />
-                                    {isPermission && (
-                                        <TextInput
-                                            label={'Emergency Person Phone'}
-                                            name={'emergencyPersonPhone'}
-                                            placeholder={
-                                                'emergencyPersonPhone...'
-                                            }
-                                            validationIcons
-                                            required
-                                        />
-                                    )}
+                                    <TextInput
+                                        label={'Emergency Person Phone'}
+                                        name={'emergencyPersonPhone'}
+                                        placeholder={'emergencyPersonPhone...'}
+                                        validationIcons
+                                        required
+                                    />
                                 </div>
                             </div>
                         </div>
