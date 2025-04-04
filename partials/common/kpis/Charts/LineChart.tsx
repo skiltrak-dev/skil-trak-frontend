@@ -117,8 +117,6 @@ export const LineChart = ({ employeeProgress }: { employeeProgress: any }) => {
         ],
     }
 
-    console.log({ data })
-
     const totalDuration = 1000
     const delayBetweenPoints = totalDuration / data.datasets[0].data.length
     const previousY = (ctx: any) =>
