@@ -93,9 +93,7 @@ export const PendingStudent = () => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
-            },
+            cell: (info) => <StudentCellInfo student={info.row.original} />,
             header: () => <span>Student</span>,
         },
         {
@@ -113,59 +111,64 @@ export const PendingStudent = () => {
             },
         },
         {
+            accessorKey: 'courseDescription',
+            header: () => <span>Course Description</span>,
+            cell: (info) => (
+                <Typography variant={'small'} semibold color={'text-gray-600'}>
+                    {info.row.original?.courseDescription || '---'}
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: (info) => {
-                return (
-                    <>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'Do MMM YYYY'
-                                )}
-                            </span>
-                        </Typography>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'hh:mm:ss a'
-                                )}
-                            </span>
-                        </Typography>
-                    </>
-                )
-            },
+            cell: (info) => (
+                <>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(info?.row?.original?.createdAt).format(
+                                'Do MMM YYYY'
+                            )}
+                        </span>
+                    </Typography>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(info?.row?.original?.createdAt).format(
+                                'hh:mm:ss a'
+                            )}
+                        </span>
+                    </Typography>
+                </>
+            ),
         },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info: any) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <ActionButton
-                            variant="success"
-                            onClick={() => onAcceptClicked(info.row.original)}
-                            loading={changeStatusResult.isLoading}
-                            disabled={changeStatusResult.isLoading}
-                        >
-                            Accept
-                        </ActionButton>
-                        <ActionButton
-                            variant="error"
-                            onClick={() => onRejectClicked(info.row.original)}
-                            loading={changeStatusResult.isLoading}
-                            disabled={changeStatusResult.isLoading}
-                        >
-                            Reject
-                        </ActionButton>
+            cell: (info: any) => (
+                <div className="flex gap-x-1 items-center">
+                    <ActionButton
+                        variant="success"
+                        onClick={() => onAcceptClicked(info.row.original)}
+                        loading={changeStatusResult.isLoading}
+                        disabled={changeStatusResult.isLoading}
+                    >
+                        Accept
+                    </ActionButton>
+                    <ActionButton
+                        variant="error"
+                        onClick={() => onRejectClicked(info.row.original)}
+                        loading={changeStatusResult.isLoading}
+                        disabled={changeStatusResult.isLoading}
+                    >
+                        Reject
+                    </ActionButton>
 
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 

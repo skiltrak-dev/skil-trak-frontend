@@ -65,7 +65,7 @@ export const ProfileViewCB = ({
                 <div className="mt-2">
                     <Typography semibold>
                         <span className="text-[15px]">
-                            {profile?.user?.name} {profile?.familyName}
+                            {profile?.user?.name} {profile?.familyName || ''}
                         </span>
                     </Typography>
 
