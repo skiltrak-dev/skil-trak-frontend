@@ -203,28 +203,32 @@ export const StudentCellInfo = ({
                                 </div>
                             ) : null}
                         </div>
-                        <div className="flex items-center gap-x-2 text-sm">
-                            <span className="text-gray-400">
-                                <FaEnvelope />
-                            </span>
-                            <p className="text-gray-500">
-                                {useAssignedCoorMaskText({
-                                    key: student?.user?.email,
-                                    subadminId: student?.subadmin?.id,
-                                })}
-                            </p>
-                        </div>
-                        <div className="flex items-center gap-x-2 text-sm">
-                            <span className="text-gray-400">
-                                <FaPhone />
-                            </span>
-                            <p className="text-gray-500">
-                                {useAssignedCoorMaskText({
-                                    key: student?.phone,
-                                    subadminId: student?.subadmin?.id,
-                                })}
-                            </p>
-                        </div>
+                        {student?.user?.email && (
+                            <div className="flex items-center gap-x-2 text-sm">
+                                <span className="text-gray-400">
+                                    <FaEnvelope />
+                                </span>
+                                <p className="text-gray-500">
+                                    {useAssignedCoorMaskText({
+                                        key: student?.user?.email,
+                                        subadminId: student?.subadmin?.id,
+                                    })}
+                                </p>
+                            </div>
+                        )}
+                        {student?.phone && (
+                            <div className="flex items-center gap-x-2 text-sm">
+                                <span className="text-gray-400">
+                                    <FaPhone />
+                                </span>
+                                <p className="text-gray-500">
+                                    {useAssignedCoorMaskText({
+                                        key: student?.phone,
+                                        subadminId: student?.subadmin?.id,
+                                    })}
+                                </p>
+                            </div>
+                        )}
                     </a>
                 </Link>
             </div>
