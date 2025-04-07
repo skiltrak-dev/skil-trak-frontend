@@ -4,7 +4,6 @@ import moment from 'moment'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 export const BlogCard = ({
     title,
@@ -17,14 +16,13 @@ export const BlogCard = ({
     shortDescription,
     metaData,
 }: any) => {
-    const router = useRouter()
     function isMobile(width: any) {
         return width <= 768
     }
     const width = useWindowWidth()
     const mobile = isMobile(width)
     return (
-        <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 h-[390px]">
+        <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 h-[390px] overflow-hidden">
             <Head>
                 <title>{ellipsisText(title, 11)}</title>
                 <meta
@@ -61,7 +59,7 @@ export const BlogCard = ({
                         {ellipsisText(title, 26)}
                     </h1>
                     <div
-                        className="blog-content block mr-6 text-gray-400 text-xs"
+                        className="blog-content text-justify block mr-6 text-gray-400 text-xs"
                         // dangerouslySetInnerHTML={{
                         //     __html: content.substr(0, 10) + '...',
                         // }}

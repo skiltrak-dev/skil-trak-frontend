@@ -50,9 +50,10 @@ const Blogs: NextPageWithLayout = ({ data }: any) => {
                 {!categoryId && (
                     <div className="flex md:flex-row flex-col gap-y-5 md:gap-x-12 mb-10">
                         <div className="w-full md:w-3/4">
-                            <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 min-h-[720px]">
+                            <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 min-h-[720px] overflow-hidden">
                                 <Link
                                     href={`blogs/${filterFeaturedBlogs[0]?.slug}`}
+                                    className=""
                                 >
                                     <div className="relative md:h-[600px] h-[250px] rounded-xl overflow-hidden">
                                         <Image
@@ -84,7 +85,7 @@ const Blogs: NextPageWithLayout = ({ data }: any) => {
                                                 }
                                             </h1>
                                             <div
-                                                className="blog-content block mr-6 text-gray-400 text-sm leading-6"
+                                                className="blog-content text-justify block mr-6 text-gray-400 text-sm leading-6"
                                                 // dangerouslySetInnerHTML={{
                                                 //     __html:
                                                 //         filterFeaturedBlogs?.[0]?.content.substr(
