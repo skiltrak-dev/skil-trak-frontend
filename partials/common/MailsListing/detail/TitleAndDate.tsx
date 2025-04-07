@@ -60,7 +60,7 @@ export const TitleAndDate = ({ mailDetail }: { mailDetail: any }) => {
                             <Typography variant="small" color={'text-gray-500'}>
                                 to me
                             </Typography>
-                            <OutsideClickHandler
+                            {/* <OutsideClickHandler
                                 onOutsideClick={() => {
                                     setShowDropdownOptions(false)
                                 }}
@@ -104,7 +104,7 @@ export const TitleAndDate = ({ mailDetail }: { mailDetail: any }) => {
                                         </div>
                                     </div>
                                 </div>
-                            </OutsideClickHandler>
+                            </OutsideClickHandler> */}
                         </div>
                     </div>
                 </div>

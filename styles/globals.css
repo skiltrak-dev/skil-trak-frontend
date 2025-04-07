@@ -714,7 +714,7 @@
     }
 }
 
-/* .customTailwingStyles h1 {
+.customTailwingStyles h1 {
     font-weight: bold;
     font-size: 27px !important;
 }
@@ -741,4 +741,4 @@
 .customTailwingStyles a:hover {
     color: #36c !important;
     text-decoration-line: underline;
-} */
+}

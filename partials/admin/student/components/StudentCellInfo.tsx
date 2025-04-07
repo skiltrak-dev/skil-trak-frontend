@@ -7,9 +7,13 @@ import {
 } from '@components'
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
 import { UserRoles } from '@constants'
-import { useScrollIntoView, useSubadminProfile } from '@hooks'
+import {
+    useAssignedCoorMaskText,
+    useScrollIntoView,
+    useSubadminProfile,
+} from '@hooks'
 import { Student } from '@types'
-import { QueryType, isBrowser, queryToUrl, setLink } from '@utils'
+import { isBrowser, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -217,7 +221,10 @@ export const StudentCellInfo = ({
                                     <MdEmail />
                                 </div>
                                 <HideRestrictedData type={UserRoles.STUDENT}>
-                                    {student?.user?.email}
+                                    {useAssignedCoorMaskText({
+                                        key: student?.user?.email,
+                                        subadminId: student?.subadmin?.id,
+                                    })}
                                 </HideRestrictedData>
                             </p>
                         </div>
@@ -228,7 +235,11 @@ export const StudentCellInfo = ({
                                 <MdPhone />
                             </span>
                             <HideRestrictedData type={UserRoles.STUDENT}>
-                                {student?.phone}
+                                {useAssignedCoorMaskText({
+                                    key: student?.phone,
+                                    subadminId: student?.subadmin?.id,
+                                    keyLength: 2,
+                                })}
                             </HideRestrictedData>
                         </p>
                     </div>

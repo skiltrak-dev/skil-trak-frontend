@@ -394,7 +394,7 @@ export const MyStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
             <Card noPadding>
                 {isError && <TechnicalError />}
 
-                {data && data?.data.length ? (
+                {/* {data && data?.data.length ? (
                     <div className="flex justify-end">
                         <a
                             href={`${process.env.NEXT_PUBLIC_END_POINT}/subadmin/students/download-list/${userId}
@@ -411,7 +411,7 @@ export const MyStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
                             />
                         </a>
                     </div>
-                ) : null}
+                ) : null} */}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (

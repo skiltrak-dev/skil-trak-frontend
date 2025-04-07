@@ -1,7 +1,6 @@
 import {
     Badge,
     EmptyData,
-    InitialAvatar,
     LoadingAnimation,
     Table,
     TableAction,
@@ -11,14 +10,12 @@ import {
 import { ColumnDef } from '@tanstack/react-table'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { FaEye, FaFileArchive } from 'react-icons/fa'
-import { MdDelete } from 'react-icons/md'
+import { FaEye } from 'react-icons/fa'
 
-import { TalentPoolNotification } from '@partials/common/TalentPool'
+import { IndustryCell } from '@partials/industry'
 import { TalentPoolStatusEnum, isBrowser } from '@utils'
 import Link from 'next/link'
 import { StudentCellInfo } from '../students'
-import { IndustryCell } from '@partials/industry'
 
 export const TalentPoolList = ({
     talentPoolData,
