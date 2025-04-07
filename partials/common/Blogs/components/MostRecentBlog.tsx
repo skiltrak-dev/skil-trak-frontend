@@ -23,7 +23,7 @@ export const MostRecentBlog = ({
     const width = useWindowWidth()
     const mobile = isMobile(width)
     return (
-        <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 h-[220px]">
+        <div className="bg-[#FFFCF7] rounded-xl shadow-md px-2 py-1.5 min-h-[220px]">
             <Link href={`blogs/${slug}`} className="">
                 <div className="overflow-hidden relative rounded-xl h-[100px]">
                     <Image
@@ -47,7 +47,7 @@ export const MostRecentBlog = ({
                     {ellipsisText(title, 26)}
                 </h1>
                 <div
-                    className="blog-content block mr-6 text-gray-400 text-xs"
+                    className="blog-content text-justify block mr-6 text-gray-400 text-xs"
                     // dangerouslySetInnerHTML={{
                     //     __html: content.substr(0, 10) + '...',
                     // }}
