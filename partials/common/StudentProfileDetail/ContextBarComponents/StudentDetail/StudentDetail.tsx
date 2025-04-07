@@ -4,11 +4,11 @@ import {
     useIsRestricted,
     useRestrictedData,
 } from '@components'
-import { useMaskText, useNotification } from '@hooks'
+import { useAssignedCoorMaskText, useNotification } from '@hooks'
 import { CallLogsModal } from '@partials/sub-admin/students/modals'
 import { SubAdminApi } from '@queries'
 import { Student } from '@types'
-import { getGender, getUserCredentials, maskText } from '@utils'
+import { getGender, getUserCredentials } from '@utils'
 import { State } from 'country-state-city'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
@@ -80,7 +80,11 @@ export const StudentDetail = ({
                         border={false}
                         title="Phone Number"
                         detail={useRestrictedData(
-                            useMaskText({ key: profile?.phone }),
+                            useAssignedCoorMaskText({
+                                keyLength: 3,
+                                key: profile?.phone,
+                                subadminId: profile?.subadmin?.id,
+                            }),
                             UserRoles.STUDENT
                         )}
                         onClick={() => {

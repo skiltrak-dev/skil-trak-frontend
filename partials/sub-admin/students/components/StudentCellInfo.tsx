@@ -5,7 +5,12 @@ import {
     useAuthorizedUserComponent,
 } from '@components'
 import { UserRoles } from '@constants'
-import { useMaskText, useScrollIntoView, useSubadminProfile } from '@hooks'
+import {
+    useAssignedCoorMaskText,
+    useMaskText,
+    useScrollIntoView,
+    useSubadminProfile,
+} from '@hooks'
 import { Student } from '@types'
 import { isBrowser, maskText, setLink } from '@utils'
 import moment from 'moment'
@@ -45,12 +50,6 @@ export const StudentCellInfo = ({
     const createdAt = moment(callLog?.createdAt, 'YYYY-MM-DD')
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
-
-    const subadmin = useSubadminProfile()
-    const isPermission = useAuthorizedUserComponent({
-        roles: [UserRoles.ADMIN],
-        isHod: subadmin?.departmentMember?.isHod,
-    })
 
     return (
         <div
@@ -209,8 +208,9 @@ export const StudentCellInfo = ({
                                 <FaEnvelope />
                             </span>
                             <p className="text-gray-500">
-                                {useMaskText({
+                                {useAssignedCoorMaskText({
                                     key: student?.user?.email,
+                                    subadminId: student?.subadmin?.id,
                                 })}
                             </p>
                         </div>
@@ -219,8 +219,9 @@ export const StudentCellInfo = ({
                                 <FaPhone />
                             </span>
                             <p className="text-gray-500">
-                                {useMaskText({
+                                {useAssignedCoorMaskText({
                                     key: student?.phone,
+                                    subadminId: student?.subadmin?.id,
                                 })}
                             </p>
                         </div>

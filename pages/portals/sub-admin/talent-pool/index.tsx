@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import { TabNavigation, TabProps, Typography } from '@components'
-import { useContextBar, useNavbar } from '@hooks'
+import { Typography } from '@components'
+import { useNavbar } from '@hooks'
 import { SubAdminLayout } from '@layouts'
 // import {
 //     FilteredTalentPoolRequests,
@@ -12,12 +12,12 @@ import { SubAdminLayout } from '@layouts'
 //     TalentPoolPendingRequests,
 //     TerminatedRequests,
 // } from '@partials/admin/talent-pool'
-import { SubAdminApi, AuthApi } from '@queries'
-import { NextPageWithLayout, OptionType } from '@types'
-import { useRouter } from 'next/router'
-import { TalentPoolProfileStatus, TalentPoolStatusEnum } from '@utils'
 import { TalentPoolDropdown } from '@partials'
 import { TalentPoolList } from '@partials/sub-admin'
+import { AuthApi, SubAdminApi } from '@queries'
+import { NextPageWithLayout, OptionType } from '@types'
+import { TalentPoolProfileStatus } from '@utils'
+import { useRouter } from 'next/router'
 
 // const tabs: TabProps[] = [
 //     {

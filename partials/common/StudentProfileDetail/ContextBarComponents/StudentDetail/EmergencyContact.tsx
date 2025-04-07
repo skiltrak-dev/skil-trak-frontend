@@ -1,6 +1,6 @@
 import { Typography, useRestrictedData } from '@components'
 import { UserRoles } from '@constants'
-import { useMaskText, useNotification } from '@hooks'
+import { useAssignedCoorMaskText, useNotification } from '@hooks'
 import { Student } from '@types'
 import { getUserCredentials } from '@utils'
 import { StudentDetailCard } from './StudentDetailCard'
@@ -32,7 +32,11 @@ export const EmergencyContact = ({
                     <StudentDetailCard
                         title="Phone"
                         detail={useRestrictedData(
-                            useMaskText({ key: profile?.emergencyPersonPhone }),
+                            useAssignedCoorMaskText({
+                                keyLength: 3,
+                                subadminId: profile?.subadmin?.id,
+                                key: profile?.emergencyPersonPhone,
+                            }),
                             UserRoles.STUDENT
                         )}
                         onClick={() => {
