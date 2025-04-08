@@ -36,6 +36,7 @@ export const ActiveWorkplaceRequest = () => {
     const subadmin = useSubadminProfile()
     const subAdminWorkplace = useGetSubAdminWorkplacesQuery(
         {
+            search: '',
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
