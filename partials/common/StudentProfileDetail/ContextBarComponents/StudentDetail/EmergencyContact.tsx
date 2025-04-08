@@ -33,9 +33,13 @@ export const EmergencyContact = ({
                         title="Phone"
                         detail={useRestrictedData(
                             useAssignedCoorMaskText({
-                                keyLength: 3,
+                                keyLength: 1,
                                 subadminId: profile?.subadmin?.id,
-                                key: profile?.emergencyPersonPhone,
+                                key:
+                                    profile?.emergencyPersonPhone.toLocaleLowerCase() !==
+                                    'na'
+                                        ? profile?.emergencyPersonPhone
+                                        : '-----',
                             }),
                             UserRoles.STUDENT
                         )}
