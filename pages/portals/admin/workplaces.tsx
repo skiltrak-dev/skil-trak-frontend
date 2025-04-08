@@ -19,8 +19,9 @@ import { AdminApi } from '@queries'
 import { LoadingAnimation, TechnicalError } from '@components'
 import { useNavbar } from '@hooks'
 import {
+    AdminPlacementStartedWorkplaces,
+    NeedAdminWorkplaces,
     UpdatedAdminFilteredWorkplace,
-    UpdatedAllRequestedWorkplace,
     UpdatedAllStudentProvidedWorkplace,
     UpdatedAssignedRequest,
     UpdatedCancelledRequests,
@@ -103,7 +104,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 loading: count?.isLoading,
             },
             // element: <AllRequestedWorkplace />,
-            element: <UpdatedAllRequestedWorkplace />,
+            element: <NeedAdminWorkplaces counts={count?.data} />,
         },
         {
             label: 'Assigned Requests',
@@ -130,6 +131,18 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             },
             // element: <UnAssignedRequest />,
             element: <UpdatedUnAssignedRequest />,
+        },
+        {
+            label: 'Placement Started Requests',
+            href: {
+                pathname: 'workplaces',
+                query: { tab: 'placement-started' },
+            },
+            badge: {
+                text: count?.data?.unAssigned,
+                loading: count?.isLoading,
+            },
+            element: <AdminPlacementStartedWorkplaces />,
         },
         {
             label: 'Cancelled Workplaces',

@@ -89,7 +89,24 @@ export const BlogCategories = () => {
         {
             accessorKey: 'title',
             cell: (info: any) => {
-                return <div>{info?.row?.original?.title}</div>
+                return (
+                    <div
+                        className="cursor-pointer"
+                        onClick={() => {
+                            router.push({
+                                pathname: `/portals/management/blogs`,
+                                query: {
+                                    tab: 'published',
+                                    page: 1,
+                                    pageSize: 50,
+                                    category: info.row?.original?.id,
+                                },
+                            })
+                        }}
+                    >
+                        {info?.row?.original?.title}
+                    </div>
+                )
             },
             header: () => <span>Title</span>,
         },

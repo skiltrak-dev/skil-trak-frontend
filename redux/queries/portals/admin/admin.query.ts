@@ -343,6 +343,7 @@ const {
     useUnAssignedWorkplaceListQuery,
     useAllRequestedWorkplaceListQuery,
     useWpCancellationRequestsListQuery,
+    usePlacementStartedWorkplaceListQuery,
     useGetSubadminForAssignWorkplaceQuery,
     useAllStudentProvidedWorkplaceListQuery,
     useChangeStatusForWPCancelationRequestMutation,
@@ -588,6 +589,7 @@ export const AdminApi = {
         useUnAssignedWorkplace: useUnAssignedWorkplaceListQuery,
         useRequestedWorkplace: useAllRequestedWorkplaceListQuery,
         wpCancelationRequestsList: useWpCancellationRequestsListQuery,
+        placementStartedWPList: usePlacementStartedWorkplaceListQuery,
         subadminForAssignWorkplace: useGetSubadminForAssignWorkplaceQuery,
         useStudentProvidedWorkplace: useAllStudentProvidedWorkplaceListQuery,
         changeStatusCancelationReq:

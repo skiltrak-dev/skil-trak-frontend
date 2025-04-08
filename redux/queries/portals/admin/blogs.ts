@@ -43,8 +43,11 @@ export const blogsEndpoints = (
         }),
         providesTags: ['Blog'],
     }),
-    getBlogsCount: builder.query<any, void>({
-        query: () => `${PREFIX}/count`,
+    getBlogsCount: builder.query<any, { search: string }>({
+        query: (params) => ({
+            url: `${PREFIX}/count`,
+            params,
+        }),
         providesTags: ['Blog'],
     }),
     getFeaturedBlogs: builder.query<any, any>({

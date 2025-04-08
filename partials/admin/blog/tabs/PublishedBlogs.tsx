@@ -3,6 +3,7 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
+    Select,
     Table,
     TableAction,
     TableActionOption,
@@ -12,12 +13,13 @@ import {
 } from '@components'
 import { adminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { checkListLength } from '@utils'
+import { checkListLength, removeEmptyValues } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { BulkDeleteModal, DeleteModal } from '../components'
+import { OptionType } from '@types'
 export const PublishedBlogs = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -26,9 +28,29 @@ export const PublishedBlogs = () => {
     const router = useRouter()
     const { data, isLoading, isError, isFetching } = adminApi.useGetBlogsQuery({
         isPublished: `${true}`,
+        search: `${JSON.stringify(
+            removeEmptyValues({
+                category: router?.query?.category,
+            })
+        )
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    const blogsCategories = adminApi.useGetCategoriesQuery({
+        skip: 0,
+        limit: 99999,
+    })
+
+    const categoriesOptions = blogsCategories?.data?.data?.map(
+        (category: any) => ({
+            label: category?.title,
+            value: category?.id,
+        })
+    )
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -173,11 +195,35 @@ export const PublishedBlogs = () => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
-
+    console.log({ categoriesOptions })
     return (
         <>
             {modal}
             <div className="">
+                <div className="flex justify-end">
+                    <div className="w-80">
+                        <Select
+                            name={'category'}
+                            label={'Category'}
+                            options={categoriesOptions}
+                            onlyValue
+                            value={categoriesOptions?.find(
+                                (cate: OptionType) =>
+                                    cate?.value ===
+                                    Number(router?.query?.category)
+                            )}
+                            onChange={(e: number) => {
+                                router.push({
+                                    pathname: router?.pathname,
+                                    query: {
+                                        ...router?.query,
+                                        category: e,
+                                    },
+                                })
+                            }}
+                        />
+                    </div>
+                </div>
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading || isFetching ? (
