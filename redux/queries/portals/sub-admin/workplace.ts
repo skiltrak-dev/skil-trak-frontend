@@ -16,7 +16,7 @@ export const workplaceEndpoints = (
         query: () => `${PREFIX}workplace-request/count`,
         providesTags: ['SubAdminWorkplace'],
     }),
-    getSubAdminWorkplaces: builder.query<any, any>({
+    getSubAdminWorkplaces: builder.query<any, PaginationWithSearch>({
         query: (params) => ({
             url: `${PREFIX}workplace-request/list`,
             params,
@@ -37,7 +37,7 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['SubAdminWorkplace'],
     }),
-    getMyStudentsWorkplaces: builder.query<any, any>({
+    getMyStudentsWorkplaces: builder.query<any, PaginationValues>({
         query: (params) => ({
             url: `${PREFIX}my-workplace-request/list`,
             params,

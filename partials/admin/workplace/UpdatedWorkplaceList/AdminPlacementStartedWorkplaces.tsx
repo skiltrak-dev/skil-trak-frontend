@@ -13,7 +13,6 @@ import { AdminApi } from '@queries'
 
 import { useRouter } from 'next/router'
 import { useColumns } from './hooks'
-import { NeedWorkplace } from './NeedAdminWorkplaces'
 
 export const AdminPlacementStartedWorkplaces = () => {
     const router = useRouter()
