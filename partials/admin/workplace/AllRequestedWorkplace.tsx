@@ -21,6 +21,7 @@ export const AllRequestedWorkplace = () => {
 
     const subAdminWorkplace = AdminApi.Workplace.useRequestedWorkplace(
         {
+            search: '',
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
