@@ -21,6 +21,7 @@ export const AllWorkplaces = () => {
 
     const subAdminWorkplace = useGetSubAdminWorkplacesQuery(
         {
+            search: '',
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
@@ -31,7 +32,6 @@ export const AllWorkplaces = () => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 30))
     }, [router])
-
 
     return (
         <div>
