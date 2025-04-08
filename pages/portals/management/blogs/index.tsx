@@ -16,12 +16,24 @@ import {
     DraftBlogs,
     PublishedBlogs,
 } from '@partials/management/blog'
+import { removeEmptyValues } from '@utils'
 
 const BlogsList: NextPageWithLayout = () => {
-    const count = AdminApi.Blogs.useBlogsCount()
-
     const router = useRouter()
+
     const navBar = useNavbar()
+
+    const count = AdminApi.Blogs.useBlogsCount({
+        search: `${JSON.stringify(
+            removeEmptyValues({
+                category: router?.query?.category,
+            })
+        )
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`,
+    })
 
     useEffect(() => {
         navBar.setTitle('blogs')

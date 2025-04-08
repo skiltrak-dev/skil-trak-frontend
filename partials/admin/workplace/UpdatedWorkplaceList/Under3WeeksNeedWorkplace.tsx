@@ -13,8 +13,9 @@ import { AdminApi } from '@queries'
 
 import { useRouter } from 'next/router'
 import { useColumns } from './hooks'
+import { NeedWorkplace } from './NeedAdminWorkplaces'
 
-export const UpdatedAllRequestedWorkplace = () => {
+export const Under3WeeksNeedWorkplace = () => {
     const router = useRouter()
 
     const [page, setPage] = useState(1)
@@ -22,6 +23,7 @@ export const UpdatedAllRequestedWorkplace = () => {
 
     const subAdminWorkplace = AdminApi.Workplace.useRequestedWorkplace(
         {
+            search: `threshHold:${NeedWorkplace.Under3Weeks}`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },

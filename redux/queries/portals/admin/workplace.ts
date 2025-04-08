@@ -66,10 +66,20 @@ export const workplaceEndpoints = (
     }),
     allRequestedWorkplaceList: builder.query<
         PaginatedResponse<IWorkplaceIndustries>,
-        PaginationValues
+        PaginationWithSearch
     >({
         query: (params) => ({
             url: `${PREFIX}/workplace-request/requested/list`,
+            params,
+        }),
+        providesTags: ['Workplaces'],
+    }),
+    placementStartedWorkplaceList: builder.query<
+        PaginatedResponse<IWorkplaceIndustries>,
+        PaginationValues
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/workplace-request/list/placement-started`,
             params,
         }),
         providesTags: ['Workplaces'],
