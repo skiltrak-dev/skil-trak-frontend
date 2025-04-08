@@ -18,7 +18,7 @@ import { SubAdminApi, useGetSubAdminFilteredWorkplacesQuery } from '@queries'
 
 // components
 import {
-    ActiveWorkplaceRequest,
+    NeedSubAdminWorkplaces,
     UpdatedCancelledWorkplaces,
     UpdatedFilteredWorkplaces,
     UpdatedMyWorkplaces,
@@ -110,8 +110,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 text: count?.data?.all,
                 loading: count?.isLoading,
             },
-            // element: <AllWorkplaces />,
-            element: <ActiveWorkplaceRequest />,
+            element: <NeedSubAdminWorkplaces counts={count?.data} />,
         },
         // {
         //     label: 'Need Workplaces',
@@ -132,7 +131,6 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 loading: count?.isLoading,
             },
             href: { pathname: 'workplace', query: { tab: 'my-workplaces' } },
-            // element: <MyWorkplaces />,
             element: <UpdatedMyWorkplaces />,
         },
         {
