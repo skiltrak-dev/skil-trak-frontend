@@ -127,7 +127,7 @@ const BlogDetail: NextPageWithLayout = ({ blogData }: any) => {
                     </h1>
                     <div className="prose prose-lg max-w-none">
                         <div
-                            className="blog-content flex flex-col gap-y-3 customTailwingStyles text-gray-700 leading-relaxed"
+                            className="blog-content flex flex-col gap-y-3 customTailwingStyles-inline-style customTailwingStyles text-gray-700 leading-relaxed"
                             dangerouslySetInnerHTML={{
                                 __html: blogData?.content || '',
                             }}

@@ -742,3 +742,19 @@
     color: #36c !important;
     text-decoration-line: underline;
 }
+
+.customTailwingStyles ol {
+    list-style-type: number !important;
+}
+
+.customTailwingStyles-inline-style ol {
+    list-style-position: inside !important;
+}
+.customTailwingStyles-inline-style ul {
+    list-style-position: inside !important;
+}
+
+.customTailwingStyles ul,
+ul.landing-content {
+    list-style-type: disc !important;
+}
