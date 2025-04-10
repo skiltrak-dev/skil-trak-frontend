@@ -27,6 +27,7 @@ import {
     StudentScheduleEndedList,
     SubAdminFlaggedStudents,
     UrgentStudents,
+    InCompleteSubmission,
 } from '@partials/sub-admin/students'
 
 // query
@@ -122,6 +123,7 @@ export const SubadminStudents = () => {
         }
     )
     const subadmin = SubAdminApi.SubAdmin.useProfile()
+    const isHod = subadmin?.data?.departmentMember?.isHod
 
     const [downloadCSV, downloadCSVResult] =
         SubAdminApi.Student.useDownloadStudentCSV()
@@ -148,15 +150,23 @@ export const SubadminStudents = () => {
             },
             element: <PendingStudents subadmin={subadmin?.data as SubAdmin} />,
         },
-        {
-            label: 'Active',
-            href: { pathname: 'students', query: { tab: 'all' } },
-            badge: {
-                text: studentCount?.approved,
-                loading: count.isLoading,
-            },
-            element: <AllStudents subadmin={subadmin?.data as SubAdmin} />,
-        },
+        // isHod
+        ...(isHod
+            ? [
+                  {
+                      label: 'Active',
+                      href: { pathname: 'students', query: { tab: 'all' } },
+                      badge: {
+                          text: studentCount?.approved,
+                          loading: count.isLoading,
+                      },
+                      element: (
+                          <AllStudents subadmin={subadmin?.data as SubAdmin} />
+                      ),
+                  },
+              ]
+            : []),
+
         {
             label: 'My Students',
             badge: {
@@ -166,6 +176,21 @@ export const SubadminStudents = () => {
             href: { pathname: 'students', query: { tab: 'my-students' } },
             element: <MyStudents subadmin={subadmin?.data as SubAdmin} />,
         },
+        // TODO: Uncomment this when the component is ready
+        // {
+        //     label: 'InComplete Submission',
+        //     href: {
+        //         pathname: 'students',
+        //         query: { tab: 'incomplete-submission' },
+        //     },
+        //     badge: {
+        //         text: studentCount?.inCompleteSubmission,
+        //         loading: count.isLoading,
+        //     },
+        //     element: (
+        //         <InCompleteSubmission subadmin={subadmin?.data as SubAdmin} />
+        //     ),
+        // },
         // {
         //     label: 'Flagged Students',
         //     badge: {
