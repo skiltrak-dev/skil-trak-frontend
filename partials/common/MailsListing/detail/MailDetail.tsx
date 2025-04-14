@@ -55,6 +55,12 @@ export const MailDetail = () => {
                     <DetailMailTopbar mailDetail={mailDetail?.data} />
                     <TitleAndDate mailDetail={mailDetail?.data} />
                     <div className="p-5 bg-gray-100 border border-gray-400 border-dashed rounded-xl shadow-xl">
+                        <div className="font-medium text-gray-800 mb-5">
+                            Subject:{' '}
+                            <p className="font-medium inline-block text-gray-600 underline">
+                                {mailDetail?.data?.subject ?? 'NA'}
+                            </p>
+                        </div>
                         <div
                             className="text-sm"
                             dangerouslySetInnerHTML={{
@@ -74,7 +80,7 @@ export const MailDetail = () => {
                                 >
                                     <h3 className="text-lg font-semibold text-gray-700">
                                         Replies (
-                                        {mailDetail.data.replies.length})
+                                        {mailDetail?.data?.replies?.length})
                                     </h3>
                                     {isRepliesExpanded ? (
                                         <HiChevronUp className="text-gray-600 w-6 h-6" />
@@ -86,25 +92,36 @@ export const MailDetail = () => {
                                 {/* Replies Content */}
                                 {isRepliesExpanded && (
                                     <div className="space-y-4 p-4 border-t">
-                                        {mailDetail.data.replies.map(
+                                        {mailDetail?.data?.replies?.map(
                                             (reply: any) => (
                                                 <div
                                                     key={reply.id}
                                                     className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
                                                 >
                                                     <div className="flex justify-between items-center mb-2">
-                                                        <div className="flex items-center">
-                                                            <span className="font-medium text-gray-800">
-                                                                {reply.sender
-                                                                    ?.name ||
-                                                                    reply.sender
-                                                                        ?.email ||
-                                                                    'Unknown Sender'}
-                                                            </span>
-                                                            <span className="text-gray-500 text-sm ml-2">
-                                                                {/* {formatDistance(new Date(reply.createdAt), new Date(), { addSuffix: true })} */}
-                                                            </span>
+                                                        <div className="">
+                                                            <div className="flex items-center">
+                                                                <p className="inline-block font-medium text-gray-800">
+                                                                    {
+                                                                        reply
+                                                                            .sender
+                                                                            ?.name
+                                                                    }
+                                                                    {/* <span className="ml-1 text-xs text-gray-400">
+                                                                        {`<${
+                                                                            reply
+                                                                                .sender
+                                                                                ?.email ||
+                                                                            'Unknown Sender'
+                                                                        }>`}
+                                                                    </span> */}
+                                                                </p>
+                                                                {/* <span className="text-gray-500 text-sm ml-2">
+                                                                    {formatDistance(new Date(reply.createdAt), new Date(), { addSuffix: true })}
+                                                                </span> */}
+                                                            </div>
                                                         </div>
+
                                                         <span
                                                             className={`
                                                     px-2 py-1 rounded-full text-xs font-medium
@@ -116,8 +133,15 @@ export const MailDetail = () => {
                                                     }
                                                 `}
                                                         >
-                                                            {reply.status}
+                                                            {reply?.status}
                                                         </span>
+                                                    </div>
+                                                    {/* subject */}
+                                                    <div className="font-medium text-gray-800 mb-5">
+                                                        Subject:{' '}
+                                                        <p className="font-medium inline-block text-gray-600 underline">
+                                                            {reply?.subject}
+                                                        </p>
                                                     </div>
                                                     <div
                                                         className="text-sm text-gray-600"

@@ -21,17 +21,21 @@ import { UserRoles } from '@constants'
 export const IndustryDetailCB = ({
     id,
     industryUserId,
+    type,
 }: {
     id: number
+    type?: string
     industryUserId: number
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const industry = useGetSubAdminIndustriesProfileQuery(Number(id), {
-        skip: !id,
-        refetchOnMountOrArgChange: true,
-    })
-
+    const industry = useGetSubAdminIndustriesProfileQuery(
+        { id: Number(id), type },
+        {
+            skip: !id,
+            refetchOnMountOrArgChange: true,
+        }
+    )
     const sectorsWithCourses = getSectors(industry?.data?.courses)
 
     const onCancelClicked = () => setModal(null)

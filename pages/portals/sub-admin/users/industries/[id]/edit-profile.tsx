@@ -11,7 +11,7 @@ import {
 import { SubAdminLayout } from '@layouts'
 import { IndustryProfileFrom } from '@partials/common'
 import {
-    useGetSubAdminIndustriesProfileQuery,
+    useGetSubAdminIndustryProfileQuery,
     useUpdateIndustryProfileMutation,
 } from '@queries'
 import { NextPageWithLayout } from '@types'
@@ -20,7 +20,7 @@ import { useRouter } from 'next/router'
 const EditIndustriesProfile: NextPageWithLayout = () => {
     const router = useRouter()
     const { id } = router.query
-    const profile = useGetSubAdminIndustriesProfileQuery(Number(id), {
+    const profile = useGetSubAdminIndustryProfileQuery(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })

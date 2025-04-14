@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { FaMinusCircle } from 'react-icons/fa'
 
 interface AssignedCourseProps {
-    course: Course
+    course: any
     onRemove: Function
     result: any
 }
@@ -30,7 +30,13 @@ export const AssignedCourse = ({
         <div className="flex items-start justify-between">
             <div>
                 <p className="text-xs text-gray-400">{course.code}</p>
-                <p className="text-sm">{course.title}</p>
+                <p
+                    className={`${
+                        course?.issuperseded ? 'line-through' : ''
+                    } text-sm`}
+                >
+                    {course.title}
+                </p>
             </div>
 
             <div>

@@ -12,7 +12,7 @@ import {
 } from '@components'
 import { IndustryProfile } from '@components/IndustryProfile'
 import { DetailTabs } from '@partials/sub-admin/Industries/tabs'
-import { useGetSubAdminIndustriesProfileQuery } from '@queries'
+import { useGetSubAdminIndustryProfileQuery } from '@queries'
 import { getLink } from '@utils'
 import { SubAdminLayout } from '@layouts'
 
@@ -27,7 +27,7 @@ const IndustriesProfile: NextPageWithLayout = () => {
     const navBar = useNavbar()
 
     const { data, isLoading, isError, isSuccess } =
-        useGetSubAdminIndustriesProfileQuery(Number(id), {
+        useGetSubAdminIndustryProfileQuery(Number(id), {
             skip: !id,
             refetchOnMountOrArgChange: true,
         })

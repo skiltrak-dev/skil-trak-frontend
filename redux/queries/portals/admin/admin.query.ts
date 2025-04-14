@@ -276,6 +276,7 @@ const {
     useSelectedWpTypesQuery,
     useAddWpTypesToCourseMutation,
     useRemoveWpTypesFromCourseMutation,
+    useCourseToggleSupersedeMutation,
 
     // ------ WP-TYPES ------ //
     useWpTypesQuery,
@@ -654,6 +655,7 @@ export const AdminApi = {
         useRemoveMutation: useCourseRemoveMutation,
         addWpTypesToCourse: useAddWpTypesToCourseMutation,
         removeWpTypesFromCourse: useRemoveWpTypesFromCourseMutation,
+        useCourseToggleSupersede: useCourseToggleSupersedeMutation,
     },
 
     WpTypes: {

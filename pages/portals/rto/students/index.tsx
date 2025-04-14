@@ -135,7 +135,19 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
             element: <ApprovedStudent />,
         },
         // IncompleteSubmissionStudent
-        // TODO : Allow partial submission un comment
+        {
+            label: 'Incomplete Submission',
+            badge: {
+                text: count?.data?.inCompleteSubmissions,
+                loading: count.isLoading,
+            },
+            href: {
+                pathname: 'students',
+                query: { tab: 'incomplete-submission' },
+            },
+            element: <IncompleteSubmissionStudent />,
+        },
+        // TODO: uncomment IncompleteSubmissionStudent
         // ...(rto?.allowPartialSubmission
         //     ? [
         //           {

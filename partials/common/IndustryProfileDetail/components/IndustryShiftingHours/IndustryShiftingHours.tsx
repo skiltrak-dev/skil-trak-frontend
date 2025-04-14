@@ -18,10 +18,13 @@ import { UserRoles } from '@constants'
 export const IndustryShiftingHours = ({
     industryUserId,
     showTitle = true,
+    type,
 }: {
     showTitle?: boolean
     industryUserId: number
+    type?: string
 }) => {
+    console.log('IndustryShiftingHours', industryUserId, type)
     const contextBar = useContextBar()
 
     const [isEntered, setIsEntered] = useState<boolean>(false)

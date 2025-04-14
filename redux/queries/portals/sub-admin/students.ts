@@ -36,6 +36,18 @@ export const studentsEndpoints = (
             'Students',
         ],
     }),
+    getSubAdminIncompleteSubmissionStudents: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/students/incomplete-submission/list`,
+            params,
+        }),
+        providesTags: [
+            'SubAdminStudents',
+            'BulkUsersDelete',
+            'BulkStatus',
+            'Students',
+        ],
+    }),
     getSubAdminSnoozedStudents: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/snoozed/students/list`,
@@ -644,6 +656,11 @@ export const studentsEndpoints = (
     getStudentMessagesList: builder.query<any, number>({
         query: (id) => `twilio-messages/user/${id}`,
         providesTags: ['StudentMessages'],
+    }),
+    // TODO: working on this endpoint
+    getIncompleteSubmissionsForWorkplace: builder.query<any, any>({
+        query: ({ studentId, courseId }) => `twilio-messages/user/`,
+        providesTags: ['Students'],
     }),
 
     releaseStudentLogbook: builder.mutation<Student, number>({

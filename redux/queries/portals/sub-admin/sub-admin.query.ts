@@ -260,6 +260,7 @@ export const {
     useCancelRequestWorkplaceMutation,
     useSubadminWpCancellationRequestsListQuery,
     useGetSubAdminMapSuggestedIndustryDetailQuery,
+    useGetSubAdminMapIndustryBranchDetailQuery,
 
     useGetStudentWorkplaceAnswersQuery,
     useGetStudentWorkplaceAvailabilityQuery,
@@ -361,6 +362,8 @@ export const {
     useGetStudentMessagesListQuery,
     useReleaseStudentLogbookMutation,
     useAddStudentNoteMutation,
+    useGetIncompleteSubmissionsForWorkplaceQuery,
+    useGetSubAdminIncompleteSubmissionStudentsQuery,
 
     // ---- LOGBOOK ---- //
     useSaveLogbookMutation,
@@ -441,6 +444,7 @@ export const {
     useGetFavouriteIndustriesQuery,
     useGetSubAdminIndustryStudentsQuery,
     useGetSubAdminIndustriesProfileQuery,
+    useGetSubAdminIndustryProfileQuery,
     useAddToFavoriteMutation,
     useAddToPartnerMutation,
     useIndustryCallLogMutation,
@@ -590,6 +594,10 @@ export const SubAdminApi = {
         getWorkplaceForSchedule: useGetWorkplaceForScheduleQuery,
         getStudentRtoDetail: useGetSubAdminStudentRtoDetailQuery,
         releaseStudentLogbook: useReleaseStudentLogbookMutation,
+        getIncompleteSubmissionsForWorkplace:
+            useGetIncompleteSubmissionsForWorkplaceQuery,
+        useIncompleteSubmissionStudents:
+            useGetSubAdminIncompleteSubmissionStudentsQuery,
     },
     LogBook: {
         useSaveLogbook: useSaveLogbookMutation,
@@ -679,6 +687,8 @@ export const SubAdminApi = {
         removeWPApprovalReq: useRemoveWorkplaceRequestApprovalMutation,
         useSubAdminMapSuggestedIndustryDetail:
             useGetSubAdminMapSuggestedIndustryDetailQuery,
+        useSubAdminMapIndustryBranchDetail:
+            useGetSubAdminMapIndustryBranchDetailQuery,
         useWorkplaceCourseIndustries: useGetWorkplaceCourseIndustriesQuery,
         changeWpReqStatus: useChangeWorkplaceApprovalReqStatusMutation,
         placementAndInsuranceDocNote:

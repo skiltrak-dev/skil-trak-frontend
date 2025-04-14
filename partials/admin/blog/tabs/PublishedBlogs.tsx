@@ -195,7 +195,6 @@ export const PublishedBlogs = () => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
-    console.log({ categoriesOptions })
     return (
         <>
             {modal}

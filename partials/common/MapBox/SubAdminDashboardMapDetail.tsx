@@ -13,6 +13,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { IndustryPlacementStatus } from '../IndustryProfileDetail'
 import {
     FutureIndustryInfoBoxCard,
+    IndustryBranchInfoBoxCard,
     IndustryInfoBoxCard,
     StudentInfoBoxCard,
 } from './components'
@@ -62,6 +63,14 @@ const industryClusterStyles = [
         width: 50,
     },
 ]
+const industryBranchesClusterStyles = [
+    {
+        textColor: 'white',
+        url: '/images/icons/branches-cluster.svg',
+        height: 50,
+        width: 50,
+    },
+]
 const partnerIndustryClusterStyles = [
     {
         textColor: 'white',
@@ -106,6 +115,7 @@ const SubAdminDashboardMapDetail = ({
 
     const [selectedBox, setSelectedBox] = useState<any>(null)
     const [studentId, setStudentId] = useState<any>(null)
+    const [branchId, setBranchId] = useState<any>(null)
     const [industryId, setIndustryId] = useState<any>(null)
     const [futureIndustryId, setFutureIndustryId] = useState<any>(null)
     const [showInfoBox, setShowInfoBox] = useState<any>(false)
@@ -217,8 +227,21 @@ const SubAdminDashboardMapDetail = ({
         setSelectedMarker(marker)
     }, [])
 
+    // const flatLocations = industriesList?.data
+    //     ?.map((item: any) => item.locations)
+    //     .filter((branches: any) => branches.length > 0) // removes null or undefined
+
+    const industriesBranches = industriesList?.data?.flatMap(
+        (item: any) => item?.locations || []
+    )
+
     useEffect(() => {
-        if (data || industriesList?.data || futureIndustries?.data) {
+        if (
+            data ||
+            industriesList?.data ||
+            futureIndustries?.data ||
+            industriesBranches
+        ) {
             const markers = []
 
             if (data) {
@@ -267,13 +290,28 @@ const SubAdminDashboardMapDetail = ({
                 )
                 markers.push(...transformedFutureIndustries)
             }
+            if (industriesBranches?.length > 0) {
+                const filteredIndustries = industriesBranches?.filter(
+                    (industry: any) =>
+                        industry.location && industry.location !== 'NA'
+                )
+                const transformedIndustries = filteredIndustries?.map(
+                    (industry: any) => {
+                        const [lat, lng] = industry?.location
+                            .split(',')
+                            .map(Number)
+                        return { ...industry, location: { lat, lng } }
+                    }
+                )
+                markers.push(...transformedIndustries)
+            }
 
             setVisibleMarkers(markers)
         }
     }, [data, industriesList?.data, futureIndustries?.data])
     //Bounds changes when filter applied
     useEffect(() => {
-        if (map && visibleMarkers.length > 0) {
+        if (map && visibleMarkers?.length > 0) {
             const bounds = new google.maps.LatLngBounds()
             visibleMarkers.forEach((marker: any) => {
                 bounds.extend(
@@ -342,6 +380,7 @@ const SubAdminDashboardMapDetail = ({
     const onBoundChange = useCallback(() => {
         setSelectedBox(null)
         setIndustryId(null)
+        setBranchId(null)
         setShowInfoBox(false)
         setStudentId('')
         setFutureIndustryId(null)
@@ -360,7 +399,6 @@ const SubAdminDashboardMapDetail = ({
 
         setVisibleMarkers(updatedVisibleMarkers)
     }, [map])
-   
 
     const onMapLoad = useCallback(
         (map: any) => {
@@ -397,6 +435,13 @@ const SubAdminDashboardMapDetail = ({
         grid: 20,
         maxZoom: 15,
     }
+
+    const industryBranchesClusterOptions = {
+        styles: industryBranchesClusterStyles,
+        grid: 20,
+        maxZoom: 15,
+    }
+
     const partnerIndustryClusterOptions = {
         styles: partnerIndustryClusterStyles,
         grid: 20,
@@ -407,7 +452,7 @@ const SubAdminDashboardMapDetail = ({
         grid: 20,
         maxZoom: 15,
     }
-    
+
     const pinnedStudentId = localStorage.getItem('pinnedStudentId')
     useEffect(() => {
         if (pinnedStudentId) {
@@ -423,7 +468,6 @@ const SubAdminDashboardMapDetail = ({
             }
         }
     }, [visibleMarkers])
-    
 
     return (
         <div className="w-full flex flex-col gap-y-2.5">
@@ -497,6 +541,7 @@ const SubAdminDashboardMapDetail = ({
                                                         )
                                                         setSelectedBox({
                                                             ...marker,
+                                                            type: 'student',
                                                             position: {
                                                                 lat: e.latLng.lat(),
                                                                 lng: e.latLng.lng(),
@@ -529,6 +574,8 @@ const SubAdminDashboardMapDetail = ({
                                                 />
                                                 {selectedBox &&
                                                     showInfoBox &&
+                                                    selectedBox.type ===
+                                                        'student' &&
                                                     selectedBox.id ===
                                                         marker?.id &&
                                                     !marker?.department && (
@@ -545,6 +592,9 @@ const SubAdminDashboardMapDetail = ({
                                                                 )
                                                                 setStudentId('')
                                                                 setIndustryId(
+                                                                    null
+                                                                )
+                                                                setBranchId(
                                                                     null
                                                                 )
                                                             }}
@@ -574,20 +624,23 @@ const SubAdminDashboardMapDetail = ({
                                                                     }
                                                                 />
                                                             ) : (
-                                                                <StudentInfoBoxCard
-                                                                    item={
-                                                                        studentDetails
-                                                                    }
-                                                                    selectedBox={
-                                                                        selectedBox
-                                                                    }
-                                                                    studentId={
-                                                                        studentId
-                                                                    }
-                                                                    setSelectedBox={
-                                                                        setSelectedBox
-                                                                    }
-                                                                />
+                                                                !marker?.address &&
+                                                                marker?.courses && (
+                                                                    <StudentInfoBoxCard
+                                                                        item={
+                                                                            studentDetails
+                                                                        }
+                                                                        selectedBox={
+                                                                            selectedBox
+                                                                        }
+                                                                        studentId={
+                                                                            studentId
+                                                                        }
+                                                                        setSelectedBox={
+                                                                            setSelectedBox
+                                                                        }
+                                                                    />
+                                                                )
                                                             )}
                                                         </InfoBox>
                                                     )}
@@ -690,6 +743,9 @@ const SubAdminDashboardMapDetail = ({
                                                                 setIndustryId(
                                                                     null
                                                                 )
+                                                                setBranchId(
+                                                                    null
+                                                                )
                                                             }}
                                                             options={{
                                                                 closeBoxURL: ``,
@@ -717,21 +773,144 @@ const SubAdminDashboardMapDetail = ({
                                                                     }
                                                                 />
                                                             ) : (
-                                                                <StudentInfoBoxCard
-                                                                    item={
-                                                                        studentDetails
-                                                                    }
-                                                                    selectedBox={
-                                                                        selectedBox
-                                                                    }
-                                                                    studentId={
-                                                                        studentId
-                                                                    }
-                                                                    setSelectedBox={
-                                                                        setSelectedBox
-                                                                    }
-                                                                />
+                                                                !marker?.address &&
+                                                                marker?.courses && (
+                                                                    <StudentInfoBoxCard
+                                                                        item={
+                                                                            studentDetails
+                                                                        }
+                                                                        selectedBox={
+                                                                            selectedBox
+                                                                        }
+                                                                        studentId={
+                                                                            studentId
+                                                                        }
+                                                                        setSelectedBox={
+                                                                            setSelectedBox
+                                                                        }
+                                                                    />
+                                                                )
                                                             )}
+                                                        </InfoBox>
+                                                    )}
+                                            </div>
+                                        ))}
+                                </>
+                            )}
+                        </MarkerClusterer>
+
+                        {/* Branches */}
+                        <MarkerClusterer
+                            options={industryBranchesClusterOptions}
+                        >
+                            {(clusterer) => (
+                                <>
+                                    {visibleMarkers
+                                        ?.filter(
+                                            (marker: any) => marker?.address
+                                        )
+                                        ?.map((marker: any) => (
+                                            <div key={marker?.id}>
+                                                <Marker
+                                                    icon={{
+                                                        url: '/images/icons/branch-marker.png',
+
+                                                        scaledSize:
+                                                            new google.maps.Size(
+                                                                29,
+                                                                38
+                                                            ),
+                                                    }}
+                                                    position={marker?.location}
+                                                    // label={marker.name}
+                                                    clusterer={clusterer}
+                                                    onMouseOver={(e: any) => {
+                                                        // handleMarkerClick(marker)
+                                                        // setStudentId(marker?.id)
+                                                        // setIndustryId(
+                                                        //     marker?.id
+                                                        // )
+                                                        setBranchId(marker?.id)
+                                                        setSelectedBox({
+                                                            ...marker,
+                                                            type: 'branch',
+                                                            position: {
+                                                                lat: e.latLng.lat(),
+                                                                lng: e.latLng.lng(),
+                                                            },
+                                                        })
+                                                        setShowInfoBox(true)
+                                                    }}
+                                                    onMouseOut={() =>
+                                                        setSelectedMarker(null)
+                                                    }
+                                                    onClick={(e: any) => {
+                                                        // handleMarkerClick(marker)
+                                                        // setStudentId(marker?.id)
+                                                        setBranchId(marker?.id)
+
+                                                        setSelectedBox({
+                                                            ...marker,
+                                                            type: 'branch',
+                                                            position: {
+                                                                lat: e.latLng.lat(),
+                                                                lng: e.latLng.lng(),
+                                                            },
+                                                        })
+                                                        setShowInfoBox(true)
+                                                    }}
+                                                />
+                                                {selectedBox &&
+                                                    selectedBox?.type ===
+                                                        'branch' &&
+                                                    showInfoBox &&
+                                                    selectedBox?.id ===
+                                                        marker?.id &&
+                                                    marker?.address &&
+                                                    !marker?.department &&
+                                                    !marker?.courses && (
+                                                        <InfoBox
+                                                            position={
+                                                                selectedBox?.position
+                                                            }
+                                                            onCloseClick={() => {
+                                                                setSelectedBox(
+                                                                    null
+                                                                )
+                                                                setShowInfoBox(
+                                                                    false
+                                                                )
+                                                                // setStudentId('')
+                                                                setIndustryId(
+                                                                    null
+                                                                )
+                                                                setFutureIndustryId(
+                                                                    null
+                                                                )
+                                                            }}
+                                                            options={{
+                                                                closeBoxURL: ``,
+                                                                enableEventPropagation:
+                                                                    true,
+                                                            }}
+                                                        >
+                                                            {marker?.address &&
+                                                                !marker?.courses && (
+                                                                    <IndustryBranchInfoBoxCard
+                                                                        item={
+                                                                            industryDetails
+                                                                        }
+                                                                        selectedBox={
+                                                                            selectedBox
+                                                                        }
+                                                                        industryId={
+                                                                            branchId
+                                                                        }
+                                                                        setSelectedBox={
+                                                                            setSelectedBox
+                                                                        }
+                                                                    />
+                                                                )}
                                                         </InfoBox>
                                                     )}
                                             </div>
@@ -788,6 +967,7 @@ const SubAdminDashboardMapDetail = ({
                                                         setIndustryId(
                                                             marker?.id
                                                         )
+                                                        setBranchId(marker?.id)
                                                         setSelectedBox({
                                                             ...marker,
                                                             position: {
@@ -806,6 +986,7 @@ const SubAdminDashboardMapDetail = ({
                                                         setIndustryId(
                                                             marker?.id
                                                         )
+                                                        setBranchId(marker?.id)
                                                         setSelectedBox({
                                                             ...marker,
                                                             position: {
@@ -833,6 +1014,9 @@ const SubAdminDashboardMapDetail = ({
                                                                 )
                                                                 setStudentId('')
                                                                 setIndustryId(
+                                                                    null
+                                                                )
+                                                                setBranchId(
                                                                     null
                                                                 )
                                                             }}

@@ -2,15 +2,16 @@ import { AuthorizedUserComponent, Button } from '@components'
 import Modal from '@modals/Modal'
 import { AddCourseModal, RejectedSectorModal } from './modal'
 import { useRouter } from 'next/router'
-import { useGetSubAdminIndustriesProfileQuery } from '@queries'
+import { useGetSubAdminIndustryProfileQuery } from '@queries'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 
 export const SectorCardHeader = () => {
     const router = useRouter()
     const id = router.query.id
-    const industry = useGetSubAdminIndustriesProfileQuery(Number(id), {
+    const industry = useGetSubAdminIndustryProfileQuery(Number(id), {
         skip: !id,
+        // refetchOnMountOrArgChange: true,
     })
     const userRole = getUserCredentials().role
 

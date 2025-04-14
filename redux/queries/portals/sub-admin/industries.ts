@@ -44,13 +44,20 @@ export const subAdminIndustriesEndpoints = (
         }),
         providesTags: ['SubAdminIndustries'],
     }),
-    getSubAdminIndustriesProfile: builder.query<any, number>({
-        query: (id) => {
-            return {
-                url: `${PREFIX}/industry/profile/${id}`,
-                params: { id },
-            }
-        },
+    getSubAdminIndustriesProfile: builder.query<
+        any,
+        { id: number; type?: string }
+    >({
+        query: ({ id, type }) => ({
+            url: `${PREFIX}/industry/profile/${id}`,
+            params: { type },
+        }),
+        providesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+    getSubAdminIndustryProfile: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}/industry/${id}/profile`,
+        }),
         providesTags: ['SubAdminIndustries', 'Industries'],
     }),
     getSubAdminIndustryStudents: builder.query<

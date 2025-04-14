@@ -143,6 +143,7 @@ const commonTagTypes = [
     'SubAdmin',
     'Workplace',
     'Blogs',
+    "IndustriesAddProfile"
 ]
 
 const managementTypes = [

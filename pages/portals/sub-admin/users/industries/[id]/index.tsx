@@ -1,20 +1,20 @@
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { SubAdminLayout } from '@layouts'
 import { IndustryProfileDetail } from '@partials/common'
-import { SubAdminApi, useGetSubAdminIndustriesProfileQuery } from '@queries'
+import { SubAdminApi, useGetSubAdminIndustryProfileQuery } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect, useMemo } from 'react'
 
 const IndustryDetail: NextPageWithLayout = () => {
     const router = useRouter()
-    const industry = useGetSubAdminIndustriesProfileQuery(
-        Number(router.query?.id),
-        {
-            skip: !router.query?.id,
-            refetchOnMountOrArgChange: true,
-        }
-    )
+    // const id = useMemo(() => Number(router.query?.id), [router.query?.id])
+    const id = router.query?.id
+
+    const industry = useGetSubAdminIndustryProfileQuery(Number(id), {
+        skip: id === null || id === undefined,
+        // refetchOnMountOrArgChange: true,
+    })
     const profile = SubAdminApi.SubAdmin.useProfile()
 
     useEffect(() => {

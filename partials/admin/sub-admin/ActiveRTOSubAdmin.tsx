@@ -21,6 +21,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { BsArchiveFill } from 'react-icons/bs'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { SiOpenaccess } from 'react-icons/si'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import {
@@ -36,6 +37,7 @@ import { UserRoles } from '@constants'
 import { RtoCellInfo } from '../rto/components'
 import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import { checkListLength, getUserCredentials } from '@utils'
+import { AllowAllStudentsAccessModal } from '@partials/rto/coordinators/modal'
 
 export const ActiveRTOSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -87,6 +89,14 @@ export const ActiveRTOSubAdmin = () => {
         setModal(
             <BlockModal
                 subAdmin={subAdmin}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onHasAllowAllStudentsAccess = (subAdmin: any) => {
+        setModal(
+            <AllowAllStudentsAccessModal
+                coordinator={subAdmin}
                 onCancel={() => onModalCancelClicked()}
             />
         )
@@ -160,6 +170,13 @@ export const ActiveRTOSubAdmin = () => {
                     )
                 },
                 Icon: FaEye,
+            },
+            {
+                text: 'Allow All Students Access',
+                onClick: (subAdmin: any) => {
+                    onHasAllowAllStudentsAccess(subAdmin)
+                },
+                Icon: SiOpenaccess,
             },
             {
                 text: 'Assign Courses',

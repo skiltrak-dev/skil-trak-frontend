@@ -26,6 +26,7 @@ export const ShowIndustryNotesAndTHModal = ({
     industryUserId,
     workplaceId,
     industryId,
+    type,
 }: {
     industryCapacity?: number
     industryUserName: string
@@ -33,6 +34,7 @@ export const ShowIndustryNotesAndTHModal = ({
     industryId: number
     workplaceId: number
     onCancel: (val?: boolean) => void
+    type?: string
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [isChecked, setIsChecked] = useState<boolean>(false)
@@ -105,10 +107,15 @@ export const ShowIndustryNotesAndTHModal = ({
     const onCancelClicked = () => setModal(null)
     const onApply = async () => {
         // if (dist <= 20) {
-        const res: any = await addExistingIndustry({
+        const payload: any = {
             workplaceId,
             industryId,
-        })
+        }
+
+        if (type) {
+            payload.type = type
+        }
+        const res: any = await addExistingIndustry(payload)
         if (res?.data) {
             notification.success({
                 title: 'Industry Added Successfully',
@@ -165,6 +172,8 @@ export const ShowIndustryNotesAndTHModal = ({
             })
         }
     }
+
+    console.log('industryUserId', industryUserId)
 
     return (
         <>

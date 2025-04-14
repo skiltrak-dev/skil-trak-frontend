@@ -227,10 +227,11 @@ export const workplaceEndpoints = (
         providesTags: ['SubAdminWorkplace'],
     }),
     addExistingIndustries: builder.mutation<any, any>({
-        query: ({ workplaceId, industryId, ...body }) => ({
+        query: ({ workplaceId, industryId, type, ...body }) => ({
             url: `${PREFIX}industry/select/${workplaceId}/${industryId}`,
-            body,
             method: 'POST',
+            params: type ? { type } : {}, // send `type` only if it exists
+            body, // send the rest in body
         }),
         invalidatesTags: ['SubAdminWorkplace'],
     }),
@@ -311,6 +312,13 @@ export const workplaceEndpoints = (
             // params,
         }),
         providesTags: ['SubAdminWorkplace'],
+    }),
+    getSubAdminMapIndustryBranchDetail: builder.query<any, any>({
+        query: (id) => ({
+            url: `industries/location/${id}/find-details`,
+            // params,
+        }),
+        providesTags: ['SubAdminWorkplace', 'SubAdminIndustries'],
     }),
     getWorkplaceCourseIndustries: builder.query<any, any>({
         query: (id) => `subadmin/course/${id}/list/industries`,

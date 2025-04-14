@@ -25,12 +25,17 @@ export const AssignedCourse = ({
     const onUnassignClick = () => {
         onRemove(course)
     }
-
     return !showUnassign ? (
         <div className="flex items-start justify-between">
             <div>
                 <p className="text-xs text-gray-400">{course.code}</p>
-                <p className="text-sm">{course.title}</p>
+                <p
+                    className={`text-sm ${
+                        course.isSuperseded && 'line-through'
+                    }`}
+                >
+                    {course.title}
+                </p>
             </div>
 
             <div>

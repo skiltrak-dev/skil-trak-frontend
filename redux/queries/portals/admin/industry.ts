@@ -133,6 +133,7 @@ export const industryEndpoints = (
         query: (id) => `${PREFIX}industry/${id}/working-hours/list`,
         providesTags: ['Industries'],
     }),
+
     addIndutryAvailableHours: builder.mutation<any, any>({
         query: ({ body, id }) => ({
             url: `${PREFIX}industry/${id}/working-hours/add`,
