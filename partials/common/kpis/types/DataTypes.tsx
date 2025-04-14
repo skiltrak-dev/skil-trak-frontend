@@ -117,6 +117,7 @@ export interface KpiTableProps {
         getRowModel: () => { rows: Row<TableData>[] }
     }
     className?: string
+    enableRowSelection?: boolean
 }
 
 export interface KpiTableProps {

@@ -363,4 +363,12 @@ export const rtoEndpoints = (
         }),
         invalidatesTags: ['RTOS'],
     }),
+
+    allowInvoicingPermission: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto/${id}/allow-invoicing`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
 })

@@ -1,13 +1,9 @@
 import { initialSchedule } from '@partials/industry/AvailableShifts/components'
 import { useGetAvailableShiftsQuery } from '@queries'
 import { useEffect, useState } from 'react'
-import {
-    FreeHoursCard,
-    TradingHoursCard
-} from './cards'
+import { FreeHoursCard, TradingHoursCard } from './cards'
 
 export const IndustryShiftingHours = () => {
-
     const industryAvailableHours = useGetAvailableShiftsQuery()
 
     const [workingHoursTime, setWorkingHoursTime] = useState<any | null>([

@@ -166,12 +166,16 @@ export const WeekFilter = ({
                 </div>
 
                 <div className="flex items-center gap-x-2">
-                    <div className="bg-info text-white p-3 rounded">
+                    <div
+                        className={`bg-info text-white ${
+                            cMonthsDates?.length > 4 ? 'px-1.5' : 'px-3'
+                        }  py-3 rounded`}
+                    >
                         <Typography variant="label" color="text-white">
                             Select Weekly Filter
                         </Typography>
                     </div>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5">
                         {cMonthsDates &&
                             cMonthsDates?.length > 0 &&
                             cMonthsDates?.map(
@@ -184,7 +188,11 @@ export const WeekFilter = ({
                                         onClick={() =>
                                             toggleWeekSelection(index)
                                         }
-                                        className={`inline-flex flex-col items-start px-4 py-2 text-sm font-medium border rounded-lg transition-colors
+                                        className={`inline-flex flex-col items-start px-3 py-1.5 ${
+                                            cMonthsDates?.length > 4
+                                                ? 'text-[13px]'
+                                                : 'text-sm'
+                                        } font-medium border rounded-lg transition-colors
               ${
                   selectedWeek === index
                       ? 'bg-blue-600 text-white border-blue-600'
@@ -192,7 +200,13 @@ export const WeekFilter = ({
               }`}
                                     >
                                         <span>Week {index + 1}</span>
-                                        <span className="text-xs mt-0.5 opacity-80">
+                                        <span
+                                            className={`${
+                                                cMonthsDates?.length > 4
+                                                    ? 'text-[11px]'
+                                                    : 'text-xs'
+                                            } mt-0.5 opacity-80`}
+                                        >
                                             {moment(week?.startDate).format(
                                                 'DD MMM'
                                             )}{' '}

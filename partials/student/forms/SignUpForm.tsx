@@ -12,9 +12,6 @@ import {
     courseOptionsWhenSectorChange,
     CourseSelectOption,
     formatOptionLabel,
-    getAddressData,
-    getLatLng,
-    getPostalCode,
     getSectorsDetail,
     isEmailValid,
     onlyAlphabets,
@@ -33,8 +30,8 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { StudentFormType } from '@types'
 import debounce from 'lodash/debounce'
+import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
 import { FormProvider, useForm } from 'react-hook-form'
-import { setKey, fromAddress, geocode, GeocodeOptions } from 'react-geocode'
 
 export const StudentSignUpForm = ({
     onSubmit,

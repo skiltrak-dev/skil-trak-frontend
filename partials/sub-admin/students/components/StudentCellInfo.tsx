@@ -1,16 +1,5 @@
-import {
-    InitialAvatar,
-    Tooltip,
-    TooltipPosition,
-    useAuthorizedUserComponent,
-} from '@components'
-import { UserRoles } from '@constants'
-import {
-    useAssignedCoorMaskText,
-    useMaskText,
-    useScrollIntoView,
-    useSubadminProfile,
-} from '@hooks'
+import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
+import { useScrollIntoView } from '@hooks'
 import { Student } from '@types'
 import { isBrowser, maskText, setLink } from '@utils'
 import moment from 'moment'
@@ -209,10 +198,7 @@ export const StudentCellInfo = ({
                                     <FaEnvelope />
                                 </span>
                                 <p className="text-gray-500">
-                                    {useAssignedCoorMaskText({
-                                        key: student?.user?.email,
-                                        subadminId: student?.subadmin?.id,
-                                    })}
+                                    {maskText(student?.user?.email)}
                                 </p>
                             </div>
                         )}
@@ -222,10 +208,7 @@ export const StudentCellInfo = ({
                                     <FaPhone />
                                 </span>
                                 <p className="text-gray-500">
-                                    {useAssignedCoorMaskText({
-                                        key: student?.phone,
-                                        subadminId: student?.subadmin?.id,
-                                    })}
+                                    {maskText(student?.phone)}
                                 </p>
                             </div>
                         )}

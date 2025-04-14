@@ -1,9 +1,8 @@
 import { Typography, useAuthorizedUserComponent } from '@components'
-import React from 'react'
 import { UserRoles } from '@constants'
-import { EsignDocumentStatus, maskText } from '@utils'
+import { useSubadminProfile } from '@hooks'
+import { maskText } from '@utils'
 import { getStatusColor } from './EsignListRowCard'
-import { useMaskText, useSubadminProfile } from '@hooks'
 
 export const SignerCard = ({ signer }: any) => {
     // #128C7F1A
@@ -64,9 +63,7 @@ export const SignerCard = ({ signer }: any) => {
                         </div>
                         <div>
                             <Typography variant="small" color="text-gray-400">
-                                {useMaskText({
-                                    key: signer?.user?.email,
-                                })}
+                                {maskText(signer?.user?.email)}
                             </Typography>
                         </div>
                         <div>
@@ -86,9 +83,7 @@ export const SignerCard = ({ signer }: any) => {
                                     variant="small"
                                     color="text-gray-400"
                                 >
-                                    {useMaskText({
-                                        key: phoneNumber,
-                                    })}
+                                    {maskText(phoneNumber)}
                                 </Typography>
                             )}
                         </div>

@@ -5,6 +5,7 @@ import * as yup from 'yup'
 
 // components
 import {
+    AddressFieldInput,
     AuthorizedUserComponent,
     Avatar,
     Button,
@@ -528,7 +529,7 @@ export const IndustryProfileFrom = ({
                             <div className="w-4/6">
                                 <div className="grid grid-cols-3 gap-x-8">
                                     <div className="col-span-2">
-                                        <TextInput
+                                        {/* <TextInput
                                             label={'Primary Address'}
                                             name={'addressLine1'}
                                             placeholder={
@@ -567,6 +568,17 @@ export const IndustryProfileFrom = ({
                                                         )
                                                     }
                                                 }
+                                            }}
+                                        /> */}
+                                        <AddressFieldInput
+                                            placesSuggetions={{
+                                                placesSuggetions:
+                                                    onSuburbClicked,
+                                                setIsPlaceSelected:
+                                                    setOnSuburbClicked,
+                                            }}
+                                            onChange={() => {
+                                                setOnSuburbClicked(false)
                                             }}
                                         />
                                     </div>

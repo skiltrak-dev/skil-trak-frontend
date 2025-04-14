@@ -23,8 +23,8 @@ export const useAssignedCoorMaskText = ({
             ? key?.length || 0
             : keyLength !== undefined
             ? keyLength
-            : key && key?.length > 3
-            ? 4
+            : key && key?.length > 2
+            ? 3
             : key && key?.length > 0
             ? key?.length
             : 0

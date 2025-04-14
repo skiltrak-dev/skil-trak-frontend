@@ -43,6 +43,38 @@ export const getPostalCode = async ({
     }
 }
 
+export const getSuburb = async (address: string) => {
+    try {
+        // Get latitude & longitude from address
+        const response = await fromAddress(address)
+
+        // Extract address components from the response
+        const { results } = response
+
+        if (results && results.length > 0) {
+            // Find the suburb/locality in the address components
+            let foundSuburb = ''
+
+            results[0].address_components.forEach((component: any) => {
+                // In Australia, suburbs are typically categorized as "locality" or "sublocality"
+                if (
+                    component.types.includes('locality') ||
+                    component.types.includes('sublocality') ||
+                    component.types.includes('sublocality_level_1')
+                ) {
+                    foundSuburb = component.long_name
+                }
+            })
+
+            return foundSuburb
+        } else {
+            return ''
+        }
+    } catch (error) {
+        return ''
+    }
+}
+
 // Function to calculate distance between two coordinates (in kilometers)
 export const calculateDistance = (
     lat1: number,

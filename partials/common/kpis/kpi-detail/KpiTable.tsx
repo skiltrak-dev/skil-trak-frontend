@@ -7,6 +7,7 @@ import { KpiTableBody } from './KpiTableBody'
 export const KpiTable: React.FC<KpiTableProps> = ({
     table,
     className = '',
+    enableRowSelection,
 }) => {
     return (
         <div className=" rounded-lg bg-white">
@@ -18,7 +19,10 @@ export const KpiTable: React.FC<KpiTableProps> = ({
                         <KpiTableHeaders
                             headerGroups={table.getHeaderGroups()}
                         />
-                        <KpiTableBody rows={table.getRowModel().rows} />
+                        <KpiTableBody
+                            rows={table.getRowModel().rows}
+                            enableRowSelection={enableRowSelection}
+                        />
                     </table>
                 </div>
             </div>

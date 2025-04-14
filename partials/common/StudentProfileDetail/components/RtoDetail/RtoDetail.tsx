@@ -1,20 +1,19 @@
 import {
-    useAuthorizedUserComponent,
     AuthorizedUserComponent,
     Card,
     NoData,
     Typography,
+    useAuthorizedUserComponent,
 } from '@components'
-import { ProfileCard } from '@partials/admin/sub-admin/SubadminProfileDetail/components/ProfileDetail/ProfileCard'
-import { Rto } from '@types'
-import { Avatar } from '../../ContextBarComponents'
 import { UserRoles } from '@constants'
+import { useWorkplace } from '@hooks'
+import { ProfileCard } from '@partials/admin/sub-admin/SubadminProfileDetail/components/ProfileDetail/ProfileCard'
+import { SubAdminApi } from '@queries'
+import { getUserCredentials, maskText } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
+import { Avatar } from '../../ContextBarComponents'
 import { RtoInsuranceDocModal } from '../../modals'
-import { SubAdminApi } from '@queries'
-import { useMaskText, useWorkplace } from '@hooks'
-import { getUserCredentials, maskText } from '@utils'
 
 export const RtoDetail = ({
     isHod,
@@ -89,9 +88,7 @@ export const RtoDetail = ({
                                         variant="xs"
                                         color="text-[#6B7280]"
                                     >
-                                        {useMaskText({
-                                            key: rtoDetail?.data?.user?.email,
-                                        })}
+                                        {maskText(rtoDetail?.data?.user?.email)}
                                     </Typography>
                                 </div>
                             </div>

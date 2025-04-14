@@ -5,7 +5,10 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
+import { ViewProfileVisitorsModal } from '@partials/common/modal'
 import { Student, SubAdmin } from '@types'
+import { getUserCredentials, maskText } from '@utils'
+import { ReactNode, useState } from 'react'
 import {
     AssignToMeStudent,
     ContactStatus,
@@ -13,14 +16,10 @@ import {
     ProblamaticStudent,
     ProfileLinks,
     ProfilePriority,
-    RtoDetail,
     StudentDetail,
     StudentExpireTime,
     StudentStatus,
 } from '../ContextBarComponents'
-import { getUserCredentials } from '@utils'
-import { ViewProfileVisitorsModal } from '@partials/common/modal'
-import { ReactNode, useState } from 'react'
 
 export const ProfileViewCB = ({
     profile,
@@ -78,7 +77,9 @@ export const ProfileViewCB = ({
                     >
                         <HideRestrictedData type={UserRoles.STUDENT}>
                             <Typography variant="xs" color="text-[#6B7280]">
-                                {profile?.user?.email}
+                                {process.env.NEXT_PUBLIC_NODE_ENV === 'local'
+                                    ? profile?.user?.email
+                                    : maskText(profile?.user?.email)}
                             </Typography>
                         </HideRestrictedData>
                     </AuthorizedUserComponent>
