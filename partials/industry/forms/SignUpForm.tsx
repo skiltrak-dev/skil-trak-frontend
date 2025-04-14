@@ -6,18 +6,12 @@ import { useEffect, useState } from 'react'
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
-import {
-    useAddressToPostCode,
-    useNotification,
-    useSectorsAndCoursesOptions,
-} from '@hooks'
+import { useNotification, useSectorsAndCoursesOptions } from '@hooks'
 import { AuthApi, CommonApi } from '@queries'
 import {
     CourseSelectOption,
     SignUpUtils,
     formatOptionLabel,
-    getLatLng,
-    getPostalCode,
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
@@ -25,6 +19,7 @@ import {
 } from '@utils'
 
 import {
+    AddressFieldInput,
     Button,
     Checkbox,
     Select,
@@ -34,37 +29,6 @@ import {
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
-import { OptionType } from '@types'
-
-const AddressFieldInput = ({
-    placesSuggetions,
-    onChange,
-}: {
-    onChange?: () => void
-    placesSuggetions?: {
-        placesSuggetions: boolean
-        setIsPlaceSelected: (value: boolean) => void
-    }
-}) => {
-    const { onAddressToPostcodeClicked } = useAddressToPostCode()
-    return (
-        <TextInput
-            label={'Primary Address'}
-            name={'addressLine1'}
-            placeholder={'Your Primary Address...'}
-            validationIcons
-            placesSuggetions
-            onChange={async (e: any) => {
-                if (onChange) {
-                    onChange()
-                }
-
-                onAddressToPostcodeClicked(e.target?.value)
-            }}
-            onPlaceSuggetions={placesSuggetions}
-        />
-    )
-}
 
 export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const router = useRouter()
@@ -343,7 +307,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 description: 'You must select on Address Dropdown',
             })
         } else if (onSuburbClicked) {
-            onSubmit({ ...values, suburb: 'NA', state: 'NA' })
+            onSubmit({ ...values, suburb: values?.suburb || 'NA', state: 'NA' })
         }
     }
 

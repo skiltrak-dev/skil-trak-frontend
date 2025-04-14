@@ -12,6 +12,7 @@ import { PageHeading } from '@components/headings'
 
 import {
     AppointmentTypeFilters,
+    Button,
     Card,
     EmptyData,
     Filter,
@@ -21,8 +22,9 @@ import {
     TechnicalError,
 } from '@components'
 import { useNavbar } from '@hooks'
-import { FilterInvoices } from '@partials/admin/invoices'
+import { FilterInvoices, InvoiceRtoList } from '@partials/admin/invoices'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
+import { useRouter } from 'next/router'
 
 type Props = {}
 
@@ -34,13 +36,15 @@ const Invoices: NextPageWithLayout = (props: Props) => {
 
     const navBar = useNavbar()
 
+    const router = useRouter()
+
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState<AppointmentTypeFilterType>(
         {} as AppointmentTypeFilterType
     )
-    const { isLoading, data, isError } = AdminApi.Volunteer.useList({
+    const { isLoading, data, isError } = AdminApi.Invoice.invoiceRtosList({
         search: `${JSON.stringify(filter)
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -110,16 +114,24 @@ const Invoices: NextPageWithLayout = (props: Props) => {
     return (
         <div className="p-6">
             <div className="flex flex-col gap-y-4 mb-32">
-                <PageHeading
-                    title={'Invoices'}
-                    subtitle={'List of Students Invoices'}
-                >
-                    <FilterInvoices
-                        startDate={startDate}
-                        endDate={endDate}
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                    />
+                <PageHeading title={'Invoices'} subtitle={'List of Invoices'}>
+                    <div className="flex items-center gap-x-3">
+                        <Button
+                            text={'Add Categories'}
+                            variant="info"
+                            onClick={() => {
+                                router.push(
+                                    `/portals/admin/invoices/add-categories`
+                                )
+                            }}
+                        />
+                        <FilterInvoices
+                            startDate={startDate}
+                            endDate={endDate}
+                            setStartDate={setStartDate}
+                            setEndDate={setEndDate}
+                        />
+                    </div>
                 </PageHeading>
 
                 <Filter<AppointmentTypeFilterType>
@@ -129,48 +141,7 @@ const Invoices: NextPageWithLayout = (props: Props) => {
                     setFilter={setFilter}
                 />
 
-                <Card noPadding>
-                    {isError && <TechnicalError />}
-                    {isLoading ? (
-                        <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data.length ? (
-                        <Table columns={columns} data={data.data}>
-                            {({
-                                table,
-                                pagination,
-                                pageSize,
-                                quickActions,
-                            }: any) => {
-                                return (
-                                    <div>
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage
-                                            )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
-                                            </div>
-                                        </div>
-                                        <div className="px-6">{table}</div>
-                                    </div>
-                                )
-                            }}
-                        </Table>
-                    ) : (
-                        !isError && (
-                            <EmptyData
-                                title={'No Invoices Found'}
-                                description={'There is no Invoices yet'}
-                                height={'50vh'}
-                            />
-                        )
-                    )}
-                </Card>
+                <InvoiceRtoList />
             </div>
         </div>
     )

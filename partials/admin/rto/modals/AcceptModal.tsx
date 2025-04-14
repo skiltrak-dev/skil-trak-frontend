@@ -1,11 +1,9 @@
-import { ActionModal } from '@components'
-import { useAlert, useNotification } from '@hooks'
-import { AdminApi } from '@queries'
-import { Rto, Subscriber } from '@types'
+import { Rto } from '@types'
 import { useEffect } from 'react'
-import { FaBan } from 'react-icons/fa'
-import { HiCheckBadge } from 'react-icons/hi2'
+import { ActionModal } from '@components'
 import { useChangeStatus } from '../hooks'
+import { HiCheckBadge } from 'react-icons/hi2'
+import { useAlert, useNotification } from '@hooks'
 
 export const AcceptModal = ({
     rto,

@@ -1,33 +1,36 @@
 import { getAppointmentTypeIcon } from '@partials/appointmentType/AppointmentTypeCard'
 import moment from 'moment'
 import Image from 'next/image'
-import { FaExclamationTriangle, FaMapMarkerAlt, FaTimes } from 'react-icons/fa'
+import { FaExclamationTriangle, FaTimes } from 'react-icons/fa'
 // import { GoDotFill } from 'react-icons/go'
-import { UserRoles } from '@constants'
 import { Typography } from '@components/Typography'
+import { UserRoles } from '@constants'
 import { UserCellInfo } from './UserCellInfo'
 
-import { CommonApi } from '@queries'
 import { NoData } from '@components/ActionAnimations'
-import { LoadingAnimation } from '@components/LoadingAnimation'
-import { StudentRtoCellInfo } from './StudentRtoCellInfo'
-import { GoDotFill, GoKebabHorizontal } from 'react-icons/go'
-import { ActionButton, Button } from '@components/buttons'
-import { RescheduleAppointmentModal } from '../UpcomingAppointmentCard/RescheduleAppointmentModal'
-import { Portal } from '@components/Portal'
-import { MouseEvent, ReactElement, useRef, useState } from 'react'
-import { TbCalendarTime } from 'react-icons/tb'
-import { Appointment, appointmentWithUser } from '@types'
-import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-import { useMaskText, useNotification } from '@hooks'
-import { Badge } from '@components/Badge'
-import { getUserCredentials, isLessThan24HoursDifference } from '@utils'
-import { GiNotebook } from 'react-icons/gi'
-import { TextArea } from '@components/inputs'
-import { AddAppointmentNote } from '../AddAppointmentNote'
 import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
+import { Badge } from '@components/Badge'
+import { ActionButton } from '@components/buttons'
+import { LoadingAnimation } from '@components/LoadingAnimation'
+import { Portal } from '@components/Portal'
+import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { useNotification } from '@hooks'
+import { CommonApi } from '@queries'
+import { Appointment, appointmentWithUser } from '@types'
+import {
+    getUserCredentials,
+    isLessThan24HoursDifference,
+    maskText,
+} from '@utils'
+import { MouseEvent, ReactElement, useState } from 'react'
 import { FaCircleCheck } from 'react-icons/fa6'
+import { GiNotebook } from 'react-icons/gi'
+import { GoDotFill } from 'react-icons/go'
+import { TbCalendarTime } from 'react-icons/tb'
+import { AddAppointmentNote } from '../AddAppointmentNote'
+import { RescheduleAppointmentModal } from '../UpcomingAppointmentCard/RescheduleAppointmentModal'
 import { ApproveAppointmentModal } from './ApproveAppointmentModal'
+import { StudentRtoCellInfo } from './StudentRtoCellInfo'
 
 export const AppointmentViewModal = ({
     id,
@@ -321,11 +324,10 @@ export const AppointmentViewModal = ({
                                                     variant="small"
                                                     color={'text-gray-500'}
                                                 >
-                                                    {useMaskText({
-                                                        key: appointment?.data
-                                                            ?.cancelledBy
-                                                            ?.email,
-                                                    })}
+                                                    {maskText(
+                                                        appointment?.data
+                                                            ?.cancelledBy?.email
+                                                    )}
                                                 </Typography>
                                             </div>
                                         ) : (

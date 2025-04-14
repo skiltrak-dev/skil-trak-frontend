@@ -1,19 +1,18 @@
 import { ReactNode } from 'react'
+import { AcceptModal } from './AcceptModal'
+import { AllowAutoCompleteModal } from './AllowAutoCompleteModal'
+import { AllowInvoicingModal } from './AllowInvoicingModal'
+import { AllowPartialSubmissionModal } from './AllowPartialSubmissionModal'
+import { AllowPermissionsModal } from './AllowPermissionsModal'
+import { AllowUpdationModal } from './AllowUpdationModal'
 import { ArchiveModal } from './ArchiveModal'
 import { BlockModal } from './BlockModal'
 import { BulkBlockModal } from './BulkBlockModal'
-import { AllowUpdationModal } from './AllowUpdationModal'
-import { AllowAutoCompleteModal } from './AllowAutoCompleteModal'
-import { AllowPermissionsModal } from './AllowPermissionsModal'
-import { ReleaseLogbookPermissionModal } from './ReleaseLogbookPermissionModal'
-import { Rto } from '@types'
-import { AllowPartialSubmissionModal } from './AllowPartialSubmissionModal'
-import { DeleteModal } from './DeleteModal'
-import { UnblockModal } from './UnblockModal'
 import { BulkUnBlockModal } from './BulkUnBlockModal'
-import { AcceptModal } from './AcceptModal'
+import { DeleteModal } from './DeleteModal'
 import { RejectModal } from './RejectModal'
-import { AllowAllStudentsAccessModal } from '@partials/rto/coordinators/modal'
+import { ReleaseLogbookPermissionModal } from './ReleaseLogbookPermissionModal'
+import { UnblockModal } from './UnblockModal'
 
 export enum AdminRtoModalType {
     ARCHIVE = 'archive',
@@ -29,7 +28,7 @@ export enum AdminRtoModalType {
     BULK_UNBLOCK = 'bulkUnBlock',
     ACCEPT = 'accept',
     REJECT = 'reject',
-
+    ALLOW_INVOICING = 'allowInvoicing',
 }
 export const getAdminRtoModal = (
     type: AdminRtoModalType,
@@ -73,6 +72,9 @@ export const getAdminRtoModal = (
         ),
         [AdminRtoModalType.REJECT]: (
             <RejectModal rto={rto} onCancel={onCancel} />
+        ),
+        [AdminRtoModalType.ALLOW_INVOICING]: (
+            <AllowInvoicingModal rto={rto} onCancel={onCancel} />
         ),
     }
 

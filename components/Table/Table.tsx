@@ -39,7 +39,7 @@ export interface TableChildrenProps {
     table: ReactElement
 }
 
-interface QuickTableAction<Type> {
+export interface QuickTableAction<Type> {
     id: string | number
     individual: (values: Type) => ReactNode | null
     common?: (values: Type[]) => ReactNode | null

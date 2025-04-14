@@ -125,6 +125,7 @@ export const questionList = [
             'NDIS screening check',
             'First aid certification',
             'driving license',
+            'White Card (Construction Induction Card)',
         ],
     },
     {

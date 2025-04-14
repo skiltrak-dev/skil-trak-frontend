@@ -129,7 +129,7 @@ export const AvailabilityForm = ({
                                         {shifts.map((shift, i) => {
                                             const defaultChecked =
                                                 availabilityDay &&
-                                                Object.values(
+                                                Object.entries(
                                                     availabilityDay
                                                 )?.find(
                                                     (time: any) =>
@@ -145,7 +145,10 @@ export const AvailabilityForm = ({
                                                         name={day}
                                                         value={shift.time}
                                                         defaultChecked={
-                                                            defaultChecked
+                                                            availabilityDay &&
+                                                            availabilityDay[
+                                                                shift?.time
+                                                            ]
                                                         }
                                                         onChange={(e: any) => {
                                                             handleChange(e)

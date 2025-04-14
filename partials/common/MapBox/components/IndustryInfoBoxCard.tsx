@@ -1,15 +1,13 @@
 import {
     Badge,
-    MailForm,
     NoData,
     ShowErrorNotifications,
     Typography,
     useIsRestricted,
-    useRestrictedData,
 } from '@components'
+import { UserRoles } from '@constants'
 import {
     useContextBar,
-    useMaskText,
     useNotification,
     useSubadminProfile,
     useWorkplace,
@@ -18,7 +16,8 @@ import {
     MaxReqLimitReachModal,
     ShowIndustryNotesAndTHModal,
 } from '@partials/common/StudentProfileDetail/components'
-import { useAddExistingIndustriesMutation, SubAdminApi } from '@queries'
+import { ComposeMailModal } from '@partials/common/StudentProfileDetail/modals'
+import { SubAdminApi, useAddExistingIndustriesMutation } from '@queries'
 import {
     ellipsisText,
     getSectorsDetail,
@@ -26,14 +25,12 @@ import {
     maskText,
 } from '@utils'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { FaRegCopy, FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
 import { IndustryDetailCB } from '../contextBar'
 import { CopyInfoData } from './CopyInfoData'
-import { useRouter } from 'next/router'
-import { UserRoles } from '@constants'
-import { ComposeMailModal } from '@partials/common/StudentProfileDetail/modals'
 
 type IndustryInfoBoxCardProps = {
     item: any
@@ -238,10 +235,9 @@ export const IndustryInfoBoxCard = ({
                                             </div>
                                             <div className="relative group w-fit">
                                                 <Typography variant="muted">
-                                                    {useMaskText({
-                                                        key: item?.data?.user
-                                                            ?.email,
-                                                    })}
+                                                    {maskText(
+                                                        item?.data?.user?.email
+                                                    )}
                                                 </Typography>
 
                                                 {(rolesIncludes?.includes(

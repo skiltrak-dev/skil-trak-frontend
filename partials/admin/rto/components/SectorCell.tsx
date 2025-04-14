@@ -3,7 +3,13 @@ import { useContextBar } from '@hooks'
 import { Course, Rto } from '@types'
 import { ViewSectorsCB } from '../contextBar'
 
-export const SectorCell = ({ rto }: { rto: Rto }) => {
+export const SectorCell = ({
+    rto,
+    addCourses = true,
+}: {
+    rto: Rto
+    addCourses?: boolean
+}) => {
     const contextBar = useContextBar()
 
     const onViewSectorClicked = (rto: Rto) => {
@@ -15,13 +21,15 @@ export const SectorCell = ({ rto }: { rto: Rto }) => {
     return (
         <div className="w-fit">
             <div className="flex flex-col items-start">
-                <ActionButton
-                    variant="link"
-                    onClick={() => onViewSectorClicked(rto)}
-                    simple
-                >
-                    <span className="whitespace-pre">View / Edit</span>
-                </ActionButton>
+                {addCourses && (
+                    <ActionButton
+                        variant="link"
+                        onClick={() => onViewSectorClicked(rto)}
+                        simple
+                    >
+                        <span className="whitespace-pre">View / Edit</span>
+                    </ActionButton>
+                )}
                 <div className="flex flex-wrap justify-center w-full items-center gap-x-1">
                     {rto.courses.map((c: Course) => (
                         <div className="relative group" key={c.id}>

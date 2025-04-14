@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { Appointment } from '@types'
 import { UserRoles } from '@constants'
-import { CreatedAtDate, Typography } from '@components'
+import { Button, CreatedAtDate, Typography } from '@components'
 import moment, { Moment } from 'moment'
 
 export const AppointmentTable = ({

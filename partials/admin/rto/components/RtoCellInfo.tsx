@@ -4,7 +4,7 @@ import {
     useAuthorizedUserComponent,
 } from '@components'
 import { UserRoles } from '@constants'
-import { useMaskText, useSubadminProfile } from '@hooks'
+import { useSubadminProfile } from '@hooks'
 import { Rto } from '@types'
 import { QueryType, maskText, queryToUrl } from '@utils'
 import Link from 'next/link'
@@ -46,9 +46,7 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
                                 <span>
                                     <MdEmail />
                                 </span>
-                                {useMaskText({
-                                    key: rto?.user?.email,
-                                })}
+                                {maskText(rto?.user?.email)}
                             </p>
                         </HideRestrictedData>
 

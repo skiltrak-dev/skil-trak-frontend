@@ -1,6 +1,6 @@
 import { InitialAvatar, useAuthorizedUserComponent } from '@components'
 import { UserRoles } from '@constants'
-import { useMaskText, useSubadminProfile } from '@hooks'
+import { useSubadminProfile } from '@hooks'
 import { maskText, setLink } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -69,9 +69,7 @@ export const AssessmentCellInfo = ({ item }: { item: any }) => {
                                 <FaEnvelope />
                             </span>
                             <p className="text-gray-500">
-                                {useMaskText({
-                                    key: item?.student?.user?.email,
-                                })}
+                                {maskText(item?.student?.user?.email)}
                             </p>
                         </div>
                         <div className="flex items-center gap-x-2 text-sm">
@@ -79,9 +77,7 @@ export const AssessmentCellInfo = ({ item }: { item: any }) => {
                                 <FaPhone />
                             </span>
                             <p className="text-gray-500">
-                                {useMaskText({
-                                    key: item?.student?.phone,
-                                })}
+                                {maskText(item?.student?.phone)}
                             </p>
                         </div>
                     </a>

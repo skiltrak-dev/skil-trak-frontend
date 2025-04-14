@@ -1,8 +1,7 @@
 import { InitialAvatar } from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
-import { useMaskText } from '@hooks'
 import { Rto } from '@types'
-import React from 'react'
+import { maskText } from '@utils'
 import { FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa'
 
 export const StudentRtoCellInfo = ({ rto }: { rto: Rto }) => {
@@ -32,10 +31,7 @@ export const StudentRtoCellInfo = ({ rto }: { rto: Rto }) => {
                                 variant={'label'}
                                 color={'text-gray-500'}
                             >
-                                {useMaskText({
-                                    key: rto?.user?.email,
-                                    keyLength: 7,
-                                })}
+                                {maskText(rto?.user?.email)}
                             </Typography>
                         </div>
                         <div className="flex items-center gap-x-2 text-sm">
@@ -44,7 +40,7 @@ export const StudentRtoCellInfo = ({ rto }: { rto: Rto }) => {
                                 variant={'label'}
                                 color={'text-gray-500'}
                             >
-                                {useMaskText({ key: rto?.phone })}
+                                {maskText(rto?.phone)}
                             </Typography>
                         </div>
                         <div className="flex items-center gap-x-2 text-sm">
