@@ -127,7 +127,10 @@ export const ApprovedRto = () => {
                 ? {
                       text: 'Invoice Permission',
                       onClick: (rto: Rto) =>
-                          handleOpenModal('allowInvoicing', rto),
+                          handleOpenModal(
+                              AdminRtoModalType.ALLOW_INVOICING,
+                              rto
+                          ),
                       Icon: FaFileInvoiceDollar,
                   }
                 : {}),
