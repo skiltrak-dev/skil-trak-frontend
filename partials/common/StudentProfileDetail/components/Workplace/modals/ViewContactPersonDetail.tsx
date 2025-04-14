@@ -13,7 +13,7 @@ export const ViewContactPersonDetail = ({
     return (
         <Modal
             title={'Contact Person'}
-            subtitle="Contact person detail"
+            subtitle=""
             showActions={false}
             onCancelClick={onCancel}
         >
@@ -49,12 +49,12 @@ export const ViewContactPersonDetail = ({
                                                 ?.addressLine1
                                         }
                                         ,{' '}
-                                        {
+                                        {/* {
                                             appliedIndustry?.industry
                                                 ?.addressLine2
-                                        }
-                                        , {appliedIndustry?.industry?.state},{' '}
-                                        {appliedIndustry?.industry?.suburb}{' '}
+                                        } */}
+                                        {/* , {appliedIndustry?.industry?.state},{' '}
+                                        {appliedIndustry?.industry?.suburb}{' '} */}
                                     </span>
                                 </div>
                             </div>
@@ -65,18 +65,18 @@ export const ViewContactPersonDetail = ({
                                 </p>
                                 <div className="flex justify-between gap-x-4">
                                     <div>
-                                        <p className="font-medium text-xs 2xl:text-base">
+                                        <p className="text-[11px] text-xs 2xl:text-xs">
                                             {useMaskText({
                                                 key: appliedIndustry?.industry
                                                     ?.contactPerson,
                                             })}
                                         </p>
-                                        <p className="text-[10.5px] 2xl:text-sm font-medium text-slate-400">
+                                        {/* <p className="text-[10.5px] 2xl:text-sm font-medium text-slate-400">
                                             {useMaskText({
                                                 key: appliedIndustry?.industry
                                                     ?.contactPersonNumber,
                                             })}
-                                        </p>
+                                        </p> */}
                                     </div>
                                 </div>
                             </div>

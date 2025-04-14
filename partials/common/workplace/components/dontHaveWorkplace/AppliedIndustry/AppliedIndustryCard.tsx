@@ -51,15 +51,10 @@ export const AppliedIndustryCard = ({
                                         {appliedIndustry?.industry?.user?.name}
                                     </p>
                                     <p className="text-sm text-gray-500">
-                                        {
-                                            appliedIndustry?.industry
-                                                ?.addressLine1
-                                        }
-                                        ,{' '}
-                                        {
-                                            appliedIndustry?.industry
-                                                ?.addressLine2
-                                        }
+                                        {appliedIndustry?.location
+                                            ? appliedIndustry?.location?.address
+                                            : appliedIndustry?.industry
+                                                  ?.addressLine1}
                                     </p>
                                 </div>
                             </div>
