@@ -14,6 +14,7 @@ export const WorkplaceApproval = ({
     onCancel?: () => void
     wpApprovalData: any
 }) => {
+    console.log('wpApprovalData', wpApprovalData)
     return (
         <div className="px-4 py-2 w-full max-w-[inherit] h-full bg-white rounded-[10px]">
             <div className="grid grid-cols-5 gap-x-5">
@@ -41,9 +42,15 @@ export const WorkplaceApproval = ({
                             showMap
                         /> */}
                         <WorkplaceMapBoxView
-                            industryLocation={wpApprovalData?.industry?.location?.split(
-                                ','
-                            )}
+                            industryLocation={
+                                !wpApprovalData?.location
+                                    ? wpApprovalData?.industry?.location?.split(
+                                          ','
+                                      )
+                                    : wpApprovalData?.location.location?.split(
+                                          ','
+                                      )
+                            }
                             studentLocation={wpApprovalData?.student?.location?.split(
                                 ','
                             )}

@@ -82,6 +82,7 @@ export const Workplace = ({
     getWorkplaceLength: (length: number) => void
     student: Student
 }) => {
+    // TODO: If student expired, schedule is completed and student is in Incomplete Submission tab, then show Incomplete Submission tag in workplace section
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [selectedWorkplace, setSelectedWorkplace] = useState<any>(null)
     const [showPreviousWorkplace, setShowPreviousWorkplace] = useState(false)
@@ -102,6 +103,7 @@ export const Workplace = ({
             refetchOnMountOrArgChange: true,
         }
     )
+
     const workplaceStudentDetail = SubAdminApi.Student.workplaceStudentDetail(
         selectedWorkplace?.id,
         {

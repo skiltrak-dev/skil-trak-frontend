@@ -23,14 +23,16 @@ export const ComposeListingIndustryMailForm = ({
     result,
     onSubmit,
     industry,
+    setAttachmentFiles,
+    attachmentFiles,
 }: {
     result: any
     onSubmit: (values: any) => void
     industry: any
+    setAttachmentFiles: any
+    attachmentFiles: any
 }) => {
-    const [attachmentFiles, setAttachmentFiles] = useState<any>([])
     const [isLoaded, setIsLoaded] = useState<any>(true)
-
     const inputClasses =
         'placeholder:text-[#686868] border-b border-secondary-dark outline-none h-8 placeholder:text-[11px] px-1.5 text-[13px] text-gray-700'
     const validationSchema = Yup.object({

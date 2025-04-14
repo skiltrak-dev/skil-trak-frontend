@@ -7,6 +7,7 @@ import {
     EmptyData,
     Filter,
     LoadingAnimation,
+    Switch,
     Table,
     TableAction,
     TableActionOption,
@@ -16,30 +17,36 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
-import { useContextBar, useNavbar } from '@hooks'
+import { useContextBar, useNavbar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { Course, CourseFilterType } from '@types'
 import { getFilterQuery, isDateWithinLast7Days } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { CourseView } from './contextBar'
-import { DeleteCourseModal, RequirementModal } from './modals'
+import {
+    CourseSupersedeModal,
+    DeleteCourseModal,
+    RequirementModal,
+} from './modals'
+import Modal from '@modals/Modal'
 
 const filterKeys = ['code', 'title']
 
 export const Courses = () => {
-    const router = useRouter()
-    const contextBar = useContextBar()
-    const navBar = useNavbar()
-
     const [modal, setModal] = useState<ReactElement | null>(null)
-
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState<CourseFilterType>(
         {} as CourseFilterType
     )
+    const [loadingRowId, setLoadingRowId] = useState<string | null>(null)
+
+    const router = useRouter()
+    const contextBar = useContextBar()
+    const navBar = useNavbar()
+    const { notification } = useNotification()
 
     useEffect(() => {
         const query = getFilterQuery<CourseFilterType>({ router, filterKeys })
@@ -59,6 +66,15 @@ export const Courses = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+    // supersede course
+    const [supersedeCourse, supersedeCourseResult] =
+        AdminApi.Courses.useCourseToggleSupersede()
+    // on switch supersede
+
+    // find course where isSuperseded is true
+    // const supersededCourse = data?.data?.filter(
+    //     (course: Course) => course?.isSuperseded
+    // )
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -83,7 +99,14 @@ export const Courses = () => {
             />
         )
     }
-
+    useEffect(() => {
+        if (supersedeCourseResult.isSuccess) {
+            notification.success({
+                title: 'Course Superseded',
+                description: 'Course superseded successfully',
+            })
+        }
+    }, [supersedeCourseResult.isSuccess])
     useEffect(() => {
         contextBar.hide()
     }, [])
@@ -115,14 +138,20 @@ export const Courses = () => {
             cell: (info) => {
                 return (
                     <div
-                        className="relative group cursor-pointer"
+                        className={`relative group cursor-pointer`}
                         onClick={() => onCourseClick(info.row.original)}
                     >
                         <div>
                             <p className="text-xs font-medium text-gray-500">
                                 {info.row.original.code}
                             </p>
-                            <p className="font-semibold">
+                            <p
+                                className={`font-semibold inline-block ${
+                                    info.row.original?.isSuperseded
+                                        ? 'bold-strike'
+                                        : ''
+                                }`}
+                            >
                                 {info.row.original.title}{' '}
                                 {isDateWithinLast7Days(
                                     info.row.original?.createdAt as Date
@@ -179,6 +208,40 @@ export const Courses = () => {
                     >
                         View File
                     </ActionButton>
+                )
+            },
+        },
+        {
+            // Supercede course
+
+            accessorKey: 'supersede',
+            header: () => <span>Supersede</span>,
+            cell: (info) => {
+                const rowId: any = info.row.original?.id
+
+                const handleToggle = () => {
+                    setLoadingRowId(rowId)
+                    supersedeCourse(rowId)
+                    // TODO: will look into this later
+                    
+                    // if (info.row.original?.isSuperseded) {
+                    //     notification.success({
+                    //         title: 'Course UnSuperseded',
+                    //         description: 'Course unSuperseded successfully',
+                    //     })
+                    // }
+                }
+                const isThisRowLoading =
+                    loadingRowId === rowId && supersedeCourseResult.isLoading
+                return (
+                    <Switch
+                        name="hasAllStudentAccess"
+                        customStyleClass="profileSwitch"
+                        onChange={handleToggle}
+                        isChecked={info.row.original?.isSuperseded}
+                        loading={isThisRowLoading}
+                        disabled={isThisRowLoading}
+                    />
                 )
             },
         },

@@ -69,9 +69,15 @@ export const WorkplaceApprovalReq = ({
                                     //     showMap
                                     // />
                                     <WorkplaceMapBoxView
-                                        industryLocation={wpReqApproval?.industry?.location?.split(
-                                            ','
-                                        )}
+                                        industryLocation={
+                                            !wpReqApproval?.location
+                                                ? wpReqApproval?.industry?.location?.split(
+                                                      ','
+                                                  )
+                                                : wpReqApproval?.location?.location?.split(
+                                                      ','
+                                                  )
+                                        }
                                         studentLocation={wpReqApproval?.student?.location?.split(
                                             ','
                                         )}
@@ -173,9 +179,15 @@ export const WorkplaceApprovalReq = ({
                                     //     showMap
                                     // />
                                     <WorkplaceMapBoxView
-                                        industryLocation={wpReqApproval?.industry?.location?.split(
-                                            ','
-                                        )}
+                                        industryLocation={
+                                            !wpReqApproval?.location
+                                                ? wpReqApproval?.industry?.location?.split(
+                                                      ','
+                                                  )
+                                                : wpReqApproval?.location?.location?.split(
+                                                      ','
+                                                  )
+                                        }
                                         studentLocation={wpReqApproval?.student?.location?.split(
                                             ','
                                         )}

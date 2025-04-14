@@ -24,7 +24,7 @@ import { IndustryProfile } from '@components/IndustryProfile'
 // queries
 import { SnoozeIndustryModal } from '@partials/common'
 import { DetailTabs } from '@partials/sub-admin/Industries/tabs'
-import { SubAdminApi, useGetSubAdminIndustriesProfileQuery } from '@queries'
+import { SubAdminApi, useGetSubAdminIndustryProfileQuery } from '@queries'
 import { getLink } from '@utils'
 
 const IndustriesProfile: NextPageWithLayout = () => {
@@ -39,7 +39,7 @@ const IndustriesProfile: NextPageWithLayout = () => {
     const navBar = useNavbar()
 
     const { data, isLoading, isError, isSuccess } =
-        useGetSubAdminIndustriesProfileQuery(Number(id), {
+        useGetSubAdminIndustryProfileQuery(Number(id), {
             skip: !id,
             refetchOnMountOrArgChange: true,
         })

@@ -14,6 +14,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { MdCancel } from 'react-icons/md'
 import {
     FutureIndustryInfoBoxCard,
+    IndustryBranchInfoBoxCard,
     IndustryInfoBoxCard,
     StudentInfoBoxCard,
 } from './components'
@@ -70,6 +71,14 @@ const industryClusterStyles = [
         width: 50,
     },
 ]
+const industryBranchesClusterStyles = [
+    {
+        textColor: 'white',
+        url: '/images/icons/branches-cluster.svg',
+        height: 50,
+        width: 50,
+    },
+]
 const partnerIndustryClusterStyles = [
     {
         textColor: 'white',
@@ -104,6 +113,7 @@ export const ViewOnMapIndustriesModal = ({
 }: ViewMoreIndustriesModalProps) => {
     const { isLoaded } = useGoogleMaps()
 
+    const [branchId, setBranchId] = useState<any>(null)
     const [visibleMarkers, setVisibleMarkers] = useState<any>([])
     const [visibleIndustries, setVisibleIndustries] = useState<any>([])
     const [selectedMarker, setSelectedMarker] = useState<null | {
@@ -150,11 +160,15 @@ export const ViewOnMapIndustriesModal = ({
         { skip: !router?.query?.id }
     )
 
+    const industriesBranches = workplaceCourseIndustries?.data?.flatMap(
+        (item: any) => item?.locations || []
+    )
     useEffect(() => {
         if (
             workplaceCourseIndustries?.data?.length > 0 ||
             workplace?.student?.location ||
-            futureIndustries?.data
+            futureIndustries?.data ||
+            industriesBranches
         ) {
             const markers = []
 
@@ -205,12 +219,29 @@ export const ViewOnMapIndustriesModal = ({
                 markers.push(...transformedFutureIndustries)
             }
 
+            if (industriesBranches?.length > 0) {
+                const filteredIndustries = industriesBranches?.filter(
+                    (industry: any) =>
+                        industry.location && industry.location !== 'NA'
+                )
+                const transformedIndustries = filteredIndustries?.map(
+                    (industry: any) => {
+                        const [lat, lng] = industry?.location
+                            .split(',')
+                            .map(Number)
+                        return { ...industry, location: { lat, lng } }
+                    }
+                )
+                markers.push(...transformedIndustries)
+            }
+
             setVisibleMarkers(markers)
         }
     }, [workplaceCourseIndustries, futureIndustries?.data])
 
     const onBoundChange = useCallback(() => {
         setFutureIndustryId(null)
+        setBranchId(null)
         if (!map) return
 
         const bounds = map.getBounds()
@@ -321,6 +352,13 @@ export const ViewOnMapIndustriesModal = ({
         grid: 20,
         maxZoom: 15,
     }
+
+    const industryBranchesClusterOptions = {
+        styles: industryBranchesClusterStyles,
+        grid: 20,
+        maxZoom: 15,
+    }
+
     const partnerIndustryClusterOptions = {
         styles: partnerIndustryClusterStyles,
         grid: 20,
@@ -389,7 +427,7 @@ export const ViewOnMapIndustriesModal = ({
                 />
             </div>
 
-            {visibleMarkers.length > 0 ? (
+            {visibleMarkers?.length > 0 ? (
                 <div className="flex gap-x-3 w-full">
                     {isLoaded && (
                         <div className="w-3/4">
@@ -844,6 +882,159 @@ export const ViewOnMapIndustriesModal = ({
                                                                 </InfoBox>
                                                             )}
                                                     </>
+                                                ))}
+                                        </>
+                                    )}
+                                </MarkerClusterer>
+
+                                {/* Branches */}
+                                <MarkerClusterer
+                                    options={industryBranchesClusterOptions}
+                                >
+                                    {(clusterer) => (
+                                        <>
+                                            {visibleMarkers
+                                                ?.filter(
+                                                    (marker: any) =>
+                                                        marker?.address
+                                                )
+                                                ?.map((marker: any) => (
+                                                    <div key={marker?.id}>
+                                                        <Marker
+                                                            icon={{
+                                                                url: '/images/icons/branch-marker.png',
+
+                                                                scaledSize:
+                                                                    new google.maps.Size(
+                                                                        29,
+                                                                        38
+                                                                    ),
+                                                            }}
+                                                            position={
+                                                                marker?.location
+                                                            }
+                                                            // label={marker.name}
+                                                            clusterer={
+                                                                clusterer
+                                                            }
+                                                            onMouseOver={(
+                                                                e: any
+                                                            ) => {
+                                                                // handleMarkerClick(marker)
+                                                                // setStudentId(marker?.id)
+                                                                // setIndustryId(
+                                                                //     marker?.id
+                                                                // )
+                                                                setBranchId(
+                                                                    marker?.id
+                                                                )
+                                                                setSelectedBox({
+                                                                    ...marker,
+                                                                    type: 'branch',
+                                                                    position: {
+                                                                        lat: e.latLng.lat(),
+                                                                        lng: e.latLng.lng(),
+                                                                    },
+                                                                })
+                                                                setShowInfoBox(
+                                                                    true
+                                                                )
+                                                            }}
+                                                            onMouseOut={() =>
+                                                                setSelectedMarker(
+                                                                    null
+                                                                )
+                                                            }
+                                                            onClick={(
+                                                                e: any
+                                                            ) => {
+                                                                // handleMarkerClick(marker)
+                                                                // setStudentId(marker?.id)
+                                                                setBranchId(
+                                                                    marker?.id
+                                                                )
+
+                                                                setSelectedBox({
+                                                                    ...marker,
+                                                                    type: 'branch',
+                                                                    position: {
+                                                                        lat: e.latLng.lat(),
+                                                                        lng: e.latLng.lng(),
+                                                                    },
+                                                                })
+                                                                setShowInfoBox(
+                                                                    true
+                                                                )
+                                                            }}
+                                                        />
+                                                        {selectedBox &&
+                                                            selectedBox?.type ===
+                                                                'branch' &&
+                                                            showInfoBox &&
+                                                            selectedBox?.id ===
+                                                                marker?.id &&
+                                                            marker?.address &&
+                                                            !marker?.department &&
+                                                            !marker?.courses && (
+                                                                <InfoBox
+                                                                    position={
+                                                                        selectedBox?.position
+                                                                    }
+                                                                    onCloseClick={() => {
+                                                                        setSelectedBox(
+                                                                            null
+                                                                        )
+                                                                        setShowInfoBox(
+                                                                            false
+                                                                        )
+                                                                        // setStudentId('')
+
+                                                                        setFutureIndustryId(
+                                                                            null
+                                                                        )
+                                                                    }}
+                                                                    options={{
+                                                                        closeBoxURL: ``,
+                                                                        enableEventPropagation:
+                                                                            true,
+                                                                    }}
+                                                                >
+                                                                    {marker?.address &&
+                                                                        !marker?.courses && (
+                                                                            <IndustryBranchInfoBoxCard
+                                                                                item={
+                                                                                    industryDetails
+                                                                                }
+                                                                                selectedBox={
+                                                                                    selectedBox
+                                                                                }
+                                                                                industryId={
+                                                                                    branchId
+                                                                                }
+                                                                                setSelectedBox={
+                                                                                    setSelectedBox
+                                                                                }
+                                                                                courseId={
+                                                                                    courseId
+                                                                                }
+                                                                                workplace={
+                                                                                    workplace
+                                                                                }
+                                                                                appliedIndustry={
+                                                                                    appliedIndustry
+                                                                                }
+                                                                                workplaceMapCard={
+                                                                                    true
+                                                                                }
+                                                                                onCancel={
+                                                                                    onCancel
+                                                                                }
+                                                                                industryContacted
+                                                                            />
+                                                                        )}
+                                                                </InfoBox>
+                                                            )}
+                                                    </div>
                                                 ))}
                                         </>
                                     )}

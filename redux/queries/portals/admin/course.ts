@@ -83,4 +83,13 @@ export const courseEndpoints = (
         }),
         invalidatesTags: ['Courses'],
     }),
+
+    // admin/course/id/supersede/toggle
+    courseToggleSupersede: builder.mutation<Course, number>({
+        query: (id) => ({
+            url: `${PREFIX}/course/${id}/supersede-toggle`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Courses'],
+    }),
 })

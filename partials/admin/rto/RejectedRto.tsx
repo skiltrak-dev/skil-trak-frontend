@@ -21,7 +21,12 @@ import { Rto, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RtoCellInfo } from './components'
-import { AcceptModal, DeleteModal, getAdminRtoModal } from './modals'
+import {
+    AcceptModal,
+    AdminRtoModalType,
+    DeleteModal,
+    getAdminRtoModal,
+} from './modals'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 import { useModal } from '@hooks'
@@ -42,7 +47,7 @@ export const RejectedRto = () => {
 
     const { modal, openModal, closeModal } = useModal()
 
-    const handleOpenModal = (type: string, rto: Rto) => {
+    const handleOpenModal = (type: AdminRtoModalType, rto: Rto) => {
         openModal(getAdminRtoModal(type, rto, closeModal))
     }
 
@@ -76,14 +81,16 @@ export const RejectedRto = () => {
         },
         {
             text: 'Accept',
-            onClick: (rto: Rto) => handleOpenModal('accept', rto),
+            onClick: (rto: Rto) =>
+                handleOpenModal(AdminRtoModalType.ACCEPT, rto),
             color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
         },
         {
             ...(role === UserRoles.ADMIN
                 ? {
                       text: 'Delete',
-                      onClick: (rto: Rto) => handleOpenModal('delete', rto),
+                      onClick: (rto: Rto) =>
+                          handleOpenModal(AdminRtoModalType.DELETE, rto),
                       Icon: FaTrash,
                       color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
                   }
@@ -145,14 +152,18 @@ export const RejectedRto = () => {
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton
                     variant="success"
-                    onClick={() => handleOpenModal('accept', item)}
+                    onClick={() =>
+                        handleOpenModal(AdminRtoModalType.ACCEPT, item)
+                    }
                 >
                     Accept
                 </ActionButton>
                 <ActionButton
                     Icon={FaTrash}
                     variant="error"
-                    onClick={() => handleOpenModal('delete', item)}
+                    onClick={() =>
+                        handleOpenModal(AdminRtoModalType.DELETE, item)
+                    }
                 >
                     Delete
                 </ActionButton>

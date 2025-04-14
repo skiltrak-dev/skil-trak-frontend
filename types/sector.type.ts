@@ -43,6 +43,7 @@ export interface Course extends BaseResponse {
     folders: Folder[]
     results: any
     timing: any
+    isSuperseded: boolean
     extraHours: CourseExtraHours[]
     assessmentEvidence: AssessmentEvidenceFolder[]
     workplaceTypes: WorkplaceTypes[]

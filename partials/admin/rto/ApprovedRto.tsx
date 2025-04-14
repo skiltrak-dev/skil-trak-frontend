@@ -12,6 +12,7 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaBook, FaEdit, FaEye, FaHourglassHalf } from 'react-icons/fa'
 
+
 import { UserRoles } from '@constants'
 import { useActionModal, useContextBar, useModal } from '@hooks'
 import { AdminApi, commonApi } from '@queries'
@@ -22,9 +23,7 @@ import { useEffect, useState } from 'react'
 import { MdBlock, MdIncompleteCircle, MdOutlineUpdate } from 'react-icons/md'
 import { RtoCellInfo, SectorCell } from './components'
 import { ViewSubAdminsCB } from './contextBar'
-import {
-    getAdminRtoModal
-} from './modals'
+import { AdminRtoModalType, getAdminRtoModal } from './modals'
 
 export const ApprovedRto = () => {
     const router = useRouter()
@@ -42,7 +41,7 @@ export const ApprovedRto = () => {
     // hooks
     const { modal, openModal, closeModal } = useModal()
 
-    const handleOpenModal = (type: string, rto: Rto) => {
+    const handleOpenModal = (type: AdminRtoModalType, rto: Rto) => {
         openModal(getAdminRtoModal(type, rto, closeModal))
     }
     const { passwordModal, onViewPassword } = useActionModal()
@@ -59,7 +58,7 @@ export const ApprovedRto = () => {
     )
 
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
-   
+
     const contextBar = useContextBar()
     const onViewSubAdminsClicked = (rto: Rto) => {
         contextBar.setTitle('Sub Admins')
@@ -107,7 +106,10 @@ export const ApprovedRto = () => {
                           ? 'Remove Logbook'
                           : 'Allow Logbook',
                       onClick: (rto: Rto) =>
-                          handleOpenModal('releaseLogbook', rto),
+                          handleOpenModal(
+                              AdminRtoModalType.RELEASE_LOG_BOOK,
+                              rto
+                          ),
                       Icon: FaBook,
                       color: rto?.autoReleaseLogBook
                           ? 'bg-error-light text-error-dark'
@@ -122,7 +124,10 @@ export const ApprovedRto = () => {
                           ? 'Remove Updation'
                           : `Allow Updation`,
                       onClick: (rto: Rto) =>
-                          handleOpenModal('allowUpdation', rto),
+                          handleOpenModal(
+                              AdminRtoModalType.ALLOW_UPDATION,
+                              rto
+                          ),
                       Icon: MdOutlineUpdate,
                   }
                 : {}),
@@ -134,7 +139,10 @@ export const ApprovedRto = () => {
                           ? 'Remove Auto Complete'
                           : `Allow Auto Complete`,
                       onClick: (rto: Rto) =>
-                          handleOpenModal('allowAutoComplete', rto),
+                          handleOpenModal(
+                              AdminRtoModalType.ALLOW_AUTO_COMPLETE,
+                              rto
+                          ),
                       Icon: MdIncompleteCircle,
                   }
                 : {}),
@@ -144,7 +152,10 @@ export const ApprovedRto = () => {
                 ? {
                       text: 'Allow Partial Submission',
                       onClick: (rto: Rto) =>
-                          handleOpenModal('allowPartialSubmission', rto),
+                          handleOpenModal(
+                              AdminRtoModalType.ALLOW_PARTIAL_SUBMISSION,
+                              rto
+                          ),
                       Icon: FaHourglassHalf,
                   }
                 : {}),
@@ -154,7 +165,10 @@ export const ApprovedRto = () => {
                 ? {
                       text: 'Permissions',
                       onClick: (rto: Rto) =>
-                          handleOpenModal('allowPermissions', rto),
+                          handleOpenModal(
+                              AdminRtoModalType.ALLOW_PERMISSIONS,
+                              rto
+                          ),
                       Icon: MdIncompleteCircle,
                   }
                 : {}),
@@ -166,13 +180,15 @@ export const ApprovedRto = () => {
         },
         {
             text: 'Archive',
-            onClick: (rto: Rto) => handleOpenModal('archive', rto),
+            onClick: (rto: Rto) =>
+                handleOpenModal(AdminRtoModalType.ARCHIVE, rto),
             Icon: MdBlock,
             color: 'text-primary hover:bg-primary-light hover:border-primary-dark',
         },
         {
             text: 'Block',
-            onClick: (rto: Rto) => handleOpenModal('block', rto),
+            onClick: (rto: Rto) =>
+                handleOpenModal(AdminRtoModalType.BLOCK, rto),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -237,7 +253,9 @@ export const ApprovedRto = () => {
                 <ActionButton
                     Icon={MdBlock}
                     variant="error"
-                    onClick={() => handleOpenModal('block', item)}
+                    onClick={() =>
+                        handleOpenModal(AdminRtoModalType.BLOCK, item)
+                    }
                 >
                     Block
                 </ActionButton>
@@ -250,7 +268,7 @@ export const ApprovedRto = () => {
                     const rtos: any = arrayOfIds
                     // onBlockClicked(items)
                     // onBulkBlockClicked(arrayOfIds)
-                    handleOpenModal('bulkBlock', rtos)
+                    handleOpenModal(AdminRtoModalType.BULK_BLOCK, rtos)
                     // bulkAction({ ids: arrayOfIds, status: 'blocked' })
                 }}
                 Icon={MdBlock}

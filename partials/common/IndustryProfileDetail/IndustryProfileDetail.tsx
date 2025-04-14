@@ -117,9 +117,6 @@ export const IndustryProfileDetail = ({
                     />
                 )}
                 <div className="flex gap-x-4 min-h-[500px]">
-                    {/* <IndustryShiftingHours
-                        industryUserId={industry?.user?.id}
-                    /> */}
                     <div
                         className={`${
                             role === UserRoles.RTO ? 'w-full' : 'w-2/3 '
@@ -129,6 +126,7 @@ export const IndustryProfileDetail = ({
                             <CourseManagement />
                         </Card>
                     </div>
+
                     <AuthorizedUserComponent
                         roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                     >
@@ -146,15 +144,12 @@ export const IndustryProfileDetail = ({
                     <div className="h-[530px] overflow-auto custom-scrollbar lg:col-span-2">
                         <IndustrySectorRequiredDocs industry={industry} />
                     </div>
-                    {/* <div className="w-1/3">
-                        <IndustryRequiredDocuments industry={industry} />
-                    </div> */}
                 </div>
 
                 <div>
                     <IndustryStudents industry={industry} />
                 </div>
-                {/*  */}
+
                 <AuthorizedUserComponent
                     roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                 >

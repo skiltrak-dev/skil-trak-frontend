@@ -8,6 +8,7 @@ import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { LiaTimesSolid } from 'react-icons/lia'
 import { ComposeListingIndustryMailForm } from './ComposeListingIndustryMailForm'
+import { useState } from 'react'
 
 export const ComposeListingIndustryMail = ({
     onCancelComposeMail,
@@ -16,6 +17,7 @@ export const ComposeListingIndustryMail = ({
     onCancelComposeMail: () => void
     industry: any
 }) => {
+    const [attachmentFiles, setAttachmentFiles] = useState<any>([])
     const router = useRouter()
     const id = industry?.id || router.query?.id
     const [sendMessage, sendMessageResult] =
@@ -35,8 +37,8 @@ export const ComposeListingIndustryMail = ({
                 formData.append(key, value)
             }
         })
-        if (attachments && attachments?.length > 0) {
-            attachments?.forEach((attched: File) => {
+        if (attachmentFiles && attachmentFiles?.length > 0) {
+            attachmentFiles?.forEach((attched: File) => {
                 formData.append('attachments', attched)
             })
         }
@@ -104,6 +106,8 @@ export const ComposeListingIndustryMail = ({
                         industry={industry}
                         onSubmit={onSubmit}
                         result={sendMessageResult}
+                        setAttachmentFiles={setAttachmentFiles}
+                        attachmentFiles={attachmentFiles}
                     />
                 </div>
             </div>

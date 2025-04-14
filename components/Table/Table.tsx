@@ -63,6 +63,7 @@ interface TableProps<Type> {
     findCallLogsUnanswered?: any
     findExpiringInNext45Days?: any
     activeAndCompleted?: any
+    supersededCourse?: any
 }
 
 export const Table = <Type,>({
@@ -77,6 +78,7 @@ export const Table = <Type,>({
     findCallLogsUnanswered,
     findExpiringInNext45Days,
     activeAndCompleted,
+    // supersededCourse,
 }: TableProps<Type>) => {
     const rtoSubAdmin = useSubadminProfile()?.isAssociatedWithRto
     //======================== Blinking rows ===========================
@@ -93,6 +95,9 @@ export const Table = <Type,>({
         const completeAndActive = activeAndCompleted
             ?.map((student: any) => student?.id)
             ?.includes(row?.original?.id)
+        // const isCourseSuperseded = supersededCourse
+        //     ?.map((course: any) => course?.id)
+        //     ?.includes(row?.original?.id)
         // const getActiveTickets = flashingActiveTickets
         //     ?.map((ticket: any) => ticket?.id)
         //     ?.includes(row?.original?.id)
@@ -104,6 +109,7 @@ export const Table = <Type,>({
             completeAndActive && !rtoSubAdmin ? 'blink-green' : '',
             awaitingAgreements && !rtoSubAdmin ? 'blink' : '',
             expiringInNext45Days && !rtoSubAdmin ? 'blink' : '',
+            // isCourseSuperseded ? 'course-superseded' : '',
             // getActiveTickets ? 'blink-green' : '',
             status === UserStatus.Blocked || status === UserStatus.Rejected
                 ? '!bg-error-light'

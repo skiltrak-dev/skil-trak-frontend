@@ -46,7 +46,7 @@ type IndustryInfoBoxCardProps = {
     onCancel?: any
 }
 
-export const IndustryInfoBoxCard = ({
+export const IndustryBranchInfoBoxCard = ({
     item,
     selectedBox,
     setSelectedBox,
@@ -57,9 +57,13 @@ export const IndustryInfoBoxCard = ({
     onCancel,
     industryContacted,
 }: any) => {
+    console.log('industryId', industryId)
     const workplaceId = workplace?.id
     const router = useRouter()
-
+    const { data, isLoading, isError } =
+        SubAdminApi.Workplace.useSubAdminMapIndustryBranchDetail(industryId, {
+            skip: !industryId,
+        })
     const { notification } = useNotification()
 
     const canAssessData = useIsRestricted(UserRoles.INDUSTRY)
@@ -73,7 +77,7 @@ export const IndustryInfoBoxCard = ({
         setStudentLocation,
         setIndustryLocation,
     } = useWorkplace()
-
+    console.log('data:::', data)
     useEffect(() => {
         if (workplaceData?.type === 'limitExceed') {
             setModal(
@@ -106,9 +110,9 @@ export const IndustryInfoBoxCard = ({
         setStudentLocation(workplace?.student?.location)
         setModal(
             <ShowIndustryNotesAndTHModal
-                industryUserId={item?.data?.user?.id}
-                industryUserName={item?.data?.user?.name}
-                industryCapacity={item?.data?.studentCapacity}
+                industryUserId={data?.user?.id}
+                industryUserName={data?.user?.name}
+                industryCapacity={data?.studentCapacity}
                 industryId={industryId}
                 workplaceId={workplaceId}
                 onCancel={(cancel?: boolean) => {
@@ -117,6 +121,7 @@ export const IndustryInfoBoxCard = ({
                         onCancel()
                     }
                 }}
+                type={selectedBox?.type}
             />
         )
     }
@@ -126,7 +131,8 @@ export const IndustryInfoBoxCard = ({
         contextBar.setContent(
             <IndustryDetailCB
                 id={selectedBox?.id}
-                industryUserId={item?.data?.user?.id}
+                industryUserId={data?.id}
+                type={selectedBox?.type}
             />
         )
         contextBar.setTitle('Industry Details')
@@ -153,13 +159,14 @@ export const IndustryInfoBoxCard = ({
     const rolesIncludes = [UserRoles.ADMIN, UserRoles.RTO]
 
     const role = getUserCredentials()?.role
+
     return (
         <>
             {modal}
-            <ShowErrorNotifications result={addExistingIndustryResult} />
+            {/* <ShowErrorNotifications result={addExistingIndustryResult} /> */}
             <div className="min-w-80">
-                {item.isError && <NoData text="Something is not right...!" />}
-                {item?.isLoading ? (
+                {isError && <NoData text="Something is not right...!" />}
+                {isLoading ? (
                     <PulseLoader />
                 ) : (
                     <>
@@ -186,7 +193,7 @@ export const IndustryInfoBoxCard = ({
 
                             <div className="mt-2">
                                 <div>
-                                    {item?.data?.isSnoozed ? (
+                                    {data?.isSnoozed ? (
                                         <Badge
                                             variant="success"
                                             text="Industry Snoozed"
@@ -198,15 +205,12 @@ export const IndustryInfoBoxCard = ({
                                 {!workplaceMapCard ? (
                                     <div className="relative group w-fit">
                                         <Typography variant="title">
-                                            {ellipsisText(
-                                                item?.data?.user?.name,
-                                                15
-                                            )}
+                                            {ellipsisText(data?.user?.name, 15)}
                                         </Typography>
 
                                         {/*  */}
                                         <CopyInfoData
-                                            text={item?.data?.user?.name}
+                                            text={data?.user?.name}
                                             type={'Name'}
                                         />
                                     </div>
@@ -223,24 +227,21 @@ export const IndustryInfoBoxCard = ({
                                             <div className="relative group w-fit">
                                                 <Typography variant="muted">
                                                     {ellipsisText(
-                                                        item?.data?.user?.name,
+                                                        data?.user?.name,
                                                         15
                                                     )}
                                                 </Typography>
 
                                                 {/*  */}
                                                 <CopyInfoData
-                                                    text={
-                                                        item?.data?.user?.name
-                                                    }
+                                                    text={data?.user?.name}
                                                     type={'Name'}
                                                 />
                                             </div>
                                             <div className="relative group w-fit">
                                                 <Typography variant="muted">
                                                     {useMaskText({
-                                                        key: item?.data?.user
-                                                            ?.email,
+                                                        key: data?.user?.email,
                                                     })}
                                                 </Typography>
 
@@ -250,10 +251,7 @@ export const IndustryInfoBoxCard = ({
                                                     subadmin?.departmentMember
                                                         ?.isHod) && (
                                                     <CopyInfoData
-                                                        text={
-                                                            item?.data?.user
-                                                                ?.email
-                                                        }
+                                                        text={data?.user?.email}
                                                         type={'Email'}
                                                     />
                                                 )}
@@ -268,7 +266,7 @@ export const IndustryInfoBoxCard = ({
                                             </Typography>
                                             <Typography variant="muted">
                                                 {ellipsisText(
-                                                    item?.data?.contactPerson,
+                                                    data?.contactPerson,
                                                     15
                                                 ) ?? 'NA'}
                                             </Typography>
@@ -285,21 +283,16 @@ export const IndustryInfoBoxCard = ({
                                                     })
                                                     if (canAssessData) {
                                                         if (
-                                                            !item?.data
-                                                                ?.isSnoozed &&
-                                                            item?.data
-                                                                ?.phoneNumber &&
-                                                            item?.data
-                                                                ?.contactPersonNumber
+                                                            !data?.isSnoozed &&
+                                                            data?.phoneNumber &&
+                                                            data?.contactPersonNumber
                                                         ) {
                                                             navigator.clipboard.writeText(
-                                                                item?.data
-                                                                    ?.contactPersonNumber
+                                                                data?.contactPersonNumber
                                                             )
                                                             callLog({
                                                                 industry:
-                                                                    item?.data
-                                                                        ?.id,
+                                                                    data?.id,
                                                                 receiver:
                                                                     UserRoles.INDUSTRY,
                                                             }).then(
@@ -338,10 +331,9 @@ export const IndustryInfoBoxCard = ({
                                                     </div>
                                                 )}
                                                 {canAssessData
-                                                    ? item?.data?.isSnoozed
+                                                    ? data?.isSnoozed
                                                         ? '---'
-                                                        : item?.data
-                                                              ?.contactPersonNumber
+                                                        : data?.contactPersonNumber
                                                     : ''}
 
                                                 {/*  */}

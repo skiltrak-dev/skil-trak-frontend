@@ -15,6 +15,7 @@ interface Course {
     title: string
     hours: number
     sector: Sector
+    isSuperseded: boolean
 }
 
 // Define props for the component
@@ -93,13 +94,20 @@ export const SectorAndCoursesList = ({
                                                 </Typography>
                                             </div>
                                         </div>
-                                        <Typography
-                                            variant="small"
-                                            // color="text-primaryNew"
-                                            semibold
+                                        <div
+                                            className={`${
+                                                course.isSuperseded &&
+                                                'line-through'
+                                            }`}
                                         >
-                                            {course?.title ?? 'NA'}
-                                        </Typography>
+                                            <Typography
+                                                variant="small"
+                                                // color="text-primaryNew"
+                                                semibold
+                                            >
+                                                {course?.title ?? 'NA'}
+                                            </Typography>
+                                        </div>
                                     </div>
                                 ))}
                             </div>

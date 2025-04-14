@@ -25,7 +25,13 @@ export const AssignedCourse = ({ course, onRemove }: AssignedCourseProps) => {
         <div className="flex items-start justify-between">
             <div>
                 <p className="text-xs text-gray-400">{course.code}</p>
-                <p className="text-sm">{course.title}</p>
+                <p
+                    className={`text-sm ${
+                        course?.isSuperseded && 'line-through'
+                    }`}
+                >
+                    {course.title}
+                </p>
             </div>
 
             <div>

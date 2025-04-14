@@ -741,6 +741,36 @@
 .customTailwingStyles a:hover {
     color: #36c !important;
     text-decoration-line: underline;
+    .course-superseded {
+        position: relative;
+    }
+
+    .course-superseded::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #128c7e;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    .bold-strike {
+        position: relative;
+    }
+    .bold-strike::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%; /* or 50% if you want a shorter line */
+        height: 2px; /* Thicker line */
+        background-color: black;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
 }
 
 .customTailwingStyles ol {

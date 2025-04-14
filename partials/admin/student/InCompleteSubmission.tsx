@@ -42,8 +42,7 @@ import moment from 'moment'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 
-
-export const ApprovedStudent = () => {
+export const InCompleteSubmission = () => {
     const router = useRouter()
     // const [modal, setModal] = useState<ReactElement | null>(null)
     const [itemPerPage, setItemPerPage] = useState(50)
