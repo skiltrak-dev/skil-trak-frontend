@@ -8,20 +8,26 @@ export const StudentWorkplaceInfo = ({
     direction,
 }: {
     direction?: string
-    industry: Industry
+    industry: any
 }) => {
     const industryData = [
         {
             name: 'Name',
-            data: industry?.user?.name || '---',
+            data: industry.location
+                ? industry?.industry?.user?.name
+                : industry?.user?.name || '---',
         },
         {
             name: 'Address',
-            data: industry?.addressLine1 || '---',
+            data: industry.location
+                ? industry?.location?.address
+                : industry?.addressLine1 || '---',
         },
         {
             name: 'Website',
-            data: industry?.website || '---',
+            data: industry.location
+            ? industry?.industry?.website
+            : industry?.website || '---',
         },
     ]
     return (

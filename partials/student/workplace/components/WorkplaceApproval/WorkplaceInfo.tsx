@@ -7,7 +7,7 @@ export const WorkplaceInfo = ({
     direction,
 }: {
     direction?: string
-    industry: Industry
+    industry: any
 }) => {
     return (
         <div className="flex flex-col h-full">
@@ -20,27 +20,33 @@ export const WorkplaceInfo = ({
                 }  gap-y-[11px] flex-grow`}
             >
                 <div>
-                    <Typography variant="small" color="text-[#24556D]">
+                    <Typography variant="small" semibold color="text-[#24556D]">
                         Name
                     </Typography>
-                    <Typography variant="small" semibold color="text-[#24556D]">
-                        {industry?.user?.name}
+                    <Typography variant="xs"  color="text-[#24556D]">
+                        {industry.location
+                            ? industry?.industry?.user?.name
+                            : industry?.user?.name}
                     </Typography>
                 </div>
                 <div>
-                    <Typography variant="small" color="text-[#24556D]">
+                    <Typography variant="small" semibold color="text-[#24556D]">
                         Address
                     </Typography>
-                    <Typography variant="small" semibold color="text-[#24556D]">
-                        {industry?.addressLine1}
+                    <Typography variant="xs"  color="text-[#24556D]">
+                        {industry.location
+                            ? industry?.location?.address
+                            : industry?.addressLine1}
                     </Typography>
                 </div>
                 <div>
-                    <Typography variant="small" color="text-[#24556D]">
+                    <Typography variant="small" semibold color="text-[#24556D]">
                         Website
                     </Typography>
-                    <Typography variant="small" semibold color="text-[#24556D]">
-                        {industry?.website || '---'}
+                    <Typography variant="xs"  color="text-[#24556D]">
+                        {industry.location
+                            ? industry.industry?.website || '---'
+                            : industry?.website || '---'}
                     </Typography>
                 </div>
             </div>

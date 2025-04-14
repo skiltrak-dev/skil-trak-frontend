@@ -117,7 +117,7 @@ export const WorkplaceApprovalReq = ({
                                       }
                                     : {})}
                                 // direction="flex-row justify-between px-4"
-                                industry={wpReqApproval?.industry}
+                                industry={wpReqApproval}
                             />
                         </div>
 
@@ -141,7 +141,7 @@ export const WorkplaceApprovalReq = ({
                                     {/*  */}
                                     <div className="h-full">
                                         <WorkplaceInfo
-                                            industry={wpReqApproval?.industry}
+                                            industry={wpReqApproval}
                                         />
                                     </div>
                                 </div>
