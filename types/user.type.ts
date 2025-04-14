@@ -4,6 +4,7 @@ import { Note } from './note.type'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { ReportingType } from '@partials/admin/rto/enum'
 import { IndustryPlacementStatus } from '@partials/common'
+import { InvoiceTypeEnum } from '@partials/admin/invoices'
 
 export enum StudentStatusEnum {
     ACTIVE = 'active',
@@ -84,6 +85,17 @@ export interface RtoStatsCount {
     workplaceRequest: number | string
 }
 
+export interface InvoiceSetting extends BaseResponse {
+    id: number
+    type: InvoiceTypeEnum
+    invoiceAction: InvoiceAction
+}
+
+export interface InvoiceAction extends BaseResponse {
+    id: number
+    name: string
+}
+
 export interface Rto extends BaseResponse {
     id: number
     rtoCode: string
@@ -93,10 +105,12 @@ export interface Rto extends BaseResponse {
     state: string
     addressLine1: string
     addressLine2: string
+    studentsCount: string
     zipCode: string
     allowUpdate: boolean
     allowAutoComplete: boolean
     autoReleaseLogBook: boolean
+    allowInvoicing: boolean
     allowAutoReport: boolean
     allowPartialSubmission: boolean
     reportType: ReportingType
@@ -106,6 +120,7 @@ export interface Rto extends BaseResponse {
     subadmin: SubAdmin[]
     students: Student[]
     contactPersons: any
+    invoiceSettings: InvoiceSetting[]
     assessmentTools: AssessmentToolsType[]
 }
 

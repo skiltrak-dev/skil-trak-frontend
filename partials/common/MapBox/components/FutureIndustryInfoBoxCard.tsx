@@ -1,34 +1,27 @@
 import {
-    AuthorizedUserComponent,
     Badge,
     GlobalModal,
-    MailForm,
     NoData,
     ShowErrorNotifications,
     Typography,
 } from '@components'
+import { UserRoles } from '@constants'
 import {
     useContextBar,
-    useMaskText,
     useNotification,
-    useSubadminProfile,
+    useSubadminProfile
 } from '@hooks'
-import {
-    CommonApi,
-    SubAdminApi,
-    useAddExistingIndustriesMutation,
-} from '@queries'
-import { IndustryStatus, SubAdmin } from '@types'
+import { ComposeListingIndustryMail } from '@partials/common/FindWorkplaces'
+import { SubAdminApi, useAddExistingIndustriesMutation } from '@queries'
+import { IndustryStatus } from '@types'
 import { ellipsisText, getUserCredentials, maskText } from '@utils'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
 import { IndustryListingCB } from '../contextBar'
 import { CopyInfoData } from './CopyInfoData'
-import { useRouter } from 'next/router'
-import { ComposeListingIndustryMail } from '@partials/common/FindWorkplaces'
-import { UserRoles } from '@constants'
 
 type FutureIndustryInfoBoxCardProps = {
     item: any
@@ -212,9 +205,9 @@ export const FutureIndustryInfoBoxCard = ({
 
                                             <div className="relative group w-fit">
                                                 <Typography variant="muted">
-                                                    {useMaskText({
-                                                        key: selectedBox?.email,
-                                                    })}
+                                                    {maskText(
+                                                        selectedBox?.email
+                                                    )}
                                                 </Typography>
                                                 {/*  */}
                                                 {(rolesIncludes?.includes(
@@ -273,9 +266,7 @@ export const FutureIndustryInfoBoxCard = ({
                                 <div className="flex flex-col gap-y-1 my-1.5">
                                     <div className="relative group w-fit">
                                         <Typography variant="muted">
-                                            {useMaskText({
-                                                key: selectedBox?.email,
-                                            })}
+                                            {maskText(selectedBox?.email)}
                                         </Typography>
 
                                         {/*  */}

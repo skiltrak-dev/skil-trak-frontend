@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
@@ -10,9 +10,6 @@ import { AuthApi } from '@queries'
 import {
     CourseSelectOption,
     formatOptionLabel,
-    getAddressData,
-    getLatLng,
-    getPostalCode,
     isEmailValid,
     onlyAlphabets,
     onlyNumbersAcceptedInYup,
@@ -29,9 +26,9 @@ import {
     Typography,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { FormProvider, useForm } from 'react-hook-form'
 import { RtoFormData } from '@types'
-import { setKey, fromAddress, geocode, GeocodeOptions } from 'react-geocode'
+import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
+import { FormProvider, useForm } from 'react-hook-form'
 
 export const RtoSignUpForm = ({
     onSubmit,

@@ -1,8 +1,7 @@
 import { InitialAvatar } from '@components'
-import { useMaskText } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Industry } from '@types'
-import { setLink } from '@utils'
+import { maskText, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -122,9 +121,7 @@ export const IndustryCellInfo = ({
                                 <span>
                                     <MdPhoneIphone />
                                 </span>
-                                {useMaskText({
-                                    key: industry?.phoneNumber,
-                                })}
+                                {maskText(industry?.phoneNumber)}
                             </p>
                         </div>
                     )}

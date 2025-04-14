@@ -6,13 +6,14 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
+import { useSubadminProfile } from '@hooks'
 import {
     FillEsignFieldsModal,
     SubmitDocumentModal,
 } from '@partials/common/StudentProfileDetail/modals'
 import { getStatusColor } from '@partials/sub-admin/eSign/components'
 import { CommonApi } from '@queries'
-import { EsignDocumentStatus } from '@utils'
+import { EsignDocumentStatus, maskText } from '@utils'
 import moment from 'moment'
 import { ReactElement, useMemo, useState } from 'react'
 import { FaSignature } from 'react-icons/fa'
@@ -30,7 +31,8 @@ export const AgreementSignStatusCard = ({
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [toggleReminderEmail, toggleReminderEmailResult] =
         CommonApi.ESign.useToggleReminderEmail()
-    // #128C7F1A
+
+    const subadmin = useSubadminProfile()
 
     const getPhoneNumber = (user: any) => {
         if (!user) return 'NA'
@@ -135,7 +137,7 @@ export const AgreementSignStatusCard = ({
                         </div>
                         <div>
                             <Typography variant="xs" color="text-gray-400">
-                                {signer?.user?.email ?? 'NA'}
+                                {maskText(signer?.user?.email) ?? 'NA'}
                             </Typography>
                         </div>
                     </div>
@@ -296,7 +298,7 @@ export const AgreementSignStatusCard = ({
                                     Sign Date
                                 </Typography>
                                 <Typography variant="muted" semibold>
-                                     {signResponse?.id
+                                    {signResponse?.id
                                         ? moment(
                                               signResponse?.data ||
                                                   signer?.updatedAt

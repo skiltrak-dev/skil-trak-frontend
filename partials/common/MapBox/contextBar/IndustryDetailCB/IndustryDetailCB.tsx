@@ -4,7 +4,8 @@ import {
     Typography,
     useAuthorizedUserComponent,
 } from '@components'
-import { useMaskText, useSubadminProfile } from '@hooks'
+import { UserRoles } from '@constants'
+import { useSubadminProfile } from '@hooks'
 import {
     IndustryContactPerson,
     IndustryDetail,
@@ -16,7 +17,6 @@ import { getSectors, maskText } from '@utils'
 import { ReactElement, useState } from 'react'
 import { ProfileLinks } from './components'
 import { AddNoteModal, ViewNoteModal } from './modal'
-import { UserRoles } from '@constants'
 
 export const IndustryDetailCB = ({
     id,
@@ -92,9 +92,7 @@ export const IndustryDetailCB = ({
                             <Typography variant="xs" color="text-[#6B7280]">
                                 {industry?.data?.isSnoozed
                                     ? '---'
-                                    : useMaskText({
-                                          key: industry?.data?.user?.email,
-                                      })}
+                                    : maskText(industry?.data?.user?.email)}
                             </Typography>
 
                             {/* <Typography variant="xs" color="text-[#6B7280]">

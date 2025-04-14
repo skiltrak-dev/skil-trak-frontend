@@ -40,7 +40,7 @@ export * from './VisibilityObserver'
 export * from './LoadedData'
 export * from './TagsInput'
 export * from './CreatedAtDate'
-
+export * from './AddressFieldInput'
 export * from './LoogbookEditor'
 
 export * from './ErrorBoundary'

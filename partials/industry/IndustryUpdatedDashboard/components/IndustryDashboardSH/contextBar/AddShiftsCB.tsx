@@ -4,12 +4,15 @@ import { useEffect, useState } from 'react'
 import { AddWorkingHoursCard } from '../cards'
 import { initialSchedule } from '@partials/industry/AvailableShifts/components'
 import { Button, ShowErrorNotifications } from '@components'
+import { useNotification } from '@hooks'
 
 export const AddShiftsCB = ({
     industryAvailableHours,
 }: {
     industryAvailableHours: any
 }) => {
+    const { notification } = useNotification()
+
     const [workingHoursTime, setWorkingHoursTime] = useState<any | null>(
         initialSchedule
     )
@@ -64,10 +67,18 @@ export const AddShiftsCB = ({
         setWorkingHoursTime(tempWorkingHours)
     }
 
-    const onAddWorkingHours = () => {
-        addHours({
-            days: workingHoursTime?.filter((s: any) => s.dayOn),
+    const onAddWorkingHours = async () => {
+        const res: any = await addHours({
+            days: workingHoursTime
+                ?.filter((s: any) => s.dayOn)
+                .map(({ shifts, ...rest }: any) => rest),
         })
+        if (res?.data) {
+            notification.success({
+                title: 'Shifts Added',
+                description: 'Shifts Added Successfully!',
+            })
+        }
     }
     return (
         <>

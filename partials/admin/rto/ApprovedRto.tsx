@@ -10,8 +10,13 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaBook, FaEdit, FaEye, FaHourglassHalf } from 'react-icons/fa'
-
+import {
+    FaBook,
+    FaEdit,
+    FaEye,
+    FaFileInvoiceDollar,
+    FaHourglassHalf,
+} from 'react-icons/fa'
 
 import { UserRoles } from '@constants'
 import { useActionModal, useContextBar, useModal } from '@hooks'
@@ -114,6 +119,19 @@ export const ApprovedRto = () => {
                       color: rto?.autoReleaseLogBook
                           ? 'bg-error-light text-error-dark'
                           : '',
+                  }
+                : {}),
+        },
+        {
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'Invoice Permission',
+                      onClick: (rto: Rto) =>
+                          handleOpenModal(
+                              AdminRtoModalType.ALLOW_INVOICING,
+                              rto
+                          ),
+                      Icon: FaFileInvoiceDollar,
                   }
                 : {}),
         },

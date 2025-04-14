@@ -23,6 +23,7 @@ import { talentPoolEndpoints } from './talentPool'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { wptypesEndpoints } from './wptypes'
+import { invoiceEndpoints } from './invoice'
 
 const PREFIX = 'admin'
 export const adminApi = emptySplitApi.injectEndpoints({
@@ -73,6 +74,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...folderEndpoints(build),
         ...studentEndpoints(build),
         ...wptypesEndpoints(build),
+        ...invoiceEndpoints(build),
         ...profileEndpoints(build),
         ...subAdminEndpoints(build),
         ...industryEndpoints(build),
@@ -183,6 +185,7 @@ const {
     useRtoStatusChangeMutation,
     useRtoStudentsLogsListQuery,
     useRtoAllowPermissionsMutation,
+    useAllowInvoicingPermissionMutation,
     useRtoAllowPartialSubmissionMutation,
     useRtoCreateAssessmentToolsMutation,
     useRtoUpdateAssessmentToolsMutation,
@@ -415,6 +418,18 @@ const {
     useSwapNoteTemplateMutation,
     useUpdateNoteTemplateMutation,
     useRemoveNoteTemplateMutation,
+
+    // ---- INVOICE ---- //
+    useInvoiceRtosListQuery,
+    useInvoiceRtoDetailQuery,
+    useConfirmPaymentMutation,
+    useInvoiceRtoDataListQuery,
+    useConfirmAllPaymentMutation,
+    useInvoiceCategorisListQuery,
+    useAddInvoiceCategoryMutation,
+    useChangePaymentStatusMutation,
+    useInvoiceRtoDataDownloadQuery,
+    useAddRtoInvoiceSettingMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -490,6 +505,7 @@ export const AdminApi = {
         useRtoStudentsLogsList: useRtoStudentsLogsListQuery,
         allowPermissions: useRtoAllowPermissionsMutation,
         allowPartialSubmission: useRtoAllowPartialSubmissionMutation,
+        allowInvoicingPermission: useAllowInvoicingPermissionMutation,
         useRemove: useRtoRemoveMutation,
         rtoAutoComplete: useRtoAutoCompleteMutation,
         useCreateAssessmentTools: useRtoCreateAssessmentToolsMutation,
@@ -738,5 +754,17 @@ export const AdminApi = {
         notesTemplateDetail: useNotesTemplateDetailQuery,
         updateNoteTemplate: useUpdateNoteTemplateMutation,
         removeNoteTemplate: useRemoveNoteTemplateMutation,
+    },
+    Invoice: {
+        invoiceRtosList: useInvoiceRtosListQuery,
+        confirmPayment: useConfirmPaymentMutation,
+        invoiceRtoDetail: useInvoiceRtoDetailQuery,
+        invoiceRtoDataList: useInvoiceRtoDataListQuery,
+        confirmAllPayment: useConfirmAllPaymentMutation,
+        addInvoiceCategory: useAddInvoiceCategoryMutation,
+        invoiceCategorisList: useInvoiceCategorisListQuery,
+        changePaymentStatus: useChangePaymentStatusMutation,
+        addRtoInvoiceSetting: useAddRtoInvoiceSettingMutation,
+        invoiceRtoDataDownload: useInvoiceRtoDataDownloadQuery,
     },
 }

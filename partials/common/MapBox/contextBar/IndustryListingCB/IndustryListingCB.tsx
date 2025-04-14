@@ -9,13 +9,14 @@ import {
     useAuthorizedUserComponent,
 } from '@components'
 import { UserRoles } from '@constants'
-import { useMaskText, useNotification, useSubadminProfile } from '@hooks'
+import { useNotification, useSubadminProfile } from '@hooks'
 import { UserProfileDetailCard } from '@partials/common/Cards'
 import {
     IndustryListingCallModal,
     ViewNoteModal,
 } from '@partials/common/FindWorkplaces'
 import { useIndustryListingActions } from '@partials/common/FindWorkplaces/hooks/useIndustryListingActions'
+import { IndustryProfileAvatar } from '@partials/common/IndustryProfileDetail'
 import { CommonApi } from '@queries'
 import { IndustryStatus, Sector } from '@types'
 import { getUserCredentials, maskText } from '@utils'
@@ -23,7 +24,6 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { ProfileLinks } from './components'
-import { IndustryProfileAvatar } from '@partials/common/IndustryProfileDetail'
 
 export const IndustryListingCB = ({ id }: { id: number }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -128,9 +128,7 @@ export const IndustryListingCB = ({ id }: { id: number }) => {
                                     </span>
                                 </Typography>
                                 <Typography variant="xs" color="text-[#6B7280]">
-                                    {useMaskText({
-                                        key: detail?.data?.email,
-                                    })}
+                                    {maskText(detail?.data?.email)}
                                 </Typography>
                             </div>
                         </div>

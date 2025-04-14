@@ -41,13 +41,13 @@ export const Checkbox = ({
     return (
         <div>
             <label
-                htmlFor={`id_${name}`}
+                htmlFor={`id_${name + label}`}
                 className="flex items-center gap-x-2.5 text-[13px]"
             >
                 {!loading ? (
                     <input
                         // {...(id ? { id } : {})}
-                        id={`id_${name}`}
+                        id={`id_${name + label}`}
                         name={name}
                         type={'checkbox'}
                         disabled={disabled}

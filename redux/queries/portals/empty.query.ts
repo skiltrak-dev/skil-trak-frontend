@@ -12,6 +12,7 @@ const adminTagTypes = [
     'RPL',
     'Jobs',
     'RTOS',
+    'Invoice',
     'Folders',
     'Profile',
     'Message',

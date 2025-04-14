@@ -26,7 +26,6 @@ import {
 import { WorkplaceCurrentStatus, checkStudentProfileCompletion } from '@utils'
 import { useRouter } from 'next/router'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
-import { useWorkplace } from '@hooks'
 
 type Props = {}
 
@@ -66,7 +65,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         rto: rtoDetail?.data,
     }
     const profileCompletion = checkStudentProfileCompletion(values)
-    
+
     useEffect(() => {
         if (
             workplace.data &&

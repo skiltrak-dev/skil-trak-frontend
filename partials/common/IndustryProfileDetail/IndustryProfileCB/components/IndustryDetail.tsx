@@ -7,13 +7,13 @@ import {
     useRestrictedData,
 } from '@components'
 import { UserRoles } from '@constants'
-import { useMaskText, useNotification, useSubadminProfile } from '@hooks'
+import { useNotification, useSubadminProfile } from '@hooks'
 import { UserProfileDetailCard } from '@partials/common/Cards'
 import { LatestCallAnswer } from '@partials/common/StudentProfileDetail/ContextBarComponents/StudentDetail/LatestCallAnswer'
 import { IndustryCallLogModal } from '@partials/sub-admin/Industries'
 import { SubAdminApi } from '@queries'
 import { Industry } from '@types'
-import { getUserCredentials } from '@utils'
+import { getUserCredentials, maskText } from '@utils'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
 
@@ -87,9 +87,7 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                                 : useRestrictedData(
                                       industry?.isSnoozed
                                           ? '---'
-                                          : useMaskText({
-                                                key: industry?.phoneNumber,
-                                            }),
+                                          : maskText(industry?.phoneNumber),
                                       UserRoles.INDUSTRY
                                   )
                         }
