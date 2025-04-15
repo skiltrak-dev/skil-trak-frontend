@@ -153,7 +153,6 @@ export const IndustryInfoBoxCard = ({
     return (
         <>
             {modal}
-            <ShowErrorNotifications result={addExistingIndustryResult} />
             <div className="min-w-80">
                 {item.isError && <NoData text="Something is not right...!" />}
                 {item?.isLoading ? (
@@ -443,10 +442,6 @@ export const IndustryInfoBoxCard = ({
                                             // }}
                                             onClick={() => {
                                                 onApplyIndustryModal()
-                                                // addExistingIndustry({
-                                                //     workplaceId,
-                                                //     industryId: industryId,
-                                                // })
                                             }}
                                         >
                                             {addExistingIndustryResult.isLoading ? (

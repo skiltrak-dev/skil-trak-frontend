@@ -59,6 +59,7 @@ export const ShowIndustryNotesAndTHModal = ({
                     industryName={industryUserName}
                     rtoName={workplaceData?.rtoName}
                     missingDocuments={workplaceData?.missingDocuments}
+                    branch={workplaceData?.branch}
                 />
             )
             setWorkplaceData(null)
@@ -72,6 +73,7 @@ export const ShowIndustryNotesAndTHModal = ({
                     industryName={industryUserName}
                     rtoName={workplaceData?.rtoName}
                     missingDocuments={workplaceData?.missingDocuments}
+                    branch={workplaceData?.branch}
                 />
             )
             setWorkplaceData(null)
@@ -106,6 +108,7 @@ export const ShowIndustryNotesAndTHModal = ({
 
     const onCancelClicked = () => setModal(null)
     const onApply = async () => {
+        console.log({ industryIdindustryIdindustryId: industryId })
         // if (dist <= 20) {
         const payload: any = {
             workplaceId,
@@ -113,7 +116,7 @@ export const ShowIndustryNotesAndTHModal = ({
         }
 
         if (type) {
-            payload.type = type
+            payload.branch = type
         }
         const res: any = await addExistingIndustry(payload)
         if (res?.data) {
@@ -125,11 +128,14 @@ export const ShowIndustryNotesAndTHModal = ({
             onCancel()
         }
 
+        console.log(res?.error?.data?.message, 'SASASA')
+
         if (res?.error?.data?.message === WorkplaceErrorMessage.LIMIT_EXCEED) {
             setWorkplaceData({
                 name: industryUserName,
                 industryCapacity,
                 type: WorkplaceErrorMessage.LIMIT_EXCEED,
+                branch: type,
             })
         }
         if (res?.error?.data?.message === WorkplaceErrorMessage.DOCS_MISMATCH) {
@@ -137,6 +143,7 @@ export const ShowIndustryNotesAndTHModal = ({
                 type: WorkplaceErrorMessage.DOCS_MISMATCH,
                 rtoName: res?.error?.data?.rtoName,
                 missingDocuments: res?.error?.data?.missingDocuments,
+                branch: type,
             })
         }
         if (
@@ -145,6 +152,7 @@ export const ShowIndustryNotesAndTHModal = ({
         ) {
             setWorkplaceData({
                 type: 'placementOutSide20Km',
+                branch: type,
             })
         }
         if (
@@ -153,6 +161,7 @@ export const ShowIndustryNotesAndTHModal = ({
         ) {
             setWorkplaceData({
                 type: WorkplaceErrorMessage.TRADING_HOURS_NOT_FOUND,
+                branch: type,
             })
         }
         if (
@@ -161,6 +170,7 @@ export const ShowIndustryNotesAndTHModal = ({
         ) {
             setWorkplaceData({
                 type: WorkplaceErrorMessage.WP_TYPE_NOT_FOUND,
+                branch: type,
             })
         }
         if (
@@ -169,11 +179,10 @@ export const ShowIndustryNotesAndTHModal = ({
         ) {
             setWorkplaceData({
                 type: WorkplaceErrorMessage.WP_TYPE_MIS_MATCH,
+                branch: type,
             })
         }
     }
-
-    console.log('industryUserId:::::', industryId)
 
     return (
         <>
@@ -255,6 +264,7 @@ export const ShowIndustryNotesAndTHModal = ({
                                                 industryCapacity={Number(
                                                     industryCapacity
                                                 )}
+                                                branch={type}
                                                 workplaceId={workplaceId}
                                             />
                                         )

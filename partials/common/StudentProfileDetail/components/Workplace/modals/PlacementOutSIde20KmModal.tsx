@@ -18,7 +18,9 @@ export const PlacementOutSIde20KmModal = ({
     onCancel,
     industryId,
     workplaceId,
+    branch,
 }: {
+    branch: string
     date1: string
     date2: string
     industryId: number
@@ -64,6 +66,7 @@ export const PlacementOutSIde20KmModal = ({
             comment: note,
             conditionSequence: 2,
             type: WorkplaceRequestWarningEnum.OutSideRadiusPlacement,
+            branch,
         })
         if (res?.data) {
             notification.success({
@@ -80,12 +83,14 @@ export const PlacementOutSIde20KmModal = ({
                 dates: { date1, date2 },
                 rtoName: res?.error?.data?.rtoName,
                 missingDocuments: res?.error?.data?.missingDocuments,
+                branch,
             })
         }
 
         if (res?.error?.data?.message === 'tradingHoursNotFound') {
             setWorkplaceData({
                 type: 'tradingHoursNotFound',
+                branch,
             })
         }
     }

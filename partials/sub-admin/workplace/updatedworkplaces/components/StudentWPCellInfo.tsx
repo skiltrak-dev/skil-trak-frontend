@@ -5,14 +5,14 @@ import { MdSnooze } from 'react-icons/md'
 import { FiPhoneOff } from 'react-icons/fi'
 import { LuFlagTriangleRight } from 'react-icons/lu'
 import { Tooltip, TooltipPosition, Typography } from '@components'
-import { getUserCredentials } from '@utils'
+import { getUserCredentials, maskText } from '@utils'
 
 export const StudentWPCellInfo = ({ student }: { student: Student }) => {
     const subadminId = getUserCredentials()?.id
     return (
         <div>
             <Typography variant="muted" color="text-gray-700">
-                {student?.studentId ?? 'N/A'}
+                {maskText(student?.studentId, 2) ?? 'N/A'}
             </Typography>
             <div className="flex items-center gap-x-2">
                 <Typography variant="small" semibold>

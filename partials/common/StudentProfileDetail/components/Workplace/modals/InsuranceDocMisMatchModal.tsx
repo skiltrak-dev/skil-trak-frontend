@@ -6,10 +6,10 @@ import {
     Typography,
 } from '@components'
 import { useNotification, useWorkplace } from '@hooks'
-import { useAddExistingIndustriesMutation, SubAdminApi } from '@queries'
+import { SubAdminApi, useAddExistingIndustriesMutation } from '@queries'
 import Image from 'next/image'
 import { useState } from 'react'
-import { MdCancel, MdOutlineError } from 'react-icons/md'
+import { MdCancel } from 'react-icons/md'
 import { WorkplaceRequestWarningEnum } from '../enum'
 
 export const InsuranceDocMisMatchModal = ({
@@ -21,6 +21,7 @@ export const InsuranceDocMisMatchModal = ({
     workplaceId,
     industryName,
     missingDocuments,
+    branch,
 }: {
     date1: string
     date2: string
@@ -30,6 +31,7 @@ export const InsuranceDocMisMatchModal = ({
     industryName: string
     onCancel: () => void
     missingDocuments: any
+    branch: string
 }) => {
     const [note, setNote] = useState('')
 
@@ -63,6 +65,7 @@ export const InsuranceDocMisMatchModal = ({
             comment: note,
             conditionSequence: 3,
             type: WorkplaceRequestWarningEnum.DocMissMatch,
+            branch,
         })
         if (res?.data) {
             notification.success({
@@ -75,6 +78,7 @@ export const InsuranceDocMisMatchModal = ({
         if (res?.error?.data?.message === 'tradingHoursNotFound') {
             setWorkplaceData({
                 type: 'tradingHoursNotFound',
+                branch,
             })
         }
     }
