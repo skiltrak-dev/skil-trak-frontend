@@ -56,16 +56,6 @@ export const SearchedUserCard = ({
             {/*  */}
             <div>
                 <Typography variant={'xs'} color={'text-gray-400'}>
-                    Phone
-                </Typography>
-                <Typography variant={'label'} color={'text-gray-700'}>
-                    {person?.phone || person?.phoneNumber}
-                </Typography>
-            </div>
-
-            {/*  */}
-            <div>
-                <Typography variant={'xs'} color={'text-gray-400'}>
                     Address
                 </Typography>
                 <div title={person?.addressLine1}>

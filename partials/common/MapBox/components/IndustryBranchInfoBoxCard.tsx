@@ -57,7 +57,6 @@ export const IndustryBranchInfoBoxCard = ({
     onCancel,
     industryContacted,
 }: any) => {
-    console.log('industryId', industryId)
     const workplaceId = workplace?.id
     const router = useRouter()
     const { data, isLoading, isError } =
@@ -77,7 +76,6 @@ export const IndustryBranchInfoBoxCard = ({
         setStudentLocation,
         setIndustryLocation,
     } = useWorkplace()
-    console.log('data:::', data)
     useEffect(() => {
         if (workplaceData?.type === 'limitExceed') {
             setModal(

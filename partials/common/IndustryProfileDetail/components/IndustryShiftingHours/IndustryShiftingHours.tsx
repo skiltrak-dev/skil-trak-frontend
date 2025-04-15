@@ -24,7 +24,6 @@ export const IndustryShiftingHours = ({
     industryUserId: number
     type?: string
 }) => {
-    console.log('IndustryShiftingHours', industryUserId, type)
     const contextBar = useContextBar()
 
     const [isEntered, setIsEntered] = useState<boolean>(false)

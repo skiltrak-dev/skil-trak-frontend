@@ -56,7 +56,7 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
                                     <span>
                                         <MdPhoneIphone />
                                     </span>
-                                    {rto?.phone}
+                                    {maskText(rto?.phone)}
                                 </p>
                             )}
                         </HideRestrictedData>

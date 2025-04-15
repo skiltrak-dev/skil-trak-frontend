@@ -151,58 +151,66 @@ export const AllowInvoicingModal = ({
                                 />
                             </div>
 
-                            <>
-                                <Typography>Select Category</Typography>
-                                <div className="grid grid-cols-3 gap-x-2 flex-wrap">
-                                    {categoriesOptions?.map(
-                                        (cate: OptionType) => (
-                                            <Checkbox
-                                                name={'invoiceAction'}
-                                                label={cate?.label}
-                                                value={Number(cate?.value)}
-                                                disabled={
-                                                    !methods?.watch()
-                                                        ?.invoicingType ||
-                                                    !methods?.watch()
-                                                        ?.allowInvoicing
-                                                }
-                                                defaultChecked={invoiceSettingData?.includes(
-                                                    Number(cate?.value)
-                                                )}
-                                                onChange={(e: any) => {
-                                                    setInvoiceSettingData(
-                                                        invoiceSettingData?.includes(
-                                                            Number(
-                                                                e?.target?.value
-                                                            )
-                                                        )
-                                                            ? [
-                                                                  ...invoiceSettingData?.filter(
-                                                                      (
-                                                                          invSetting
-                                                                      ) =>
-                                                                          invSetting !==
+                            {categoriesOptions &&
+                                categoriesOptions?.length > 0 && (
+                                    <>
+                                        <Typography>Select Category</Typography>
+                                        <div className="grid grid-cols-3 gap-x-2 flex-wrap">
+                                            {categoriesOptions?.map(
+                                                (cate: OptionType) => (
+                                                    <Checkbox
+                                                        name={'invoiceAction'}
+                                                        label={cate?.label}
+                                                        value={Number(
+                                                            cate?.value
+                                                        )}
+                                                        disabled={
+                                                            !methods?.watch()
+                                                                ?.invoicingType ||
+                                                            !methods?.watch()
+                                                                ?.allowInvoicing
+                                                        }
+                                                        defaultChecked={invoiceSettingData?.includes(
+                                                            Number(cate?.value)
+                                                        )}
+                                                        onChange={(e: any) => {
+                                                            setInvoiceSettingData(
+                                                                invoiceSettingData?.includes(
+                                                                    Number(
+                                                                        e
+                                                                            ?.target
+                                                                            ?.value
+                                                                    )
+                                                                )
+                                                                    ? [
+                                                                          ...invoiceSettingData?.filter(
+                                                                              (
+                                                                                  invSetting
+                                                                              ) =>
+                                                                                  invSetting !==
+                                                                                  Number(
+                                                                                      e
+                                                                                          ?.target
+                                                                                          ?.value
+                                                                                  )
+                                                                          ),
+                                                                      ]
+                                                                    : [
+                                                                          ...invoiceSettingData,
                                                                           Number(
                                                                               e
                                                                                   ?.target
                                                                                   ?.value
-                                                                          )
-                                                                  ),
-                                                              ]
-                                                            : [
-                                                                  ...invoiceSettingData,
-                                                                  Number(
-                                                                      e?.target
-                                                                          ?.value
-                                                                  ),
-                                                              ]
-                                                    )
-                                                }}
-                                            />
-                                        )
-                                    )}
-                                </div>
-                            </>
+                                                                          ),
+                                                                      ]
+                                                            )
+                                                        }}
+                                                    />
+                                                )
+                                            )}
+                                        </div>
+                                    </>
+                                )}
 
                             <div className="flex gap-x-4 items-center">
                                 <Button
