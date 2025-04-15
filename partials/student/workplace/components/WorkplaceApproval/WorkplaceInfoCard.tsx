@@ -11,12 +11,12 @@ export const WorkplaceInfoCard = ({
     return (
         <div className="grid grid-cols-5 rounded-[5px] overflow-hidden">
             <div className="col-span-2 bg-[#F7910F26] p-3.5">
-                <Typography variant="xxs" color="text-[#24556D]">
+                <Typography variant="xs" semibold color="text-[#24556D]">
                     {name}
                 </Typography>
             </div>
             <div className="col-span-3 bg-[#F7910F] p-3.5">
-                <Typography variant="small" bold color="text-white">
+                <Typography variant="small"  color="text-white">
                     {data}
                 </Typography>
             </div>

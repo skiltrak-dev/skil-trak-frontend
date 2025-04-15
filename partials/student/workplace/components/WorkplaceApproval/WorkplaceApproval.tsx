@@ -64,7 +64,7 @@ export const WorkplaceApproval = ({
             {/*  */}
             <div className="w-full border border-[#D5D5D5] rounded-md p-3 grid grid-cols-5 gap-x-2.5 mt-3">
                 <div className="col-span-2">
-                    <StudentWorkplaceInfo industry={wpApprovalData?.industry} />
+                    <StudentWorkplaceInfo industry={wpApprovalData} />
                 </div>
 
                 <div className="col-span-3">
