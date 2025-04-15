@@ -14,29 +14,30 @@ import { NavLinkItem } from '../NavLinkItem'
 import { GrUserAdmin } from 'react-icons/gr'
 
 const PREFIX = '/portals/sub-admin'
-const Routes = {
-    Dashboard: `${PREFIX}`,
-    Students: `${PREFIX}/students?tab=all`,
-    Users: `${PREFIX}/users`,
-    Tasks: `${PREFIX}/tasks`,
-    WPCancelationReq: `${PREFIX}/cancelled-workplace-requests`,
-    ESignature: `${PREFIX}/e-signature`,
-    Notification: `${PREFIX}/notifications`,
-    Settings: `${PREFIX}/setting`,
-    Report: `${PREFIX}/report`,
-    History: `${PREFIX}/history`,
-    ESign: `${PREFIX}/e-sign?tab=all`,
-    VolunteerRequest: `${PREFIX}/volunteer-requests?tab=pending`,
-    TalentPool: `${PREFIX}/talent-pool`,
-    CoordinatorsList: `${PREFIX}/department`,
-    MyStudentsReports: `${PREFIX}/tasks/my-students-report`,
-}
 
 export const SubAdminNavbar = () => {
     const router = useRouter()
     const subadmin = SubAdminApi.SubAdmin.useProfile()
     const checkIsHod = subadmin?.data?.departmentMember?.isHod
-
+    const Routes = {
+        Dashboard: `${PREFIX}`,
+        Students: `${PREFIX}/students?tab=${
+            subadmin?.data?.departmentMember?.isHod ? 'all' : 'my-students'
+        }`,
+        Users: `${PREFIX}/users`,
+        Tasks: `${PREFIX}/tasks`,
+        WPCancelationReq: `${PREFIX}/cancelled-workplace-requests`,
+        ESignature: `${PREFIX}/e-signature`,
+        Notification: `${PREFIX}/notifications`,
+        Settings: `${PREFIX}/setting`,
+        Report: `${PREFIX}/report`,
+        History: `${PREFIX}/history`,
+        ESign: `${PREFIX}/e-sign?tab=all`,
+        VolunteerRequest: `${PREFIX}/volunteer-requests?tab=pending`,
+        TalentPool: `${PREFIX}/talent-pool`,
+        CoordinatorsList: `${PREFIX}/department`,
+        MyStudentsReports: `${PREFIX}/tasks/my-students-report`,
+    }
     const pendingDocsCount = CommonApi.ESign.pendingDocsCount(undefined, {
         refetchOnMountOrArgChange: true,
     })

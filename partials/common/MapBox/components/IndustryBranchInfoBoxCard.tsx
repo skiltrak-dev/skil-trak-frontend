@@ -57,6 +57,7 @@ export const IndustryBranchInfoBoxCard = ({
     onCancel,
     industryContacted,
 }: any) => {
+    console.log('industryId>>>>>>>', industryId)
     const workplaceId = workplace?.id
     const router = useRouter()
     const { data, isLoading, isError } =

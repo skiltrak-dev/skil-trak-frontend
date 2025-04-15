@@ -151,7 +151,9 @@ export const SubadminStudents = () => {
             element: <PendingStudents subadmin={subadmin?.data as SubAdmin} />,
         },
         // isHod
-        ...(isHod
+        ...(isHod ||
+        (subadmin?.data?.hasAllStudentAccess &&
+            subadmin?.data?.isAssociatedWithRto)
             ? [
                   {
                       label: 'Active',

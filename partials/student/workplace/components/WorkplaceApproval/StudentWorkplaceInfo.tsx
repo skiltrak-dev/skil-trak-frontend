@@ -13,21 +13,17 @@ export const StudentWorkplaceInfo = ({
     const industryData = [
         {
             name: 'Name',
-            data: industry.location
-                ? industry?.industry?.user?.name
-                : industry?.user?.name || '---',
+            data: industry?.industry?.user?.name || '---',
         },
         {
             name: 'Address',
-            data: industry.location
-                ? industry?.location?.address
-                : industry?.addressLine1 || '---',
+            data: !industry?.location
+                ? industry?.addressLine1
+                : industry?.location?.address || '---',
         },
         {
             name: 'Website',
-            data: industry.location
-            ? industry?.industry?.website
-            : industry?.website || '---',
+            data: industry?.industry?.website || '---',
         },
     ]
     return (

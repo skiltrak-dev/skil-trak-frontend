@@ -173,6 +173,8 @@ export const ShowIndustryNotesAndTHModal = ({
         }
     }
 
+    console.log('industryUserId:::::', industryId)
+
     return (
         <>
             {modal}

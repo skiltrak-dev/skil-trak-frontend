@@ -103,6 +103,7 @@ export const Workplace = ({
             refetchOnMountOrArgChange: true,
         }
     )
+    console.log('workplaceIndustryDetail', workplaceIndustryDetail);
 
     const workplaceStudentDetail = SubAdminApi.Student.workplaceStudentDetail(
         selectedWorkplace?.id,
