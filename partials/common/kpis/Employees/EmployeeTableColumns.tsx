@@ -130,7 +130,12 @@ export const EmployeeTableColumns = ({
         {
             accessorKey: 'id',
             header: 'S.No',
-            cell: ({ row }) => <SerialNumber row={row} />,
+            cell: (info) => (
+                <SerialNumber
+                    row={info?.row}
+                    pagination={employeeData?.data?.pagination}
+                />
+            ),
             enableSorting: false,
         },
         {

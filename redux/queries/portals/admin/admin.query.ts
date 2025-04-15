@@ -422,6 +422,7 @@ const {
     // ---- INVOICE ---- //
     useInvoiceRtosListQuery,
     useInvoiceRtoDetailQuery,
+    useGetInvoiceStatusQuery,
     useConfirmPaymentMutation,
     useInvoiceRtoDataListQuery,
     useConfirmAllPaymentMutation,
@@ -758,6 +759,7 @@ export const AdminApi = {
     Invoice: {
         invoiceRtosList: useInvoiceRtosListQuery,
         confirmPayment: useConfirmPaymentMutation,
+        getInvoiceStatus: useGetInvoiceStatusQuery,
         invoiceRtoDetail: useInvoiceRtoDetailQuery,
         invoiceRtoDataList: useInvoiceRtoDataListQuery,
         confirmAllPayment: useConfirmAllPaymentMutation,

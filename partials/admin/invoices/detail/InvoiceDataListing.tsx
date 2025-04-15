@@ -52,11 +52,11 @@ export const InvoiceDataListing = ({
 
     const onCancelModal = () => setModal(null)
 
-    const onStatusChangeClicked = (invoice: any) => {
-        setModal(
-            <ChangeStatusModal onCancel={onCancelModal} invoice={invoice} />
-        )
-    }
+    // const onStatusChangeClicked = (invoice: any) => {
+    //     setModal(
+    //         <ChangeStatusModal onCancel={onCancelModal} invoice={invoice} />
+    //     )
+    // }
 
     const onPaymentConfirm = (invoice: any) => {
         setModal(
@@ -66,34 +66,6 @@ export const InvoiceDataListing = ({
 
     const onPaymentAllConfirm = (ids: number[]) => {
         setModal(<ConfirmAllPaymentModal ids={ids} onCancel={onCancelModal} />)
-    }
-
-    const paymentStatusData = (keyValue: PaymentStatusEnum) => {
-        switch (keyValue) {
-            case PaymentStatusEnum.Paid:
-                return {
-                    text: 'Paid',
-                    variant: 'primary',
-                }
-            case PaymentStatusEnum.DuplicateCharged:
-                return {
-                    text: 'Duplicate Charge',
-                    variant: 'warning',
-                }
-            case PaymentStatusEnum.Refunded:
-                return {
-                    text: 'Refunded',
-                    variant: 'success',
-                }
-            case PaymentStatusEnum.Deleted:
-                return {
-                    text: 'Deleted',
-                    variant: 'error',
-                }
-            default:
-                return { text: '---', variant: 'primary' }
-        }
-        return
     }
 
     const columns: ColumnDef<any>[] = [
@@ -137,34 +109,34 @@ export const InvoiceDataListing = ({
                 </div>
             ),
         },
-        {
-            accessorKey: 'status',
-            header: 'Status',
-            cell: (info) => {
-                const paymentStatus = paymentStatusData(
-                    info.row?.original?.paymentStatus || '---'
-                )
-                return (
-                    <div className="flex flex-col justify-start items-start gap-y-2">
-                        <ActionButton
-                            variant="info"
-                            onClick={() => {
-                                onStatusChangeClicked(info.row?.original)
-                            }}
-                        >
-                            Change Status
-                        </ActionButton>
+        // {
+        //     accessorKey: 'status',
+        //     header: 'Status',
+        //     cell: (info) => {
+        //         const paymentStatus = paymentStatusData(
+        //             info.row?.original?.paymentStatus || '---'
+        //         )
+        //         return (
+        //             <div className="flex flex-col justify-start items-start gap-y-2">
+        //                 <ActionButton
+        //                     variant="info"
+        //                     onClick={() => {
+        //                         onStatusChangeClicked(info.row?.original)
+        //                     }}
+        //                 >
+        //                     Change Status
+        //                 </ActionButton>
 
-                        <Badge
-                            text={paymentStatus?.text + ''}
-                            variant={
-                                paymentStatus?.variant || ('primary' as any)
-                            }
-                        />
-                    </div>
-                )
-            },
-        },
+        //                 <Badge
+        //                     text={paymentStatus?.text + ''}
+        //                     variant={
+        //                         paymentStatus?.variant || ('primary' as any)
+        //                     }
+        //                 />
+        //             </div>
+        //         )
+        //     },
+        // },
         {
             accessorKey: 'confirmation',
             header: 'Confirm',

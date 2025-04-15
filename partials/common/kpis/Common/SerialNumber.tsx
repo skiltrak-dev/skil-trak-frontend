@@ -2,10 +2,16 @@ import React from 'react'
 import Image from 'next/image'
 import { SerialNumberProps } from '../types'
 
-export const SerialNumber: React.FC<SerialNumberProps> = ({ row }) => {
+export const SerialNumber: React.FC<SerialNumberProps> = ({
+    row,
+    pagination,
+}) => {
+    const pageNumber =
+        pagination?.itemPerPage * pagination?.currentPage -
+        pagination?.itemPerPage
     return (
         <span className="text-black font-medium text-sm">
-            {row.index === 0 ? (
+            {pagination?.currentPage === 1 && row.index === 0 ? (
                 <Image
                     src={'/images/kpis/firstcup.svg'}
                     alt="First Cup"
@@ -14,7 +20,7 @@ export const SerialNumber: React.FC<SerialNumberProps> = ({ row }) => {
                     sizes="100vh 100vw"
                     className="w-8 h-8"
                 />
-            ) : row.index === 1 ? (
+            ) : pagination?.currentPage === 1 && row.index === 1 ? (
                 <Image
                     src={'/images/kpis/silverMedal.svg'}
                     alt="Silver Medal"
@@ -23,7 +29,7 @@ export const SerialNumber: React.FC<SerialNumberProps> = ({ row }) => {
                     sizes="100vh 100vw"
                     className="w-8 h-8"
                 />
-            ) : row.index === 2 ? (
+            ) : pagination?.currentPage === 1 && row.index === 2 ? (
                 <Image
                     src={'/images/kpis/bronzeMedal.svg'}
                     alt="Bronze Medal"
@@ -32,10 +38,10 @@ export const SerialNumber: React.FC<SerialNumberProps> = ({ row }) => {
                     sizes="100vh 100vw"
                     className="w-8 h-8"
                 />
-            ) : row.original.id <= 9 ? (
-                '0' + row.original.id
+            ) : pageNumber + row?.index < 9 ? (
+                '0' + Number(pageNumber + row?.index + 1)
             ) : (
-                row.original.id
+                pageNumber + row?.index + 1
             )}
         </span>
     )

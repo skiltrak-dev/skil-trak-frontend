@@ -121,7 +121,12 @@ export const HodTableColumns = ({
         {
             accessorKey: 'id',
             header: 'S.No',
-            cell: ({ row }) => <SerialNumber row={row} />,
+            cell: ({ row }) => (
+                <SerialNumber
+                    row={row}
+                    pagination={employeeData?.data?.pagination}
+                />
+            ),
             enableSorting: false,
         },
         {

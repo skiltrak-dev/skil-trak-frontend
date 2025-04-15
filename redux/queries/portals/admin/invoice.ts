@@ -97,4 +97,9 @@ export const invoiceEndpoints = (
         }),
         providesTags: ['Invoice'],
     }),
+
+    getInvoiceStatus: builder.query<any, number>({
+        query: (id) => `${PREFIX}/workplace/${id}/payment-status`,
+        providesTags: ['Invoice'],
+    }),
 })
