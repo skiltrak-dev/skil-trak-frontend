@@ -12,6 +12,7 @@ import {
 import { UserRoles } from '@constants'
 import { GetFolders } from '@partials/sub-admin/workplace/hooks'
 import {
+    AdminApi,
     SubAdminApi,
     useGetSubAdminStudentWorkplaceDetailQuery,
     useGetWorkplaceFoldersQuery,
@@ -62,6 +63,7 @@ import {
     ViewPlacementStartedAnswersModal,
     ViewQuestionsModal,
 } from './modals'
+import { ChangeStatusModal, paymentStatusData } from '@partials/admin/invoices'
 
 const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.Applied,
@@ -103,7 +105,6 @@ export const Workplace = ({
             refetchOnMountOrArgChange: true,
         }
     )
-    console.log('workplaceIndustryDetail', workplaceIndustryDetail);
 
     const workplaceStudentDetail = SubAdminApi.Student.workplaceStudentDetail(
         selectedWorkplace?.id,
@@ -133,6 +134,14 @@ export const Workplace = ({
         },
         { skip: !studentWorkplace || !appliedIndustry || !course }
     )
+    const wpInvoiceStatus = AdminApi.Invoice.getInvoiceStatus(
+        selectedWorkplace?.id,
+        {
+            skip: !selectedWorkplace,
+        }
+    )
+
+    console.log({ wpInvoiceStatus })
 
     const folders = GetFolders(workplaceFolders)
 
@@ -440,6 +449,9 @@ export const Workplace = ({
         setShowPreviousWorkplace(!showPreviousWorkplace)
     }
 
+    const onStatusChangeClicked = (id: number) => {
+        setModal(<ChangeStatusModal onCancel={onCancelModal} id={id} />)
+    }
     return (
         <>
             {modal}
@@ -690,6 +702,7 @@ export const Workplace = ({
                                                 workplaceStudentDetail?.data
                                             }
                                         />
+
                                         <div className="w-full">
                                             <div className="flex justify-end divide-x-2 ">
                                                 <AuthorizedUserComponent
@@ -719,54 +732,109 @@ export const Workplace = ({
                                                     selectedWorkplace?.currentStatus
                                                 }
                                             />
-                                            <div className="flex items-center gap-x-2">
-                                                <Typography
-                                                    variant="xs"
-                                                    semibold
-                                                >
-                                                    Course :{' '}
-                                                </Typography>
-                                                <div className="flex items-center gap-x-1">
-                                                    <div>
-                                                        <Typography variant="xs">
-                                                            {
-                                                                selectedWorkplace
-                                                                    ?.courses?.[0]
-                                                                    ?.code
-                                                            }
-                                                        </Typography>
-                                                        <Typography
-                                                            variant="small"
-                                                            semibold
-                                                        >
-                                                            {
-                                                                selectedWorkplace
-                                                                    ?.courses?.[0]
-                                                                    ?.title
-                                                            }
-                                                        </Typography>
-                                                    </div>
-                                                    <AuthorizedUserComponent
-                                                        roles={[
-                                                            UserRoles.ADMIN,
-                                                        ]}
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-x-2">
+                                                    <Typography
+                                                        variant="xs"
+                                                        semibold
                                                     >
-                                                        <ActionButton
-                                                            Icon={RiPencilFill}
-                                                            mini
-                                                            rounded
-                                                            variant="info"
-                                                            onClick={() =>
-                                                                onUpdateWorkplaceCourseClicked(
+                                                        Course :{' '}
+                                                    </Typography>
+                                                    <div className="flex items-center gap-x-1">
+                                                        <div>
+                                                            <Typography variant="xs">
+                                                                {
                                                                     selectedWorkplace
                                                                         ?.courses?.[0]
-                                                                        ?.id,
-                                                                    selectedWorkplace?.id
-                                                                )
-                                                            }
-                                                        />
-                                                    </AuthorizedUserComponent>
+                                                                        ?.code
+                                                                }
+                                                            </Typography>
+                                                            <Typography
+                                                                variant="small"
+                                                                semibold
+                                                            >
+                                                                {
+                                                                    selectedWorkplace
+                                                                        ?.courses?.[0]
+                                                                        ?.title
+                                                                }
+                                                            </Typography>
+                                                        </div>
+                                                        <AuthorizedUserComponent
+                                                            roles={[
+                                                                UserRoles.ADMIN,
+                                                            ]}
+                                                        >
+                                                            <ActionButton
+                                                                Icon={
+                                                                    RiPencilFill
+                                                                }
+                                                                mini
+                                                                rounded
+                                                                variant="info"
+                                                                onClick={() =>
+                                                                    onUpdateWorkplaceCourseClicked(
+                                                                        selectedWorkplace
+                                                                            ?.courses?.[0]
+                                                                            ?.id,
+                                                                        selectedWorkplace?.id
+                                                                    )
+                                                                }
+                                                            />
+                                                        </AuthorizedUserComponent>
+                                                    </div>
                                                 </div>
+                                                {/*  */}
+                                                {wpInvoiceStatus?.data && (
+                                                    <AuthorizedUserComponent
+                                                        excludeRoles={[
+                                                            UserRoles.OBSERVER,
+                                                        ]}
+                                                    >
+                                                        {wpInvoiceStatus?.data
+                                                            ?.paymentStatus ? (
+                                                            <div className="flex gap-x-2">
+                                                                <Typography
+                                                                    variant="xs"
+                                                                    color={
+                                                                        'text-gray-500'
+                                                                    }
+                                                                    medium
+                                                                >
+                                                                    Invoice
+                                                                    Status :
+                                                                </Typography>
+                                                                <Badge
+                                                                    text={
+                                                                        paymentStatusData(
+                                                                            wpInvoiceStatus
+                                                                                ?.data
+                                                                                ?.paymentStatus
+                                                                        )
+                                                                            ?.text +
+                                                                        ''
+                                                                    }
+                                                                    variant={
+                                                                        'info'
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        ) : (
+                                                            <ActionButton
+                                                                variant="info"
+                                                                simple
+                                                                onClick={() => {
+                                                                    onStatusChangeClicked(
+                                                                        selectedWorkplace?.id
+                                                                    )
+                                                                }}
+                                                            >
+                                                                Change Invoice
+                                                                Status
+                                                            </ActionButton>
+                                                        )}
+                                                    </AuthorizedUserComponent>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

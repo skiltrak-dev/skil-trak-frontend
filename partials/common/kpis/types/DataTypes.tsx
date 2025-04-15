@@ -1,6 +1,7 @@
 import { ColumnDef, Table as ReactTable } from '@tanstack/react-table'
 import { JSX } from 'react'
 import { HeaderGroup, Row } from '@tanstack/react-table'
+import { Paginate } from '@types'
 
 export type Employee = {
     checked: any
@@ -200,6 +201,7 @@ export interface MetricsCellProps {
 }
 
 export interface SerialNumberProps {
+    pagination: Paginate
     row: {
         original: {
             id: number

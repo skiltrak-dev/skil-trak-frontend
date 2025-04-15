@@ -5,7 +5,6 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 
 // components
 import {
-    Button,
     Card,
     CaseOfficerAssignedStudent,
     EmptyData,
@@ -22,7 +21,7 @@ import {
 import { StudentCallLogDetail, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { SubAdminApi, useGetSubAdminMyStudentsQuery } from '@queries'
+import { useGetSubAdminMyStudentsQuery } from '@queries'
 import { Student, SubAdmin, SubAdminStudentsFilterType } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
@@ -37,9 +36,7 @@ import { SectorCell } from '@partials/admin/student/components'
 import { ColumnDef } from '@tanstack/react-table'
 import { getFilterQuery, getUserCredentials, setLink } from '@utils'
 import moment from 'moment'
-import { FaFileExport } from 'react-icons/fa'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
-import { useSubadminProfile } from '@hooks'
 
 const filterKeys = [
     'nowp',

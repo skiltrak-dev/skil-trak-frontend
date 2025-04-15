@@ -12,9 +12,9 @@ interface onSubmitType {
 
 export const ChangeStatusModal = ({
     onCancel,
-    invoice,
+    id,
 }: {
-    invoice: any
+    id: number
     onCancel: () => void
 }) => {
     const { notification } = useNotification()
@@ -37,7 +37,7 @@ export const ChangeStatusModal = ({
 
     const onSubmit = async (values: onSubmitType) => {
         const res: any = await changePaymentStatus({
-            id: invoice?.id,
+            id,
             status: values?.payment,
         })
 

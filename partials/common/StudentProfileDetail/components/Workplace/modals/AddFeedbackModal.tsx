@@ -85,6 +85,7 @@ export const AddFeedbackModal = ({
     return (
         <GlobalModal>
             <ShowErrorNotifications result={addFeedbackResult} />
+            <ShowErrorNotifications result={startPlacementResult} />
             <div className="relative lg:min-w-[800px] max-w-6xl px-10 py-7">
                 {onCancel && (
                     <MdCancel

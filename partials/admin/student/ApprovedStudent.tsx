@@ -21,27 +21,17 @@ import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { checkListLength, isBrowser, setLink } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
-import {
-    AdminStudentModalType,
-    ArchiveModal,
-    BlockModal,
-    BlockMultiStudentsModal,
-    ChangeStatusModal,
-    getAdminStudentsModal,
-    HighPriorityModal,
-} from './modals'
+import { AdminStudentModalType, getAdminStudentsModal } from './modals'
 
 // hooks
 import { useActionModal, useModal } from '@hooks'
 
 import moment from 'moment'
-import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
-
 
 export const ApprovedStudent = () => {
     const router = useRouter()
