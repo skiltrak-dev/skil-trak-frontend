@@ -15,7 +15,7 @@ import { RtoProfileTable, UserDetail } from '../components'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { UserRoles } from '@constants'
-import { getUserCredentials } from '@utils'
+import { getUserCredentials, maskText } from '@utils'
 
 export const StudentLogsModal = ({ onCancel }: { onCancel: () => void }) => {
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -41,7 +41,7 @@ export const StudentLogsModal = ({ onCancel }: { onCancel: () => void }) => {
             cell: (info) => (
                 <div className="px-3 py-1 rounded bg-[#24556D1A]">
                     <Typography variant="label">
-                        {info.row.original?.studentId}
+                        {maskText(info.row.original?.studentId, 3)}
                     </Typography>
                 </div>
             ),

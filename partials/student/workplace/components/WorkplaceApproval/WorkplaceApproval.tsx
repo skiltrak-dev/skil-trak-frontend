@@ -14,7 +14,6 @@ export const WorkplaceApproval = ({
     onCancel?: () => void
     wpApprovalData: any
 }) => {
-    console.log('wpApprovalData', wpApprovalData)
     return (
         <div className="px-4 py-2 w-full max-w-[inherit] h-full bg-white rounded-[10px]">
             <div className="grid grid-cols-5 gap-x-5">

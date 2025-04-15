@@ -56,7 +56,9 @@ export const PlacementStartedStudents = ({
     const { isLoading, isFetching, data, isError } =
         SubAdminApi.Student.placementStartedStudents(
             {
-                search: `currentStatus:${WorkplaceCurrentStatus.PlacementStarted},status:${UserStatus.Approved}`,
+                search: `currentStatus:${
+                    WorkplaceCurrentStatus.PlacementStarted
+                },status:${UserStatus.Approved},myStudent:${true}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
