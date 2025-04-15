@@ -110,83 +110,6 @@ export const IndustryBranchesAddress = ({
         },
     ]
 
-    const columns: ColumnDef<IndustryBranchesAddressType>[] = [
-        {
-            accessorKey: 'user.name',
-            cell: (info) => {
-                return (
-                    <div className="flex items-center gap-x-2">
-                        <div className="shadow-inner-image rounded-full relative">
-                            {info.row.original?.contactPerson && (
-                                <InitialAvatar
-                                    name={info.row.original?.contactPerson}
-                                />
-                            )}
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <p className="font-semibold">
-                                    {info.row.original?.contactPerson}
-                                </p>
-                            </div>
-                            {/* snoozedDate */}
-                            <div className="font-medium text-xs text-gray-500">
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdEmail />
-                                    </span>
-                                    {info.row.original?.contactPersonEmail}
-                                </p>
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdPhoneIphone />
-                                    </span>
-                                    {info.row.original?.contactPersonPhone}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                )
-            },
-            header: () => <span>Industry</span>,
-        },
-        {
-            accessorKey: 'address',
-            header: () => <span>Address</span>,
-            cell: (info) => (
-                <TruncatedTextWithTooltip text={info?.row?.original?.address} />
-            ),
-        },
-        {
-            accessorKey: 'suburb',
-            header: () => <span>Suburb</span>,
-            cell: (info) => info.getValue(),
-        },
-        {
-            accessorKey: 'studentCapacity',
-            header: () => <span>Capacity</span>,
-            cell: (info) => info.getValue(),
-        },
-        {
-            accessorKey: 'enrolledStudents',
-            header: () => <span>Enrolled</span>,
-            cell: (info) => info.getValue(),
-        },
-        {
-            accessorKey: 'action',
-            header: () => <span>Action</span>,
-            cell: (info: any) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
-        },
-    ]
     const onClickShowIndustryList = () => {
         setShowIndustryList(!showIndustryList)
     }
@@ -261,10 +184,6 @@ export const IndustryBranchesAddress = ({
                                                 <InfoCard
                                                     title={'Address'}
                                                     data={industry?.address}
-                                                />
-                                                <InfoCard
-                                                    title={'Suburb'}
-                                                    data={industry?.suburb}
                                                 />
                                                 <div className="flex items-center gap-x-2 w-full">
                                                     <InfoCard

@@ -23,27 +23,25 @@ export const WorkplaceInfo = ({
                     <Typography variant="small" semibold color="text-[#24556D]">
                         Name
                     </Typography>
-                    <Typography variant="xs"  color="text-[#24556D]">
-                        {industry.location
-                            ? industry?.industry?.user?.name
-                            : industry?.user?.name}
+                    <Typography variant="small" semibold color="text-[#24556D]">
+                        {industry?.industry?.user?.name}
                     </Typography>
                 </div>
                 <div>
                     <Typography variant="small" semibold color="text-[#24556D]">
                         Address
                     </Typography>
-                    <Typography variant="xs"  color="text-[#24556D]">
-                        {industry.location
-                            ? industry?.location?.address
-                            : industry?.addressLine1}
+                    <Typography variant="small" semibold color="text-[#24556D]">
+                        {!industry?.location
+                            ? industry?.industry.addressLine1
+                            : industry?.location?.address}
                     </Typography>
                 </div>
                 <div>
                     <Typography variant="small" semibold color="text-[#24556D]">
                         Website
                     </Typography>
-                    <Typography variant="xs"  color="text-[#24556D]">
+                    <Typography variant="xs" color="text-[#24556D]">
                         {industry.location
                             ? industry.industry?.website || '---'
                             : industry?.website || '---'}

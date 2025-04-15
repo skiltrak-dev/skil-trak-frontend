@@ -32,6 +32,7 @@ export const WorkplaceApprovalReq = ({
         }
     }, [])
 
+
     return (
         <div className="h-full">
             <div className="grid grid-cols-3 gap-x-6 items-center border-b border-[#F7910F] px-4 py-2">
