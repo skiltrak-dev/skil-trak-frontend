@@ -217,6 +217,7 @@ export const {
     useGetDepartmentPendingIndustriesQuery,
     useGetDepartmentCoursesRequestListQuery,
     useDepartmentCourseRequestMutation,
+    useAssignCoordinatorToStudentMutation,
 
     // ----- KPIS ----- //
     useDeptEmployeeCountsQuery,
@@ -364,6 +365,7 @@ export const {
     useAddStudentNoteMutation,
     useGetIncompleteSubmissionsForWorkplaceQuery,
     useGetSubAdminIncompleteSubmissionStudentsQuery,
+    useGetSubAdminDepartmentCoordinatorsQuery,
 
     // ---- LOGBOOK ---- //
     useSaveLogbookMutation,
@@ -534,6 +536,8 @@ export const SubAdminApi = {
         useDepartmentCoursesRequestList:
             useGetDepartmentCoursesRequestListQuery,
         useDepartmentCourseRequest: useDepartmentCourseRequestMutation,
+        useAssignCoordinatorToStudent:
+            useAssignCoordinatorToStudentMutation,
     },
     Todo: {
         todoListCount: useTodoListCountQuery,
@@ -598,6 +602,7 @@ export const SubAdminApi = {
             useGetIncompleteSubmissionsForWorkplaceQuery,
         useIncompleteSubmissionStudents:
             useGetSubAdminIncompleteSubmissionStudentsQuery,
+        useDepartmentCoordinators: useGetSubAdminDepartmentCoordinatorsQuery,
     },
     LogBook: {
         useSaveLogbook: useSaveLogbookMutation,
@@ -660,6 +665,7 @@ export const SubAdminApi = {
         useStartPlacementMutation,
         useIndustryResponseMutation,
         useAssignToSubAdminMutation,
+
         useUsAssignSubAdminMutation,
         useCompletePlacementMutation,
         useTerminatePlacementMutation,

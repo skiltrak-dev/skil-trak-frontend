@@ -28,6 +28,7 @@ import {
     SubAdminFlaggedStudents,
     UrgentStudents,
     InCompleteSubmission,
+    UnAssignedStudents,
 } from '@partials/sub-admin/students'
 
 // query
@@ -165,6 +166,26 @@ export const SubadminStudents = () => {
                       },
                       element: (
                           <AllStudents subadmin={subadmin?.data as SubAdmin} />
+                      ),
+                  },
+              ]
+            : []),
+        ...(isHod
+            ? [
+                  {
+                      label: 'Un Assigned',
+                      href: {
+                          pathname: 'students',
+                          query: { tab: 'un-assigned' },
+                      },
+                      badge: {
+                          text: studentCount?.unAssignedStudent,
+                          loading: count.isLoading,
+                      },
+                      element: (
+                          <UnAssignedStudents
+                              subadmin={subadmin?.data as SubAdmin}
+                          />
                       ),
                   },
               ]
