@@ -1,28 +1,12 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { UserRoles } from '@constants'
-
-import _debounce from 'lodash/debounce'
-import * as yup from 'yup'
 
 import { useContextBar, useNotification } from '@hooks'
 import {
-    AuthApi,
-    useAddCustomIndustryMutation,
-    useShowExistingIndustriesQuery,
     useAddExistingIndustriesMutation,
+    useShowExistingIndustriesQuery,
 } from '@queries'
-import { isEmailValid, onlyAlphabets, SignUpUtils } from '@utils'
 
-import {
-    Button,
-    Checkbox,
-    Select,
-    TextInput,
-    Typography,
-    ShowErrorNotifications,
-} from '@components'
+import { Button, Select, ShowErrorNotifications } from '@components'
 
 // form
 import { AddCustomIndustryForm } from '../form'

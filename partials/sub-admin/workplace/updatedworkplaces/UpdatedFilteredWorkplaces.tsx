@@ -1,19 +1,12 @@
-import {
-    Card,
-    EmptyData,
-    Table,
-    Tooltip,
-    TooltipPosition,
-    Typography,
-    UserCreatedAt,
-} from '@components'
+import { Card, EmptyData, Table, Typography, UserCreatedAt } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
 import { ellipsisText } from '@utils'
 import Link from 'next/link'
-import { FiPhoneOff } from 'react-icons/fi'
-import { LuFlagTriangleRight } from 'react-icons/lu'
-import { MdSnooze } from 'react-icons/md'
-import { RtoCellInfo, UpdatedWorkplaceRequest } from './components'
+import {
+    RtoCellInfo,
+    StudentWPCellInfo,
+    UpdatedWorkplaceRequest,
+} from './components'
 
 export const UpdatedFilteredWorkplaces = ({
     setPage,
@@ -31,57 +24,7 @@ export const UpdatedFilteredWorkplaces = ({
             header: () => 'Student',
             accessorKey: 'student',
             cell: (info) => (
-                <div>
-                    <Typography variant="muted" color="text-gray-700">
-                        {info?.row?.original?.student?.studentId ?? 'N/A'}
-                    </Typography>
-                    <div className="flex items-center gap-x-2">
-                        <Typography variant="small" semibold>
-                            {info?.row?.original?.student?.user?.name ?? 'N/A'}
-                        </Typography>
-                        <div className="flex items-center gap-x-2">
-                            {info?.row?.original?.student?.isSnoozed && (
-                                <div className="w-5 h-5 flex items-center justify-center rounded relative group">
-                                    <MdSnooze
-                                        size={20}
-                                        className="text-red-500"
-                                    />
-                                    <Tooltip>Snoozed Student</Tooltip>
-                                </div>
-                            )}
-                            {info?.row?.original?.student?.nonContactable && (
-                                <div className="group relative bg-red-600 p-1 rounded-full flex items-center justify-center">
-                                    <FiPhoneOff className="text-white text-[10px]" />
-                                    <Tooltip position={TooltipPosition.left}>
-                                        Not Contactable
-                                    </Tooltip>
-                                </div>
-                            )}
-                            {info?.row?.original?.student?.hasIssue && (
-                                <div className="group relative">
-                                    <LuFlagTriangleRight className="text-red-600 text-xl" />
-                                    <Tooltip position={TooltipPosition.left}>
-                                        Flagged Issue
-                                    </Tooltip>
-                                </div>
-                            )}
-                            {info?.row?.original?.student?.isHighPriority && (
-                                <div className="rounded-md whitespace-nowrap px-1 py-0.5 border border-red-400 text-red-400 text-xs font-medium">
-                                    High Priority
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    <Typography variant="small" color="text-gray-500">
-                        {info?.row?.original?.student?.addressLine1 ?? 'N/A'}
-                    </Typography>
-                    <Link
-                        href={`/portals/sub-admin/students/${info?.row?.original?.student?.id}/detail`}
-                        className="text-blue-500 text-xs"
-                    >
-                        View Details
-                    </Link>
-                </div>
+                <StudentWPCellInfo student={info?.row?.original?.student} />
             ),
         },
         {

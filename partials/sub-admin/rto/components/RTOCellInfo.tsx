@@ -1,7 +1,7 @@
 import { useIsRestricted, useRestrictedData } from '@components'
 import { InitialAvatar } from '@components/InitialAvatar'
 import { Rto } from '@types'
-import { setLink } from '@utils'
+import { maskText, setLink } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -48,13 +48,13 @@ export const RTOCellInfo = ({
                                 <span>
                                     <MdEmail />
                                 </span>
-                                {rto?.user?.email}
+                                {maskText(rto?.user?.email, 3)}
                             </p>
                             <p className="flex items-center gap-x-1">
                                 <span>
                                     <MdPhoneIphone />
                                 </span>
-                                {rto?.phone}
+                                {maskText(rto?.phone, 2)}
                             </p>
                         </div>
                     )}

@@ -68,15 +68,6 @@ const RTOs: NextPageWithLayout = () => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    // useEffect(() => {
-    //     setContent(
-    //         <>
-    //             <Button variant={'dark'} text={'My Schedule'} />
-    //             <SidebarCalendar />
-    //             <RtoContextBarData />
-    //         </>
-    //     )
-    // }, [setContent])
 
     const tableActionOptions: TableActionOption[] = [
         {

@@ -1,12 +1,11 @@
 import {
     Badge,
-    MailForm,
     NoData,
     ShowErrorNotifications,
     Typography,
     useIsRestricted,
-    useRestrictedData,
 } from '@components'
+import { UserRoles } from '@constants'
 import {
     useContextBar,
     useMaskText,
@@ -18,22 +17,16 @@ import {
     MaxReqLimitReachModal,
     ShowIndustryNotesAndTHModal,
 } from '@partials/common/StudentProfileDetail/components'
-import { useAddExistingIndustriesMutation, SubAdminApi } from '@queries'
-import {
-    ellipsisText,
-    getSectorsDetail,
-    getUserCredentials,
-    maskText,
-} from '@utils'
+import { ComposeMailModal } from '@partials/common/StudentProfileDetail/modals'
+import { SubAdminApi } from '@queries'
+import { ellipsisText, getSectorsDetail, getUserCredentials } from '@utils'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { FaRegCopy, FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
 import { IndustryDetailCB } from '../contextBar'
 import { CopyInfoData } from './CopyInfoData'
-import { useRouter } from 'next/router'
-import { UserRoles } from '@constants'
-import { ComposeMailModal } from '@partials/common/StudentProfileDetail/modals'
 
 type IndustryInfoBoxCardProps = {
     item: any
@@ -57,7 +50,6 @@ export const IndustryBranchInfoBoxCard = ({
     onCancel,
     industryContacted,
 }: any) => {
-    console.log('industryId>>>>>>>', industryId)
     const workplaceId = workplace?.id
     const router = useRouter()
     const { data, isLoading, isError } =
@@ -94,8 +86,6 @@ export const IndustryBranchInfoBoxCard = ({
     // apply for industry
     const subadmin = useSubadminProfile()
 
-    const [addExistingIndustry, addExistingIndustryResult] =
-        useAddExistingIndustriesMutation()
     const [contactWorkplaceIndustry, contactWorkplaceIndustryResult] =
         SubAdminApi.Workplace.contactWorkplaceIndustry()
     const [callLog, callLogResult] = SubAdminApi.Industry.useIndustryCallLog()
@@ -137,14 +127,6 @@ export const IndustryBranchInfoBoxCard = ({
         contextBar.setTitle('Industry Details')
     }
 
-    // const onComposeMail = () => {
-    //     contextBar.show(false)
-    //     contextBar.setContent(
-    //         <MailForm receiverId={Number(item?.data?.user?.id)} />
-    //     )
-    //     contextBar.setTitle('Compose Email')
-    // }
-
     const onComposeMail = () => {
         setModal(
             <ComposeMailModal
@@ -160,9 +142,9 @@ export const IndustryBranchInfoBoxCard = ({
     const role = getUserCredentials()?.role
 
     return (
-        <>
+        <div>
             {modal}
-            {/* <ShowErrorNotifications result={addExistingIndustryResult} /> */}
+            <ShowErrorNotifications result={contactWorkplaceIndustryResult} />
             <div className="min-w-80">
                 {isError && <NoData text="Something is not right...!" />}
                 {isLoading ? (
@@ -329,11 +311,11 @@ export const IndustryBranchInfoBoxCard = ({
                                                         </div>
                                                     </div>
                                                 )}
-                                                {canAssessData
+                                                {/* {canAssessData
                                                     ? data?.isSnoozed
                                                         ? '---'
                                                         : data?.contactPersonNumber
-                                                    : ''}
+                                                    : ''} */}
 
                                                 {/*  */}
                                                 {/* <CopyInfoData
@@ -362,9 +344,6 @@ export const IndustryBranchInfoBoxCard = ({
 
                                 {sectors?.map((s: any) => (
                                     <div className="border-b border-gray-200 pb-2 mb-2">
-                                        {/* <Typography variant="xxs">
-                                            {s?.code || 'N/A'}
-                                        </Typography> */}
                                         <Typography variant="xs">
                                             {s?.name || 'N/A'}
                                         </Typography>
@@ -373,14 +352,6 @@ export const IndustryBranchInfoBoxCard = ({
                             </div>
 
                             <div className="flex justify-between items-center gap-x-12">
-                                {/* <div className="flex justify-center mt-1.5">
-                                    <Link
-                                        className="text-blue-400 text-xs"
-                                        href={`/portals/sub-admin/users/industries/${item?.data?.id}?tab=students`}
-                                    >
-                                        View
-                                    </Link>
-                                </div> */}
                                 <div className="flex items-center gap-x-2">
                                     <div
                                         onClick={() => {
@@ -411,9 +382,6 @@ export const IndustryBranchInfoBoxCard = ({
                                 </div>
 
                                 {!appliedIndustry && workplaceMapCard && (
-                                    // !industry?.applied &&
-                                    // industry?.industryResponse !== 'noResponse' &&
-                                    // industry?.industryResponse !== 'rejected' &&
                                     <Typography
                                         variant={'xs'}
                                         color={'text-red-800'}
@@ -421,34 +389,11 @@ export const IndustryBranchInfoBoxCard = ({
                                     >
                                         <span
                                             className="cursor-pointer whitespace-pre"
-                                            // onClick={() => {
-                                            //     if (!appliedIndustry) {
-                                            //         applyForWorkplace({
-                                            //             industry:
-                                            //                 industryId,
-                                            //             id: workplace?.id,
-                                            //         })
-                                            //     } else {
-                                            //         notification.error({
-                                            //             title: 'Already Applied',
-                                            //             description:
-                                            //                 'Already Applied to another Industry',
-                                            //         })
-                                            //     }
-                                            // }}
                                             onClick={() => {
                                                 onApplyIndustryModal()
-                                                // addExistingIndustry({
-                                                //     workplaceId,
-                                                //     industryId: industryId,
-                                                // })
                                             }}
                                         >
-                                            {addExistingIndustryResult.isLoading ? (
-                                                <PulseLoader size={4} />
-                                            ) : (
-                                                'APPLY HERE'
-                                            )}
+                                            APPLY HERE
                                         </span>
                                     </Typography>
                                 )}
@@ -457,6 +402,6 @@ export const IndustryBranchInfoBoxCard = ({
                     </>
                 )}
             </div>
-        </>
+        </div>
     )
 }

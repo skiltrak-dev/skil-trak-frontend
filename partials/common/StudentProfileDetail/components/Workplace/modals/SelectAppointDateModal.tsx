@@ -18,7 +18,9 @@ export const SelectAppointDateModal = ({
     industryId,
     industryCapacity,
     industryUserName,
+    branch,
 }: {
+    branch: any
     workplaceId: number
     industryId: number
     onCancel: () => void
@@ -42,6 +44,7 @@ export const SelectAppointDateModal = ({
                 industryId,
                 date1,
                 date2,
+                branch,
             })
 
             if (res?.data) {
@@ -60,6 +63,7 @@ export const SelectAppointDateModal = ({
                     name: industryUserName,
                     industryCapacity,
                     type: WorkplaceErrorMessage.LIMIT_EXCEED,
+                    branch,
                 })
                 onCancel()
             }
@@ -73,6 +77,7 @@ export const SelectAppointDateModal = ({
                     rtoName: res?.error?.data?.rtoName,
                     missingDocuments: res?.error?.data?.missingDocuments,
                     dates: { date1, date2 },
+                    branch,
                 })
             }
 
@@ -83,6 +88,7 @@ export const SelectAppointDateModal = ({
                 setWorkplaceData({
                     type: 'placementOutSide20Km',
                     dates: { date1, date2 },
+                    branch,
                 })
             }
 
@@ -92,6 +98,7 @@ export const SelectAppointDateModal = ({
             ) {
                 setWorkplaceData({
                     type: WorkplaceErrorMessage.TRADING_HOURS_NOT_FOUND,
+                    branch,
                 })
             }
 
@@ -101,6 +108,7 @@ export const SelectAppointDateModal = ({
             ) {
                 setWorkplaceData({
                     type: WorkplaceErrorMessage.WP_TYPE_NOT_FOUND,
+                    branch,
                 })
             }
 
@@ -110,6 +118,7 @@ export const SelectAppointDateModal = ({
             ) {
                 setWorkplaceData({
                     type: WorkplaceErrorMessage.WP_TYPE_MIS_MATCH,
+                    branch,
                 })
             }
         } else {
