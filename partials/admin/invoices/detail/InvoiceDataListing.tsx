@@ -215,7 +215,6 @@ export const InvoiceDataListing = ({
             />
         ),
         common: (invoices: any) => {
-            console.log({ invoices })
             return (
                 <div className="flex gap-x-2">
                     <Button
