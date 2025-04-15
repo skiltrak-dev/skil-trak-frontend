@@ -688,4 +688,11 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
+
+    getSubAdminDepartmentCoordinators: builder.query<any, void>({
+        query: () => ({
+            url: `department/members/list`,
+        }),
+        providesTags: ['SubAdminStudents'],
+    }),
 })

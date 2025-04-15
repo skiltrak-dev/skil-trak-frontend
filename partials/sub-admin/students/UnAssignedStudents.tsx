@@ -45,7 +45,7 @@ import { InterviewModal } from '../workplace/modals'
 import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 
-export const AllStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
+export const UnAssignedStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
@@ -84,7 +84,7 @@ export const AllStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
     const { isSuccess, isLoading, data, isError, isFetching, refetch } =
         SubAdminApi.Student.useList(
             {
-                search: `status:${UserStatus.Approved}`,
+                search: `unAssigned:unAssigned`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },

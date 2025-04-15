@@ -1,5 +1,5 @@
-import { Modal, ShowErrorNotifications, TextArea } from '@components'
 import React from 'react'
+import { Modal, ShowErrorNotifications, TextArea } from '@components'
 
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'

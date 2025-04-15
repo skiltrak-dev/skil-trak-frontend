@@ -82,4 +82,11 @@ export const profileEndpoints = (
         }),
         providesTags: ['SubAdmin', 'Workplace', 'Industries'],
     }),
+    assignCoordinatorToStudent: builder.mutation<any, any>({
+        query: ({ studentId, coordinatorId }) => ({
+            url: `${PREFIX}/student/${studentId}/coordinator/${coordinatorId}/assign`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Students', 'SubAdmin'],
+    }),
 })

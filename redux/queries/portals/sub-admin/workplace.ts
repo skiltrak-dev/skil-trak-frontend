@@ -63,6 +63,7 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace', 'Notes'],
     }),
+    
     usAssignSubAdmin: builder.mutation<any, number>({
         query: (workplaceId) => ({
             url: `${PREFIX}un-assign/workplace-request/${workplaceId}`,
