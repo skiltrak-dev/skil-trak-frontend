@@ -23,7 +23,7 @@ export const IndustryDocsFolders = ({
 
             <div className="mt-4 h-[inherit]">
                 {getFolders.isError && (
-                    <NoData text="There is some technical issue!" />
+                    <NoData text="There is some technical issue!" isError />
                 )}
                 {getFolders?.isLoading ? (
                     <div className="flex flex-col items-center justify-center h-60">

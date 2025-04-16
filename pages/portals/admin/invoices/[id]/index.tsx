@@ -39,7 +39,10 @@ const InvoiceRtoDetail = () => {
                 <div className="flex flex-col gap-y-4 h-full">
                     <InvoiceRtoDetailData rto={detail?.data} />
                     <Card>
-                        <WeekFilter handleDatesChange={handleDatesChange} />
+                        <WeekFilter
+                            handleDatesChange={handleDatesChange}
+                            showDefaultFilter={false}
+                        />
                     </Card>
                     <InvoiceDataListing
                         startDate={startDate}

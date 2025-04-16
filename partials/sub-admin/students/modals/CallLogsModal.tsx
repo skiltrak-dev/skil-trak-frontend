@@ -39,6 +39,7 @@ export const CallLogsModal = ({
                                 text={
                                     'There is some technical issue, Try again'
                                 }
+                                isError
                             />
                         )}
 

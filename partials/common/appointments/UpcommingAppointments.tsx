@@ -34,7 +34,7 @@ export const UpcomingAppointments = ({ userId }: { userId?: number }) => {
                 </Typography>
             </div>
             {futureAppointments.isError && (
-                <NoData text={'Some Technical issue, Try Reload'} />
+                <NoData text={'Some Technical issue, Try Reload'} isError />
             )}
             {futureAppointments.isLoading ? (
                 <LoadingAnimation size={90} />

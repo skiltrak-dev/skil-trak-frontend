@@ -31,7 +31,7 @@ export const ProfilePastAppointments = ({
 
             <div className="flex flex-col gap-y-3">
                 {pastAppointments.isError ? (
-                    <NoData text="There is Some technical issue" />
+                    <NoData text="There is Some technical issue" isError />
                 ) : null}
                 {pastAppointments.isLoading ? (
                     <div className="flex flex-col items-center justify-center h-60">

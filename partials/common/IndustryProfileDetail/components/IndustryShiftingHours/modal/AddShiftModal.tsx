@@ -52,7 +52,10 @@ export const AddShiftModal = ({
                     {/*  */}
                     <div className="mt-2">
                         {shifts.isError && (
-                            <NoData text={'There is some technical issue!'} />
+                            <NoData
+                                text={'There is some technical issue!'}
+                                isError
+                            />
                         )}
                         {shifts?.isLoading ? (
                             <LoadingAnimation size={70} />

@@ -22,7 +22,9 @@ export const FileDetail = ({
         })
     return (
         <>
-            {fileDetail.isError && <NoData text={'Some Technical Issue'} />}
+            {fileDetail.isError && (
+                <NoData text={'Some Technical Issue'} isError />
+            )}
             {fileDetail.isLoading ? (
                 <LoadingAnimation size={50} />
             ) : (

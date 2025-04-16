@@ -21,7 +21,7 @@ export const GalleryFiles = ({
         <div className="h-[370px] overflow-auto custom-scrollbar">
             {documentsViewModal}
             {studentAllAssessmentFiles.isError && (
-                <NoData text={'Some Technical Issue'} />
+                <NoData text={'Some Technical Issue'} isError />
             )}
             {studentAllAssessmentFiles.isLoading ||
             studentAllAssessmentFiles.isFetching ? (

@@ -105,7 +105,9 @@ export const ViewSectorsCB = ({ rto }: { rto: Rto }) => {
                     Selected Sectors &amp; Courses
                 </Typography>
 
-                {rtoCourses.isError && <NoData text={'Technical Issue'} />}
+                {rtoCourses.isError && (
+                    <NoData text={'Technical Issue'} isError />
+                )}
                 {rtoCourses.isLoading ? (
                     <ContextBarLoading />
                 ) : rtoCourses.data?.length ? (

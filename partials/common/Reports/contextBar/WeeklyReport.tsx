@@ -12,7 +12,7 @@ export const WeeklyReport = () => {
     return (
         <div>
             {weeklyReport.isError && (
-                <NoData text="There is some technical issue!" />
+                <NoData text="There is some technical issue!" isError />
             )}
             {weeklyReport?.isLoading ? (
                 <BeatLoader />

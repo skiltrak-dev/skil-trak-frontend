@@ -106,6 +106,7 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
             {count.isError && (
                 <NoData
                     text={'There is some technical issue in history count'}
+                    isError
                 />
             )}
             {count.isLoading ? (

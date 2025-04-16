@@ -123,7 +123,10 @@ export const FindWorkplaceByName = ({
                         {isDropdown && searchedName && (
                             <div className="absolute top-full left-0 w-full  rounded-md bg-white p-3 shadow-md">
                                 {industries.isError && (
-                                    <NoData text="There is some technical issue!" />
+                                    <NoData
+                                        text="There is some technical issue!"
+                                        isError
+                                    />
                                 )}
                                 {industries.isLoading ? (
                                     <LoadingAnimation />

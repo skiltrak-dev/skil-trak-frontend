@@ -30,7 +30,7 @@ export const ProfileUpcommingAppointments = ({
         <div>
             <Typography variant="label">Upcoming</Typography>
             {futureAppointments.isError ? (
-                <NoData text="There is Some technical issue" />
+                <NoData text="There is Some technical issue" isError />
             ) : null}
             <div className="flex flex-col gap-y-3 mt-2">
                 {futureAppointments.isLoading ? (

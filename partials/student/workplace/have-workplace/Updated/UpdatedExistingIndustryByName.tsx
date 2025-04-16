@@ -96,7 +96,10 @@ export const UpdatedExistingIndustryByName = ({
                                 </Typography>
                                 <div className="top-full left-0 w-full  rounded-md">
                                     {industries.isError && (
-                                        <NoData text="There is some technical issue!" />
+                                        <NoData
+                                            text="There is some technical issue!"
+                                            isError
+                                        />
                                     )}
                                     {industries.isLoading ? (
                                         <LoadingAnimation />

@@ -60,7 +60,7 @@ export const KPISettingPage = () => {
         <div className="flex flex-col gap-4 m-4 py-2 rounded-lg bg-[#F8FCFF] shadow-md">
             <div>
                 {kpiDetList?.isError ? (
-                    <NoData text="There is some technical issue" />
+                    <NoData text="There is some technical issue" isError />
                 ) : null}
                 {kpiDetList?.isLoading ? (
                     <LoadingAnimation size={75} />

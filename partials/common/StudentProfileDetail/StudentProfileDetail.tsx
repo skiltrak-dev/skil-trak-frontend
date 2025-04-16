@@ -6,7 +6,7 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import { useAlert, useContextBar } from '@hooks'
+import { useAlert, useContextBar, useNavbar } from '@hooks'
 import {
     CommonApi,
     SubAdminApi,
@@ -38,6 +38,12 @@ export const StudentProfileDetail = () => {
     const [selectedId, setSelectedId] = useState<string>('')
     const [workplaceLength, setWorkplaceLength] = useState<number>(0)
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+
+    const navbar = useNavbar()
+
+    useEffect(() => {
+        navbar.setTitle('Student Detail')
+    }, [])
 
     useEffect(() => {
         let timer: any = null

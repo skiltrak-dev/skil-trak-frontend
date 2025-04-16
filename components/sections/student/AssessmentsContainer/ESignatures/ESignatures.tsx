@@ -53,6 +53,7 @@ export const ESignatures = () => {
                             {pendingDocuments.isError && (
                                 <NoData
                                     text={'There is some technical issue!'}
+                                    isError
                                 />
                             )}
                             {pendingDocuments.isLoading ? (

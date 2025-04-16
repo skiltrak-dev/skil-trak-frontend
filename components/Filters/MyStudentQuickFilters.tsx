@@ -20,7 +20,6 @@ export const MyStudentQuickFilters = ({
     flagged,
     nonContactable,
 }: MyStudentQuickFiltersProps) => {
-    
     const handleCheckboxChange = (selectedFilter: FilterType) => {
         // Create an object to store all the setter functions
         const setters = {
@@ -73,6 +72,7 @@ export const MyStudentQuickFilters = ({
                             handleCheckboxChange(filter?.id as FilterType)
                         }
                         label={filter?.label}
+                        showError={false}
                     />
                 </div>
             ))}

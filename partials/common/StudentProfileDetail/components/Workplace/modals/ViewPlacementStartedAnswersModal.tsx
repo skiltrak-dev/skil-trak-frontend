@@ -53,7 +53,10 @@ export const ViewPlacementStartedAnswersModal = ({
             onCancelClick={onCancel}
         >
             {workplacePlacementAnswers.isError ? (
-                <NoData text="There is some technical issue, try refresh the page!" />
+                <NoData
+                    text="There is some technical issue, try refresh the page!"
+                    isError
+                />
             ) : null}
             {workplacePlacementAnswers.isLoading ? (
                 <LoadingAnimation size={60} height="h-full" />

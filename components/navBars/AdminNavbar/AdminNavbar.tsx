@@ -36,7 +36,17 @@ export const AdminNavbar = () => {
     var find = '-'
     var remove = new RegExp(find, 'g')
 
-    const title = paths[paths.length - 1].replace(remove, ' ')
+    const titlePath = paths?.reverse()
+    console.log({
+        as: typeof Number(titlePath?.[0]) === 'number',
+        ol: Number(titlePath?.[0]),
+    })
+    const title = titlePath?.[
+        typeof Number(titlePath?.[0]) === 'string' ? 1 : 0
+    ]
+        ?.split('-')
+        ?.join(' ')
+    // const title = titlePath?.[0]?.split('-')?.join(' ')
 
     const getTitle = (paths: string[], offset = 1) => {
         const title = paths[paths.length - offset].replace(remove, ' ')
@@ -65,12 +75,12 @@ export const AdminNavbar = () => {
         <div className="w-full transition-all  z-30 py-2 px-6  flex justify-between items-center">
             <div>
                 <Typography variant={'h4'} capitalize>
-                    {navbar.title || 'Dashboard'}
+                    {navbar.title || title || 'Dashboard'}
                 </Typography>
 
                 <NavbarBreadCrumbs
                     links={links}
-                    title={navbar?.subTitle || navbar?.title}
+                    title={navbar?.title || navbar?.subTitle || title}
                 />
             </div>
 

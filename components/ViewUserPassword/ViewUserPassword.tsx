@@ -46,6 +46,7 @@ export const ViewUserPassword = ({
                         text={
                             'Some technical Issue, Close Modal and Try again.'
                         }
+                        isError
                     />
                 )}
                 {getUserPassword.isLoading ? (

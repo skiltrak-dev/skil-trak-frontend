@@ -25,7 +25,7 @@ const AdminDashboard: NextPageWithLayout = () => {
 
     const isTablet = useMediaQuery({ maxWidth: 1080 })
     const isMobile = useMediaQuery({ maxWidth: 767 })
-    
+
     const [name, setName] = useState('')
     const credentials = AuthUtils.getUserCredentials()
     const getRtos = CommonApi.Filter.useRtos()
@@ -148,7 +148,7 @@ const AdminDashboard: NextPageWithLayout = () => {
                 </Typography>
 
                 {sectorsStudentsCount.isError && (
-                    <NoData text={'There is some technical issue'} />
+                    <NoData text={'There is some technical issue'} isError />
                 )}
                 {sectorsStudentsCount.isLoading ? (
                     <LoadingAnimation size={80} height={'h-48'} />

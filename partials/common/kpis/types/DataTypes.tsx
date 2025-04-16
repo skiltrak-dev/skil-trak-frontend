@@ -2,6 +2,7 @@ import { ColumnDef, Table as ReactTable } from '@tanstack/react-table'
 import { JSX } from 'react'
 import { HeaderGroup, Row } from '@tanstack/react-table'
 import { Paginate } from '@types'
+import { UserRoles } from '@constants'
 
 export type Employee = {
     checked: any
@@ -134,6 +135,26 @@ export interface DepartmentMetric {
     value: number
     maxValue: number
     color: string
+}
+
+export interface KpiAppointment {
+    objectId: number
+    createdAt: Date
+    isDuplicated: boolean
+    isVerified: boolean
+    appointmentid: number
+    appointmentcreatedat: Date
+    date: Date
+    appointmentby: string
+    appointmentbyrole: UserRoles
+    appointmentfor: string
+    appointmentforrole: UserRoles
+    typeid: number
+    type: string
+    courseid: number
+    course: string
+    coursecode: string
+    appointmenttypetitle: string
 }
 
 export interface DepartmentActivity {

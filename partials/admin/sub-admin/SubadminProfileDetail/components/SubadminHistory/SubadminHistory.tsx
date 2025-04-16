@@ -193,7 +193,10 @@ export const SubadminHistory = ({
                         </div>
                         <div className="h-64 overflow-auto custom-scrollbar">
                             {isError && (
-                                <NoData text="There is some technical issue!" />
+                                <NoData
+                                    text="There is some technical issue!"
+                                    isError
+                                />
                             )}
                             {isLoading || isFetching ? (
                                 <LoadingAnimation size={90} />

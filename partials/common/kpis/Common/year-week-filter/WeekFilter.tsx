@@ -7,8 +7,10 @@ import { Typography } from '@components'
 
 export const WeekFilter = ({
     handleDatesChange,
+    showDefaultFilter = true,
 }: {
     handleDatesChange: (startDate: Moment, endDate: Moment) => void
+    showDefaultFilter?: boolean
 }) => {
     const [monthDropdownOpen, setMonthDropdownOpen] = useState(false)
     const [yearDropdownOpen, setYearDropdownOpen] = useState(false)
@@ -40,9 +42,11 @@ export const WeekFilter = ({
     useEffect(() => {
         const { startDate, endDate } = getMonthDates()
         setSelectedMonth(moment(new Date()))
-        handleDatesChange(startDate, endDate)
-        setStartDate(startDate)
-        setEndDate(endDate)
+        if (showDefaultFilter) {
+            handleDatesChange(startDate, endDate)
+            setStartDate(startDate)
+            setEndDate(endDate)
+        }
         setCMonthsDates(getWeeksOfCurrentMonth())
     }, [])
 
@@ -92,7 +96,7 @@ export const WeekFilter = ({
         setSelectedWeek(null)
         setYearDropdownOpen(false)
     }
-
+    console.log({ startDate, endDate })
     return (
         <div>
             <div className="flex  items-center justify-between my-4 ">
@@ -227,10 +231,16 @@ export const WeekFilter = ({
                 <Typography variant="small"> Selected Filter </Typography>
                 <div className="flex items-center gap-x-3">
                     <Typography variant="small">
-                        Start Date: {moment(startDate).format('DD MMM, YYYY')}
+                        Start Date:{' '}
+                        {startDate
+                            ? moment(startDate).format('DD MMM, YYYY')
+                            : '---'}
                     </Typography>
                     <Typography variant="small">
-                        End Date: {moment(endDate).format('DD MMM, YYYY')}
+                        End Date:{' '}
+                        {endDate
+                            ? moment(endDate).format('DD MMM, YYYY')
+                            : '---'}
                     </Typography>
                 </div>
             </div>

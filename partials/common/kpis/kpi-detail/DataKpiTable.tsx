@@ -171,7 +171,7 @@ export const DataKpiTable = <Type,>({
                 </div>
             </div>
 
-            {data?.isError ? <NoData text="Technical Error" /> : null}
+            {data?.isError ? <NoData text="Technical Error" isError /> : null}
             {data?.isLoading || data?.isFetching ? (
                 <LoadingAnimation />
             ) : data?.data && data?.data?.data?.length && data?.isSuccess ? (

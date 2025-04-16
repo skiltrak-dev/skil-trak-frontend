@@ -15,7 +15,7 @@ export const StudentList = ({
     return (
         <div>
             {students.isError && (
-                <NoData text="there is some technical issue!" />
+                <NoData text="there is some technical issue!" isError />
             )}
 
             {students.isLoading || students.isFetching ? (

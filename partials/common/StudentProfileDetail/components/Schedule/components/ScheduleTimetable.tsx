@@ -88,7 +88,10 @@ export const ScheduleTimetable = ({
     return (
         <div>
             {timeSlots.isError ? (
-                <NoData text="There is some technical issue in slots!" />
+                <NoData
+                    text="There is some technical issue in slots!"
+                    isError
+                />
             ) : null}
 
             <div className="relative">
