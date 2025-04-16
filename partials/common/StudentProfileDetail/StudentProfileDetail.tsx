@@ -17,7 +17,7 @@ import { StudentStatusEnum, UserStatus } from '@types'
 import { getLink, getUserCredentials } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { IoIosArrowRoundBack } from 'react-icons/io'
 import { IoArrowBackOutline } from 'react-icons/io5'
@@ -39,6 +39,8 @@ export const StudentProfileDetail = () => {
     const [selectedId, setSelectedId] = useState<string>('')
     const [workplaceLength, setWorkplaceLength] = useState<number>(0)
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+
+    const containerRef = useRef(null)
 
     useEffect(() => {
         let timer: any = null
@@ -96,6 +98,27 @@ export const StudentProfileDetail = () => {
             },
         })
     }, [])
+
+    useEffect(() => {
+        if (containerRef.current) {
+            // Select all divs inside the container
+            const allDivs = containerRef.current.querySelectorAll('div')
+
+            // Remove the white background from all divs
+            allDivs.forEach((div) => {
+                // Remove just the background-color property
+                div.style.backgroundColor = ''
+            })
+
+            // Reapply specific backgrounds where needed
+            const headerDivs = containerRef.current.querySelectorAll('.header')
+            // headerDivs.forEach((div) => {
+            //     div.style.backgroundColor = '#2d2d2d'
+            // })
+
+            // Add more specific styling as needed
+        }
+    }, [profile])
 
     useEffect(() => {
         if (profile?.isSuccess && profile?.data && !router.query?.tab) {
@@ -202,7 +225,7 @@ export const StudentProfileDetail = () => {
     }
 
     return (
-        <div>
+        <div ref={containerRef}>
             {profile?.data?.isSnoozed && (
                 <Alert
                     title="Student Snoozed"

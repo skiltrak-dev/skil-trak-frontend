@@ -68,7 +68,7 @@ export const AllCommunicationTab = ({ user }: { user: User }) => {
                         description: (
                             <>
                                 call made by{' '}
-                                <strong>{item.calledBy.name}</strong>
+                                {/* <strong>{item.calledBy.name}</strong> */}
                             </>
                         ),
                     }}
@@ -216,6 +216,7 @@ export const AllCommunicationTab = ({ user }: { user: User }) => {
         }
 
         const dates = getIsEnabledCommonDates(data)
+
         return dates.map((date: any) => (
             <div
                 key={date}
@@ -233,7 +234,7 @@ export const AllCommunicationTab = ({ user }: { user: User }) => {
                                 date ===
                                 getDate(item.isEnabled || item.createdAt)
                         )
-                        .map((item: any, index: any) =>
+                        ?.map((item: any, index: any) =>
                             renderCommunicationItem(item, index)
                         )}
                 </div>
