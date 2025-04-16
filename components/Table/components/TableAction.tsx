@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, ReactNode } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
 import { createPopper } from '@popperjs/core'
+import { IconType } from 'react-icons'
 
 export interface TableActionOption {
     text?: string | React.ReactElement
@@ -14,6 +15,9 @@ interface TableActionProps {
     options: (TableActionOption | {})[]
     rowItem: any
     lastIndex?: boolean
+    onlyIcon?: boolean
+    Icon?: IconType
+    children?: ReactNode
 }
 
 export const TableAction = ({
@@ -21,9 +25,12 @@ export const TableAction = ({
     options,
     rowItem,
     lastIndex,
+    onlyIcon,
+    Icon,
+    children,
 }: TableActionProps) => {
     const [showPopper, setShowPopper] = useState(false)
-    const buttonRef = useRef<HTMLButtonElement>(null)
+    const buttonRef: any = useRef<HTMLButtonElement>(null)
     const popperRef = useRef<HTMLUListElement>(null)
     const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -70,14 +77,20 @@ export const TableAction = ({
 
     return (
         <div className="relative w-fit" onMouseLeave={handleMouseLeave}>
-            <button
-                ref={buttonRef}
-                className="text-xs rounded px-4 py-2 uppercase font-medium bg-white hover:bg-gray-100 text-gray-800 flex gap-x-2 items-center"
-                onMouseEnter={handleMouseEnter}
-            >
-                {text || 'More'}
-                <FaChevronDown />
-            </button>
+            {children ? (
+                <div ref={buttonRef} onMouseEnter={handleMouseEnter}>
+                    {children}
+                </div>
+            ) : (
+                <button
+                    ref={buttonRef}
+                    className="text-xs rounded px-4 py-2 uppercase font-medium bg-white hover:bg-gray-100 text-gray-800 flex gap-x-2 items-center"
+                    onMouseEnter={handleMouseEnter}
+                >
+                    {text || 'More'}
+                    <FaChevronDown />
+                </button>
+            )}
 
             {showPopper && (
                 <ul

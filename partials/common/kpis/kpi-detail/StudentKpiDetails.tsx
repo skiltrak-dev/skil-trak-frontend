@@ -4,11 +4,10 @@ import { useMemo } from 'react'
 import { AuthorizedUserComponent, InitialAvatar, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { UserStatus } from '@types'
-import { useRouter } from 'next/router'
+import { WeekFilter } from '../Common'
 import { VerifyAction } from '../HOD'
 import { SECTIONS_CONFIG } from './kpiComponentsData'
 import { SubadminDetailProgress } from './SubadminDetailProgress'
-import { WeekFilter } from '../Common'
 
 export const StudentKpiDetails = ({
     endDate,
@@ -25,8 +24,6 @@ export const StudentKpiDetails = ({
     subadmin: any
     handleDatesChange: any
 }) => {
-    const router = useRouter()
-
     const activeSectionConfig = useMemo(
         () =>
             SECTIONS_CONFIG.find((section) => section.label === activeSection),

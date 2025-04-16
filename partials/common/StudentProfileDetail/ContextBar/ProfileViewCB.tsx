@@ -46,7 +46,7 @@ export const ProfileViewCB = ({
     return (
         <div>
             {modal}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between">
                 <div>
                     <StudentAvatar
                         name={profile?.user.name}
@@ -89,7 +89,7 @@ export const ProfileViewCB = ({
                 </AuthorizedUserComponent>
             </div>
 
-            <AuthorizedUserComponent
+            {/* <AuthorizedUserComponent
                 roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
             >
                 <div
@@ -98,7 +98,7 @@ export const ProfileViewCB = ({
                 >
                     View Visitors
                 </div>
-            </AuthorizedUserComponent>
+            </AuthorizedUserComponent> */}
 
             {/* Expiry Date */}
             <div className="flex items-center gap-x-5 mt-3">
