@@ -48,7 +48,7 @@ export const StudentExpireTime = ({
             {modal}
             {mounted ? (
                 // <div className='bg-gray-700 text-white py-1 px-2 rounded-md'>
-                <div className="flex flex-col items-center justify-center gap-x-3 gap-y-2 w-full">
+                <div className="flex flex-col items-center justify-center gap-x-3 gap-y-0.5 w-full">
                     <div className="relative group flex justify-center w-full bg-[#e6f3ff] rounded-md py-1.5">
                         <Countdown date={date} renderer={CountDownRendered} />
                         <div className="group-hover:block hidden text-xs whitespace-nowrap shadow-lg text-gray-100 bg-gray-700 px-2 py-1 rounded-md absolute z-10 right-0">

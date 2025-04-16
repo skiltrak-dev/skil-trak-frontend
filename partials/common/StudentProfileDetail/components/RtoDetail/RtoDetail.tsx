@@ -1,5 +1,6 @@
 import {
     AuthorizedUserComponent,
+    Button,
     Card,
     NoData,
     Typography,
@@ -9,7 +10,7 @@ import { UserRoles } from '@constants'
 import { useWorkplace } from '@hooks'
 import { ProfileCard } from '@partials/admin/sub-admin/SubadminProfileDetail/components/ProfileDetail/ProfileCard'
 import { SubAdminApi } from '@queries'
-import { getUserCredentials, maskText } from '@utils'
+import { maskText } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { Avatar } from '../../ContextBarComponents'
@@ -23,8 +24,6 @@ export const RtoDetail = ({
     studentId: number
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-
-    const role = getUserCredentials()?.role
 
     const router = useRouter()
     const { setWorkplaceRto } = useWorkplace()
@@ -60,16 +59,16 @@ export const RtoDetail = ({
     return (
         <>
             {modal}
-            <Card shadowType="profile">
+            <Card shadowType="profile" noPadding>
                 {rtoDetail?.isError ? (
                     <NoData text="There is Some Technical Issue!" />
                 ) : null}
                 {rtoDetail?.data && rtoDetail?.isSuccess ? (
-                    <div className="grid grid-cols-3 gap-x-7">
+                    <div className="flex justify-between items-center px-4 py-2 gap-x-7 ">
                         <div className="flex flex-col gap-y-3">
-                            <Typography variant="label" semibold>
+                            {/* <Typography variant="label" semibold>
                                 RTO
-                            </Typography>
+                            </Typography> */}
                             <div className="flex  gap-x-2.5 items-center">
                                 <div className="">
                                     <Avatar
@@ -95,7 +94,7 @@ export const RtoDetail = ({
                         </div>
 
                         {/*  */}
-                        <div className="flex flex-col gap-y-2">
+                        {/* <div className="flex flex-col gap-y-2">
                             <ProfileCard
                                 title="RTO Phone Number"
                                 detail={
@@ -125,10 +124,27 @@ export const RtoDetail = ({
                                         : '---'
                                 }
                             />
-                        </div>
+                        </div> */}
 
                         {/*  */}
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between gap-x-2">
+                            <Button
+                                text={'RTO Insurance Document'}
+                                onClick={() => onViewRtoInsuranceDocs()}
+                                variant="info"
+                                outline
+                            />
+                            <Button
+                                text={'View RTO Details'}
+                                onClick={() => {
+                                    router.push(
+                                        `/portals/admin/rto/${rtoDetail?.data?.id}`
+                                    )
+                                }}
+                                variant="info"
+                            />
+                        </div>
+                        {/* <div className="flex items-center justify-between">
                             <div onClick={() => onViewRtoInsuranceDocs()}>
                                 <Typography
                                     variant="small"
@@ -155,7 +171,7 @@ export const RtoDetail = ({
                                     </Typography>
                                 </div>
                             </AuthorizedUserComponent>
-                        </div>
+                        </div> */}
                     </div>
                 ) : null}
             </Card>

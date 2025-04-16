@@ -32,6 +32,7 @@ import { useActionModal, useModal } from '@hooks'
 
 import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
+import { BsThreeDotsVertical } from 'react-icons/bs'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -377,7 +378,13 @@ export const ApprovedStudent = () => {
                             options={tableActionOption}
                             rowItem={info?.row?.original}
                             lastIndex={length.includes(info?.row?.index)}
-                        />
+                            onlyIcon
+                            Icon={BsThreeDotsVertical}
+                        >
+                            <button className="text-xs rounded px-4 py-2 uppercase font-medium text-gray-800 flex gap-x-2 items-center">
+                                <BsThreeDotsVertical />
+                            </button>
+                        </TableAction>
                     </div>
                 )
             },

@@ -1,56 +1,58 @@
+import { Course } from '@types'
 import { useState } from 'react'
 import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
-import { CreatedAtDate, Typography } from '@components'
+import moment, { Moment } from 'moment'
 import { ColumnDef } from '@tanstack/react-table'
 import { DataKpiTable } from '../../DataKpiTable'
 import { RiGitPullRequestFill } from 'react-icons/ri'
+import { CreatedAtDate, Typography } from '@components'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
-import moment, { Moment } from 'moment'
 
-const workplaceColumns: ColumnDef<IWorkplaceIndustries>[] = [
-    {
-        accessorKey: 'student.studentId',
-        header: 'Student ID',
-    },
-    {
-        accessorKey: 'student.user.name',
-        header: 'Name',
-    },
-    {
-        accessorKey: 'student.user.email',
-        header: 'Email',
-    },
-    {
-        accessorKey: 'student.phone',
-        header: 'Phone',
-    },
-    {
-        accessorKey: 'courses',
-        header: 'COURSES',
-        cell: (info) => (
-            <div>
-                <Typography variant="small" normal>
-                    {info?.row?.original?.courses?.[0]?.code}
-                </Typography>
-                <Typography variant="label" normal>
-                    {info?.row?.original?.courses?.[0]?.title}
-                </Typography>
-            </div>
-        ),
-    },
-    {
-        accessorKey: 'workplaceRequestDate',
-        header: 'Workplace Request Date',
-        cell: (info) => (
-            <CreatedAtDate createdAt={info.row?.original?.createdAt} />
-        ),
-    },
-    {
-        accessorKey: 'currentStatus',
-        header: 'Status',
-    },
-]
+const workplaceColumns: ColumnDef<IWorkplaceIndustries & { course: Course }>[] =
+    [
+        {
+            accessorKey: 'student.studentId',
+            header: 'Student ID',
+        },
+        {
+            accessorKey: 'student.user.name',
+            header: 'Name',
+        },
+        {
+            accessorKey: 'student.user.email',
+            header: 'Email',
+        },
+        {
+            accessorKey: 'student.phone',
+            header: 'Phone',
+        },
+        {
+            accessorKey: 'courses',
+            header: 'COURSES',
+            cell: (info) => (
+                <div>
+                    <Typography variant="small" normal>
+                        {info?.row?.original?.course?.code}
+                    </Typography>
+                    <Typography variant="label" normal>
+                        {info?.row?.original?.course?.title}
+                    </Typography>
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'workplaceRequestDate',
+            header: 'Workplace Request Date',
+            cell: (info) => (
+                <CreatedAtDate createdAt={info.row?.original?.createdAt} />
+            ),
+        },
+        {
+            accessorKey: 'currentStatus',
+            header: 'Status',
+        },
+    ]
 
 export const WorkplaceRequest = ({
     endDate,

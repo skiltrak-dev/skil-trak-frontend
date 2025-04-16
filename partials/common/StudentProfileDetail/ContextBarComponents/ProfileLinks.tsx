@@ -1,4 +1,4 @@
-import { Typography } from '@components'
+import { TableAction, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
 import { SubAdminApi } from '@queries'
@@ -7,7 +7,7 @@ import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useState } from 'react'
 import { IoMdEyeOff } from 'react-icons/io'
-import { RiEditFill } from 'react-icons/ri'
+import { RiEditFill, RiFootprintFill } from 'react-icons/ri'
 import {
     MailPasswordModal,
     SnoozeStudentModal,
@@ -17,6 +17,8 @@ import {
 import { CiUnlock } from 'react-icons/ci'
 import { MdSnooze } from 'react-icons/md'
 import { TbMessage2Up } from 'react-icons/tb'
+import { BsThreeDotsVertical } from 'react-icons/bs'
+import { ViewProfileVisitorsModal } from '@partials/common/modal'
 
 export const ProfileLinks = ({ profile }: { profile: Student }) => {
     const router = useRouter()
@@ -58,6 +60,15 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
     const onMessageSendClicked = () => {
         setModal(
             <StudentMessageModal onCancel={onCancelClicked} student={profile} />
+        )
+    }
+
+    const onViewProfileVisitorsClicked = () => {
+        setModal(
+            <ViewProfileVisitorsModal
+                onCancel={onCancelClicked}
+                userId={profile?.user.id}
+            />
         )
     }
 
@@ -126,13 +137,31 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
                 profile?.isSnoozed ? UnSnoozeModal() : onSnooze()
             },
         },
+        {
+            ...(role === UserRoles.ADMIN || role === UserRoles.SUBADMIN
+                ? {
+                      text: 'View Visitors',
+                      Icon: RiFootprintFill,
+                      onClick: () => {
+                          onViewProfileVisitorsClicked()
+                      },
+                  }
+                : {}),
+        },
     ]
 
     return (
         <div className="flex flex-col items-end gap-y-2.5">
             {modal}
             {passwordModal}
-            <div className="flex flex-col gap-1.5">
+            <div className="flex gap-x-1 items-center">
+                <TableAction options={profileLinks} rowItem={profile}>
+                    <button className="text-xs rounded px-4 py-2 uppercase font-medium text-gray-800 flex gap-x-2 items-center">
+                        <BsThreeDotsVertical size={19} />
+                    </button>
+                </TableAction>
+            </div>
+            {/* <div className="flex flex-col gap-1.5">
                 {profileLinks.map(
                     ({ text, Icon, onClick }: any, index: number) =>
                         text ? (
@@ -154,7 +183,7 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
                             </div>
                         ) : null
                 )}
-            </div>
+            </div> */}
         </div>
     )
 }
