@@ -365,11 +365,7 @@ export const InCompleteSubmission = ({ subadmin }: { subadmin: SubAdmin }) => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: (info) => (
-                <StudentCellInfo
-                    isHod={subadmin?.departmentMember?.isHod}
-                    student={info.row.original}
-                    call
-                />
+                <StudentCellInfo student={info.row.original} call />
             ),
         },
         {
