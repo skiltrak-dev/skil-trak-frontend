@@ -1000,8 +1000,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                     }}
                                                                 >
                                                                     {marker?.address &&
-                                                                        !marker?.courses &&
-                                                                        branchId && (
+                                                                        !marker?.courses && (
                                                                             <IndustryBranchInfoBoxCard
                                                                                 item={
                                                                                     industryDetails

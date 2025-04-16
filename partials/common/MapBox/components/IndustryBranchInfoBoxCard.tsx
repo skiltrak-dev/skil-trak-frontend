@@ -50,17 +50,17 @@ export const IndustryBranchInfoBoxCard = ({
     onCancel,
     industryContacted,
 }: any) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const { notification } = useNotification()
+    const canAssessData = useIsRestricted(UserRoles.INDUSTRY)
     const workplaceId = workplace?.id
     const router = useRouter()
     const { data, isLoading, isError } =
         SubAdminApi.Workplace.useSubAdminMapIndustryBranchDetail(industryId, {
             skip: !industryId,
         })
-    const { notification } = useNotification()
 
-    const canAssessData = useIsRestricted(UserRoles.INDUSTRY)
 
-    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const contextBar = useContextBar()
     const {

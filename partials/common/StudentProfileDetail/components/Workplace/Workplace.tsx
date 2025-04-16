@@ -141,7 +141,6 @@ export const Workplace = ({
         }
     )
 
-    console.log({ wpInvoiceStatus })
 
     const folders = GetFolders(workplaceFolders)
 
