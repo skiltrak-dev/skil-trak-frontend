@@ -57,6 +57,6 @@ export const coordinatorEndpoints = (
             url: `${PREFIX}/coordinator/${id}/toggle/has-access-all/students`,
             method: 'PATCH',
         }),
-        invalidatesTags: ['Rto-Coordinators'],
+        invalidatesTags: ['Rto-Coordinators', 'SubAdmins'],
     }),
 })

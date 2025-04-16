@@ -31,7 +31,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { setLink } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
 
-export const RejectedStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
+export const RejectedStudents = () => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -116,10 +116,7 @@ export const RejectedStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
             cell: ({ row }: any) => {
                 return (
                     <div id="student-profile">
-                        <StudentCellInfo
-                            isHod={subadmin?.departmentMember?.isHod}
-                            student={row.original}
-                        />
+                        <StudentCellInfo student={row.original} />
                     </div>
                 )
             },

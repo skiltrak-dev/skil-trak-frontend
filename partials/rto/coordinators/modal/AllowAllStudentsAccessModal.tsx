@@ -5,12 +5,10 @@ import {
     Switch,
     Typography,
 } from '@components'
+import { RtoApi } from '@queries'
 import { useNotification } from '@hooks'
-import { AdminApi, RtoApi } from '@queries'
-import { Rto } from '@types'
-import { FormProvider, useForm } from 'react-hook-form'
 import { FaHourglassHalf } from 'react-icons/fa'
-import { IoClose } from 'react-icons/io5'
+import { FormProvider, useForm } from 'react-hook-form'
 
 export const AllowAllStudentsAccessModal = ({
     coordinator,
@@ -33,16 +31,16 @@ export const AllowAllStudentsAccessModal = ({
         mode: 'all',
     })
 
-    const onConfirmClicked = async (values: any) => {
-        await allowPermissions(coordinator?.id).then((res: any) => {
-            if (res?.data) {
-                notification.success({
-                    title: 'Has Allow Access All Students',
-                    description: 'Has Allow Access All Students',
-                })
-                onCancel()
-            }
-        })
+    const onConfirmClicked = async () => {
+        const res: any = await allowPermissions(coordinator?.id)
+
+        if (res?.data) {
+            notification.success({
+                title: 'Has Allow Access All Students',
+                description: 'Has Allow Access All Students',
+            })
+            onCancel()
+        }
     }
 
     return (
@@ -54,14 +52,6 @@ export const AllowAllStudentsAccessModal = ({
                         className="mt-2 w-full"
                         onSubmit={methods.handleSubmit(onConfirmClicked)}
                     >
-                        {/* <div
-                            onClick={() => {
-                                onCancel && onCancel()
-                            }}
-                            className={`text-red-500 cursor-pointer flex justify-end px-5 py-2`}
-                        >
-                            <IoClose size={25} />
-                        </div> */}
                         <div className="flex flex-col items-center gap-y-4 py-4">
                             <div className={`text-green-500`}>
                                 <FaHourglassHalf size={48} />
@@ -84,28 +74,22 @@ export const AllowAllStudentsAccessModal = ({
                                         <Switch
                                             name="hasAllStudentAccess"
                                             customStyleClass="profileSwitch"
-                                            onChange={(e: any) => {
-                                                onConfirmClicked(
-                                                    e?.target?.checked
-                                                )
+                                            onChange={() => {
+                                                onConfirmClicked()
                                             }}
                                             isChecked={
                                                 coordinator?.hasAllStudentAccess
+                                            }
+                                            loading={
+                                                allowPermissionsResult?.isLoading
+                                            }
+                                            disabled={
+                                                allowPermissionsResult?.isLoading
                                             }
                                         />
                                     </div>
                                 </div>
                             </div>
-
-                            {/* <div>
-                                <RadioGroup
-                                    name="reportType"
-                                    options={permissionsOptions}
-                                    disabled={
-                                        !methods?.watch()?.allowAutoReport
-                                    }
-                                />
-                            </div> */}
 
                             <Button
                                 text="close"
@@ -114,15 +98,6 @@ export const AllowAllStudentsAccessModal = ({
                                     onCancel && onCancel()
                                 }}
                             />
-                            {/* <div className="flex gap-x-4 items-center">
-                                <Button
-                                    text={'Confirm'}
-                                    variant={'success'}
-                                    submit
-                                    loading={allowPermissionsResult.isLoading}
-                                    disabled={allowPermissionsResult.isLoading}
-                                />
-                            </div> */}
                         </div>
                     </form>
                 </FormProvider>

@@ -121,13 +121,7 @@ export const CompletedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return (
-                    <StudentCellInfo
-                        isHod={subadmin?.departmentMember?.isHod}
-                        student={info?.row?.original}
-                        call
-                    />
-                )
+                return <StudentCellInfo student={info?.row?.original} call />
             },
             header: () => <span>Student</span>,
         },

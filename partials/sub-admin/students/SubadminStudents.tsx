@@ -25,21 +25,19 @@ import {
     PlacementStartedStudents,
     RejectedStudents,
     StudentScheduleEndedList,
-    SubAdminFlaggedStudents,
-    UrgentStudents,
-    InCompleteSubmission,
     UnAssignedStudents,
+    UrgentStudents,
 } from '@partials/sub-admin/students'
 
 // query
 import { SubAdminApi, useGetSubAdminStudentsQuery } from '@queries'
 
 // hooks
-import { useContextBar } from '@hooks'
 
 //Layouts
 import { checkFilteredDataLength, getCountData, getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
+import { useSubadminProfile } from '@hooks'
 
 type Props = {}
 
@@ -65,7 +63,8 @@ const filterKeys = [
 
 export const SubadminStudents = () => {
     const router = useRouter()
-    const { setContent } = useContextBar()
+
+    const subadmin = useSubadminProfile()
 
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState<SubAdminStudentsFilterType>(
@@ -103,7 +102,7 @@ export const SubadminStudents = () => {
                 ...(flagged === true && { flagged }),
                 ...(snoozed === true && { snoozed }),
                 ...(nonContactable === true && { nonContactable }),
-                myStudent: true,
+                ...(!subadmin?.isManager && { myStudent: true }),
             })
                 .replaceAll('{', '')
                 .replaceAll('}', '')
@@ -124,9 +123,8 @@ export const SubadminStudents = () => {
             refetchOnMountOrArgChange: 30,
         }
     )
-    const subadmin = SubAdminApi.SubAdmin.useProfile()
-    const isHod = subadmin?.data?.departmentMember?.isHod
-    const isManager = subadmin?.data?.isManager
+    const isHod = subadmin?.departmentMember?.isHod
+    const isManager = subadmin?.isManager
 
     const [downloadCSV, downloadCSVResult] =
         SubAdminApi.Student.useDownloadStudentCSV()
@@ -151,13 +149,12 @@ export const SubadminStudents = () => {
                 text: studentCount?.pending,
                 loading: count.isLoading,
             },
-            element: <PendingStudents subadmin={subadmin?.data as SubAdmin} />,
+            element: <PendingStudents />,
         },
         // isHod
         ...(isHod ||
         isManager ||
-        (subadmin?.data?.hasAllStudentAccess &&
-            subadmin?.data?.isAssociatedWithRto)
+        (subadmin?.hasAllStudentAccess && subadmin?.isAssociatedWithRto)
             ? [
                   {
                       label: 'Active',
@@ -166,9 +163,7 @@ export const SubadminStudents = () => {
                           text: studentCount?.approved,
                           loading: count.isLoading,
                       },
-                      element: (
-                          <AllStudents subadmin={subadmin?.data as SubAdmin} />
-                      ),
+                      element: <AllStudents />,
                   },
               ]
             : []),
@@ -184,11 +179,7 @@ export const SubadminStudents = () => {
                           text: studentCount?.unAssignedStudent,
                           loading: count.isLoading,
                       },
-                      element: (
-                          <UnAssignedStudents
-                              subadmin={subadmin?.data as SubAdmin}
-                          />
-                      ),
+                      element: <UnAssignedStudents />,
                   },
               ]
             : []),
@@ -200,7 +191,7 @@ export const SubadminStudents = () => {
                 loading: count.isLoading,
             },
             href: { pathname: 'students', query: { tab: 'my-students' } },
-            element: <MyStudents subadmin={subadmin?.data as SubAdmin} />,
+            element: <MyStudents />,
         },
         // TODO: Uncomment this when the component is ready
         // {
@@ -240,11 +231,7 @@ export const SubadminStudents = () => {
                 pathname: 'students',
                 query: { tab: 'placement-started-students' },
             },
-            element: (
-                <PlacementStartedStudents
-                    subadmin={subadmin?.data as SubAdmin}
-                />
-            ),
+            element: <PlacementStartedStudents />,
         },
         {
             label: 'Student Schedule Ended',
@@ -256,11 +243,7 @@ export const SubadminStudents = () => {
                 pathname: 'students',
                 query: { tab: 'student-schedule-ended' },
             },
-            element: (
-                <StudentScheduleEndedList
-                    subadmin={subadmin?.data as SubAdmin}
-                />
-            ),
+            element: <StudentScheduleEndedList />,
         },
         // StudentScheduleEndedList
         {
@@ -270,7 +253,7 @@ export const SubadminStudents = () => {
                 loading: count.isLoading,
             },
             href: { pathname: 'students', query: { tab: 'urgent-students' } },
-            element: <UrgentStudents subadmin={subadmin?.data as SubAdmin} />,
+            element: <UrgentStudents />,
         },
         {
             label: 'Agreement Pending',
@@ -279,11 +262,7 @@ export const SubadminStudents = () => {
                 loading: count.isLoading,
             },
             href: { pathname: 'students', query: { tab: 'agreement-pending' } },
-            element: (
-                <AgreementPendingStudents
-                    subadmin={subadmin?.data as SubAdmin}
-                />
-            ),
+            element: <AgreementPendingStudents />,
         },
         {
             label: 'Rejected',
@@ -292,7 +271,7 @@ export const SubadminStudents = () => {
                 text: studentCount?.rejected,
                 loading: count.isLoading,
             },
-            element: <RejectedStudents subadmin={subadmin?.data as SubAdmin} />,
+            element: <RejectedStudents />,
         },
         {
             label: 'Blocked',
@@ -301,7 +280,7 @@ export const SubadminStudents = () => {
                 text: studentCount?.blocked,
                 loading: count.isLoading,
             },
-            element: <BlockedStudents subadmin={subadmin?.data as SubAdmin} />,
+            element: <BlockedStudents />,
         },
         {
             label: 'Archived',
@@ -310,7 +289,7 @@ export const SubadminStudents = () => {
                 text: studentCount?.archived,
                 loading: count.isLoading,
             },
-            element: <ArchivedStudents subadmin={subadmin?.data as SubAdmin} />,
+            element: <ArchivedStudents />,
         },
         {
             label: 'Completed Students',
@@ -322,9 +301,7 @@ export const SubadminStudents = () => {
                 text: studentCount?.countCompleted,
                 loading: count.isLoading,
             },
-            element: (
-                <CompletedStudents subadmin={subadmin?.data as SubAdmin} />
-            ),
+            element: <CompletedStudents />,
         },
     ]
 
