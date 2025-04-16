@@ -58,9 +58,9 @@ export const AppointmentTable = ({
             header: 'COURSE',
             cell: (info) => (
                 <div>
-                    {/* <Typography variant="small" normal>
-                        {info?.row?.original?.course?.code}
-                    </Typography> */}
+                    <Typography variant="small" normal>
+                        {info?.row?.original?.coursecode}
+                    </Typography>
                     <Typography variant="label" normal>
                         {info?.row?.original?.course}
                     </Typography>
@@ -68,10 +68,44 @@ export const AppointmentTable = ({
             ),
         },
         {
+            accessorKey: 'appointmentWith',
+            header: 'Appointment With',
+            cell: (info) => (
+                <div>
+                    <Typography variant="xs" semibold normal uppercase>
+                        {info?.row?.original?.appointmentbyrole}
+                    </Typography>
+                    <Typography variant="label" normal>
+                        {info?.row?.original?.appointmentby}
+                    </Typography>
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'appointmentType',
+            header: 'Appointment Type',
+            cell: (info) => (
+                <div>
+                    <Typography variant="label" normal>
+                        {info?.row?.original?.appointmenttypetitle}
+                    </Typography>
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'appointmentData',
+            header: 'Appointment Date',
+            cell: (info) => (
+                <CreatedAtDate createdAt={info.row?.original?.date} />
+            ),
+        },
+        {
             accessorKey: 'appointmentDate',
             header: 'Appointment Book Date',
             cell: (info) => (
-                <CreatedAtDate createdAt={info.row?.original?.createdAt} />
+                <CreatedAtDate
+                    createdAt={info.row?.original?.appointmentcreatedat}
+                />
             ),
         },
     ]
