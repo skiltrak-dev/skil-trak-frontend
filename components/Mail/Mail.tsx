@@ -59,6 +59,22 @@ export const Mail = ({ message, sender, index }: any) => {
     const myMessages =
         AuthUtils.getUserCredentials()?.id === message?.sender?.id
 
+    function removeWhiteBackground(htmlString: string) {
+        // Remove background-color:#ffffff from style attributes
+        let result = htmlString.replace(
+            /background-color\s*:\s*#ffffff\s*;?/gi,
+            ''
+        )
+
+        // Also remove the div style rule that's in the <style> tag
+        result = result.replace(
+            /div\s*\{\s*background-color\s*:\s*#ffffff\s*;/gi,
+            'div {'
+        )
+
+        return result
+    }
+
     return (
         <div
             id={message?.id}
@@ -183,7 +199,9 @@ export const Mail = ({ message, sender, index }: any) => {
                             <span
                                 className="block mr-6"
                                 dangerouslySetInnerHTML={{
-                                    __html: message?.message,
+                                    __html: removeWhiteBackground(
+                                        message?.message
+                                    ),
                                 }}
                             >
                                 {/* {message?.message} */}

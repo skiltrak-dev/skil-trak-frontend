@@ -2,7 +2,6 @@ import {
     Alert,
     EmptyData,
     LoadingAnimation,
-    PageTitle,
     TechnicalError,
     Typography,
 } from '@components'

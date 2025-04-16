@@ -28,15 +28,20 @@ export const MailDetail = () => {
         Number(router?.query?.id),
         {
             skip: !router?.query?.id,
+            refetchOnMountOrArgChange: 15,
         }
     )
     const [isSeen] = CommonApi.Messages.useIsSeen()
 
     useEffect(() => {
-        if (router?.query?.id && !mailDetail?.data?.isSeen) {
+        if (
+            router?.query?.id &&
+            !mailDetail?.data?.isSeen &&
+            mailDetail?.isSuccess
+        ) {
             isSeen(router?.query?.id)
         }
-    }, [router?.query, mailDetail?.data])
+    }, [router?.query, mailDetail])
 
     const onReplySubmit = (values: any) => {
         const reply = draftToHtmlText(values?.reply)
