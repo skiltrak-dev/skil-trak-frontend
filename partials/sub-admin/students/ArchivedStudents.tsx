@@ -130,11 +130,7 @@ export const ArchivedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
             cell: ({ row }: any) => {
                 return (
                     <div id="student-profile">
-                        <StudentCellInfo
-                            isHod={subadmin?.departmentMember?.isHod}
-                            student={row.original}
-                            call
-                        />
+                        <StudentCellInfo student={row.original} call />
                     </div>
                 )
             },

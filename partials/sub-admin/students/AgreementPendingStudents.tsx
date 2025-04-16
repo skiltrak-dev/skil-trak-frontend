@@ -36,11 +36,7 @@ import {
 import moment from 'moment'
 import { RTOCellInfo } from '../rto/components'
 
-export const AgreementPendingStudents = ({
-    subadmin,
-}: {
-    subadmin: SubAdmin
-}) => {
+export const AgreementPendingStudents = () => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -129,11 +125,7 @@ export const AgreementPendingStudents = ({
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }: any) => (
-                <StudentCellInfo
-                    call
-                    student={row.original}
-                    isHod={subadmin?.departmentMember?.isHod}
-                />
+                <StudentCellInfo call student={row.original} />
             ),
         },
 

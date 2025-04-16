@@ -29,7 +29,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { SectorCell } from '@partials/admin/student/components'
 
-export const UrgentStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
+export const UrgentStudents = () => {
     const router = useRouter()
 
     // hooks
@@ -110,11 +110,7 @@ export const UrgentStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: (info) => (
-                <StudentCellInfo
-                    call
-                    student={info.row.original}
-                    isHod={subadmin?.departmentMember?.isHod}
-                />
+                <StudentCellInfo call student={info.row.original} />
             ),
         },
         {

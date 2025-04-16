@@ -34,11 +34,7 @@ import {
     setLink,
 } from '@utils'
 
-export const PlacementStartedStudents = ({
-    subadmin,
-}: {
-    subadmin: SubAdmin
-}) => {
+export const PlacementStartedStudents = () => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -113,11 +109,7 @@ export const PlacementStartedStudents = ({
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }: any) => (
-                <StudentCellInfo
-                    isHod={subadmin?.departmentMember?.isHod}
-                    student={row.original}
-                    call
-                />
+                <StudentCellInfo student={row.original} call />
             ),
         },
 

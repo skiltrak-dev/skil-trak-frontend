@@ -28,11 +28,7 @@ import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 import { RTOCellInfo } from '../rto/components'
 
-export const StudentScheduleEndedList = ({
-    subadmin,
-}: {
-    subadmin: SubAdmin
-}) => {
+export const StudentScheduleEndedList = () => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
@@ -196,11 +192,7 @@ export const StudentScheduleEndedList = ({
             header: () => 'Name',
             accessorKey: 'user',
             cell: (info) => (
-                <StudentCellInfo
-                    call
-                    student={info.row.original}
-                    isHod={subadmin?.departmentMember?.isHod}
-                />
+                <StudentCellInfo call student={info.row.original} />
             ),
         },
         {

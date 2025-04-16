@@ -15,9 +15,7 @@ import { MdSnooze } from 'react-icons/md'
 export const StudentCellInfo = ({
     student,
     call,
-    isHod,
 }: {
-    isHod?: boolean
     student: Student
     call?: boolean
 }) => {

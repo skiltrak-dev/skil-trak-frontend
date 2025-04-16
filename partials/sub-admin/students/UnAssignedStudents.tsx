@@ -45,7 +45,7 @@ import { InterviewModal } from '../workplace/modals'
 import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 
-export const UnAssignedStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
+export const UnAssignedStudents = () => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
@@ -372,11 +372,7 @@ export const UnAssignedStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: (info) => (
-                <StudentCellInfo
-                    isHod={subadmin?.departmentMember?.isHod}
-                    student={info.row.original}
-                    call
-                />
+                <StudentCellInfo student={info.row.original} call />
             ),
         },
         {

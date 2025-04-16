@@ -34,7 +34,7 @@ import { checkListLength, setLink } from '@utils'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { CgUnblock } from 'react-icons/cg'
 
-export const BlockedStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
+export const BlockedStudents = () => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -118,10 +118,7 @@ export const BlockedStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
             accessorKey: 'user',
             cell: ({ row }) => (
                 <div id="student-profile">
-                    <StudentCellInfo
-                        student={row.original}
-                        isHod={subadmin?.departmentMember?.isHod}
-                    />
+                    <StudentCellInfo student={row.original} />
                 </div>
             ),
         },
