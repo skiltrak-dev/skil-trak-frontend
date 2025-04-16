@@ -19,10 +19,18 @@ export const SubAdminNavbar = () => {
     const router = useRouter()
     const subadmin = SubAdminApi.SubAdmin.useProfile()
     const checkIsHod = subadmin?.data?.departmentMember?.isHod
+    const isManager = subadmin?.data?.isManager
+    const isAssociatedWithRto = subadmin?.data?.isAssociatedWithRto
+    const hasAllowAllStudents = subadmin?.data?.hasAllStudentAccess
+
     const Routes = {
         Dashboard: `${PREFIX}`,
         Students: `${PREFIX}/students?tab=${
-            subadmin?.data?.departmentMember?.isHod ? 'all' : 'my-students'
+            checkIsHod ||
+            isManager ||
+            (isAssociatedWithRto && hasAllowAllStudents)
+                ? 'all'
+                : 'my-students'
         }`,
         Users: `${PREFIX}/users`,
         Tasks: `${PREFIX}/tasks`,

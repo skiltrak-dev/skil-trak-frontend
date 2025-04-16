@@ -126,6 +126,7 @@ export const SubadminStudents = () => {
     )
     const subadmin = SubAdminApi.SubAdmin.useProfile()
     const isHod = subadmin?.data?.departmentMember?.isHod
+    const isManager = subadmin?.data?.isManager
 
     const [downloadCSV, downloadCSVResult] =
         SubAdminApi.Student.useDownloadStudentCSV()
@@ -154,6 +155,7 @@ export const SubadminStudents = () => {
         },
         // isHod
         ...(isHod ||
+        isManager ||
         (subadmin?.data?.hasAllStudentAccess &&
             subadmin?.data?.isAssociatedWithRto)
             ? [
@@ -173,7 +175,7 @@ export const SubadminStudents = () => {
         ...(isHod
             ? [
                   {
-                      label: 'Un Assigned',
+                      label: 'UnAssigned',
                       href: {
                           pathname: 'students',
                           query: { tab: 'un-assigned' },
