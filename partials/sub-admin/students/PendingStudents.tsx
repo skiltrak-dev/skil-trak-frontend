@@ -108,10 +108,7 @@ export const PendingStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
             accessorKey: 'user',
             cell: ({ row }) => (
                 <div id="student-profile">
-                    <StudentCellInfo
-                        isHod={subadmin?.departmentMember?.isHod}
-                        student={row.original}
-                    />
+                    <StudentCellInfo student={row.original} />
                 </div>
             ),
         },

@@ -27,7 +27,6 @@ export const StudentCallLogDetail = ({
         >
             <div>
                 <StudentCellInfo
-                    isHod={isHod}
                     student={{ ...student, callLog: [callLog?.data] }}
                     call={call}
                 />
