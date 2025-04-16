@@ -58,9 +58,9 @@ export const AppointmentTable = ({
             header: 'COURSE',
             cell: (info) => (
                 <div>
-                    <Typography variant="small" normal>
+                    {/* <Typography variant="small" normal>
                         {info?.row?.original?.course?.code}
-                    </Typography>
+                    </Typography> */}
                     <Typography variant="label" normal>
                         {info?.row?.original?.course}
                     </Typography>
