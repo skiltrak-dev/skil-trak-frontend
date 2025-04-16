@@ -93,6 +93,8 @@ export const SubadminStudents = () => {
 
     const count = SubAdminApi.Student.useCount()
 
+    const isHod = subadmin?.departmentMember?.isHod
+    const isManager = subadmin?.isManager
     const filteredStudents = useGetSubAdminStudentsQuery(
         {
             search: `${JSON.stringify({
@@ -102,7 +104,7 @@ export const SubadminStudents = () => {
                 ...(flagged === true && { flagged }),
                 ...(snoozed === true && { snoozed }),
                 ...(nonContactable === true && { nonContactable }),
-                ...(!subadmin?.isManager && { myStudent: true }),
+                ...(!isManager && !isHod && { myStudent: true }),
             })
                 .replaceAll('{', '')
                 .replaceAll('}', '')
@@ -123,8 +125,6 @@ export const SubadminStudents = () => {
             refetchOnMountOrArgChange: 30,
         }
     )
-    const isHod = subadmin?.departmentMember?.isHod
-    const isManager = subadmin?.isManager
 
     const [downloadCSV, downloadCSVResult] =
         SubAdminApi.Student.useDownloadStudentCSV()
