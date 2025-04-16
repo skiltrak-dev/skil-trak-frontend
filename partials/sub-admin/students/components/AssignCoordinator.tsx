@@ -32,20 +32,9 @@ export const AssignCoordinator = ({ student }: any) => {
     return (
         <>
             {modal && modal}{' '}
-            <div className="min-w-48">
+            <div className="min-w-48 relative z-10">
                 {!changeCoordinator && !student.subadmin ? (
-                    <Select
-                        name={'subAdmin'}
-                        placeholder={'Select Sub Admin'}
-                        options={subAdminOptions}
-                        loading={departmentCoordinators?.isLoading}
-                        disabled={departmentCoordinators?.isLoading}
-                        onChange={(e: any) => {
-                            onChangeCoordinator(Number(e?.value))
-                        }}
-                    />
-                ) : changeCoordinator ? (
-                    <div className="flex items-start gap-x-2">
+                    <div className="relative z-40">
                         <Select
                             name={'subAdmin'}
                             placeholder={'Select Sub Admin'}
@@ -56,6 +45,21 @@ export const AssignCoordinator = ({ student }: any) => {
                                 onChangeCoordinator(Number(e?.value))
                             }}
                         />
+                    </div>
+                ) : changeCoordinator ? (
+                    <div className="flex items-start gap-x-2">
+                        <div className="relative z-40">
+                            <Select
+                                name={'subAdmin'}
+                                placeholder={'Select Sub Admin'}
+                                options={subAdminOptions}
+                                loading={departmentCoordinators?.isLoading}
+                                disabled={departmentCoordinators?.isLoading}
+                                onChange={(e: any) => {
+                                    onChangeCoordinator(Number(e?.value))
+                                }}
+                            />
+                        </div>
                         <button
                             onClick={() => {
                                 setChangeCoordinator(false)

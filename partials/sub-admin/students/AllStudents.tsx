@@ -77,6 +77,12 @@ export const AllStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
+
+    const coordinatorProfile = SubAdminApi.SubAdmin.useProfile()
+    const checkIsHod = coordinatorProfile?.data?.departmentMember?.isHod
+    const isManager = coordinatorProfile?.data?.isManager
+    const isAssociatedWithRto = coordinatorProfile?.data?.isAssociatedWithRto
+    const hasAllowAllStudents = coordinatorProfile?.data?.hasAllStudentAccess
     // in the below I want to pass
 
     // subadmin/students/reported/list
@@ -94,41 +100,11 @@ export const AllStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
         )
     const sevenDaysAgo = new Date()
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
-    // const hasMatchingIndustry = data?.data?.map((student: any) => {
-    //     return (
-    //         student &&
-    //         student?.workplace?.filter((workplace: any) =>
-    //             workplace?.industries?.filter((industry: any) => {
-    //                 const awaitingAgreementSignedDate = new Date(
-    //                     industry?.awaitingAgreementSignedDate
-    //                 )
-    //                 const isMoreThanSevenDays =
-    //                     awaitingAgreementSignedDate <= sevenDaysAgo
-    //                 const isAwaitingAgreementSigned =
-    //                     industry?.awaitingAgreementSigned
-    //                 const agreementSigned = !industry?.AgreementSigned
-    //                 const isAgreementNotSigned =
-    //                     industry?.AgreementSignedDate === null
-
-    //                 return {
-    //                     isMatching:
-    //                         industry?.applied &&
-    //                         isAwaitingAgreementSigned &&
-    //                         isAgreementNotSigned &&
-    //                         agreementSigned &&
-    //                         isMoreThanSevenDays,
-    //                     id: student?.id,
-    //                 }
-    //             })
-    //         )
-    //     )
-    // })
-    // const industryIds = hasMatchingIndustry?.flat(1).map((item: any) => item)
 
     const findWorkplaces = data?.data.filter(
         (student: any) => student?.workplace?.length
     )
-    // .filter((workplace: any) => workplace?.industries?.length)
+
     const hasMatchingIndustry = findWorkplaces?.filter(
         (workplace: any) => workplace?.industries?.length
     )
@@ -423,6 +399,8 @@ export const AllStudents = ({ subadmin }: { subadmin: SubAdmin }) => {
             accessorKey: 'assignCoordinator',
             header: () => <span>Assign Coordinator</span>,
             cell: ({ row }) => {
+                // if is not hod then don;t show this column
+                if (!checkIsHod) return <p>---</p>
                 return <AssignCoordinator student={row?.original} />
             },
         },
