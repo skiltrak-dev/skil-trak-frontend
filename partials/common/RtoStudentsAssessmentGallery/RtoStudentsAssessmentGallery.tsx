@@ -184,7 +184,7 @@ export const RtoStudentsAssessmentGallery = () => {
                         </div>
                         <div className="p-2">
                             {studentAllAssessmentFiles.isError && (
-                                <NoData text={'Some Technical Issue'} />
+                                <NoData text={'Some Technical Issue'} isError />
                             )}
                             {studentAllAssessmentFiles.isLoading ||
                             studentAllAssessmentFiles.isFetching ? (

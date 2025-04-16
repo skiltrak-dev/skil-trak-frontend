@@ -61,7 +61,7 @@ export const RtoDetail = ({
             {modal}
             <Card shadowType="profile" noPadding>
                 {rtoDetail?.isError ? (
-                    <NoData text="There is Some Technical Issue!" />
+                    <NoData text="There is Some Technical Issue!" isError />
                 ) : null}
                 {rtoDetail?.data && rtoDetail?.isSuccess ? (
                     <div className="flex justify-between items-center px-4 py-2 gap-x-7 ">

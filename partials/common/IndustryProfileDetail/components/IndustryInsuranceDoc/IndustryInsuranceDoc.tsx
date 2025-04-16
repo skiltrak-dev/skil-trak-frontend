@@ -102,7 +102,10 @@ export const IndustryInsuranceDoc = ({ industry }: { industry: Industry }) => {
                                         }}
                                     />
                                 </div>
-                                <NoData text="There is some technical issue" />
+                                <NoData
+                                    text="There is some technical issue"
+                                    isError
+                                />
                             </div>
                         )}
 

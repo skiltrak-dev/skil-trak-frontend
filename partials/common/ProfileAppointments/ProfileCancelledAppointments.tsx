@@ -29,7 +29,7 @@ export const ProfileCancelledAppointments = ({
             <Typography variant="label">Cancelled</Typography>
             <div className="flex flex-col gap-y-3">
                 {cancelledAppointments.isError ? (
-                    <NoData text="There is Some technical issue" />
+                    <NoData text="There is Some technical issue" isError />
                 ) : null}
                 {cancelledAppointments.isLoading ? (
                     <div className="flex flex-col items-center justify-center h-60">

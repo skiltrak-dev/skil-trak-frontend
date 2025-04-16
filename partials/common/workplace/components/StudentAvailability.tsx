@@ -79,7 +79,10 @@ export const StudentAvailability = ({ wpId }: { wpId: number }) => {
     return (
         <>
             {studentAvailability.isError ? (
-                <NoData text="There is some technical issue, try refresh the page!" />
+                <NoData
+                    text="There is some technical issue, try refresh the page!"
+                    isError
+                />
             ) : null}
             {studentAvailability.isLoading ? (
                 <LoadingAnimation size={60} height="h-full" />

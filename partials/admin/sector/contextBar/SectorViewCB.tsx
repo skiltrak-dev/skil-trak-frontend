@@ -87,7 +87,7 @@ export const SectorViewCB = ({ sector }: { sector: Sector }) => {
                     {industryChecks?.isLoading ? (
                         <ContextBarLoading />
                     ) : industryChecks?.isError ? (
-                        <NoData text="There is some technical issue!" />
+                        <NoData text="There is some technical issue!" isError />
                     ) : industryChecks?.data?.data &&
                       industryChecks?.data?.data?.length > 0 ? (
                         <div>

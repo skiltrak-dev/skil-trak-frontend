@@ -59,7 +59,7 @@ export const SectorDocuments = ({
                 </div>
             </div>
             {docs?.isError ? (
-                <NoData text="There is some technical issue!" />
+                <NoData text="There is some technical issue!" isError />
             ) : null}
             {docs?.isLoading || docs?.isFetching ? (
                 <LoadingAnimation size={70} />

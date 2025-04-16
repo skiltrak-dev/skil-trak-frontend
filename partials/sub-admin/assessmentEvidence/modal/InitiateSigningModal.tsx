@@ -80,7 +80,10 @@ export const InitiateSigningModal = ({
                 ) : (
                     <div className={'h-[inherit]'}>
                         {getTemplate.isError && (
-                            <NoData text="There is some technical issue" />
+                            <NoData
+                                text="There is some technical issue"
+                                isError
+                            />
                         )}
                         {getTemplate.isLoading || getTemplate?.isFetching ? (
                             <LoadingAnimation height="h-[30vh]" />

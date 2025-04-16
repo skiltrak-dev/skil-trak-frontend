@@ -54,7 +54,10 @@ const InsuranceDocuments: NextPageWithLayout = () => {
 
                 {/*  */}
                 {getInsuranceType?.isError ? (
-                    <NoData text="There is some technical issue getting Types!" />
+                    <NoData
+                        text="There is some technical issue getting Types!"
+                        isError
+                    />
                 ) : null}
                 {getInsuranceType?.isLoading ? (
                     <div className="flex flex-col items-center">

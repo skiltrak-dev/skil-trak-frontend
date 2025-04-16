@@ -190,6 +190,7 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                                     <NoData
                                         simple
                                         text="There is technical issue!"
+                                        isError
                                     />
                                 ) : null}
                                 {supervisors.isLoading ? (

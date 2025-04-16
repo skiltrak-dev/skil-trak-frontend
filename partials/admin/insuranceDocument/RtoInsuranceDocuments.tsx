@@ -33,7 +33,7 @@ export const RtoInsuranceDocuments = ({
                 {/*  */}
                 {getRtoByInsuranceType?.isError ? (
                     <div className="p-3">
-                        <NoData text="There is some technical issue!" />
+                        <NoData text="There is some technical issue!" isError />
                     </div>
                 ) : null}
                 {getRtoByInsuranceType?.isLoading ||

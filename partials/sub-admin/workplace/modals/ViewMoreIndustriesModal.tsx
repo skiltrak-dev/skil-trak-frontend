@@ -47,7 +47,10 @@ export const ViewMoreIndustriesModal = ({
 
                 <div className="max-h-[65vh] overflow-auto custom-scrollbar flex flex-col gap-y-1.5 w-full px-6">
                     {viewMoreIndustries.isError && (
-                        <NoData text={'There is some technical issue'} />
+                        <NoData
+                            text={'There is some technical issue'}
+                            isError
+                        />
                     )}
                     {viewMoreIndustries.isLoading ? (
                         <LoadingAnimation size={85} />

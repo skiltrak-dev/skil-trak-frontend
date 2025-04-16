@@ -48,7 +48,7 @@ export const PastAppointments = ({ userId }: { userId?: any }) => {
             )}
             <div>
                 {pastAppointments.isError && (
-                    <NoData text={'Some Technical issue, Try Reload'} />
+                    <NoData text={'Some Technical issue, Try Reload'} isError />
                 )}
                 {pastAppointments.isLoading ? (
                     <LoadingAnimation size={90} />

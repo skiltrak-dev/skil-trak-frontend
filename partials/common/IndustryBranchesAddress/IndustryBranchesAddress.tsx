@@ -156,6 +156,7 @@ export const IndustryBranchesAddress = ({
                                 <NoData
                                     simple
                                     text="There is technical issue!"
+                                    isError
                                 />
                             )}
                             {industries.isLoading ? (

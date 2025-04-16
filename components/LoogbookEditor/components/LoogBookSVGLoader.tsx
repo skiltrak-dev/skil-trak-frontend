@@ -154,7 +154,7 @@ export const LoogBookSVGLoader = ({
             >
                 <div>
                     {template.isError ? (
-                        <NoData text="There is some technical issue!" />
+                        <NoData text="There is some technical issue!" isError />
                     ) : null}
                     {template?.data ? (
                         <div ref={dimensionRef} className="relative">

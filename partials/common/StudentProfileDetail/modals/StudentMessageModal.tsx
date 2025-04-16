@@ -70,7 +70,10 @@ export const StudentMessageModal = ({
                         Recent Messages
                     </Typography>
                     {studentMesagesList?.isError ? (
-                        <NoData text="There is some technical issue. try refresh your page!" />
+                        <NoData
+                            text="There is some technical issue. try refresh your page!"
+                            isError
+                        />
                     ) : null}
                     {studentMesagesList?.isLoading ? (
                         <LoadingAnimation size={75} />

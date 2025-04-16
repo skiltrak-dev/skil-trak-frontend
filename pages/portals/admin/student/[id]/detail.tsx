@@ -13,7 +13,7 @@ const StudentsProfileDetail: NextPageWithLayout = () => {
     )
 }
 StudentsProfileDetail.getLayout = (page: ReactElement) => {
-    return <AdminLayout>{page}</AdminLayout>
+    return <AdminLayout >{page}</AdminLayout>
 }
 
 export default StudentsProfileDetail

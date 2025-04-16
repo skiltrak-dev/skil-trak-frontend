@@ -36,6 +36,7 @@ export const IndustryCallLogModal = ({
                     {callLogs.isError && (
                         <NoData
                             text={'There is some technical issue, Try again'}
+                            isError
                         />
                     )}
                     {callLogs.isLoading ? (

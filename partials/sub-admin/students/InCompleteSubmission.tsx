@@ -41,7 +41,7 @@ import { InterviewModal } from '../workplace/modals'
 import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 
-export const InCompleteSubmission = ({ subadmin }: { subadmin: SubAdmin }) => {
+export const InCompleteSubmission = () => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)

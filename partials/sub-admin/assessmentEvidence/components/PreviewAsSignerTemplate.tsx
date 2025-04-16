@@ -52,7 +52,7 @@ export const PreviewAsSignerTemplate = ({
     return (
         <div>
             <BackButton onClick={() => goBack()} />
-            {isError && <NoData text="There is some technical issue" />}
+            {isError && <NoData text="There is some technical issue" isError />}
             {isLoading ? (
                 <LoadingAnimation />
             ) : pdfBytes ? (

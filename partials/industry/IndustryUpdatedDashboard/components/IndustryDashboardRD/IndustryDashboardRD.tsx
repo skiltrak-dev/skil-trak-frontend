@@ -53,7 +53,9 @@ export const IndustryDashboardRD = ({ industry }: { industry: Industry }) => {
                 </Typography>
             </div>
             <div className="overflow-auto custom-scrollbar px-3.5 py-2.5">
-                {isError && <NoData text="There is some technical issue" />}
+                {isError && (
+                    <NoData text="There is some technical issue" isError />
+                )}
 
                 <div className=" border-b border-secondary-dark pb-3">
                     <div className="w-full">

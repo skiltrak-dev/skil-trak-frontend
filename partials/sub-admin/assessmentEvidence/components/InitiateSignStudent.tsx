@@ -364,7 +364,7 @@ export const InitiateSignStudent = ({
             {modal}
             <ShowErrorNotifications result={initiateSignResult} />
             {student.isError && (
-                <NoData text="There is some technical issue!" />
+                <NoData text="There is some technical issue!" isError />
             )}
             {student.isLoading ? (
                 <div className="flex justify-center items-center h-[calc(100%-100px)]">

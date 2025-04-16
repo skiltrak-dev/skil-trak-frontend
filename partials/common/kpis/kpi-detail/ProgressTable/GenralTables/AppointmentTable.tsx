@@ -8,6 +8,7 @@ import { Appointment } from '@types'
 import { UserRoles } from '@constants'
 import { Button, CreatedAtDate, Typography } from '@components'
 import moment, { Moment } from 'moment'
+import { KpiAppointment } from '@partials/common/kpis/types'
 
 export const AppointmentTable = ({
     startDate,
@@ -42,54 +43,15 @@ export const AppointmentTable = ({
         return student
     }
 
-    const appointmentColumns: ColumnDef<Appointment>[] = [
-        {
-            accessorKey: 'studentId',
-            header: 'Student ID',
-            cell: (info) => {
-                const student = getStudent(info.row.original)
-                return (
-                    <Typography variant="label" normal>
-                        {student?.student?.studentId}
-                    </Typography>
-                )
-            },
-        },
+    const appointmentColumns: ColumnDef<KpiAppointment>[] = [
         {
             accessorKey: 'name',
             header: 'Name',
-            cell: (info) => {
-                const student = getStudent(info.row.original)
-                return (
-                    <Typography variant="label" normal>
-                        {student?.name}
-                    </Typography>
-                )
-            },
-        },
-        {
-            accessorKey: 'email',
-            header: 'Email',
-            cell: (info) => {
-                const student = getStudent(info.row.original)
-                return (
-                    <Typography variant="label" normal>
-                        {student?.email}
-                    </Typography>
-                )
-            },
-        },
-        {
-            accessorKey: 'phone',
-            header: 'Phone',
-            cell: (info) => {
-                const student = getStudent(info.row.original)
-                return (
-                    <Typography variant="label" normal>
-                        {student?.student?.phone}
-                    </Typography>
-                )
-            },
+            cell: (info) => (
+                <Typography variant="label" normal>
+                    {info.row.original?.appointmentfor}
+                </Typography>
+            ),
         },
         {
             accessorKey: 'courses',
@@ -100,7 +62,7 @@ export const AppointmentTable = ({
                         {info?.row?.original?.course?.code}
                     </Typography>
                     <Typography variant="label" normal>
-                        {info?.row?.original?.course?.title}
+                        {info?.row?.original?.course}
                     </Typography>
                 </div>
             ),

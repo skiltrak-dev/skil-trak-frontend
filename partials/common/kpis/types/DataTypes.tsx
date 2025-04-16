@@ -136,6 +136,24 @@ export interface DepartmentMetric {
     color: string
 }
 
+export interface KpiAppointment {
+    objectId: number
+    createdAt: Date
+    isDuplicated: boolean
+    isVerified: boolean
+    appointmentid: number
+    appointmentcreatedat: Date
+    date: Date
+    appointmentby: string
+    appointmentbyrole: string
+    appointmentfor: string
+    appointmentforrole: string
+    typeid: number
+    type: string
+    courseid: number
+    course: string
+}
+
 export interface DepartmentActivity {
     label: string
     value: number

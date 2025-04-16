@@ -43,7 +43,10 @@ export const InsuranceDocuments = ({
             {/*  */}
 
             {rtoInsuranceList?.isError ? (
-                <NoData text="There is some technical issue, try reload the page!" />
+                <NoData
+                    text="There is some technical issue, try reload the page!"
+                    isError
+                />
             ) : null}
 
             {rtoInsuranceList?.isLoading ? (

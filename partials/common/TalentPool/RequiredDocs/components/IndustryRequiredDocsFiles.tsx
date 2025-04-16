@@ -93,7 +93,7 @@ export const IndustryRequiredDocsFiles = ({
             </div>
             <div className="h-[inherit] overflow-auto custom-scrollbar px-5 py-3">
                 {getRequiredDocsResponse.isError && (
-                    <NoData text="There is some technical issue!" />
+                    <NoData text="There is some technical issue!" isError />
                 )}
                 {filteredFiles && filteredFiles?.length > 0 ? (
                     // <SliderStyleContainer className="relative">

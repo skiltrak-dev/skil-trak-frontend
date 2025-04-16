@@ -152,7 +152,7 @@ export const AssessmentFiles = ({
 
             <div className="h-[inherit] overflow-auto custom-scrollbar px-5 py-3">
                 {getAssessmentResponse.isError && (
-                    <NoData text="There is some technical issue!" />
+                    <NoData text="There is some technical issue!" isError />
                 )}
                 {getAssessmentResponse?.isLoading ||
                 getAssessmentResponse?.isFetching ? (

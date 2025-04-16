@@ -136,6 +136,7 @@ const SubAdminHistory: NextPageWithLayout = () => {
             {count.isError && (
                 <NoData
                     text={'There is some technical issue in history count'}
+                    isError
                 />
             )}
             {count.isLoading ? (

@@ -55,7 +55,10 @@ export const ViewQuestionsModal = ({
             onCancelClick={onCancel}
         >
             {workplaceAnswers.isError ? (
-                <NoData text="There is some technical issue, try refresh the page!" />
+                <NoData
+                    text="There is some technical issue, try refresh the page!"
+                    isError
+                />
             ) : null}
             {workplaceAnswers.isLoading ? (
                 <LoadingAnimation size={60} height="h-full" />
