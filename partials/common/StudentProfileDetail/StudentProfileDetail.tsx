@@ -92,15 +92,18 @@ export const StudentProfileDetail = () => {
         refetchOnMountOrArgChange: true,
         refetchOnFocus: true,
     })
+
     useEffect(() => {
-        router.push({
-            pathname: router.pathname,
-            query: {
-                ...router.query,
-                tab: '',
-            },
-        })
-    }, [])
+        if (profile?.isSuccess && profile?.data) {
+            const { tab, id, ...rest } = router.query
+            router.push({
+                pathname: router.asPath,
+                query: {
+                    ...rest,
+                },
+            })
+        }
+    }, [profile])
 
     useEffect(() => {
         if (profile?.isSuccess && profile?.data && !router.query?.tab) {

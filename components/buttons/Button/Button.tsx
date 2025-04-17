@@ -65,7 +65,7 @@ export const Button = ({
     const theme = getTheme(mini ? miniButtonClass : buttonClass, ButtonType)
 
     const currentClass = disabled
-        ? theme[variant as any].disabled
+        ? `${theme[variant as any].disabled} cursor-not-allowed`
         : outline
         ? theme[variant as any].outline
         : theme[variant as any].default

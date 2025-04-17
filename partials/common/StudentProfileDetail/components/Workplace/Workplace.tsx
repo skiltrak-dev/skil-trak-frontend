@@ -141,7 +141,6 @@ export const Workplace = ({
         }
     )
 
-
     const folders = GetFolders(workplaceFolders)
 
     const sortedWorkplace =
@@ -814,7 +813,7 @@ export const Workplace = ({
                                                                         ''
                                                                     }
                                                                     variant={
-                                                                        'info'
+                                                                        'error'
                                                                     }
                                                                 />
                                                             </div>

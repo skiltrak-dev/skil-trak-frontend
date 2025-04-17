@@ -23,6 +23,7 @@ import {
     ConfirmPaymentModal,
 } from '../modals'
 import { DataKpiTable } from '@partials/common'
+import { paymentStatusData } from './InvoiceStatusData'
 
 export const InvoiceDataListing = ({
     startDate,
@@ -63,6 +64,10 @@ export const InvoiceDataListing = ({
 
     const onPaymentAllConfirm = (ids: number[]) => {
         setModal(<ConfirmAllPaymentModal ids={ids} onCancel={onCancelModal} />)
+    }
+
+    const onStatusChangeClicked = (id: number) => {
+        setModal(<ChangeStatusModal onCancel={onCancelModal} id={id} />)
     }
 
     const columns: ColumnDef<any>[] = [
@@ -106,34 +111,35 @@ export const InvoiceDataListing = ({
                 </div>
             ),
         },
-        // {
-        //     accessorKey: 'status',
-        //     header: 'Status',
-        //     cell: (info) => {
-        //         const paymentStatus = paymentStatusData(
-        //             info.row?.original?.paymentStatus || '---'
-        //         )
-        //         return (
-        //             <div className="flex flex-col justify-start items-start gap-y-2">
-        //                 <ActionButton
-        //                     variant="info"
-        //                     onClick={() => {
-        //                         onStatusChangeClicked(info.row?.original)
-        //                     }}
-        //                 >
-        //                     Change Status
-        //                 </ActionButton>
+        {
+            accessorKey: 'status',
+            header: 'Status',
+            cell: (info) => {
+                const paymentStatus = paymentStatusData(
+                    info.row?.original?.paymentStatus || '---'
+                )
+                return (
+                    <div className="flex flex-col justify-start items-start gap-y-2">
+                        <ActionButton
+                            variant="info"
+                            onClick={() => {
+                                onStatusChangeClicked(info.row?.original?.id)
+                            }}
+                            disabled={info.row?.original?.isDuplicated}
+                        >
+                            Change Payment Status
+                        </ActionButton>
 
-        //                 <Badge
-        //                     text={paymentStatus?.text + ''}
-        //                     variant={
-        //                         paymentStatus?.variant || ('primary' as any)
-        //                     }
-        //                 />
-        //             </div>
-        //         )
-        //     },
-        // },
+                        <Badge
+                            text={paymentStatus?.text + ''}
+                            variant={
+                                paymentStatus?.variant || ('primary' as any)
+                            }
+                        />
+                    </div>
+                )
+            },
+        },
         {
             accessorKey: 'confirmation',
             header: 'Confirm',

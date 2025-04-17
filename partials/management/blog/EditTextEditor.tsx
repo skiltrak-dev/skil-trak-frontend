@@ -28,6 +28,8 @@ import { useRouter } from 'next/router'
 
 import { InputErrorMessage } from '@components/inputs/components'
 import { FaqDeleteModal } from './components'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 const imageSizeErrorMessage = (file: File) => {
     if (file && file.size && file.size > 2 * 1024 * 1024) {
@@ -61,9 +63,11 @@ TextEditorProps) {
     const [shortDescriptionWordCount, setShortDescriptionWordCount] =
         useState(0)
 
-    const blogPostEnum = {
-        Save: 'save',
-        SaveAndPublish: 'saveAndPublish',
+    const role = getUserCredentials()?.role
+
+    enum blogPostEnum {
+        Save = 'save',
+        SaveAndPublish = 'saveAndPublish',
     }
 
     const [updateBlog, updateBlogResult] = adminApi.useUpdateBlogMutation()
@@ -280,7 +284,12 @@ TextEditorProps) {
         question: question.question || '',
         answer: question.answer || '',
     }))
-    const onSubmit: any = (data: any, publish: boolean) => {
+
+    const onSubmit: any = (
+        data: any,
+        publish: boolean,
+        blogPost: blogPostEnum
+    ) => {
         const content = quillRef.current.getEditor().root.innerHTML
         if (
             !data.featuredImage ||
@@ -378,13 +387,23 @@ TextEditorProps) {
                 // router.push('/portals/admin/blogs?tab=draft&page=1&pageSize=50')
                 if (blogPost === blogPostEnum.Save) {
                     router.push(
-                        '/portals/admin/blogs?tab=draft&page=1&pageSize=50'
+                        role === UserRoles.ADMIN
+                            ? '/portals/admin/blogs?tab=draft&page=1&pageSize=50'
+                            : role === UserRoles.MARKETING
+                            ? '/portals/management/blogs?tab=draft&page=1&pageSize=50'
+                            : ''
                     )
                 } else if (blogPost === blogPostEnum.SaveAndPublish) {
                     router.push(
-                        '/portals/admin/blogs?tab=published&page=1&pageSize=50'
+                        role === UserRoles.ADMIN
+                            ? '/portals/admin/blogs?tab=published&page=1&pageSize=50'
+                            : role === UserRoles.MARKETING
+                            ? '/portals/management/blogs?tab=published&page=1&pageSize=50'
+                            : ''
                     )
                 }
+                setIsPublish(false)
+                setBlogPost(false)
             })
             .catch((err: any) => {
                 notification.error({
@@ -545,7 +564,11 @@ TextEditorProps) {
                                 onClick={() => {
                                     setIsPublish(true)
                                     setBlogPost(blogPostEnum.SaveAndPublish)
-                                    onSubmit(formMethods.getValues(), true)
+                                    onSubmit(
+                                        formMethods.getValues(),
+                                        true,
+                                        blogPostEnum.SaveAndPublish
+                                    )
                                 }}
                             />
                             <Button
@@ -553,7 +576,11 @@ TextEditorProps) {
                                 onClick={() => {
                                     setIsPublish(false)
                                     setBlogPost(blogPostEnum.Save)
-                                    onSubmit(formMethods.getValues(), false)
+                                    onSubmit(
+                                        formMethods.getValues(),
+                                        false,
+                                        blogPostEnum.Save
+                                    )
                                 }}
                                 loading={
                                     updateBlogResult?.isLoading &&
