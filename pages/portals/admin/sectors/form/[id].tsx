@@ -23,6 +23,10 @@ const SectorEditPage: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Sectors')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const onSubmit = async (values: Sector) => {

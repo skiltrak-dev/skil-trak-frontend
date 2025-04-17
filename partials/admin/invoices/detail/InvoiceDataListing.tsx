@@ -55,12 +55,6 @@ export const InvoiceDataListing = ({
 
     const onCancelModal = () => setModal(null)
 
-    // const onStatusChangeClicked = (invoice: any) => {
-    //     setModal(
-    //         <ChangeStatusModal onCancel={onCancelModal} invoice={invoice} />
-    //     )
-    // }
-
     const onPaymentConfirm = (invoice: any) => {
         setModal(
             <ConfirmPaymentModal onCancel={onCancelModal} invoice={invoice} />
@@ -154,7 +148,10 @@ export const InvoiceDataListing = ({
                         onClick={() => {
                             onPaymentConfirm(info?.row?.original)
                         }}
-                        disabled={info?.row?.original?.isConfirmed}
+                        disabled={
+                            info?.row?.original?.isConfirmed ||
+                            info?.row?.original?.isDuplicated
+                        }
                     />
                     {info?.row?.original?.isConfirmed && (
                         <div>

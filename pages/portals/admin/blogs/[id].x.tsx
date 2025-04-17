@@ -1,10 +1,6 @@
 import { ReactElement, useEffect } from 'react'
 
-import {
-    EmptyData,
-    LoadingAnimation,
-    TechnicalError
-} from '@components'
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
@@ -36,6 +32,10 @@ const EditBlog: NextPageWithLayout = () => {
     const navBar = useNavbar()
     useEffect(() => {
         navBar.setTitle('edit blog')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     useEffect(() => {

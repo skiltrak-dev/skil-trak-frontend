@@ -58,6 +58,10 @@ export const PendingRequests = () => {
 
     useEffect(() => {
         navBar.setTitle('Volunteer Request')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const onCancelModal = () => setModal(null)

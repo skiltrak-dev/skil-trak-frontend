@@ -10,6 +10,10 @@ const AppointmentTypesList: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Appointment Types')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     return (

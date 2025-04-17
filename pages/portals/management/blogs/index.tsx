@@ -37,6 +37,10 @@ const BlogsList: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('blogs')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const tabs: TabProps[] = [

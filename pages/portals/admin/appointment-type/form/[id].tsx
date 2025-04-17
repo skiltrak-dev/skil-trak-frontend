@@ -31,6 +31,10 @@ const AppointmentTypeEditPage: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Appointment Types')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const onSubmit = async (values: AppointmentType) => {

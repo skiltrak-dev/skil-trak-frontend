@@ -34,15 +34,6 @@ export const ProfileViewCB = ({
 
     const role = getUserCredentials()?.role
 
-    const onViewProfileVisitorsClicked = () => {
-        setModal(
-            <ViewProfileVisitorsModal
-                onCancel={onCancelModal}
-                userId={profile?.user.id}
-            />
-        )
-    }
-
     return (
         <div>
             {modal}

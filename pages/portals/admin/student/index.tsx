@@ -103,6 +103,10 @@ const StudentList: NextPageWithLayout = () => {
     useEffect(() => {
         navBar.setTitle('Students')
         contextBar.hide()
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     useEffect(() => {

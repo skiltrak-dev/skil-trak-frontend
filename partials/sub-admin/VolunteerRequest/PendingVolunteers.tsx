@@ -53,6 +53,10 @@ export const PendingVolunteers = () => {
 
     useEffect(() => {
         navBar.setTitle('Volunteer Request')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const onCancelModal = () => setModal(null)
@@ -85,7 +89,7 @@ export const PendingVolunteers = () => {
     }
 
     const tableActionOptions: TableActionOption[] = [
-        {   
+        {
             text: 'Approve',
             onClick: (volunteer: any) => {
                 onApproveRequest(volunteer)
@@ -148,7 +152,7 @@ export const PendingVolunteers = () => {
                         )}
                     </Typography>
                 )
-            }
+            },
         },
         {
             accessorKey: 'action',

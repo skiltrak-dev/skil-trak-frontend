@@ -73,6 +73,10 @@ const IndustryList: NextPageWithLayout = () => {
     useEffect(() => {
         navBar.setTitle('Industries')
         contextBar.hide()
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     useEffect(() => {

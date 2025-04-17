@@ -68,6 +68,10 @@ export const SubadminESign = () => {
 
     useEffect(() => {
         navBar.setTitle('RTO')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const tabs: TabPropsVII[] = [

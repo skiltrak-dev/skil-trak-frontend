@@ -37,6 +37,10 @@ export const ImportStudentList = ({
     useEffect(() => {
         navBar.setTitle('RTO Detail')
         contextBar.hide()
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
     // const [foundStudents, setFoundStudents] = useState<any>([])
     const [studentList, setStudentList] = useState<any>([])

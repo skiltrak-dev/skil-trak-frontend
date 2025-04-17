@@ -91,6 +91,10 @@ const EditStudent: NextPageWithLayout = () => {
     useEffect(() => {
         navBar.setTitle('Edit Student')
         contextBar.hide()
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     return (

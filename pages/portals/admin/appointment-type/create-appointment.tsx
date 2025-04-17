@@ -11,6 +11,10 @@ const CreateAppointment: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Create Appointment')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     return (

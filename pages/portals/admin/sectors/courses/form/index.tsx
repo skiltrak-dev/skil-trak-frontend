@@ -3,12 +3,11 @@ import { ReactElement, useEffect, useState } from 'react'
 import {
     BackButton,
     Card,
-    Popup,
     ShowErrorNotifications,
     draftToHtmlText,
 } from '@components'
 import { PageHeading } from '@components/headings'
-import { useAlert, useNavbar, useNotification } from '@hooks'
+import { useAlert, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { CourseForm } from '@partials/admin/sector/form'
 import { AdminApi } from '@queries'
@@ -18,7 +17,6 @@ import { useRouter } from 'next/router'
 const CourseAddPage: NextPageWithLayout = () => {
     const router = useRouter()
     const { alert } = useAlert()
-    const { notification } = useNotification()
     const navBar = useNavbar()
 
     const [add, addResult] = AdminApi.Courses.useAddMutation()
@@ -26,6 +24,10 @@ const CourseAddPage: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Courses')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const onSubmit = async (values: any) => {

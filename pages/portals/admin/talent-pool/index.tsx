@@ -107,10 +107,10 @@ const TalentPoolList: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Talent Pool')
-    }, [])
 
-    useEffect(() => {
-        navBar.setTitle('Talent Pool')
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const sectorOptions = getSectors.data?.map((sector: any) => ({

@@ -29,6 +29,10 @@ const Detail: NextPageWithLayout = () => {
     useEffect(() => {
         navBar.setTitle('Coordinator Detail')
         contextBar.hide()
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     return (

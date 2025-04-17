@@ -33,19 +33,24 @@ export const AdminNavbar = () => {
     const paths = router.asPath.split('/')
     const links = paths.slice(1, -1)
 
+    console.log({ paths })
+
     var find = '-'
     var remove = new RegExp(find, 'g')
 
-    const titlePath = paths?.reverse()
+    const titlePath = [...paths]?.reverse()
+
+    const isId =
+        typeof Number(titlePath?.[0]) === 'number' &&
+        !Number.isNaN(titlePath?.[0])
+
+    const title = `${
+        titlePath?.[isId ? 1 : 0]?.split('-')?.join(' ')?.split('?')?.[0]
+    } ${isId ? 'Detail' : ''}`
+
     console.log({
-        as: typeof Number(titlePath?.[0]) === 'number',
-        ol: Number(titlePath?.[0]),
+        title,
     })
-    const title = titlePath?.[
-        typeof Number(titlePath?.[0]) === 'string' ? 1 : 0
-    ]
-        ?.split('-')
-        ?.join(' ')
     // const title = titlePath?.[0]?.split('-')?.join(' ')
 
     const getTitle = (paths: string[], offset = 1) => {
@@ -71,6 +76,9 @@ export const AdminNavbar = () => {
     const { data: mailCount } = CommonApi.Messages.useMailCount()
     const allMails = CommonApi.Messages.useRecentMails()
     const [seenMessage, resultSeenMessage] = CommonApi.Messages.useIsSeen()
+
+    console.log({ aa: navbar?.title, bb: navbar?.subTitle, title })
+
     return (
         <div className="w-full transition-all  z-30 py-2 px-6  flex justify-between items-center">
             <div>

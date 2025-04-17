@@ -76,6 +76,10 @@ const RPLList: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         navBar.setTitle('RPL LIST')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
     const tableActionOptions: TableActionOption[] = [
         {
