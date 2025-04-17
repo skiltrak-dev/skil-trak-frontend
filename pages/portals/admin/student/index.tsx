@@ -27,6 +27,7 @@ import {
     SnoozedStudents,
     StudentScheduleEndedList,
     UnAssignedStudent,
+    VerifiedEmailStudent,
 } from '@partials/admin/student'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout, StudentsFilterType, UserStatus } from '@types'
@@ -155,6 +156,19 @@ const StudentList: NextPageWithLayout = () => {
                 loading: isLoading,
             },
             element: <ApprovedStudent />,
+        },
+        // VerifiedEmailStudent
+        {
+            label: 'Verified Email',
+            href: {
+                pathname: 'student',
+                query: { tab: 'verified-email', page: 1, pageSize: 50 },
+            },
+            badge: {
+                text: data?.approved,
+                loading: isLoading,
+            },
+            element: <VerifiedEmailStudent />,
         },
         {
             label: 'Flagged Students',

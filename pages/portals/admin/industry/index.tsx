@@ -17,6 +17,7 @@ import {
     ApprovedIndustry,
     ArchivedIndustry,
     BlockedIndustry,
+    EmailVerifiedIndustries,
     FilteredIndustry,
     PendingIndustry,
     RejectedIndustry,
@@ -108,6 +109,19 @@ const IndustryList: NextPageWithLayout = () => {
                 loading: isLoading,
             },
             element: <ApprovedIndustry />,
+        },
+        // EmailVerifiedIndustries
+        {
+            label: 'Email Verified',
+            href: {
+                pathname: 'industry',
+                query: { tab: 'email-verified', page: 1, pageSize: 50 },
+            },
+            badge: {
+                text: data?.approved,
+                loading: isLoading,
+            },
+            element: <EmailVerifiedIndustries />,
         },
         {
             label: 'Snoozed',

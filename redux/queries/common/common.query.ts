@@ -297,6 +297,28 @@ export const commonApi = emptySplitApi.injectEndpoints({
             },
             providesTags: ['Blogs'],
         }),
+        // Verify Email
+        getVerifyEmailHistory: build.query<any, any>({
+            query: (id) => {
+                return {
+                    url: `shared/user/${id}/email-verification-history`,
+                }
+            },
+            providesTags: ['Blogs'],
+        }),
+        verifyUserEmail: build.mutation<any, any>({
+            query: ({ userId, body }) => ({
+                url: `/shared/user/${userId}/email-verify`,
+                method: 'PATCH',
+                body,
+            }),
+            invalidatesTags: [
+                'SubAdminIndustries',
+                'Industries',
+                'SubAdminRtos',
+                'SubAdminStudents',
+            ],
+        }),
 
         ...rtosEndpoints(build),
         ...draftEndpoints(build),
@@ -337,6 +359,8 @@ const {
     useOurStoryContactUsMutation,
 
     useGetSerchedPlacesQuery,
+    useVerifyUserEmailMutation,
+    useGetVerifyEmailHistoryQuery,
     // Site MAP
     useGetSiteMapIndustriesQuery,
     useGetStudentsSubAdminMapQuery,

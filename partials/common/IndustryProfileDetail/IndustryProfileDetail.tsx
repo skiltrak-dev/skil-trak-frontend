@@ -118,7 +118,7 @@ export const IndustryProfileDetail = ({
                         autoDismiss={false}
                     />
                 )}
-                <div className="flex gap-x-4 min-h-[500px]">
+                <div className="flex gap-x-4 min-h-[500px] mt-5">
                     <div
                         className={`${
                             role === UserRoles.RTO ? 'w-full' : 'w-2/3 '

@@ -5,7 +5,10 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import { ViewProfileVisitorsModal } from '@partials/common/modal'
+import {
+    VerifyEmailModal,
+    ViewProfileVisitorsModal,
+} from '@partials/common/modal'
 import { Student, SubAdmin } from '@types'
 import { getUserCredentials, maskText } from '@utils'
 import { ReactNode, useState } from 'react'
@@ -20,6 +23,12 @@ import {
     StudentExpireTime,
     StudentStatus,
 } from '../ContextBarComponents'
+import Modal from '@modals/Modal'
+import { RiVerifiedBadgeFill } from 'react-icons/ri'
+import {
+    VerifiedEmailHistory,
+    VerifyUserEmail,
+} from '@partials/common/components'
 
 export const ProfileViewCB = ({
     profile,
@@ -33,6 +42,16 @@ export const ProfileViewCB = ({
     const onCancelModal = () => setModal(null)
 
     const role = getUserCredentials()?.role
+
+    const onViewProfileVisitorsClicked = () => {
+        setModal(
+            <ViewProfileVisitorsModal
+                onCancel={onCancelModal}
+                userId={profile?.user.id}
+            />
+        )
+    }
+    const isEmailVerified = profile?.user?.isEmailVerified
 
     return (
         <div>
@@ -53,28 +72,36 @@ export const ProfileViewCB = ({
             {/* User */}
             <div className="flex justify-between">
                 <div className="mt-2">
-                    <Typography semibold>
-                        <span className="text-[15px]">
-                            {profile?.user?.name} {profile?.familyName || ''}
-                        </span>
-                    </Typography>
-
-                    <AuthorizedUserComponent
-                        roles={[
-                            UserRoles.ADMIN,
-                            UserRoles.RTO,
-                            UserRoles.OBSERVER,
-                        ]}
-                    >
-                        <HideRestrictedData type={UserRoles.STUDENT}>
-                            <Typography variant="xs" color="text-[#6B7280]">
-                                {process.env.NEXT_PUBLIC_NODE_ENV === 'local'
-                                    ? profile?.user?.email
-                                    : maskText(profile?.user?.email)}
-                            </Typography>
-                        </HideRestrictedData>
-                    </AuthorizedUserComponent>
+                    <div className="flex items-center gap-x-2">
+                        <Typography semibold>
+                            <span className="text-[15px]">
+                                {profile?.user?.name}{' '}
+                                {profile?.familyName || ''}
+                            </span>
+                        </Typography>
+                        <VerifyUserEmail
+                            isEmailVerified={isEmailVerified}
+                            userId={profile?.user?.id}
+                        />
+                        <VerifiedEmailHistory
+                            isEmailVerified={isEmailVerified}
+                            userId={profile?.user?.id}
+                        />
+                    </div>
                 </div>
+            </div>
+            <div className="flex justify-between">
+                <AuthorizedUserComponent
+                    roles={[UserRoles.ADMIN, UserRoles.RTO, UserRoles.OBSERVER]}
+                >
+                    <HideRestrictedData type={UserRoles.STUDENT}>
+                        <Typography variant="xs" color="text-[#6B7280]">
+                            {process.env.NEXT_PUBLIC_NODE_ENV === 'local'
+                                ? profile?.user?.email
+                                : maskText(profile?.user?.email)}
+                        </Typography>
+                    </HideRestrictedData>
+                </AuthorizedUserComponent>
                 <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                     <AssignToMeStudent student={profile} />
                 </AuthorizedUserComponent>
