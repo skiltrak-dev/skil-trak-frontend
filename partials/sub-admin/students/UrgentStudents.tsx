@@ -13,6 +13,7 @@ import {
     UserCreatedAt,
     LoadingAnimation,
     StudentExpiryDaysLeft,
+    TableActionOption,
 } from '@components'
 import { StudentCellInfo } from './components'
 
@@ -77,11 +78,13 @@ export const UrgentStudents = () => {
         )
     }
 
-    const tableActionOptions = (student: any) => {
+    const tableActionOptions = (
+        student: Student
+    ): TableActionOption<Student>[] => {
         return [
             {
                 text: 'View',
-                onClick: (student: Student) => {
+                onClick: (student) => {
                     router.push(
                         `/portals/sub-admin/students/${student?.id}/detail`
                     )
@@ -99,7 +102,7 @@ export const UrgentStudents = () => {
             },
             {
                 text: 'Change Expiry',
-                onClick: (student: Student) => onDateClick(student),
+                onClick: (student) => onDateClick(student),
                 Icon: FaEdit,
             },
         ]

@@ -62,7 +62,7 @@ export const ContactPersons = ({ rto }: { rto: Rto }) => {
         contextBar.show(false)
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Edit',
             onClick: (contactPerson: any) => {

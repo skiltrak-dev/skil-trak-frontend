@@ -83,17 +83,17 @@ export const AppointmentTypes = () => {
         contextBar.hide()
     }, [])
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<AppointmentType>[] = [
         {
             text: 'Edit',
-            onClick: (item: any) => {
+            onClick: (item) => {
                 router.push(`/portals/admin/appointment-type/form/${item.id}`)
             },
             Icon: FaEdit,
         },
         {
             text: 'Delete',
-            onClick: (item: any) => onDeleteClicked(item),
+            onClick: (item) => onDeleteClicked(item),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },

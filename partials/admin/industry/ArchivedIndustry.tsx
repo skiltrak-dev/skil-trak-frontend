@@ -53,17 +53,17 @@ export const ArchivedIndustry = () => {
         })
     const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<Industry>[] = [
         {
             text: 'View',
-            onClick: (industry: any) => {
-                router.push(`/portals/admin/industry/${industry.id}`)
+            onClick: (industry) => {
+                router.push(`/portals/admin/industry/${industry?.id}`)
             },
             Icon: FaEye,
         },
         {
             text: 'Old Profile',
-            onClick: (industry: any) =>
+            onClick: (industry) =>
                 router.push(
                     `/portals/admin/industry/${industry?.id}/detail?tab=students`
                 ),
@@ -71,7 +71,7 @@ export const ArchivedIndustry = () => {
         },
         {
             text: 'Edit',
-            onClick: (row: any) => {
+            onClick: (row) => {
                 router.push(`/portals/admin/industry/edit-industry/${row.id}`)
             },
             Icon: FaEdit,

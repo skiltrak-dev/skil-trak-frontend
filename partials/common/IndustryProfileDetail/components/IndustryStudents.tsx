@@ -121,7 +121,7 @@ export const IndustryStudents = ({ industry }: { industry: Industry }) => {
 
     const role = getUserCredentials()?.role
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (student: any) => {

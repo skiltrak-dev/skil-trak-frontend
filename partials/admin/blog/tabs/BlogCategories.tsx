@@ -76,7 +76,7 @@ export const BlogCategories = () => {
             </Modal>
         )
     }
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Delete',
             onClick: (blog: any) => onDeleteClicked(blog),

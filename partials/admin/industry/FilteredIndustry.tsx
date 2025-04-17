@@ -33,7 +33,7 @@ import { CgUnblock } from 'react-icons/cg'
 import { ellipsisText, getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
 
-interface StatusTableActionOption extends TableActionOption {
+interface StatusTableActionOption<T> extends TableActionOption<T> {
     status: string[]
 }
 
@@ -101,17 +101,17 @@ export const FilteredIndustry = ({
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<Industry>[] = [
         {
             text: 'View',
-            onClick: (industry: any) => {
-                router.push(`/portals/admin/industry/${industry.id}`)
+            onClick: (industry) => {
+                router.push(`/portals/admin/industry/${industry?.id}`)
             },
             Icon: FaEye,
         },
         {
             text: 'Old Profile',
-            onClick: (industry: any) =>
+            onClick: (industry) =>
                 router.push(
                     `/portals/admin/industry/${industry?.id}/detail?tab=students`
                 ),
@@ -119,7 +119,7 @@ export const FilteredIndustry = ({
         },
         {
             text: 'Edit',
-            onClick: (row: any) => {
+            onClick: (row) => {
                 router.push(`/portals/admin/industry/edit-industry/${row.id}`)
             },
             Icon: FaEdit,
@@ -135,25 +135,25 @@ export const FilteredIndustry = ({
         },
     ]
 
-    const statusBaseActions: StatusTableActionOption[] = [
+    const statusBaseActions: StatusTableActionOption<Industry>[] = [
         {
             status: [UserStatus.Approved],
             text: 'Block',
-            onClick: (industry: Industry) => onBlockClicked(industry),
+            onClick: (industry) => onBlockClicked(industry),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             status: [UserStatus.Approved],
             text: 'Archive',
-            onClick: (industry: Industry) => onArchivedClicked(industry),
+            onClick: (industry) => onArchivedClicked(industry),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             status: [UserStatus.Blocked],
             text: 'Unblock',
-            onClick: (industry: Industry) => onUnblockClicked(industry),
+            onClick: (industry) => onUnblockClicked(industry),
             Icon: CgUnblock,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
@@ -166,8 +166,7 @@ export const FilteredIndustry = ({
                           UserStatus.Archived,
                       ],
                       text: 'Delete',
-                      onClick: (industry: Industry) =>
-                          onDeleteClicked(industry),
+                      onClick: (industry) => onDeleteClicked(industry),
                       Icon: FaTrash,
                       color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
                   }
@@ -180,28 +179,28 @@ export const FilteredIndustry = ({
         //         UserStatus.Archived,
         //     ],
         //     text: 'Delete',
-        //     onClick: (industry: Industry) => onDeleteClicked(industry),
+        //     onClick: (industry) => onDeleteClicked(industry),
         //     Icon: FaTrash,
         //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         // },
         {
             status: [UserStatus.Pending, UserStatus.Rejected],
             text: 'Accept',
-            onClick: (industry: Industry) => onAcceptClicked(industry),
+            onClick: (industry) => onAcceptClicked(industry),
             Icon: CgUnblock,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             status: [UserStatus.Archived],
             text: 'Un Archive',
-            onClick: (industry: Industry) => onAcceptClicked(industry),
+            onClick: (industry) => onAcceptClicked(industry),
             Icon: CgUnblock,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             status: [UserStatus.Pending],
             text: 'Reject',
-            onClick: (industry: Industry) => onRejectClicked(industry),
+            onClick: (industry) => onRejectClicked(industry),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },

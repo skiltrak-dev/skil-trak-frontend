@@ -74,10 +74,10 @@ export const PendingStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
         setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(`/portals/sub-admin/students/${student?.id}/detail`)
 
                 setLink('subadmin-student', router)
@@ -86,17 +86,17 @@ export const PendingStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
         },
         {
             text: 'Approve',
-            onClick: (student: Student) => onAcceptClicked(student),
+            onClick: (student) => onAcceptClicked(student),
         },
         {
             text: 'Reject',
-            onClick: (student: Student) => onRejectClicked(student),
+            onClick: (student) => onRejectClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
+            onClick: (student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -115,7 +115,7 @@ export const PendingStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell({ row }: any) {
+            cell({ row }) {
                 const { rto } = row.original
 
                 return (
@@ -131,19 +131,19 @@ export const PendingStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => <SectorCell student={row.original} />,
+            cell: ({ row }) => <SectorCell student={row.original} />,
         },
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 return (
                     <div className="flex gap-x-1 items-center">
                         <ActionButton

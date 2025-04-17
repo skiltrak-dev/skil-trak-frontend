@@ -79,10 +79,10 @@ export const RejectedStudents = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(`/portals/sub-admin/students/${student?.id}/detail`)
 
                 setLink('subadmin-student', router)
@@ -91,19 +91,19 @@ export const RejectedStudents = () => {
         },
         {
             text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
+            onClick: (student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Accept',
-            onClick: (student: Student) => onAcceptClicked(student),
+            onClick: (student) => onAcceptClicked(student),
             Icon: AiFillCheckCircle,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Assign to me',
-            onClick: (student: Student) => onAssignStudentClicked(student),
+            onClick: (student) => onAssignStudentClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },

@@ -7,7 +7,6 @@ import { FaEye } from 'react-icons/fa'
 import {
     Card,
     EmptyData,
-    InitialAvatar,
     LoadingAnimation,
     Table,
     TableAction,
@@ -19,7 +18,7 @@ import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { SubAdminApi } from '@queries'
-import { Student, SubAdmin, UserStatus } from '@types'
+import { Student, UserStatus } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { BlockModal, UnAssignStudentModal } from './modals'
@@ -48,13 +47,6 @@ export const AgreementPendingStudents = () => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
-
-    // const { isLoading, isFetching, data, isError } =
-    //     SubAdminApi.Student.placementStartedStudents({
-    //         search: `currentStatus:${WorkplaceCurrentStatus.AwaitingAgreementSigned}`,
-    //         skip: itemPerPage * page - itemPerPage,
-    //         limit: itemPerPage,
-    //     })
 
     const { isLoading, isFetching, data, isError } =
         SubAdminApi.Student.useList(
@@ -87,10 +79,10 @@ export const AgreementPendingStudents = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(`/portals/sub-admin/students/${student?.id}/detail`)
 
                 setLink('subadmin-student', router)
@@ -99,7 +91,7 @@ export const AgreementPendingStudents = () => {
         },
         {
             text: 'Old Profile',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(
                     `/portals/sub-admin/students/${student.id}?tab=overview`
                 )
@@ -108,13 +100,13 @@ export const AgreementPendingStudents = () => {
         },
         {
             text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
+            onClick: (student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Un Assign',
-            onClick: (student: Student) => onAssignStudentClicked(student),
+            onClick: (student) => onAssignStudentClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -124,15 +116,13 @@ export const AgreementPendingStudents = () => {
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }: any) => (
-                <StudentCellInfo call student={row.original} />
-            ),
+            cell: ({ row }) => <StudentCellInfo call student={row.original} />,
         },
 
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <RTOCellInfo rto={row.original?.rto} onlyName={false} />
             ),
         },
@@ -149,7 +139,7 @@ export const AgreementPendingStudents = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 return <SectorCell student={row.original} />
             },
         },
@@ -232,14 +222,14 @@ export const AgreementPendingStudents = () => {
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 return (
                     <TableAction
                         options={tableActionOptions}

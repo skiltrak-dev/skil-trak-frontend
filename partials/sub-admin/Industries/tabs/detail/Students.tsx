@@ -61,7 +61,7 @@ export const Students = ({
         setModal(null)
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (student: Student) => {

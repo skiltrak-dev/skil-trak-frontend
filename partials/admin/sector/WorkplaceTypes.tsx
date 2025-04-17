@@ -81,7 +81,7 @@ export const WorkplaceTypes = () => {
         contextBar.hide()
     }, [])
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Edit',
             onClick: (item: WorkplaceType) => {

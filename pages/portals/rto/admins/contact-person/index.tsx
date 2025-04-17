@@ -72,7 +72,7 @@ const RtoContactPersons: NextPageWithLayout = (props: Props) => {
         contextBar.show(false)
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Edit',
             onClick: (contactPerson: any) => {

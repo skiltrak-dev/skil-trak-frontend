@@ -115,7 +115,7 @@ export const Courses = () => {
         contextBar.hide()
     }, [])
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (course: Course) => onCourseClick(course),

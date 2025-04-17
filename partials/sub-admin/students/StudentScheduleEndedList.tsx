@@ -12,6 +12,7 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
+    TableActionOption,
 } from '@components'
 import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
@@ -50,8 +51,6 @@ export const StudentScheduleEndedList = () => {
     }, [mount])
 
     // STUDENT JOY RIDE - END
-
-    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -172,20 +171,16 @@ export const StudentScheduleEndedList = () => {
         }
     )
 
-    const tableActionOptions = (student: any) => {
-        return [
-            {
-                text: 'View',
-                onClick: (student: Student) => {
-                    router.push(
-                        `/portals/sub-admin/students/${student?.id}/detail`
-                    )
-                    setLink('subadmin-student', router)
-                },
-                Icon: FaEye,
+    const tableActionOptions: TableActionOption<Student>[] = [
+        {
+            text: 'View',
+            onClick: (student) => {
+                router.push(`/portals/sub-admin/students/${student?.id}/detail`)
+                setLink('subadmin-student', router)
             },
-        ]
-    }
+            Icon: FaEye,
+        },
+    ]
 
     const Columns: ColumnDef<Student>[] = [
         {
@@ -267,21 +262,17 @@ export const StudentScheduleEndedList = () => {
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }) => {
-                const tableActionOption = tableActionOptions(row.original)
-                return (
-                    <TableAction
-                        options={tableActionOption}
-                        rowItem={row.original}
-                    />
-                )
-            },
+            cell: ({ row }) => (
+                <TableAction
+                    options={tableActionOptions}
+                    rowItem={row.original}
+                />
+            ),
         },
     ]
 
     return (
         <div>
-            {modal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading || isFetching ? (

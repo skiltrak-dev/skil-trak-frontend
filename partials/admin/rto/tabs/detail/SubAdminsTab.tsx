@@ -48,7 +48,7 @@ export const SubAdminsTab = ({ rto }: any) => {
 
     const contextBar = useContextBar()
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: () => {},

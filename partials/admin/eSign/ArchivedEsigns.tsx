@@ -64,7 +64,7 @@ export const ArchivedEsigns = () => {
         setModal(<DeleteModal eSign={eSign} onCancel={onModalCancelClicked} />)
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (eSign: any) => {

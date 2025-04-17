@@ -114,7 +114,7 @@ export const Students = ({ industry }: { industry: Industry }) => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (student: any) => {

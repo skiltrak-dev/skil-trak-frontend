@@ -12,6 +12,7 @@ import {
     StudentStatusProgressCell,
     Table,
     TableAction,
+    TableActionOption,
     Typography,
 } from '@components'
 import { StudentCellInfo, SubadminStudentIndustries } from './components'
@@ -92,10 +93,10 @@ export const CompletedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
         )
     }
 
-    const tableActionOptions = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: any) => {
+            onClick: (student) => {
                 router.push(`/portals/admin/student/${student?.id}/detail`)
                 setLink('student', router)
             },
@@ -103,7 +104,7 @@ export const CompletedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
         },
         {
             text: 'Edit',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(
                     `/portals/sub-admin/students/${student?.id}/edit-student`
                 )
@@ -112,7 +113,7 @@ export const CompletedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
         },
         {
             text: 'Change Status',
-            onClick: (student: Student) => onChangeStatus(student),
+            onClick: (student) => onChangeStatus(student),
             Icon: FaEdit,
         },
     ]

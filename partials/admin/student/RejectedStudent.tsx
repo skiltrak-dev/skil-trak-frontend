@@ -69,7 +69,7 @@ export const RejectedStudent = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (student: any) => {

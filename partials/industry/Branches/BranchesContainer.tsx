@@ -53,7 +53,7 @@ export const BranchesContainer = () => {
         setModal(null)
     }, [])
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (student: any) => {

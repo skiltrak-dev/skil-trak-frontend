@@ -36,7 +36,7 @@ import {
     setLink,
 } from '@utils'
 
-export const ArchivedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
+export const ArchivedStudents = () => {
     const router = useRouter()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -95,10 +95,10 @@ export const ArchivedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(`/portals/sub-admin/students/${student?.id}/detail`)
 
                 setLink('subadmin-student', router)
@@ -107,18 +107,18 @@ export const ArchivedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
         },
         {
             text: 'Change Status',
-            onClick: (student: Student) => onChangeStatus(student),
+            onClick: (student) => onChangeStatus(student),
             Icon: FaEdit,
         },
         {
             text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
+            onClick: (student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Change Expiry',
-            onClick: (student: Student) => onDateClick(student),
+            onClick: (student) => onDateClick(student),
             Icon: FaEdit,
         },
     ]

@@ -62,7 +62,7 @@ export const SetUnavailabilityContainer = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         // {
         //     text: 'Edit',
         //     onClick: (unavailability: any) => {

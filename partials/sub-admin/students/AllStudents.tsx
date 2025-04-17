@@ -13,6 +13,7 @@ import {
     StudentExpiryDaysLeft,
     Table,
     TableAction,
+    TableActionOption,
     UserCreatedAt,
 } from '@components'
 import {
@@ -276,11 +277,13 @@ export const AllStudents = () => {
         )
     }
 
-    const tableActionOptions = (student: any) => {
+    const tableActionOptions = (
+        student: Student
+    ): TableActionOption<Student>[] => {
         return [
             {
                 text: 'View',
-                onClick: (student: Student) => {
+                onClick: (student) => {
                     router.push(
                         `/portals/sub-admin/students/${student?.id}/detail`
                     )
@@ -290,7 +293,7 @@ export const AllStudents = () => {
             },
             {
                 text: 'Edit',
-                onClick: (student: Student) => {
+                onClick: (student) => {
                     router.push(
                         `/portals/sub-admin/students/${student?.id}/edit-student`
                     )
@@ -299,30 +302,29 @@ export const AllStudents = () => {
             },
             {
                 text: student?.subadmin ? 'Un Assign' : 'Assign to me',
-                onClick: (student: Student) => onAssignStudentClicked(student),
+                onClick: (student) => onAssignStudentClicked(student),
                 Icon: MdBlock,
             },
             {
                 text: student?.nonContactable
                     ? 'Add to Contactable'
                     : 'Add to Not Contactable',
-                onClick: (student: Student) =>
-                    onNonContactableStudents(student),
+                onClick: (student) => onNonContactableStudents(student),
                 Icon: MdBlock,
             },
             {
                 text: 'Interview',
-                onClick: (student: Student) => onInterviewClicked(student),
+                onClick: (student) => onInterviewClicked(student),
                 Icon: FaUsers,
             },
             {
                 text: 'Change Status',
-                onClick: (student: Student) => onChangeStatus(student),
+                onClick: (student) => onChangeStatus(student),
                 Icon: FaEdit,
             },
             {
                 text: 'Block',
-                onClick: (student: Student) => onBlockClicked(student),
+                onClick: (student) => onBlockClicked(student),
                 Icon: MdBlock,
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
@@ -330,14 +332,13 @@ export const AllStudents = () => {
                 text: student?.isHighPriority
                     ? 'Remove Mark High Priority'
                     : 'Mark High Priority',
-                onClick: (student: Student) =>
-                    onMarkAsHighPriorityClicked(student),
+                onClick: (student) => onMarkAsHighPriorityClicked(student),
                 Icon: MdPriorityHigh,
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
             {
                 text: 'Change Expiry',
-                onClick: (student: Student) => onDateClick(student),
+                onClick: (student) => onDateClick(student),
                 Icon: FaEdit,
             },
         ]

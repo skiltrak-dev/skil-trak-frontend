@@ -3,16 +3,16 @@ import { FaChevronDown } from 'react-icons/fa'
 import { createPopper } from '@popperjs/core'
 import { IconType } from 'react-icons'
 
-export interface TableActionOption {
+export interface TableActionOption<T> {
     text?: string | React.ReactElement
-    onClick?: (rowItem: any) => void
+    onClick?: (rowItem: T) => void
     Icon?: React.ElementType
     color?: string
 }
 
-interface TableActionProps {
+interface TableActionProps<Type> {
     text?: string
-    options: (TableActionOption | {})[]
+    options: (TableActionOption<Type> | {})[]
     rowItem: any
     lastIndex?: boolean
     onlyIcon?: boolean
@@ -20,7 +20,7 @@ interface TableActionProps {
     children?: ReactNode
 }
 
-export const TableAction = ({
+export const TableAction = <Type,>({
     text,
     options,
     rowItem,
@@ -28,7 +28,7 @@ export const TableAction = ({
     onlyIcon,
     Icon,
     children,
-}: TableActionProps) => {
+}: TableActionProps<Type>) => {
     const [showPopper, setShowPopper] = useState(false)
     const buttonRef: any = useRef<HTMLButtonElement>(null)
     const popperRef = useRef<HTMLUListElement>(null)
@@ -72,7 +72,8 @@ export const TableAction = ({
     }
 
     const validOptions = options.filter(
-        (option): option is TableActionOption => Object.keys(option).length > 0
+        (option): option is TableActionOption<Type> =>
+            Object.keys(option).length > 0
     )
 
     return (

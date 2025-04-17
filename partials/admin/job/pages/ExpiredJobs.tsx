@@ -62,7 +62,7 @@ export const ExpiredJobs = () => {
         contextBar.hide()
     }, [])
 
-    const tableActionOptions = (job: any): TableActionOption[] => [
+    const tableActionOptions = (job: any): TableActionOption<any>[] => [
         // {
         //     text: 'View',
         //     Icon: AiFillEye,

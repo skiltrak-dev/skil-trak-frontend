@@ -84,10 +84,10 @@ export const NonContactableStudents = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(`/portals/sub-admin/students/${student?.id}/detail`)
 
                 setLink('subadmin-student', router)
@@ -96,18 +96,18 @@ export const NonContactableStudents = () => {
         },
         {
             text: 'Add to Contactable',
-            onClick: (student: Student) => onNonContactableStudents(student),
+            onClick: (student) => onNonContactableStudents(student),
             Icon: MdBlock,
         },
         {
             text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
+            onClick: (student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Un Assign',
-            onClick: (student: Student) => onAssignStudentClicked(student),
+            onClick: (student) => onAssignStudentClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -117,15 +117,13 @@ export const NonContactableStudents = () => {
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }: any) => {
-                return <StudentCellInfo student={row.original} call />
-            },
+            cell: ({ row }) => <StudentCellInfo student={row.original} call />,
         },
 
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell({ row }: any) {
+            cell({ row }) {
                 const { rto } = row.original
 
                 return (
@@ -151,7 +149,7 @@ export const NonContactableStudents = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 return <SectorCell student={row.original} />
             },
         },
@@ -200,14 +198,12 @@ export const NonContactableStudents = () => {
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }: any) => {
-                return (
-                    <TableAction
-                        options={tableActionOptions}
-                        rowItem={row.original}
-                    />
-                )
-            },
+            cell: ({ row }) => (
+                <TableAction
+                    rowItem={row.original}
+                    options={tableActionOptions}
+                />
+            ),
         },
     ]
     return (
@@ -221,7 +217,6 @@ export const NonContactableStudents = () => {
                     <Table
                         columns={Columns}
                         data={data.data}
-                        // quickActions={quickActionsElements}
                         enableRowSelection
                     >
                         {({

@@ -75,7 +75,9 @@ const Subscribers: NextPageWithLayout = () => {
 
     const onDeleteClicked = async (subscriber: Subscriber) => {}
 
-    const getTableOptions = (subscriber: Subscriber): TableActionOption[] => {
+    const getTableOptions = (
+        subscriber: Subscriber
+    ): TableActionOption<Subscriber>[] => {
         if (subscriber.isSubscribed)
             return [
                 {

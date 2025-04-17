@@ -35,7 +35,7 @@ export const OpenTickets = () => {
             { refetchOnMountOrArgChange: true }
         )
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (ticket: any) =>

@@ -193,7 +193,7 @@ export const FilteredStudents = ({
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (student: any) => {
@@ -214,7 +214,7 @@ export const FilteredStudents = ({
             Icon: RiLockPasswordFill,
         },
     ]
-    const statusBaseActions: StatusTableActionOption[] = [
+    const statusBaseActions: StatusTableActionOption<any>[] = [
         {
             status: [UserStatus.Approved, UserStatus.Archived],
             text: 'Change Status',

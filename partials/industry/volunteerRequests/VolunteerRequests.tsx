@@ -71,7 +71,7 @@ export const VolunteerRequests = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Cancel',
             onClick: (volunteer: any) => {

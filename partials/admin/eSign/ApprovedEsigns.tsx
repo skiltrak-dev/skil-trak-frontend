@@ -72,7 +72,7 @@ export const ApprovedEsigns = () => {
         setModal(<ArchiveModal eSign={eSign} onCancel={onModalCancelClicked} />)
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (eSign: any) => {

@@ -86,7 +86,7 @@ export const ResolutionPathLabel = () => {
 
     const { notes, toggleExpand } = useNotes(data)
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Edit',
             onClick: (noteTemplate: any) => {

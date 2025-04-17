@@ -13,6 +13,7 @@ import {
     StudentExpiryDaysLeft,
     Table,
     TableAction,
+    TableActionOption,
     UserCreatedAt,
 } from '@components'
 import {
@@ -243,129 +244,16 @@ export const UnAssignedStudents = () => {
         )
     }
 
-    const onNonContactableStudents = (student: Student) => {
-        setModal(
-            <AddToNonContactableStudents
-                student={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStudentStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onDateClick = (student: Student) => {
-        setModal(
-            <EditTimer
-                studentId={student?.user?.id}
-                date={student?.expiryDate}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onBlockClicked = (student: Student) => {
-        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
-    }
-    const onMarkAsHighPriorityClicked = (studetnt: Student) => {
-        setModal(
-            <HighPriorityModal
-                item={studetnt}
-                onCancel={onModalCancelClicked}
-                // setRefetchStudents={setRefetchStudents}
-            />
-        )
-    }
-
-    const onInterviewClicked = (student: Student) => {
-        setModal(
-            <InterviewModal
-                student={student}
-                onCancel={onModalCancelClicked}
-                workplace={Number(student?.workplace[0]?.id)}
-                workIndustry={Number(
-                    getStudentWorkplaceAppliedIndustry(
-                        student?.workplace[0]
-                            ?.industries as WorkplaceWorkIndustriesType[]
-                    )?.id
-                )}
-            />
-        )
-    }
-
-    const tableActionOptions = (student: any) => {
-        return [
-            {
-                text: 'View',
-                onClick: (student: Student) => {
-                    router.push(
-                        `/portals/sub-admin/students/${student?.id}/detail`
-                    )
-                    setLink('subadmin-student', router)
-                },
-                Icon: FaEye,
+    const tableActionOptions: TableActionOption<Student>[] = [
+        {
+            text: 'View',
+            onClick: (student) => {
+                router.push(`/portals/sub-admin/students/${student?.id}/detail`)
+                setLink('subadmin-student', router)
             },
-            // {
-            //     text: 'Edit',
-            //     onClick: (student: Student) => {
-            //         router.push(
-            //             `/portals/sub-admin/students/${student?.id}/edit-student`
-            //         )
-            //     },
-            //     Icon: FaEdit,
-            // },
-            // {
-            //     text: student?.subadmin ? 'Un Assign' : 'Assign to me',
-            //     onClick: (student: Student) => onAssignStudentClicked(student),
-            //     Icon: MdBlock,
-            // },
-            // {
-            //     text: student?.nonContactable
-            //         ? 'Add to Contactable'
-            //         : 'Add to Not Contactable',
-            //     onClick: (student: Student) =>
-            //         onNonContactableStudents(student),
-            //     Icon: MdBlock,
-            // },
-            // {
-            //     text: 'Interview',
-            //     onClick: (student: Student) => onInterviewClicked(student),
-            //     Icon: FaUsers,
-            // },
-            // {
-            //     text: 'Change Status',
-            //     onClick: (student: Student) => onChangeStatus(student),
-            //     Icon: FaEdit,
-            // },
-            // {
-            //     text: 'Block',
-            //     onClick: (student: Student) => onBlockClicked(student),
-            //     Icon: MdBlock,
-            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            // },
-            // {
-            //     text: student?.isHighPriority
-            //         ? 'Remove Mark High Priority'
-            //         : 'Mark High Priority',
-            //     onClick: (student: Student) =>
-            //         onMarkAsHighPriorityClicked(student),
-            //     Icon: MdPriorityHigh,
-            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            // },
-            // {
-            //     text: 'Change Expiry',
-            //     onClick: (student: Student) => onDateClick(student),
-            //     Icon: FaEdit,
-            // },
-        ]
-    }
+            Icon: FaEye,
+        },
+    ]
 
     const Columns: ColumnDef<Student>[] = [
         {
@@ -378,7 +266,7 @@ export const UnAssignedStudents = () => {
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <RTOCellInfo onlyName={false} rto={row.original?.rto} />
             ),
         },
@@ -395,7 +283,7 @@ export const UnAssignedStudents = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 return <SectorCell student={row.original} />
             },
         },
@@ -425,22 +313,19 @@ export const UnAssignedStudents = () => {
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }) => {
-                const tableActionOption = tableActionOptions(row.original)
-                return (
-                    <TableAction
-                        options={tableActionOption}
-                        rowItem={row.original}
-                    />
-                )
-            },
+            cell: ({ row }) => (
+                <TableAction
+                    options={tableActionOptions}
+                    rowItem={row.original}
+                />
+            ),
         },
     ]
 

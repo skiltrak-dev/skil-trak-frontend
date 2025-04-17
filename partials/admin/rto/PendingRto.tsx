@@ -65,7 +65,7 @@ export const PendingRto = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (rto: Rto) => {
