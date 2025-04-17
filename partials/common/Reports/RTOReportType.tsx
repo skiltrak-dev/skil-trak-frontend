@@ -39,6 +39,10 @@ export const RTOReportType = ({ rtoUser }: { rtoUser: number }) => {
         if (title && role === UserRoles.ADMIN) {
             navBar.setTitle(title)
         }
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [title])
 
     const reports = () => {
@@ -46,7 +50,7 @@ export const RTOReportType = ({ rtoUser }: { rtoUser: number }) => {
             case ReportOptionsEnum.NON_CONTACTABLE:
                 return <NonContactableDetail rtoUser={rtoUser} />
             case ReportOptionsEnum.PLACEMENT_STARTED:
-                return <PlacementStartedDetail rtoUser={rtoUser}/>
+                return <PlacementStartedDetail rtoUser={rtoUser} />
             case ReportOptionsEnum.STUDENT_RESULTS:
                 return <StudentResultsDetail rtoUser={rtoUser} />
             // case ReportOptionsEnum.NEW_STUDENTS:

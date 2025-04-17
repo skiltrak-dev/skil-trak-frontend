@@ -6,9 +6,13 @@ import { StudentProfile } from '@partials/student/pages'
 import { useNavbar } from '@hooks'
 
 const Detail: NextPageWithLayout = () => {
-    const navbar = useNavbar()
+    const navBar = useNavbar()
     useEffect(() => {
-        navbar.setTitle('Student Detail')
+        navBar.setTitle('Student Detail')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     return (

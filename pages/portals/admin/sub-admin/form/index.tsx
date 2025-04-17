@@ -2,20 +2,21 @@ import { BackButton, Card } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
 import { PageHeading } from '@components/headings'
 
 const EditRto: NextPageWithLayout = () => {
-    const router = useRouter()
-    const editSubAdminId = router.query.editSubAdminId
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
     useEffect(() => {
         navBar.setTitle('Edit SubAdmin')
         contextBar.hide()
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     return (

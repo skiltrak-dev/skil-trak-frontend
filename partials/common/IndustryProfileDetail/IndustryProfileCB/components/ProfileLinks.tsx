@@ -1,18 +1,23 @@
-import { Typography } from '@components'
+import { TableAction, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
 import { Industry } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
-import { BsUnlockFill } from 'react-icons/bs'
+import { BsThreeDotsVertical, BsUnlockFill } from 'react-icons/bs'
 import { IoMdEyeOff } from 'react-icons/io'
-import { RiEditFill } from 'react-icons/ri'
-import { AcceptingStudentModal } from '../../modal'
+import { RiEditFill, RiFootprintFill } from 'react-icons/ri'
+import {
+    AcceptingStudentModal,
+    AddIndustryQuestionsModal,
+    ViewIndustryAnswersModal,
+} from '../../modal'
 import { SubAdminApi } from '@queries'
 import { CiUnlock } from 'react-icons/ci'
 import { User } from '@types'
 import { MailPasswordModal } from '@partials/common/StudentProfileDetail/modals'
+import { ViewProfileVisitorsModal } from '@partials/common/modal'
 
 export const ProfileLinks = ({
     isHod,
@@ -38,6 +43,31 @@ export const ProfileLinks = ({
     const onMailPasswordToStudent = (user: User) => {
         setModal(<MailPasswordModal user={user} onCancel={onCancelModal} />)
     }
+
+    const onViewProfileVisitorsClicked = () => {
+        setModal(
+            <ViewProfileVisitorsModal
+                onCancel={onCancelModal}
+                userId={industry?.user.id}
+            />
+        )
+    }
+
+    const onViewIndustryAnswersClicked = () =>
+        setModal(
+            <ViewIndustryAnswersModal
+                industryId={industry?.id}
+                onCancel={onCancelModal}
+            />
+        )
+
+    const onAddIndustryAnswersClicked = () =>
+        setModal(
+            <AddIndustryQuestionsModal
+                industry={industry}
+                onCancel={onCancelModal}
+            />
+        )
 
     const profileLinks = [
         {
@@ -104,13 +134,44 @@ export const ProfileLinks = ({
                 )
             },
         },
+        {
+            ...(role === UserRoles.ADMIN || role === UserRoles.SUBADMIN
+                ? {
+                      text: 'View Visitors',
+                      Icon: RiFootprintFill,
+                      onClick: () => onViewProfileVisitorsClicked(),
+                  }
+                : {}),
+        },
+        {
+            text:
+                industry?.approvalReviewQuestionCount &&
+                industry?.approvalReviewQuestionCount > 0
+                    ? 'View Industry Answers'
+                    : 'ADD INDUSTRY ANSWERS',
+            Icon: RiEditFill,
+            onClick: () => {
+                industry?.approvalReviewQuestionCount &&
+                industry?.approvalReviewQuestionCount > 0
+                    ? onViewIndustryAnswersClicked()
+                    : onAddIndustryAnswersClicked()
+            },
+        },
     ]
 
     return (
         <div className="flex flex-col items-end gap-y-2.5">
             {modal}
             {passwordModal}
-            <div className="flex flex-col gap-1.5">
+
+            <div className="flex gap-x-1 items-center">
+                <TableAction options={profileLinks} rowItem={industry}>
+                    <button className="text-xs rounded px-4 py-2 uppercase font-medium text-gray-800 flex gap-x-2 items-center">
+                        <BsThreeDotsVertical size={19} />
+                    </button>
+                </TableAction>
+            </div>
+            {/* <div className="flex flex-col gap-1.5">
                 {profileLinks.map(
                     ({ text, Icon, onClick }: any, index: number) =>
                         text ? (
@@ -128,7 +189,7 @@ export const ProfileLinks = ({
                             </div>
                         ) : null
                 )}
-            </div>
+            </div> */}
         </div>
     )
 }

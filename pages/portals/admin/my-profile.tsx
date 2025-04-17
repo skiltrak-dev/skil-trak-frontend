@@ -37,6 +37,10 @@ const MyProfile: NextPageWithLayout = () => {
         contextBar.setContent(null)
         contextBar.hide()
         navbar.setTitle('Edit My Profile')
+
+        return () => {
+            navbar.setTitle('')
+        }
     }, [])
 
     useEffect(() => {

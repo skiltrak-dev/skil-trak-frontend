@@ -161,7 +161,7 @@ export const IndustryStatus = ({ industry }: { industry: Industry }) => {
     return (
         <>
             {modal}
-            <div className="py-3 border-b border-secondary-dark">
+            <div className="py-3 ">
                 <CustomDropdown
                     width="w-fit"
                     title="Industry Status"

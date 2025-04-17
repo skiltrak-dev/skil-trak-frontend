@@ -39,6 +39,9 @@ const Documents: NextPageWithLayout = () => {
         contextBar.setContent(null)
         contextBar.hide()
         navbar.setTitle('Documents')
+        return () => {
+            navbar.setTitle('')
+        }
     }, [])
 
     const filterDocuments = (docType: string) => {

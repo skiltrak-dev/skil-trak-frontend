@@ -35,6 +35,10 @@ export const Sectors = () => {
 
     useEffect(() => {
         navBar.setTitle('Sectors')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const [filterAction, setFilterAction] = useState(null)

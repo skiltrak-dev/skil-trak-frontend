@@ -48,6 +48,10 @@ export const WorkplaceTypes = () => {
 
     useEffect(() => {
         navBar.setTitle('Workplace Types')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const { isLoading, data, isError, isFetching } = AdminApi.WpTypes.wpTypes({

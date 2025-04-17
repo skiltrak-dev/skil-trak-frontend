@@ -58,6 +58,10 @@ const Workplace: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         navBar.setTitle('Workplace Request')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     useEffect(() => {

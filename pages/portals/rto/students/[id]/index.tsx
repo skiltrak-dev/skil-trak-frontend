@@ -15,6 +15,10 @@ const Detail: NextPageWithLayout = () => {
     useEffect(() => {
         navBar.setTitle('Student Detail')
         contextBar.hide()
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     return (

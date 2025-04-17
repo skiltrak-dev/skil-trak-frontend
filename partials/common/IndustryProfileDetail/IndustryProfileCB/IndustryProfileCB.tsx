@@ -44,29 +44,32 @@ export const IndustryProfileCB = ({
 
     const onCancelModal = () => setModal(null)
 
-    const onViewProfileVisitorsClicked = () => {
-        setModal(
-            <ViewProfileVisitorsModal
-                onCancel={onCancelModal}
-                userId={industry?.user.id}
-            />
-        )
-    }
-
     return (
         <div>
             {modal}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-start">
                 <div>
                     <IndustryProfileAvatar
                         avatar={industry?.user?.avatar as string}
                     />
                 </div>
-                <AuthorizedUserComponent
-                    roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
-                >
-                    <ProfileLinks isHod={isHod} industry={industry} />
-                </AuthorizedUserComponent>
+                <div className="flex flex-col gap-y-2">
+                    <AuthorizedUserComponent
+                        roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                    >
+                        <ProfileLinks isHod={isHod} industry={industry} />
+                    </AuthorizedUserComponent>
+                    {industry?.createdBy ? (
+                        <div className="flex flex-col gap-y-0">
+                            <Typography variant="xxs" color="text-[#6B7280]">
+                                Created By
+                            </Typography>
+                            <Typography medium capitalize variant="label">
+                                {industry?.createdBy?.name}
+                            </Typography>
+                        </div>
+                    ) : null}
+                </div>
             </div>
 
             {/*  */}
@@ -87,35 +90,16 @@ export const IndustryProfileCB = ({
                         </HideRestrictedData>
                     </AuthorizedUserComponent>
                 </div>
-                {industry?.createdBy ? (
-                    <div className="flex flex-col gap-y-0">
-                        <Typography variant="xxs" color="text-[#6B7280]">
-                            Created By
-                        </Typography>
-                        <Typography medium capitalize variant="label">
-                            {industry?.createdBy?.name}
-                        </Typography>
-                    </div>
-                ) : null}
             </div>
 
             {/*  */}
-            <div className="flex items-center justify-between">
-                {industry?.approvalReviewQuestionCount &&
-                industry?.approvalReviewQuestionCount > 0 ? (
-                    <ViewIndustryAnswers industryId={industry?.id} />
-                ) : (
-                    <AddIndustryAnswers industry={industry} />
-                )}
+            <div className="flex items-center justify-between border-b border-secondary-dark">
+                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                    <IndustryStatus industry={industry} />
+                </AuthorizedUserComponent>
                 <AuthorizedUserComponent
                     roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
                 >
-                    <div
-                        onClick={onViewProfileVisitorsClicked}
-                        className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200"
-                    >
-                        View Visitors
-                    </div>
                     {industry?.isPartner && (
                         <div>
                             <Modal>
@@ -140,11 +124,7 @@ export const IndustryProfileCB = ({
             </div>
 
             {/*  */}
-            <div className="flex justify-between items-center gap-x-3">
-                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                    <IndustryStatus industry={industry} />
-                </AuthorizedUserComponent>
-
+            <div className="flex justify-between items-center gap-x-3 mt-2">
                 {/*  */}
                 <IndustryWpType industryUserId={industry?.user?.id} />
             </div>

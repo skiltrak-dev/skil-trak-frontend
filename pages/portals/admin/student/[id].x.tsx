@@ -81,6 +81,10 @@ const Detail: NextPageWithLayout = () => {
         navBar.setTitle('Student Detail')
         navBar.setSubTitle(data?.user?.name)
         contextBar.hide()
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [data])
 
     const onModalCancelClicked = () => {

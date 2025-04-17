@@ -33,6 +33,10 @@ const EditBlog: NextPageWithLayout = () => {
     const navBar = useNavbar()
     useEffect(() => {
         navBar.setTitle('edit blog')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     useEffect(() => {
@@ -52,7 +56,6 @@ const EditBlog: NextPageWithLayout = () => {
         }
     }, [])
 
-   
     return (
         <Card>
             <div className="p-6 overflow-auto remove-scrollbar h-[calc(100vh-160px)]">

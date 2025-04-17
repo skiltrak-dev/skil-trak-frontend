@@ -25,6 +25,10 @@ const SMS: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('SMS')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     useEffect(() => {

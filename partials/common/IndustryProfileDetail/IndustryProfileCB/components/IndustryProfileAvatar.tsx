@@ -4,7 +4,7 @@ import { MdAdminPanelSettings } from 'react-icons/md'
 
 export const IndustryProfileAvatar = ({ avatar }: { avatar?: string }) => {
     return (
-        <div className="mt-4">
+        <div>
             {avatar ? (
                 <Image
                     src={avatar}

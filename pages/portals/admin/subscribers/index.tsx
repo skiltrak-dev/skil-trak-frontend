@@ -49,6 +49,10 @@ const Subscribers: NextPageWithLayout = () => {
     useEffect(() => {
         navBar.setTitle('Subscribers')
         contextBar.switchOff(true)
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const onModalCancelClicked = () => {

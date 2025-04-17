@@ -11,12 +11,16 @@ import { RtoAddDocuments } from '@partials/rto/components'
 
 const AddDocuments: NextPageWithLayout = () => {
     const contextBar = useContextBar()
-    const navbar = useNavbar()
+    const navBar = useNavbar()
 
     useEffect(() => {
         contextBar.setContent(null)
         contextBar.hide()
-        navbar.setTitle('')
+        navBar.setTitle('')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     return <RtoAddDocuments />

@@ -47,6 +47,10 @@ const AddBlog: NextPageWithLayout = () => {
     const navBar = useNavbar()
     useEffect(() => {
         navBar.setTitle('add blog')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     useEffect(() => {

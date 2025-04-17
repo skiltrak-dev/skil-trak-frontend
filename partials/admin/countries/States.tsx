@@ -48,6 +48,10 @@ export const States = () => {
 
     useEffect(() => {
         navBar.setTitle('Courses')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const { isLoading, data, isError } = CommonApi.Countries.useStatesList({

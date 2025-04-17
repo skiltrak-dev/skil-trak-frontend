@@ -52,6 +52,10 @@ const VolunteerRequests: NextPageWithLayout = (props: Props) => {
 
     useEffect(() => {
         navBar.setTitle('Volunteer Request')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const tabs: TabProps[] = [

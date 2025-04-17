@@ -41,9 +41,9 @@ export const StudentProfileDetail = () => {
 
     const navbar = useNavbar()
 
-    useEffect(() => {
-        navbar.setTitle('Student Detail')
-    }, [])
+    // useEffect(() => {
+    //     navbar.setTitle('Student Detail')
+    // }, [])
 
     useEffect(() => {
         let timer: any = null

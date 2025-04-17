@@ -22,10 +22,14 @@ const RtoProfile = () => {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,
     })
-    
+
     useEffect(() => {
         navBar.setTitle('RTO Detail')
         navBar.setSubTitle(rtoDetail?.data?.user?.name)
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [rtoDetail.data])
 
     useEffect(() => {

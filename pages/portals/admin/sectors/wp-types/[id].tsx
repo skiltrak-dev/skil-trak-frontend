@@ -28,6 +28,10 @@ const EditWorkplaceTypes: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Edit Workplace Type')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const onSubmit = async (values: { name: string }) => {

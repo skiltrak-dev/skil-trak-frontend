@@ -22,13 +22,16 @@ const Detail: NextPageWithLayout = () => {
     const navBar = useNavbar()
     const contextBar = useContextBar()
 
-    const industry =
-        useGetRTOWorkplaceDetailQuery(Number(id), {
-            skip: !id,
-        })
+    const industry = useGetRTOWorkplaceDetailQuery(Number(id), {
+        skip: !id,
+    })
     useEffect(() => {
         navBar.setTitle('Workplace Detail')
         contextBar.hide()
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
     return (
         <>
@@ -253,9 +256,9 @@ const Detail: NextPageWithLayout = () => {
 Detail.getLayout = (page: ReactElement) => {
     return (
         <RtoLayout
-            // pageTitle={{
-            //     title: 'Workplace',
-            // }}
+        // pageTitle={{
+        //     title: 'Workplace',
+        // }}
         >
             {page}
         </RtoLayout>

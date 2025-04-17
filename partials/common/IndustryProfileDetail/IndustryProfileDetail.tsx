@@ -105,7 +105,9 @@ export const IndustryProfileDetail = ({
     return (
         <div>
             <div className="flex flex-col gap-y-6 mb-20 px-2">
-                <PageTitle title="Industry Profile" />
+                <AuthorizedUserComponent excludeRoles={[UserRoles.ADMIN]}>
+                    <PageTitle title="Industry Profile" />
+                </AuthorizedUserComponent>
                 {industry?.isSnoozed && (
                     <Alert
                         title="Industry Snoozed"

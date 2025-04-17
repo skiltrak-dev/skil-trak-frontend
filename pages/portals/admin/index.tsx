@@ -34,6 +34,9 @@ const AdminDashboard: NextPageWithLayout = () => {
 
     useEffect(() => {
         navBar.setTitle('Admin Dashboard')
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     useEffect(() => {

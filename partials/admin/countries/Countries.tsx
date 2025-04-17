@@ -33,6 +33,10 @@ export const Countries = () => {
 
     useEffect(() => {
         navBar.setTitle('Sectors')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const [filterAction, setFilterAction] = useState(null)
@@ -205,7 +209,7 @@ export const Countries = () => {
                                 router.push('countries/form')
                             }}
                         />
-                       
+
                         {/* {data && data?.data.length ? (
                             <Button
                                 text="Export"

@@ -22,6 +22,10 @@ const RtoStudentLists: NextPageWithLayout = () => {
     useEffect(() => {
         navBar.setTitle('RTO Detail')
         contextBar.hide()
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
     const [foundStudents, setFoundStudents] = useState<any>([])
 

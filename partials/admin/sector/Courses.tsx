@@ -55,6 +55,10 @@ export const Courses = () => {
 
     useEffect(() => {
         navBar.setTitle('Courses')
+
+        return () => {
+            navBar.setTitle('')
+        }
     }, [])
 
     const { isLoading, data, isError } = AdminApi.Courses.useListQuery({
@@ -223,7 +227,7 @@ export const Courses = () => {
                     setLoadingRowId(rowId)
                     supersedeCourse(rowId)
                     // TODO: will look into this later
-                    
+
                     // if (info.row.original?.isSuperseded) {
                     //     notification.success({
                     //         title: 'Course UnSuperseded',
