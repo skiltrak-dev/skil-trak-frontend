@@ -32,10 +32,7 @@ import {
 import { CgUnblock } from 'react-icons/cg'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
-
-interface StatusTableActionOption<T> extends TableActionOption<T> {
-    status: string[]
-}
+import { StatusTableActionOption } from '../industry'
 
 export const FilteredRto = ({
     rto,
@@ -135,7 +132,7 @@ export const FilteredRto = ({
         },
     ]
 
-    const statusBaseActions: StatusTableActionOption<any>[] = [
+    const statusBaseActions: StatusTableActionOption<Rto>[] = [
         {
             status: [UserStatus.Approved],
             text: 'Block',

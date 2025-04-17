@@ -37,10 +37,7 @@ import {
     RejectModal,
     UnblockModal,
 } from './modals'
-
-interface StatusTableActionOption extends TableActionOption {
-    status: string[]
-}
+import { StatusTableActionOption } from '../industry'
 
 export const FilteredStudents = ({
     filter,
@@ -214,31 +211,31 @@ export const FilteredStudents = ({
             Icon: RiLockPasswordFill,
         },
     ]
-    const statusBaseActions: StatusTableActionOption<any>[] = [
+    const statusBaseActions: StatusTableActionOption<Student>[] = [
         {
             status: [UserStatus.Approved, UserStatus.Archived],
             text: 'Change Status',
-            onClick: (student: Student) => onChangeStatus(student),
+            onClick: (student) => onChangeStatus(student),
             Icon: FaEdit,
         },
         {
             status: [UserStatus.Approved],
             text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
+            onClick: (student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             status: [UserStatus.Approved],
             text: 'Archive',
-            onClick: (student: Student) => onArchivedClicked(student),
+            onClick: (student) => onArchivedClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             status: [UserStatus.Blocked],
             text: 'Unblock',
-            onClick: (student: Student) => onUnblockClicked(student),
+            onClick: (student) => onUnblockClicked(student),
             Icon: CgUnblock,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
@@ -251,7 +248,7 @@ export const FilteredStudents = ({
                           UserStatus.Archived,
                       ],
                       text: 'Delete',
-                      onClick: (student: Student) => onDeleteClicked(student),
+                      onClick: (student) => onDeleteClicked(student),
                       Icon: FaTrash,
                       color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
                   }
@@ -264,28 +261,28 @@ export const FilteredStudents = ({
         //         UserStatus.Archived,
         //     ],
         //     text: 'Delete',
-        //     onClick: (student: Student) => onDeleteClicked(student),
+        //     onClick: (student) => onDeleteClicked(student),
         //     Icon: FaTrash,
         //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         // },
         {
             status: [UserStatus.Pending, UserStatus.Rejected],
             text: 'Accept',
-            onClick: (student: Student) => onAcceptClicked(student),
+            onClick: (student) => onAcceptClicked(student),
             Icon: CgUnblock,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             status: [UserStatus.Archived],
             text: 'Un Archive',
-            onClick: (student: Student) => onAcceptClicked(student),
+            onClick: (student) => onAcceptClicked(student),
             Icon: CgUnblock,
             color: 'text-orange-500 hover:bg-orange-100 hover:border-orange-200',
         },
         {
             status: [UserStatus.Pending],
             text: 'Reject',
-            onClick: (student: Student) => onRejectClicked(student),
+            onClick: (student) => onRejectClicked(student),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
