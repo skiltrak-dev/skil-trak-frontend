@@ -1,28 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 import {
-    ReactTable,
     Button,
-    TableAction,
-    Typography,
     Card,
-    TechnicalError,
-    LoadingAnimation,
-    Table,
     EmptyData,
     InitialAvatar,
+    LoadingAnimation,
+    Table,
+    TableAction,
+    TechnicalError,
+    Typography,
 } from '@components'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 import {
+    useCancelMOUByRTOMutation,
     useGetRtoMOUListQuery,
     useRejectMOUByRTOMutation,
-    useCancelMOUByRTOMutation,
 } from '@queries'
 
 // utils
-import { ThemeColors, userStatus } from '@utils'
-
-const Colors = ThemeColors
+import { userStatus } from '@utils'
 
 export const RtoMOUContainer = () => {
     const router = useRouter()

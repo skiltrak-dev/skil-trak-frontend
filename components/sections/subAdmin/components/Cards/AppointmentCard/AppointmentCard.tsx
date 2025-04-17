@@ -1,10 +1,9 @@
+import { NoData } from '@components/ActionAnimations'
 import { Card } from '@components/cards'
-import { Typography } from '@components/Typography'
-import { RecentActivityLinks } from '../../RecentActivityLinks'
-import { CommonApi } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
-import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-import { NoData, TechnicalError } from '@components/ActionAnimations'
+import { Typography } from '@components/Typography'
+import { CommonApi } from '@queries'
+import { RecentActivityLinks } from '../../RecentActivityLinks'
 type Props = {}
 
 export const AppointmentCard = (props: Props) => {

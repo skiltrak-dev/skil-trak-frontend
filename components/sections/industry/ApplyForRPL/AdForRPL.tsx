@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 // components
-import { Typography, Button, Card } from '@components'
-import { getUserCredentials } from '@utils'
+import { Button } from '@components'
 import { useJoyRide } from '@hooks'
+import { getUserCredentials } from '@utils'
 
 export const AdForRPL = ({ short }: any) => {
     const router = useRouter()

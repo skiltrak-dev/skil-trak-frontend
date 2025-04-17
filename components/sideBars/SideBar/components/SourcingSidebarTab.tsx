@@ -1,7 +1,6 @@
 import { Button } from '@components/buttons'
 import { Select, TextInput } from '@components/inputs'
 import { FormProvider, useForm } from 'react-hook-form'
-import * as Yup from 'yup'
 
 export const SourcingSidebarTab = () => {
     const methods = useForm({

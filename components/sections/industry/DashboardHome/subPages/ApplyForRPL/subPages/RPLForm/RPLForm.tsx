@@ -1,23 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
-import * as yup from 'yup'
-import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as Yup from 'yup'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 // Icons
-import { BsFillCheckCircleFill } from 'react-icons/bs'
 
 // components
-import {
-    Button,
-    BackButton,
-    Card,
-    Popup,
-    TextArea,
-    Typography,
-    LoadingAnimation,
-} from '@components'
+import { BackButton, Button, Card, TextArea, Typography } from '@components'
 // import { RightSidebarData } from '../../components'
 // import { UploadRPLDocs } from './components'
 

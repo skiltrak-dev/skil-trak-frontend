@@ -2,9 +2,8 @@ import Image from 'next/image'
 // import CountUp from 'react-countup'
 
 import { Card } from '@components/cards'
-import { PuffLoader } from 'react-spinners'
 import Link from 'next/link'
-import { ReactNode } from 'react'
+import { PuffLoader } from 'react-spinners'
 
 type FigureCardProps = {
     imageUrl?: string | undefined

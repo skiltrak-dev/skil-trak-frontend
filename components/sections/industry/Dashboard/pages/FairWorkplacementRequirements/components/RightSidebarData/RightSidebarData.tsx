@@ -1,11 +1,7 @@
-import React from 'react'
-import { useRouter } from 'next/router'
-
 // componemts
 import { Button, Typography } from '@components'
 
 export const RightSidebarData = () => {
-    const router = useRouter()
     return (
         <div className="flex flex-col items-start gap-y-4">
             <img

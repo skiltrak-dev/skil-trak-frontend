@@ -1,14 +1,6 @@
-import React from 'react'
 import { useRouter } from 'next/router'
-import { StudentsPrimaryActions } from '@partials/industry'
 
 // componemts
-import {
-    Button,
-    // OtherDocumentLinks,
-    DisplayPrimaryActions,
-    Typography,
-} from '@components'
 import { AdForRPL } from '@components/sections/industry/ApplyForRPL'
 
 export const RightSidebarData = () => {

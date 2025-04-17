@@ -7,7 +7,6 @@ export const ContextBarContent = () => {
             <Typography variant="muted" color="gray">
                 Other Links
             </Typography>
-            {/* <OtherDocumentLinks /> */}
         </>
     )
 }
