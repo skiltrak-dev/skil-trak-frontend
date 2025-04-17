@@ -33,7 +33,7 @@ import { CgUnblock } from 'react-icons/cg'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 
-interface StatusTableActionOption extends TableActionOption {
+interface StatusTableActionOption<T> extends TableActionOption<T> {
     status: string[]
 }
 
