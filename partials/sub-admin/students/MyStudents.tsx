@@ -38,6 +38,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { getFilterQuery, getUserCredentials, setLink } from '@utils'
 import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
+import { useSubadminProfile } from '@hooks'
 
 const filterKeys = [
     'nowp',
@@ -71,7 +72,7 @@ export const MyStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
     const [flagged, setFlagged] = useState<boolean>(false)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const coordinatorProfile = useSubadminProfile()
     const canViewAllStudents = subadmin?.canViewAllStudents
 
     useEffect(() => {
@@ -364,7 +365,7 @@ export const MyStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
                     subtitle={'List of My Students'}
                 />
             </div> */}
-            {!canViewAllStudents && (
+            {!coordinatorProfile?.canViewAllStudents && (
                 <div className="flex justify-end items-center gap-x-3 mb-4">
                     <MyStudentQuickFilters
                         setSnoozed={setSnoozed}
@@ -377,18 +378,20 @@ export const MyStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
                     {filterAction}
                 </div>
             )}
-            <div className="w-full py-4">
-                <Filter<SubAdminStudentsFilterType>
-                    setFilter={(f: SubAdminStudentsFilterType) => {
-                        // setStudentId(null)
-                        setFilter(f)
-                    }}
-                    initialValues={filter}
-                    filterKeys={filterKeys}
-                    setFilterAction={setFilterAction}
-                    component={MyStudentsFilters}
-                />
-            </div>
+            {!coordinatorProfile?.canViewAllStudents && (
+                <div className="w-full py-4">
+                    <Filter<SubAdminStudentsFilterType>
+                        setFilter={(f: SubAdminStudentsFilterType) => {
+                            // setStudentId(null)
+                            setFilter(f)
+                        }}
+                        initialValues={filter}
+                        filterKeys={filterKeys}
+                        setFilterAction={setFilterAction}
+                        component={MyStudentsFilters}
+                    />
+                </div>
+            )}
             <Card noPadding>
                 {isError && <TechnicalError />}
 

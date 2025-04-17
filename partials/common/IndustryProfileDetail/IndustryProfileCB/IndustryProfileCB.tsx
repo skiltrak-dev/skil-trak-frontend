@@ -2,7 +2,6 @@ import {
     Typography,
     HideRestrictedData,
     AuthorizedUserComponent,
-    Button,
 } from '@components'
 import { Industry } from '@types'
 import { UserRoles } from '@constants'
@@ -14,7 +13,6 @@ import {
     IndustryDetail,
     IndustryJobHiring,
     IndustryProfileAvatar,
-    IndustrySectors,
     IndustryStatus,
     MakeIndustryPartner,
     ProfileLinks,
@@ -28,8 +26,12 @@ import {
     IndustrySupervisor,
 } from '../components'
 import { ViewProfileVisitorsModal } from '@partials/common/modal'
-import Modal from '@modals/Modal'
 import { useRouter } from 'next/router'
+import Modal from '@modals/Modal'
+import {
+    VerifiedEmailHistory,
+    VerifyUserEmail,
+} from '@partials/common/components'
 
 export const IndustryProfileCB = ({
     isHod,
@@ -41,8 +43,17 @@ export const IndustryProfileCB = ({
     const [modal, setModal] = useState<ReactNode | null>(null)
     const router = useRouter()
     const id = router.query.id
-
     const onCancelModal = () => setModal(null)
+
+    const onViewProfileVisitorsClicked = () => {
+        setModal(
+            <ViewProfileVisitorsModal
+                onCancel={onCancelModal}
+                userId={industry?.user.id}
+            />
+        )
+    }
+    const isEmailVerified = industry?.user?.isEmailVerified
 
     return (
         <div>
@@ -75,11 +86,21 @@ export const IndustryProfileCB = ({
             {/*  */}
             <div className="flex justify-between items-center gap-x-3">
                 <div className="mt-2">
-                    <Typography semibold>
-                        <span className="text-[15px]">
-                            {industry?.user?.name}
-                        </span>
-                    </Typography>
+                    <div className="flex items-center gap-x-2">
+                        <Typography semibold>
+                            <span className="text-[15px]">
+                                {industry?.user?.name}
+                            </span>
+                        </Typography>
+                        <VerifyUserEmail
+                            isEmailVerified={isEmailVerified}
+                            userId={industry?.user?.id}
+                        />
+                        <VerifiedEmailHistory
+                            userId={industry?.user?.id}
+                            isEmailVerified={isEmailVerified}
+                        />
+                    </div>
                     <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                         <HideRestrictedData type={UserRoles.INDUSTRY}>
                             <Typography variant="xs" color="text-[#6B7280]">
@@ -91,6 +112,16 @@ export const IndustryProfileCB = ({
                     </AuthorizedUserComponent>
                 </div>
             </div>
+            {industry?.createdBy ? (
+                <div className="flex flex-col gap-y-0 mt-2">
+                    <Typography variant="xxs" color="text-[#6B7280]">
+                        Created By
+                    </Typography>
+                    <Typography medium capitalize variant="label">
+                        {industry?.createdBy?.name}
+                    </Typography>
+                </div>
+            ) : null}
 
             {/*  */}
             <div className="flex items-center justify-between border-b border-secondary-dark">

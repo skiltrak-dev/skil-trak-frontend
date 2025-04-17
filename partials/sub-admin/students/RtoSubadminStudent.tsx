@@ -276,7 +276,7 @@ export const RtoSubadminStudent = () => {
     return (
         <div>
             <div className="flex justify-between items-end">
-                <PageTitle title={'Students'} backTitle={'Users'} />
+                {/* <PageTitle title={'Students'} backTitle={'Users'} /> */}
 
                 <div className="flex gap-x-2">
                     {/* <div className="w-60">

@@ -43,6 +43,7 @@ export interface User extends BaseResponse {
     after_hours_access: boolean
     signers: any
     schedules: any
+    isEmailVerified: boolean
 }
 
 export interface UserCount {

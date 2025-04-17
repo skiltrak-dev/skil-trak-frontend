@@ -1,3 +1,5 @@
 export * from './InfoboxCard'
 export * from './ImportantDocuments'
 export * from './GlobalSearchList'
+export * from './VerifyUserEmail'
+export * from './VerifiedEmailHistory'
