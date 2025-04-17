@@ -1,51 +1,12 @@
 import {
-    ActionButton,
     Card,
-    CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
-    StudentExpiryDaysLeft,
     Table,
-    TableAction,
     TableActionOption,
-    Typography,
 } from '@components'
-import { PageHeading } from '@components/headings'
-import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
-import { useActionModal } from '@hooks'
-import { RtoCellInfo } from '@partials/admin/rto/components'
-import { Student, UserStatus } from '@types'
-import { getUserCredentials, studentsListWorkplace } from '@utils'
-import moment from 'moment'
-import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
-import { CgUnblock } from 'react-icons/cg'
-import { MdBlock } from 'react-icons/md'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { UserRoles } from '@constants'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
-import {
-    AcceptModal,
-    ArchiveModal,
-    BlockModal,
-    BlockMultiStudentsModal,
-    ChangeStatusModal,
-    DeleteModal,
-    RejectModal,
-    UnblockModal,
-} from '@partials/admin/student/modals'
-import {
-    SectorCell,
-    StudentCellInfo,
-    StudentIndustries,
-} from '@partials/admin/student/components'
 import { useDepartmentStudentList } from '../hooks'
-
-interface StatusTableActionOption extends TableActionOption {
-    status: string[]
-}
 
 export const FilterDepartmentStudents = () => {
     const {
