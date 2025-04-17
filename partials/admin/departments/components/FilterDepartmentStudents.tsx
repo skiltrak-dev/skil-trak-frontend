@@ -1,10 +1,4 @@
-import {
-    Card,
-    EmptyData,
-    LoadingAnimation,
-    Table,
-    TableActionOption,
-} from '@components'
+import { Card, EmptyData, LoadingAnimation, Table } from '@components'
 
 import { useDepartmentStudentList } from '../hooks'
 

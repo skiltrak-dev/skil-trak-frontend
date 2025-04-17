@@ -1,14 +1,12 @@
+import { CreatedAtDate, Typography } from '@components'
+import { KpiAppointment } from '@partials/common/kpis/types'
 import { AdminApi } from '@queries'
+import { ColumnDef } from '@tanstack/react-table'
+import moment, { Moment } from 'moment'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { RiUserLine } from 'react-icons/ri'
 import { DataKpiTable } from '../../DataKpiTable'
-import { useState } from 'react'
-import { ColumnDef } from '@tanstack/react-table'
-import { Appointment } from '@types'
-import { UserRoles } from '@constants'
-import { Button, CreatedAtDate, Typography } from '@components'
-import moment, { Moment } from 'moment'
-import { KpiAppointment } from '@partials/common/kpis/types'
 
 export const AppointmentTable = ({
     startDate,
@@ -19,7 +17,7 @@ export const AppointmentTable = ({
 }) => {
     const router = useRouter()
     const [page, setPage] = useState(1)
-    const [itemPerPage] = useState(10)
+    const [itemPerPage] = useState(50)
 
     const appointment = AdminApi.Kpi.appointmentDetails(
         {
@@ -34,14 +32,6 @@ export const AppointmentTable = ({
             skip: !router.query.id || !startDate || !endDate,
         }
     )
-
-    const getStudent = (appointment: Appointment) => {
-        const student =
-            appointment?.appointmentBy?.role === UserRoles.STUDENT
-                ? appointment?.appointmentBy
-                : appointment?.appointmentFor
-        return student
-    }
 
     const appointmentColumns: ColumnDef<KpiAppointment>[] = [
         {
