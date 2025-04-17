@@ -33,7 +33,7 @@ import { CgUnblock } from 'react-icons/cg'
 import { ellipsisText, getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
 
-interface StatusTableActionOption<T> extends TableActionOption<T> {
+export interface StatusTableActionOption<T> extends TableActionOption<T> {
     status: string[]
 }
 
