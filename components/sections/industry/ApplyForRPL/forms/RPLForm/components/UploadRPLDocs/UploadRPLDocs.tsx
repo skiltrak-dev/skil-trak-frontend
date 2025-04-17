@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { Field } from 'formik'
+import { useEffect, useState } from 'react'
 import { FileDrop } from 'react-file-drop'
 import { useFormContext } from 'react-hook-form'
 
 // Icons
+import { AiFillDelete, AiFillPlusCircle } from 'react-icons/ai'
 import { BsFillFileEarmarkPdfFill } from 'react-icons/bs'
-import { AiFillPlusCircle, AiFillDelete } from 'react-icons/ai'
 
 // components
 import { Typography, VideoPreview } from '@components'
 import { InputErrorMessage } from '@components/inputs/components'
-import { getMethodsForInput, getMimeTypes } from '@utils'
 // import { elipiciseText } from '@utills'
 
 // components

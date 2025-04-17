@@ -1,20 +1,19 @@
-import { ChangeEvent, FocusEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FileDrop } from 'react-file-drop'
 
 // Icons
 
 // components
+import { Typography } from '@components'
 import {
     HelpText,
     InputErrorMessage,
     RequiredStar,
     Tooltip,
 } from '../components/inputs/components'
-import { Typography } from '@components'
 
 import { InputProps } from '@components/inputs/InputPropType'
 import {
-    checkFileSize,
     getMethodsForInput,
     getMimeTypes,
     SupportedDocumentFormats,

@@ -1,1 +1,1 @@
-export * from './IndustrySelection';
+export {}

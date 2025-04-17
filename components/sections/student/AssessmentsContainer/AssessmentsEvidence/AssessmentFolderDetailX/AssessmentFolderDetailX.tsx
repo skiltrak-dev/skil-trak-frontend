@@ -9,9 +9,7 @@ import {
     FileViewModal,
     LoadingAnimation,
     NoData,
-    PdfViewModal,
     Typography,
-    VideoPlayModal,
 } from '@components'
 import { AssessmentFolderFileCard } from '../components'
 import { UploadFile } from './UploadFile'
@@ -24,8 +22,8 @@ import {
 } from '@queries'
 
 // hoc
-import { FileUpload } from '@hoc'
 import { Result } from '@constants'
+import { FileUpload } from '@hoc'
 import { DocumentsView, useNotification } from '@hooks'
 import { AssessmentFilesOtherDocUpload } from '@partials/common/StudentProfileDetail/components/AssessmentsSubmission/components/AssessmentFiles/AssessmentFilesOtherDocUpload'
 

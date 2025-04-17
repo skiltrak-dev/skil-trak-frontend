@@ -1,16 +1,13 @@
-import { FindWorkplace } from '@components/sections'
 import {
     GoogleMap,
     InfoBox,
     Marker,
     MarkerClusterer,
-    useJsApiLoader,
 } from '@react-google-maps/api'
 
-import { debounce } from 'lodash'
+import { useGoogleMaps } from '@hooks'
 import { useCallback, useEffect, useState } from 'react'
 import { InfoBoxCard } from './InfoBoxCard'
-import { useGoogleMaps } from '@hooks'
 
 const containerStyle = {
     width: '100%',

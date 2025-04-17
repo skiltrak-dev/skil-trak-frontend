@@ -1,9 +1,7 @@
 import { Badge } from '@components/Badge'
 import { TruncatedTextWithTooltip } from '@components/TruncatedTextWithTooltip'
 import { Typography } from '@components/Typography'
-import { ellipsisText } from '@utils'
 import moment from 'moment'
-import React from 'react'
 
 export const VolunteerRequestsListCard = ({
     volunteer,
