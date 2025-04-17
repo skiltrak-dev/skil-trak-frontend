@@ -69,7 +69,8 @@ export const ActionButton = ({
             variant === 'link',
         'bg-indigo-100 text-indigo-500 hover:bg-indigo-200 hover:shadow-indigo-100':
             variant === 'info',
-        'bg-gray-300 text-slate-300 hover:text-gray-400': disabled,
+        'bg-gray-300 text-slate-300 hover:text-gray-400 cursor-not-allowed':
+            disabled,
     })
 
     const simpleClasses = classNames({

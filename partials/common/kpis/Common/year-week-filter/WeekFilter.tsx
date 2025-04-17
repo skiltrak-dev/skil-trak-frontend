@@ -96,7 +96,6 @@ export const WeekFilter = ({
         setSelectedWeek(null)
         setYearDropdownOpen(false)
     }
-    console.log({ startDate, endDate })
     return (
         <div>
             <div className="flex  items-center justify-between my-4 ">

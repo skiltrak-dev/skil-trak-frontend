@@ -70,7 +70,6 @@ export const InvoiceRtoDetailData = ({ rto }: { rto: Rto }) => {
 
     const handleDownload = () => {
         // Implement your download logic here
-        console.log('Downloading data for range:', { startDate, endDate })
         // Close the dropdown after download
 
         window.open(

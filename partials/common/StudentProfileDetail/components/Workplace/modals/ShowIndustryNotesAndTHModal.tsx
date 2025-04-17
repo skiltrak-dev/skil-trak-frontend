@@ -108,7 +108,6 @@ export const ShowIndustryNotesAndTHModal = ({
 
     const onCancelClicked = () => setModal(null)
     const onApply = async () => {
-        console.log({ industryIdindustryIdindustryId: industryId })
         // if (dist <= 20) {
         const payload: any = {
             workplaceId,
@@ -127,8 +126,6 @@ export const ShowIndustryNotesAndTHModal = ({
 
             onCancel()
         }
-
-        console.log(res?.error?.data?.message, 'SASASA')
 
         if (res?.error?.data?.message === WorkplaceErrorMessage.LIMIT_EXCEED) {
             setWorkplaceData({
