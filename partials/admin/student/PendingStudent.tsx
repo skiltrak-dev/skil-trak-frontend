@@ -68,24 +68,24 @@ export const PendingStudent = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: any) => {
+            onClick: (student) => {
                 router.push(`/portals/admin/student/${student?.id}/detail`)
             },
             Icon: FaEye,
         },
         {
             text: 'Edit',
-            onClick: (row: any) => {
+            onClick: (row) => {
                 router.push(`/portals/admin/student/edit-student/${row.id}`)
             },
             Icon: FaEdit,
         },
         {
             text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
+            onClick: (student) => onViewPassword(student),
             Icon: RiLockPasswordFill,
         },
     ]

@@ -80,7 +80,7 @@ export const Sectors = () => {
         contextBar.hide()
     }, [])
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Edit',
             onClick: (item: any) => {

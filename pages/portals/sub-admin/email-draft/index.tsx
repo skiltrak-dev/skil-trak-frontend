@@ -7,13 +7,25 @@ import { NextPageWithLayout } from '@types'
 import { PageHeading } from '@components/headings'
 
 import { useRouter } from 'next/router'
-import { Button, Card, EmptyData, LoadingAnimation, Table, TableAction, TableActionOption, TechnicalError } from '@components'
-import { DeleteModal, EmailDraftList, ViewModal } from '@partials/common/AdminEmails/emailDraft'
+import {
+    Button,
+    Card,
+    EmptyData,
+    LoadingAnimation,
+    Table,
+    TableAction,
+    TableActionOption,
+    TechnicalError,
+} from '@components'
+import {
+    DeleteModal,
+    EmailDraftList,
+    ViewModal,
+} from '@partials/common/AdminEmails/emailDraft'
 import { CommonApi } from '@queries'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { ColumnDef } from '@tanstack/react-table'
 import moment from 'moment'
-
 
 const EmailDraft: NextPageWithLayout = () => {
     const router = useRouter()
@@ -35,14 +47,12 @@ const EmailDraft: NextPageWithLayout = () => {
     }
 
     const onViewClicked = (mailDraft: any) => {
-        setModal(
-            <ViewModal id={mailDraft.id} onClose={() => onClose()} />
-        )
+        setModal(<ViewModal id={mailDraft.id} onClose={() => onClose()} />)
     }
     const onClose = () => {
         setModal(null)
     }
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (mailDraft: any) => {
@@ -91,8 +101,8 @@ const EmailDraft: NextPageWithLayout = () => {
                             dangerouslySetInnerHTML={{
                                 __html: content.substring(0, 55),
                             }}
-                        />....
-
+                        />
+                        ....
                     </div>
                 )
             },

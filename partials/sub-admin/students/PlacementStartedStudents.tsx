@@ -80,10 +80,10 @@ export const PlacementStartedStudents = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(`/portals/sub-admin/students/${student?.id}/detail`)
 
                 setLink('subadmin-student', router)
@@ -92,13 +92,13 @@ export const PlacementStartedStudents = () => {
         },
         {
             text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
+            onClick: (student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Un Assign',
-            onClick: (student: Student) => onAssignStudentClicked(student),
+            onClick: (student) => onAssignStudentClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -108,15 +108,13 @@ export const PlacementStartedStudents = () => {
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }: any) => (
-                <StudentCellInfo student={row.original} call />
-            ),
+            cell: ({ row }) => <StudentCellInfo student={row.original} call />,
         },
 
         {
             header: () => 'RTO',
             accessorKey: 'rto',
-            cell({ row }: any) {
+            cell({ row }) {
                 const { rto } = row.original
 
                 return (
@@ -142,7 +140,7 @@ export const PlacementStartedStudents = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 return <SectorCell student={row.original} />
             },
         },
@@ -203,14 +201,14 @@ export const PlacementStartedStudents = () => {
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 return (
                     <TableAction
                         options={tableActionOptions}

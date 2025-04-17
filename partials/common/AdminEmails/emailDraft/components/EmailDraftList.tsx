@@ -40,14 +40,12 @@ export const EmailDraftList = (props: Props) => {
         setModal(null)
     }
     const onViewClicked = (mailDraft: any) => {
-        setModal(
-            <ViewModal id={mailDraft.id} onClose={() => onClose()} />
-        )
+        setModal(<ViewModal id={mailDraft.id} onClose={() => onClose()} />)
     }
     const onClose = () => {
         setModal(null)
     }
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (mailDraft: any) => {
@@ -96,8 +94,8 @@ export const EmailDraftList = (props: Props) => {
                             dangerouslySetInnerHTML={{
                                 __html: content.substring(0, 55),
                             }}
-                        />....
-
+                        />
+                        ....
                     </div>
                 )
             },

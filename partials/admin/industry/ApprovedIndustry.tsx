@@ -52,7 +52,7 @@ export const ApprovedIndustry = () => {
         limit: itemPerPage,
     })
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<Industry>[] = [
         {
             text: 'View',
             onClick: (industry: any) => {

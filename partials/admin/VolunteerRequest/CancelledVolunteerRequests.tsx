@@ -64,7 +64,7 @@ export const CancelledVolunteerRequests = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Close',
             onClick: (volunteer: any) => {

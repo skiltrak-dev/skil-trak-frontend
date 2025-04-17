@@ -68,7 +68,7 @@ export const IsHiringIndustries = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (industry: Industry) => {

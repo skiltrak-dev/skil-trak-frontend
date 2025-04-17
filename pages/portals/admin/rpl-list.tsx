@@ -81,10 +81,10 @@ const RPLList: NextPageWithLayout = (props: Props) => {
             navBar.setTitle('')
         }
     }, [])
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<Rpl>[] = [
         {
             text: 'Delete',
-            onClick: (item: any) => onDeleteClicked(item),
+            onClick: (item) => onDeleteClicked(item),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },

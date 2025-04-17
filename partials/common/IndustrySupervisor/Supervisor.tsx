@@ -71,7 +71,7 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Edit',
             onClick: (supervisor: any) => {

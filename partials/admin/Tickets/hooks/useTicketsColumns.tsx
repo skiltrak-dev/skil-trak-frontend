@@ -25,7 +25,7 @@ export const useTicketsColumns = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (ticket: any) =>

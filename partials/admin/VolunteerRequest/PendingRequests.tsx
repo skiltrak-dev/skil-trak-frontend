@@ -93,7 +93,7 @@ export const PendingRequests = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Approve',
             onClick: (volunteer: any) => {

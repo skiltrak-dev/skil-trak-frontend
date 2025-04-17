@@ -97,7 +97,7 @@ export const FilteredRto = ({
 
     const role = getUserCredentials()?.role
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (rto: Rto) => {
@@ -135,7 +135,7 @@ export const FilteredRto = ({
         },
     ]
 
-    const statusBaseActions: StatusTableActionOption[] = [
+    const statusBaseActions: StatusTableActionOption<any>[] = [
         {
             status: [UserStatus.Approved],
             text: 'Block',

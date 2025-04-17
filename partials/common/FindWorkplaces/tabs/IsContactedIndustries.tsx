@@ -84,7 +84,7 @@ export const IsContactedIndustries = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         // {
         //     text: 'View',
         //     onClick: (industry: any) => {

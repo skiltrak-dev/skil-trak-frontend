@@ -34,7 +34,7 @@ export const ClosedTickets = () => {
             { refetchOnMountOrArgChange: true }
         )
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (ticket: any) =>

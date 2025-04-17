@@ -4,7 +4,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { AppointmentTypeFilterType } from '@types'
 
 // query
-import { AdminApi, SubAdminApi } from '@queries'
+import { SubAdminApi } from '@queries'
 
 // components
 import { PageHeading } from '@components/headings'
@@ -14,19 +14,15 @@ import {
     Card,
     EmptyData,
     Filter,
-    InitialAvatar,
     LoadingAnimation,
     Table,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
 import { useNavbar } from '@hooks'
+import { VolunteerRequestEnum } from '@partials/admin'
 import { CancelVolunteerModal } from '@partials/industry'
 import moment from 'moment'
-import { IoMdCloseCircle } from 'react-icons/io'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { VolunteerRequestEnum } from '@partials/admin'
 import { IndustryCellInfo } from '../Industries'
 
 export const RejectedVolunteers = () => {
@@ -65,16 +61,6 @@ export const RejectedVolunteers = () => {
             />
         )
     }
-
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'Close',
-            onClick: (volunteer: any) => {
-                onCancelRequest(volunteer)
-            },
-            Icon: IoMdCloseCircle,
-        },
-    ]
 
     const columns: ColumnDef<any>[] = [
         {

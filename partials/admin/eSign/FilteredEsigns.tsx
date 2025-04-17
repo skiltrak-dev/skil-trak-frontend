@@ -57,7 +57,7 @@ export const FilteredEsigns = ({
         setModal(<ApproveModal eSign={eSign} onCancel={onModalCancelClicked} />)
     }
 
-    const tableActionOptions = (eSign: any): TableActionOption[] => [
+    const tableActionOptions = (eSign: any): TableActionOption<any>[] => [
         {
             text: 'View',
             onClick: (eSign: any) => {

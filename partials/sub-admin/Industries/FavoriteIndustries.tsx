@@ -57,7 +57,7 @@ export const FavoriteIndustries = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (industry: Industry) => {

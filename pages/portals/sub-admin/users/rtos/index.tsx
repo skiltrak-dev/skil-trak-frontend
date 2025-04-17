@@ -69,10 +69,10 @@ const RTOs: NextPageWithLayout = () => {
         limit: itemPerPage,
     })
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<RTOStudents>[] = [
         {
             text: 'View',
-            onClick: (rto: any) => {
+            onClick: (rto) => {
                 router.push(
                     `/portals/sub-admin/users/rtos/${rto?.id}?tab=overview`
                 )
@@ -82,19 +82,13 @@ const RTOs: NextPageWithLayout = () => {
         },
         {
             text: 'Old Profile',
-            onClick: (rto: any) => {
+            onClick: (rto) => {
                 router.push(
                     `/portals/sub-admin/users/rtos/${rto?.id}/detail?tab=overview`
                 )
             },
             Icon: FaEye,
         },
-
-        // {
-        //     text: 'View Password',
-        //     onClick: (rto: Rto) => onViewPassword(rto),
-        //     Icon: RiLockPasswordFill,
-        // },
     ]
 
     type RTOStudents = Rto & {

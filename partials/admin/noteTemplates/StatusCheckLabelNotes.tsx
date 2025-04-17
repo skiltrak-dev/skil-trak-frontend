@@ -87,7 +87,7 @@ export const StatusCheckLabelNotes = () => {
         contextBar.hide()
     }, [])
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Edit',
             onClick: (noteTemplate: any) => {

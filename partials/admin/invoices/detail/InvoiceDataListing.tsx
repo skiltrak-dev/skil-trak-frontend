@@ -4,26 +4,25 @@ import {
     Button,
     Card,
     CreatedAtDate,
-    EmptyData,
-    LoadingAnimation,
-    Table,
-    TechnicalError,
+    TableAction,
+    TableActionOption,
     Typography,
 } from '@components'
+import { DataKpiTable } from '@partials/common'
 import { AdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import moment, { Moment } from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { RiUserLine } from 'react-icons/ri'
-import { PaymentStatusEnum } from '../enum'
 import {
     ChangeStatusModal,
     ConfirmAllPaymentModal,
     ConfirmPaymentModal,
 } from '../modals'
-import { DataKpiTable } from '@partials/common'
 import { paymentStatusData } from './InvoiceStatusData'
+import { FaEye } from 'react-icons/fa'
+import { BiSolidPencil } from 'react-icons/bi'
 
 export const InvoiceDataListing = ({
     startDate,
@@ -69,6 +68,16 @@ export const InvoiceDataListing = ({
     const onStatusChangeClicked = (id: number) => {
         setModal(<ChangeStatusModal onCancel={onCancelModal} id={id} />)
     }
+
+    const tableActionOptions: TableActionOption<any>[] = [
+        {
+            text: 'Student Profile',
+            onClick: (student: any) => {
+                router.push(`/portals/admin/student/${student?.id}/detail`)
+            },
+            Icon: FaEye,
+        },
+    ]
 
     const columns: ColumnDef<any>[] = [
         {
@@ -119,22 +128,20 @@ export const InvoiceDataListing = ({
                     info.row?.original?.paymentStatus || '---'
                 )
                 return (
-                    <div className="flex flex-col justify-start items-start gap-y-2">
+                    <div className="flex items-center gap-2">
+                        <Badge
+                            text={paymentStatus?.text + ''}
+                            variant={
+                                paymentStatus?.variant || ('primary' as any)
+                            }
+                        />
                         <ActionButton
                             variant="info"
                             onClick={() => {
                                 onStatusChangeClicked(info.row?.original?.id)
                             }}
                             disabled={info.row?.original?.isDuplicated}
-                        >
-                            Change Payment Status
-                        </ActionButton>
-
-                        <Badge
-                            text={paymentStatus?.text + ''}
-                            variant={
-                                paymentStatus?.variant || ('primary' as any)
-                            }
+                            Icon={BiSolidPencil}
                         />
                     </div>
                 )
@@ -177,6 +184,16 @@ export const InvoiceDataListing = ({
             header: 'Created At',
             cell: (info) => (
                 <CreatedAtDate createdAt={info.row?.original?.createdAt} />
+            ),
+        },
+        {
+            accessorKey: 'action',
+            header: () => <span>Action</span>,
+            cell: (info: any) => (
+                <TableAction
+                    options={tableActionOptions}
+                    rowItem={info.row.original}
+                />
             ),
         },
     ]

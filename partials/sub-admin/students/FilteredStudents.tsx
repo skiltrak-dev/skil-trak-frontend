@@ -7,6 +7,7 @@ import {
     StudentExpiryDaysLeft,
     Table,
     TableAction,
+    TableActionOption,
     TableChildrenProps,
     Typography,
     UserCreatedAt,
@@ -166,11 +167,13 @@ export const FilteredStudents = ({
         )
     }
 
-    const tableActionOptions = (student: any) => {
+    const tableActionOptions = (
+        student: Student
+    ): TableActionOption<Student>[] => {
         return [
             {
                 text: 'View',
-                onClick: (student: Student) => {
+                onClick: (student) => {
                     router.push(
                         `/portals/sub-admin/students/${student?.id}/detail`
                     )
@@ -181,30 +184,29 @@ export const FilteredStudents = ({
             },
             {
                 text: student?.subadmin ? 'Un Assign' : 'Assign to me',
-                onClick: (student: Student) => onAssignStudentClicked(student),
+                onClick: (student) => onAssignStudentClicked(student),
                 Icon: MdBlock,
             },
             {
                 text: student?.nonContactable
                     ? 'Add to Contactable'
                     : 'Add to Not Contactable',
-                onClick: (student: Student) =>
-                    onNonContactableStudents(student),
+                onClick: (student) => onNonContactableStudents(student),
                 Icon: MdBlock,
             },
             {
                 text: 'Interview',
-                onClick: (student: Student) => onInterviewClicked(student),
+                onClick: (student) => onInterviewClicked(student),
                 Icon: FaUsers,
             },
             {
                 text: 'Change Status',
-                onClick: (student: Student) => onChangeStatus(student),
+                onClick: (student) => onChangeStatus(student),
                 Icon: FaEdit,
             },
             {
                 text: 'Block',
-                onClick: (student: Student) => onBlockClicked(student),
+                onClick: (student) => onBlockClicked(student),
                 Icon: MdBlock,
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },

@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
 
 // Icons
 import { FaEye } from 'react-icons/fa'
@@ -29,8 +28,6 @@ import { setLink } from '@utils'
 export const SnoozedStudents = () => {
     const router = useRouter()
 
-    const [modal, setModal] = useState<ReactElement | null>(null)
-
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -50,12 +47,10 @@ export const SnoozedStudents = () => {
             }
         )
 
-    const onModalCancelClicked = () => setModal(null)
-
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(`/portals/sub-admin/students/${student?.id}/detail`)
 
                 setLink('subadmin-student', router)
@@ -119,7 +114,6 @@ export const SnoozedStudents = () => {
 
     return (
         <div>
-            {modal}
             {isError && <TechnicalError />}
             <Card noPadding>
                 {isLoading || isFetching ? (

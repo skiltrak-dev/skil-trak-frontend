@@ -57,7 +57,7 @@ export const ArchivedRto = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (rto: any) => {

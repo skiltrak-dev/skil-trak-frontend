@@ -62,7 +62,7 @@ export const FilteredSubAdmins = ({
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (subAdmin: any) => {

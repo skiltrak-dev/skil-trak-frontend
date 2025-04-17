@@ -65,7 +65,7 @@ export const BlockedRto = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (rto: any) => {

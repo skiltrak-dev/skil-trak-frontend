@@ -55,7 +55,7 @@ export const Approved = () => {
     const [workplaceActions, workplaceActionsResult] =
         useWorkplaceActionsMutation()
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (workplace: any) => {

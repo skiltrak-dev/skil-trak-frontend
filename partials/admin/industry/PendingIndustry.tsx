@@ -105,7 +105,7 @@ export const PendingIndustry = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (industry: any) => {

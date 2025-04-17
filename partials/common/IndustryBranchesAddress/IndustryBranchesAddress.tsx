@@ -94,7 +94,7 @@ export const IndustryBranchesAddress = ({
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Edit',
             onClick: (branch: any) => {

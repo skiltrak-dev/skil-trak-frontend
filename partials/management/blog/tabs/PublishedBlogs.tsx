@@ -55,7 +55,7 @@ export const PublishedBlogs = () => {
             <BulkDeleteModal onCancel={onModalCancelClicked} blogsIds={ids} />
         )
     }
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (blog: any) => {

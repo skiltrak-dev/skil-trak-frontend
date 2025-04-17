@@ -1,4 +1,4 @@
-import { SubAdmin, SubAdminStudentsFilterType, UserStatus } from '@types'
+import { SubAdminStudentsFilterType, UserStatus } from '@types'
 import debounce from 'lodash/debounce'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -35,9 +35,9 @@ import { SubAdminApi, useGetSubAdminStudentsQuery } from '@queries'
 // hooks
 
 //Layouts
+import { useSubadminProfile } from '@hooks'
 import { checkFilteredDataLength, getCountData, getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
-import { useSubadminProfile } from '@hooks'
 
 type Props = {}
 
@@ -125,9 +125,6 @@ export const SubadminStudents = () => {
             refetchOnMountOrArgChange: 30,
         }
     )
-
-    const [downloadCSV, downloadCSVResult] =
-        SubAdminApi.Student.useDownloadStudentCSV()
 
     const studentCount = getCountData<{ [key: string]: number }>(count?.data)
 

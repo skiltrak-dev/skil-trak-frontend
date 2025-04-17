@@ -14,7 +14,7 @@ import { BsFillEyeFill } from 'react-icons/bs'
 export const useSubadminTicketsColumns = () => {
     const router = useRouter()
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (ticket: any) =>

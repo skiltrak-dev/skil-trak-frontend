@@ -43,7 +43,7 @@ export const StudentTickets = ({ student }: { student: Student }) => {
         )
     }
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (ticket: any) =>

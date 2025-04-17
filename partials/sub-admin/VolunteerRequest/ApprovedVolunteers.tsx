@@ -14,25 +14,19 @@ import {
     Card,
     EmptyData,
     Filter,
-    InitialAvatar,
     LoadingAnimation,
     Table,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
 import { useNavbar } from '@hooks'
+import { VolunteerRequestEnum } from '@partials/admin'
 import { CancelVolunteerModal } from '@partials/industry'
 import moment from 'moment'
-import { IoMdCloseCircle } from 'react-icons/io'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { VolunteerRequestEnum } from '@partials/admin'
 import { IndustryCellInfo } from '../Industries'
 
 export const ApprovedVolunteers = () => {
     const navBar = useNavbar()
-
-    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -54,27 +48,6 @@ export const ApprovedVolunteers = () => {
             navBar.setTitle('')
         }
     }, [])
-
-    const onCancelModal = () => setModal(null)
-
-    const onCancelRequest = (volunteer: any) => {
-        setModal(
-            <CancelVolunteerModal
-                volunteer={volunteer}
-                onCancel={onCancelModal}
-            />
-        )
-    }
-
-    const tableActionOptions: TableActionOption[] = [
-        {
-            text: 'Close',
-            onClick: (volunteer: any) => {
-                onCancelRequest(volunteer)
-            },
-            Icon: IoMdCloseCircle,
-        },
-    ]
 
     const columns: ColumnDef<any>[] = [
         {
@@ -126,7 +99,6 @@ export const ApprovedVolunteers = () => {
 
     return (
         <div>
-            {modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Approved Volunteer Request'}

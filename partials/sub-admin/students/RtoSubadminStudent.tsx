@@ -7,6 +7,7 @@ import {
     StudentExpiryDaysLeft,
     Table,
     TableAction,
+    TableActionOption,
     TechnicalError,
     UserCreatedAt,
 } from '@components'
@@ -115,30 +116,8 @@ export const RtoSubadminStudent = () => {
         }
     }, [])
 
-    const delayedNameSearch = useCallback(
-        debounce((value) => {
-            setStudentName({ name: value })
-        }, 700),
-        []
-    )
-
-    const delayedSearch = useCallback(
-        debounce((value) => {
-            setStudentId({ studentId: value })
-        }, 700),
-        []
-    )
-
     const onModalCancelClicked = () => {
         setModal(null)
-    }
-    const onAssignStudentClicked = (student: Student) => {
-        setModal(
-            <AssignStudentModal
-                student={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
     }
 
     const onNonContactableStudents = (student: Student) => {
@@ -169,24 +148,22 @@ export const RtoSubadminStudent = () => {
         )
     }
 
-    const onBlockClicked = (student: Student) => {
-        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
-    }
     const onMarkAsHighPriorityClicked = (studetnt: Student) => {
         setModal(
             <HighPriorityModal
                 item={studetnt}
                 onCancel={onModalCancelClicked}
-                // setRefetchStudents={setRefetchStudents}
             />
         )
     }
 
-    const tableActionOptions = (student: any) => {
+    const tableActionOptions = (
+        student: Student
+    ): TableActionOption<Student>[] => {
         return [
             {
                 text: 'View',
-                onClick: (student: Student) => {
+                onClick: (student) => {
                     router.push(
                         `/portals/sub-admin/students/${student?.id}/detail`
                     )
@@ -203,13 +180,12 @@ export const RtoSubadminStudent = () => {
                 text: student?.nonContactable
                     ? 'Add to Contactable'
                     : 'Add to Not Contactable',
-                onClick: (student: Student) =>
-                    onNonContactableStudents(student),
+                onClick: (student) => onNonContactableStudents(student),
                 Icon: MdBlock,
             },
             {
                 text: 'Change Status',
-                onClick: (student: Student) => onChangeStatus(student),
+                onClick: (student) => onChangeStatus(student),
                 Icon: FaEdit,
             },
 
@@ -217,14 +193,13 @@ export const RtoSubadminStudent = () => {
                 text: student?.isHighPriority
                     ? 'Remove Mark High Priority'
                     : 'Mark High Priority',
-                onClick: (student: Student) =>
-                    onMarkAsHighPriorityClicked(student),
+                onClick: (student) => onMarkAsHighPriorityClicked(student),
                 Icon: MdPriorityHigh,
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
             {
                 text: 'Change Expiry',
-                onClick: (student: Student) => onDateClick(student),
+                onClick: (student) => onDateClick(student),
                 Icon: FaEdit,
             },
         ]

@@ -43,7 +43,7 @@ export const IndustryDashboardStudents = () => {
         { refetchOnMountOrArgChange: true }
     )
 
-    const tableActionOptions: TableActionOption[] = [
+    const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
             onClick: (workplace: any) => {

@@ -17,7 +17,7 @@ export const EsignAction = ({
     data: any
     index: any
     rowData: any
-    tableActionOptions: TableActionOption[]
+    tableActionOptions: TableActionOption<any>[]
 }) => {
     const router = useRouter()
 
