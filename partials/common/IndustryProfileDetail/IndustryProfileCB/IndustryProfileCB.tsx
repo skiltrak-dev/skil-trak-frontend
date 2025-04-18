@@ -95,6 +95,7 @@ export const IndustryProfileCB = ({
                         <VerifyUserEmail
                             isEmailVerified={isEmailVerified}
                             userId={industry?.user?.id}
+                            userName={industry?.user?.name}
                         />
                         <VerifiedEmailHistory
                             userId={industry?.user?.id}
@@ -112,16 +113,6 @@ export const IndustryProfileCB = ({
                     </AuthorizedUserComponent>
                 </div>
             </div>
-            {industry?.createdBy ? (
-                <div className="flex flex-col gap-y-0 mt-2">
-                    <Typography variant="xxs" color="text-[#6B7280]">
-                        Created By
-                    </Typography>
-                    <Typography medium capitalize variant="label">
-                        {industry?.createdBy?.name}
-                    </Typography>
-                </div>
-            ) : null}
 
             {/*  */}
             <div className="flex items-center justify-between border-b border-secondary-dark">

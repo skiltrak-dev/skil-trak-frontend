@@ -13,7 +13,15 @@ import {
 import { commonApi } from '@queries'
 import { useNotification } from '@hooks'
 
-export const VerifyEmailModal = ({ onCloseModal, userId }: any) => {
+export const VerifyEmailModal = ({
+    onCloseModal,
+    userId,
+    userName,
+}: {
+    onCloseModal?: () => void
+    userId: number
+    userName: string
+}) => {
     const [checked, setChecked] = useState(false)
     const { notification } = useNotification()
     const [verifyEmail, verifyEmailResult] =
@@ -38,11 +46,10 @@ export const VerifyEmailModal = ({ onCloseModal, userId }: any) => {
     const onCheckboxChange = () => {
         setChecked(!checked)
     }
-    const onSubmit = async (data: any) => {
-        const { note } = data
+    const onSubmit = async (body: any) => {
         await verifyEmail({
             userId,
-            body: { note: note },
+            body,
         })
     }
 
@@ -58,13 +65,19 @@ export const VerifyEmailModal = ({ onCloseModal, userId }: any) => {
                         <TextArea
                             label={'Add Note'}
                             name={'note'}
+                            required
                             placeholder={'Add Note'}
-                            showError={false}
                             rows={7}
                         />
                         <div className="mt-2">
                             <Checkbox
-                                label={'Verify Email'}
+                                label={
+                                    <span>
+                                        I confirm that the email for{' '}
+                                        <strong>{userName}</strong> has been
+                                        verified
+                                    </span>
+                                }
                                 name={'sendEmail'}
                                 onChange={onCheckboxChange}
                                 value={checked}

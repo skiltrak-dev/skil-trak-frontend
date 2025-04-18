@@ -1,8 +1,9 @@
 import React from 'react'
-import { Typography } from '@components'
+import { AuthorizedUserComponent, Typography } from '@components'
 import { commonApi } from '@queries'
 import { format } from 'date-fns'
 import { FaArrowRightLong } from 'react-icons/fa6'
+import { UserRoles } from '@constants'
 
 export const VerifiedEmailHistoryModal = ({ userId }: { userId: number }) => {
     const { data, isLoading, error } = commonApi.useGetVerifyEmailHistoryQuery(
@@ -52,14 +53,16 @@ export const VerifiedEmailHistoryModal = ({ userId }: { userId: number }) => {
                                 {data?.user?.name || 'N/A'}
                             </Typography>
                         </div>
-                        <div>
-                            <Typography variant="subtitle" semibold>
-                                Email:
-                            </Typography>
-                            <Typography color="text-gray-700">
-                                {data?.user?.email || 'N/A'}
-                            </Typography>
-                        </div>
+                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                            <div className="mb-1">
+                                <Typography variant="subtitle">
+                                    Email:
+                                </Typography>
+                                <Typography color="text-gray-700">
+                                    {data?.user?.email || 'N/A'}
+                                </Typography>
+                            </div>
+                        </AuthorizedUserComponent>
                     </div>
 
                     {/* Status Change Information */}

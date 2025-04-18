@@ -5,13 +5,8 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import {
-    VerifyEmailModal,
-    ViewProfileVisitorsModal,
-} from '@partials/common/modal'
 import { Student, SubAdmin } from '@types'
 import { getUserCredentials, maskText } from '@utils'
-import { ReactNode, useState } from 'react'
 import {
     AssignToMeStudent,
     ContactStatus,
@@ -23,12 +18,6 @@ import {
     StudentExpireTime,
     StudentStatus,
 } from '../ContextBarComponents'
-import Modal from '@modals/Modal'
-import { RiVerifiedBadgeFill } from 'react-icons/ri'
-import {
-    VerifiedEmailHistory,
-    VerifyUserEmail,
-} from '@partials/common/components'
 
 export const ProfileViewCB = ({
     profile,
@@ -37,25 +26,10 @@ export const ProfileViewCB = ({
     profile: Student
     subadmin?: SubAdmin
 }) => {
-    const [modal, setModal] = useState<ReactNode | null>(null)
-
-    const onCancelModal = () => setModal(null)
-
     const role = getUserCredentials()?.role
-
-    const onViewProfileVisitorsClicked = () => {
-        setModal(
-            <ViewProfileVisitorsModal
-                onCancel={onCancelModal}
-                userId={profile?.user.id}
-            />
-        )
-    }
-    const isEmailVerified = profile?.user?.isEmailVerified
 
     return (
         <div>
-            {modal}
             <div className="flex justify-between">
                 <div>
                     <StudentAvatar
@@ -79,14 +53,6 @@ export const ProfileViewCB = ({
                                 {profile?.familyName || ''}
                             </span>
                         </Typography>
-                        <VerifyUserEmail
-                            isEmailVerified={isEmailVerified}
-                            userId={profile?.user?.id}
-                        />
-                        <VerifiedEmailHistory
-                            isEmailVerified={isEmailVerified}
-                            userId={profile?.user?.id}
-                        />
                     </div>
                 </div>
             </div>
