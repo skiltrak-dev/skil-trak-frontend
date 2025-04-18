@@ -31,17 +31,7 @@ import { FaRegCopy, FaTimes } from 'react-icons/fa'
 import { PulseLoader } from 'react-spinners'
 import { IndustryDetailCB } from '../contextBar'
 import { CopyInfoData } from './CopyInfoData'
-
-type IndustryInfoBoxCardProps = {
-    item: any
-    selectedBox: any
-    setSelectedBox: any
-    industryId?: any
-    workplace?: any
-    appliedIndustry?: any
-    workplaceMapCard?: boolean
-    onCancel?: any
-}
+import { LatestCallAnswer } from '@partials/common/StudentProfileDetail/ContextBarComponents/StudentDetail/LatestCallAnswer'
 
 export const IndustryInfoBoxCard = ({
     item,
@@ -338,18 +328,26 @@ export const IndustryInfoBoxCard = ({
                                                         : item?.data
                                                               ?.contactPersonNumber
                                                     : ''}
-
-                                                {/*  */}
-                                                {/* <CopyInfoData
-                                                    text={
-                                                        item?.data
-                                                            ?.contactPersonNumber
-                                                    }
-                                                    type={
-                                                        'Contact Person Number'
-                                                    }
-                                                /> */}
                                             </div>
+                                            {item?.data?.callLog?.[0] &&
+                                            item?.data?.callLog?.[0]
+                                                ?.isAnswered === null ? (
+                                                <div className=" pb-2 flex flex-col gap-y-1">
+                                                    <Typography
+                                                        normal
+                                                        variant="xs"
+                                                        color="text-gray-500 block"
+                                                    >
+                                                        Last Call Log
+                                                    </Typography>
+                                                    <LatestCallAnswer
+                                                        callLog={
+                                                            item?.data
+                                                                ?.callLog?.[0]
+                                                        }
+                                                    />
+                                                </div>
+                                            ) : null}
                                         </div>
                                     </div>
                                 )}

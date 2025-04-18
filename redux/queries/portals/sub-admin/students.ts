@@ -373,6 +373,7 @@ export const studentsEndpoints = (
             'SubAdminStudents',
             'Industries',
             'SubAdminIndustries',
+            'SubAdminWorkplace',
         ],
     }),
 
