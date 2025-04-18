@@ -39,7 +39,9 @@ export const VerifyEmailModal = ({
                 title: 'User Email Verified',
                 description: 'User Email Verified Successfully',
             })
-            onCloseModal()
+            if (onCloseModal) {
+                onCloseModal()
+            }
         }
     }, [verifyEmailResult.isSuccess])
 
