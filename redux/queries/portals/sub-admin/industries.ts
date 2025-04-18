@@ -98,7 +98,7 @@ export const subAdminIndustriesEndpoints = (
             params: { receiver },
             body: { industry },
         }),
-        invalidatesTags: ['SubAdminIndustries'],
+        invalidatesTags: ['SubAdminIndustries', 'SubAdminWorkplace'],
     }),
     getIndustryCallLog: builder.query<any, number>({
         query: (industryId) => ({
