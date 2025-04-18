@@ -1,4 +1,4 @@
-import { AuthorizedUserComponent, RtoAvatar, Typography } from '@components'
+import { RtoAvatar, Typography } from '@components'
 import { Rto } from '@types'
 import {
     ContactPersons,
@@ -9,11 +9,8 @@ import {
     RtoProfileActions,
     Subadmins,
 } from '../components'
-import { VerifiedEmailHistory, VerifyUserEmail } from '@partials/common'
-import { UserRoles } from '@constants'
 
 export const ProfileViewContextBar = ({ rto }: { rto: Rto }) => {
-    const isEmailVerified = rto?.user?.isEmailVerified
     return (
         <div>
             <div className="flex justify-between items-center">
@@ -37,14 +34,6 @@ export const ProfileViewContextBar = ({ rto }: { rto: Rto }) => {
                     <Typography semibold>
                         <span className="text-[15px]">{rto?.user?.name}</span>
                     </Typography>
-                    <VerifyUserEmail
-                        isEmailVerified={isEmailVerified}
-                        userId={rto?.user?.id}
-                    />
-                    <VerifiedEmailHistory
-                        isEmailVerified={isEmailVerified}
-                        userId={rto?.user?.id}
-                    />
                 </div>
                 <Typography variant="xs" color="text-[#6B7280]">
                     {rto?.user?.email}

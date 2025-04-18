@@ -72,8 +72,10 @@ export const InvoiceDataListing = ({
     const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'Student Profile',
-            onClick: (student: any) => {
-                router.push(`/portals/admin/student/${student?.id}/detail`)
+            onClick: (invoice: any) => {
+                router.push(
+                    `/portals/admin/student/${invoice?.student?.id}/detail`
+                )
             },
             Icon: FaEye,
         },
