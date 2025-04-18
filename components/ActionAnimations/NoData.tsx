@@ -1,4 +1,4 @@
-import { FaBox, FaBoxOpen } from 'react-icons/fa'
+import { FaBoxOpen } from 'react-icons/fa'
 
 interface NoDataProps {
     text?: string
