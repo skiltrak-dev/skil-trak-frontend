@@ -93,17 +93,17 @@ export const StudentProfileDetail = () => {
         refetchOnFocus: true,
     })
 
-    useEffect(() => {
-        if (profile?.isSuccess && profile?.data) {
-            const { tab, id, ...rest } = router.query
-            router.push({
-                pathname: router.asPath,
-                query: {
-                    ...rest,
-                },
-            })
-        }
-    }, [profile])
+    // useEffect(() => {
+    //     if (profile?.isSuccess && profile?.data) {
+    //         const { tab, id, ...rest } = router.query
+    //         router.push({
+    //             pathname: router.asPath,
+    //             query: {
+    //                 ...rest,
+    //             },
+    //         })
+    //     }
+    // }, [profile])
 
     useEffect(() => {
         if (profile?.isSuccess && profile?.data && !router.query?.tab) {
