@@ -136,6 +136,8 @@ export const Select = forwardRef(
                 ...provided,
                 borderBottom: '1px dotted pink',
                 color: 'black',
+                // position: 'relative',
+                zIndex: 10,
             }),
             dropdownIndicator: (style: any, state: any) => ({
                 transform: state.selectProps.menuIsOpen

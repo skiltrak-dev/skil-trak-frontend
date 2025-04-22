@@ -396,7 +396,7 @@ export const AllStudents = () => {
             accessorKey: 'assignCoordinator',
             header: () => <span>Assign Coordinator</span>,
             cell: ({ row }) => {
-                // if is not hod then don;t show this column
+                // if is not hod then don't show this column
                 if (!checkIsHod) return <p>---</p>
                 return <AssignCoordinator student={row?.original} />
             },
