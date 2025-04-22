@@ -5,7 +5,11 @@ import { ViewCancelledWpCommentModal } from '../modals'
 import { CancelledWorkplaceCardDetail } from './CancelledWorkplaceCardDetail'
 import { SiStatuspal } from 'react-icons/si'
 
-export const CancelledWorkplaceCard = ({ cancelledWp }: any) => {
+export const CancelledWorkplaceCard = ({
+    cancelledWp,
+}: {
+    cancelledWp: any
+}) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const onCancel = () => setModal(null)
