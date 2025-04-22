@@ -1,7 +1,6 @@
-import { useAuthorizedUserComponent } from '@components'
-import { UserRoles } from '@constants'
 import { maskText } from '@utils'
-import { useSubadminProfile } from './useSubadminProfile'
+import { UserRoles } from '@constants'
+import { useAuthorizedUserComponent } from '@components'
 
 export const useMaskText = ({
     key,
@@ -12,16 +11,11 @@ export const useMaskText = ({
     keyLength?: number
     roles?: UserRoles[]
 }) => {
-    const subadmin = useSubadminProfile()
     const isPermission = useAuthorizedUserComponent({
-        roles: roles || [
-            UserRoles.ADMIN,
-            UserRoles.INDUSTRY,
-            UserRoles.RTO,
-            UserRoles.STUDENT,
-        ],
-        isHod: subadmin?.departmentMember?.isHod,
+        roles: roles || [UserRoles.RTO, UserRoles.STUDENT],
     })
+
+    console.log({ isPermission })
 
     return maskText(
         key,

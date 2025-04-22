@@ -14,14 +14,10 @@ import { ActionButton } from '@components/buttons'
 import { LoadingAnimation } from '@components/LoadingAnimation'
 import { Portal } from '@components/Portal'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
-import { useNotification } from '@hooks'
+import { useMaskText, useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { Appointment, appointmentWithUser } from '@types'
-import {
-    getUserCredentials,
-    isLessThan24HoursDifference,
-    maskText,
-} from '@utils'
+import { getUserCredentials, isLessThan24HoursDifference } from '@utils'
 import { MouseEvent, ReactElement, useState } from 'react'
 import { FaCircleCheck } from 'react-icons/fa6'
 import { GiNotebook } from 'react-icons/gi'
@@ -324,10 +320,11 @@ export const AppointmentViewModal = ({
                                                     variant="small"
                                                     color={'text-gray-500'}
                                                 >
-                                                    {maskText(
-                                                        appointment?.data
-                                                            ?.cancelledBy?.email
-                                                    )}
+                                                    {useMaskText({
+                                                        key: appointment?.data
+                                                            ?.cancelledBy
+                                                            ?.email,
+                                                    })}
                                                 </Typography>
                                             </div>
                                         ) : (

@@ -1,6 +1,7 @@
 import { InitialAvatar } from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
 import { UserRoles } from '@constants'
+import { useMaskText } from '@hooks'
 import { User } from '@types'
 import { maskText } from '@utils'
 import { State } from 'country-state-city'
@@ -51,15 +52,19 @@ export const UserCellInfo = ({ user }: { user: User }) => {
                     <div className="flex items-center gap-x-2 text-sm">
                         <FaEnvelope className="text-gray-400" />
                         <Typography variant={'label'} color={'text-gray-500'}>
-                            {maskText(user?.email)}
+                            {useMaskText({
+                                key: user?.email,
+                            })}
                         </Typography>
                     </div>
                     <div className="flex items-center gap-x-2 text-sm">
                         <FaPhone className="text-gray-400" />
                         <Typography variant={'label'} color={'text-gray-500'}>
-                            {maskText(
-                                userProfile?.phone || userProfile?.phoneNumber
-                            )}
+                            {useMaskText({
+                                key:
+                                    userProfile?.phone ||
+                                    userProfile?.phoneNumber,
+                            })}
                         </Typography>
                     </div>
                     <div className="flex items-center gap-x-2 text-sm">

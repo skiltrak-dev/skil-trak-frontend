@@ -19,7 +19,12 @@ import {
 } from '@partials/common/StudentProfileDetail/components'
 import { ComposeMailModal } from '@partials/common/StudentProfileDetail/modals'
 import { SubAdminApi } from '@queries'
-import { ellipsisText, getSectorsDetail, getUserCredentials } from '@utils'
+import {
+    ellipsisText,
+    getSectorsDetail,
+    getUserCredentials,
+    maskText,
+} from '@utils'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -59,8 +64,6 @@ export const IndustryBranchInfoBoxCard = ({
         SubAdminApi.Workplace.useSubAdminMapIndustryBranchDetail(industryId, {
             skip: !industryId,
         })
-
-
 
     const contextBar = useContextBar()
     const {
@@ -221,9 +224,9 @@ export const IndustryBranchInfoBoxCard = ({
                                             </div>
                                             <div className="relative group w-fit">
                                                 <Typography variant="muted">
-                                                    {useMaskText({
-                                                        key: data?.user?.email,
-                                                    })}
+                                                    {maskText(
+                                                        data?.user?.email
+                                                    )}
                                                 </Typography>
 
                                                 {(rolesIncludes?.includes(

@@ -18,6 +18,7 @@ import {
     StudentExpireTime,
     StudentStatus,
 } from '../ContextBarComponents'
+import { useMaskText } from '@hooks'
 
 export const ProfileViewCB = ({
     profile,
@@ -64,7 +65,7 @@ export const ProfileViewCB = ({
                         <Typography variant="xs" color="text-[#6B7280]">
                             {process.env.NEXT_PUBLIC_NODE_ENV === 'local'
                                 ? profile?.user?.email
-                                : maskText(profile?.user?.email)}
+                                : useMaskText({ key: profile?.user?.email })}
                         </Typography>
                     </HideRestrictedData>
                 </AuthorizedUserComponent>
@@ -116,15 +117,9 @@ export const ProfileViewCB = ({
             />
 
             {/* Student Detail */}
-            <StudentDetail
-                profile={profile}
-                isHod={subadmin?.departmentMember?.isHod}
-            />
+            <StudentDetail profile={profile} />
             {/* <RtoDetail rto={profile?.rto} /> */}
-            <EmergencyContact
-                profile={profile}
-                isHod={subadmin?.departmentMember?.isHod}
-            />
+            <EmergencyContact profile={profile} />
 
             {/* Student Status */}
             <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>

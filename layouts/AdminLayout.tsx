@@ -212,6 +212,12 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             visible: subadmin?.data?.allowIndustryListing,
         },
         {
+            text: 'Rto Listing',
+            path: getRoutePath('/rto-listing?tab=all&page=1&pageSize=50'),
+            Icon: MdFindInPage,
+            visible: subadmin?.data?.allowIndustryListing,
+        },
+        {
             text: 'Generate Key',
             path: getRoutePath('/generate-rto-api'),
             Icon: FaCode,
