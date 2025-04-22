@@ -7,6 +7,7 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 // components
 import {
     Card,
+    CaseOfficerAssignedStudent,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
@@ -170,32 +171,9 @@ export const ArchivedStudents = () => {
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                const workplace = row.original.workplace?.reduce(
-                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
-                    {
-                        currentStatus: WorkplaceCurrentStatus.NotRequested,
-                    }
-                )
-                const industries = row.original?.industries
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                const studentStatus = checkStudentStatus(
-                    row.original?.studentStatus
-                )
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    workplace?.industries
-                )
-
-                return (
-                    <StudentStatusProgressCell
-                        assigned={
-                            workplace?.assignedTo || row?.original?.subadmin
-                        }
-                        step={studentStatus}
-                        appliedIndustry={appliedIndustry}
-                    />
-                )
-            },
+            cell: ({ row }) => (
+                <CaseOfficerAssignedStudent student={row.original} />
+            ),
         },
         {
             accessorKey: 'expiry',
