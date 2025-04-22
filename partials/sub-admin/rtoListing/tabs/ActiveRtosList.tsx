@@ -1,6 +1,4 @@
 import {
-    ActionButton,
-    Button,
     Card,
     EmptyData,
     InitialAvatar,
@@ -15,43 +13,32 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaFileExport } from 'react-icons/fa'
 
-import { CommonApi, commonApi, SubAdminApi } from '@queries'
-import { Industry, RtoStatus } from '@types'
+import { commonApi, SubAdminApi } from '@queries'
+import { RtoStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { FiLogIn } from 'react-icons/fi'
-import { MdBlock, MdDelete, MdOutlineFavorite } from 'react-icons/md'
-// import { IndustryCell, SectorCell } from './components'
-// import { BlockModal } from './modals'
+import { MdDelete, MdOutlineFavorite } from 'react-icons/md'
 
 // hooks
 import Image from 'next/image'
 import { AiFillCheckCircle, AiFillWarning } from 'react-icons/ai'
 import { BiPencil } from 'react-icons/bi'
-// import { DefaultModal } from '../DefaultModal'
-// import { DoNotDisturbModal } from '../DoNotDisturbModal'
-// import { FavoriteModal } from '../FavoriteModal'
-// import {
-//     AddToSignupModal,
-//     DeleteFutureIndustryModal,
-//     DeleteMultiFutureIndustryModal,
-// } from '../modal'
+import { UserRoles } from '@constants'
 import { useContextBar } from '@hooks'
+import { ellipsisText, getUserCredentials } from '@utils'
+import Link from 'next/link'
+import { MdSnooze } from 'react-icons/md'
+import { RiChatFollowUpLine } from 'react-icons/ri'
 import { AddRtoListing } from '../contextBar'
-import { ellipsisText } from '@utils'
 import {
-    RtoDoNotDisturbModal,
     RtoDefaultModal,
+    RtoDoNotDisturbModal,
     RtoFavoriteModal,
-    RtoListingDeleteModal,
     RtoFollowUpModal,
+    RtoListingDeleteModal,
     RtoSnoozedModal,
 } from '../modal'
-import Link from 'next/link'
-import { RiChatFollowUpLine } from 'react-icons/ri'
-import { MdSnooze } from 'react-icons/md'
 
 export const ActiveRtosList = ({
     onSetIndustryData,
@@ -70,12 +57,13 @@ export const ActiveRtosList = ({
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
+    const role = getUserCredentials()?.role
+
     const { isLoading, data, isError } = SubAdminApi.SubAdmin.useAllRtosList({
         search: '',
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -265,7 +253,11 @@ export const ActiveRtosList = ({
                     ?.includes(info?.row?.original?.email)
                 return (
                     <Link
-                        href={`/portals/sub-admin/tasks/rto-listing/${info?.row?.original?.id}`}
+                        href={
+                            role === UserRoles.ADMIN
+                                ? `/portals/admin/rto-listing/${info?.row?.original?.id}`
+                                : `/portals/sub-admin/tasks/rto-listing/${info?.row?.original?.id}`
+                        }
                         className={`flex items-center gap-x-1.5`}
                     >
                         {info?.row?.original?.businessName && (
@@ -275,8 +267,10 @@ export const ActiveRtosList = ({
                         )}
                         <div className="flex flex-col gap-y-1">
                             <div className="flex items-center gap-x-2">
-                                <Typography variant={'label'}>
-                                    {info?.row?.original?.businessName}
+                                <Typography variant={'label'} block>
+                                    <span className="cursor-pointer">
+                                        {info?.row?.original?.businessName}
+                                    </span>
                                 </Typography>
                                 {info.row.original?.signedUp && (
                                     <div className="relative group">

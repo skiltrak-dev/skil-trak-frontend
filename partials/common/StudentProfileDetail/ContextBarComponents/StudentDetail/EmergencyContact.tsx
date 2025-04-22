@@ -1,17 +1,11 @@
 import { Typography, useRestrictedData } from '@components'
 import { UserRoles } from '@constants'
-import { useNotification } from '@hooks'
+import { useMaskText, useNotification } from '@hooks'
 import { Student } from '@types'
-import { getUserCredentials, maskText } from '@utils'
+import { getUserCredentials } from '@utils'
 import { StudentDetailCard } from './StudentDetailCard'
 
-export const EmergencyContact = ({
-    isHod,
-    profile,
-}: {
-    isHod?: boolean
-    profile: Student
-}) => {
+export const EmergencyContact = ({ profile }: { profile: Student }) => {
     const { notification } = useNotification()
 
     const role = getUserCredentials()?.role
@@ -32,12 +26,13 @@ export const EmergencyContact = ({
                     <StudentDetailCard
                         title="Phone"
                         detail={useRestrictedData(
-                            maskText(
-                                profile?.emergencyPersonPhone.toLocaleLowerCase() !==
+                            useMaskText({
+                                key:
+                                    profile?.emergencyPersonPhone.toLocaleLowerCase() !==
                                     'na'
-                                    ? profile?.emergencyPersonPhone
-                                    : '-----'
-                            ),
+                                        ? profile?.emergencyPersonPhone
+                                        : '-----',
+                            }),
                             UserRoles.STUDENT
                         )}
                         onClick={() => {

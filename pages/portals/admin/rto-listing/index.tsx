@@ -1,4 +1,4 @@
-import { SubAdminLayout } from '@layouts'
+import { AdminLayout, SubAdminLayout } from '@layouts'
 import { RtoListing } from '@partials/sub-admin'
 import { NextPageWithLayout } from '@types'
 import { ReactElement } from 'react'
@@ -8,10 +8,6 @@ const RtoListingPage: NextPageWithLayout = (props: Props) => {
     return <RtoListing />
 }
 RtoListingPage.getLayout = (page: ReactElement) => {
-    return (
-        <SubAdminLayout pageTitle={{ title: 'RTOs Listing' }}>
-            {page}
-        </SubAdminLayout>
-    )
+    return <AdminLayout>{page}</AdminLayout>
 }
 export default RtoListingPage

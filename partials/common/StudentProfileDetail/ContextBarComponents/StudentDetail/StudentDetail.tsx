@@ -4,11 +4,11 @@ import {
     useIsRestricted,
     useRestrictedData,
 } from '@components'
-import { useNotification } from '@hooks'
+import { useMaskText, useNotification } from '@hooks'
 import { CallLogsModal } from '@partials/sub-admin/students/modals'
 import { SubAdminApi } from '@queries'
 import { Student } from '@types'
-import { getGender, getUserCredentials, maskText } from '@utils'
+import { getGender, getUserCredentials } from '@utils'
 import { State } from 'country-state-city'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
@@ -17,13 +17,7 @@ import { UserRoles } from '@constants'
 import { UserProfileDetailCard } from '@partials/common/Cards'
 import { LatestCallAnswer } from './LatestCallAnswer'
 
-export const StudentDetail = ({
-    profile,
-    isHod,
-}: {
-    isHod?: boolean
-    profile: Student
-}) => {
+export const StudentDetail = ({ profile }: { profile: Student }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const role = getUserCredentials()?.role
@@ -61,7 +55,9 @@ export const StudentDetail = ({
                 <div className="flex items-center gap-x-[5px]">
                     <UserProfileDetailCard
                         title="Student ID"
-                        detail={maskText(profile?.studentId)}
+                        detail={useMaskText({
+                            key: profile?.studentId,
+                        })}
                         onClick={() => {
                             navigator.clipboard.writeText(profile?.studentId)
                             notification.success({
@@ -80,7 +76,9 @@ export const StudentDetail = ({
                         border={false}
                         title="Phone Number"
                         detail={useRestrictedData(
-                            maskText(profile?.phone),
+                            useMaskText({
+                                key: profile?.phone,
+                            }),
                             UserRoles.STUDENT
                         )}
                         onClick={() => {

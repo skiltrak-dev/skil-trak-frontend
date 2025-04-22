@@ -2,7 +2,7 @@ export const maskText = (key: string, len = 4) => {
     // Convert to string in case it's a number
 
     const datalength =
-        key && key?.length && key?.length > len
+        key && key?.length && key?.length >= len
             ? len
             : key && key?.length > 3
             ? 4
