@@ -15,8 +15,6 @@ export const useMaskText = ({
         roles: roles || [UserRoles.RTO, UserRoles.STUDENT],
     })
 
-    console.log({ isPermission })
-
     return maskText(
         key,
         isPermission
