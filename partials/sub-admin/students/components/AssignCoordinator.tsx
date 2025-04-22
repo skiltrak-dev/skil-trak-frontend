@@ -34,7 +34,7 @@ export const AssignCoordinator = ({ student }: any) => {
             {modal && modal}{' '}
             <div className="min-w-48 relative z-10">
                 {!changeCoordinator && !student.subadmin ? (
-                    <div className="relative z-40">
+                    <div className="">
                         <Select
                             name={'subAdmin'}
                             placeholder={'Select Sub Admin'}
@@ -48,7 +48,7 @@ export const AssignCoordinator = ({ student }: any) => {
                     </div>
                 ) : changeCoordinator ? (
                     <div className="flex items-start gap-x-2">
-                        <div className="relative z-40">
+                        <div className="">
                             <Select
                                 name={'subAdmin'}
                                 placeholder={'Select Sub Admin'}

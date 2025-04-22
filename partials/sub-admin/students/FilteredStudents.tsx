@@ -26,13 +26,19 @@ import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 import { RTOCellInfo } from '../rto/components'
 import { InterviewModal } from '../workplace/modals'
-import { StudentCellInfo, SubadminStudentIndustries } from './components'
+import {
+    AssignCoordinator,
+    StudentCellInfo,
+    SubadminStudentIndustries,
+} from './components'
 import {
     AddToNonContactableStudents,
     AssignStudentModal,
     BlockModal,
     ChangeStudentStatusModal,
 } from './modals'
+import { SubAdminApi } from '@queries'
+import { useSubadminProfile } from '@hooks'
 
 export const FilteredStudents = ({
     filter,
@@ -49,7 +55,8 @@ export const FilteredStudents = ({
 }) => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
-
+    const coordinatorProfile = useSubadminProfile()
+    const checkIsHod = coordinatorProfile?.departmentMember?.isHod
     // ================= Blinking/Flashing rows of students ================
     const findCallLogsUnanswered = student?.data?.data?.filter(
         (student: any) => {
@@ -326,6 +333,15 @@ export const FilteredStudents = ({
             //         />
             //     )
             // },
+        },
+        {
+            accessorKey: 'assignCoordinator',
+            header: () => <span>Assign Coordinator</span>,
+            cell: ({ row }) => {
+                // if is not hod then don;t show this column
+                if (!checkIsHod) return <p>---</p>
+                return <AssignCoordinator student={row?.original} />
+            },
         },
         {
             accessorKey: 'user.status',
