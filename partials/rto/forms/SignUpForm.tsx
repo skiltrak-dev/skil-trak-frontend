@@ -302,7 +302,6 @@ export const RtoSignUpForm = ({
             formMethods.trigger('addressLine1') // Force UI update
         } else {
             // setTimeout(() => {
-            //     console.log('Clearing error...')
             //     formMethods.clearErrors('addressLine1')
             // }, 500)
         }
