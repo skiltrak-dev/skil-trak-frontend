@@ -63,13 +63,6 @@ export const StudentCellInfo = ({
                 >
                     <a
                         onClick={() => {
-                            // router.push({
-                            //     pathname: router.pathname,
-                            //     query: {
-                            //         ...router.query,
-                            //         scrollId: student?.studentId,
-                            //     },
-                            // }) // First router.push is using for the save the full url in session storage to access when go back from detail page to list page
                             setLink('subadmin-student', router)
                             if (isBrowser()) {
                                 sessionStorage.setItem(
@@ -190,26 +183,6 @@ export const StudentCellInfo = ({
                                 </div>
                             ) : null}
                         </div>
-                        {student?.user?.email && (
-                            <div className="flex items-center gap-x-2 text-sm">
-                                <span className="text-gray-400">
-                                    <FaEnvelope />
-                                </span>
-                                <p className="text-gray-500">
-                                    {maskText(student?.user?.email)}
-                                </p>
-                            </div>
-                        )}
-                        {student?.phone && (
-                            <div className="flex items-center gap-x-2 text-sm">
-                                <span className="text-gray-400">
-                                    <FaPhone />
-                                </span>
-                                <p className="text-gray-500">
-                                    {maskText(student?.phone)}
-                                </p>
-                            </div>
-                        )}
                     </a>
                 </Link>
             </div>

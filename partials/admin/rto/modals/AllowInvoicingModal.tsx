@@ -5,6 +5,7 @@ import {
     RadioGroup,
     ShowErrorNotifications,
     Switch,
+    TextInput,
     Typography,
 } from '@components'
 import { useNotification } from '@hooks'
@@ -148,8 +149,23 @@ export const AllowInvoicingModal = ({
                                     name="invoicingType"
                                     options={permissionsOptions}
                                     disabled={!methods?.watch()?.allowInvoicing}
+                                    showError={false}
                                 />
                             </div>
+
+                            {methods?.watch()?.invoicingType !==
+                                InvoiceTypeEnum.Monthly && (
+                                <div className="w-60 mx-auto">
+                                    <TextInput
+                                        name={'startDate'}
+                                        label={`Start ${
+                                            methods?.watch()?.invoicingType
+                                        } Date`}
+                                        type={'date'}
+                                        showError={false}
+                                    />
+                                </div>
+                            )}
 
                             {categoriesOptions &&
                                 categoriesOptions?.length > 0 && (
