@@ -59,15 +59,15 @@ export const Mail = ({ message, sender, index }: any) => {
     const myMessages =
         AuthUtils.getUserCredentials()?.id === message?.sender?.id
 
-    function removeWhiteBackground(htmlString: string) {
+    const removeWhiteBackground = (htmlString: string) => {
         // Remove background-color:#ffffff from style attributes
-        let result = htmlString.replace(
+        let result = htmlString?.replace(
             /background-color\s*:\s*#ffffff\s*;?/gi,
             ''
         )
 
         // Also remove the div style rule that's in the <style> tag
-        result = result.replace(
+        result = result?.replace(
             /div\s*\{\s*background-color\s*:\s*#ffffff\s*;/gi,
             'div {'
         )

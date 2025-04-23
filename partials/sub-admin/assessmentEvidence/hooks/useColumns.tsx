@@ -14,7 +14,7 @@ import {
 
 // types
 import { Result } from '@constants'
-import { setLink } from '@utils'
+import { getUserCredentials, setLink } from '@utils'
 import { ReactElement, useState } from 'react'
 import { AiFillDelete } from 'react-icons/ai'
 import { BsArchiveFill } from 'react-icons/bs'
@@ -25,6 +25,8 @@ import { RTOCellInfo } from '@partials/sub-admin/rto/components'
 export const useColumns = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const subadminId = getUserCredentials()?.id
+
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -41,21 +43,26 @@ export const useColumns = () => {
         return text.replace(/([a-z])([A-Z])/g, '$1 $2')
     }
     const tableActionOptions = (student: any) => {
-        return [
-            {
-                text: 'View',
-                onClick: (item: any) => {
-                    router.push({
-                        pathname: `/portals/sub-admin/students/${item?.student?.id}/detail`,
-                        query: {
-                            tab: 'submissions',
-                            course: item?.course?.id,
-                        },
-                    })
-                    setLink('subadmin-student', router)
-                },
-                Icon: FaEye,
-            },
+        const data = [
+            ...(student?.student?.subadmin?.user?.id === subadminId
+                ? [
+                      {
+                          text: 'View',
+                          onClick: (item: any) => {
+                              router.push({
+                                  pathname: `/portals/sub-admin/students/${item?.student?.id}/detail`,
+                                  query: {
+                                      tab: 'submissions',
+                                      course: item?.course?.id,
+                                  },
+                              })
+                              setLink('subadmin-student', router)
+                          },
+                          Icon: FaEye,
+                          color: 'text-blue-500 hover:bg-blue-100 hover:border-blue-200',
+                      },
+                  ]
+                : []),
             {
                 text:
                     student.status === Result.Archived
@@ -72,6 +79,8 @@ export const useColumns = () => {
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
             },
         ]
+
+        return data
     }
 
     const columns = [

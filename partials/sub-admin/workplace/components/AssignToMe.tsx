@@ -36,6 +36,8 @@ export const AssignToMe = ({
     const [modal, setModal] = useState<any | null>(null)
     const [changeCoordinator, setChangeCoordinator] = useState<boolean>(false)
 
+    const subadminId = getUserCredentials()?.id
+
     const subadmins = AdminApi.Workplace.subadminForAssignWorkplace()
 
     const onCancelClicked = () => {
@@ -161,14 +163,16 @@ export const AssignToMe = ({
                             )}
                         </span>
                     </Typography>
-                    <div
-                        className="cursor-pointer"
-                        onClick={() => setChangeCoordinator(true)}
-                    >
-                        <Typography variant={'xs'} color={'text-info'}>
-                            Change
-                        </Typography>
-                    </div>
+                    {workplace?.student?.subadmin?.user?.id === subadminId && (
+                        <div
+                            className="cursor-pointer"
+                            onClick={() => setChangeCoordinator(true)}
+                        >
+                            <Typography variant={'xs'} color={'text-info'}>
+                                Change
+                            </Typography>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <>
