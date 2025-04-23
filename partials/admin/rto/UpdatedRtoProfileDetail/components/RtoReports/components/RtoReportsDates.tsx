@@ -73,6 +73,7 @@ export const RtoReportsDates = ({
             onSetDates(lastDate?.startDate, lastDate?.endDatee)
         }
     }, [])
+
     useEffect(() => {
         if (dateObjects && dateObjects?.length > 0) {
             if (ref?.current) {

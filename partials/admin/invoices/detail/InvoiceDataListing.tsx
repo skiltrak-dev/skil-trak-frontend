@@ -28,8 +28,8 @@ export const InvoiceDataListing = ({
     startDate,
     endDate,
 }: {
-    startDate: Moment | null
-    endDate: Moment | null
+    startDate: string | null
+    endDate: string | null
 }) => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)

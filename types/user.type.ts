@@ -89,6 +89,7 @@ export interface RtoStatsCount {
 export interface InvoiceSetting extends BaseResponse {
     id: number
     type: InvoiceTypeEnum
+    startDate: Date
     invoiceAction: InvoiceAction
 }
 
