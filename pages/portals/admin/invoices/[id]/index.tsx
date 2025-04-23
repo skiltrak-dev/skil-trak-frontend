@@ -21,8 +21,6 @@ const InvoiceRtoDetail = () => {
 
     const router = useRouter()
 
-    console.log({ startDate })
-
     const detail = AdminApi.Invoice.invoiceRtoDetail(
         Number(router?.query?.id),
         {
