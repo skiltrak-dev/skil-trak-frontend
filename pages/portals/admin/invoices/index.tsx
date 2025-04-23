@@ -13,9 +13,7 @@ import { useNavbar } from '@hooks'
 import { InvoiceRtoList } from '@partials/admin/invoices'
 import { useRouter } from 'next/router'
 
-type Props = {}
-
-const Invoices: NextPageWithLayout = (props: Props) => {
+const Invoices: NextPageWithLayout = () => {
     const navBar = useNavbar()
 
     const router = useRouter()
