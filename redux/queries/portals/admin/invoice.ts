@@ -23,7 +23,7 @@ export const invoiceEndpoints = (
 
     addRtoInvoiceSetting: builder.mutation<
         any,
-        { id: number; type: string; invoiceAction: number[] }
+        { id: number; type: string; invoiceAction: number[]; startDate: string }
     >({
         query: ({ id, invoiceAction, ...body }) => ({
             url: `${PREFIX}/rto/${id}/add`,

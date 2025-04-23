@@ -1,12 +1,11 @@
 import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
 import { useScrollIntoView } from '@hooks'
 import { Student } from '@types'
-import { isBrowser, maskText, setLink } from '@utils'
+import { isBrowser, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { BsTicketDetailed } from 'react-icons/bs'
-import { FaEnvelope, FaPhone } from 'react-icons/fa'
 import { FiPhoneOff } from 'react-icons/fi'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { LuFlagTriangleRight } from 'react-icons/lu'
@@ -146,21 +145,6 @@ export const StudentCellInfo = ({
                                         </div>
                                     ) : null)}
                             </div>
-                            {/* <div className="flex items-center gap-x-2 ">
-                                            <div
-                                                className={`w-1 h-1 rounded-full ${
-                                                    industries === null
-                                                        ? 'bg-red-400'
-                                                        : 'bg-green-400'
-                                                } `}
-                                            ></div>
-                                            <Typography
-                                                variant="muted"
-                                                color="text-green-400"
-                                            >
-                                                Completed
-                                            </Typography>
-                                        </div> */}
                         </div>
                         <div className="flex items-center gap-x-1.5">
                             <p className="text-gray-800 font-medium">

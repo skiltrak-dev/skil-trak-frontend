@@ -12,6 +12,7 @@ import { useNotification } from '@hooks'
 import { InvoiceTypeEnum } from '@partials/admin/invoices'
 import { AdminApi } from '@queries'
 import { OptionType, Rto } from '@types'
+import { removeEmptyValues } from '@utils'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { TbReportSearch } from 'react-icons/tb'
@@ -47,10 +48,12 @@ export const AllowInvoicingModal = ({
         allowInvoicing: boolean
         invoicingType: InvoiceTypeEnum
         invoiceAction: number[]
+        startDate: Date
     }>({
         defaultValues: {
             allowInvoicing: rto?.allowInvoicing,
             invoicingType: rto?.invoiceSettings?.[0]?.type,
+            startDate: rto?.invoiceSettings?.[0]?.startDate,
             invoiceAction: rto?.invoiceSettings?.map(
                 (invSetting) => invSetting?.invoiceAction?.id
             ),
@@ -82,11 +85,26 @@ export const AllowInvoicingModal = ({
     }))
 
     const onSubmit = async (values: any) => {
-        const res: any = await invoiceSetting({
-            id: rto?.id,
-            invoiceAction: values?.invoiceAction?.map(Number),
-            type: values?.invoicingType,
-        })
+        if (
+            (!rto?.invoiceSettings?.[0]?.startDate ||
+                !methods?.watch()?.startDate) &&
+            methods?.watch()?.invoicingType !== InvoiceTypeEnum.Monthly &&
+            rto?.invoiceSettings?.[0]?.type !== InvoiceTypeEnum.Monthly
+        ) {
+            notification.warning({
+                title: 'Start Date is required',
+                description: '',
+            })
+            return
+        }
+        const res: any = await invoiceSetting(
+            removeEmptyValues({
+                id: rto?.id,
+                invoiceAction: values?.invoiceAction?.map(Number),
+                type: values?.invoicingType,
+                startDate: values?.startDate,
+            })
+        )
         if (res?.data) {
             notification.success({
                 title: 'Invoice Type Added',
@@ -101,152 +119,166 @@ export const AllowInvoicingModal = ({
             <ShowErrorNotifications result={allowPermissionsResult} />
             <ShowErrorNotifications result={invoiceSettingResult} />
             <GlobalModal>
-                <FormProvider {...methods}>
-                    <form
-                        className="mt-2 w-full p-4"
-                        onSubmit={methods.handleSubmit(onSubmit)}
-                    >
-                        <div className="flex flex-col items-center gap-y-4 py-4">
-                            <div className={`text-green-500`}>
-                                <TbReportSearch size={48} />
-                            </div>
+                <div className="max-h-[85vh] overflow-auto">
+                    <FormProvider {...methods}>
+                        <form
+                            className="mt-2 w-full p-4"
+                            onSubmit={methods.handleSubmit(onSubmit)}
+                        >
+                            <div className="flex flex-col items-center gap-y-4 py-4">
+                                <div className={`text-green-500`}>
+                                    <TbReportSearch size={48} />
+                                </div>
 
-                            <div className="flex flex-col items-center gap-y-2">
-                                <p className="text-lg font-semibold">
-                                    {rto?.user?.name}
-                                </p>
-                            </div>
-                            <div className="flex gap-x-2">
-                                <div className="">
-                                    <Typography variant="label">
-                                        Allow Invoicing
-                                    </Typography>
+                                <div className="flex flex-col items-center gap-y-2">
+                                    <p className="text-lg font-semibold">
+                                        {rto?.user?.name}
+                                    </p>
+                                </div>
+                                <div className="flex gap-x-2">
+                                    <div className="">
+                                        <Typography variant="label">
+                                            Allow Invoicing
+                                        </Typography>
+                                    </div>
+
+                                    <div>
+                                        <div className="pt-1.5">
+                                            <Switch
+                                                name="allowInvoicing"
+                                                customStyleClass="profileSwitch"
+                                                onChange={() => {
+                                                    onChangeIvoicingStatus()
+                                                }}
+                                                loading={
+                                                    allowPermissionsResult?.isLoading
+                                                }
+                                                disabled={
+                                                    allowPermissionsResult?.isLoading
+                                                }
+                                                // defaultChecked={rto?.allowInvoicing}
+                                                // value={rto?.allowInvoicing}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div>
-                                    <div className="pt-1.5">
-                                        <Switch
-                                            name="allowInvoicing"
-                                            customStyleClass="profileSwitch"
-                                            onChange={() => {
-                                                onChangeIvoicingStatus()
-                                            }}
-                                            loading={
-                                                allowPermissionsResult?.isLoading
-                                            }
-                                            disabled={
-                                                allowPermissionsResult?.isLoading
-                                            }
-                                            // defaultChecked={rto?.allowInvoicing}
-                                            // value={rto?.allowInvoicing}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <RadioGroup
-                                    name="invoicingType"
-                                    options={permissionsOptions}
-                                    disabled={!methods?.watch()?.allowInvoicing}
-                                    showError={false}
-                                />
-                            </div>
-
-                            {methods?.watch()?.invoicingType !==
-                                InvoiceTypeEnum.Monthly && (
-                                <div className="w-60 mx-auto">
-                                    <TextInput
-                                        name={'startDate'}
-                                        label={`Start ${
-                                            methods?.watch()?.invoicingType
-                                        } Date`}
-                                        type={'date'}
+                                    <RadioGroup
+                                        name="invoicingType"
+                                        options={permissionsOptions}
+                                        disabled={
+                                            !methods?.watch()?.allowInvoicing
+                                        }
                                         showError={false}
                                     />
                                 </div>
-                            )}
 
-                            {categoriesOptions &&
-                                categoriesOptions?.length > 0 && (
-                                    <>
-                                        <Typography>Select Category</Typography>
-                                        <div className="grid grid-cols-3 gap-x-2 flex-wrap">
-                                            {categoriesOptions?.map(
-                                                (cate: OptionType) => (
-                                                    <Checkbox
-                                                        name={'invoiceAction'}
-                                                        label={cate?.label}
-                                                        value={Number(
-                                                            cate?.value
-                                                        )}
-                                                        disabled={
-                                                            !methods?.watch()
-                                                                ?.invoicingType ||
-                                                            !methods?.watch()
-                                                                ?.allowInvoicing
-                                                        }
-                                                        defaultChecked={invoiceSettingData?.includes(
-                                                            Number(cate?.value)
-                                                        )}
-                                                        onChange={(e: any) => {
-                                                            setInvoiceSettingData(
-                                                                invoiceSettingData?.includes(
-                                                                    Number(
-                                                                        e
-                                                                            ?.target
-                                                                            ?.value
-                                                                    )
-                                                                )
-                                                                    ? [
-                                                                          ...invoiceSettingData?.filter(
-                                                                              (
-                                                                                  invSetting
-                                                                              ) =>
-                                                                                  invSetting !==
-                                                                                  Number(
-                                                                                      e
-                                                                                          ?.target
-                                                                                          ?.value
-                                                                                  )
-                                                                          ),
-                                                                      ]
-                                                                    : [
-                                                                          ...invoiceSettingData,
-                                                                          Number(
-                                                                              e
-                                                                                  ?.target
-                                                                                  ?.value
-                                                                          ),
-                                                                      ]
-                                                            )
-                                                        }}
-                                                    />
-                                                )
-                                            )}
-                                        </div>
-                                    </>
+                                {methods?.watch()?.invoicingType !==
+                                    InvoiceTypeEnum.Monthly && (
+                                    <div className="w-60 mx-auto">
+                                        <TextInput
+                                            name={'startDate'}
+                                            label={`Start ${
+                                                methods?.watch()?.invoicingType
+                                            } Date`}
+                                            type={'date'}
+                                            showError={false}
+                                        />
+                                    </div>
                                 )}
 
-                            <div className="flex gap-x-4 items-center">
-                                <Button
-                                    text="Cancel"
-                                    variant="secondary"
-                                    onClick={() => {
-                                        onCancel && onCancel()
-                                    }}
-                                />
-                                <Button
-                                    text={'Confirm'}
-                                    variant={'success'}
-                                    submit
-                                    loading={invoiceSettingResult.isLoading}
-                                    disabled={invoiceSettingResult.isLoading}
-                                />
+                                {categoriesOptions &&
+                                    categoriesOptions?.length > 0 && (
+                                        <>
+                                            <Typography>
+                                                Select Category
+                                            </Typography>
+                                            <div className="grid grid-cols-3 gap-x-2 flex-wrap">
+                                                {categoriesOptions?.map(
+                                                    (cate: OptionType) => (
+                                                        <Checkbox
+                                                            name={
+                                                                'invoiceAction'
+                                                            }
+                                                            label={cate?.label}
+                                                            value={Number(
+                                                                cate?.value
+                                                            )}
+                                                            disabled={
+                                                                !methods?.watch()
+                                                                    ?.invoicingType ||
+                                                                !methods?.watch()
+                                                                    ?.allowInvoicing
+                                                            }
+                                                            defaultChecked={invoiceSettingData?.includes(
+                                                                Number(
+                                                                    cate?.value
+                                                                )
+                                                            )}
+                                                            onChange={(
+                                                                e: any
+                                                            ) => {
+                                                                setInvoiceSettingData(
+                                                                    invoiceSettingData?.includes(
+                                                                        Number(
+                                                                            e
+                                                                                ?.target
+                                                                                ?.value
+                                                                        )
+                                                                    )
+                                                                        ? [
+                                                                              ...invoiceSettingData?.filter(
+                                                                                  (
+                                                                                      invSetting
+                                                                                  ) =>
+                                                                                      invSetting !==
+                                                                                      Number(
+                                                                                          e
+                                                                                              ?.target
+                                                                                              ?.value
+                                                                                      )
+                                                                              ),
+                                                                          ]
+                                                                        : [
+                                                                              ...invoiceSettingData,
+                                                                              Number(
+                                                                                  e
+                                                                                      ?.target
+                                                                                      ?.value
+                                                                              ),
+                                                                          ]
+                                                                )
+                                                            }}
+                                                        />
+                                                    )
+                                                )}
+                                            </div>
+                                        </>
+                                    )}
+
+                                <div className="flex gap-x-4 items-center">
+                                    <Button
+                                        text="Cancel"
+                                        variant="secondary"
+                                        onClick={() => {
+                                            onCancel && onCancel()
+                                        }}
+                                    />
+                                    <Button
+                                        text={'Confirm'}
+                                        variant={'success'}
+                                        submit
+                                        loading={invoiceSettingResult.isLoading}
+                                        disabled={
+                                            invoiceSettingResult.isLoading
+                                        }
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </FormProvider>
+                        </form>
+                    </FormProvider>
+                </div>
             </GlobalModal>
         </>
     )
