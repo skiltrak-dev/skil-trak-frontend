@@ -4,11 +4,9 @@ import {
     Card,
     NoData,
     Typography,
-    useAuthorizedUserComponent,
 } from '@components'
 import { UserRoles } from '@constants'
 import { useWorkplace } from '@hooks'
-import { ProfileCard } from '@partials/admin/sub-admin/SubadminProfileDetail/components/ProfileDetail/ProfileCard'
 import { SubAdminApi } from '@queries'
 import { maskText } from '@utils'
 import { useRouter } from 'next/router'
@@ -32,7 +30,6 @@ export const RtoDetail = ({
         skip: !studentId,
         refetchOnMountOrArgChange: 300,
     })
-    const rolesIncludes = [UserRoles.ADMIN, UserRoles.RTO]
 
     useEffect(() => {
         if (rtoDetail?.data && rtoDetail?.isSuccess) {
@@ -51,11 +48,6 @@ export const RtoDetail = ({
         )
     }
 
-    const isPermission = useAuthorizedUserComponent({
-        roles: [UserRoles.ADMIN, UserRoles.RTO],
-        isHod,
-    })
-
     return (
         <>
             {modal}
@@ -66,9 +58,6 @@ export const RtoDetail = ({
                 {rtoDetail?.data && rtoDetail?.isSuccess ? (
                     <div className="flex justify-between items-center px-4 py-2 gap-x-7 ">
                         <div className="flex flex-col gap-y-3">
-                            {/* <Typography variant="label" semibold>
-                                RTO
-                            </Typography> */}
                             <div className="flex  gap-x-2.5 items-center">
                                 <div className="">
                                     <Avatar
@@ -94,39 +83,6 @@ export const RtoDetail = ({
                         </div>
 
                         {/*  */}
-                        {/* <div className="flex flex-col gap-y-2">
-                            <ProfileCard
-                                title="RTO Phone Number"
-                                detail={
-                                    maskText(
-                                        rtoDetail?.data?.phone,
-                                        isPermission
-                                            ? rtoDetail?.data?.phone?.length ||
-                                                  0
-                                            : 3
-                                    ) || '---'
-                                }
-                            />
-                            <ProfileCard
-                                title="Contact Person Number"
-                                detail={
-                                    rtoDetail?.data?.contactPersons &&
-                                    rtoDetail?.data?.contactPersons?.length > 0
-                                        ? maskText(
-                                              rtoDetail?.data
-                                                  ?.contactPersons?.[0]?.phone,
-                                              isPermission
-                                                  ? rtoDetail?.data
-                                                        ?.contactPersons?.[0]
-                                                        ?.phone?.length
-                                                  : 3
-                                          )
-                                        : '---'
-                                }
-                            />
-                        </div> */}
-
-                        {/*  */}
                         <div className="flex items-center justify-between gap-x-2">
                             <Button
                                 text={'RTO Insurance Document'}
@@ -134,44 +90,18 @@ export const RtoDetail = ({
                                 variant="info"
                                 outline
                             />
-                            <Button
-                                text={'View RTO Details'}
-                                onClick={() => {
-                                    router.push(
-                                        `/portals/admin/rto/${rtoDetail?.data?.id}`
-                                    )
-                                }}
-                                variant="info"
-                            />
-                        </div>
-                        {/* <div className="flex items-center justify-between">
-                            <div onClick={() => onViewRtoInsuranceDocs()}>
-                                <Typography
-                                    variant="small"
-                                    color="text-info"
-                                    cursorPointer
-                                >
-                                    RTO Insurance Document
-                                </Typography>
-                            </div>
                             <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                                <div
+                                <Button
+                                    text={'View RTO Details'}
                                     onClick={() => {
                                         router.push(
                                             `/portals/admin/rto/${rtoDetail?.data?.id}`
                                         )
                                     }}
-                                >
-                                    <Typography
-                                        variant="small"
-                                        color="text-info"
-                                        cursorPointer
-                                    >
-                                        View RTO Details
-                                    </Typography>
-                                </div>
+                                    variant="info"
+                                />
                             </AuthorizedUserComponent>
-                        </div> */}
+                        </div>
                     </div>
                 ) : null}
             </Card>

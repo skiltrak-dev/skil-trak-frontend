@@ -40,27 +40,6 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
                     <p className={`${short ? 'font-medium' : 'font-semibold'}`}>
                         {rto?.user?.name}
                     </p>
-                    <div className="font-medium text-xs text-gray-500">
-                        <HideRestrictedData type={'canViewRtoList'}>
-                            <p className="flex items-center gap-x-1">
-                                <span>
-                                    <MdEmail />
-                                </span>
-                                {maskText(rto?.user?.email)}
-                            </p>
-                        </HideRestrictedData>
-
-                        <HideRestrictedData type={UserRoles.RTO}>
-                            {!short && (
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdPhoneIphone />
-                                    </span>
-                                    {maskText(rto?.phone)}
-                                </p>
-                            )}
-                        </HideRestrictedData>
-                    </div>
                 </div>
             </a>
         </Link>

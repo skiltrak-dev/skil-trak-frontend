@@ -111,7 +111,7 @@ export const StudentCellInfo = ({
                                 }
                             >
                                 <ErrorBoundary>
-                                    {student?.studentId}
+                                    {maskText(student?.studentId)}
                                 </ErrorBoundary>
                             </p>
                             {student?.nonContactable && (

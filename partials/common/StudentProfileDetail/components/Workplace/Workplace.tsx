@@ -10,15 +10,12 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import { FaInfoCircle } from 'react-icons/fa'
-import ReactStars from 'react-stars'
 
 import { useWorkplace } from '@hooks'
-import { paymentStatusData } from '@partials/admin/invoices'
 import { Student } from '@types'
-import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
+import { checkStudentProfileCompletion } from '@utils'
 import moment from 'moment'
-import { RiPencilFill } from 'react-icons/ri'
+import { useEffect } from 'react'
 import {
     AddWorkplaceAction,
     CancelledWorkplaceCard,
@@ -37,9 +34,8 @@ import {
     WPInvoiceStatus,
 } from './components'
 import { IndustryDetail } from './components/IndustryDetail'
-import { useWorkplaceHook } from './hooks'
-import { useEffect } from 'react'
 import { WPStatusForCancelButon } from './data'
+import { useWorkplaceHook } from './hooks'
 
 export const Workplace = ({
     student,

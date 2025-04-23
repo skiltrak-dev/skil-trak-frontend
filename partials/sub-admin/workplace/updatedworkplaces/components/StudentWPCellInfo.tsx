@@ -51,16 +51,14 @@ export const StudentWPCellInfo = ({ student }: { student: Student }) => {
             <Typography variant="small" color="text-gray-500">
                 {student?.addressLine1 ?? 'N/A'}
             </Typography>
-            <Link
-                href={
-                    student?.subadmin?.user?.id === subadminId
-                        ? `/portals/sub-admin/students/${student?.id}/detail`
-                        : '#'
-                }
-                className="text-blue-500 text-xs"
-            >
-                View Details
-            </Link>
+            {student?.subadmin?.user?.id === subadminId && (
+                <Link
+                    href={`/portals/sub-admin/students/${student?.id}/detail`}
+                    className="text-blue-500 text-xs"
+                >
+                    View Details
+                </Link>
+            )}
         </div>
     )
 }

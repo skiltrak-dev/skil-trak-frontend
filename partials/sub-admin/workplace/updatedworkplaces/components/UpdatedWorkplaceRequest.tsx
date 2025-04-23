@@ -3,7 +3,7 @@
 import { ActionButton, ShowErrorNotifications } from '@components'
 
 // utils
-import { WorkplaceCurrentStatus } from '@utils'
+import { getUserCredentials, WorkplaceCurrentStatus } from '@utils'
 
 // hooks
 
@@ -50,17 +50,13 @@ export const UpdatedWorkplaceRequest = ({
     const [onEnterWorkplace, setOnEnterWorkplace] = useState<boolean>(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [isOpened, setIsOpened] = useState<boolean>(false)
-    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const subadminId = getUserCredentials()?.id
 
-    const { setContent, show } = useContextBar()
     const { notification } = useNotification()
 
     // query
     const [cancelWorkplace, cancelWorkplaceResult] =
         useCancelWorkplaceStatusMutation()
-    const [assignCourse, assignCourseResult] =
-        SubAdminApi.Workplace.assignCourse()
 
     // query
     const workplaceFolders = useGetWorkplaceFoldersQuery(
@@ -87,15 +83,6 @@ export const UpdatedWorkplaceRequest = ({
             })
         }
     }, [cancelWorkplaceResult])
-
-    const courseOptions =
-        workplace?.student?.courses?.length > 0
-            ? workplace?.student?.courses?.map((course: Course) => ({
-                  item: course,
-                  value: course?.id,
-                  label: course?.title,
-              }))
-            : []
 
     const onCancelWorkplaceClicked = () => {
         setModal(
@@ -137,7 +124,9 @@ export const UpdatedWorkplaceRequest = ({
                                             cancelWorkplaceResult.isLoading
                                         }
                                         disabled={
-                                            cancelWorkplaceResult.isLoading
+                                            cancelWorkplaceResult.isLoading ||
+                                            workplace?.student?.subadmin?.user
+                                                ?.id !== subadminId
                                         }
                                     >
                                         Cancel Request
@@ -148,9 +137,8 @@ export const UpdatedWorkplaceRequest = ({
                             <IndustryStatus
                                 folders={folders}
                                 workplace={workplace}
-                                appliedIndustry={appliedIndustry}
-                                // isOpen={isOpen}
                                 student={workplace?.student}
+                                appliedIndustry={appliedIndustry}
                             />
                         )}
                     </div>
