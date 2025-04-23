@@ -37,13 +37,14 @@ const InvoiceRtoDetail: NextPageWithLayout = () => {
         []
     )
 
-    const dateObjects =
-        detail?.data?.invoiceSettings?.[0]?.type === InvoiceTypeEnum.Monthly
+    const dateObjects = detail?.data
+        ? detail?.data?.invoiceSettings?.[0]?.type === InvoiceTypeEnum.Monthly
             ? generateMonthlyInvoiceDateRanges()
             : generateInvoiceDateRanges(
                   detail?.data?.invoiceSettings?.[0]?.type,
                   detail?.data?.invoiceSettings?.[0]?.startDate
               )
+        : []
 
     useEffect(() => {
         if (dateObjects && dateObjects?.length > 0 && !isUpdated) {
