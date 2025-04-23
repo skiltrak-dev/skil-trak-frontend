@@ -86,8 +86,7 @@ export const AllowInvoicingModal = ({
 
     const onSubmit = async (values: any) => {
         if (
-            (!rto?.invoiceSettings?.[0]?.startDate ||
-                !methods?.watch()?.startDate) &&
+            !values?.startDate &&
             methods?.watch()?.invoicingType !== InvoiceTypeEnum.Monthly &&
             rto?.invoiceSettings?.[0]?.type !== InvoiceTypeEnum.Monthly
         ) {
