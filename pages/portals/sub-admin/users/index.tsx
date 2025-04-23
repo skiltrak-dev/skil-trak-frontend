@@ -23,6 +23,13 @@ const PrimaryLinks = [
         animation: Animations.Student.Workplace.Student,
         id: 'rtos',
     },
+    {
+        title: 'RTO Listing',
+        description: 'RTO Listing',
+        link: 'tasks/rto-listing?tab=all&page=1&pageSize=50',
+        animation: Animations.Student.Appointments.RtoListing,
+        id: 'rto-listing',
+    },
     // {
     //     title: 'Students',
     //     description: 'Manage Allocated Students',
@@ -36,6 +43,13 @@ const PrimaryLinks = [
         link: 'users/industries?tab=all',
         animation: Animations.Student.Appointments.AssessmentTool,
         id: 'industries',
+    },
+    {
+        title: 'Industry Listing',
+        description: 'Industry Listing',
+        link: 'tasks/industry-listing?tab=all&page=1&pageSize=50',
+        animation: Animations.Student.Appointments.IndustryListing,
+        id: 'industry-listing',
     },
 ]
 

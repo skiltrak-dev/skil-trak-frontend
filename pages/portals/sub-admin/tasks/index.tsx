@@ -105,20 +105,6 @@ const SubAdminTasks: NextPageWithLayout = () => {
         //     animation: Animations.Student.Appointments.MyStudentsReport,
         //     id: 'my-student-report',
         // },
-        {
-            title: 'Industry Listing',
-            description: 'Industry Listing',
-            link: 'tasks/industry-listing?tab=all&page=1&pageSize=50',
-            animation: Animations.Student.Appointments.IndustryListing,
-            id: 'industry-listing',
-        },
-        {
-            title: 'RTO Listing',
-            description: 'RTO Listing',
-            link: 'tasks/rto-listing?tab=all&page=1&pageSize=50',
-            animation: Animations.Student.Appointments.RtoListing,
-            id: 'rto-listing',
-        },
     ]
 
     // WORKPLACE JOY RIDE - END
