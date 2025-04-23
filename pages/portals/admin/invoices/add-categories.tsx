@@ -3,11 +3,11 @@ import { PageHeading } from '@components/headings'
 import { useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { AddCategoryForm } from '@partials/admin/invoices'
-import { AddTypeForm } from '@partials/common'
 import { AdminApi } from '@queries'
+import { NextPageWithLayout } from '@types'
 import { ReactElement } from 'react'
 
-const AddCategories = () => {
+const AddCategories: NextPageWithLayout = () => {
     const { notification } = useNotification()
 
     const [add, addResult] = AdminApi.Invoice.addInvoiceCategory()

@@ -7,6 +7,7 @@ import {
     InvoiceTypeEnum,
 } from '@partials/admin/invoices'
 import { AdminApi } from '@queries'
+import { NextPageWithLayout } from '@types'
 import {
     generateInvoiceDateRanges,
     generateMonthlyInvoiceDateRanges,
@@ -14,7 +15,7 @@ import {
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 
-const InvoiceRtoDetail = () => {
+const InvoiceRtoDetail: NextPageWithLayout = () => {
     const [startDate, setStartDate] = useState<string | null>(null)
     const [endDate, setEndDate] = useState<string | null>(null)
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
