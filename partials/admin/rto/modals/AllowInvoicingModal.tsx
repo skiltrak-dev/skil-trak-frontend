@@ -115,8 +115,6 @@ export const AllowInvoicingModal = ({
         mode: 'all',
     })
 
-    console.log({ methods })
-
     const onChangeIvoicingStatus = async () => {
         await allowPermissions(rto?.id).then((res: any) => {
             if (res?.data) {

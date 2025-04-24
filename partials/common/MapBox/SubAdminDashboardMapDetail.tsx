@@ -265,7 +265,8 @@ const SubAdminDashboardMapDetail = ({
                                         sectorName: string
                                     }
                                 ) => ({
-                                    ...course,
+                                    id: course?.id,
+                                    title: course?.title,
                                     sector: {
                                         id: course?.sectorId,
                                         code: course?.sectorCode,
@@ -366,8 +367,6 @@ const SubAdminDashboardMapDetail = ({
             map.setZoom(3)
         }
     }
-
-    console.log({ visibleMarkers })
 
     const saveMapView = () => {
         if (map) {

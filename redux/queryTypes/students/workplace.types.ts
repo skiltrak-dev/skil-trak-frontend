@@ -19,6 +19,9 @@ export interface AdminWorkplaceCount {
     requested: number
     assigned: number
     unAssigned: number
+    placementStarted: number
+    completed: number
+    blocked: number
     cancelled: number
 }
 

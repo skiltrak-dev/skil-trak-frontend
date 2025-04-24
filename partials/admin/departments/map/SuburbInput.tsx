@@ -11,36 +11,6 @@ export const SuburbInput = () => {
                 validationIcons
                 required
                 placesSuggetions
-                // onChange={(e: any) => {
-                //     if (e?.target?.value > 4) {
-                //         fromAddress(e?.target?.value)
-                //             .then(({ results }) => {
-                //                 const { lat, lng } =
-                //                     results[0].geometry.location
-                //                 console.log({
-                //                     map,
-                //                     lat,
-                //                     lng,
-                //                     outer: true,
-                //                 })
-                //                 if (map) {
-                //                     console.log({
-                //                         map,
-                //                         lat,
-                //                         lng,
-                //                     })
-                //                     map.setCenter({ lat, lng })
-                //                     map.setZoom(8)
-                //                 }
-                //                 console.log(lat, lng)
-                //             })
-                //             .catch(console.error)
-                //     }
-                // }}
-                // onPlaceSuggetions={{
-                //     placesSuggetions: onSuburbClicked,
-                //     setIsPlaceSelected: setOnSuburbClicked,
-                // }}
             />
         </div>
     )

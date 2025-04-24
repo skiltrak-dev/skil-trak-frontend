@@ -19,7 +19,9 @@ import { AdminApi } from '@queries'
 import { LoadingAnimation, TechnicalError } from '@components'
 import { useNavbar } from '@hooks'
 import {
+    AdminBlockedStudentsWorkplaces,
     AdminPlacementStartedWorkplaces,
+    AdminScheduleCompletedWorkplaces,
     NeedAdminWorkplaces,
     UpdatedAdminFilteredWorkplace,
     UpdatedAllStudentProvidedWorkplace,
@@ -29,8 +31,6 @@ import {
 } from '@partials'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
-
-type Props = {}
 
 const filterKeys = [
     'studentId',
@@ -45,7 +45,7 @@ const filterKeys = [
     'courseId',
 ]
 
-const Workplace: NextPageWithLayout = (props: Props) => {
+const Workplace: NextPageWithLayout = () => {
     const router = useRouter()
 
     const [filterAction, setFilterAction] = useState(null)
@@ -143,10 +143,34 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 query: { tab: 'placement-started' },
             },
             badge: {
-                text: count?.data?.unAssigned,
+                text: count?.data?.placementStarted,
                 loading: count?.isLoading,
             },
             element: <AdminPlacementStartedWorkplaces />,
+        },
+        {
+            label: 'Schedule Completed',
+            href: {
+                pathname: 'workplaces',
+                query: { tab: 'schedule-completed' },
+            },
+            badge: {
+                text: count?.data?.completed,
+                loading: count?.isLoading,
+            },
+            element: <AdminScheduleCompletedWorkplaces />,
+        },
+        {
+            label: 'Blocked Students Workplaces',
+            href: {
+                pathname: 'workplaces',
+                query: { tab: 'blocked-workplaces' },
+            },
+            badge: {
+                text: count?.data?.blocked,
+                loading: count?.isLoading,
+            },
+            element: <AdminBlockedStudentsWorkplaces />,
         },
         {
             label: 'Cancelled Workplaces',

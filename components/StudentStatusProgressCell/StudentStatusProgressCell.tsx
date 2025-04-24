@@ -2,12 +2,10 @@ import { Tooltip } from '@components/Tooltip'
 import { Typography } from '@components/Typography'
 import { useContextBar } from '@hooks'
 import { ChangeWorkplaceStatus } from '@partials/common'
-import { Student, SubAdmin } from '@types'
+import { SubAdmin } from '@types'
 import classNames from 'classnames'
 import moment from 'moment'
-import Link from 'next/link'
 import { FaFileSignature } from 'react-icons/fa'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 type StudentProgressStatus =
     | '1-PlacementStarted'

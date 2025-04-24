@@ -84,6 +84,26 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['Workplaces'],
     }),
+    scheduleCompletedWorkplaceList: builder.query<
+        PaginatedResponse<IWorkplaceIndustries>,
+        PaginationValues
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/workplace-request/list/placement-completed`,
+            params,
+        }),
+        providesTags: ['Workplaces'],
+    }),
+    blockedStudentsWorkplaceList: builder.query<
+        PaginatedResponse<IWorkplaceIndustries>,
+        PaginationValues
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/blocked/students/workplace-requests/list`,
+            params,
+        }),
+        providesTags: ['Workplaces'],
+    }),
     wpCancellationRequestsList: builder.query<
         PaginatedResponse<any>,
         PaginationWithSearch
