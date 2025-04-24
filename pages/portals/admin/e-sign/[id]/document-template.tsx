@@ -228,6 +228,7 @@ export default function ESign() {
     }
 
     const onItemResize = (data: any) => {
+        console.log({ data })
         const existingItem = items.find((x: any) => x.id === data.item.id)
         if (existingItem) {
             const updatedList = items.filter((x: any) => x.id !== data.item.id)

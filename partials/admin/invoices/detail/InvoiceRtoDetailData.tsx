@@ -148,83 +148,101 @@ export const InvoiceRtoDetailData = ({ rto }: { rto: Rto }) => {
 
                         {/*  */}
 
-                        <div className="relative inline-block text-left date-range-dropdown">
-                            {/* Main Button */}
-                            <Button
-                                text="Download Report"
-                                loading={downloadReport?.isLoading}
-                                disabled={downloadReport?.isLoading}
-                                // onClick={() => {
-                                //     window.open(
-                                //         `${process.env.NEXT_PUBLIC_END_POINT}/invoice-setting/rto/${rto?.id}/data/download`
-                                //     )
-                                //     // setRtoId(rto?.id)
-                                // }}
-                                onClick={toggleDropdown}
-                            />
+                        <div className="flex items-center gap-x-2">
+                            <div className="relative inline-block text-left date-range-dropdown">
+                                {/* Main Button */}
+                                <Button
+                                    outline
+                                    text="Download Report"
+                                    loading={downloadReport?.isLoading}
+                                    disabled={downloadReport?.isLoading}
+                                    // onClick={() => {
+                                    //     window.open(
+                                    //         `${process.env.NEXT_PUBLIC_END_POINT}/invoice-setting/rto/${rto?.id}/data/download`
+                                    //     )
+                                    //     // setRtoId(rto?.id)
+                                    // }}
+                                    onClick={toggleDropdown}
+                                />
 
-                            {/* Dropdown Panel */}
-                            {isOpen && (
-                                <div className="absolute right-0 z-10 w-64 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none date-range-dropdown">
-                                    <div className="p-4">
-                                        <div className="mb-2">
-                                            <Switch
-                                                name="range"
-                                                label={'Use Range'}
-                                                defaultChecked={useRange}
-                                                customStyleClass="profileSwitch"
-                                                onChange={(e: any) => {
-                                                    setUseRange(
-                                                        e?.target?.checked
-                                                    )
-                                                }}
+                                {/* Dropdown Panel */}
+                                {isOpen && (
+                                    <div className="absolute right-0 z-10 w-64 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none date-range-dropdown">
+                                        <div className="p-4">
+                                            <div className="mb-2">
+                                                <Switch
+                                                    name="range"
+                                                    label={'Use Range'}
+                                                    defaultChecked={useRange}
+                                                    customStyleClass="profileSwitch"
+                                                    onChange={(e: any) => {
+                                                        setUseRange(
+                                                            e?.target?.checked
+                                                        )
+                                                    }}
+                                                />
+                                            </div>
+                                            {useRange && (
+                                                <>
+                                                    <TextInput
+                                                        label={'Start Date'}
+                                                        name={'startDate'}
+                                                        type="date"
+                                                        onChange={(e: any) =>
+                                                            setStartDate(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        disabled={!useRange}
+                                                        showError={false}
+                                                    />
+                                                    <TextInput
+                                                        label={'End Date'}
+                                                        name={'endDate'}
+                                                        type="date"
+                                                        onChange={(e: any) =>
+                                                            setEndDate(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        disabled={!useRange}
+                                                        showError={false}
+                                                    />
+                                                </>
+                                            )}
+
+                                            <Button
+                                                text="Download"
+                                                loading={
+                                                    downloadReport?.isLoading
+                                                }
+                                                disabled={
+                                                    downloadReport?.isLoading
+                                                }
+                                                variant="success"
+                                                // onClick={() => {
+                                                //     window.open(
+                                                //         `${process.env.NEXT_PUBLIC_END_POINT}/invoice-setting/rto/${rto?.id}/data/download`
+                                                //     )
+                                                //     // setRtoId(rto?.id)
+                                                // }}
+                                                onClick={handleDownload}
                                             />
                                         </div>
-                                        {useRange && (
-                                            <>
-                                                <TextInput
-                                                    label={'Start Date'}
-                                                    name={'startDate'}
-                                                    type="date"
-                                                    onChange={(e: any) =>
-                                                        setStartDate(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    disabled={!useRange}
-                                                    showError={false}
-                                                />
-                                                <TextInput
-                                                    label={'End Date'}
-                                                    name={'endDate'}
-                                                    type="date"
-                                                    onChange={(e: any) =>
-                                                        setEndDate(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    disabled={!useRange}
-                                                    showError={false}
-                                                />
-                                            </>
-                                        )}
-
-                                        <Button
-                                            text="Download"
-                                            loading={downloadReport?.isLoading}
-                                            disabled={downloadReport?.isLoading}
-                                            variant="success"
-                                            // onClick={() => {
-                                            //     window.open(
-                                            //         `${process.env.NEXT_PUBLIC_END_POINT}/invoice-setting/rto/${rto?.id}/data/download`
-                                            //     )
-                                            //     // setRtoId(rto?.id)
-                                            // }}
-                                            onClick={handleDownload}
-                                        />
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
+                            <Button
+                                text={'Add Custom Invoice'}
+                                onClick={() => {
+                                    router.push({
+                                        pathname: `/portals/admin/invoices/add-custom-invoice`,
+                                        query: {
+                                            rto: rto?.id,
+                                        },
+                                    })
+                                }}
+                            />
                         </div>
                     </div>
                     <div className="flex flex-col gap-1">

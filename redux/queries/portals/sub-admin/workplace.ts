@@ -38,6 +38,13 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['SubAdminWorkplace'],
     }),
+    blockedStudentsWorkplacesList: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}blocked/students/workplaces-list`,
+            params,
+        }),
+        providesTags: ['SubAdminWorkplace'],
+    }),
     getMyStudentsWorkplaces: builder.query<any, PaginationValues>({
         query: (params) => ({
             url: `${PREFIX}my-workplace-request/list`,

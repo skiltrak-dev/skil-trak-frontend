@@ -1,10 +1,9 @@
+import { UserRoles } from '@constants'
 import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
+import { useEffect, useState } from 'react'
 import { RubberBand } from './RubberBand'
-import { useEffect, useRef, useState } from 'react'
-import { TextInput } from '@components/inputs'
 import { FieldsTypeEnum } from './SidebarData'
-import { UserRoles } from '@constants'
 
 export const DraggableTab = ({
     item,

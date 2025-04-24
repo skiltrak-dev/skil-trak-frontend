@@ -41,12 +41,7 @@ export const InvoiceDataListing = ({
             limit: itemPerPage,
             id: Number(router.query.id),
             skip: itemPerPage * page - itemPerPage,
-            search:
-                startDate && endDate
-                    ? `startDate:${moment(startDate).format(
-                          'YYYY-MM-DD'
-                      )},endDate:${moment(endDate).format('YYYY-MM-DD')}`
-                    : '',
+            search: '',
         },
         {
             skip: !router.query.id,
