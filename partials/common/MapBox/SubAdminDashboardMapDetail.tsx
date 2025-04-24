@@ -17,6 +17,7 @@ import {
     IndustryInfoBoxCard,
     StudentInfoBoxCard,
 } from './components'
+import { Course } from '@types'
 
 const containerStyle = {
     width: '100%',
@@ -247,14 +248,33 @@ const SubAdminDashboardMapDetail = ({
             if (data) {
                 const filteredStudents = data?.filter(
                     (student: any) =>
-                        student.location && student.location !== 'NA'
+                        student?.location && student?.location !== 'NA'
                 )
-                const transformedStudents = filteredStudents.map(
+                const transformedStudents = filteredStudents?.map(
                     (student: any) => {
                         const [lat, lng] = student.location
                             .split(',')
                             .map(Number)
-                        return { ...student, location: { lat, lng } }
+                        return {
+                            ...student,
+                            courses: student?.courses?.map(
+                                (
+                                    course: Course & {
+                                        sectorId: number
+                                        sectorCode: string
+                                        sectorName: string
+                                    }
+                                ) => ({
+                                    ...course,
+                                    sector: {
+                                        id: course?.sectorId,
+                                        code: course?.sectorCode,
+                                        name: course?.sectorName,
+                                    },
+                                })
+                            ),
+                            location: { lat, lng },
+                        }
                     }
                 )
                 markers.push(...transformedStudents)
@@ -346,6 +366,8 @@ const SubAdminDashboardMapDetail = ({
             map.setZoom(3)
         }
     }
+
+    console.log({ visibleMarkers })
 
     const saveMapView = () => {
         if (map) {

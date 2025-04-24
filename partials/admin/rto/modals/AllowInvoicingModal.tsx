@@ -8,14 +8,17 @@ import {
     TextInput,
     Typography,
 } from '@components'
+import { InputErrorMessage } from '@components/inputs/components'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { InvoiceTypeEnum } from '@partials/admin/invoices'
 import { AdminApi } from '@queries'
 import { OptionType, Rto } from '@types'
 import { removeEmptyValues } from '@utils'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { TbReportSearch } from 'react-icons/tb'
+import * as Yup from 'yup'
 
 export const AllowInvoicingModal = ({
     rto,
@@ -44,12 +47,63 @@ export const AllowInvoicingModal = ({
         AdminApi.Invoice.addRtoInvoiceSetting()
     const categoriesList = AdminApi.Invoice.invoiceCategorisList()
 
+    const validationSchema = Yup.object({
+        invoicingType: Yup.string()
+            // .oneOf(Object.values(InvoiceTypeEnum))
+            .required('Invoice type is required'),
+        invoiceAction: Yup.array()
+            .of(Yup.number())
+            .min(1, 'At least one invoice category must be selected')
+            .required('Please select at least one invoice category'),
+        // startDate: Yup.date().when('invoicingType', {
+        //     is: (type: any) => type !== InvoiceTypeEnum.Monthly,
+        //     then: (schema) =>
+        //         schema.required('Start date is required for this invoice type'),
+        //     otherwise: (schema) => schema.nullable(),
+        // }),
+        startDate: Yup.mixed()
+            .transform((value, originalValue) => {
+                // Return null if value is an empty string or invalid date
+                if (
+                    originalValue === '' ||
+                    (originalValue instanceof Date &&
+                        isNaN(originalValue.getTime()))
+                ) {
+                    return null
+                }
+                // Try to parse string date
+                if (typeof originalValue === 'string') {
+                    const date = new Date(originalValue)
+                    return isNaN(date.getTime()) ? null : date
+                }
+                return value
+            })
+            .when('invoicingType', {
+                is: (type: InvoiceTypeEnum) => type !== InvoiceTypeEnum.Monthly,
+                then: (schema) =>
+                    schema
+                        .nullable()
+                        .test(
+                            'is-date',
+                            'Start date is required for this invoice type',
+                            (value) =>
+                                value instanceof Date && !isNaN(value.getTime())
+                        )
+                        .required(
+                            'Start date is required for this invoice type'
+                        ),
+                otherwise: (schema) => schema.nullable(),
+            }),
+        allowInvoicing: Yup.boolean(),
+    })
+
     const methods = useForm<{
         allowInvoicing: boolean
         invoicingType: InvoiceTypeEnum
         invoiceAction: number[]
         startDate: Date
     }>({
+        resolver: yupResolver(validationSchema),
         defaultValues: {
             allowInvoicing: rto?.allowInvoicing,
             invoicingType: rto?.invoiceSettings?.[0]?.type,
@@ -60,6 +114,8 @@ export const AllowInvoicingModal = ({
         },
         mode: 'all',
     })
+
+    console.log({ methods })
 
     const onChangeIvoicingStatus = async () => {
         await allowPermissions(rto?.id).then((res: any) => {
@@ -83,6 +139,18 @@ export const AllowInvoicingModal = ({
         label: cate?.name,
         value: cate?.id,
     }))
+
+    const onSetInvoiceSettingData = (value: string) => {
+        setInvoiceSettingData(
+            invoiceSettingData?.includes(Number(value))
+                ? [
+                      ...invoiceSettingData?.filter(
+                          (invSetting) => invSetting !== Number(value)
+                      ),
+                  ]
+                : [...invoiceSettingData, Number(value)]
+        )
+    }
 
     const onSubmit = async (values: any) => {
         if (
@@ -169,7 +237,7 @@ export const AllowInvoicingModal = ({
                                         disabled={
                                             !methods?.watch()?.allowInvoicing
                                         }
-                                        showError={false}
+                                        // showError={false}
                                     />
                                 </div>
 
@@ -182,7 +250,7 @@ export const AllowInvoicingModal = ({
                                                 methods?.watch()?.invoicingType
                                             } Date`}
                                             type={'date'}
-                                            showError={false}
+                                            // showError={false}
                                         />
                                     </div>
                                 )}
@@ -193,7 +261,7 @@ export const AllowInvoicingModal = ({
                                             <Typography>
                                                 Select Category
                                             </Typography>
-                                            <div className="grid grid-cols-3 gap-x-2 flex-wrap">
+                                            <div className="grid grid-cols-3 gap-2 flex-wrap">
                                                 {categoriesOptions?.map(
                                                     (cate: OptionType) => (
                                                         <Checkbox
@@ -217,42 +285,20 @@ export const AllowInvoicingModal = ({
                                                             )}
                                                             onChange={(
                                                                 e: any
-                                                            ) => {
-                                                                setInvoiceSettingData(
-                                                                    invoiceSettingData?.includes(
-                                                                        Number(
-                                                                            e
-                                                                                ?.target
-                                                                                ?.value
-                                                                        )
-                                                                    )
-                                                                        ? [
-                                                                              ...invoiceSettingData?.filter(
-                                                                                  (
-                                                                                      invSetting
-                                                                                  ) =>
-                                                                                      invSetting !==
-                                                                                      Number(
-                                                                                          e
-                                                                                              ?.target
-                                                                                              ?.value
-                                                                                      )
-                                                                              ),
-                                                                          ]
-                                                                        : [
-                                                                              ...invoiceSettingData,
-                                                                              Number(
-                                                                                  e
-                                                                                      ?.target
-                                                                                      ?.value
-                                                                              ),
-                                                                          ]
+                                                            ) =>
+                                                                onSetInvoiceSettingData(
+                                                                    e?.target
+                                                                        ?.value
                                                                 )
-                                                            }}
+                                                            }
+                                                            showError={false}
                                                         />
                                                     )
                                                 )}
                                             </div>
+                                            <InputErrorMessage
+                                                name={'invoiceAction'}
+                                            />
                                         </>
                                     )}
 
