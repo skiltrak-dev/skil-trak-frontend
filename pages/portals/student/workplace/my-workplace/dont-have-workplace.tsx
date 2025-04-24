@@ -70,7 +70,7 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
             last: true,
         },
     ]
-
+    console.log('workplace:::::', workplace?.data)
     return (
         <>
             {modal}

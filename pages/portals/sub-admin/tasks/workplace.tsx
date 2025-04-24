@@ -23,6 +23,7 @@ import {
     UpdatedFilteredWorkplaces,
     UpdatedMyWorkplaces,
     UpdatedPlacementStartedWorkplaces,
+    UpdatedScheduleCompletedWorkplaces,
     UpdatedStudentAddedWorkplaces,
 } from '@partials/sub-admin/workplace/updatedworkplaces'
 import { checkFilteredDataLength } from '@utils'
@@ -143,8 +144,19 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 pathname: 'workplace',
                 query: { tab: 'placement-started-workplaces' },
             },
-            // element: <PlacementStartedWorkplaces />,
             element: <UpdatedPlacementStartedWorkplaces />,
+        },
+        {
+            label: 'Schedule Completed Workplaces',
+            badge: {
+                text: count?.data?.completed,
+                loading: count?.isLoading,
+            },
+            href: {
+                pathname: 'workplace',
+                query: { tab: 'schedule-completed-workplaces' },
+            },
+            element: <UpdatedScheduleCompletedWorkplaces />,
         },
         {
             label: 'Student Provided Workplace',
@@ -153,7 +165,6 @@ const Workplace: NextPageWithLayout = (props: Props) => {
                 loading: count?.isLoading,
             },
             href: { pathname: 'workplace', query: { tab: 'student-added' } },
-            // element: <StudentAddedWorkplaces />,
             element: <UpdatedStudentAddedWorkplaces />,
         },
         {

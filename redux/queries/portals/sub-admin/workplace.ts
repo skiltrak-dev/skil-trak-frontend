@@ -7,6 +7,7 @@ import {
     PaginationValues,
     PaginationWithSearch,
 } from '@types'
+import { WorkplaceCurrentStatus } from '@utils'
 
 const PREFIX = 'subadmin/'
 export const workplaceEndpoints = (
@@ -44,7 +45,10 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['SubAdminWorkplace'],
     }),
-    getPlacementStartedWorkplaces: builder.query<any, any>({
+    getPlacementStartedWorkplaces: builder.query<
+        any,
+        PaginationValues & { status?: WorkplaceCurrentStatus }
+    >({
         query: (params) => ({
             url: `${PREFIX}my-workplace-request/placement-started/list`,
             params,
@@ -63,7 +67,7 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace', 'Notes'],
     }),
-    
+
     usAssignSubAdmin: builder.mutation<any, number>({
         query: (workplaceId) => ({
             url: `${PREFIX}un-assign/workplace-request/${workplaceId}`,

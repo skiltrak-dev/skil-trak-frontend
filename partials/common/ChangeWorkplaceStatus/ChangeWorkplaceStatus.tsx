@@ -7,17 +7,17 @@ import { IoMdArrowDropdown } from 'react-icons/io'
 import { LoadingAnimation, Typography } from '@components'
 
 // query
-import { useContextBar, useNotification } from '@hooks'
+import { useNotification } from '@hooks'
 import {
-    CompleteWorkplaceModal,
     ForwardModal,
     InterviewModal,
     PlacementStartedModal,
+    CompleteWorkplaceModal,
     TerminateWorkplaceModal,
 } from '@partials/sub-admin/workplace/modals'
 import { useGetSubAdminStudentWorkplaceQuery } from '@queries'
-import OutsideClickHandler from 'react-outside-click-handler'
 import { WorkplaceCurrentStatus } from '@utils'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 export const ChangeWorkplaceStatus = ({
     studentId,
@@ -32,8 +32,6 @@ export const ChangeWorkplaceStatus = ({
         number | null
     >(0)
     const [currentStatus, setCurrentStatus] = useState<string | null>(null)
-
-    const contextBar = useContextBar()
 
     const workplace = useGetSubAdminStudentWorkplaceQuery(Number(studentId), {
         skip: !studentId,

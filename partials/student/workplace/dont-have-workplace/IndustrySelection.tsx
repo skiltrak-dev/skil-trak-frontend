@@ -30,6 +30,7 @@ export const IndustrySelection = ({
     const [workplaceIndustries, setWorkplaceIndustries] = useState<any | null>(
         null
     )
+    console.log({ workplace })
     // const {data} = StudentApi.Workplace.useGetIndustryFoldersQuery({
     //     id: industry?.industry?.id,
     //     course: industry?.industry?.courses[0]?.id
