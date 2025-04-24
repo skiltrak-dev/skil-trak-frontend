@@ -287,6 +287,7 @@ export const {
     useUpdateWorkplaceStatusMutation,
     useCancelWorkplaceStatusMutation,
     useGetAddedByStudentsWorkplacesQuery,
+    useBlockedStudentsWorkplacesListQuery,
     useSubAdminApplyStudentWorkplaceMutation,
     useAddCustomIndustryMutation,
     useShowExistingIndustriesQuery,
@@ -536,8 +537,7 @@ export const SubAdminApi = {
         useDepartmentCoursesRequestList:
             useGetDepartmentCoursesRequestListQuery,
         useDepartmentCourseRequest: useDepartmentCourseRequestMutation,
-        useAssignCoordinatorToStudent:
-            useAssignCoordinatorToStudentMutation,
+        useAssignCoordinatorToStudent: useAssignCoordinatorToStudentMutation,
     },
     Todo: {
         todoListCount: useTodoListCountQuery,
@@ -687,6 +687,7 @@ export const SubAdminApi = {
         useAddExistingIndustriesMutation,
         useChangeCustomIndustryStatusMutation,
         useCancelRequestWP: useCancelRequestWorkplaceMutation,
+        blockedStudentsWpList: useBlockedStudentsWorkplacesListQuery,
         subadminCancelationRequest: useSubadminWpCancellationRequestsListQuery,
         useSendMeetingNotification: useSendMeetingNotificationMutation,
         contactWorkplaceIndustry: useContactWorkplaceIndustryMutation,

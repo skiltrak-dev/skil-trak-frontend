@@ -1,4 +1,7 @@
-import { PaymentStatusEnum } from '@partials/admin/invoices'
+import {
+    InvoiceCategoriesEnum,
+    PaymentStatusEnum,
+} from '@partials/admin/invoices'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import { PaginationWithSearch } from '@types'
@@ -101,5 +104,22 @@ export const invoiceEndpoints = (
     getInvoiceStatus: builder.query<any, number>({
         query: (id) => `${PREFIX}/workplace/${id}/payment-status`,
         providesTags: ['Invoice'],
+    }),
+
+    addCustomInvoice: builder.mutation<
+        any,
+        {
+            rto: number
+            student: number
+            course: number
+            invoiceAction: InvoiceCategoriesEnum
+        }
+    >({
+        query: (body) => ({
+            url: `${PREFIX}/custom-invoice`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Invoice', 'RTOS'],
     }),
 })

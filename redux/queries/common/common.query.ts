@@ -621,9 +621,15 @@ const {
 
     // ---- ALLOW LOGIN ---- //
     useAllowAsLoginMutation,
+
+    // ---- Students ---- //
+    useSearchAllPortalStudentsQuery,
 } = commonApi
 
 export const CommonApi = {
+    Student: {
+        searchAllPortalStudents: useSearchAllPortalStudentsQuery,
+    },
     Website: {
         useGetUserWebsiteCountQuery,
         useGetSingleBlog: useGetSingleBlogQuery,

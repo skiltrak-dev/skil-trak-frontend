@@ -268,6 +268,14 @@ export const mailsEndpoints = (
         providesTags: ['Mails'],
     }),
 
+    searchAllPortalStudents: builder.query<any, any>({
+        query: (params) => ({
+            url: `shared/students/list-for-invoices`,
+            params,
+        }),
+        providesTags: ['Mails'],
+    }),
+
     searchBulkMailSubadminStudents: builder.query<any, any>({
         query: (params) => ({
             url: `subadmin/bulk-email/students/list`,

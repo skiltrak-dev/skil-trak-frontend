@@ -19,6 +19,7 @@ import { SubAdminApi, useGetSubAdminFilteredWorkplacesQuery } from '@queries'
 // components
 import {
     NeedSubAdminWorkplaces,
+    UpdatedBlockedStudentWorkplaces,
     UpdatedCancelledWorkplaces,
     UpdatedFilteredWorkplaces,
     UpdatedMyWorkplaces,
@@ -166,6 +167,15 @@ const Workplace: NextPageWithLayout = (props: Props) => {
             },
             href: { pathname: 'workplace', query: { tab: 'student-added' } },
             element: <UpdatedStudentAddedWorkplaces />,
+        },
+        {
+            label: 'Blocked Students Workplace',
+            badge: {
+                text: count?.data?.blocked,
+                loading: count?.isLoading,
+            },
+            href: { pathname: 'workplace', query: { tab: 'blocked-students' } },
+            element: <UpdatedBlockedStudentWorkplaces />,
         },
         {
             label: 'Cancelled Requests',
