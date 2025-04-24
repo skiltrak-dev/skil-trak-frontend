@@ -51,14 +51,7 @@ export const StudentInfoBoxCard = ({
                                 type={'Business Name'}
                             />
                         </div>
-                        {/* <div className="flex flex-col gap-1 items-center">
-                            <Typography variant="small" color={'text-gray-400'}>
-                                Student ID
-                            </Typography>
-                            <Typography variant="small">
-                                {item?.data?.student?.studentId || 'N/A'}
-                            </Typography>
-                        </div> */}
+
                         <div className="text-center">
                             <Typography variant="muted" color={'text-gray-400'}>
                                 Sector

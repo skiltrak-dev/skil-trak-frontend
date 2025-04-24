@@ -68,7 +68,7 @@ export const AllCommunicationTab = ({ user }: { user: User }) => {
                         description: (
                             <>
                                 call made by{' '}
-                                {/* <strong>{item.calledBy.name}</strong> */}
+                                <strong>{item?.calledBy?.name}</strong>
                             </>
                         ),
                     }}
