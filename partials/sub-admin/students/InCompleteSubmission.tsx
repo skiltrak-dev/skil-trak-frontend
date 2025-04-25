@@ -86,8 +86,7 @@ export const InCompleteSubmission = () => {
                 refetchOnMountOrArgChange: 30,
             }
         )
-    const sevenDaysAgo = new Date()
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+
     // const hasMatchingIndustry = data?.data?.map((student: any) => {
     //     return (
     //         student &&

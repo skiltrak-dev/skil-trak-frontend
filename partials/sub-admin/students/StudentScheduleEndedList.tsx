@@ -1,33 +1,19 @@
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
 
-// Icons
-import { FaEye } from 'react-icons/fa'
-
-// components
-import {
-    Card,
-    CaseOfficerAssignedStudent,
-    EmptyData,
-    LoadingAnimation,
-    Table,
-    TableAction,
-    TableActionOption,
-} from '@components'
-import { StudentCellInfo, SubadminStudentIndustries } from './components'
+import { Card, EmptyData, LoadingAnimation, Table } from '@components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
-import { Student, SubAdmin, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
 
-import { SectorCell } from '@partials/admin/student/components'
-import { ColumnDef } from '@tanstack/react-table'
-import { setLink } from '@utils'
-import moment from 'moment'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
-import { RTOCellInfo } from '../rto/components'
+import {
+    activeAndCompleted,
+    filterAwaitingAgreementBeyondSevenDays,
+    findCallLogsUnanswered,
+    findExpiringInNext45Days,
+} from '@utils'
+import { useColumns } from './hooks'
 
 export const StudentScheduleEndedList = () => {
     const router = useRouter()
@@ -71,142 +57,12 @@ export const StudentScheduleEndedList = () => {
                 refetchOnMountOrArgChange: 30,
             }
         )
-    const sevenDaysAgo = new Date()
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
 
-    // ================= Blinking/Flashing rows of students ================
-    const activeAndCompleted = data?.data?.filter((student: any) => {
-        if (
-            student?.user?.status !== UserStatus.Approved &&
-            !student?.workplace?.length
-        ) {
-            // Skip if status is not Approved or no workplace
+    const { columns } = useColumns()
 
-            return false
-        }
-
-        const workplaceCount = student?.workplace?.length
-
-        if (
-            workplaceCount === 1 &&
-            student?.user?.status === UserStatus.Approved
-        ) {
-            // If only one workplace, check its status
-            return student?.workplace[0]?.currentStatus === 'completed'
-        } else if (
-            workplaceCount > 1 &&
-            student?.user?.status === UserStatus.Approved
-        ) {
-            // If multiple workplaces, all must have 'completed' status
-            // student.workplace.some(
-            //     (placement: any) => placement?.currentStatus === 'completed'
-            // )
-            return student?.workplace?.every(
-                (placement: any) => placement?.currentStatus === 'completed'
-            )
-        }
-
-        return false
-    })
-
-    const findCallLogsUnanswered = data?.data?.filter((student: any) => {
-        const unansweredCalls = student?.callLog?.filter((call: any) => {
-            if (call?.isAnswered === null) {
-                const isMoreThanSevenDays =
-                    moment().diff(moment(call?.createdAt), 'days') >= 7
-                return isMoreThanSevenDays
-            }
-            return false
-        })
-
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            unansweredCalls?.length > 0
-        )
-    })
-    const findExpiringInNext45Days = data?.data?.filter((student: any) => {
-        const expiryDate = new Date(student?.expiryDate)
-        const currentDate = new Date()
-        const timeDiff = expiryDate.getTime() - currentDate.getTime()
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            // student?.workplace?.length === 0 &&
-            daysDiff <= 45 &&
-            daysDiff >= 0
-        )
-    })
-
-    const filterAwaitingAgreementBeyondSevenDays = data?.data?.filter(
-        (student: any) => {
-            return (
-                !student?.hasIssue &&
-                !student?.isSnoozed &&
-                !student?.nonContactable &&
-                student?.workplace?.some((workplace: any) =>
-                    isWorkplaceValid(workplace)
-                )
-            )
-        }
-    )
-
-    const tableActionOptions: TableActionOption<Student>[] = [
-        {
-            text: 'View',
-            onClick: (student) => {
-                router.push(`/portals/sub-admin/students/${student?.id}/detail`)
-                setLink('subadmin-student', router)
-            },
-            Icon: FaEye,
-        },
-    ]
-
-    const Columns: ColumnDef<Student>[] = [
-        {
-            header: () => 'Name',
-            accessorKey: 'user',
-            cell: (info) => (
-                <StudentCellInfo call student={info.row.original} />
-            ),
-        },
-        {
-            header: () => 'RTO',
-            accessorKey: 'rto',
-            cell: ({ row }: any) => (
-                <RTOCellInfo rto={row.original?.rto} onlyName={false} />
-            ),
-        },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info) => (
-                <SubadminStudentIndustries
-                    workplace={info.row.original?.workplace}
-                    industries={info.row.original?.industries}
-                />
-            ),
-        },
+    columns.splice(
+        3,
+        0,
         {
             accessorKey: 'user.schedules',
             header: () => <span>Total Hours</span>,
@@ -244,32 +100,8 @@ export const StudentScheduleEndedList = () => {
                     </div>
                 </div>
             ),
-        },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => <SectorCell student={row.original} />,
-        },
-
-        {
-            accessorKey: 'progress',
-            header: () => <span>Progress</span>,
-            cell: ({ row }) => (
-                <CaseOfficerAssignedStudent student={row.original} />
-            ),
-        },
-
-        {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }) => (
-                <TableAction
-                    options={tableActionOptions}
-                    rowItem={row.original}
-                />
-            ),
-        },
-    ]
+        }
+    )
 
     return (
         <div>
@@ -279,15 +111,19 @@ export const StudentScheduleEndedList = () => {
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length && !isError ? (
                     <Table
-                        columns={Columns}
-                        data={data.data}
+                        columns={columns}
+                        data={data?.data}
                         enableRowSelection
-                        awaitingAgreementBeyondSevenDays={
-                            filterAwaitingAgreementBeyondSevenDays
-                        }
-                        findCallLogsUnanswered={findCallLogsUnanswered}
-                        findExpiringInNext45Days={findExpiringInNext45Days}
-                        activeAndCompleted={activeAndCompleted}
+                        awaitingAgreementBeyondSevenDays={filterAwaitingAgreementBeyondSevenDays(
+                            data?.data
+                        )}
+                        findCallLogsUnanswered={findCallLogsUnanswered(
+                            data?.data
+                        )}
+                        findExpiringInNext45Days={findExpiringInNext45Days(
+                            data?.data
+                        )}
+                        activeAndCompleted={activeAndCompleted(data?.data)}
                     >
                         {({
                             table,

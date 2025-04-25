@@ -10,7 +10,6 @@ import { getMethodsForInput } from '@utils'
 import { useFormContext } from 'react-hook-form'
 import { ClipLoader } from 'react-spinners'
 import { InputProps } from './InputPropType'
-import { ReactElement } from 'react'
 
 export type CheckboxProps = InputProps & {
     defaultChecked?: boolean
@@ -59,7 +58,7 @@ export const Checkbox = ({
                             onBlur
                         )}
                         {...(value ? { value } : {})}
-                        defaultChecked={defaultChecked}
+                        // defaultChecked={defaultChecked}
                         checked={defaultChecked}
                     />
                 ) : (

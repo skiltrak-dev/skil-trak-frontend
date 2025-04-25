@@ -330,6 +330,7 @@ export const {
     useGetSubAdminStudentWorkplaceDetailQuery,
     useUpdateSubAdminCourseDurationMutation,
     useGetSubAdminMyStudentsQuery,
+    useMyStudentsWeeklyCallsListQuery,
     useGetSubAdminMyStudentsCallLogQuery,
     useGetRtoCoordinatorStudentsQuery,
     useAssignStudentsToSubAdminMutation,
@@ -564,6 +565,7 @@ export const SubAdminApi = {
         useMailPassword: useSendPasswordToStudentMailMutation,
         useGetRtoCoordinatorStudents: useGetRtoCoordinatorStudentsQuery,
         useMysStudentsCallLog: useGetSubAdminMyStudentsCallLogQuery,
+        studentWeeklyCallsList: useMyStudentsWeeklyCallsListQuery,
         subadminStudentUnassignCourses:
             useSubadminStudentUnassignCoursesMutation,
         getCancelledWP: useGetStudentCancelledWPQuery,

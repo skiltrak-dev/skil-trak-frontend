@@ -1,7 +1,7 @@
 import { AuthUtils, ellipsisText } from '@utils'
 import { useEffect, useState } from 'react'
 
-import { useNotification } from '@hooks'
+import { useNotification, useSocketListener } from '@hooks'
 import { useRouter } from 'next/router'
 import { io } from 'socket.io-client'
 
@@ -20,15 +20,20 @@ export const Socket = ({ children }: any) => {
     const [socket, setSocket] = useState<any | null>(null)
 
     const { notification } = useNotification()
-    // useEffect(() => {
-    //     setSocket(
-    //         io(`${process.env.NEXT_PUBLIC_SOCKET_END_POINT}`, { secure: true })
-    //     )
-    // }, [])
+    const { setEventListener } = useSocketListener()
+    useEffect(() => {
+        setSocket(
+            io(`${process.env.NEXT_PUBLIC_SOCKET_END_POINT}`, { secure: true })
+        )
+    }, [])
+
+    console.log({ socket })
 
     useEffect(() => {
         if (AuthUtils.isAuthenticated()) {
             socket?.emit('join', AuthUtils.getUserCredentials()?.id)
+
+            socket?.on('joined', (notify: { message: string }) => {})
 
             socket?.on(
                 SocketNotificationsEvents.MouNotification,
@@ -84,10 +89,10 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.TicketNotification,
                 (notify: any) => {
-                    // setEventListener({
-                    //     eventName: SocketNotificationsEvents.TicketNotification,
-                    //     eventListener: notify,
-                    // })
+                    setEventListener({
+                        eventName: SocketNotificationsEvents.TicketNotification,
+                        eventListener: notify,
+                    })
                     notification.success({
                         title: notify?.title,
                         description: notify?.message,
@@ -98,11 +103,11 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.AppointmentReminder,
                 (notify: any) => {
-                    // setEventListener({
-                    //     eventName:
-                    //         SocketNotificationsEvents.AppointmentReminder,
-                    //     eventListener: notify,
-                    // })
+                    setEventListener({
+                        eventName:
+                            SocketNotificationsEvents.AppointmentReminder,
+                        eventListener: notify,
+                    })
                     notification.success({
                         title: notify?.title,
                         description: notify?.description,
@@ -119,10 +124,10 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.ExpiryReminder,
                 (notify: any) => {
-                    // setEventListener({
-                    //     eventName: SocketNotificationsEvents.ExpiryReminder,
-                    //     eventListener: notify,
-                    // })
+                    setEventListener({
+                        eventName: SocketNotificationsEvents.ExpiryReminder,
+                        eventListener: notify,
+                    })
                     notification.success({
                         title: notify?.title,
                         description: notify?.description,
@@ -133,11 +138,11 @@ export const Socket = ({ children }: any) => {
             socket?.on(
                 SocketNotificationsEvents.FeedBackNotification,
                 (notify: any) => {
-                    // setEventListener({
-                    //     eventName:
-                    //         SocketNotificationsEvents.FeedBackNotification,
-                    //     eventListener: notify,
-                    // })
+                    setEventListener({
+                        eventName:
+                            SocketNotificationsEvents.FeedBackNotification,
+                        eventListener: notify,
+                    })
                     notification.success({
                         title: notify?.title,
                         description: notify?.description,

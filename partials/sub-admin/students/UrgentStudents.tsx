@@ -44,7 +44,7 @@ export const UrgentStudents = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isSuccess, isLoading, data, isError, isFetching } =
+    const { isLoading, data, isError, isFetching } =
         SubAdminApi.Student.useUrgentStudents(
             {
                 skip: itemPerPage * page - itemPerPage,

@@ -1,44 +1,31 @@
 import { useRouter } from 'next/router'
 
 // Icons
-import { FaEdit, FaEye } from 'react-icons/fa'
 
 // components
 import {
     Card,
-    CaseOfficerAssignedStudent,
     EmptyData,
     Filter,
-    InitialAvatar,
     LoadingAnimation,
     MyStudentQuickFilters,
     MyStudentsFilters,
-    StudentExpiryDaysLeft,
     Table,
-    TableAction,
-    TableActionOption,
-    UserCreatedAt,
 } from '@components'
-import { StudentCallLogDetail, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useGetSubAdminMyStudentsQuery } from '@queries'
-import { Student, SubAdmin, SubAdminStudentsFilterType } from '@types'
-import { ReactElement, useEffect, useState } from 'react'
-import { MdBlock, MdPriorityHigh } from 'react-icons/md'
-import {
-    AddToNonContactableStudents,
-    BlockModal,
-    HighPriorityModal,
-    UnAssignStudentModal,
-} from './modals'
+import { SubAdmin, SubAdminStudentsFilterType } from '@types'
+import { useEffect, useState } from 'react'
 
-import { SectorCell } from '@partials/admin/student/components'
-import { ColumnDef } from '@tanstack/react-table'
-import { getFilterQuery, getUserCredentials, setLink } from '@utils'
-import moment from 'moment'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 import { useSubadminProfile } from '@hooks'
+import {
+    filterAwaitingAgreementBeyondSevenDays,
+    findCallLogsUnanswered,
+    findExpiringInNext45Days,
+    getFilterQuery,
+} from '@utils'
+import { useColumns } from './hooks'
 
 const filterKeys = [
     'nowp',
@@ -61,8 +48,6 @@ const filterKeys = [
 
 export const MyStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
     const router = useRouter()
-    const userId = getUserCredentials()?.id
-    const [modal, setModal] = useState<ReactElement | null>(null)
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState<SubAdminStudentsFilterType>(
         {} as SubAdminStudentsFilterType
@@ -73,7 +58,6 @@ export const MyStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const coordinatorProfile = useSubadminProfile()
-    const canViewAllStudents = subadmin?.canViewAllStudents
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -106,265 +90,12 @@ export const MyStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
             }
         )
 
-    // ================= Blinking/Flashing rows of students ================
-    const findCallLogsUnanswered = data?.data?.filter((student: any) => {
-        const unansweredCalls = student?.callLog?.filter((call: any) => {
-            if (call?.isAnswered === null) {
-                const isMoreThanSevenDays =
-                    moment().diff(moment(call?.createdAt), 'days') >= 7
-                return isMoreThanSevenDays
-            }
-            return false
-        })
-
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            unansweredCalls?.length > 0
-        )
-    })
-    const findExpiringInNext45Days = data?.data?.filter((student: any) => {
-        const expiryDate = new Date(student?.expiryDate)
-        const currentDate = new Date()
-        const timeDiff = expiryDate.getTime() - currentDate.getTime()
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            // student?.workplace?.length === 0 &&
-            daysDiff <= 45 &&
-            daysDiff >= 0
-        )
-    })
-
-    const filterAwaitingAgreementBeyondSevenDays = data?.data?.filter(
-        (student: any) => {
-            return (
-                !student?.hasIssue &&
-                !student?.isSnoozed &&
-                !student?.nonContactable &&
-                student?.workplace?.some((workplace: any) =>
-                    isWorkplaceValid(workplace)
-                )
-            )
-        }
-    )
-    // ============================= END ====================================
-
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-
-    const onBlockClicked = (student: Student) => {
-        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
-    }
-
-    const onAssignStudentClicked = (student: Student) => {
-        setModal(
-            <UnAssignStudentModal
-                student={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onNonContactableStudents = (student: Student) => {
-        setModal(
-            <AddToNonContactableStudents
-                student={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-    const onMarkAsHighPriorityClicked = (studetnt: Student) => {
-        setModal(
-            <HighPriorityModal
-                item={studetnt}
-                onCancel={onModalCancelClicked}
-                // setRefetchStudents={setRefetchStudents}
-            />
-        )
-    }
-
-    const tableActionOptions = (
-        student: Student
-    ): TableActionOption<Student>[] => {
-        return [
-            {
-                text: 'View',
-                onClick: (student) => {
-                    router.push(
-                        `/portals/sub-admin/students/${student?.id}/detail`
-                    )
-
-                    setLink('subadmin-student', router)
-                },
-                Icon: FaEye,
-            },
-            {
-                text: 'Edit',
-                onClick: (student) => {
-                    router.push(
-                        `/portals/sub-admin/students/${student?.id}/edit-student`
-                    )
-                },
-                Icon: FaEdit,
-            },
-            {
-                text: student?.nonContactable
-                    ? 'Add to Contactable'
-                    : 'Add to Not Contactable',
-                onClick: (student) => onNonContactableStudents(student),
-                Icon: MdBlock,
-            },
-            {
-                text: 'Un Assign',
-                onClick: (student) => onAssignStudentClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Block',
-                onClick: (student) => onBlockClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: student?.isHighPriority
-                    ? 'Remove Mark High Priority'
-                    : 'Mark High Priority',
-                onClick: (student) => onMarkAsHighPriorityClicked(student),
-                Icon: MdPriorityHigh,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-        ]
-    }
-
-    const Columns: ColumnDef<Student>[] = [
-        {
-            header: () => 'Name',
-            accessorKey: 'user',
-            cell: ({ row }: any) => (
-                <StudentCallLogDetail
-                    isHod={subadmin?.departmentMember?.isHod}
-                    student={row.original}
-                    call
-                />
-            ),
-        },
-        {
-            header: () => 'RTO',
-            accessorKey: 'rto',
-            cell({ row }: any) {
-                const { rto } = row.original
-
-                return (
-                    <div className="flex gap-x-2 items-center">
-                        {rto.user.name && (
-                            <InitialAvatar name={rto.user.name} small />
-                        )}
-                        {rto?.user?.name}
-                    </div>
-                )
-            },
-        },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info) => (
-                <SubadminStudentIndustries
-                    workplace={info.row.original?.workplace}
-                    industries={info.row.original?.industries}
-                />
-            ),
-            // cell: (info: any) => {
-            //     const industry = info.row.original?.industries
-
-            //     const appliedIndustry = studentsListWorkplace(
-            //         info.row.original?.workplace
-            //     )
-            //     return industry && industry?.length > 0 ? (
-            //         <IndustryCellInfo industry={industry[0]} />
-            //     ) : info.row.original?.workplace &&
-            //       info.row.original?.workplace?.length > 0 &&
-            //       appliedIndustry ? (
-            //         <IndustryCellInfo industry={appliedIndustry} />
-            //     ) : (
-            //         <Typography center>N/A</Typography>
-            //     )
-            // },
-        },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => <SectorCell student={row.original} />,
-        },
-        {
-            accessorKey: 'expiry',
-            header: () => <span>Expiry Countdown</span>,
-            cell: (info) => (
-                <StudentExpiryDaysLeft
-                    expiryDate={info.row.original?.expiryDate}
-                />
-            ),
-        },
-        {
-            header: () => 'Progress',
-            accessorKey: 'progress',
-            cell: ({ row }) => (
-                <CaseOfficerAssignedStudent student={row.original} />
-            ),
-        },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
-                <UserCreatedAt createdAt={row.original?.createdAt} />
-            ),
-        },
-        {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }: any) => {
-                const tableActionOption = tableActionOptions(row.original)
-                return (
-                    <TableAction
-                        options={tableActionOption}
-                        rowItem={row.original}
-                    />
-                )
-            },
-        },
-    ]
+    const { columns, modal } = useColumns()
 
     return (
         <div>
             {modal}
-            {/* <div className="mb-2">
-                <PageHeading
-                    title={'My Students'}
-                    subtitle={'List of My Students'}
-                />
-            </div> */}
+
             {!coordinatorProfile?.canViewAllStudents && (
                 <div className="flex justify-end items-center gap-x-3 mb-4">
                     <MyStudentQuickFilters
@@ -395,37 +126,23 @@ export const MyStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
             <Card noPadding>
                 {isError && <TechnicalError />}
 
-                {/* {data && data?.data.length ? (
-                    <div className="flex justify-end">
-                        <a
-                            href={`${process.env.NEXT_PUBLIC_END_POINT}/subadmin/students/download-list/${userId}
-                        `}
-                            target="_blank"
-                            rel="noreferrer"
-                            className=""
-                        >
-                            {' '}
-                            <Button
-                                text={'Export'}
-                                variant={'action'}
-                                Icon={FaFileExport}
-                            />
-                        </a>
-                    </div>
-                ) : null} */}
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table
-                        columns={Columns}
-                        data={data.data}
+                        columns={columns}
+                        data={data?.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection
-                        awaitingAgreementBeyondSevenDays={
-                            filterAwaitingAgreementBeyondSevenDays
-                        }
-                        findCallLogsUnanswered={findCallLogsUnanswered}
-                        findExpiringInNext45Days={findExpiringInNext45Days}
+                        awaitingAgreementBeyondSevenDays={filterAwaitingAgreementBeyondSevenDays(
+                            data?.data
+                        )}
+                        findCallLogsUnanswered={findCallLogsUnanswered(
+                            data?.data
+                        )}
+                        findExpiringInNext45Days={findExpiringInNext45Days(
+                            data?.data
+                        )}
                     >
                         {({
                             table,
