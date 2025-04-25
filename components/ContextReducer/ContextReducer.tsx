@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react'
+import { Socket } from '@components/Socket'
 import {
     AlertProvider,
     ContextBarProvider,
@@ -14,17 +14,16 @@ import {
     SubadminProfileProvider,
     WorkplaceProvider,
 } from '@hooks'
-import { GoogleAnalyticsScript } from '@scripts'
-import { Provider } from 'react-redux'
-import { CrudModal, ModalProvider } from '@partials/admin/departments'
 import SessionManager from '@hooks/SessionManager'
-import { ErrorBoundaryContext } from 'react-use-error-boundary'
-import { Socket } from '@components/Socket'
 import { HeadWrapper } from '@layouts'
-import { store } from 'redux/store'
-import { Poppins } from 'next/font/google'
+import { CrudModal, ModalProvider } from '@partials/admin/departments'
+import { GoogleAnalyticsScript } from '@scripts'
 import { Theme, applyTheme, getCurrentTheme } from '@theme'
 import AOS from 'aos'
+import { ReactNode, useEffect } from 'react'
+import { Provider } from 'react-redux'
+import { ErrorBoundaryContext } from 'react-use-error-boundary'
+import { store } from 'redux/store'
 
 // styles
 import 'aos/dist/aos.css'
@@ -40,16 +39,11 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
 import 'react-tooltip/dist/react-tooltip.css'
+import '../../styles/animations.css'
 import '../../styles/globals.css'
 import '../../styles/site.css'
-import '../../styles/animations.css'
 
 export const ContextReducer = ({ children }: { children: ReactNode }) => {
-    const poppins = Poppins({
-        subsets: ['latin'],
-        weight: ['400', '500', '600', '700'],
-    })
-
     useEffect(() => {
         applyTheme((Theme as any)[getCurrentTheme()].theme)
         AOS.init({
@@ -59,55 +53,54 @@ export const ContextReducer = ({ children }: { children: ReactNode }) => {
     return (
         <>
             <GoogleAnalyticsScript />
-            <div className={`${poppins.className} `}>
-                <Provider store={store}>
-                    <ModalProvider>
-                        {/* <AutoLogoutProvider> */}
-                        <SessionManager />
-                        {/* <NextAuthAutoLogoutProvider> */}
-                        <ErrorBoundaryContext>
-                            <JoyRideProvider>
-                                <WorkplaceProvider>
-                                    <GoogleMapsProvider>
-                                        <SubadminProfileProvider>
-                                            <NoteScrollProvider>
-                                                <DownloadAssessmentProvider>
-                                                    <AlertProvider>
-                                                        <NotificationProvider>
-                                                            <NavbarProvider>
-                                                                <ContextBarProvider>
-                                                                    <HeaderWrapperProvider>
-                                                                        <SocketListenerProvider>
-                                                                            <Socket>
-                                                                                <NetworkProvider>
-                                                                                    <HeadWrapper>
-                                                                                        {/* <LogoutAfterHours> */}
-                                                                                        {
-                                                                                            children
-                                                                                        }
-                                                                                        {/* </LogoutAfterHours> */}
-                                                                                    </HeadWrapper>
-                                                                                </NetworkProvider>
-                                                                            </Socket>
-                                                                        </SocketListenerProvider>
-                                                                    </HeaderWrapperProvider>
-                                                                </ContextBarProvider>
-                                                            </NavbarProvider>
-                                                        </NotificationProvider>
-                                                    </AlertProvider>
-                                                </DownloadAssessmentProvider>
-                                            </NoteScrollProvider>
-                                        </SubadminProfileProvider>
-                                    </GoogleMapsProvider>
-                                </WorkplaceProvider>
-                            </JoyRideProvider>
-                        </ErrorBoundaryContext>
-                        <CrudModal />
-                        {/* </NextAuthAutoLogoutProvider> */}
-                        {/* </AutoLogoutProvider> */}
-                    </ModalProvider>
-                </Provider>
-            </div>
+
+            <Provider store={store}>
+                <ModalProvider>
+                    {/* <AutoLogoutProvider> */}
+                    <SessionManager />
+                    {/* <NextAuthAutoLogoutProvider> */}
+                    <ErrorBoundaryContext>
+                        <JoyRideProvider>
+                            <WorkplaceProvider>
+                                <GoogleMapsProvider>
+                                    <SubadminProfileProvider>
+                                        <NoteScrollProvider>
+                                            <DownloadAssessmentProvider>
+                                                <AlertProvider>
+                                                    <NotificationProvider>
+                                                        <NavbarProvider>
+                                                            <ContextBarProvider>
+                                                                <HeaderWrapperProvider>
+                                                                    <SocketListenerProvider>
+                                                                        <Socket>
+                                                                            <NetworkProvider>
+                                                                                <HeadWrapper>
+                                                                                    {/* <LogoutAfterHours> */}
+                                                                                    {
+                                                                                        children
+                                                                                    }
+                                                                                    {/* </LogoutAfterHours> */}
+                                                                                </HeadWrapper>
+                                                                            </NetworkProvider>
+                                                                        </Socket>
+                                                                    </SocketListenerProvider>
+                                                                </HeaderWrapperProvider>
+                                                            </ContextBarProvider>
+                                                        </NavbarProvider>
+                                                    </NotificationProvider>
+                                                </AlertProvider>
+                                            </DownloadAssessmentProvider>
+                                        </NoteScrollProvider>
+                                    </SubadminProfileProvider>
+                                </GoogleMapsProvider>
+                            </WorkplaceProvider>
+                        </JoyRideProvider>
+                    </ErrorBoundaryContext>
+                    <CrudModal />
+                    {/* </NextAuthAutoLogoutProvider> */}
+                    {/* </AutoLogoutProvider> */}
+                </ModalProvider>
+            </Provider>
         </>
     )
 }
