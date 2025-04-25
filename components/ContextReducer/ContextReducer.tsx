@@ -39,9 +39,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
 import 'react-tooltip/dist/react-tooltip.css'
-import '../../styles/animations.css'
-import '../../styles/globals.css'
-import '../../styles/site.css'
+
 import { Poppins } from 'next/font/google'
 
 const poppins = Poppins({
