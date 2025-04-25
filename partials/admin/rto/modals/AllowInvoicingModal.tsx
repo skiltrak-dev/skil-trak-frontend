@@ -55,12 +55,6 @@ export const AllowInvoicingModal = ({
             .of(Yup.number())
             .min(1, 'At least one invoice category must be selected')
             .required('Please select at least one invoice category'),
-        // startDate: Yup.date().when('invoicingType', {
-        //     is: (type: any) => type !== InvoiceTypeEnum.Monthly,
-        //     then: (schema) =>
-        //         schema.required('Start date is required for this invoice type'),
-        //     otherwise: (schema) => schema.nullable(),
-        // }),
         startDate: Yup.mixed()
             .transform((value, originalValue) => {
                 // Return null if value is an empty string or invalid date

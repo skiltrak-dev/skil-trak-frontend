@@ -115,7 +115,7 @@ export const TextInput = ({
     const formRef = formContext && formContext.register(name)
 
     return (
-        <div className="w-full mb-2">
+        <div className="w-full">
             {label && (
                 <div className={`flex justify-between items-center mb-1`}>
                     <div>

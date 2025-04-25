@@ -41,7 +41,12 @@ export const InvoiceDataListing = ({
             limit: itemPerPage,
             id: Number(router.query.id),
             skip: itemPerPage * page - itemPerPage,
-            search: '',
+            search:
+                startDate && endDate
+                    ? `startDate:${moment(startDate).format(
+                          'YYYY-MM-DD'
+                      )},endDate:${moment(endDate).format('YYYY-MM-DD')}`
+                    : '',
         },
         {
             skip: !router.query.id,
@@ -60,7 +65,7 @@ export const InvoiceDataListing = ({
         setModal(<ConfirmAllPaymentModal ids={ids} onCancel={onCancelModal} />)
     }
 
-    const onStatusChangeClicked = (id: number) => {
+    const onStatusChangeClicked = (id: any) => {
         setModal(<ChangeStatusModal onCancel={onCancelModal} id={id} />)
     }
 

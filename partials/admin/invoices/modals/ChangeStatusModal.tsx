@@ -1,10 +1,10 @@
-import { Modal, Select, ShowErrorNotifications } from '@components'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useNotification } from '@hooks'
-import { AdminApi } from '@queries'
-import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
+import { AdminApi } from '@queries'
+import { useNotification } from '@hooks'
 import { PaymentStatusEnum } from '../enum'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
+import { Modal, Select, ShowErrorNotifications } from '@components'
 
 interface onSubmitType {
     payment: PaymentStatusEnum
@@ -14,7 +14,7 @@ export const ChangeStatusModal = ({
     onCancel,
     id,
 }: {
-    id: number
+    id: any
     onCancel: () => void
 }) => {
     const { notification } = useNotification()

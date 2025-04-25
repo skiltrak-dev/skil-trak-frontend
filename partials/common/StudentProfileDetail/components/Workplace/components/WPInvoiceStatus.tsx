@@ -45,15 +45,16 @@ export const WPInvoiceStatus = ({
                             />
                         </div>
                     ) : (
-                        <ActionButton
-                            variant="info"
-                            simple
-                            onClick={() => {
-                                onClick()
-                            }}
-                        >
-                            Change Invoice Status
-                        </ActionButton>
+                        // <ActionButton
+                        //     variant="info"
+                        //     simple
+                        //     onClick={() => {
+                        //         onClick()
+                        //     }}
+                        // >
+                        //     Change Invoice Status
+                        // </ActionButton>
+                        <></>
                     )}
                 </AuthorizedUserComponent>
             )}
