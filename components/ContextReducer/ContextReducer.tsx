@@ -42,6 +42,12 @@ import 'react-tooltip/dist/react-tooltip.css'
 import '../../styles/animations.css'
 import '../../styles/globals.css'
 import '../../styles/site.css'
+import { Poppins } from 'next/font/google'
+
+const poppins = Poppins({
+    subsets: ['latin'],
+    weight: ['400', '500', '600', '700'],
+})
 
 export const ContextReducer = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
@@ -53,54 +59,55 @@ export const ContextReducer = ({ children }: { children: ReactNode }) => {
     return (
         <>
             <GoogleAnalyticsScript />
-
-            <Provider store={store}>
-                <ModalProvider>
-                    {/* <AutoLogoutProvider> */}
-                    <SessionManager />
-                    {/* <NextAuthAutoLogoutProvider> */}
-                    <ErrorBoundaryContext>
-                        <JoyRideProvider>
-                            <WorkplaceProvider>
-                                <GoogleMapsProvider>
-                                    <SubadminProfileProvider>
-                                        <NoteScrollProvider>
-                                            <DownloadAssessmentProvider>
-                                                <AlertProvider>
-                                                    <NotificationProvider>
-                                                        <NavbarProvider>
-                                                            <ContextBarProvider>
-                                                                <HeaderWrapperProvider>
-                                                                    <SocketListenerProvider>
-                                                                        <Socket>
-                                                                            <NetworkProvider>
-                                                                                <HeadWrapper>
-                                                                                    {/* <LogoutAfterHours> */}
-                                                                                    {
-                                                                                        children
-                                                                                    }
-                                                                                    {/* </LogoutAfterHours> */}
-                                                                                </HeadWrapper>
-                                                                            </NetworkProvider>
-                                                                        </Socket>
-                                                                    </SocketListenerProvider>
-                                                                </HeaderWrapperProvider>
-                                                            </ContextBarProvider>
-                                                        </NavbarProvider>
-                                                    </NotificationProvider>
-                                                </AlertProvider>
-                                            </DownloadAssessmentProvider>
-                                        </NoteScrollProvider>
-                                    </SubadminProfileProvider>
-                                </GoogleMapsProvider>
-                            </WorkplaceProvider>
-                        </JoyRideProvider>
-                    </ErrorBoundaryContext>
-                    <CrudModal />
-                    {/* </NextAuthAutoLogoutProvider> */}
-                    {/* </AutoLogoutProvider> */}
-                </ModalProvider>
-            </Provider>
+            <div className={`${poppins.className} `}>
+                <Provider store={store}>
+                    <ModalProvider>
+                        {/* <AutoLogoutProvider> */}
+                        <SessionManager />
+                        {/* <NextAuthAutoLogoutProvider> */}
+                        <ErrorBoundaryContext>
+                            <JoyRideProvider>
+                                <WorkplaceProvider>
+                                    <GoogleMapsProvider>
+                                        <SubadminProfileProvider>
+                                            <NoteScrollProvider>
+                                                <DownloadAssessmentProvider>
+                                                    <AlertProvider>
+                                                        <NotificationProvider>
+                                                            <NavbarProvider>
+                                                                <ContextBarProvider>
+                                                                    <HeaderWrapperProvider>
+                                                                        <SocketListenerProvider>
+                                                                            <Socket>
+                                                                                <NetworkProvider>
+                                                                                    <HeadWrapper>
+                                                                                        {/* <LogoutAfterHours> */}
+                                                                                        {
+                                                                                            children
+                                                                                        }
+                                                                                        {/* </LogoutAfterHours> */}
+                                                                                    </HeadWrapper>
+                                                                                </NetworkProvider>
+                                                                            </Socket>
+                                                                        </SocketListenerProvider>
+                                                                    </HeaderWrapperProvider>
+                                                                </ContextBarProvider>
+                                                            </NavbarProvider>
+                                                        </NotificationProvider>
+                                                    </AlertProvider>
+                                                </DownloadAssessmentProvider>
+                                            </NoteScrollProvider>
+                                        </SubadminProfileProvider>
+                                    </GoogleMapsProvider>
+                                </WorkplaceProvider>
+                            </JoyRideProvider>
+                        </ErrorBoundaryContext>
+                        <CrudModal />
+                        {/* </NextAuthAutoLogoutProvider> */}
+                        {/* </AutoLogoutProvider> */}
+                    </ModalProvider>
+                </Provider>
+            </div>
         </>
     )
 }
