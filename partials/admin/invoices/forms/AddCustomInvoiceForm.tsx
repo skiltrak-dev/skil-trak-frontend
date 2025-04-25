@@ -1,6 +1,6 @@
-import { Button, Select, Typography } from '@components'
+import { Button, Select, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AdminApi, CommonApi } from '@queries'
+import { AdminApi, CommonApi, SubAdminApi } from '@queries'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { InvoiceCategoriesEnum } from '../enum'
@@ -16,11 +16,17 @@ interface SectorFormProps {
 export const AddCustomInvoiceForm = ({ onSubmit, result }: SectorFormProps) => {
     const [searchedStudent, setSearchedStudent] = useState('')
     const validationSchema = yup.object({
-        name: yup.string().required('Kpi Type is required'),
+        invoiceAction: yup
+            .string()
+            .oneOf(Object.values(InvoiceCategoriesEnum))
+            .required('Invoice type is required'),
+        student: yup.number().required('Student is required'),
+        course: yup.number().required('Course is required'),
+        customDate: yup.string().required('Date is required'),
     })
 
     const methods = useForm({
-        // resolver: yupResolver(validationSchema),
+        resolver: yupResolver(validationSchema),
         mode: 'all',
     })
 
@@ -28,7 +34,12 @@ export const AddCustomInvoiceForm = ({ onSubmit, result }: SectorFormProps) => {
     const adminAllStudents = CommonApi.Student.searchAllPortalStudents({
         search: `name:${searchedStudent}`,
     })
-    const courses = CommonApi.Filter.useCourses()
+    const courses = SubAdminApi.Courses.useStudentCourses(
+        Number(methods.watch()?.student),
+        {
+            skip: !methods.watch()?.student,
+        }
+    )
 
     const nameOptions = Object.entries(InvoiceCategoriesEnum).map(
         ([key, value]) => ({
@@ -46,6 +57,7 @@ export const AddCustomInvoiceForm = ({ onSubmit, result }: SectorFormProps) => {
         label: objectConverted[c?.name],
         value: c?.name,
     }))
+
     const studentsList = adminAllStudents?.data?.map((student: Student) => ({
         label: `${student?.user?.name} ${student?.familyName}`,
         value: student?.id,
@@ -73,11 +85,17 @@ export const AddCustomInvoiceForm = ({ onSubmit, result }: SectorFormProps) => {
                                 variant={'muted'}
                                 color={'text-gray-400'}
                             >
-                                Invoice Categories
+                                Custom Invoice
                             </Typography>
                         </div>
 
                         <div className="grid grid-cols-1 gap-x-8 gap-y-2">
+                            <TextInput
+                                type={'date'}
+                                name="customDate"
+                                label={`${'Select Date'}`}
+                                placeholder={'Add Date'}
+                            />
                             <Select
                                 name="invoiceAction"
                                 label={'Add Invoice Actions'}
@@ -88,6 +106,11 @@ export const AddCustomInvoiceForm = ({ onSubmit, result }: SectorFormProps) => {
                                 name="student"
                                 label={'Add Student'}
                                 options={studentsList}
+                                loading={
+                                    adminAllStudents?.isLoading ||
+                                    adminAllStudents?.isFetching
+                                }
+                                disabled={adminAllStudents?.isLoading}
                                 onlyValue
                                 onInputChange={(value) => {
                                     delayedSearch(value)
@@ -97,6 +120,12 @@ export const AddCustomInvoiceForm = ({ onSubmit, result }: SectorFormProps) => {
                                 name="course"
                                 label={'Add Course'}
                                 options={coursesList}
+                                loading={courses?.isLoading}
+                                disabled={
+                                    courses?.isLoading ||
+                                    courses?.isFetching ||
+                                    !courses?.data?.length
+                                }
                                 onlyValue
                                 onInputChange={(value) => {
                                     delayedSearch(value)

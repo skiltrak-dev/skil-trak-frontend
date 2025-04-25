@@ -19,9 +19,7 @@ export const generateMonthlyInvoiceDateRanges = (
         const monthStart = currentDate.clone().startOf('month')
         const monthEnd = currentDate.clone().endOf('month')
         // If month end is after the end date, use the end date instead
-        const rangeEndDate = monthEnd.isAfter(endDate)
-            ? endDate.clone()
-            : monthEnd.clone()
+        const rangeEndDate = monthEnd.clone()
         // Format dates as YYYY-MM-DD strings
         const formattedStartDate = monthStart.format('YYYY-MM-DD')
         const formattedEndDate = rangeEndDate.format('YYYY-MM-DD')
@@ -67,9 +65,7 @@ export const generateInvoiceDateRanges = (
 
         // Format dates as YYYY-MM-DD strings
         const formattedStartDate = currentStartDate.format('YYYY-MM-DD')
-        const formattedEndDate = currentEndDate.isSameOrBefore(endDate)
-            ? currentEndDate.format('YYYY-MM-DD')
-            : endDate.format('YYYY-MM-DD')
+        const formattedEndDate = currentEndDate.format('YYYY-MM-DD')
 
         // Add the date range object to the array
         dateRanges.push({

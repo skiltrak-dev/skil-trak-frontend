@@ -517,7 +517,7 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['SubAdminStudents'],
     }),
-    studentCourses: builder.query<any, any>({
+    studentCourses: builder.query<any, number>({
         query: (id) => `${PREFIX}/student/course/list/${id}`,
         providesTags: ['SubAdminStudents'],
     }),
