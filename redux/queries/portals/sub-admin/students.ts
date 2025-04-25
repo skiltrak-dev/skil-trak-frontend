@@ -142,6 +142,13 @@ export const studentsEndpoints = (
         }),
         providesTags: ['SubAdminStudents'],
     }),
+    myStudentsWeeklyCallsList: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/students/on-call-list`,
+            params,
+        }),
+        providesTags: ['SubAdminStudents'],
+    }),
     getSubAdminMyStudentsCallLog: builder.query<any, number>({
         query: (id) => `call-log/get/student/${id}/last`,
         providesTags: ['SubAdminStudents'],

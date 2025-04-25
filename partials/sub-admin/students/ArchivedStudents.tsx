@@ -1,47 +1,16 @@
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-// Icons
-import { FaEdit, FaEye } from 'react-icons/fa'
-
-// components
-import {
-    Card,
-    CaseOfficerAssignedStudent,
-    EmptyData,
-    InitialAvatar,
-    LoadingAnimation,
-    StudentStatusProgressCell,
-    Table,
-    TableAction,
-    TableActionOption,
-    Typography,
-    UserCreatedAt,
-} from '@components'
-import { StudentCellInfo, SubadminStudentIndustries } from './components'
+import { Card, EmptyData, LoadingAnimation, Table } from '@components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { SubAdminApi } from '@queries'
-import { Student, SubAdmin, UserStatus } from '@types'
-import { MdBlock } from 'react-icons/md'
-import { BlockModal, ChangeStudentStatusModal } from './modals'
+import { UserStatus } from '@types'
 
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { SectorCell } from '@partials/admin/student/components'
-import { ColumnDef } from '@tanstack/react-table'
-import {
-    WorkplaceCurrentStatus,
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
-} from '@utils'
+import { useColumns } from './hooks'
 
 export const ArchivedStudents = () => {
     const router = useRouter()
-
-    const [modal, setModal] = useState<ReactElement | null>(null)
-    const [changeExpiryData, setChangeExpiryData] = useState(false)
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -63,172 +32,7 @@ export const ArchivedStudents = () => {
             }
         )
 
-    useEffect(() => {
-        if (changeExpiryData) {
-            refetch()
-        }
-    }, [changeExpiryData])
-
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStudentStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onBlockClicked = (student: Student) => {
-        setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
-    }
-
-    const onDateClick = (student: Student) => {
-        setModal(
-            <EditTimer
-                studentId={student?.user?.id}
-                date={student?.expiryDate}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const tableActionOptions: TableActionOption<Student>[] = [
-        {
-            text: 'View',
-            onClick: (student) => {
-                router.push(`/portals/sub-admin/students/${student?.id}/detail`)
-
-                setLink('subadmin-student', router)
-            },
-            Icon: FaEye,
-        },
-        {
-            text: 'Change Status',
-            onClick: (student) => onChangeStatus(student),
-            Icon: FaEdit,
-        },
-        {
-            text: 'Block',
-            onClick: (student) => onBlockClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Change Expiry',
-            onClick: (student) => onDateClick(student),
-            Icon: FaEdit,
-        },
-    ]
-
-    const Columns: ColumnDef<Student>[] = [
-        {
-            header: () => 'Name',
-            accessorKey: 'user',
-            cell: ({ row }: any) => {
-                return (
-                    <div id="student-profile">
-                        <StudentCellInfo student={row.original} call />
-                    </div>
-                )
-            },
-        },
-
-        {
-            header: () => 'RTO',
-            accessorKey: 'rto',
-            cell({ row }: any) {
-                const { rto } = row.original
-
-                return (
-                    <div className="flex gap-x-2 items-center">
-                        <InitialAvatar name={rto.user.name} small />
-                        {rto.user.name}
-                    </div>
-                )
-            },
-        },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info) => (
-                <SubadminStudentIndustries
-                    workplace={info.row.original?.workplace}
-                    industries={info.row.original?.industries}
-                />
-            ),
-        },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: ({ row }: any) => {
-                return <SectorCell student={row.original} />
-            },
-        },
-        {
-            accessorKey: 'progress',
-            header: () => <span>Progress</span>,
-            cell: ({ row }) => (
-                <CaseOfficerAssignedStudent student={row.original} />
-            ),
-        },
-        {
-            accessorKey: 'expiry',
-            header: () => <span>Days Expired</span>,
-            cell: (info) => {
-                var marchFirst = new Date(
-                    info?.row?.original?.oldExpiry ||
-                        info?.row?.original?.expiryDate
-                )
-
-                // Get today's date
-                var today = new Date()
-
-                // Calculate the difference in milliseconds between today and March 1st
-                var timeDifference = today.getTime() - marchFirst.getTime()
-
-                // Convert milliseconds to days
-                var daysPassed = Math.ceil(timeDifference / (1000 * 3600 * 24))
-
-                return info.row.original?.studentStatus === 'expired' &&
-                    marchFirst < new Date() ? (
-                    <Typography variant={'small'} color="text-red-400">
-                        <span className="font-medium whitespace-pre">
-                            Expired{' '}
-                            <span className="font-bold text-red-600">
-                                {daysPassed}
-                            </span>{' '}
-                            days ago
-                        </span>
-                    </Typography>
-                ) : (
-                    '---'
-                )
-            },
-        },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
-                <UserCreatedAt createdAt={row.original?.createdAt} />
-            ),
-        },
-        {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }: any) => {
-                return (
-                    <TableAction
-                        options={tableActionOptions}
-                        rowItem={row.original}
-                    />
-                )
-            },
-        },
-    ]
+    const { modal, columns } = useColumns()
 
     return (
         <div>
@@ -239,7 +43,7 @@ export const ArchivedStudents = () => {
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table
-                        columns={Columns}
+                        columns={columns}
                         data={data.data}
                         enableRowSelection
                     >
@@ -248,9 +52,28 @@ export const ArchivedStudents = () => {
                             pagination,
                             pageSize,
                             quickActions,
-                        }: any) => {
-                            return (
-                                <div>
+                        }: any) => (
+                            <div>
+                                <div className="p-6 mb-2 flex justify-between">
+                                    {pageSize(
+                                        itemPerPage,
+                                        setItemPerPage,
+                                        data?.data?.length
+                                    )}
+                                    <div className="flex gap-x-2">
+                                        {quickActions}
+                                        {pagination(data?.pagination, setPage)}
+                                    </div>
+                                </div>
+                                <div className="overflow-x-auto remove-scrollbar">
+                                    <div
+                                        className="px-6 w-full"
+                                        id={'studentScrollId'}
+                                    >
+                                        {table}
+                                    </div>
+                                </div>
+                                {data?.data?.length > 10 && (
                                     <div className="p-6 mb-2 flex justify-between">
                                         {pageSize(
                                             itemPerPage,
@@ -265,33 +88,9 @@ export const ArchivedStudents = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="overflow-x-auto remove-scrollbar">
-                                        <div
-                                            className="px-6 w-full"
-                                            id={'studentScrollId'}
-                                        >
-                                            {table}
-                                        </div>
-                                    </div>
-                                    {data?.data?.length > 10 && (
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            )
-                        }}
+                                )}
+                            </div>
+                        )}
                     </Table>
                 ) : (
                     !isError && (

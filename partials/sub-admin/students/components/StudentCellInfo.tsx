@@ -128,20 +128,18 @@ export const StudentCellInfo = ({
                                 {call &&
                                     isDateExist &&
                                     (callLog.isAnswered ? (
-                                        <div className="rounded-full bg-success p-0.5">
-                                            <ImPhone
-                                                title={'Call Made and Answered'}
-                                                className="text-white text-[10px]"
-                                            />
+                                        <div className="rounded-full bg-success p-0.5 relative group">
+                                            <ImPhone className="text-white text-[10px]" />
+                                            <Tooltip>
+                                                Call Made and Answered
+                                            </Tooltip>
                                         </div>
                                     ) : callLog.isAnswered === false ? (
-                                        <div className="rounded-full bg-red-700 p-0.5">
-                                            <ImPhoneHangUp
-                                                title={
-                                                    'Call Made and Not Answered'
-                                                }
-                                                className="text-white text-[10px]"
-                                            />
+                                        <div className="rounded-full bg-red-700 p-0.5 relative group">
+                                            <ImPhoneHangUp className="text-white text-[10px]" />
+                                            <Tooltip>
+                                                Call Made and Not Answered
+                                            </Tooltip>
                                         </div>
                                     ) : null)}
                             </div>

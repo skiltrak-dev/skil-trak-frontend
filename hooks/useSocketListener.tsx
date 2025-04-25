@@ -1,6 +1,11 @@
 import { ReactNode, createContext, useContext, useState } from 'react'
 
-const SocketContext = createContext<any | null>(null)
+export interface SocketContextType {
+    eventListener: any
+    setEventListener: any
+}
+
+const SocketContext = createContext<SocketContextType | null>(null)
 
 export const SocketListenerProvider = ({
     children,
@@ -22,5 +27,5 @@ export const SocketListenerProvider = ({
 }
 
 export const useSocketListener = () => {
-    return useContext(SocketContext)
+    return useContext(SocketContext) as SocketContextType
 }

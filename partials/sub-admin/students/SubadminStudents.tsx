@@ -25,6 +25,7 @@ import {
     PlacementStartedStudents,
     RejectedStudents,
     StudentScheduleEndedList,
+    StudentWeeklyCallList,
     UnAssignedStudents,
     UrgentStudents,
 } from '@partials/sub-admin/students'
@@ -189,6 +190,18 @@ export const SubadminStudents = () => {
             },
             href: { pathname: 'students', query: { tab: 'my-students' } },
             element: <MyStudents />,
+        },
+        {
+            label: 'Weekly Student Calls List',
+            badge: {
+                text: studentCount?.removeOnCallLog,
+                loading: count.isLoading,
+            },
+            href: {
+                pathname: 'students',
+                query: { tab: 'weekly-students-calls' },
+            },
+            element: <StudentWeeklyCallList />,
         },
         // TODO: Uncomment this when the component is ready
         // {

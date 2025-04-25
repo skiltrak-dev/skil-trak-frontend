@@ -89,30 +89,28 @@ export const UpdatedCourseList = ({
                             'max-h-96 overflow-auto custom-scrollbar flex flex-col px-2 gap-y-4 mt-5'
                         }
                     >
-                        {Object.keys(sectorsWithCourses).map((sector: any) => {
-                            return (
-                                <div key={sector?.id}>
-                                    <Typography
-                                        variant={'small'}
-                                        color={'text-black'}
-                                        bold
-                                    >
-                                        {sector}
-                                    </Typography>
+                        {Object.keys(sectorsWithCourses).map((sector: any) => (
+                            <div key={sector}>
+                                <Typography
+                                    variant={'small'}
+                                    color={'text-black'}
+                                    bold
+                                >
+                                    {sector}
+                                </Typography>
 
-                                    <CourseList
-                                        courses={
-                                            (sectorsWithCourses as any)[sector]
-                                        }
-                                        editCourse={editCourse}
-                                        setSelectedCourses={(val: any) => {
-                                            setSelectedCourses(val)
-                                        }}
-                                        selectedCourses={selectedCourses}
-                                    />
-                                </div>
-                            )
-                        })}
+                                <CourseList
+                                    courses={
+                                        (sectorsWithCourses as any)[sector]
+                                    }
+                                    editCourse={editCourse}
+                                    setSelectedCourses={(val: any) => {
+                                        setSelectedCourses(val)
+                                    }}
+                                    selectedCourses={selectedCourses}
+                                />
+                            </div>
+                        ))}
                     </div>
                 ) : (
                     <NoData text={'No Sectors Assigned'} />

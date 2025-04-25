@@ -1,109 +1,34 @@
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
 
-// Icons
-import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
-
-// components
-import {
-    Card,
-    CaseOfficerAssignedStudent,
-    EmptyData,
-    LoadingAnimation,
-    StudentExpiryDaysLeft,
-    Table,
-    TableAction,
-    TableActionOption,
-    UserCreatedAt,
-} from '@components'
-import {
-    AssignCoordinator,
-    StudentCellInfo,
-    SubadminStudentIndustries,
-} from './components'
+import { Card, EmptyData, LoadingAnimation, Table } from '@components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
-import { Student, SubAdmin, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
-import { MdBlock, MdPriorityHigh } from 'react-icons/md'
-import {
-    AddToNonContactableStudents,
-    AssignStudentModal,
-    BlockModal,
-    ChangeStudentStatusModal,
-    HighPriorityModal,
-} from './modals'
 
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { SectorCell } from '@partials/admin/student/components'
-import { ColumnDef } from '@tanstack/react-table'
 import {
-    activeAndCompleted,
     filterAwaitingAgreementBeyondSevenDays,
     findCallLogsUnanswered,
     findExpiringInNext45Days,
-    getStudentWorkplaceAppliedIndustry,
-    setLink,
 } from '@utils'
-import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
-import { RTOCellInfo } from '../rto/components'
-import { InterviewModal } from '../workplace/modals'
-import moment from 'moment'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 import { useColumns } from './hooks'
 
-export const AllStudents = () => {
+export const StudentWeeklyCallList = () => {
     const router = useRouter()
-
-    const [mount, setMount] = useState(false)
-
-    useEffect(() => {
-        if (!mount) {
-            setMount(true)
-        }
-    }, [])
-
-    // WORKPLACE JOY RIDE - Start
-    const joyride = useJoyRide()
-    useEffect(() => {
-        if (joyride.state.tourActive && mount) {
-            setTimeout(() => {
-                joyride.setState({ ...joyride.state, run: true, stepIndex: 1 })
-            }, 1200)
-        }
-    }, [mount])
-
-    // STUDENT JOY RIDE - END
-
-    const {
-        modal,
-        columnsWithCustomActions,
-        onInterviewClicked,
-        onChangeStatus,
-        onDateClick,
-    } = useColumns()
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    const { columns, modal } = useColumns()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const coordinatorProfile = SubAdminApi.SubAdmin.useProfile()
-    const checkIsHod = coordinatorProfile?.data?.departmentMember?.isHod
-
-    // in the below I want to pass
-
-    // subadmin/students/reported/list
-    // useSubAdminFlaggedStudents
-    const { isSuccess, isLoading, data, isError, isFetching, refetch } =
-        SubAdminApi.Student.useList(
+    const { isLoading, isFetching, data, isError } =
+        SubAdminApi.Student.studentWeeklyCallsList(
             {
-                search: `status:${UserStatus.Approved}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -112,47 +37,20 @@ export const AllStudents = () => {
             }
         )
 
-    const tableActionOptions: TableActionOption<Student>[] = [
-        {
-            text: 'Interview',
-            onClick: (student) => onInterviewClicked(student),
-            Icon: FaUsers,
-        },
-        {
-            text: 'Change Status',
-            onClick: (student) => onChangeStatus(student),
-            Icon: FaEdit,
-        },
-
-        {
-            text: 'Change Expiry',
-            onClick: (student) => onDateClick(student),
-            Icon: FaEdit,
-        },
-    ]
-
-    const updatedColumns = columnsWithCustomActions(tableActionOptions)
-
-    updatedColumns.splice(6, 0, {
-        accessorKey: 'assignCoordinator',
-        header: () => <span>Assign Coordinator</span>,
-        cell: ({ row }) => {
-            if (!checkIsHod) return <p>---</p>
-            return <AssignCoordinator student={row?.original} />
-        },
-    })
-
     return (
         <div>
             {modal}
-            {isError && <TechnicalError />}
+
             <Card noPadding>
+                {isError && <TechnicalError />}
+
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length && !isError ? (
+                ) : data && data?.data.length ? (
                     <Table
-                        columns={updatedColumns}
-                        data={data.data}
+                        columns={columns}
+                        data={data?.data}
+                        // quickActions={quickActionsElements}
                         enableRowSelection
                         awaitingAgreementBeyondSevenDays={filterAwaitingAgreementBeyondSevenDays(
                             data?.data
@@ -163,7 +61,6 @@ export const AllStudents = () => {
                         findExpiringInNext45Days={findExpiringInNext45Days(
                             data?.data
                         )}
-                        activeAndCompleted={activeAndCompleted(data?.data)}
                     >
                         {({
                             table,
@@ -187,7 +84,6 @@ export const AllStudents = () => {
                                             )}
                                         </div>
                                     </div>
-
                                     <div className="overflow-x-auto remove-scrollbar">
                                         <div
                                             className="px-6 w-full"
@@ -220,7 +116,7 @@ export const AllStudents = () => {
                     !isError && (
                         <EmptyData
                             title={'No Students'}
-                            description={'You have not approved Students yet'}
+                            description={'You have not added any Student'}
                             height={'50vh'}
                         />
                     )

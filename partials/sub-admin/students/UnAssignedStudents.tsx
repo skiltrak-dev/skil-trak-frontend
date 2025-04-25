@@ -1,50 +1,32 @@
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
 
 // Icons
-import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 
 // components
 import {
     Card,
-    CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
-    StudentExpiryDaysLeft,
     Table,
     TableAction,
     TableActionOption,
-    UserCreatedAt,
 } from '@components'
-import {
-    AssignCoordinator,
-    StudentCellInfo,
-    SubadminStudentIndustries,
-} from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
-import { Student, SubAdmin, UserStatus } from '@types'
+import { Student } from '@types'
 import { useEffect, useState } from 'react'
-import { MdBlock, MdPriorityHigh } from 'react-icons/md'
-import {
-    AddToNonContactableStudents,
-    AssignStudentModal,
-    BlockModal,
-    ChangeStudentStatusModal,
-    HighPriorityModal,
-} from './modals'
 
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { SectorCell } from '@partials/admin/student/components'
-import { ColumnDef } from '@tanstack/react-table'
-import { getStudentWorkplaceAppliedIndustry, setLink } from '@utils'
-import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
-import { RTOCellInfo } from '../rto/components'
-import { InterviewModal } from '../workplace/modals'
-import moment from 'moment'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
+import {
+    activeAndCompleted,
+    filterAwaitingAgreementBeyondSevenDays,
+    findCallLogsUnanswered,
+    findExpiringInNext45Days,
+    setLink,
+} from '@utils'
+import { useColumns } from './hooks'
 
 export const UnAssignedStudents = () => {
     const router = useRouter()
@@ -69,8 +51,6 @@ export const UnAssignedStudents = () => {
 
     // STUDENT JOY RIDE - END
 
-    const [modal, setModal] = useState<ReactElement | null>(null)
-
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -78,10 +58,9 @@ export const UnAssignedStudents = () => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
-    // in the below I want to pass
 
-    // subadmin/students/reported/list
-    // useSubAdminFlaggedStudents
+    const { modal, columns } = useColumns()
+
     const { isSuccess, isLoading, data, isError, isFetching, refetch } =
         SubAdminApi.Student.useList(
             {
@@ -93,156 +72,6 @@ export const UnAssignedStudents = () => {
                 refetchOnMountOrArgChange: 30,
             }
         )
-    const sevenDaysAgo = new Date()
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
-    // const hasMatchingIndustry = data?.data?.map((student: any) => {
-    //     return (
-    //         student &&
-    //         student?.workplace?.filter((workplace: any) =>
-    //             workplace?.industries?.filter((industry: any) => {
-    //                 const awaitingAgreementSignedDate = new Date(
-    //                     industry?.awaitingAgreementSignedDate
-    //                 )
-    //                 const isMoreThanSevenDays =
-    //                     awaitingAgreementSignedDate <= sevenDaysAgo
-    //                 const isAwaitingAgreementSigned =
-    //                     industry?.awaitingAgreementSigned
-    //                 const agreementSigned = !industry?.AgreementSigned
-    //                 const isAgreementNotSigned =
-    //                     industry?.AgreementSignedDate === null
-
-    //                 return {
-    //                     isMatching:
-    //                         industry?.applied &&
-    //                         isAwaitingAgreementSigned &&
-    //                         isAgreementNotSigned &&
-    //                         agreementSigned &&
-    //                         isMoreThanSevenDays,
-    //                     id: student?.id,
-    //                 }
-    //             })
-    //         )
-    //     )
-    // })
-    // const industryIds = hasMatchingIndustry?.flat(1).map((item: any) => item)
-
-    const findWorkplaces = data?.data.filter(
-        (student: any) => student?.workplace?.length
-    )
-    // .filter((workplace: any) => workplace?.industries?.length)
-    const hasMatchingIndustry = findWorkplaces?.filter(
-        (workplace: any) => workplace?.industries?.length
-    )
-
-    // ================= Blinking/Flashing rows of students ================
-    const activeAndCompleted = data?.data?.filter((student: any) => {
-        if (
-            student?.user?.status !== UserStatus.Approved &&
-            !student?.workplace?.length
-        ) {
-            // Skip if status is not Approved or no workplace
-
-            return false
-        }
-
-        const workplaceCount = student?.workplace?.length
-
-        if (
-            workplaceCount === 1 &&
-            student?.user?.status === UserStatus.Approved
-        ) {
-            // If only one workplace, check its status
-            return student?.workplace[0]?.currentStatus === 'completed'
-        } else if (
-            workplaceCount > 1 &&
-            student?.user?.status === UserStatus.Approved
-        ) {
-            // If multiple workplaces, all must have 'completed' status
-            // student.workplace.some(
-            //     (placement: any) => placement?.currentStatus === 'completed'
-            // )
-            return student?.workplace?.every(
-                (placement: any) => placement?.currentStatus === 'completed'
-            )
-        }
-
-        return false
-    })
-
-    const findCallLogsUnanswered = data?.data?.filter((student: any) => {
-        const unansweredCalls = student?.callLog?.filter((call: any) => {
-            if (call?.isAnswered === null) {
-                const isMoreThanSevenDays =
-                    moment().diff(moment(call?.createdAt), 'days') >= 7
-                return isMoreThanSevenDays
-            }
-            return false
-        })
-
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            unansweredCalls?.length > 0
-        )
-    })
-    const findExpiringInNext45Days = data?.data?.filter((student: any) => {
-        const expiryDate = new Date(student?.expiryDate)
-        const currentDate = new Date()
-        const timeDiff = expiryDate.getTime() - currentDate.getTime()
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            // student?.workplace?.length === 0 &&
-            daysDiff <= 45 &&
-            daysDiff >= 0
-        )
-    })
-
-    const filterAwaitingAgreementBeyondSevenDays = data?.data?.filter(
-        (student: any) => {
-            return (
-                !student?.hasIssue &&
-                !student?.isSnoozed &&
-                !student?.nonContactable &&
-                student?.workplace?.some((workplace: any) =>
-                    isWorkplaceValid(workplace)
-                )
-            )
-        }
-    )
-    // ============================= END ====================================
-
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-    const onAssignStudentClicked = (student: Student) => {
-        setModal(
-            <AssignStudentModal
-                student={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
 
     const tableActionOptions: TableActionOption<Student>[] = [
         {
@@ -255,79 +84,15 @@ export const UnAssignedStudents = () => {
         },
     ]
 
-    const Columns: ColumnDef<Student>[] = [
-        {
-            header: () => 'Name',
-            accessorKey: 'user',
-            cell: (info) => (
-                <StudentCellInfo student={info.row.original} call />
-            ),
-        },
-        {
-            header: () => 'RTO',
-            accessorKey: 'rto',
-            cell: ({ row }) => (
-                <RTOCellInfo onlyName={false} rto={row.original?.rto} />
-            ),
-        },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info) => (
-                <SubadminStudentIndustries
-                    workplace={info.row.original?.workplace}
-                    industries={info.row.original?.industries}
-                />
-            ),
-        },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: ({ row }) => {
-                return <SectorCell student={row.original} />
-            },
-        },
-        {
-            accessorKey: 'expiry',
-            header: () => <span>Expiry Countdown</span>,
-            cell: (info) => (
-                <StudentExpiryDaysLeft
-                    expiryDate={info.row.original?.expiryDate}
-                />
-            ),
-        },
-        {
-            accessorKey: 'progress',
-            header: () => <span>Progress</span>,
-            cell: ({ row }) => (
-                <CaseOfficerAssignedStudent student={row.original} />
-            ),
-        },
-        {
-            accessorKey: 'assignCoordinator',
-            header: () => <span>Assign Coordinator</span>,
-            cell: ({ row }) => {
-                return <AssignCoordinator student={row?.original} />
-            },
-        },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: ({ row }) => (
-                <UserCreatedAt createdAt={row.original?.createdAt} />
-            ),
-        },
-        {
-            header: () => 'Action',
-            accessorKey: 'Action',
-            cell: ({ row }) => (
-                <TableAction
-                    options={tableActionOptions}
-                    rowItem={row.original}
-                />
-            ),
-        },
-    ]
+    columns.splice(columns?.length - 1, 1, {
+        header: () => 'Action',
+        accessorKey: 'Action',
+        cell: ({ row }) => (
+            <TableAction options={tableActionOptions} rowItem={row.original} />
+        ),
+    })
+
+    console.log('columns?.length', columns?.length)
 
     return (
         <div>
@@ -338,15 +103,19 @@ export const UnAssignedStudents = () => {
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length && !isError ? (
                     <Table
-                        columns={Columns}
-                        data={data.data}
+                        columns={columns}
+                        data={data?.data}
                         enableRowSelection
-                        awaitingAgreementBeyondSevenDays={
-                            filterAwaitingAgreementBeyondSevenDays
-                        }
-                        findCallLogsUnanswered={findCallLogsUnanswered}
-                        findExpiringInNext45Days={findExpiringInNext45Days}
-                        activeAndCompleted={activeAndCompleted}
+                        awaitingAgreementBeyondSevenDays={filterAwaitingAgreementBeyondSevenDays(
+                            data?.data
+                        )}
+                        findCallLogsUnanswered={findCallLogsUnanswered(
+                            data?.data
+                        )}
+                        findExpiringInNext45Days={findExpiringInNext45Days(
+                            data?.data
+                        )}
+                        activeAndCompleted={activeAndCompleted(data?.data)}
                     >
                         {({
                             table,

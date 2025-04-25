@@ -35,6 +35,7 @@ import {
 } from '@utils'
 import moment from 'moment'
 import { RTOCellInfo } from '../rto/components'
+import { useColumns } from './hooks'
 
 export const CompletedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
     const router = useRouter()
@@ -59,7 +60,7 @@ export const CompletedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
 
     // STUDENT JOY RIDE - END
 
-    const [modal, setModal] = useState<ReactElement | null>(null)
+    const [modall, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -118,7 +119,7 @@ export const CompletedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
         },
     ]
 
-    const columns: ColumnDef<Student>[] = [
+    const Columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => {
@@ -233,6 +234,50 @@ export const CompletedStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
             },
         },
     ]
+
+    const { modal, columns } = useColumns()
+
+    columns.splice(5, 1, {
+        accessorKey: 'progress',
+        header: () => <span>Progress</span>,
+        cell: ({ row }) => {
+            const student = row.original
+            const workplace = student?.workplace
+                ?.filter(
+                    (w: any) =>
+                        w?.currentStatus !== WorkplaceCurrentStatus.Cancelled
+                )
+                ?.reduce(
+                    (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
+                    {
+                        currentStatus: WorkplaceCurrentStatus.NotRequested,
+                    }
+                )
+
+            const studentStatus = checkStudentStatus(student?.studentStatus)
+            const appliedIndustry = getStudentWorkplaceAppliedIndustry(
+                workplace?.industries
+            )
+
+            return (
+                <StudentStatusProgressCell
+                    assigned={student?.subadmin}
+                    studentId={student?.id}
+                    step={
+                        workplace?.currentStatus ===
+                        WorkplaceCurrentStatus.Cancelled
+                            ? 4
+                            : studentStatus
+                    }
+                    appliedIndustry={appliedIndustry}
+                    studentProvidedWorkplace={
+                        workplace?.studentProvidedWorkplace ||
+                        workplace?.byExistingAbn
+                    }
+                />
+            )
+        },
+    })
 
     return (
         <div>

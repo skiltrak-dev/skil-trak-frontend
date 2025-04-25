@@ -7,7 +7,7 @@ import {
 import { UserRoles } from '@constants'
 import { RtoWorkplaceTypes } from '@partials/admin/rto/UpdatedRtoProfileDetail/components/RtoSectors/RtoWorkplaceTypes'
 import { Course } from '@types'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 
 export const CourseList = ({
     setSelectedCourses,
@@ -36,11 +36,8 @@ export const CourseList = ({
     return (
         <div className="flex flex-col gap-y-2.5 mt-2">
             {courses?.map((c: Course) => (
-                <>
-                    <div
-                        key={c?.id}
-                        className="bg-[#95C6FB26] border border-[#6B728050] rounded-md p-2.5"
-                    >
+                <Fragment key={c?.id}>
+                    <div className="bg-[#95C6FB26] border border-[#6B728050] rounded-md p-2.5">
                         <div
                             className={
                                 'flex gap-x-2 justify-between items-center'
@@ -130,7 +127,7 @@ export const CourseList = ({
                             </AuthorizedUserComponent>
                         </div>
                     </div>
-                </>
+                </Fragment>
             ))}
         </div>
     )
@@ -138,8 +135,8 @@ export const CourseList = ({
     return (
         <div>
             {courses?.map((c: Course) => (
-                <>
-                    <div key={c?.id} className="flex gap-x-2 justify-start">
+                <Fragment key={c?.id}>
+                    <div className="flex gap-x-2 justify-start">
                         <div className="flex flex-col items-center">
                             <div className="bg-blue-400 p-2 rounded-full"></div>
                             <div className="bg-blue-400 w-[1px] h-full"></div>
@@ -231,7 +228,7 @@ export const CourseList = ({
                             )}
                         </div>
                     </div>
-                </>
+                </Fragment>
             ))}
         </div>
     )

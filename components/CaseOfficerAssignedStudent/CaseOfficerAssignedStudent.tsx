@@ -180,26 +180,55 @@ export const CaseOfficerAssignedStudent = ({
                     documentInitiates={documentInitiates}
                 />
             ) : student?.user?.status === UserStatus.Archived ? (
-                <StudentStatusProgressCell
-                    assigned={
-                        (updatedWorkplace?.assignedTo as SubAdmin) ||
-                        student?.subadmin
-                    }
-                    studentId={student?.id}
-                    step={
-                        workplace?.currentStatus ===
-                        WorkplaceCurrentStatus.Cancelled
-                            ? 4
-                            : studentStatus
-                    }
-                    appliedIndustry={updatedAlliedIndustry}
-                    studentProvidedWorkplace={
-                        updatedWorkplace?.studentProvidedWorkplace ||
-                        updatedWorkplace?.byExistingAbn
-                    }
-                    documentInitiates={documentInitiates}
-                />
-            ) : student?.subadmin ? (
+                updatedWorkplace?.assignedTo || student?.subadmin ? (
+                    <ProgressCell
+                        appliedIndustry={updatedAlliedIndustry}
+                        studentId={student?.id}
+                        step={3}
+                        assigned={
+                            updatedWorkplace?.assignedTo || student?.subadmin
+                        }
+                        studentProvidedWorkplace={
+                            updatedWorkplace?.studentProvidedWorkplace ||
+                            updatedWorkplace?.byExistingAbn
+                        }
+                        documentInitiates={documentInitiates}
+                    />
+                ) : (
+                    <ProgressCell
+                        appliedIndustry={updatedAlliedIndustry}
+                        studentId={student?.id}
+                        assigned={
+                            updatedWorkplace?.assignedTo || student?.subadmin
+                        }
+                        step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                        studentProvidedWorkplace={
+                            updatedWorkplace?.studentProvidedWorkplace ||
+                            updatedWorkplace?.byExistingAbn
+                        }
+                        documentInitiates={documentInitiates}
+                    />
+                )
+            ) : // <StudentStatusProgressCell
+            //     assigned={
+            //         (updatedWorkplace?.assignedTo as SubAdmin) ||
+            //         student?.subadmin
+            //     }
+            //     studentId={student?.id}
+            //     step={
+            //         workplace?.currentStatus ===
+            //         WorkplaceCurrentStatus.Cancelled
+            //             ? 4
+            //             : studentStatus
+            //     }
+            //     appliedIndustry={updatedAlliedIndustry}
+            //     studentProvidedWorkplace={
+            //         updatedWorkplace?.studentProvidedWorkplace ||
+            //         updatedWorkplace?.byExistingAbn
+            //     }
+            //     documentInitiates={documentInitiates}
+            // />
+            student?.subadmin ? (
                 <ProgressCell
                     appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
