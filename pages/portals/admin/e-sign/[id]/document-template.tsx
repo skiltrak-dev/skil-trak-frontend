@@ -228,7 +228,6 @@ export default function ESign() {
     }
 
     const onItemResize = (data: any) => {
-        console.log({ data })
         const existingItem = items.find((x: any) => x.id === data.item.id)
         if (existingItem) {
             const updatedList = items.filter((x: any) => x.id !== data.item.id)
@@ -249,9 +248,10 @@ export default function ESign() {
             existingItem?.data?.isCustom
         ) {
             existingItem.data.type = FieldsTypeEnum.TextArea
-        } else {
-            existingItem.data.type = FieldsTypeEnum.Text
         }
+        // else {
+        //     existingItem.data.type = FieldsTypeEnum.Text
+        // }
         if (existingItem) {
             const updatedList = items.filter((x: any) => x.id !== data.item.id)
             existingItem.resizing = false

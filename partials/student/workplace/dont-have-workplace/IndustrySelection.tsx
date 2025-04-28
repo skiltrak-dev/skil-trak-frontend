@@ -5,7 +5,7 @@ import { ActionButton, Card, LoadingAnimation, Typography } from '@components'
 
 import { IndustryNotResponded } from '@partials/common'
 import { RejectedIndustries } from '@partials/common/workplace/components/dontHaveWorkplace/RejectedIndustries'
-import { useCancelWorkplaceRequestMutation, StudentApi } from '@queries'
+import { useCancelWorkplaceRequestMutation } from '@queries'
 import { WorkplaceCurrentStatus } from '@utils'
 import { AppliedIndustry } from './AppliedIndustry'
 import { ApplyForWorkplace, VerifyStudentDocs } from './components'
@@ -33,10 +33,7 @@ export const IndustrySelection = ({
         null
     )
     const assignedCoordinator = workplace.data?.[0]?.assignedTo
-    // const {data} = StudentApi.Workplace.useGetIndustryFoldersQuery({
-    //     id: industry?.industry?.id,
-    //     course: industry?.industry?.courses[0]?.id
-    // })
+
     const [cancelRequest, cancelRequestResult] =
         useCancelWorkplaceRequestMutation()
 

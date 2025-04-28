@@ -5,6 +5,7 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
+    TableActionOption,
     TableSkeleton,
     TechnicalError,
     TruncatedTextWithTooltip,
@@ -111,65 +112,56 @@ export const ActiveSubAdmin = () => {
     }
     const role = getUserCredentials()?.role
 
-    const tableActionOptions = (subAdmin: any) => {
-        return [
-            {
-                text: 'View',
-                onClick: (subAdmin: any) => {
-                    router.push(
-                        `/portals/admin/sub-admin/${subAdmin?.id}?tab=notes`
-                    )
-                },
-                Icon: FaEye,
+    const tableActionOptions: TableActionOption<SubAdmin>[] = [
+        {
+            text: 'View',
+            onClick: (subAdmin) =>
+                router.push(`/portals/admin/sub-admin/${subAdmin?.id}`),
+            Icon: FaEye,
+        },
+        {
+            text: 'Edit',
+            onClick: (subadmin) => {
+                onEditSubAdmin(subadmin)
             },
-            {
-                text: 'Edit',
-                onClick: (subadmin: SubAdmin) => {
-                    onEditSubAdmin(subadmin)
-                },
-                Icon: FaEdit,
-            },
-            {
-                ...(role === UserRoles.ADMIN
-                    ? {
-                          text: 'Permissions',
-                          onClick: (subAdmin: SubAdmin) =>
-                              onAllowPermissionClicked(subAdmin),
-                          Icon: PiCellSignalLowFill,
-                      }
-                    : {}),
-            },
-            {
-                ...(role === UserRoles.ADMIN
-                    ? {
-                          text: 'View Password',
-                          onClick: (subAdmin: SubAdmin) =>
-                              onViewPassword(subAdmin),
-                          Icon: RiLockPasswordFill,
-                      }
-                    : {}),
-            },
-            {
-                text: 'Block',
-                onClick: (subAdmin: SubAdmin) => onBlockedClicked(subAdmin),
-                Icon: BsArchiveFill,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Archive',
-                onClick: (subAdmin: SubAdmin) => onArchivedClicked(subAdmin),
-                Icon: BsArchiveFill,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-        ]
-    }
+            Icon: FaEdit,
+        },
+        {
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'Permissions',
+                      onClick: (subAdmin) => onAllowPermissionClicked(subAdmin),
+                      Icon: PiCellSignalLowFill,
+                  }
+                : {}),
+        },
+        {
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'View Password',
+                      onClick: (subAdmin) => onViewPassword(subAdmin),
+                      Icon: RiLockPasswordFill,
+                  }
+                : {}),
+        },
+        {
+            text: 'Block',
+            onClick: (subAdmin) => onBlockedClicked(subAdmin),
+            Icon: BsArchiveFill,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Archive',
+            onClick: (subAdmin) => onArchivedClicked(subAdmin),
+            Icon: BsArchiveFill,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+    ]
 
     const columns: ColumnDef<SubAdmin>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <SubAdminCell subAdmin={info.row.original} />
-            },
+            cell: (info) => <SubAdminCell subAdmin={info.row.original} />,
             header: () => <span>Sub Admin</span>,
         },
         {
@@ -197,7 +189,6 @@ export const ActiveSubAdmin = () => {
         {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
-            // cell: (info) => info.getValue(),
             cell: (info) => (
                 <TruncatedTextWithTooltip
                     text={info?.row?.original?.addressLine1}
@@ -207,20 +198,18 @@ export const ActiveSubAdmin = () => {
         {
             accessorKey: 'associated',
             header: () => <span>associated</span>,
-            cell: (info: any) => {
-                return (
-                    <ActionButton
-                        onClick={() => {
-                            onAssociatedWithRtoClicked(
-                                info?.row?.original?.id,
-                                info?.row?.original?.rtos
-                            )
-                        }}
-                    >
-                        Associated With Rto
-                    </ActionButton>
-                )
-            },
+            cell: (info) => (
+                <ActionButton
+                    onClick={() => {
+                        onAssociatedWithRtoClicked(
+                            info?.row?.original?.id,
+                            info?.row?.original?.rtos
+                        )
+                    }}
+                >
+                    Associated With Rto
+                </ActionButton>
+            ),
         },
         {
             accessorKey: 'createdBy.role',
@@ -274,14 +263,13 @@ export const ActiveSubAdmin = () => {
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info: any) => {
-                const actions = tableActionOptions(info?.row?.original)
+            cell: (info) => {
                 const length = checkListLength<SubAdmin>(
                     data?.data as SubAdmin[]
                 )
                 return (
                     <TableAction
-                        options={actions}
+                        options={tableActionOptions}
                         rowItem={info.row.original}
                         lastIndex={length.includes(info?.row?.index)}
                     />
