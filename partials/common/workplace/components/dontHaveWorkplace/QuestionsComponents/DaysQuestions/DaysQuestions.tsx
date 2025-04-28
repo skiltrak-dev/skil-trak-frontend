@@ -1,7 +1,6 @@
 import { TextInput, Typography } from '@components'
-import React, { useEffect, useState } from 'react'
-import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
-import { weekdaysShort } from 'moment'
+import React, { useEffect } from 'react'
+import { setKey } from 'react-geocode'
 import { useFormContext } from 'react-hook-form'
 import { workplaceQuestions } from '../../questionListData'
 import { WeekDays } from './WeekDays'
@@ -17,7 +16,8 @@ export const DaysQuestions = ({
 }) => {
     const formMethods = useFormContext()
 
-    const [selectedQuestion, setSelectedQuestion] = useState<string>('')
+    const date1 = formMethods.watch('supervisorMeetingDate1')
+    const date2 = formMethods.watch('supervisorMeetingDate2')
 
     useEffect(() => {
         setKey(process.env.NEXT_PUBLIC_MAP_KEY as string)
@@ -43,89 +43,44 @@ export const DaysQuestions = ({
                         }
                     </Typography>
                 </div>
-                {ques?.inputValues && ques?.inputValues?.length > 0 ? (
+                {ques?.inputValues?.length > 0 && (
                     <div
                         className={`grid grid-cols-1 ${
                             ques?.inputValues?.length > 1
                                 ? 'lg:grid-cols-2'
                                 : 'lg:grid-cols-1'
-                        }  gap-3`}
+                        } gap-3`}
                     >
-                        {ques?.inputValues?.map((inp: any) => (
-                            <div className="mt-1">
-                                <Typography variant="label" medium>
-                                    {inp?.label}
-                                </Typography>
-                                <WeekDays
-                                    onClick={(day: string) => {
-                                        formMethods.setValue(inp?.name, day)
-                                    }}
-                                />
-                            </div>
-                        ))}
-                        {/* {ques?.inputValues?.map((inp: any) => (
-                            <TextInput
-                                name={inp?.name}
-                                label={inp?.label}
-                                placeholder={inp?.placeholder}
-                                required
-                                type={inp?.type as any}
-                                placesSuggetions={inp?.name === 'suburb'}
-                                onChange={(e: any) => {
-                                    if (inp?.name === 'suburb') {
-                                        if (e?.target?.value?.length > 4) {
-                                            fromAddress(e?.target?.value)
-                                                .then(({ results }: any) => {
-                                                    const { lat, lng } =
-                                                        results[0].geometry
-                                                            .location
-                                                    geocode(
-                                                        'latlng',
-                                                        `${lat},${lng}`,
-                                                        {
-                                                            key: process.env
-                                                                .NEXT_PUBLIC_MAP_KEY,
-                                                        } as GeocodeOptions
-                                                    )
-                                                        .then((response) => {
-                                                            const addressComponents =
-                                                                response
-                                                                    .results[0]
-                                                                    .address_components
-
-                                                            for (let component of addressComponents) {
-                                                                if (
-                                                                    component.types.includes(
-                                                                        'postal_code'
-                                                                    )
-                                                                ) {
-                                                                    formMethods.setValue(
-                                                                        'zip',
-                                                                        component.long_name
-                                                                    )
-
-                                                                    break
-                                                                }
-                                                            }
-                                                        })
-                                                        .catch((error) => {
-                                                            console.error({
-                                                                error,
-                                                            })
-                                                        })
-                                                })
-                                                .catch(console.error)
+                        {ques?.inputValues?.map((inp: any, idx: number) => {
+                            const disableDay =
+                                inp?.name === 'supervisorMeetingDate1'
+                                    ? date2
+                                    : inp?.name === 'supervisorMeetingDate2'
+                                    ? date1
+                                    : ''
+                            return (
+                                <div key={inp?.name} className="mt-1">
+                                    <Typography variant="label" medium>
+                                        {inp?.label}
+                                    </Typography>
+                                    <WeekDays
+                                        onClick={(day: string) =>
+                                            formMethods.setValue(inp?.name, day)
                                         }
-                                    }
-                                }}
-                            />
-                        ))} */}
+                                        selectedDay={formMethods.watch(
+                                            inp?.name
+                                        )}
+                                        disabledDay={disableDay}
+                                    />
+                                </div>
+                            )
+                        })}
                     </div>
-                ) : null}
+                )}
             </div>
-            {textTypeLength % 2 === 1 && index === textTypeLength - 1 ? (
+            {textTypeLength % 2 === 1 && index === textTypeLength - 1 && (
                 <div />
-            ) : null}
+            )}
         </>
     )
 }

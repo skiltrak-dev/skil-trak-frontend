@@ -12,11 +12,13 @@ import { AppointmentUserEnum } from '@types'
 type Props = {
     setAppointmentTypeId: (id: number) => void
     appointmentFor: AppointmentUserEnum
+    checkIndustry?: boolean
 }
 
 export const AppointmentType = ({
     setAppointmentTypeId,
     appointmentFor,
+    checkIndustry,
 }: Props) => {
     const [selected, setSelected] = useState<string | null>(null)
     const appointmentTypes = CommonApi.Appointments.appointmentType(
@@ -30,12 +32,13 @@ export const AppointmentType = ({
             setAppointmentTypeId(Number(appointmentTypes?.data[0]?.id))
         }
     }, [appointmentTypes?.data])
-
+    
     return (
         <div>
             <div className="flex gap-x-1">
                 <Typography variant={'label'} color={'text-gray-700'}>
-                Please select the type of appointment you would like to book:
+                    Please select the type of appointment you would like to
+                    book:
                 </Typography>
                 <div className="-mt-1">
                     <RequiredStar />
@@ -53,8 +56,16 @@ export const AppointmentType = ({
                     <LoadingAnimation size={75} />
                 ) : appointmentTypes?.data &&
                   appointmentTypes?.data?.length > 0 ? (
-                    appointmentTypes?.data?.map(
-                        (appointmentType: any, index: number) => (
+                    appointmentTypes?.data
+                        ?.filter((appointment: any) => {
+                            if (checkIndustry) {
+                                return (
+                                    appointment?.title === 'Phone consultation'
+                                )
+                            }
+                            return true // show all if checkIndustry is false or undefined
+                        })
+                        .map((appointmentType: any, index: number) => (
                             <AppointmentTypeCard
                                 key={index}
                                 title={appointmentType.title}
@@ -66,8 +77,7 @@ export const AppointmentType = ({
                                     setAppointmentTypeId(appointmentType.id)
                                 }}
                             />
-                        )
-                    )
+                        ))
                 ) : (
                     !appointmentTypes.isError && (
                         <NoData text={'No Appointment Type Found'} />

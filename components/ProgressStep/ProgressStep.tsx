@@ -32,15 +32,15 @@ export const ProgressStep = ({ status }: Props) => {
         },
         {
             id: 4,
-            title: 'Appointment Booked',
-            imageUrl: `/images/icons/placement-progress/appointment.png`,
-            statusEnum: 'appointmentBooked',
-        },
-        {
-            id: 5,
             title: 'Awaiting Workplace Response',
             imageUrl: `/images/icons/placement-progress/fast.png`,
             statusEnum: 'awaitingWorkplaceResponse',
+        },
+        {
+            id: 5,
+            title: 'Appointment Booked',
+            imageUrl: `/images/icons/placement-progress/appointment.png`,
+            statusEnum: 'appointmentBooked',
         },
         {
             id: 6,

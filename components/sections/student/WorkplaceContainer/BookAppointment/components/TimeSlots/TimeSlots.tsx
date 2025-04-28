@@ -193,7 +193,7 @@ export const TimeSlots = ({
                         </Typography>
                     </div>
 
-                    <AuthorizedUserComponent
+                    {/* <AuthorizedUserComponent
                         roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                     >
                         <Typography variant="label" color="text-gray-700">
@@ -257,7 +257,7 @@ export const TimeSlots = ({
                                 }}
                             />
                         </div>
-                    </AuthorizedUserComponent>
+                    </AuthorizedUserComponent> */}
 
                     <div className="mt-3">
                         <Typography variant="label" color="text-gray-700">

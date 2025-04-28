@@ -19,6 +19,8 @@ export const IndustrySelection = ({
     // selectedCourses: number[]
     workplace: any
 }) => {
+    console.log('workplace', workplace.data?.[0]?.assignedTo)
+
     const [industries, setIndustries] = useState<any[] | null>([])
     const [noRespondedIndustries, setNoRespondedIndustries] = useState<
         any | null
@@ -30,7 +32,7 @@ export const IndustrySelection = ({
     const [workplaceIndustries, setWorkplaceIndustries] = useState<any | null>(
         null
     )
-    console.log({ workplace })
+    const assignedCoordinator = workplace.data?.[0]?.assignedTo
     // const {data} = StudentApi.Workplace.useGetIndustryFoldersQuery({
     //     id: industry?.industry?.id,
     //     course: industry?.industry?.courses[0]?.id
@@ -186,7 +188,11 @@ export const IndustrySelection = ({
                                     color={'text-gray-600'}
                                     semibold
                                 >
-                                    Email: info@skiltrak.com.au
+                                    Email:{' '}
+                                    {assignedCoordinator
+                                        ? assignedCoordinator?.department
+                                              ?.email ?? 'NA'
+                                        : 'info@skiltrak.com.au'}
                                 </Typography>
                             </div>
                         </div>

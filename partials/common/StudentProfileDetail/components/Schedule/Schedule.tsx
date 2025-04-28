@@ -18,13 +18,17 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useMemo, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 import { AddSchedule, ScheduleTimetable } from './components'
+import { ViewAvailability } from '../Workplace'
+import { useWorkplaceHook } from '../Workplace/hooks'
 
 export const Schedule = ({
     user,
     studentId,
+    student,
 }: {
     studentId: number
     user: User
+    student?: any
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [isEntered, setIsEntered] = useState<boolean>(false)
@@ -33,7 +37,7 @@ export const Schedule = ({
         null
     )
     const [addSchedule, setAddSchedule] = useState<boolean>(false)
-
+    const { selectedWorkplace } = useWorkplaceHook({ student })
     const router = useRouter()
     const courses = SubAdminApi.Student.useCourses(Number(router.query?.id), {
         skip: !router.query?.id || !isEntered,
@@ -181,23 +185,31 @@ export const Schedule = ({
                                         </div>
                                     </div>
 
-                                    <AuthorizedUserComponent
-                                        excludeRoles={[UserRoles.OBSERVER]}
-                                    >
-                                        <div className="mt-1 ml-auto">
-                                            <Button
-                                                text={
-                                                    schedules?.data?.schedule
-                                                        ? 'Edit Schedule'
-                                                        : 'Add Schedule'
-                                                }
-                                                variant={'info'}
-                                                onClick={() => {
-                                                    setAddSchedule(true)
-                                                }}
+                                    <div className="flex items-center gap-x-2">
+                                        <AuthorizedUserComponent
+                                            excludeRoles={[UserRoles.OBSERVER]}
+                                        >
+                                            <div className="mt-1 ml-auto">
+                                                <Button
+                                                    text={
+                                                        schedules?.data
+                                                            ?.schedule
+                                                            ? 'Edit Schedule'
+                                                            : 'Add Schedule'
+                                                    }
+                                                    variant={'info'}
+                                                    onClick={() => {
+                                                        setAddSchedule(true)
+                                                    }}
+                                                />
+                                            </div>
+                                        </AuthorizedUserComponent>
+                                        <div className="">
+                                            <ViewAvailability
+                                                wpId={selectedWorkplace?.id}
                                             />
                                         </div>
-                                    </AuthorizedUserComponent>
+                                    </div>
                                 </div>
                                 <div className="mt-3">
                                     {schedules.isError && <TechnicalError />}
