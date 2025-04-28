@@ -27,8 +27,6 @@ export const Socket = ({ children }: any) => {
         )
     }, [])
 
-    console.log({ socket })
-
     useEffect(() => {
         if (AuthUtils.isAuthenticated()) {
             socket?.emit('join', AuthUtils.getUserCredentials()?.id)

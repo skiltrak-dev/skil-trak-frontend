@@ -27,6 +27,7 @@ import {
     setLink,
 } from '@utils'
 import { useColumns } from './hooks'
+import { AssignCoordinator } from './components'
 
 export const UnAssignedStudents = () => {
     const router = useRouter()
@@ -84,15 +85,25 @@ export const UnAssignedStudents = () => {
         },
     ]
 
-    columns.splice(columns?.length - 1, 1, {
-        header: () => 'Action',
-        accessorKey: 'Action',
-        cell: ({ row }) => (
-            <TableAction options={tableActionOptions} rowItem={row.original} />
-        ),
-    })
-
-    console.log('columns?.length', columns?.length)
+    columns.splice(
+        columns?.length - 1,
+        1,
+        {
+            accessorKey: 'assignCoordinator',
+            header: () => <span>Assign Coordinator</span>,
+            cell: ({ row }) => <AssignCoordinator student={row?.original} />,
+        },
+        {
+            header: () => 'Action',
+            accessorKey: 'Action',
+            cell: ({ row }) => (
+                <TableAction
+                    options={tableActionOptions}
+                    rowItem={row.original}
+                />
+            ),
+        }
+    )
 
     return (
         <div>

@@ -274,7 +274,7 @@ export const CaseOfficerAssignedStudent = ({
                     updatedStatus?.length > 0 ? (
                         <div
                             className={
-                                'bg-indigo-300 px-2 py-0.5 rounded-md  w-fit ml-auto cursor-pointer'
+                                'bg-indigo-300 px-2 py-0.5 rounded-md  w-fit ml-auto cursor-pointer relative z-10'
                             }
                             onClick={() => {
                                 setModal(

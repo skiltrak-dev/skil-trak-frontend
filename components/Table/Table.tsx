@@ -5,7 +5,7 @@ import {
     getPaginationRowModel,
     useReactTable,
 } from '@tanstack/react-table'
-import { Paginate, UserStatus } from '@types'
+import { Paginate, Student, UserStatus } from '@types'
 import React, {
     HTMLProps,
     ReactElement,
@@ -59,10 +59,10 @@ interface TableProps<Type> {
     enableRowSelection?: boolean
     pagination?: boolean
     pageSize?: boolean
-    awaitingAgreementBeyondSevenDays?: any
-    findCallLogsUnanswered?: any
-    findExpiringInNext45Days?: any
-    activeAndCompleted?: any
+    awaitingAgreementBeyondSevenDays?: Student[]
+    findCallLogsUnanswered?: Student[]
+    findExpiringInNext45Days?: Student[]
+    activeAndCompleted?: Student[]
     supersededCourse?: any
 }
 
@@ -78,29 +78,23 @@ export const Table = <Type,>({
     findCallLogsUnanswered,
     findExpiringInNext45Days,
     activeAndCompleted,
-    // supersededCourse,
-}: TableProps<Type>) => {
+}: // supersededCourse,
+TableProps<Type>) => {
     const rtoSubAdmin = useSubadminProfile()?.isAssociatedWithRto
     //======================== Blinking rows ===========================
     const getTdClassNames = (row: any) => {
         const isUnanswered = findCallLogsUnanswered
-            ?.map((student: any) => student?.id)
+            ?.map((student) => student?.id)
             ?.includes(row?.original?.id)
         const awaitingAgreements = awaitingAgreementBeyondSevenDays
-            ?.map((student: any) => student?.id)
+            ?.map((student) => student?.id)
             ?.includes(row?.original?.id)
         const expiringInNext45Days = findExpiringInNext45Days
-            ?.map((student: any) => student?.id)
+            ?.map((student) => student?.id)
             ?.includes(row?.original?.id)
         const completeAndActive = activeAndCompleted
-            ?.map((student: any) => student?.id)
+            ?.map((student) => student?.id)
             ?.includes(row?.original?.id)
-        // const isCourseSuperseded = supersededCourse
-        //     ?.map((course: any) => course?.id)
-        //     ?.includes(row?.original?.id)
-        // const getActiveTickets = flashingActiveTickets
-        //     ?.map((ticket: any) => ticket?.id)
-        //     ?.includes(row?.original?.id)
 
         const status = row?.original?.user?.status
 
