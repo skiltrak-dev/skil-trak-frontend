@@ -1,9 +1,12 @@
 import React from 'react'
-import { questionList } from '../questionListData'
+import { questionList, workplaceQuestions } from '../questionListData'
 import { TextTypeQuestions } from './TextTypeQuestions'
 import { TextAreaQuestions } from './TextAreaQuestions'
 import { DefaultQuestions } from './DefaultQuestions'
 import { DaysQuestions } from './DaysQuestions'
+import { WeekDays } from './DaysQuestions/WeekDays'
+import { AvailabilitySelector } from './AvailabilitySelector'
+import { Typography } from '@components'
 
 export const PersonalInfoQuestions = ({
     formMethods,
@@ -13,6 +16,7 @@ export const PersonalInfoQuestions = ({
     personalInfoData: any
 }) => {
     const formValues = formMethods.watch()
+    console.log('formValues', formValues)
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-7">
             {questionList?.map((ques, i, list) => {
@@ -42,7 +46,28 @@ export const PersonalInfoQuestions = ({
                 }
 
                 if (ques?.type === 'textarea') {
-                    return <TextAreaQuestions key={i} ques={ques} />
+                    if (ques.name === 'preferredContactTime') {
+                        console.log('ques', ques)
+                        return (
+                            <div className="flex flex-col gap-y-2">
+                                <Typography variant="label" semibold block>
+                                    {ques?.index}. {ques?.title}
+                                </Typography>
+                                <Typography variant="label">
+                                    {
+                                        workplaceQuestions[
+                                            ques?.name as keyof typeof workplaceQuestions
+                                        ]
+                                    }
+                                </Typography>
+                                <AvailabilitySelector
+                                    preferredContactTime={ques.name}
+                                />
+                            </div>
+                        )
+                    } else {
+                        return <TextAreaQuestions key={i} ques={ques} />
+                    }
                 }
                 return (
                     <DefaultQuestions

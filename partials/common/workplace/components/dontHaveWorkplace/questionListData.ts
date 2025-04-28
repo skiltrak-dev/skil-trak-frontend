@@ -2,7 +2,7 @@ import { workplaceQuestionsKeys } from '../../enum'
 
 export const workplaceQuestions = {
     [workplaceQuestionsKeys.suburb]:
-        'In which suburb would you prefer to work? Please provide the suburb name and postcode.',
+        'Please provide the full address where you would prefer to work. This should be based on your current address.',
     [workplaceQuestionsKeys.supervisorMeeting]:
         'When would you be available to meet with workplace supervisors once a placement becomes available? Please provide two timing options',
     [workplaceQuestionsKeys.commutePlan]:
@@ -35,16 +35,16 @@ export const questionList = [
     {
         name: workplaceQuestionsKeys.suburb,
         index: 1,
-        title: 'Preferred Work Location: Suburb',
+        title: 'Preferred Work Location: Address',
         required: true,
         type: 'text',
         inputValues: [
             {
                 name: 'suburb',
-                label: 'Suburb',
+                label: 'Address',
                 type: 'text',
                 placeholder:
-                    'Where would you want to locate your self? (Suburb)',
+                    'Where would you want to locate your self? (Address)',
             },
             {
                 name: 'zip',

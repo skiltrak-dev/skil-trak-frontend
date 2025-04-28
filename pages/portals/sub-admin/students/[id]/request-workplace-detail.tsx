@@ -91,28 +91,6 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         }
     }, [profileCompletion])
 
-    // useEffect(() => {
-    //     if (
-    //         workplace.data &&
-    //         workplace.isSuccess &&
-    //         workplace.data.length > 0
-    //     ) {
-    //         if (workplace.data[0].currentStatus === 'placementStarted') {
-    //             setActive(4)
-    //         } else if (
-    //             workplace?.data?.filter(
-    //                 (w: any) =>
-    //                     w?.currentStatus !== WorkplaceCurrentStatus.Completed &&
-    //                     w?.currentStatus !==
-    //                         WorkplaceCurrentStatus.Terminated &&
-    //                     w?.currentStatus !== WorkplaceCurrentStatus.Rejected
-    //             )?.length > 0
-    //         ) {
-    //             setActive(3)
-    //         }
-    //     }
-    // }, [workplace.data])
-
     const StepIndicatorOptions = [
         {
             label: 'Personal Info',
@@ -136,6 +114,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         },
     ]
 
+ 
     return (
         <>
             {modal}

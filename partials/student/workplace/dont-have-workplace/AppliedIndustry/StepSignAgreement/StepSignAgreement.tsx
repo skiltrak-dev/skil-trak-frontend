@@ -44,9 +44,13 @@ export const StepSignAgreement = ({
         <>
             <ShowErrorNotifications result={agreementSignResult} />
             <div className="border border-pink-700  px-2 py-3 rounded-md text-sm">
-                <p className="text-pink-700 font-medium">Sign Agreement</p>
+                <p className="text-pink-700 font-medium">
+                    Agreement Instructions{' '}
+                </p>
                 <p className="text-gray-500">
-                    You need to sign agreement to start placement
+                    <strong>Have a soft copy?</strong> Click Upload Agreement
+                    below. <br /> <strong>Don’t have one?</strong> Wait for your
+                    coordinator to send the e-sign link.
                 </p>
 
                 <div className="mt-4">

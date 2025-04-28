@@ -2,6 +2,8 @@ import { TextInput, Typography } from '@components'
 import React, { useEffect } from 'react'
 import { workplaceQuestions } from '../questionListData'
 import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
+import { useGetSubAdminStudentDetailQuery } from '@queries'
+import { useRouter } from 'next/router'
 
 export const TextTypeQuestions = ({
     ques,
@@ -17,6 +19,25 @@ export const TextTypeQuestions = ({
     useEffect(() => {
         setKey(process.env.NEXT_PUBLIC_MAP_KEY as string)
     }, [])
+    const router = useRouter()
+    const { id } = router.query
+
+    // query
+    const student = useGetSubAdminStudentDetailQuery(Number(id), {
+        skip: !id,
+        refetchOnMountOrArgChange: true,
+    })
+    const getDateAfterDays = (daysAhead: number) => {
+        const date = new Date()
+        date.setDate(date.getDate() + daysAhead)
+
+        const yyyy = date.getFullYear()
+        const mm = String(date.getMonth() + 1).padStart(2, '0')
+        const dd = String(date.getDate()).padStart(2, '0')
+
+        return `${yyyy}-${mm}-${dd}` // format for input[type="date"]
+    }
+
     return (
         <>
             <div
@@ -45,63 +66,162 @@ export const TextTypeQuestions = ({
                                 : 'lg:grid-cols-1'
                         }  gap-3`}
                     >
-                        {ques?.inputValues?.map((inp: any) => (
-                            <TextInput
-                                name={inp?.name}
-                                label={inp?.label}
-                                placeholder={inp?.placeholder}
-                                required
-                                type={inp?.type as any}
-                                placesSuggetions={inp?.name === 'suburb'}
-                                onChange={(e: any) => {
-                                    if (inp?.name === 'suburb') {
-                                        if (e?.target?.value?.length > 4) {
-                                            fromAddress(e?.target?.value)
-                                                .then(({ results }: any) => {
-                                                    const { lat, lng } =
-                                                        results[0].geometry
-                                                            .location
-                                                    geocode(
-                                                        'latlng',
-                                                        `${lat},${lng}`,
-                                                        {
-                                                            key: process.env
-                                                                .NEXT_PUBLIC_MAP_KEY,
-                                                        } as GeocodeOptions
+                        {ques?.inputValues?.map((inp: any) => {
+                            return inp?.name === 'suburb' ||
+                                inp?.name === 'zip' ? (
+                                <TextInput
+                                    name={inp?.name}
+                                    label={inp?.label}
+                                    placeholder={inp?.placeholder}
+                                    required
+                                    type={inp?.type as any}
+                                    placesSuggetions={inp?.name === 'suburb'}
+                                    onChange={(e: any) => {
+                                        if (inp?.name === 'suburb') {
+                                            if (e?.target?.value?.length > 4) {
+                                                fromAddress(e?.target?.value)
+                                                    .then(
+                                                        ({ results }: any) => {
+                                                            const { lat, lng } =
+                                                                results[0]
+                                                                    .geometry
+                                                                    .location
+                                                            geocode(
+                                                                'latlng',
+                                                                `${lat},${lng}`,
+                                                                {
+                                                                    key: process
+                                                                        .env
+                                                                        .NEXT_PUBLIC_MAP_KEY,
+                                                                } as GeocodeOptions
+                                                            )
+                                                                .then(
+                                                                    (
+                                                                        response
+                                                                    ) => {
+                                                                        const addressComponents =
+                                                                            response
+                                                                                .results[0]
+                                                                                .address_components
+
+                                                                        for (let component of addressComponents) {
+                                                                            if (
+                                                                                component.types.includes(
+                                                                                    'postal_code'
+                                                                                )
+                                                                            ) {
+                                                                                formMethods.setValue(
+                                                                                    'zip',
+                                                                                    component.long_name
+                                                                                )
+
+                                                                                break
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                )
+                                                                .catch(
+                                                                    (error) => {
+                                                                        console.error(
+                                                                            {
+                                                                                error,
+                                                                            }
+                                                                        )
+                                                                    }
+                                                                )
+                                                        }
                                                     )
-                                                        .then((response) => {
-                                                            const addressComponents =
-                                                                response
-                                                                    .results[0]
-                                                                    .address_components
-
-                                                            for (let component of addressComponents) {
-                                                                if (
-                                                                    component.types.includes(
-                                                                        'postal_code'
-                                                                    )
-                                                                ) {
-                                                                    formMethods.setValue(
-                                                                        'zip',
-                                                                        component.long_name
-                                                                    )
-
-                                                                    break
-                                                                }
-                                                            }
-                                                        })
-                                                        .catch((error) => {
-                                                            console.error({
-                                                                error,
-                                                            })
-                                                        })
-                                                })
-                                                .catch(console.error)
+                                                    .catch(console.error)
+                                            }
                                         }
+                                    }}
+                                    defaultValue={
+                                        inp.name === 'suburb'
+                                            ? student?.data?.addressLine1
+                                            : inp.name === 'zip'
+                                            ? student?.data?.zipCode
+                                            : ''
                                     }
-                                }}
-                            />
-                        ))}
+                                />
+                            ) : inp.type === 'date' ? (
+                                <TextInput
+                                    name={inp?.name}
+                                    label={inp?.label}
+                                    placeholder={inp?.placeholder}
+                                    required
+                                    type={inp?.type as any}
+                                    min={getDateAfterDays(7)}
+                                />
+                            ) : (
+                                <TextInput
+                                    name={inp?.name}
+                                    label={inp?.label}
+                                    placeholder={inp?.placeholder}
+                                    required
+                                    type={inp?.type as any}
+                                    placesSuggetions={inp?.name === 'suburb'}
+                                    onChange={(e: any) => {
+                                        if (inp?.name === 'suburb') {
+                                            if (e?.target?.value?.length > 4) {
+                                                fromAddress(e?.target?.value)
+                                                    .then(
+                                                        ({ results }: any) => {
+                                                            const { lat, lng } =
+                                                                results[0]
+                                                                    .geometry
+                                                                    .location
+                                                            geocode(
+                                                                'latlng',
+                                                                `${lat},${lng}`,
+                                                                {
+                                                                    key: process
+                                                                        .env
+                                                                        .NEXT_PUBLIC_MAP_KEY,
+                                                                } as GeocodeOptions
+                                                            )
+                                                                .then(
+                                                                    (
+                                                                        response
+                                                                    ) => {
+                                                                        const addressComponents =
+                                                                            response
+                                                                                .results[0]
+                                                                                .address_components
+
+                                                                        for (let component of addressComponents) {
+                                                                            if (
+                                                                                component.types.includes(
+                                                                                    'postal_code'
+                                                                                )
+                                                                            ) {
+                                                                                formMethods.setValue(
+                                                                                    'zip',
+                                                                                    component.long_name
+                                                                                )
+
+                                                                                break
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                )
+                                                                .catch(
+                                                                    (error) => {
+                                                                        console.error(
+                                                                            {
+                                                                                error,
+                                                                            }
+                                                                        )
+                                                                    }
+                                                                )
+                                                        }
+                                                    )
+                                                    .catch(console.error)
+                                            }
+                                        }
+                                    }}
+                                />
+                            )
+                        })}
                     </div>
                 ) : null}
             </div>

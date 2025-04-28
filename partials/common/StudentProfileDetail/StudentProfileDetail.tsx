@@ -428,6 +428,7 @@ export const StudentProfileDetail = () => {
                         <Schedule
                             user={profile?.data?.user}
                             studentId={profile?.data?.id}
+                            student={profile?.data}
                         />
                     </div>
                 </div>

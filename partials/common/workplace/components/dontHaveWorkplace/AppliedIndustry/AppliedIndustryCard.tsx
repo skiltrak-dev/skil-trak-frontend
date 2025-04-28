@@ -19,7 +19,7 @@ export const AppliedIndustryCard = ({
     return (
         <div>
             <Typography variant={'label'}>
-                You have applied for this industry
+                You have applied for this industry...
             </Typography>
             <Card noPadding>
                 <div className="border-b pt-4 w-full overflow-hidden overflow-x-scroll remove-scrollbar">

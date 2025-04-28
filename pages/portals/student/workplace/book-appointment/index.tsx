@@ -57,6 +57,19 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
         CommonApi.Appointments.createAppointment()
     const workplace = useGetWorkplaceIndustriesQuery()
 
+    // const checkIndustryAssigned = workplace?.data?.filter((industry: any) => {
+    //     const status = industry?.currentStatus
+    //     const noIndustries =
+    //         !industry?.industries || industry.industries.length === 0
+
+    //     return (
+    //         status !== 'placementStarted' &&
+    //         status !== 'completed' &&
+    //         noIndustries
+    //     )
+    // })
+
+    // console.log('checkIndustryAssigned', checkIndustryAssigned)
     // hooks
     const { notification } = useNotification()
 
@@ -120,6 +133,7 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
                         setSelectedCourse={setSelectedCourse}
                         selectedCoordinator={selectedCoordinator}
                         setSelectedCoordinator={setSelectedCoordinator}
+                        selectedCourse={selectedCourse}
                     />
 
                     <div className="my-2" />
