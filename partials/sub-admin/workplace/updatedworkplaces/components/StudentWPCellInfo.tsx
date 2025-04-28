@@ -1,14 +1,15 @@
-import React from 'react'
-import Link from 'next/link'
+import { Tooltip, TooltipPosition, Typography } from '@components'
+import { useSubadminProfile } from '@hooks'
 import { Student } from '@types'
-import { MdSnooze } from 'react-icons/md'
+import { maskText } from '@utils'
+import Link from 'next/link'
 import { FiPhoneOff } from 'react-icons/fi'
 import { LuFlagTriangleRight } from 'react-icons/lu'
-import { Tooltip, TooltipPosition, Typography } from '@components'
-import { getUserCredentials, maskText } from '@utils'
+import { MdSnooze } from 'react-icons/md'
 
 export const StudentWPCellInfo = ({ student }: { student: Student }) => {
-    const subadminId = getUserCredentials()?.id
+    const subadmin = useSubadminProfile()
+
     return (
         <div>
             <Typography variant="muted" color="text-gray-700">
@@ -51,7 +52,8 @@ export const StudentWPCellInfo = ({ student }: { student: Student }) => {
             <Typography variant="small" color="text-gray-500">
                 {student?.addressLine1 ?? 'N/A'}
             </Typography>
-            {student?.subadmin?.user?.id === subadminId && (
+            {(student?.subadmin?.user?.id === subadmin?.user?.id ||
+                subadmin?.isManager) && (
                 <Link
                     href={`/portals/sub-admin/students/${student?.id}/detail`}
                     className="text-blue-500 text-xs"
