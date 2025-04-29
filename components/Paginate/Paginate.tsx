@@ -38,6 +38,8 @@ export const Paginate = ({ itemsPerPage, setCurrentItems, data }: any) => {
             disabledClassName="text-gray-300"
             previousLabel="<"
             nextLabel=">"
+            previousClassName="text-2xl"
+            nextClassName="text-2xl"
             forcePage={initialPage}
         />
     )

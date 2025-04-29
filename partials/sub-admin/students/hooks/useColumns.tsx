@@ -133,7 +133,7 @@ export const useColumns = () => {
                 Icon: MdBlock,
             },
             {
-                text: 'Un Assign',
+                text: student?.subadmin ? 'Un Assign' : 'Assign to me',
                 onClick: (student) => onAssignStudentClicked(student),
                 Icon: MdBlock,
                 color: 'text-red-500 hover:bg-red-100 hover:border-red-200',

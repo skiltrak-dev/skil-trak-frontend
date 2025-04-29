@@ -1,4 +1,5 @@
 import {
+    Badge,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -6,9 +7,10 @@ import {
     TableAction,
     TruncatedTextWithTooltip,
     Typography,
+    UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
-import { Industry, SubAdmin } from '@types'
+import { Industry, SubAdmin, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { IndustryCellInfo } from './components'
@@ -19,6 +21,7 @@ import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
 import { SubAdminApi } from '@queries'
 import { RiInboxArchiveFill } from 'react-icons/ri'
+import { ColumnDef } from '@tanstack/react-table'
 
 export const FilteredIndustry = ({
     industry,
@@ -95,7 +98,12 @@ export const FilteredIndustry = ({
                 Icon: FaPencilAlt,
             },
             {
-                text: `${subAdmin ? 'Un Favourite' : 'Add Favourite'}`,
+                text: `${
+                    industry?.favoriteBy &&
+                    industry?.favoriteBy?.user?.id === id
+                        ? 'Un Favourite'
+                        : 'Add Favourite'
+                }`,
                 color: `${subAdmin ? 'text-error' : 'text-primary'}`,
                 onClick: (industry: Industry) =>
                     onAddToFavoriteClicked(industry),
@@ -115,13 +123,16 @@ export const FilteredIndustry = ({
             },
         ]
     }
-    const Columns = [
+    const Columns: ColumnDef<Industry>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',
-            sort: true,
-            cell: ({ row }: any) => (
-                <IndustryCellInfo industry={row.original} call />
+            cell: ({ row }) => (
+                <IndustryCellInfo
+                    industry={row.original}
+                    isFavorite={row.original?.favoriteBy}
+                    call
+                />
             ),
         },
         {
@@ -129,56 +140,88 @@ export const FilteredIndustry = ({
             header: () => <span>ABN</span>,
         },
         {
-            header: () => 'Suburb',
-            accessorKey: 'suburb',
-            cell: ({ row }: any) => {
-                const { suburb } = row.original
-                return (
-                    <Typography variant={'label'} color={'black'}>
-                        {suburb}
-                    </Typography>
-                )
-            },
-        },
-        {
             header: () => 'Address',
             accessorKey: 'address',
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <TruncatedTextWithTooltip text={row?.original?.addressLine1} />
             ),
         },
-        // {
-        //     header: () => 'Enrolled Students',
-        //     accessorKey: 'students',
-        //     cell: ({ row }: any) => {
-        //         const { enrolledStudents } = row.original
-        //         return (
-        //             <Typography variant={'muted'} color={'gray'}>
-        //                 {enrolledStudents}
-        //             </Typography>
-        //         )
-        //     },
-        // },
         {
-            header: () => 'Contact Person',
-            accessorKey: 'contactPersonNumber',
-            cell: ({ row }: any) => {
-                const { contactPersonNumber } = row.original
+            header: () => 'Enrolled Students',
+            accessorKey: 'students',
+            cell: ({ row }) => {
+                const { enrolledStudents } = row.original
                 return (
                     <Typography variant={'muted'} color={'gray'}>
-                        {contactPersonNumber}
+                        {enrolledStudents}
                     </Typography>
                 )
             },
+        },
+
+        {
+            header: () => 'Contact Person',
+            accessorKey: 'contactPersonNumber',
+            cell: ({ row }) => {
+                const { contactPersonNumber, contactPerson } = row.original
+                return (
+                    <Typography variant={'muted'} color={'gray'}>
+                        {contactPersonNumber} {contactPerson}
+                    </Typography>
+                )
+            },
+        },
+        {
+            accessorKey: 'favouriteBy',
+            header: () => <span>Favourite By</span>,
+            cell: ({ row }) => (
+                <div>
+                    <Typography variant="label">
+                        {row?.original?.favoriteBy?.user?.name}
+                    </Typography>
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'createdBy',
+            header: () => <span>Created By</span>,
+            cell: ({ row }) => (
+                <div>
+                    {row?.original?.createdBy !== null ? (
+                        <p>{row?.original?.createdBy?.name}</p>
+                    ) : (
+                        <p>{row?.original?.channel}</p>
+                    )}
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: ({ row }) => (
+                <UserCreatedAt createdAt={row?.original?.createdAt} />
+            ),
         },
         {
             header: () => 'Status',
             accessorKey: 'user.status',
+            cell: ({ row }) => (
+                <Badge
+                    text={row.original?.user?.status}
+                    variant={
+                        [UserStatus.Blocked, UserStatus.Rejected].includes(
+                            row.original?.user?.status
+                        )
+                            ? 'error'
+                            : 'primary'
+                    }
+                />
+            ),
         },
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 const actions = tableActionOptions(row.original)
                 return <TableAction options={actions} rowItem={row.original} />
             },

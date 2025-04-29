@@ -1,5 +1,5 @@
 import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
-import { useScrollIntoView } from '@hooks'
+import { useScrollIntoView, useSubadminProfile } from '@hooks'
 import { Student } from '@types'
 import { isBrowser, setLink } from '@utils'
 import moment from 'moment'
@@ -19,6 +19,8 @@ export const StudentCellInfo = ({
     call?: boolean
 }) => {
     const router = useRouter()
+
+    const subadmin = useSubadminProfile()
 
     useScrollIntoView(student) // Scroll into view with scroll ID
 
@@ -74,13 +76,15 @@ export const StudentCellInfo = ({
                         <div className="flex items-center gap-x-2">
                             <div className="flex items-center gap-x-2">
                                 <div className="flex items-center gap-x-2">
-                                    {/* <p
-                                        className={
-                                            'whitespace-nowrap text-xs text-gray-500'
-                                        }
-                                    >
-                                        {student?.studentId}
-                                    </p> */}
+                                    {subadmin?.isManager && (
+                                        <p
+                                            className={
+                                                'whitespace-nowrap text-xs text-gray-500'
+                                            }
+                                        >
+                                            {student?.studentId}
+                                        </p>
+                                    )}
                                     {student?.nonContactable && (
                                         <div className="group relative bg-red-600 p-1 rounded-full flex items-center justify-center">
                                             <FiPhoneOff className="text-white text-[10px]" />

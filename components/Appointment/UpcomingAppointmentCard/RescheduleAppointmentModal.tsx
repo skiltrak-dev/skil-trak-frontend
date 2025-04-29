@@ -52,6 +52,17 @@ export const RescheduleAppointmentModal = ({
         }
     }, [rescheduleAppointmentResult])
 
+    console.log({
+        selectedDate,
+        appointment,
+        asasasa:
+            !selectedDate ||
+            !appointment?.type?.id ||
+            !appointment?.appointmentFor?.id ||
+            !appointment?.appointmentBy?.id ||
+            !slots,
+    })
+
     const timeSlots =
         CommonApi.Appointments.getRescheduleAppointmentsAvailableSlots(
             {
