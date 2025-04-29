@@ -1,37 +1,33 @@
 import {
-    Typography,
-    HideRestrictedData,
     AuthorizedUserComponent,
+    HideRestrictedData,
+    Typography,
 } from '@components'
-import { Industry } from '@types'
 import { UserRoles } from '@constants'
-import { ReactNode, useState } from 'react'
-import {
-    AddIndustryAnswers,
-    IndustryWpType,
-    IndustryContactPerson,
-    IndustryDetail,
-    IndustryJobHiring,
-    IndustryProfileAvatar,
-    IndustryStatus,
-    MakeIndustryPartner,
-    ProfileLinks,
-    SectorBaseCapacityModal,
-    SnoozeIndustrySwitch,
-    ViewIndustryAnswers,
-} from './components'
-import {
-    IndustryInsuranceDoc,
-    IndustryLocations,
-    IndustrySupervisor,
-} from '../components'
-import { ViewProfileVisitorsModal } from '@partials/common/modal'
-import { useRouter } from 'next/router'
 import Modal from '@modals/Modal'
 import {
     VerifiedEmailHistory,
     VerifyUserEmail,
 } from '@partials/common/components'
+import { Industry } from '@types'
+import { useRouter } from 'next/router'
+import {
+    IndustryInsuranceDoc,
+    IndustryLocations,
+    IndustrySupervisor,
+} from '../components'
+import {
+    IndustryContactPerson,
+    IndustryDetail,
+    IndustryJobHiring,
+    IndustryProfileAvatar,
+    IndustryStatus,
+    IndustryWpType,
+    MakeIndustryPartner,
+    ProfileLinks,
+    SectorBaseCapacityModal,
+    SnoozeIndustrySwitch,
+} from './components'
 
 export const IndustryProfileCB = ({
     isHod,
@@ -40,24 +36,13 @@ export const IndustryProfileCB = ({
     isHod?: boolean
     industry: Industry
 }) => {
-    const [modal, setModal] = useState<ReactNode | null>(null)
     const router = useRouter()
     const id = router.query.id
-    const onCancelModal = () => setModal(null)
 
-    const onViewProfileVisitorsClicked = () => {
-        setModal(
-            <ViewProfileVisitorsModal
-                onCancel={onCancelModal}
-                userId={industry?.user.id}
-            />
-        )
-    }
     const isEmailVerified = industry?.user?.isEmailVerified
 
     return (
         <div>
-            {modal}
             <div className="flex justify-between items-start">
                 <div>
                     <IndustryProfileAvatar
@@ -77,6 +62,16 @@ export const IndustryProfileCB = ({
                             </Typography>
                             <Typography medium capitalize variant="label">
                                 {industry?.createdBy?.name}
+                            </Typography>
+                        </div>
+                    ) : null}
+                    {industry?.favoriteBy ? (
+                        <div className="flex flex-col gap-y-0">
+                            <Typography variant="xxs" color="text-[#6B7280]">
+                                Favourite By
+                            </Typography>
+                            <Typography medium capitalize variant="label">
+                                {industry?.favoriteBy?.user?.name}
                             </Typography>
                         </div>
                     ) : null}

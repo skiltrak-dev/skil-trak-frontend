@@ -173,15 +173,6 @@ export const TimeSlots = ({
                                 'YYYY-MM-DD hh:mm:ss Z'
                             ).format('dddd, Do MMMM')}
                         </Typography>
-
-                        {userAvailabilities &&
-                            userAvailabilities?.length > 0 && (
-                                <Paginate
-                                    data={userAvailabilities}
-                                    itemsPerPage={12}
-                                    setCurrentItems={setCurrentItems}
-                                />
-                            )}
                     </div>
                     <div>
                         <Typography variant="muted" color="text-gray-400">
@@ -259,10 +250,18 @@ export const TimeSlots = ({
                         </div>
                     </AuthorizedUserComponent> */}
 
-                    <div className="mt-3">
+                    <div className="mt-3 flex items-center justify-between">
                         <Typography variant="label" color="text-gray-700">
                             Pre made Slots
                         </Typography>
+                        {userAvailabilities &&
+                            userAvailabilities?.length > 0 && (
+                                <Paginate
+                                    data={userAvailabilities}
+                                    itemsPerPage={12}
+                                    setCurrentItems={setCurrentItems}
+                                />
+                            )}
                     </div>
                     {loading ? (
                         <LoadingAnimation size={80} />
