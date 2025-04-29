@@ -74,13 +74,13 @@ export const StudentCellInfo = ({
                         <div className="flex items-center gap-x-2">
                             <div className="flex items-center gap-x-2">
                                 <div className="flex items-center gap-x-2">
-                                    <p
+                                    {/* <p
                                         className={
                                             'whitespace-nowrap text-xs text-gray-500'
                                         }
                                     >
                                         {student?.studentId}
-                                    </p>
+                                    </p> */}
                                     {student?.nonContactable && (
                                         <div className="group relative bg-red-600 p-1 rounded-full flex items-center justify-center">
                                             <FiPhoneOff className="text-white text-[10px]" />

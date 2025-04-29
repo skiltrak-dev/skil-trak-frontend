@@ -17,15 +17,14 @@ export const StudentWorkplaceInfo = ({
         },
         {
             name: 'Address',
-            data: !industry?.location
-                ? industry?.addressLine1
-                : industry?.location?.address || '---',
+            data: industry?.industry?.addressLine1 || '---',
         },
         {
             name: 'Website',
             data: industry?.industry?.website || '---',
         },
     ]
+    console.log(industry);
     return (
         <div className="flex flex-col h-full">
             <Typography variant="label" medium>

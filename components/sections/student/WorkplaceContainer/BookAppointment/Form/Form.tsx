@@ -74,7 +74,6 @@ export const Form = ({
         label: course.title,
         value: course.id,
     }))
-    console.log('workplace?.data?.[0]', workplace?.data?.[0])
 
     const checkIndustry = !workplace?.data?.[0]?.industries?.length
 

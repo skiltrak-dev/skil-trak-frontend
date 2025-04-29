@@ -39,6 +39,22 @@ export const subAdminIndustriesEndpoints = (
     }),
     getFavouriteIndustries: builder.query<any, any>({
         query: (params) => ({
+            url: `${PREFIX}/favorite-industries/list`,
+            params,
+        }),
+        providesTags: ['SubAdminIndustries'],
+    }),
+
+    getMonthlyCallsList: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/industries/on-call-list`,
+            params,
+        }),
+        providesTags: ['SubAdminIndustries'],
+    }),
+
+    getMonthlyCallsIndustriesList: builder.query<any, any>({
+        query: (params) => ({
             url: `${PREFIX}/industries/favorite/list`,
             params,
         }),

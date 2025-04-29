@@ -319,6 +319,14 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['SubAdminStudentssss', 'Notes'],
     }),
+    createAutomatedWp: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `students/workplace-requests/automated/add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['SubAdminStudentssss', 'Notes'],
+    }),
 
     subAdminRequestIndustryWorkplace: builder.mutation<any, any>({
         query: (id) => ({
@@ -701,6 +709,14 @@ export const studentsEndpoints = (
         query: () => ({
             url: `department/members/list`,
         }),
+        providesTags: ['SubAdminStudents'],
+    }),
+    getWpTypeByRtoAndCourse: builder.query<
+        any,
+        { courseId: number; stdId: number }
+    >({
+        query: ({ courseId, stdId }) =>
+            `${PREFIX}/workplace-type/${courseId}/${stdId}`,
         providesTags: ['SubAdminStudents'],
     }),
 })

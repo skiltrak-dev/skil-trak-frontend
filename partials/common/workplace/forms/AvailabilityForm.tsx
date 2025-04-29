@@ -8,19 +8,25 @@ import {
     Checkbox,
     Typography,
     ShowErrorNotifications,
+    AuthorizedUserComponent,
 } from '@components'
+import { UserRoles } from '@constants'
 
 type AvailabilityProps = {
     setActive: any
     onSubmit: any
+    onSubmitBeta?: any
     result: any
     availabilities: any
     setAvailabilities: any
+    autoResult?: any
 }
 
 export const AvailabilityForm = ({
+    autoResult,
     setActive,
     onSubmit,
+    onSubmitBeta,
     result,
     availabilities,
     setAvailabilities,
@@ -185,6 +191,23 @@ export const AvailabilityForm = ({
                             >
                                 Find Industries
                             </Button>
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.SUBADMIN]}
+                            >
+                                <Button
+                                    onClick={() => {
+                                        onSubmitBeta(daysAvailability)
+                                    }}
+                                    outline
+                                    loading={autoResult.isLoading}
+                                    disabled={autoResult.isLoading}
+                                >
+                                    Create Automated{' '}
+                                    <span className="text-success-dark text-[11px]">
+                                        (Beta)
+                                    </span>
+                                </Button>
+                            </AuthorizedUserComponent>
                         </div>
                     </Card>
                 </div>

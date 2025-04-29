@@ -11,62 +11,45 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
+    TableActionOption,
     TechnicalError,
     TruncatedTextWithTooltip,
     Typography,
     UserCreatedAt,
 } from '@components'
 
-import { useGetSubAdminIndustriesQuery } from '@queries'
+import { useActionModal } from '@hooks'
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { Industry, SubAdmin, UserStatus } from '@types'
-import { getUserCredentials, setLink } from '@utils'
-import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { RiInboxArchiveFill } from 'react-icons/ri'
+import { Industry } from '@types'
+import { setLink } from '@utils'
+import { MdFavorite } from 'react-icons/md'
 import { IndustryCellInfo } from './components'
-import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
+import { AddToFavoriteModal } from './modals'
 
-export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
+export const FavoritMonthlyCallsIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
-    const subadminId = getUserCredentials()?.id
+    // hooks
+    const { passwordModal } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = useGetSubAdminIndustriesQuery(
-        {
-            search: `status:${UserStatus.Approved}`,
+    const { isLoading, data, isError } =
+        SubAdminApi.Industry.getMonthlyCallsList({
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
-        },
-        {
-            refetchOnMountOrArgChange: true,
-        }
-    )
-    // 1- get api to retrieve the remaining industry courses on sector base
-    // 2- If the coordinator already/approved sent the request to HOD for course approval, remove it from the above get api
-    // 3-
-    // useDepartmentApprovedIndustryList
-    // const { isLoading, data, isError } =
-    //     CommonApi.FindWorkplace.useDepartmentApprovedIndustryList(
-    //         {
-    //             // search: `status:${UserStatus.Approved}`,
-    //             skip: itemPerPage * page - itemPerPage,
-    //             limit: itemPerPage,
-    //         },
-    //         {
-    //             refetchOnMountOrArgChange: true,
-    //         }
-    //     )
-    const id = getUserCredentials()?.id
+        })
 
-    const onCancelClicked = () => setModal(null)
+    const onCancelClicked = () => {
+        setModal(null)
+    }
 
     const onAddToFavoriteClicked = (industry: Industry) => {
         setModal(
@@ -77,82 +60,34 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
         )
     }
 
-    const onBlockClicked = (industry: Industry) => {
-        setModal(<BlockModal industry={industry} onCancel={onCancelClicked} />)
-    }
-
-    const onArchiveClicked = (industry: Industry) => {
-        setModal(
-            <ArchiveModal industry={industry} onCancel={onCancelClicked} />
-        )
-    }
-
-    const isFavorite = (subAdmin: SubAdmin[] | undefined) =>
-        subAdmin?.find((subadmin: any) => subadmin?.user?.id === id)
-
-    const tableActionOptions = (industry: Industry) => {
-        const subAdmin = isFavorite(industry?.subAdmin)
-
-        return [
-            {
-                text: 'View',
-                onClick: (industry: Industry) => {
-                    router.push(
-                        `/portals/sub-admin/users/industries/${industry.id}`
-                    )
-                    setLink('subadmin-industries', router)
-                },
-                Icon: FaEye,
+    const tableActionOptions: TableActionOption<any>[] = [
+        {
+            text: 'View',
+            onClick: (industry: Industry) => {
+                router.push(
+                    `/portals/sub-admin/users/industries/${industry.id}`
+                )
+                setLink('subadmin-industries', router)
             },
-            {
-                ...(isHod
-                    ? {
-                          text: 'Edit',
-                          onClick: (industry: Industry) => {
-                              router.push(
-                                  `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
-                              )
-                          },
-                          Icon: FaPencilAlt,
-                      }
-                    : {}),
-            },
+            Icon: FaEye,
+        },
 
-            {
-                text: `${
-                    industry?.favoriteBy &&
-                    industry?.favoriteBy?.user?.id === subadminId
-                        ? 'Un Favourite'
-                        : 'Add Favourite'
-                }`,
-                color: `${
-                    industry?.subAdmin && industry?.subAdmin?.length > 0
-                        ? 'text-error'
-                        : 'text-primary'
-                }`,
-                onClick: (industry: Industry) =>
-                    onAddToFavoriteClicked(industry),
-                Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
+        {
+            text: 'Edit',
+            onClick: (industry: Industry) => {
+                router.push(
+                    `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
+                )
             },
-            // {
-            //     text: 'View Password',
-            //     onClick: (industry: Industry) => onViewPassword(industry),
-            //     Icon: RiLockPasswordFill,
-            // },
-            {
-                text: `Block`,
-                color: 'text-error',
-                onClick: (industry: Industry) => onBlockClicked(industry),
-                Icon: MdBlock,
-            },
-            {
-                text: 'Archive',
-                color: 'text-primary',
-                onClick: (industry: Industry) => onArchiveClicked(industry),
-                Icon: RiInboxArchiveFill,
-            },
-        ]
-    }
+            Icon: FaPencilAlt,
+        },
+        {
+            text: 'Remove Favourite',
+            onClick: (industry: Industry) => onAddToFavoriteClicked(industry),
+            color: 'text-error',
+            Icon: MdFavorite,
+        },
+    ]
 
     const Columns: ColumnDef<Industry>[] = [
         {
@@ -161,7 +96,7 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
             cell: ({ row }) => (
                 <IndustryCellInfo
                     industry={row.original}
-                    isFavorite={row?.original?.favoriteBy}
+                    isFavorite={row.original?.favoriteBy}
                     call
                 />
             ),
@@ -208,15 +143,13 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
             cell: ({ row }) => (
                 <div>
                     <Typography variant="label">
-                        {row?.original?.favoriteBy
-                            ? row?.original?.favoriteBy?.user?.name
-                            : '---'}
+                        {row?.original?.favoriteBy?.user?.name}
                     </Typography>
                 </div>
             ),
         },
         {
-            accessorKey: 'channel',
+            accessorKey: 'createdBy',
             header: () => <span>Created By</span>,
             cell: ({ row }) => (
                 <div>
@@ -239,15 +172,20 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
             header: () => 'Action',
             accessorKey: 'Action',
             cell: ({ row }) => {
-                const actions = tableActionOptions(row.original)
-                return <TableAction options={actions} rowItem={row.original} />
+                return (
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={row.original}
+                    />
+                )
             },
         },
     ]
 
     return (
         <>
-            {modal}
+            {modal && modal}
+            {passwordModal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (
@@ -289,9 +227,9 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
                 ) : (
                     !isError && (
                         <EmptyData
-                            title={'No Approved Industry!'}
+                            title={'No Favorite Industries!'}
                             description={
-                                'You have not approved any Industry request yet'
+                                'You have not added a Favorite Industries yet'
                             }
                             height={'50vh'}
                         />

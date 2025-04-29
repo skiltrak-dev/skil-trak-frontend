@@ -187,8 +187,9 @@ export const IndustrySelection = ({
                                 >
                                     Email:{' '}
                                     {assignedCoordinator
-                                        ? assignedCoordinator?.department
-                                              ?.email ?? 'NA'
+                                        ? assignedCoordinator?.departmentMember
+                                              ?.department?.email ??
+                                          'info@skiltrak.com.au'
                                         : 'info@skiltrak.com.au'}
                                 </Typography>
                             </div>

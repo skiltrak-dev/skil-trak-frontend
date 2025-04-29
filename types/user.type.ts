@@ -266,6 +266,8 @@ export interface Industry extends BaseResponse {
     placementStatus: IndustryPlacementStatus
     approvalReviewQuestion: any
     locations: any
+    enrolledStudents: number
+    favoriteBy: SubAdmin
 }
 
 export interface PendingIndustry extends Industry {

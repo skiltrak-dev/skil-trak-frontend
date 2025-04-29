@@ -107,7 +107,11 @@ export const ImportStudentForm = ({
                 <div className={'flex gap-4'}>
                     <div className="w-3/5">
                         <div className="grid grid-cols-2 gap-2">
-                            <TextInput label={'Batch/Class'} name="batch" />
+                            <TextInput
+                                name="batch"
+                                label={'Batch/Class'}
+                                placeholder={'Batch/Class'}
+                            />
                             <TextInput
                                 label={'Expiry Date'}
                                 name="expiryDate"

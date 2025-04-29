@@ -309,6 +309,7 @@ export const {
     useCalledStudentMutation,
     useSubAdminStudentCountQuery,
     useProblamaticStudentMutation,
+    useCreateAutomatedWpMutation,
     useSubAdminRequestWorkplaceMutation,
     useSendPasswordToStudentMailMutation,
     useSubAdminFilteredStudentsQuery,
@@ -331,6 +332,7 @@ export const {
     useUpdateSubAdminCourseDurationMutation,
     useGetSubAdminMyStudentsQuery,
     useMyStudentsWeeklyCallsListQuery,
+    useGetWpTypeByRtoAndCourseQuery,
     useGetSubAdminMyStudentsCallLogQuery,
     useGetRtoCoordinatorStudentsQuery,
     useAssignStudentsToSubAdminMutation,
@@ -446,6 +448,8 @@ export const {
     useGetSubAdminIndustriesQuery,
     useGetRtoCoordinatorsIndustryQuery,
     useGetFavouriteIndustriesQuery,
+    useGetMonthlyCallsListQuery,
+    useGetMonthlyCallsIndustriesListQuery,
     useGetSubAdminIndustryStudentsQuery,
     useGetSubAdminIndustriesProfileQuery,
     useGetSubAdminIndustryProfileQuery,
@@ -551,6 +555,7 @@ export const SubAdminApi = {
     },
 
     Student: {
+        createAutomatedWp: useCreateAutomatedWpMutation,
         addStudentNote: useAddStudentNoteMutation,
         useProblamaticStudent: useProblamaticStudentMutation,
         useCount: useSubAdminStudentCountQuery,
@@ -566,6 +571,7 @@ export const SubAdminApi = {
         useGetRtoCoordinatorStudents: useGetRtoCoordinatorStudentsQuery,
         useMysStudentsCallLog: useGetSubAdminMyStudentsCallLogQuery,
         studentWeeklyCallsList: useMyStudentsWeeklyCallsListQuery,
+        getWpTypeByRtoAndCourse: useGetWpTypeByRtoAndCourseQuery,
         subadminStudentUnassignCourses:
             useSubadminStudentUnassignCoursesMutation,
         getCancelledWP: useGetStudentCancelledWPQuery,
@@ -626,7 +632,8 @@ export const SubAdminApi = {
         useIndustryStudentsSchedule: useGetIndustryStudentsScheduleQuery,
         useRequestToAddCoursesToIndustry:
             useRequestToAddCoursesToIndustryMutation,
-
+        getMonthlyCallsList: useGetMonthlyCallsListQuery,
+        getMonthlyCallsIndustries: useGetMonthlyCallsIndustriesListQuery,
         useAddPrevCourseDescription: useAddPrevCourseDescriptionMutation,
         useIndustryRequestedCourses: useGetIndustryRequestedCoursesQuery,
         useIndustryCoursesOnAcceptance: useGetIndustryCoursesOnAcceptanceQuery,

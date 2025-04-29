@@ -4,8 +4,9 @@ import { SubAdmin } from '@types'
 import { ReactElement, useState } from 'react'
 import { BsUnlockFill } from 'react-icons/bs'
 import { IoMdEyeOff } from 'react-icons/io'
-import { PiStudentFill } from 'react-icons/pi'
+import { PiCellSignalLowFill, PiStudentFill } from 'react-icons/pi'
 import { SubadminStudentsList } from '../SubadminStudentsList'
+import { AllowPermissionModal } from '@partials/admin/sub-admin/modals'
 
 export const ProfileLinks = ({ subadmin }: { subadmin: SubAdmin }) => {
     const { passwordModal, onViewPassword, onUpdatePassword } = useActionModal()
@@ -13,6 +14,15 @@ export const ProfileLinks = ({ subadmin }: { subadmin: SubAdmin }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const onCancelClicked = () => setModal(null)
+
+    const onAllowPermissionClicked = (subadmin: SubAdmin) => {
+        setModal(
+            <AllowPermissionModal
+                subadmin={subadmin}
+                onCancel={onCancelClicked}
+            />
+        )
+    }
 
     const profileLinks = [
         {
@@ -35,6 +45,11 @@ export const ProfileLinks = ({ subadmin }: { subadmin: SubAdmin }) => {
             onClick: () => {
                 setModal(<SubadminStudentsList onCancel={onCancelClicked} />)
             },
+        },
+        {
+            text: 'Permissions',
+            onClick: () => onAllowPermissionClicked(subadmin),
+            Icon: PiCellSignalLowFill,
         },
     ]
 

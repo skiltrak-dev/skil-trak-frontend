@@ -2,8 +2,13 @@ import { TextInput, Typography } from '@components'
 import React, { useEffect } from 'react'
 import { workplaceQuestions } from '../questionListData'
 import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
-import { useGetSubAdminStudentDetailQuery } from '@queries'
+import {
+    useGetStudentProfileDetailQuery,
+    useGetSubAdminStudentDetailQuery,
+} from '@queries'
 import { useRouter } from 'next/router'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const TextTypeQuestions = ({
     ques,
@@ -22,10 +27,16 @@ export const TextTypeQuestions = ({
     const router = useRouter()
     const { id } = router.query
 
+    const role = getUserCredentials()?.role
+
     // query
     const student = useGetSubAdminStudentDetailQuery(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,
+    })
+    const studentProfile = useGetStudentProfileDetailQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+        skip: role !== UserRoles.STUDENT,
     })
     const getDateAfterDays = (daysAhead: number) => {
         const date = new Date()
@@ -137,9 +148,11 @@ export const TextTypeQuestions = ({
                                     }}
                                     defaultValue={
                                         inp.name === 'suburb'
-                                            ? student?.data?.addressLine1
+                                            ? student?.data?.addressLine1 ||
+                                              studentProfile?.data?.addressLine1
                                             : inp.name === 'zip'
-                                            ? student?.data?.zipCode
+                                            ? student?.data?.zipCode ||
+                                              studentProfile?.data?.zipCode
                                             : ''
                                     }
                                 />
