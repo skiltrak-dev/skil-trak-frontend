@@ -132,10 +132,7 @@ export const PendingIndustries = () => {
             accessorKey: 'user',
             sort: true,
             cell: ({ row }: any) => (
-                <IndustryCellInfo
-                    industry={row.original}
-                    isFavorite={isFavorite}
-                />
+                <IndustryCellInfo industry={row.original} />
             ),
         },
         {

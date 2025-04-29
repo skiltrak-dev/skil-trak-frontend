@@ -121,11 +121,7 @@ export const FilteredIndustry = ({
             accessorKey: 'user',
             sort: true,
             cell: ({ row }: any) => (
-                <IndustryCellInfo
-                    industry={row.original}
-                    isFavorite={isFavorite}
-                    call
-                />
+                <IndustryCellInfo industry={row.original} call />
             ),
         },
         {
