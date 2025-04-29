@@ -2,7 +2,7 @@ import { ReactElement, useRef, useState } from 'react'
 import { useNotification } from '@hooks'
 import { AvailabilityForm } from '@partials/common'
 import { ShowErrorNotifications } from '@components'
-import { useSubAdminRequestWorkplaceMutation } from '@queries'
+import { SubAdminApi, useSubAdminRequestWorkplaceMutation } from '@queries'
 import { WorkplaceCreatedModal } from './modal'
 import { useShowErrorNotification } from '@components/ShowErrorNotifications/useShowErrorNotification'
 
@@ -23,6 +23,8 @@ export const Availability = ({
     // query
     const [workplaceRequest, workplaceRequestResult] =
         useSubAdminRequestWorkplaceMutation()
+    const [createAutoWp, createAutoWpResult] =
+        SubAdminApi.Student.createAutomatedWp()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -51,16 +53,38 @@ export const Availability = ({
         })
     }
 
+    const onSubmitBeta = async (daysAvailability: any) => {
+        await createAutoWp({
+            userId,
+            ...personalInfoData,
+            generalAvailabilities: daysAvailability,
+            date1: null,
+            date2: null,
+        }).then((res: any) => {
+            if (res?.data) {
+                setModal(<WorkplaceCreatedModal onCancel={onCancelModal} />)
+                // setActive((active: number) => active + 1)
+            }
+            if (res?.error?.data) {
+                showErrorNotifications(res)
+                setActive(1)
+            }
+        })
+    }
+
     return (
         <div
             className={`${workplaceRequestResult.isSuccess ? 'opacity-0' : ''}`}
         >
             {modal}
+            <ShowErrorNotifications result={createAutoWpResult} />
             <ShowErrorNotifications result={workplaceRequestResult} />
             <AvailabilityForm
                 onSubmit={onSubmit}
                 setActive={setActive}
+                onSubmitBeta={onSubmitBeta}
                 result={workplaceRequestResult}
+                autoResult={createAutoWpResult}
                 availabilities={availabilities}
                 setAvailabilities={setAvailabilities}
             />

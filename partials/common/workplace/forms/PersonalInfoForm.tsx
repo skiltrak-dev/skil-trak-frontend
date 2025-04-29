@@ -134,8 +134,9 @@ export const PersonalInfoForm = ({
 
                         {/*  */}
                         <PersonalInfoQuestions
-                            personalInfoData={personalInfoData}
                             formMethods={formMethods}
+                            personalInfoData={personalInfoData}
+                            selectedCourse={selectedCourse?.value}
                         />
 
                         <div>

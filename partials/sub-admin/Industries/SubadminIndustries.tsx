@@ -12,27 +12,27 @@ import {
     TechnicalError,
 } from '@components'
 // queries
-import { useContextBar } from '@hooks'
 
 import {
     AllIndustries,
     ArchivedIndustries,
     BlockedIndustries,
     FavoriteIndustries,
+    FavoritMonthlyCallsIndustries,
     FilteredIndustry,
     RejectedIndustries,
     SnoozedIndustrySubAdmin,
 } from '@partials/sub-admin/Industries'
 import { checkFilteredDataLength } from '@utils'
 //query
+import { PendingIndustries } from '@partials/common'
 import {
     SubAdminApi,
-    useGetSubAdminIndustriesQuery,
     useGetSubadminIndustriesCountQuery,
+    useGetSubAdminIndustriesQuery,
 } from '@queries'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
-import { PendingIndustries } from '@partials/common'
 
 type Props = {}
 const filterKeys = [
@@ -48,7 +48,6 @@ const filterKeys = [
     'isPartner',
 ]
 export const SubadminIndustries = () => {
-    const { setContent, hide, show } = useContextBar()
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -81,36 +80,8 @@ export const SubadminIndustries = () => {
     const pendingCount =
         SubAdminApi.Industry.usePendingDepartmentIndustryCount()
 
-    // useEffect(() => {
-    //     setContent(
-    //         <>
-    //             <Button variant={'dark'} text={'My Schedule'} />
-    //             <SidebarCalendar />
-    //             <RtoContextBarData />
-    //         </>
-    //     )
-    //     show(true)
-
-    //     return () => {
-    //         setContent(null)
-    //         hide()
-    //     }
-    // }, [setContent])
-
     const tabs: TabProps[] = useMemo(() => {
         const baseTabs = [
-            // {
-            //     label: 'Pending',
-            //     href: {
-            //         pathname: 'industries',
-            //         query: { tab: UserStatus.Pending },
-            //     },
-            //     element: <PendingIndustries />,
-            //     badge: {
-            //         text: count.data?.pending,
-            //         loading: count.isLoading,
-            //     },
-            // },
             {
                 label: 'All',
                 href: { pathname: 'industries', query: { tab: 'all' } },
@@ -138,12 +109,18 @@ export const SubadminIndustries = () => {
                     loading: count.isLoading,
                 },
             },
-            // {
-            //     label: 'Hiring Industries',
-            //     href: { pathname: 'industries', query: { tab: 'hiring' } },
-            //     element: <IsHiringIndustries />,
-            // },
-
+            {
+                label: 'Monthly Calls Industries List',
+                href: {
+                    pathname: 'industries',
+                    query: { tab: 'monthly-calls' },
+                },
+                element: <FavoritMonthlyCallsIndustries />,
+                badge: {
+                    text: count.data?.monthlyCalled,
+                    loading: count.isLoading,
+                },
+            },
             {
                 label: 'Blocked',
                 href: {

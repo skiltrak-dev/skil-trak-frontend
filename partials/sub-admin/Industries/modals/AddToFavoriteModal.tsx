@@ -1,5 +1,5 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
-import { useAlert, useNotification } from '@hooks'
+import { useNotification } from '@hooks'
 import { useAddToFavoriteMutation } from '@queries'
 import { Industry } from '@types'
 import { useEffect } from 'react'
@@ -12,7 +12,6 @@ export const AddToFavoriteModal = ({
     industry: Industry
     onCancel: () => void
 }) => {
-    const { alert } = useAlert()
     const { notification } = useNotification()
 
     const [addToFavorite, addToFavoriteResult] = useAddToFavoriteMutation()
@@ -26,7 +25,7 @@ export const AddToFavoriteModal = ({
             notification.success({
                 title: `Favorite`,
                 description: `Industry ${industry?.user?.name}  ${
-                    industry?.subAdmin && industry?.subAdmin?.length > 0
+                    industry?.favoriteBy
                         ? 'removed from favorite'
                         : 'marked as favorite'
                 } .`,

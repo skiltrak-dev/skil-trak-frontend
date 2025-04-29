@@ -1,6 +1,11 @@
+import { Button } from '@components'
 import React from 'react'
 
-const timeSlots = ['10 - 1', '1 - 4', '4 - 6']
+const timeSlots = [
+    '10:00 AM - 1:00 PM',
+    '1:00 PM - 4:00 PM',
+    '4:00 PM - 6:00 PM',
+]
 
 type TimeSlotSelectorProps = {
     selectedSlot: string
@@ -14,18 +19,12 @@ export const TimeSlotSelector = ({
     return (
         <div className="flex flex-wrap gap-2 mt-4">
             {timeSlots.map((slot) => (
-                <button
+                <Button
                     key={slot}
                     onClick={() => onChange(slot)}
-                    className={`px-4 py-2 rounded-xl text-sm transition ${
-                        selectedSlot === slot
-                            ? 'bg-primaryNew text-white shadow'
-                            : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                    }`}
-                    type="button"
-                >
-                    {slot}
-                </button>
+                    text={slot}
+                    variant={selectedSlot === slot ? 'primaryNew' : 'secondary'}
+                />
             ))}
         </div>
     )

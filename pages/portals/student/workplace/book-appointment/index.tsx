@@ -69,7 +69,6 @@ const BookAppointment: NextPageWithLayout = (props: Props) => {
     //     )
     // })
 
-    // console.log('checkIndustryAssigned', checkIndustryAssigned)
     // hooks
     const { notification } = useNotification()
 

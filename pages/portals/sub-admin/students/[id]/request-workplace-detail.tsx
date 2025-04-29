@@ -27,9 +27,7 @@ import { WorkplaceCurrentStatus, checkStudentProfileCompletion } from '@utils'
 import { useRouter } from 'next/router'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 
-type Props = {}
-
-const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
+const RequestWorkplaceDetail: NextPageWithLayout = () => {
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
     const [availabilities, setAvailabilities] = useState<any | null>(Array())
@@ -39,7 +37,6 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
     const router = useRouter()
     const { id } = router.query
 
-    // query
     const student = useGetSubAdminStudentDetailQuery(Number(id), {
         skip: !id,
         refetchOnMountOrArgChange: true,
@@ -114,7 +111,6 @@ const RequestWorkplaceDetail: NextPageWithLayout = (props: Props) => {
         },
     ]
 
- 
     return (
         <>
             {modal}

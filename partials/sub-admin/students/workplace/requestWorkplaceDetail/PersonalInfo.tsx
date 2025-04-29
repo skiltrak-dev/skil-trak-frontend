@@ -3,9 +3,6 @@ import {
     workplaceQuestions,
     workplaceQuestionsKeys,
 } from '@partials/common'
-import { SubAdminApi } from '@queries'
-import { useRouter } from 'next/router'
-import React, { useState, useEffect } from 'react'
 
 type PersonalInfoProps = {
     setActive: any
@@ -20,8 +17,6 @@ export const PersonalInfo = ({
     setPersonalInfoData,
     courses,
 }: PersonalInfoProps) => {
-    const router = useRouter()
-
     const onSubmit = (values: any) => {
         let questions: {
             question: string
@@ -58,6 +53,19 @@ export const PersonalInfo = ({
                     questions.push({
                         question: value,
                         answer: values[key]?.join(','),
+                        type: key,
+                    })
+                }
+            } else if (key === workplaceQuestionsKeys.preferredContactTime) {
+                if (values[key]) {
+                    questions.push({
+                        question: value,
+                        answer: `Days : ${values[
+                            workplaceQuestionsKeys.preferredContactTime
+                        ]?.days?.join(', ')}, Time Slots : ${
+                            values[workplaceQuestionsKeys.preferredContactTime]
+                                ?.timeSlot
+                        }`,
                         type: key,
                     })
                 }

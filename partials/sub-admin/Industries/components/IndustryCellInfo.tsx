@@ -1,6 +1,6 @@
-import { InitialAvatar } from '@components'
+import { InitialAvatar, Tooltip } from '@components'
 import { SubAdminApi } from '@queries'
-import { Industry } from '@types'
+import { Industry, SubAdmin } from '@types'
 import { maskText, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
@@ -9,6 +9,7 @@ import { AiFillStar } from 'react-icons/ai'
 import { FaHandshake, FaHireAHelper } from 'react-icons/fa'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdPhoneIphone, MdSnooze } from 'react-icons/md'
+
 export const IndustryCellInfo = ({
     industry,
     isFavorite,
@@ -16,7 +17,7 @@ export const IndustryCellInfo = ({
     onlyName = true,
 }: {
     industry: Industry
-    isFavorite?: any
+    isFavorite?: SubAdmin
     call?: boolean
     onlyName?: boolean
 }) => {
@@ -105,18 +106,12 @@ export const IndustryCellInfo = ({
                             industry?.subAdmin?.length > 0 && (
                                 <AiFillStar className="text-primary" />
                             )}
-                        {/* {isFavorite && isFavorite(industry?.subAdmin) && (
-                            <AiFillStar className="text-primary" />
-                        )} */}
+                        {isFavorite && (
+                            <AiFillStar size={18} className="text-primary" />
+                        )}
                     </div>
                     {onlyName && (
                         <div className="font-medium text-xs text-gray-500">
-                            {/* <p className="flex items-center gap-x-1">
-                            <span>
-                                <MdEmail />
-                            </span>
-                            {industry?.user?.email}
-                        </p> */}
                             <p className="flex items-center gap-x-1">
                                 <span>
                                     <MdPhoneIphone />

@@ -15,6 +15,7 @@ import {
     TechnicalError,
     TruncatedTextWithTooltip,
     Typography,
+    UserCreatedAt,
 } from '@components'
 
 import { useActionModal } from '@hooks'
@@ -24,6 +25,7 @@ import { setLink } from '@utils'
 import { MdFavorite } from 'react-icons/md'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal } from './modals'
+import { ColumnDef } from '@tanstack/react-table'
 
 export const FavoriteIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -92,20 +94,18 @@ export const FavoriteIndustries = () => {
             color: 'text-error',
             Icon: MdFavorite,
         },
-        // {
-        //     text: 'View Password',
-        //     onClick: (industry: Industry) => onViewPassword(industry),
-        //     Icon: RiLockPasswordFill,
-        // },
     ]
 
-    const Columns = [
+    const Columns: ColumnDef<Industry>[] = [
         {
             header: () => 'Name',
             accessorKey: 'user',
-            sort: true,
-            cell: ({ row }: any) => (
-                <IndustryCellInfo industry={row.original} call />
+            cell: ({ row }) => (
+                <IndustryCellInfo
+                    industry={row.original}
+                    isFavorite={row.original?.favoriteBy}
+                    call
+                />
             ),
         },
         {
@@ -113,56 +113,72 @@ export const FavoriteIndustries = () => {
             header: () => <span>ABN</span>,
         },
         {
-            header: () => 'Suburb',
-            accessorKey: 'suburb',
-            cell: ({ row }: any) => {
-                const { suburb } = row.original
+            header: () => 'Address',
+            accessorKey: 'address',
+            cell: ({ row }) => (
+                <TruncatedTextWithTooltip text={row?.original?.addressLine1} />
+            ),
+        },
+        {
+            header: () => 'Enrolled Students',
+            accessorKey: 'students',
+            cell: ({ row }) => {
+                const { enrolledStudents } = row.original
                 return (
-                    <Typography variant={'label'} color={'black'}>
-                        {suburb}
+                    <Typography variant={'muted'} color={'gray'}>
+                        {enrolledStudents}
+                    </Typography>
+                )
+            },
+        },
+
+        {
+            header: () => 'Contact Person',
+            accessorKey: 'contactPersonNumber',
+            cell: ({ row }) => {
+                const { contactPersonNumber, contactPerson } = row.original
+                return (
+                    <Typography variant={'muted'} color={'gray'}>
+                        {contactPersonNumber} {contactPerson}
                     </Typography>
                 )
             },
         },
         {
-            header: () => 'Address',
-            accessorKey: 'address',
-            cell: ({ row }: any) => (
-                <TruncatedTextWithTooltip text={row?.original?.addressLine1} />
+            accessorKey: 'favouriteBy',
+            header: () => <span>Favourite By</span>,
+            cell: ({ row }) => (
+                <div>
+                    <Typography variant="label">
+                        {row?.original?.favoriteBy?.user?.name}
+                    </Typography>
+                </div>
             ),
         },
-        // {
-        //     header: () => 'Enrolled Students',
-        //     accessorKey: 'enrolledStudents',
-        //     cell: ({ row }: any) => {
-        //         const { enrolledStudents } = row.original
-        //         return (
-        //             <div className="flex justify-center">
-        //                 <Typography variant={'muted'} color={'gray'}>
-        //                     {enrolledStudents}
-        //                 </Typography>
-        //             </div>
-        //         )
-        //     },
-        // },
         {
-            header: () => 'Contact Person',
-            accessorKey: 'contactPersonNumber',
-            cell: ({ row }: any) => {
-                const { contactPersonNumber } = row.original
-                return (
-                    <div className="flex justify-center">
-                        <Typography variant={'muted'} color={'gray'}>
-                            {contactPersonNumber}
-                        </Typography>
-                    </div>
-                )
-            },
+            accessorKey: 'createdBy',
+            header: () => <span>Created By</span>,
+            cell: ({ row }) => (
+                <div>
+                    {row?.original?.createdBy !== null ? (
+                        <p>{row?.original?.createdBy?.name}</p>
+                    ) : (
+                        <p>{row?.original?.channel}</p>
+                    )}
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Created At</span>,
+            cell: ({ row }) => (
+                <UserCreatedAt createdAt={row?.original?.createdAt} />
+            ),
         },
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }: any) => {
+            cell: ({ row }) => {
                 return (
                     <TableAction
                         options={tableActionOptions}

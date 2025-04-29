@@ -20,7 +20,7 @@ export const workplaceQuestions = {
     [workplaceQuestionsKeys.medicalCondition]:
         'Do you have any medical conditions that may affect your ability to work?',
     [workplaceQuestionsKeys.placementPreferences]:
-        'Is there any specific aspect you are seeking in a placement opportunity? (provide details) 100 words*',
+        'Is there any specific aspect you are seeking in a placement opportunity?',
     [workplaceQuestionsKeys.awarenessOfUnpaidPlacement]:
         'Are you aware that the placement is unpaid and forms a part of your studies?',
     [workplaceQuestionsKeys.understandingOfDocumentation]:

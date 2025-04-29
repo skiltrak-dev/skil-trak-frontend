@@ -168,10 +168,6 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
         }
     }, [profileCompletion, profile, pendingDocuments, router])
 
-    const parts = router?.pathname.split('/')
-    const talentPoolLink = '/' + parts.slice(1, 4).join('/')
-    const mailsLink = '/' + parts.slice(1, 4).join('/')
-
     return (
         <RedirectUnApprovedUsers
             getRoutePath={getRoutePath}
