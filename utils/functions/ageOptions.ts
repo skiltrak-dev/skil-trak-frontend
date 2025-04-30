@@ -1,11 +1,11 @@
-const ageOptionsData = () => [
+export const ageOptions = [
     {
         label: '16-25',
         value: '16-25',
     },
     {
-        label: '27-36',
-        value: '27-36',
+        label: '26-36',
+        value: '26-36',
     },
     {
         label: '37-46',
@@ -16,5 +16,3 @@ const ageOptionsData = () => [
         value: '47-56',
     },
 ]
-
-export const ageOptions = ageOptionsData()

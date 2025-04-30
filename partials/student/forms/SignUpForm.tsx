@@ -9,6 +9,7 @@ import * as yup from 'yup'
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import {
+    ageOptions,
     courseOptionsWhenSectorChange,
     CourseSelectOption,
     formatOptionLabel,
@@ -273,24 +274,6 @@ export const StudentSignUpForm = ({
             onSubmit({ ...values, suburb: 'N/A' })
         }
     }
-    const ageOptions = [
-        {
-            label: '16-25',
-            value: '16-25',
-        },
-        {
-            label: '27-36',
-            value: '27-36',
-        },
-        {
-            label: '37-46',
-            value: '37-46',
-        },
-        {
-            label: '47-56',
-            value: '47-56',
-        },
-    ]
 
     const debounceValue = useCallback(
         debounce((query) => setSearchRto(query), 700),

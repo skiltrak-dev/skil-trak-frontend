@@ -1,16 +1,16 @@
+import { useState } from 'react'
 import { SubAdminApi } from '@queries'
+import { useRouter } from 'next/router'
 import { SectorCardHeader } from './SectorCardHeader'
 
-import { LoadingAnimation, NoData } from '@components'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
 import { CourseCard } from './CourseCard'
+import { Waypoint } from 'react-waypoint'
+import { LoadingAnimation, NoData } from '@components'
 
 export const CourseManagement = () => {
     // Call api here
-    const [itemPerPage, setItemPerPage] = useState<any>(50)
-    const [page, setPage] = useState(1)
     const router = useRouter()
+    const [isEntered, setIsEntered] = useState<boolean>(false)
 
     const { data, isLoading, isError, isFetching } =
         SubAdminApi.Industry.useIndustryRequestedCourses(
@@ -18,12 +18,12 @@ export const CourseManagement = () => {
                 id: router.query.id,
                 params: {
                     search: `status:approved`,
-                    skip: itemPerPage * page - itemPerPage,
-                    limit: itemPerPage,
+                    skip: 50 * 1 - 50,
+                    limit: 50,
                 },
             },
             {
-                skip: !router.query.id,
+                skip: !router.query.id || !isEntered,
                 refetchOnMountOrArgChange: true,
             }
         )
@@ -34,35 +34,40 @@ export const CourseManagement = () => {
         })
 
     return (
-        <div className="p-6">
-            <SectorCardHeader />
-            {(isError || industryPreviousCourses.isError) && (
-                <NoData text={'Something went wrong'} />
-            )}
-            <div className="max-h-[380px] min-h-[370px] overflow-auto custom-scrollbar">
-                {isLoading || industryPreviousCourses.isLoading ? (
-                    <LoadingAnimation height="32" />
-                ) : data?.data?.length > 0 ||
-                  industryPreviousCourses?.data?.length > 0 ? (
-                    <>
-                        {industryPreviousCourses?.data?.map((item: any) => (
-                            <CourseCard
-                                key={item.id}
-                                data={item}
-                                isPreviousCourses={true}
-                            />
-                        ))}
-                        {data?.data?.map((item: any) => (
-                            <CourseCard key={item?.id} data={item} />
-                        ))}
-                    </>
-                ) : (
-                    !isError &&
-                    !industryPreviousCourses.isError && (
-                        <NoData text={'No Data Found'} />
-                    )
+        <Waypoint
+            onEnter={() => setIsEntered(true)}
+            onLeave={() => setIsEntered(false)}
+        >
+            <div className="p-6">
+                <SectorCardHeader />
+                {(isError || industryPreviousCourses.isError) && (
+                    <NoData text={'Something went wrong'} />
                 )}
+                <div className="max-h-[380px] min-h-[370px] overflow-auto custom-scrollbar">
+                    {isLoading || industryPreviousCourses.isLoading ? (
+                        <LoadingAnimation height="32" />
+                    ) : data?.data?.length > 0 ||
+                      industryPreviousCourses?.data?.length > 0 ? (
+                        <>
+                            {industryPreviousCourses?.data?.map((item: any) => (
+                                <CourseCard
+                                    key={item.id}
+                                    data={item}
+                                    isPreviousCourses={true}
+                                />
+                            ))}
+                            {data?.data?.map((item: any) => (
+                                <CourseCard key={item?.id} data={item} />
+                            ))}
+                        </>
+                    ) : (
+                        !isError &&
+                        !industryPreviousCourses.isError && (
+                            <NoData text={'No Data Found'} />
+                        )
+                    )}
+                </div>
             </div>
-        </div>
+        </Waypoint>
     )
 }

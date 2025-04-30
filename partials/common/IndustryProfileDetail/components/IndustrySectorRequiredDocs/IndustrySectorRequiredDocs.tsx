@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { IndustryApi, useGetIndustryCoursesQuery } from '@queries'
-import { Course, Industry, Sector } from '@types'
 import { Card, Select, SelectOption, Typography } from '@components'
+import { IndustryApi } from '@queries'
+import { Industry, Sector } from '@types'
+import { useEffect, useMemo, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 import { SectorDocuments } from './components'
 
@@ -15,10 +15,10 @@ export const IndustrySectorRequiredDocs = ({
 
     const { data, isError, isLoading } =
         IndustryApi.Courses.useGetIndustrySectorsQuery(
-            Number(industry?.user?.id)
-            // {
-            //     skip: !isViewd,
-            // }
+            Number(industry?.user?.id),
+            {
+                skip: !isViewd,
+            }
         )
 
     const sectorOptions = useMemo(
@@ -38,45 +38,49 @@ export const IndustrySectorRequiredDocs = ({
 
     return (
         <div>
-            {/* <Waypoint
+            <Waypoint
                 onEnter={() => {
                     setIsViewd(true)
                 }}
                 onLeave={() => {
                     setIsViewd(false)
                 }}
-            > */}
-            <Card>
-                <div className="px-4 py-3 flex justify-between items-center border-b border-secondary-dark">
-                    <Typography semibold>
-                        <span className="text-[15px]">Required Documents</span>
-                    </Typography>
-                </div>
-                <Select
-                    label={'Select by Sector'}
-                    name={'courseId'}
-                    showError={false}
-                    options={sectorOptions}
-                    placeholder={'Select Sector...'}
-                    value={sectorOptions?.find(
-                        (sector: SelectOption) =>
-                            sector?.value === Number(selectedSector)
-                    )}
-                    onChange={(e: number) => {
-                        setSelectedSector(e)
-                    }}
-                    loading={isLoading}
-                    disabled={isLoading}
-                    onlyValue
-                />
+            >
+                <div>
+                    <Card>
+                        <div className="px-4 py-3 flex justify-between items-center border-b border-secondary-dark">
+                            <Typography semibold>
+                                <span className="text-[15px]">
+                                    Required Documents
+                                </span>
+                            </Typography>
+                        </div>
+                        <Select
+                            label={'Select by Sector'}
+                            name={'courseId'}
+                            showError={false}
+                            options={sectorOptions}
+                            placeholder={'Select Sector...'}
+                            value={sectorOptions?.find(
+                                (sector: SelectOption) =>
+                                    sector?.value === Number(selectedSector)
+                            )}
+                            onChange={(e: number) => {
+                                setSelectedSector(e)
+                            }}
+                            loading={isLoading}
+                            disabled={isLoading}
+                            onlyValue
+                        />
 
-                {/*  */}
-                <SectorDocuments
-                    industry={industry}
-                    selectedSector={selectedSector}
-                />
-            </Card>
-            {/* </Waypoint> */}
+                        {/*  */}
+                        <SectorDocuments
+                            industry={industry}
+                            selectedSector={selectedSector}
+                        />
+                    </Card>
+                </div>
+            </Waypoint>
         </div>
     )
 }

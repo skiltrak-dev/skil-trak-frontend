@@ -1,20 +1,14 @@
-import Image from 'next/image'
+import { Typography } from '@components'
 import { SubAdminApi } from '@queries'
-import { useRouter } from 'next/router'
-import { AiFillEdit } from 'react-icons/ai'
-import { IoLocation } from 'react-icons/io5'
-import { BsUnlockFill } from 'react-icons/bs'
-import { FaAddressCard } from 'react-icons/fa'
-import { ActionButton, Typography } from '@components'
-import { MdAdminPanelSettings, MdPhone, MdVerified } from 'react-icons/md'
+import Image from 'next/image'
+import { MdAdminPanelSettings } from 'react-icons/md'
 
 // hooks
-import Link from 'next/link'
-import { useActionModal } from '@hooks'
-import { getUserCredentials } from '@utils'
-import { SubAdmin, UserStatus } from '@types'
-import { PulseLoader } from 'react-spinners'
 import { UserProfileDetailCard } from '@partials/common'
+import { SubAdmin, UserStatus } from '@types'
+import { getUserCredentials } from '@utils'
+import Link from 'next/link'
+import { PulseLoader } from 'react-spinners'
 import { ProfileLinks } from '../components'
 export const ViewProfileCB = ({
     subadmin,
@@ -85,53 +79,6 @@ export const ViewProfileCB = ({
         <>
             <div>
                 <div className="flex flex-col">
-                    {/* <div className="relative flex flex-col items-center">
-                        <div className="flex justify-end gap-x-2 absolute top-0 right-0">
-                            <ActionButton
-                                rounded
-                                Icon={AiFillEdit}
-                                variant={'info'}
-                                onClick={() =>
-                                    router.push('/portals/sub-admin/my-profile')
-                                }
-                                title="Edit Profile"
-                            />
-
-                            <ActionButton
-                                rounded
-                                Icon={BsUnlockFill}
-                                variant={'neutral'}
-                                onClick={() => onUpdatePassword(subadmin)}
-                                title="Edit Password"
-                            />
-                        </div>
-                        {subadmin?.user.avatar ? (
-                            <div className="w-[100px] h-[100px]">
-                                <Image
-                                    src={subadmin?.user.avatar}
-                                    width={0}
-                                    height={0}
-                                    sizes="100vh 100vw"
-                                    alt=""
-                                    className="w-full h-full rounded-full object-cover shadow-inner-image"
-                                />
-                            </div>
-                        ) : (
-                            <div className="h-24 w-24 flex items-center justify-center bg-gray-100 rounded-full">
-                                <span className="text-4xl text-gray-300">
-                                    <MdAdminPanelSettings />
-                                </span>
-                            </div>
-                        )}
-                        <div
-                            className={`${
-                                subadmin?.user?.avatar
-                                    ? 'w-[100px] h-[100px]'
-                                    : 'w-24 h-24'
-                            } absolute top-0 w-[100px] h-[100px] bg-transparent rounded-full shadow-inner-image`}
-                        ></div>
-                    </div> */}
-
                     <div className="flex justify-between items-center">
                         <div>
                             <div className="relative flex flex-col items-center">

@@ -11,10 +11,7 @@ export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const router = useRouter()
     const query = queryToUrl(router.query as QueryType)
     return (
-        <Link
-            legacyBehavior
-            href={`/portals/admin/sub-admin/${subAdmin?.id}?tab=history`}
-        >
+        <Link legacyBehavior href={`/portals/admin/sub-admin/${subAdmin?.id}`}>
             <a
                 onClick={() => {
                     sessionStorage.setItem(
