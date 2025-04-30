@@ -25,6 +25,10 @@ export const Socket = ({ children }: any) => {
         setSocket(
             io(`${process.env.NEXT_PUBLIC_SOCKET_END_POINT}`, { secure: true })
         )
+
+        return () => {
+            setSocket(null)
+        }
     }, [])
 
     useEffect(() => {

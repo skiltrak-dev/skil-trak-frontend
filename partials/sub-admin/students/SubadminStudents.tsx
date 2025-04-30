@@ -20,6 +20,7 @@ import {
     BlockedStudents,
     CompletedStudents,
     FilteredStudents,
+    HighPriorityStudentsList,
     MyStudents,
     PendingStudents,
     PlacementStartedStudents,
@@ -27,6 +28,7 @@ import {
     StudentScheduleEndedList,
     StudentWeeklyCallList,
     UnAssignedStudents,
+    UpcomingAppointmentsStudents,
     UrgentStudents,
 } from '@partials/sub-admin/students'
 
@@ -203,34 +205,6 @@ export const SubadminStudents = () => {
             },
             element: <StudentWeeklyCallList />,
         },
-        // TODO: Uncomment this when the component is ready
-        // {
-        //     label: 'InComplete Submission',
-        //     href: {
-        //         pathname: 'students',
-        //         query: { tab: 'incomplete-submission' },
-        //     },
-        //     badge: {
-        //         text: studentCount?.inCompleteSubmission,
-        //         loading: count.isLoading,
-        //     },
-        //     element: (
-        //         <InCompleteSubmission subadmin={subadmin?.data as SubAdmin} />
-        //     ),
-        // },
-        // {
-        //     label: 'Flagged Students',
-        //     badge: {
-        //         text: studentCount?.reported,
-        //         loading: count.isLoading,
-        //     },
-        //     href: { pathname: 'students', query: { tab: 'Flagged' } },
-        //     element: (
-        //         <SubAdminFlaggedStudents
-        //             subadmin={subadmin?.data as SubAdmin}
-        //         />
-        //     ),
-        // },
         {
             label: 'Placement Started Students',
             badge: {
@@ -255,7 +229,6 @@ export const SubadminStudents = () => {
             },
             element: <StudentScheduleEndedList />,
         },
-        // StudentScheduleEndedList
         {
             label: 'Urgent Students',
             badge: {
@@ -273,6 +246,30 @@ export const SubadminStudents = () => {
             },
             href: { pathname: 'students', query: { tab: 'agreement-pending' } },
             element: <AgreementPendingStudents />,
+        },
+        {
+            label: 'Upcoming Appointment Students',
+            badge: {
+                text: 0,
+                loading: count.isLoading,
+            },
+            href: {
+                pathname: 'students',
+                query: { tab: 'up-coming-appointments-students' },
+            },
+            element: <UpcomingAppointmentsStudents />,
+        },
+        {
+            label: 'High Priority Students',
+            badge: {
+                text: studentCount?.highPriority,
+                loading: count.isLoading,
+            },
+            href: {
+                pathname: 'students',
+                query: { tab: 'high-priority-students' },
+            },
+            element: <HighPriorityStudentsList />,
         },
         {
             label: 'Rejected',

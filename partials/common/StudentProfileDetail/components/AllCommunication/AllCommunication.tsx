@@ -1,21 +1,25 @@
 import { Card, Typography } from '@components'
 import { AllCommunicationTab } from '@partials/common/AllCommunicationTab'
 import { User } from '@types'
+import { useState } from 'react'
+import { Waypoint } from 'react-waypoint'
 
 export const AllCommunication = ({ user }: { user: User }) => {
+    const [isEntered, setIsEntered] = useState<boolean>(false)
     return (
         <>
-            {' '}
-            {/* <Card noPadding fullHeight> */}
-            {/* <div className="px-4 py-3.5 flex justify-between items-center border-b border-secondary-dark">
-                <Typography variant="label" semibold>
-                    All Communications
-                </Typography>
-            </div> */}
-            <div className="p-4 h-full overflow-auto custom-scrollbar">
-                <AllCommunicationTab user={user} />
-            </div>
-            {/* </Card> */}
+            <Waypoint
+                onEnter={() => {
+                    setIsEntered(true)
+                }}
+                onLeave={() => {
+                    setIsEntered(false)
+                }}
+            >
+                <div className="p-4 h-full overflow-auto custom-scrollbar">
+                    <AllCommunicationTab user={user} isEntered={isEntered} />
+                </div>
+            </Waypoint>
         </>
     )
 }

@@ -32,6 +32,17 @@ import {
 } from './components'
 import { ProfileViewCB } from './ContextBar'
 
+enum ProfileIds {
+    Workplace = 'workplace',
+    Notes = 'notes',
+    'Assessment Evidence' = 'assessments',
+    Mails = 'mails',
+    'All Communications' = 'allCommunication',
+    Appointments = 'appointments',
+    Tickets = 'tickets',
+    Schedule = 'schedule',
+}
+
 export const StudentProfileDetail = () => {
     // TODO: SubAdminApi.Student.getIncompleteSubmissionsForWorkplace working with the new API
     const contextBar = useContextBar()
@@ -39,7 +50,7 @@ export const StudentProfileDetail = () => {
     const [workplaceLength, setWorkplaceLength] = useState<number>(0)
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
-    const navbar = useNavbar()
+    const router = useRouter()
 
     // useEffect(() => {
     //     navbar.setTitle('Student Detail')
@@ -71,8 +82,6 @@ export const StudentProfileDetail = () => {
         }
     }, [contextBar])
 
-    const router = useRouter()
-
     const [quickSearch, setQuickSearch] = useState<boolean>(false)
 
     const { alert: alertMessage, setAlerts, alerts } = useAlert()
@@ -92,6 +101,18 @@ export const StudentProfileDetail = () => {
         refetchOnMountOrArgChange: true,
         refetchOnFocus: true,
     })
+
+    useEffect(() => {
+        if (
+            Object.values(ProfileIds)?.includes(
+                router?.query?.sectionId as ProfileIds
+            ) &&
+            profile?.isSuccess
+        ) {
+            setSelectedId(router?.query?.sectionId as ProfileIds)
+            onHandleScroll(router?.query?.sectionId as ProfileIds)
+        }
+    }, [router, profile])
 
     // useEffect(() => {
     //     if (profile?.isSuccess && profile?.data) {
@@ -182,19 +203,9 @@ export const StudentProfileDetail = () => {
         }
     }, [profile])
 
-    enum ProfileIds {
-        Workplace = 'workplace',
-        Notes = 'notes',
-        'Assessment Evidence' = 'assessments',
-        Mails = 'mails',
-        'All Communications' = 'allCommunication',
-        Appointments = 'appointments',
-        Tickets = 'tickets',
-        Schedule = 'schedule',
-    }
-
     const onHandleScroll = (id: string) => {
         const detailItem = document.getElementById(`student-profile-${id}`)
+        console.log({ detailItem, id })
         if (detailItem) {
             detailItem.scrollIntoView({ behavior: 'smooth' })
         }
@@ -378,12 +389,10 @@ export const StudentProfileDetail = () => {
                         className={`h-[600px] px-3 grid grid-cols-1 xl:grid-cols-2 gap-y-5 gap-x-3 `}
                     >
                         <div
-                            id={`student-profile-${ProfileIds.Appointments} `}
-                            className={`${
-                                selectedId === ProfileIds.Appointments
-                                    ? 'border-2 border-primary'
-                                    : ''
-                            } !h-[99%] overflow-hidden`}
+                            id={`student-profile-${ProfileIds.Appointments}`}
+                            className={`${activeBorder(
+                                ProfileIds.Appointments
+                            )} !h-[99%] overflow-hidden`}
                         >
                             <ProfileAppointments
                                 link={

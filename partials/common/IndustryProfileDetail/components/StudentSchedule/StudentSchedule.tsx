@@ -32,16 +32,8 @@ export const StudentSchedule = () => {
         startDate.getMonth()
     )
     const [year, setYear] = useState<number>(startDate.getFullYear())
-    const currentDate = new Date()
-    // filter dates
-    const [displayStartDate, setDisplayStartDate] = useState<string>('')
-    const [displayEndDate, setDisplayEndDate] = useState<string>('')
-    //
 
     const [view, setView] = useState('week')
-
-    const router = useRouter()
-    const id = router.query.id
 
     const schedules = [
         {

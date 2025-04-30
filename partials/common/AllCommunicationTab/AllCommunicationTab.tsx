@@ -39,9 +39,14 @@ interface CommunicationItem {
     [key: string]: any
 }
 
-export const AllCommunicationTab = ({ user }: { user: User }) => {
+export const AllCommunicationTab = ({
+    user,
+    isEntered = true,
+}: {
+    user: User
+    isEntered?: boolean
+}) => {
     const { isVisible: isContextBarVisible } = useContextBar()
-    const [isEntered, setIsEntered] = useState(false)
 
     const { data, isLoading, isError, isSuccess } =
         CommonApi.AllCommunication.useCommunications(user?.id, {
@@ -243,19 +248,14 @@ export const AllCommunicationTab = ({ user }: { user: User }) => {
     }
 
     return (
-        <Waypoint
-            onEnter={() => setIsEntered(true)}
-            onLeave={() => setIsEntered(false)}
+        <div
+            className={`flex gap-2.5 w-full ${
+                isContextBarVisible ? 'flex-col' : 'flex-row'
+            }`}
         >
-            <div
-                className={`flex gap-2.5 w-full ${
-                    isContextBarVisible ? 'flex-col' : 'flex-row'
-                }`}
-            >
-                <div className="flex flex-col gap-2.5 w-full">
-                    {renderCommunicationsByDate()}
-                </div>
+            <div className="flex flex-col gap-2.5 w-full">
+                {renderCommunicationsByDate()}
             </div>
-        </Waypoint>
+        </div>
     )
 }

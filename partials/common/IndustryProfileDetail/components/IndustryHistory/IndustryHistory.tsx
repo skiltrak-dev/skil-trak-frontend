@@ -4,6 +4,7 @@ import React, { useCallback, useState } from 'react'
 import { OverallHistory } from './OverallHistory'
 import { StatusHistory } from './StatusHistory'
 import { Industry } from '@types'
+import { Waypoint } from 'react-waypoint'
 
 export const IndustryHistory = ({ industry }: { industry: Industry }) => {
     const [selectedTab, setSelectedTab] = useState<TabProps | null>(null)
@@ -28,6 +29,7 @@ export const IndustryHistory = ({ industry }: { industry: Industry }) => {
     ]
 
     const onSetSelectedElement = useCallback((tab: TabProps) => {
+        setSelectedTab(tab)
         setSelectedTab(tab)
     }, [])
     return (

@@ -54,9 +54,6 @@ export const IndustryStudents = ({ industry }: { industry: Industry }) => {
 
     const [itemPerPage, setItemPerPage] = useState(10)
     const [page, setPage] = useState(1)
-    const [changeExpiryData, setChangeExpiryData] = useState(false)
-    const [statusSuccessResult, setStatusSuccessResult] =
-        useState<boolean>(false)
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
