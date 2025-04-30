@@ -6,17 +6,7 @@ import { Industry, UserStatus } from '@types'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
-import { Notes } from '../Notes'
-import { ProfileAppointments } from '../ProfileAppointments'
 import { MailsCommunication } from '../StudentProfileDetail/components'
-import {
-    IndustryHistory,
-    IndustrySectorRequiredDocs,
-    IndustryShiftingHours,
-    IndustryStudents,
-} from './components'
-import { CourseManagement } from './components/CourseManagement'
-import { StudentSchedule } from './components/StudentSchedule'
 import { IndustryProfileCB } from './IndustryProfileCB'
 
 export const IndustryProfileDetail = ({
