@@ -7,7 +7,7 @@ import {
 } from '@components'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { UserRoles } from '@constants'
-import { useContextBar, useNotification } from '@hooks'
+import { useContextBar, useNotification, useSubadminProfile } from '@hooks'
 import { ViewOnMapIndustriesModal } from '@partials/common/MapBox'
 import {
     WorkplaceEmploymentDocument,
@@ -167,6 +167,8 @@ export const IndustryDetail = ({
             'EMPLOYMENT CONTRACT',
     }
 
+    const subadmin = useSubadminProfile()
+
     return (
         <>
             {modal}
@@ -202,7 +204,11 @@ export const IndustryDetail = ({
                             <span
                                 className="font-semibold cursor-pointer whitespace-pre"
                                 onClick={() => {
-                                    if (!appliedIndustry) {
+                                    if (
+                                        !appliedIndustry ||
+                                        subadmin?.departmentMember?.isHod ||
+                                        subadmin?.isManager
+                                    ) {
                                         onViewContactedIndustries()
                                     } else {
                                         notification.warning({
