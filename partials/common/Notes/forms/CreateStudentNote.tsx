@@ -19,7 +19,6 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import {
     AuthorizedUserComponent,
     Button,
-    Card,
     Checkbox,
     draftToHtmlText,
     htmlToDraftText,
@@ -29,22 +28,21 @@ import {
     Select,
     ShowErrorNotifications,
     TextInput,
-    Typography,
+    Typography
 } from '@components'
 
 // query
+import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useContextBar, useNotification, useWorkplace } from '@hooks'
+import { useNotification, useWorkplace } from '@hooks'
 import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
 import { CommonApi, SubAdminApi } from '@queries'
 import { OptionType } from '@types'
 import { getUserCredentials, HtmlToPlainText } from '@utils'
 import ClickAwayListener from 'react-click-away-listener'
+import { FaTimes } from 'react-icons/fa'
 import { IoCheckmark } from 'react-icons/io5'
 import { StudentNotesDropdown } from '../components'
-import { UserRoles } from '@constants'
-import { useRouter } from 'next/router'
-import { FaTimes } from 'react-icons/fa'
 
 interface onSubmitType {
     title: string
@@ -68,9 +66,6 @@ export const CreateStudentNote = ({
     const { notification } = useNotification()
     const [noteContent, setNoteContent] = useState<any>(null)
     const { workplaceRes } = useWorkplace()
-
-    const contextBar = useContextBar()
-    const router = useRouter()
 
     const ref = useRef<HTMLDivElement>(null)
 

@@ -124,6 +124,10 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
         )
     }
 
+    // useEffect(() => {
+    //     setModal(<IndustryChecksModal onCancel={onCancel} />)
+    // }, [])
+
     useEffect(() => {
         if (profile.isSuccess) {
             if (profileCompletion && profileCompletion < 100) {

@@ -65,28 +65,6 @@ export const IndustryDetail = ({
 
     const onCancelClicked = () => setModal(null)
 
-    // const onViewMoreIndustries = () => {
-    //     setModal(
-    //         <ViewMoreIndustriesModal
-    //             onCancel={onCancelClicked}
-    //             workplaceId={Number(workplace?.id)}
-    //             title={'View More Industries'}
-    //             subtitle={'View More Industries'}
-    //             suggestedIndustriesIds={
-    //                 suggestedIndustries
-    //                     ?.filter(
-    //                         (industry: any) =>
-    //                             industry?.industryResponse !==
-    //                                 WorkplaceCurrentStatus.Rejected &&
-    //                             industry?.industryResponse !==
-    //                                 WorkplaceCurrentStatus.NoResponse
-    //                     )
-    //                     ?.map((ind: any) => ind?.industry?.id) as number[]
-    //             }
-    //         />
-    //     )
-    // }
-
     // TODO : When user copy the listing industry phone number track it in contacted history and make a separate tab in modal like From Listing Industries
     const onViewContactedIndustries = () => {
         setModal(
@@ -205,6 +183,7 @@ export const IndustryDetail = ({
                                 className="font-semibold cursor-pointer whitespace-pre"
                                 onClick={() => {
                                     if (
+                                        role === UserRoles.ADMIN ||
                                         !appliedIndustry ||
                                         subadmin?.departmentMember?.isHod ||
                                         subadmin?.isManager

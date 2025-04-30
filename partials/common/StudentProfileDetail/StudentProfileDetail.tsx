@@ -114,18 +114,6 @@ export const StudentProfileDetail = () => {
         }
     }, [router, profile])
 
-    // useEffect(() => {
-    //     if (profile?.isSuccess && profile?.data) {
-    //         const { tab, id, ...rest } = router.query
-    //         router.push({
-    //             pathname: router.asPath,
-    //             query: {
-    //                 ...rest,
-    //             },
-    //         })
-    //     }
-    // }, [profile])
-
     useEffect(() => {
         if (profile?.isSuccess && profile?.data && !router.query?.tab) {
             contextBar.show(false)
@@ -205,7 +193,6 @@ export const StudentProfileDetail = () => {
 
     const onHandleScroll = (id: string) => {
         const detailItem = document.getElementById(`student-profile-${id}`)
-        console.log({ detailItem, id })
         if (detailItem) {
             detailItem.scrollIntoView({ behavior: 'smooth' })
         }

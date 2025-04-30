@@ -72,84 +72,156 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
         )
     }
 
-    const profileLinks = [
-        {
-            ...(role === UserRoles.ADMIN || role === UserRoles.RTO
-                ? {
-                      text: 'Edit Password',
-                      Icon: IoMdEyeOff,
-                      onClick: () => {
-                          onUpdatePassword({ user: profile?.user })
-                      },
-                  }
-                : {}),
-        },
-        {
-            ...(role === UserRoles.ADMIN || role === UserRoles.RTO
-                ? {
-                      text: 'View Password',
-                      Icon: IoMdEyeOff,
-                      onClick: () => {
-                          onViewPassword(profile)
-                      },
-                  }
-                : {}),
-        },
-        {
+    // const profileLinks = [
+    //     {
+    //         ...(role === UserRoles.ADMIN || role === UserRoles.RTO
+    //             ? {
+    //                   text: 'Edit Password',
+    //                   Icon: IoMdEyeOff,
+    //                   onClick: () => {
+    //                       onUpdatePassword({ user: profile?.user })
+    //                   },
+    //               }
+    //             : {}),
+    //     },
+    //     {
+    //         ...(role === UserRoles.ADMIN || role === UserRoles.RTO
+    //             ? {
+    //                   text: 'View Password',
+    //                   Icon: IoMdEyeOff,
+    //                   onClick: () => {
+    //                       onViewPassword(profile)
+    //                   },
+    //               }
+    //             : {}),
+    //     },
+    //     {
+    //         text: 'Send Password',
+    //         Icon: CiUnlock,
+    //         onClick: () => {
+    //             onMailPasswordToStudent(profile)
+    //         },
+    //     },
+    //     {
+    //         ...(!subadmin?.data?.isAdmin
+    //             ? {
+    //                   text: 'Edit Profile',
+    //                   Icon: RiEditFill,
+    //                   onClick: () => {
+    //                       router.push(
+    //                           role === UserRoles.ADMIN ||
+    //                               subadmin?.data?.isAdmin
+    //                               ? `/portals/admin/student/edit-student/${profile?.id}`
+    //                               : role === UserRoles.SUBADMIN
+    //                               ? `/portals/sub-admin/students/${profile?.id}/edit-student`
+    //                               : role === UserRoles.RTO
+    //                               ? `/portals/rto/students/${profile?.id}/edit-student`
+    //                               : '#'
+    //                       )
+    //                   },
+    //               }
+    //             : {}),
+    //     },
+
+    //     {
+    //         text: 'Send Message',
+    //         Icon: TbMessage2Up,
+    //         onClick: () => {
+    //             onMessageSendClicked()
+    //         },
+    //     },
+    //     {
+    //         text: profile?.isSnoozed ? 'Un-Snooze' : 'Snooze',
+    //         Icon: MdSnooze,
+    //         onClick: () => {
+    //             profile?.isSnoozed ? UnSnoozeModal() : onSnooze()
+    //         },
+    //     },
+    //     {
+    //         ...(role === UserRoles.ADMIN || role === UserRoles.SUBADMIN
+    //             ? {
+    //                   text: 'View Visitors',
+    //                   Icon: RiFootprintFill,
+    //                   onClick: () => {
+    //                       onViewProfileVisitorsClicked()
+    //                   },
+    //               }
+    //             : {}),
+    //     },
+    // ]
+
+    const getProfileLinks = () => {
+        const links = []
+
+        if (role === UserRoles.ADMIN || role === UserRoles.RTO) {
+            links.push(
+                {
+                    text: 'Edit Password',
+                    Icon: IoMdEyeOff,
+                    onClick: () => onUpdatePassword({ user: profile?.user }),
+                },
+                {
+                    text: 'View Password',
+                    Icon: IoMdEyeOff,
+                    onClick: () => onViewPassword(profile),
+                }
+            )
+        }
+
+        // Common action for all roles
+        links.push({
             text: 'Send Password',
             Icon: CiUnlock,
-            onClick: () => {
-                onMailPasswordToStudent(profile)
-            },
-        },
-        {
-            ...(!subadmin?.data?.isAdmin
-                ? {
-                      text: 'Edit Profile',
-                      Icon: RiEditFill,
-                      onClick: () => {
-                          router.push(
-                              role === UserRoles.ADMIN ||
-                                  subadmin?.data?.isAdmin
-                                  ? `/portals/admin/student/edit-student/${profile?.id}`
-                                  : role === UserRoles.SUBADMIN
-                                  ? `/portals/sub-admin/students/${profile?.id}/edit-student`
-                                  : role === UserRoles.RTO
-                                  ? `/portals/rto/students/${profile?.id}/edit-student`
-                                  : '#'
-                          )
-                      },
-                  }
-                : {}),
-        },
+            onClick: () => onMailPasswordToStudent(profile),
+        })
 
-        {
-            text: 'Send Message',
-            Icon: TbMessage2Up,
-            onClick: () => {
-                onMessageSendClicked()
-            },
-        },
-        {
-            text: profile?.isSnoozed ? 'Un-Snooze' : 'Snooze',
-            Icon: MdSnooze,
-            onClick: () => {
-                profile?.isSnoozed ? UnSnoozeModal() : onSnooze()
-            },
-        },
-        {
-            ...(role === UserRoles.ADMIN || role === UserRoles.SUBADMIN
-                ? {
-                      text: 'View Visitors',
-                      Icon: RiFootprintFill,
-                      onClick: () => {
-                          onViewProfileVisitorsClicked()
-                      },
-                  }
-                : {}),
-        },
-    ]
+        // Edit Profile action (conditional on subadmin status)
+        if (!subadmin?.data?.isAdmin) {
+            links.push({
+                text: 'Edit Profile',
+                Icon: RiEditFill,
+                onClick: () => {
+                    const editPath =
+                        role === UserRoles.ADMIN || subadmin?.data?.isAdmin
+                            ? `/portals/admin/student/edit-student/${profile?.id}`
+                            : role === UserRoles.SUBADMIN
+                            ? `/portals/sub-admin/students/${profile?.id}/edit-student`
+                            : role === UserRoles.RTO
+                            ? `/portals/rto/students/${profile?.id}/edit-student`
+                            : '#'
+                    router.push(editPath)
+                },
+            })
+        }
 
+        // Common action for all roles
+        links.push(
+            {
+                text: 'Send Message',
+                Icon: TbMessage2Up,
+                onClick: () => onMessageSendClicked(),
+            },
+            {
+                text: profile?.isSnoozed ? 'Un-Snooze' : 'Snooze',
+                Icon: MdSnooze,
+                onClick: () =>
+                    profile?.isSnoozed ? UnSnoozeModal() : onSnooze(),
+            }
+        )
+
+        // Admin and Subadmin-specific action
+        if (role === UserRoles.ADMIN || role === UserRoles.SUBADMIN) {
+            links.push({
+                text: 'View Visitors',
+                Icon: RiFootprintFill,
+                onClick: () => onViewProfileVisitorsClicked(),
+            })
+        }
+
+        return links
+    }
+
+    const profileLinks = getProfileLinks()
     return (
         <div className="flex flex-col items-end gap-y-2.5">
             {modal}

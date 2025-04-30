@@ -13,6 +13,8 @@ export enum SocketNotificationsEvents {
     AppointmentReminder = 'appointmentReminder',
     ExpiryReminder = 'expiryReminder',
     FeedBackNotification = 'feedback',
+    WorkplaceNotification = 'workplaceRequest',
+    NoteAdded = 'newNoteAdded',
 }
 
 export const Socket = ({ children }: any) => {
@@ -151,6 +153,44 @@ export const Socket = ({ children }: any) => {
                     })
                 }
             )
+
+            socket?.on(
+                SocketNotificationsEvents.WorkplaceNotification,
+                (notify: any) => {
+                    setEventListener({
+                        eventName:
+                            SocketNotificationsEvents.WorkplaceNotification,
+                        eventListener: notify,
+                    })
+                    notification.success({
+                        title: notify?.type,
+                        description: notify?.message,
+                        dissmissTimer: 6000,
+                        primaryAction: {
+                            text: 'View',
+                            onClick: () => router.push(notify?.link),
+                        },
+                        position: 'topright',
+                    })
+                }
+            )
+
+            socket?.on(SocketNotificationsEvents.NoteAdded, (notify: any) => {
+                setEventListener({
+                    eventName: SocketNotificationsEvents.NoteAdded,
+                    eventListener: notify,
+                })
+                notification.success({
+                    title: notify?.type,
+                    description: notify?.message,
+                    dissmissTimer: 6000,
+                    primaryAction: {
+                        text: 'View',
+                        onClick: () => router.push(notify?.link),
+                    },
+                    position: 'topright',
+                })
+            })
         }
     }, [socket, router])
 

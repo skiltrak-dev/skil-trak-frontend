@@ -24,15 +24,7 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
     const [active, setActive] = useState(1)
     const [personalInfoData, setPersonalInfoData] = useState({})
     const [availabilities, setAvailabilities] = useState<any | null>(Array())
-    const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const onCancel = () => setModal(null)
-
-    // useEffect(() => {
-    //     setModal(<WorkplaceApprovalModal onCancel={onCancel} />)
-    // }, [])
-
-    // query
     const workplace = useGetWorkplaceIndustriesQuery()
     const wpApprovalRequest = StudentApi.Workplace.wpApprovalRequest()
 
@@ -72,7 +64,6 @@ const DontHaveWorkplace: NextPageWithLayout = (props: Props) => {
     ]
     return (
         <>
-            {modal}
             {workplace.isError && <TechnicalError />}
             {workplace.isLoading ? (
                 <LoadingAnimation height={'h-[40vh]'} />
