@@ -1,4 +1,4 @@
-import { Alert, AuthorizedUserComponent, Card, PageTitle } from '@components'
+import { Alert, AuthorizedUserComponent, PageTitle } from '@components'
 import { UserRoles } from '@constants'
 import { useAlert, useContextBar } from '@hooks'
 import { CommonApi } from '@queries'
@@ -6,6 +6,7 @@ import { Industry, UserStatus } from '@types'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
+import { Notes } from '../Notes'
 import { MailsCommunication } from '../StudentProfileDetail/components'
 import { IndustryProfileCB } from './IndustryProfileCB'
 
@@ -114,27 +115,29 @@ export const IndustryProfileDetail = ({
                             role === UserRoles.RTO ? 'w-full' : 'w-2/3 '
                         }`}
                     >
-                        <Card noPadding>{/* <CourseManagement /> */}</Card>
+                        {/* <Card noPadding>
+                            <CourseManagement />
+                        </Card> */}
                     </div>
 
                     <AuthorizedUserComponent
                         roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                     >
                         <div className=" w-1/3">
-                            {/* <Notes userId={industry?.user?.id} /> */}
+                            <Notes userId={industry?.user?.id} />
                         </div>
                     </AuthorizedUserComponent>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-5 md:grid-cols-2 gap-x-4 w-full min-h-[500px]">
-                    {/* <div className="w-full lg:col-span-3">
+                {/* <div className="grid grid-cols-1 lg:grid-cols-5 md:grid-cols-2 gap-x-4 w-full min-h-[500px]">
+                    <div className="w-full lg:col-span-3">
                         <IndustryShiftingHours
                             industryUserId={industry?.user?.id}
                         />
                     </div>
                     <div className="h-[530px] overflow-auto custom-scrollbar lg:col-span-2">
                         <IndustrySectorRequiredDocs industry={industry} />
-                    </div> */}
-                </div>
+                    </div>
+                </div> */}
 
                 {/* <div>
                     <IndustryStudents industry={industry} />
@@ -143,9 +146,9 @@ export const IndustryProfileDetail = ({
                 <AuthorizedUserComponent
                     roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                 >
-                    <div className=" h-[470px]">
+                    {/* <div className=" h-[470px]">
                         <div className="h-full">
-                            {/* <ProfileAppointments
+                            <ProfileAppointments
                                 link={
                                     role === UserRoles.ADMIN
                                         ? {
@@ -166,12 +169,12 @@ export const IndustryProfileDetail = ({
                                         : null
                                 }
                                 userId={industry?.user?.id}
-                            /> */}
+                            />
                         </div>
-                    </div>
+                    </div> */}
 
-                    {/* <IndustryHistory industry={industry} /> */}
-                    {/* <StudentSchedule /> */}
+                    {/* <IndustryHistory industry={industry} />
+                    <StudentSchedule /> */}
                     <div className="h-[640px] px-2  grid grid-cols-2 gap-x-3">
                         <div className={`!h-[99%] col-span-2`}>
                             <MailsCommunication user={industry?.user} />
