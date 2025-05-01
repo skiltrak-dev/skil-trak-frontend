@@ -6,19 +6,20 @@ import {
     InitialAvatar,
     LoadingAnimation,
     Table,
-    Typography,
 } from '@components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { SubAdminApi } from '@queries'
 import { useEffect, useState } from 'react'
 
+import { ColumnDef } from '@tanstack/react-table'
+import { Student } from '@types'
 import {
     filterAwaitingAgreementBeyondSevenDays,
     findCallLogsUnanswered,
     findExpiringInNext45Days,
 } from '@utils'
-import Link from 'next/link'
+import { StudentCallLogDetail } from './components'
 import { useColumns } from './hooks'
 
 export const UpcomingAppointmentsStudents = () => {
@@ -43,31 +44,99 @@ export const UpcomingAppointmentsStudents = () => {
             }
         )
 
-    const { columns, modal } = useColumns()
-
-    columns.splice(0, 1, {
-        header: () => 'Name',
-        accessorKey: 'user',
-        cell: ({ row }) => (
-            <Link
-                className="flex items-center gap-x-2"
-                href={{
-                    pathname: `/portals/sub-admin/students/${row?.original?.id}/detail`,
-                    query: {
-                        sectionId: 'appointments',
-                    },
-                }}
-            >
-                <InitialAvatar
-                    name={row?.original?.user?.name}
-                    imageUrl={row?.original?.user?.avatar}
+    const { modal } = useColumns()
+    const columns: ColumnDef<Student>[] = [
+        {
+            header: () => 'Name',
+            accessorKey: 'user',
+            cell: ({ row }: any) => (
+                <StudentCallLogDetail
+                    student={{
+                        ...row.original?.appointmentFor?.student,
+                        user: row.original?.appointmentFor,
+                    }}
+                    call
                 />
-                <Typography variant="label" cursorPointer>
-                    {row?.original?.user?.name}
-                </Typography>
-            </Link>
-        ),
-    })
+            ),
+        },
+        {
+            header: () => 'RTO',
+            accessorKey: 'rto',
+            cell({ row }: any) {
+                const { rto } = row.original?.appointmentFor?.student
+
+                return (
+                    <div className="flex gap-x-2 items-center">
+                        {rto?.user?.name && (
+                            <InitialAvatar name={rto?.user?.name} small />
+                        )}
+                        {rto?.user?.name}
+                    </div>
+                )
+            },
+        },
+        // {
+        //     accessorKey: 'industry',
+        //     header: () => <span>Industry</span>,
+        //     cell: (info) => (
+        //         <SubadminStudentIndustries
+        //             workplace={info.row.original?.workplace}
+        //             industries={info.row.original?.industries}
+        //         />
+        //     ),
+        // },
+        // {
+        //     accessorKey: 'sectors',
+        //     header: () => <span>Sectors</span>,
+        //     cell: ({ row }: any) => <SectorCell student={row.original} />,
+        // },
+        // {
+        //     accessorKey: 'expiry',
+        //     header: () => <span>Expiry Countdown</span>,
+        //     cell: (info) => (
+        //         <StudentExpiryDaysLeft
+        //             expiryDate={info.row.original?.expiryDate}
+        //         />
+        //     ),
+        // },
+        // {
+        //     header: () => 'Progress',
+        //     accessorKey: 'progress',
+        //     cell: ({ row }) => (
+        //         <CaseOfficerAssignedStudent student={row.original} />
+        //     ),
+        // },
+        // {
+        //     accessorKey: 'createdAt',
+        //     header: () => <span>Created At</span>,
+        //     cell: ({ row }: any) => (
+        //         <UserCreatedAt createdAt={row.original?.createdAt} />
+        //     ),
+        // },
+    ]
+    // columns.splice(0, 1, {
+    //     header: () => 'Name',
+    //     accessorKey: 'user?.name',
+    //     // cell: ({ row }) => (
+    //     //     <Link
+    //     //         className="flex items-center gap-x-2"
+    //     //         href={{
+    //     //             pathname: `/portals/sub-admin/students/${row?.original?.id}/detail`,
+    //     //             query: {
+    //     //                 sectionId: 'appointments',
+    //     //             },
+    //     //         }}
+    //     //     >
+    //     //         {/* <InitialAvatar
+    //     //             name={row?.original?.user?.name}
+    //     //             imageUrl={row?.original?.user?.avatar}
+    //     //         /> */}
+    //     //         {/* <Typography variant="label" cursorPointer>
+    //     //             {row?.original?.user?.name}
+    //     //         </Typography> */}
+    //     //     </Link>
+    //     // ),
+    // })
 
     return (
         <div>
@@ -77,7 +146,7 @@ export const UpcomingAppointmentsStudents = () => {
 
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : data && data?.data.length ? (
+                ) : data && data?.data?.length ? (
                     <Table
                         columns={columns}
                         data={data?.data}

@@ -19,7 +19,7 @@ import {
 } from '@components'
 
 // hooks
-import { useActionModal, useContextBar, useNotification } from '@hooks'
+import { useActionModal, useContextBar, useNotification, useSubadminProfile } from '@hooks'
 
 // utills
 import { UserRoles } from '@constants'
@@ -96,6 +96,8 @@ export const IndustryProfileFrom = ({
     const contextBar = useContextBar()
 
     const router = useRouter()
+
+    const subadmin = useSubadminProfile()
 
     const sectorResponse = AuthApi.useSectors({})
     const [sectorDefaultOptions, setSectorDefaultOptions] = useState<
@@ -506,7 +508,10 @@ export const IndustryProfileFrom = ({
                                     placeholder={'Your Email...'}
                                     validationIcons
                                     required
-                                    disabled={role === UserRoles.SUBADMIN}
+                                    disabled={
+                                        role === UserRoles.SUBADMIN &&
+                                        !subadmin?.departmentMember?.isHod
+                                    }
                                 />
                             </div>
                         </div>

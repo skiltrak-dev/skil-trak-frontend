@@ -250,7 +250,7 @@ export const SubadminStudents = () => {
         {
             label: 'Upcoming Appointment Students',
             badge: {
-                text: 0,
+                text: studentCount?.upComingAppointment,
                 loading: count.isLoading,
             },
             href: {

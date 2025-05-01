@@ -723,8 +723,13 @@ export const studentsEndpoints = (
         any,
         { courseId: number; stdId: number }
     >({
-        query: ({ courseId, stdId }) =>
-            `${PREFIX}/workplace-type/${courseId}/${stdId}`,
+        query: ({ courseId, stdId }) => {
+            const params = stdId ? { stdId } : {}
+            return {
+                url: `${PREFIX}/workplace-type/${courseId}`,
+                params,
+            }
+        },
         providesTags: ['SubAdminStudents'],
     }),
 })

@@ -1,6 +1,21 @@
-import { GlobalModal, Typography } from '@components'
+import { Button, GlobalModal, Typography } from '@components'
+import { FileUpload } from '@hoc'
 import React from 'react'
 import { MdCancel } from 'react-icons/md'
+
+const UploadFile = ({ name, fileList }: { name: string; fileList: any }) => (
+    <div className=" bg-primaryNew-dark rounded-[5px] flex justify-between items-center px-5 py-2.5">
+        <Typography variant="small" medium color="text-white">
+            Saad
+        </Typography>
+
+        <Button>
+            <label htmlFor={`file_id_${name}`} className="cursor-pointer">
+                Upload Document
+            </label>
+        </Button>
+    </div>
+)
 
 export const IndustryChecksModal = ({ onCancel }: { onCancel: () => void }) => {
     return (
@@ -14,6 +29,14 @@ export const IndustryChecksModal = ({ onCancel }: { onCancel: () => void }) => {
                     <Typography variant="title" center>
                         Industry Checks
                     </Typography>
+
+                    <FileUpload
+                        onChange={(docs: FileList) => {}}
+                        name={'attachments'}
+                        component={UploadFile}
+                        multiple
+                        limit={Number(1111111111)}
+                    />
                 </div>
             </div>
         </GlobalModal>

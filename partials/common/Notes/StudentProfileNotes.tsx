@@ -1,17 +1,9 @@
-import {
-    AuthorizedUserComponent,
-    Button,
-    Card,
-    GlobalModal,
-    Typography,
-} from '@components'
+import { AuthorizedUserComponent, Button, Card, Typography } from '@components'
 import { UserRoles } from '@constants'
-import { useContextBar } from '@hooks'
 import { ReactNode, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 import { NotesView } from './components'
 import { CreateStudentNote } from './forms'
-import { useRouter } from 'next/router'
 
 export const StudentProfileNotes = ({
     userId,
@@ -22,8 +14,6 @@ export const StudentProfileNotes = ({
     userId: number
     isPinned?: boolean
 }) => {
-    const contextBar = useContextBar()
-    const router = useRouter()
     const [isViewd, setIsViewd] = useState<boolean>(false)
     const [modal, setModal] = useState<ReactNode>(null)
 

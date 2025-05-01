@@ -1,14 +1,21 @@
-import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, OptionType, Student } from '@types'
-import React, { ReactElement, useEffect, useState } from 'react'
-import { SubAdminApi } from '@queries'
 import {
-    getStudentWorkplaceAppliedIndustry,
-    getUserCredentials,
-    removeEmptyValues,
-    setLink,
-} from '@utils'
-import { useRouter } from 'next/router'
+    Card,
+    CaseOfficerAssignedStudent,
+    EmptyData,
+    LoadingAnimation,
+    StudentExpiryDaysLeft,
+    Table,
+    TableAction,
+    TechnicalError,
+    UserCreatedAt,
+} from '@components'
+import { StudentRtoCellInfo } from '@components/Appointment/AppointmentModal'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { SectorCell } from '@partials/admin/student/components'
+import {
+    StudentCellInfo,
+    SubadminStudentIndustries,
+} from '@partials/sub-admin/students'
 import {
     AddToNonContactableStudents,
     AssignStudentModal,
@@ -16,37 +23,25 @@ import {
     ChangeStudentStatusModal,
     HighPriorityModal,
 } from '@partials/sub-admin/students/modals'
-import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { InterviewModal } from '@partials/sub-admin/workplace/modals'
-import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
+import { SubAdminApi } from '@queries'
+import { ColumnDef } from '@tanstack/react-table'
+import { Student } from '@types'
+import {
+    filterAwaitingAgreementBeyondSevenDays,
+    findCallLogsUnanswered,
+    findExpiringInNext45Days,
+    getStudentWorkplaceAppliedIndustry,
+    setLink,
+} from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
 import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
-import { ColumnDef } from '@tanstack/react-table'
-import {
-    StudentCellInfo,
-    SubadminStudentIndustries,
-} from '@partials/sub-admin/students'
-import { StudentRtoCellInfo } from '@components/Appointment/AppointmentModal'
-import { SectorCell } from '@partials/admin/student/components'
-import {
-    Card,
-    CaseOfficerAssignedStudent,
-    EmptyData,
-    LoadingAnimation,
-    Select,
-    StudentExpiryDaysLeft,
-    Table,
-    TableAction,
-    TechnicalError,
-    UserCreatedAt,
-} from '@components'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
-import moment from 'moment'
+import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 
-// useDepartmentStudents
 export const DepartmentStudentList = () => {
     const router = useRouter()
-    const userId = getUserCredentials()?.id
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [coordinatorId, setCoordinatorId] = useState<string | null>(null)
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -65,92 +60,11 @@ export const DepartmentStudentList = () => {
             {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
-                // search: `${JSON.stringify(
-                //     removeEmptyValues({
-                //         subadminId: coordinatorId,
-                //     })
-                // )
-                //     .replaceAll('{', '')
-                //     .replaceAll('}', '')
-                //     .replaceAll('"', '')
-                //     .trim()}`,
             },
             {
                 refetchOnMountOrArgChange: true,
             }
         )
-
-    const { data: departmentCoordinators } =
-        SubAdminApi.SubAdmin.useCoordinatorsDropDown()
-
-    const coordinatorsOptions = departmentCoordinators?.map(
-        (coordinator: any) => ({
-            label: coordinator?.user?.name,
-            value: coordinator?.id,
-        })
-    )
-
-    const findCallLogsUnanswered = data?.data?.filter((student: any) => {
-        const unansweredCalls = student?.callLog?.filter((call: any) => {
-            if (call?.isAnswered === null) {
-                const isMoreThanSevenDays =
-                    moment().diff(moment(call?.createdAt), 'days') >= 7
-                return isMoreThanSevenDays
-            }
-            return false
-        })
-
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            unansweredCalls?.length > 0
-        )
-    })
-    const findExpiringInNext45Days = data?.data?.filter((student: any) => {
-        const expiryDate = new Date(student?.expiryDate)
-        const currentDate = new Date()
-        const timeDiff = expiryDate.getTime() - currentDate.getTime()
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            // student?.workplace?.length === 0 &&
-            daysDiff <= 45 &&
-            daysDiff >= 0
-        )
-    })
-
-    const filterAwaitingAgreementBeyondSevenDays = data?.data?.filter(
-        (student: any) => {
-            return (
-                !student?.hasIssue &&
-                !student?.isSnoozed &&
-                !student?.nonContactable &&
-                student?.workplace?.some((workplace: any) =>
-                    isWorkplaceValid(workplace)
-                )
-            )
-        }
-    )
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -200,7 +114,6 @@ export const DepartmentStudentList = () => {
             <HighPriorityModal
                 item={studetnt}
                 onCancel={onModalCancelClicked}
-                // setRefetchStudents={setRefetchStudents}
             />
         )
     }
@@ -358,30 +271,11 @@ export const DepartmentStudentList = () => {
         },
     ]
 
-    const onFilterByCoordinator = (value: string) => {
-        setCoordinatorId(value)
-    }
-
     return (
         <div>
             {modal}
             {isError && <TechnicalError />}
-            {/* <div className="w-full flex justify-end">
-                <div className="min-w-64 relative z-30">
-                    <Select
-                        label={'Filter by Coordinator'}
-                        name={'coordinator'}
-                        placeholder={'Filter by Coordinator...'}
-                        options={coordinatorsOptions}
-                        value={coordinatorsOptions?.find(
-                            (c: OptionType) =>
-                                c?.value === Number(coordinatorId)
-                        )}
-                        onlyValue
-                        onChange={(e: any) => onFilterByCoordinator(e)}
-                    />
-                </div>
-            </div> */}
+
             <Card noPadding>
                 {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
@@ -391,11 +285,15 @@ export const DepartmentStudentList = () => {
                             columns={Columns}
                             data={data.data}
                             enableRowSelection
-                            awaitingAgreementBeyondSevenDays={
-                                filterAwaitingAgreementBeyondSevenDays
-                            }
-                            findCallLogsUnanswered={findCallLogsUnanswered}
-                            findExpiringInNext45Days={findExpiringInNext45Days}
+                            awaitingAgreementBeyondSevenDays={filterAwaitingAgreementBeyondSevenDays(
+                                data?.data
+                            )}
+                            findCallLogsUnanswered={findCallLogsUnanswered(
+                                data?.data
+                            )}
+                            findExpiringInNext45Days={findExpiringInNext45Days(
+                                data?.data
+                            )}
                         >
                             {({
                                 table,

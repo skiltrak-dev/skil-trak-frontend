@@ -10,6 +10,8 @@ import { DaysQuestions } from './DaysQuestions'
 import { DefaultQuestions } from './DefaultQuestions'
 import { TextAreaQuestions } from './TextAreaQuestions'
 import { TextTypeQuestions } from './TextTypeQuestions'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const PersonalInfoQuestions = ({
     formMethods,
@@ -23,13 +25,17 @@ export const PersonalInfoQuestions = ({
     const router = useRouter()
     const formValues = formMethods.watch()
 
+    const role = getUserCredentials()?.role
+
     const wpType = SubAdminApi.Student.getWpTypeByRtoAndCourse(
         {
             courseId: selectedCourse,
             stdId: Number(router?.query?.id),
         },
         {
-            skip: !router?.query?.id || !selectedCourse,
+            skip:
+                (!router?.query?.id && role === UserRoles.SUBADMIN) ||
+                !selectedCourse,
         }
     )
 

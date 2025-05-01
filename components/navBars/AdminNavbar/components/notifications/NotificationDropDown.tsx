@@ -1,11 +1,9 @@
 import { NoData, Typography } from '@components'
-import { NotificationItem } from './NotificationItem'
-import { CommonApi } from '@queries'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { PulseLoader } from 'react-spinners'
 import { getUserCredentials } from '@utils'
 import { Bell } from 'lucide-react'
+import { useRouter } from 'next/router'
+import { PulseLoader } from 'react-spinners'
+import { NotificationItem } from './NotificationItem'
 
 interface NotificationDropDown {
     expanded: boolean
@@ -40,6 +38,7 @@ export const NotificationDropDown = ({
         }
         return userRole
     }
+
     return (
         <>
             <div
@@ -74,33 +73,18 @@ export const NotificationDropDown = ({
                     <div className="overflow-auto max-h-80 remove-scrollbar">
                         {data?.isLoading ? (
                             <PulseLoader color={'white'} size={10} />
-                        ) : data?.data?.length > 0 ? (
-                            <div className="relative">
+                        ) : data?.data?.length > 0 || true ? (
+                            <div className="relative p-1.5 flex flex-col gap-y-1.5">
                                 {data?.data?.map((notification: any) => (
                                     <NotificationItem
                                         key={notification.id}
-                                        title={notification?.title}
-                                        description={notification?.description}
-                                        timestamp={notification?.createdAt}
-                                        resultIsReadNotification={
-                                            resultIsReadNotification
-                                        }
-                                        isRead={notification?.isRead}
+                                        notification={notification}
                                         onClick={() => {
-                                            // router.push(
-                                            //     notification?.link ||
-                                            //         `/portals/${role(getRole?.role)}`
-                                            // )
                                             setNotificationsExpanded(false)
-                                            // router.push(`/portals/${notification?.link}`)
-                                            // router.push(
-                                            //     getRole?.role === 'admin'
-                                            //         ? `/portals/admin/all-notifications`
-                                            //         : `/portals/${role(
-                                            //               getRole?.role
-                                            //           )}/notifications/all-notifications`
-                                            // )
                                             isReadNotification(notification?.id)
+                                            if (notification?.link) {
+                                                router.push(notification?.link)
+                                            }
                                         }}
                                     />
                                 ))}
@@ -109,21 +93,28 @@ export const NotificationDropDown = ({
                             <NoData text="No New Notifications were Found" />
                         )}
                     </div>
-                    <div className="flex justify-center">
-                        <Link
-                            legacyBehavior
-                            href={
-                                getRole?.role === 'admin'
-                                    ? `/portals/admin/all-notifications`
-                                    : `/portals/${role(
-                                          getRole?.role
-                                      )}/notifications/all-notifications`
-                            }
+                    <div className="flex justify-center bg-white border-t border-[#D0D0D0] shadow-lg py-2 px-4 rounded-b-lg">
+                        <div
+                            onClick={() => {
+                                router.push(
+                                    getRole?.role === 'admin'
+                                        ? `/portals/admin/all-notifications`
+                                        : `/portals/${role(
+                                              getRole?.role
+                                          )}/notifications/all-notifications`
+                                )
+                                setNotificationsExpanded(false)
+                            }}
                         >
-                            <a className="text-sm w-full font-semibold cursor-pointer  bg-white border-t border-[#D0D0D0] shadow-lg py-3 px-4 text-center rounded-b-lg text-red-400">
+                            <Typography
+                                color="text-red-400"
+                                cursorPointer
+                                variant="label"
+                                medium
+                            >
                                 View All
-                            </a>
-                        </Link>
+                            </Typography>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,10 +1,11 @@
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { useSubadminProfile } from '@hooks'
 import { SubAdminLayout } from '@layouts'
 import { IndustryProfileDetail } from '@partials/common'
-import { SubAdminApi, useGetSubAdminIndustryProfileQuery } from '@queries'
+import { useGetSubAdminIndustryProfileQuery } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useMemo } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 const IndustryDetail: NextPageWithLayout = () => {
     const router = useRouter()
@@ -15,17 +16,13 @@ const IndustryDetail: NextPageWithLayout = () => {
         skip: id === null || id === undefined,
         // refetchOnMountOrArgChange: true,
     })
-    const profile = SubAdminApi.SubAdmin.useProfile()
+    const subadmin = useSubadminProfile()
 
     useEffect(() => {
-        if (
-            profile?.data?.isAssociatedWithRto &&
-            profile?.isSuccess &&
-            profile?.data
-        ) {
+        if (subadmin?.isAssociatedWithRto && subadmin) {
             router.back()
         }
-    }, [profile])
+    }, [subadmin])
 
     return (
         <div>
@@ -34,7 +31,7 @@ const IndustryDetail: NextPageWithLayout = () => {
                 <LoadingAnimation height={'h-[70vh]'} />
             ) : industry.data ? (
                 <IndustryProfileDetail
-                    isHod={profile?.data?.departmentMember?.isHod}
+                    isHod={subadmin?.departmentMember?.isHod}
                     industry={industry?.data}
                 />
             ) : (

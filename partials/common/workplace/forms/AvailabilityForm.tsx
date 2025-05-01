@@ -191,9 +191,8 @@ export const AvailabilityForm = ({
                             >
                                 Find Industries
                             </Button>
-                            <AuthorizedUserComponent
-                                roles={[UserRoles.SUBADMIN]}
-                            >
+
+                            {autoResult && onSubmitBeta && (
                                 <Button
                                     onClick={() => {
                                         onSubmitBeta(daysAvailability)
@@ -207,7 +206,7 @@ export const AvailabilityForm = ({
                                         (Beta)
                                     </span>
                                 </Button>
-                            </AuthorizedUserComponent>
+                            )}
                         </div>
                     </Card>
                 </div>
