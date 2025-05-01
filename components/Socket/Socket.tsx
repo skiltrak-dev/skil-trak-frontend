@@ -1,10 +1,10 @@
-import { AuthUtils, ellipsisText } from '@utils'
+import { AuthUtils } from '@utils'
 import { useEffect, useState } from 'react'
 
-import { useNotification, useSocketListener } from '@hooks'
-import { useRouter } from 'next/router'
 import { io } from 'socket.io-client'
+import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
+import { useNotification, useSocketListener } from '@hooks'
 import { emptySplitApi } from '@queries/portals/empty.query'
 
 export enum SocketNotificationsEvents {
@@ -22,15 +22,15 @@ export enum SocketNotificationsEvents {
 }
 
 const socketEventToTagMapping = {
-    [SocketNotificationsEvents.TicketNotification]: ['Tickets'],
-    [SocketNotificationsEvents.MouNotification]: ['Mous'],
-    [SocketNotificationsEvents.MailNotification]: ['Messages'],
-    [SocketNotificationsEvents.AppointmentReminder]: ['Appointments'],
-    [SocketNotificationsEvents.ExpiryReminder]: ['Reminders'],
-    [SocketNotificationsEvents.FeedBackNotification]: ['Feedback'],
-    [SocketNotificationsEvents.WorkplaceNotification]: ['SubAdminWorkplace'],
     [SocketNotificationsEvents.NoteAdded]: ['Notes'],
+    [SocketNotificationsEvents.MouNotification]: ['Mous'],
+    [SocketNotificationsEvents.ExpiryReminder]: ['Reminders'],
+    [SocketNotificationsEvents.MailNotification]: ['Messages'],
+    [SocketNotificationsEvents.TicketNotification]: ['Tickets'],
+    [SocketNotificationsEvents.FeedBackNotification]: ['Feedback'],
+    [SocketNotificationsEvents.AppointmentReminder]: ['Appointments'],
     [SocketNotificationsEvents.NewStudentAssigned]: ['SubAdminStudents'],
+    [SocketNotificationsEvents.WorkplaceNotification]: ['SubAdminWorkplace'],
 }
 
 export const Socket = ({ children }: any) => {

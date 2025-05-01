@@ -284,54 +284,6 @@ export const StudentProfileForm = ({
     }, [courseValues])
 
     const onHandleSubmit = (values: any) => {
-        // const {
-        //     courses,
-        //     result,
-        //     cv,
-        //     rto,
-        //     savedJobs,
-        //     user,
-        //     workplace,
-        //     location,
-        //     industries,
-        //     studentStatus,
-        //     skiltrakId,
-        //     nonContactable,
-        //     isActive,
-        //     expiryDate,
-        //     updatedAt,
-        //     createdAt,
-        //     sectors,
-        //     ...rest
-        // } = profile?.data
-
-        // const userValues = {
-        //     name: user?.name,
-        //     email: user?.email,
-        // }
-
-        // const valuess = {
-        //     courses: courses?.map((c: Course) => c.id),
-        //     rto: rto?.id,
-        //     ...rest,
-        //     ...userValues,
-        // }
-
-        // console.log({ valuess })
-
-        // const changedFields = {}
-        // let changedCount = 0
-
-        // Object.keys(values).forEach((key) => {
-        //     // Compare current value with initial value
-        //     if (values[key] !== valuess[key]) {
-        //         ;(changedFields as any)[key] = values[key]
-        //         changedCount++
-        //     }
-        // })
-
-        // console.log({ changedFields })
-
         // if (!onSuburbClicked) {
         //     notification.error({
         //         title: 'You must select on Address Dropdown',
