@@ -87,6 +87,6 @@ export const profileEndpoints = (
             url: `${PREFIX}/student/${studentId}/coordinator/${coordinatorId}/assign`,
             method: 'PATCH',
         }),
-        invalidatesTags: ['Students', 'SubAdmin'],
+        invalidatesTags: ['Students', 'SubAdminStudents', 'SubAdmin'],
     }),
 })

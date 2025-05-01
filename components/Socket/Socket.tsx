@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { useNotification, useSocketListener } from '@hooks'
 import { useRouter } from 'next/router'
 import { io } from 'socket.io-client'
+import { useDispatch } from 'react-redux'
+import { emptySplitApi } from '@queries/portals/empty.query'
 
 export enum SocketNotificationsEvents {
     TicketNotification = 'ticketNotification',
@@ -15,6 +17,20 @@ export enum SocketNotificationsEvents {
     FeedBackNotification = 'feedback',
     WorkplaceNotification = 'workplaceRequest',
     NoteAdded = 'newNoteAdded',
+    NewStudentAssigned = 'newStudentAssigned',
+    StudentUnSnoozed = 'studentUnSnoozed',
+}
+
+const socketEventToTagMapping = {
+    [SocketNotificationsEvents.TicketNotification]: ['Tickets'],
+    [SocketNotificationsEvents.MouNotification]: ['Mous'],
+    [SocketNotificationsEvents.MailNotification]: ['Messages'],
+    [SocketNotificationsEvents.AppointmentReminder]: ['Appointments'],
+    [SocketNotificationsEvents.ExpiryReminder]: ['Reminders'],
+    [SocketNotificationsEvents.FeedBackNotification]: ['Feedback'],
+    [SocketNotificationsEvents.WorkplaceNotification]: ['SubAdminWorkplace'],
+    [SocketNotificationsEvents.NoteAdded]: ['Notes'],
+    [SocketNotificationsEvents.NewStudentAssigned]: ['SubAdminStudents'],
 }
 
 export const Socket = ({ children }: any) => {
@@ -33,164 +49,55 @@ export const Socket = ({ children }: any) => {
         }
     }, [])
 
+    const dispatch = useDispatch()
+
+    const invalidateCacheForEvent = (eventName: SocketNotificationsEvents) => {
+        console.log({ eventName })
+        const tagsToInvalidate = (socketEventToTagMapping as any)[eventName]
+        if (tagsToInvalidate) {
+            tagsToInvalidate.forEach((tag: any) => {
+                dispatch(emptySplitApi.util.invalidateTags([tag]))
+            })
+        }
+    }
+
     useEffect(() => {
         if (AuthUtils.isAuthenticated()) {
             socket?.emit('join', AuthUtils.getUserCredentials()?.id)
 
             socket?.on('joined', (notify: { message: string }) => {})
 
-            socket?.on(
-                SocketNotificationsEvents.MouNotification,
-                (notify: any) => {
-                    notification.success({
-                        title: notify.title,
-                        description: notify.description,
-                        primaryAction: {
-                            text: 'View',
-                            onClick: async () => {
-                                // await readNotification(notify.id)
-                                // setNotificationList(null)
-                                // navigate(notify.link)
-                            },
-                        },
-                    })
-                }
-            )
-            socket?.on(
-                SocketNotificationsEvents.MailNotification,
-                (notify: any) => {
-                    if (
-                        AuthUtils.getUserCredentials()?.id !==
-                        notify?.sender?.id
-                    ) {
+            Object.values(SocketNotificationsEvents)?.forEach(
+                (eventName: SocketNotificationsEvents) => {
+                    socket?.on(eventName, (notify: any) => {
+                        setEventListener({
+                            eventName,
+                            eventListener: notify,
+                        })
+                        invalidateCacheForEvent(eventName)
+
                         notification.success({
-                            title: notify?.subject,
-                            description: ellipsisText(notify?.message, 60),
+                            title: notify?.type,
+                            description: notify?.message,
+                            dissmissTimer: 6000,
                             primaryAction: {
                                 text: 'View',
-                                onClick: async () => {
-                                    // await readNotification(notify.notificationId)
-                                    // setMessage(null)
-                                    // navigate(`/messages`)
-                                },
+                                onClick: () => router.push(notify?.link),
                             },
+                            position: 'topright',
                         })
-                    }
-                }
-            )
-
-            socket?.on(
-                SocketNotificationsEvents.Notification,
-                (notify: any) => {
-                    // setNotificationList(notify)
-                    notification.success({
-                        title: notify?.title,
-                        description: notify?.message,
                     })
                 }
             )
+        }
 
-            socket?.on(
-                SocketNotificationsEvents.TicketNotification,
-                (notify: any) => {
-                    setEventListener({
-                        eventName: SocketNotificationsEvents.TicketNotification,
-                        eventListener: notify,
-                    })
-                    notification.success({
-                        title: notify?.title,
-                        description: notify?.message,
-                    })
-                }
-            )
-
-            socket?.on(
-                SocketNotificationsEvents.AppointmentReminder,
-                (notify: any) => {
-                    setEventListener({
-                        eventName:
-                            SocketNotificationsEvents.AppointmentReminder,
-                        eventListener: notify,
-                    })
-                    notification.success({
-                        title: notify?.title,
-                        description: notify?.description,
-                        primaryAction: {
-                            text: 'View',
-                            onClick: () => {
-                                router.push(notify?.link)
-                            },
-                        },
-                    })
-                }
-            )
-
-            socket?.on(
-                SocketNotificationsEvents.ExpiryReminder,
-                (notify: any) => {
-                    setEventListener({
-                        eventName: SocketNotificationsEvents.ExpiryReminder,
-                        eventListener: notify,
-                    })
-                    notification.success({
-                        title: notify?.title,
-                        description: notify?.description,
-                    })
-                }
-            )
-
-            socket?.on(
-                SocketNotificationsEvents.FeedBackNotification,
-                (notify: any) => {
-                    setEventListener({
-                        eventName:
-                            SocketNotificationsEvents.FeedBackNotification,
-                        eventListener: notify,
-                    })
-                    notification.success({
-                        title: notify?.title,
-                        description: notify?.description,
-                    })
-                }
-            )
-
-            socket?.on(
-                SocketNotificationsEvents.WorkplaceNotification,
-                (notify: any) => {
-                    setEventListener({
-                        eventName:
-                            SocketNotificationsEvents.WorkplaceNotification,
-                        eventListener: notify,
-                    })
-                    notification.success({
-                        title: notify?.type,
-                        description: notify?.message,
-                        dissmissTimer: 6000,
-                        primaryAction: {
-                            text: 'View',
-                            onClick: () => router.push(notify?.link),
-                        },
-                        position: 'topright',
-                    })
-                }
-            )
-
-            socket?.on(SocketNotificationsEvents.NoteAdded, (notify: any) => {
-                setEventListener({
-                    eventName: SocketNotificationsEvents.NoteAdded,
-                    eventListener: notify,
+        return () => {
+            if (socket) {
+                Object.values(SocketNotificationsEvents).forEach((event) => {
+                    socket.off(event)
                 })
-                notification.success({
-                    title: notify?.type,
-                    description: notify?.message,
-                    dissmissTimer: 6000,
-                    primaryAction: {
-                        text: 'View',
-                        onClick: () => router.push(notify?.link),
-                    },
-                    position: 'topright',
-                })
-            })
+                socket.off('joined')
+            }
         }
     }, [socket, router])
 

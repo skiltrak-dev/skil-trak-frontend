@@ -1,6 +1,5 @@
 import { useState } from 'react'
-// Layouts
-// Types
+
 import {
     Card,
     EmptyData,
@@ -18,12 +17,11 @@ export const AllNotifications = () => {
 
     const notifications = CommonApi.Notifications.useNotifications(
         {
-            skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
+            skip: itemPerPage * page - itemPerPage,
         },
         {
             refetchOnMountOrArgChange: true,
-            refetchOnFocus: true,
         }
     )
 
@@ -31,7 +29,7 @@ export const AllNotifications = () => {
         <>
             <Card>
                 {notifications?.isError && <TechnicalError />}
-                {notifications?.isLoading || notifications?.isFetching ? (
+                {notifications?.isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : notifications?.data && notifications?.data?.data?.length ? (
                     <div className="flex flex-col">

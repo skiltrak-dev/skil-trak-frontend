@@ -82,6 +82,9 @@ export const NotificationDropDown = ({
                                         onClick={() => {
                                             setNotificationsExpanded(false)
                                             isReadNotification(notification?.id)
+                                            if (notification?.link) {
+                                                router.push(notification?.link)
+                                            }
                                         }}
                                     />
                                 ))}

@@ -13,7 +13,6 @@ export const profileEndpoints = (
         query: ({ id, body }) => ({
             url: `${PREFIX}/profile/update`,
             method: 'PATCH',
-            // using student id to update when updating from admin or subadmin portal
             params: { student: id },
             body,
         }),

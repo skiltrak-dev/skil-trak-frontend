@@ -1,15 +1,9 @@
-import React, { useEffect } from 'react'
-import { SubAdminApi, useAssignToSubAdminMutation } from '@queries'
-import { useNotification } from '@hooks'
-import {
-    Button,
-    GlobalModal,
-    ShowErrorNotifications,
-    TextArea,
-} from '@components'
-import { FormProvider, useForm } from 'react-hook-form'
-import * as Yup from 'yup'
+import { Button, GlobalModal, ShowErrorNotifications } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useNotification } from '@hooks'
+import { SubAdminApi } from '@queries'
+import { useForm } from 'react-hook-form'
+import * as Yup from 'yup'
 export const AssignCoordinatorModal = ({
     onCancelModal,
     subAdminId,
@@ -26,7 +20,6 @@ export const AssignCoordinatorModal = ({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
-
 
     const onSubmit = async () => {
         const payload: any = {

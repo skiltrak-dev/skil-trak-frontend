@@ -2,12 +2,7 @@ import { ReactElement } from 'react'
 // Layouts
 import { SubAdminLayout } from '@layouts'
 // Types
-import {
-    AllNotifications,
-    NotificationList,
-    ReadNotifications,
-    UnReadNotifications,
-} from '@partials/common'
+import { NotificationList } from '@partials/common'
 import { NextPageWithLayout } from '@types'
 
 const SubAdminAllNotifications: NextPageWithLayout = () => {

@@ -5,18 +5,43 @@ import React from 'react'
 import { GoDotFill } from 'react-icons/go'
 import { LuClock4 } from 'react-icons/lu'
 import { smartDateFormat, smartDateTimeFormat } from '../functions'
+import { useRouter } from 'next/router'
 
 export const NotificationCard = ({ notification }: { notification: any }) => {
+    const router = useRouter()
+
     const [readNotifications, resultReadNotifications] =
         CommonApi.Notifications.useIsReadNotification()
+
+    const handleNotificationClick = async (e: any) => {
+        e.preventDefault()
+
+        try {
+            // First mark the notification as read
+            if (!notification.isRead && notification?.id) {
+                await readNotifications(notification?.id)
+            }
+
+            // Then navigate to the link
+            if (notification?.link) {
+                router.push(notification.link)
+            }
+        } catch (error) {
+            console.error('Error handling notification click:', error)
+        }
+    }
 
     return (
         <div
             key={notification?.id}
-            onClick={() => readNotifications(notification?.id)}
+            onClick={handleNotificationClick}
             className={` shadow-[0px_0px_10px_0px_rgba(0,0,0,0.25)] w-full flex items-center gap-x-4 rounded-md border-b border-secondary px-3 py-2.5 cursor-pointer hover:bg-secondary transition-all`}
         >
-            <GoDotFill className="text-2xl text-[#4779ED]" />
+            <GoDotFill
+                className={`text-2xl ${
+                    notification.isRead ? 'text-white' : 'text-[#4779ED]'
+                } `}
+            />
             <div className="w-12 h-11 relative">
                 <InitialAvatar
                     large
