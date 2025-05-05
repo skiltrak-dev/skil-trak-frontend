@@ -76,7 +76,7 @@ export const PersonalInfoQuestions = ({
                 if (ques?.type === 'textarea') {
                     if (ques.name === 'preferredContactTime') {
                         return (
-                            <div className="flex flex-col gap-y-2">
+                            <div key={i} className="flex flex-col gap-y-2">
                                 <Typography variant="label" semibold block>
                                     {ques?.index}. {ques?.title}
                                 </Typography>
@@ -96,7 +96,7 @@ export const PersonalInfoQuestions = ({
                         workplaceQuestionsKeys.placementPreferences
                     ) {
                         return (
-                            <div className="flex flex-col gap-y-1">
+                            <div key={i} className="flex flex-col gap-y-1">
                                 <Typography variant="label" semibold block>
                                     {ques?.index}. {ques?.title}
                                 </Typography>

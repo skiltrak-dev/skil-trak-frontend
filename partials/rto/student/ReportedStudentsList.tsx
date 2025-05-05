@@ -84,10 +84,6 @@ export const ReportedStudentsList = () => {
         }
     }, [exportList?.isError])
 
-    const handleDownloadExcel = () => {
-        setIsExcelDownload(true)
-    }
-
     const onModalCancelClicked = () => setModal(null)
 
     const onBlockClicked = (student: Student) => {
@@ -99,49 +95,12 @@ export const ReportedStudentsList = () => {
         )
     }
 
-    const onArchiveClicked = (student: Student) => {
-        setModal(
-            <ArchiveModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStudentStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onDateClick = (student: Student) => {
-        setModal(
-            <EditTimer
-                studentId={student?.user?.id}
-                date={student?.expiryDate}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
     const onAssignCoordinatorClicked = (student: Student) => {
         setModal(
             <AssignCoordinatorModal
                 studentId={student?.id}
                 studentUser={student?.user}
                 rtoCoordinatorId={student?.rtoCoordinator?.id}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onRemoveCoordinatorClicked = (student: Student) => {
-        setModal(
-            <RemoveCoordinator
-                student={student}
                 onCancel={onModalCancelClicked}
             />
         )
@@ -183,55 +142,6 @@ export const ReportedStudentsList = () => {
                 onClick: (student: Student) => onAddOrEditComment(student),
                 Icon: FaComment,
             },
-            // {
-            //     text: 'Edit',
-            //     onClick: (student: Student) =>
-            //         router.push(
-            //             `portals/rto/students/${student.id}/edit-student`
-            //         ),
-            //     Icon: FaEye,
-            // },
-            // {
-            //     text: student?.rtoCoordinator
-            //         ? 'Change Coordinator'
-            //         : 'Assign Coordinator',
-            //     onClick: (student: Student) =>
-            //         onAssignCoordinatorClicked(student),
-            //     Icon: FaUserPlus,
-            // },
-            // {
-            //     ...(student?.rtoCoordinator
-            //         ? {
-            //               text: 'Remove Coordinator',
-            //               onClick: (student: Student) =>
-            //                   onRemoveCoordinatorClicked(student),
-            //               Icon: IoPersonRemoveSharp,
-            //               color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            //           }
-            //         : {}),
-            // },
-            // {
-            //     text: 'Archive',
-            //     onClick: (student: Student) => onArchiveClicked(student),
-            //     Icon: MdBlock,
-            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            // },
-            // {
-            //     text: 'Block',
-            //     onClick: (student: Student) => onBlockClicked(student),
-            //     Icon: MdBlock,
-            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            // },
-            // {
-            //     text: 'Change Status',
-            //     onClick: (student: Student) => onChangeStatus(student),
-            //     Icon: FaEdit,
-            // },
-            // {
-            //     text: 'Change Expiry',
-            //     onClick: (student: Student) => onDateClick(student),
-            //     Icon: FaEdit,
-            // },
         ]
     }
 
