@@ -7,7 +7,11 @@ import {
     PaginationWithSearch,
     SubAdmin,
 } from '@types'
-import { AdminWorkplaceCount, IWorkplaceIndustries } from 'redux/queryTypes'
+import {
+    AdminNeedWorkplaceCount,
+    AdminWorkplaceCount,
+    IWorkplaceIndustries,
+} from 'redux/queryTypes'
 
 const PREFIX = 'admin'
 export const workplaceEndpoints = (
@@ -15,6 +19,21 @@ export const workplaceEndpoints = (
 ) => ({
     workplacesCount: builder.query<AdminWorkplaceCount, void>({
         query: () => `${PREFIX}/workplace-request/count`,
+        providesTags: ['Workplaces'],
+    }),
+    needWpCount: builder.query<
+        AdminNeedWorkplaceCount,
+        {
+            depId: number | null
+            snoozed: boolean
+            nonContactable: boolean
+            flagged: boolean
+        }
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/need-workplaces/count`,
+            params,
+        }),
         providesTags: ['Workplaces'],
     }),
     filteredWorkplaces: builder.query<

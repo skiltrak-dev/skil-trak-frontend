@@ -7,52 +7,7 @@ import { HiCheck } from 'react-icons/hi'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { DataKpiTable } from '../../DataKpiTable'
 import moment, { Moment } from 'moment'
-
-const completedColumns: ColumnDef<IWorkplaceIndustries>[] = [
-    {
-        accessorKey: 'student.studentId',
-        header: 'Student ID',
-    },
-    {
-        accessorKey: 'student.user.name',
-        header: 'Name',
-    },
-    {
-        accessorKey: 'student.user.email',
-        header: 'Email',
-    },
-    {
-        accessorKey: 'student.phone',
-        header: 'Phone',
-    },
-    {
-        accessorKey: 'courses',
-        header: 'COURSES',
-        cell: (info) => (
-            <div>
-                <Typography variant="small" normal>
-                    {info?.row?.original?.courses?.[0]?.code}
-                </Typography>
-                <Typography variant="label" normal>
-                    {info?.row?.original?.courses?.[0]?.title}
-                </Typography>
-            </div>
-        ),
-    },
-    {
-        accessorKey: 'completedDate',
-        header: 'Completed Date',
-        cell: (info) => (
-            <CreatedAtDate
-                createdAt={info.row?.original?.industries?.[0]?.isCompletedDate}
-            />
-        ),
-    },
-    {
-        accessorKey: 'currentStatus',
-        header: 'Completion Status',
-    },
-]
+import { useColumnsAction } from '../../hooks'
 
 export const Completed = ({
     startDate,
@@ -65,6 +20,57 @@ export const Completed = ({
 
     const [page, setPage] = useState(1)
     const [itemPerPage] = useState(10)
+
+    const { columnAction, modal } = useColumnsAction()
+
+    const completedColumns: ColumnDef<IWorkplaceIndustries>[] = [
+        {
+            accessorKey: 'student.studentId',
+            header: 'Student ID',
+        },
+        {
+            accessorKey: 'student.user.name',
+            header: 'Name',
+        },
+        {
+            accessorKey: 'student.user.email',
+            header: 'Email',
+        },
+        {
+            accessorKey: 'student.phone',
+            header: 'Phone',
+        },
+        {
+            accessorKey: 'courses',
+            header: 'COURSES',
+            cell: (info) => (
+                <div>
+                    <Typography variant="small" normal>
+                        {info?.row?.original?.courses?.[0]?.code}
+                    </Typography>
+                    <Typography variant="label" normal>
+                        {info?.row?.original?.courses?.[0]?.title}
+                    </Typography>
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'completedDate',
+            header: 'Completed Date',
+            cell: (info) => (
+                <CreatedAtDate
+                    createdAt={
+                        info.row?.original?.industries?.[0]?.isCompletedDate
+                    }
+                />
+            ),
+        },
+        {
+            accessorKey: 'currentStatus',
+            header: 'Completion Status',
+        },
+        ...(columnAction as ColumnDef<IWorkplaceIndustries>[]),
+    ]
 
     const workplace = AdminApi.Kpi.completedDetails(
         {
@@ -80,13 +86,16 @@ export const Completed = ({
         }
     )
     return (
-        <DataKpiTable
-            colors="red"
-            Icon={HiCheck}
-            title="Completed"
-            columns={completedColumns}
-            data={workplace}
-            setPage={setPage}
-        />
+        <>
+            {modal}
+            <DataKpiTable
+                colors="red"
+                Icon={HiCheck}
+                title="Completed"
+                columns={completedColumns}
+                data={workplace}
+                setPage={setPage}
+            />
+        </>
     )
 }

@@ -25,6 +25,12 @@ export interface AdminWorkplaceCount {
     cancelled: number
 }
 
+export interface AdminNeedWorkplaceCount {
+    UNDER_3_WEEKS: number
+    BETWEEN_3WEEKS_2MONTHS: number
+    BEYOND_2_MONTHS: number
+}
+
 export interface WorkplaceWorkIndustriesType {
     AgreementSigned: boolean
     AgreementSignedDate: Date

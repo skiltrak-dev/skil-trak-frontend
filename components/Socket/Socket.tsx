@@ -19,6 +19,14 @@ export enum SocketNotificationsEvents {
     NoteAdded = 'newNoteAdded',
     NewStudentAssigned = 'newStudentAssigned',
     StudentUnSnoozed = 'studentUnSnoozed',
+    StudentProfileUpdated = 'studentProfileUpdated',
+    EsignCompleted = 'esignCompleted',
+    WorkplaceApproved = 'workplaceApproved',
+    newStudentAssigned = 'newStudentAssigned',
+    WorkplaceRequestApproved = 'workplaceRequestApproved',
+    IndustryApprovedStudent = 'industryApprovedStudent',
+    AppointmentBooked = 'appointmentBooked',
+    DocumentUploaded = 'documentUploaded',
 }
 
 const socketEventToTagMapping = {
@@ -30,7 +38,10 @@ const socketEventToTagMapping = {
     [SocketNotificationsEvents.FeedBackNotification]: ['Feedback'],
     [SocketNotificationsEvents.AppointmentReminder]: ['Appointments'],
     [SocketNotificationsEvents.NewStudentAssigned]: ['SubAdminStudents'],
+    [SocketNotificationsEvents.WorkplaceApproved]: ['SubAdminWorkplace'],
     [SocketNotificationsEvents.WorkplaceNotification]: ['SubAdminWorkplace'],
+    [SocketNotificationsEvents.IndustryApprovedStudent]: ['SubAdminWorkplace'],
+    [SocketNotificationsEvents.WorkplaceRequestApproved]: ['SubAdminWorkplace'],
 }
 
 export const Socket = ({ children }: any) => {

@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { RiMap2Line } from 'react-icons/ri'
 import { DataKpiTable } from '../../DataKpiTable'
+import { useColumnsAction } from '../../hooks'
 
 export const StudentAgreementTable = ({
     startDate,
@@ -19,6 +20,8 @@ export const StudentAgreementTable = ({
 
     const [page, setPage] = useState(1)
     const [itemPerPage] = useState(10)
+
+    const { columnAction, modal } = useColumnsAction()
 
     const workplace = AdminApi.Kpi.studentAgreementDetails(
         {
@@ -102,16 +105,20 @@ export const StudentAgreementTable = ({
             accessorKey: 'verificationStatus',
             header: 'Verification',
         },
+        ...(columnAction as ColumnDef<KpiTypes>[]),
     ]
 
     return (
-        <DataKpiTable
-            colors="blue"
-            data={workplace}
-            Icon={RiMap2Line}
-            setPage={setPage}
-            columns={agreementColumns}
-            title="Agreement (Student Provided Workplace)"
-        />
+        <>
+            {modal}
+            <DataKpiTable
+                colors="blue"
+                data={workplace}
+                Icon={RiMap2Line}
+                setPage={setPage}
+                columns={agreementColumns}
+                title="Agreement (Student Provided Workplace)"
+            />
+        </>
     )
 }

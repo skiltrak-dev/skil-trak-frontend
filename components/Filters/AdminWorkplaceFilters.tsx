@@ -26,11 +26,10 @@ export const AdminWorkplaceFilters = ({
     onFilterChange,
     filter,
 }: ItemFilterProps) => {
-    // query
-    const getIndustries = CommonApi.Filter.useIndustries()
-    const getCourses = CommonApi.Filter.useCourses()
-    const getCoordinators = CommonApi.Appointments.allCoordinators()
     const getRtos = CommonApi.Filter.useRtos()
+    const getCourses = CommonApi.Filter.useCourses()
+    const getIndustries = CommonApi.Filter.useIndustries()
+    const getCoordinators = CommonApi.Appointments.allCoordinators()
     const departments = AdminApi.Department.getDepartmentFilterList()
 
     const industryOptions = getIndustries?.data?.map((industry: Industry) => ({

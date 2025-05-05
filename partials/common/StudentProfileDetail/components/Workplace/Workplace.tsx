@@ -294,17 +294,6 @@ export const Workplace = ({
                                                         )
                                                     }}
                                                 />
-
-                                                <WPInvoiceStatus
-                                                    selectedWorkplaceId={
-                                                        selectedWorkplace?.id
-                                                    }
-                                                    onClick={() => {
-                                                        onStatusChangeClicked(
-                                                            selectedWorkplace?.id
-                                                        )
-                                                    }}
-                                                />
                                             </div>
                                         </div>
                                     </div>

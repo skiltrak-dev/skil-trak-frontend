@@ -255,6 +255,7 @@ export const Approved = () => {
                 return (
                     <div className="flex gap-x-1 items-center">
                         {[
+                            WorkplaceCurrentStatus.AppointmentBooked,
                             WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
                         ]?.includes(currentStatus) ? (
                             <>

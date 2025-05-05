@@ -8,6 +8,7 @@ import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { DataKpiTable } from '../../DataKpiTable'
 import { KpiTypes } from '@types'
 import moment, { Moment } from 'moment'
+import { useColumnsAction } from '../../hooks'
 
 export const WorkplaceAgreementTable = ({
     startDate,
@@ -19,6 +20,8 @@ export const WorkplaceAgreementTable = ({
     const router = useRouter()
     const [page, setPage] = useState(1)
     const [itemPerPage] = useState(10)
+
+    const { columnAction, modal } = useColumnsAction()
 
     const workplace = AdminApi.Kpi.workplaceAgreementDetails(
         {
@@ -92,16 +95,20 @@ export const WorkplaceAgreementTable = ({
             accessorKey: 'verificationStatus',
             header: 'Verification',
         },
+        ...(columnAction as ColumnDef<KpiTypes>[]),
     ]
 
     return (
-        <DataKpiTable
-            setPage={setPage}
-            colors="green"
-            Icon={RiMap2Line}
-            title="Agreement (Workplace Request)"
-            columns={agreementColumns}
-            data={workplace}
-        />
+        <>
+            {modal}
+            <DataKpiTable
+                setPage={setPage}
+                colors="green"
+                Icon={RiMap2Line}
+                title="Agreement (Workplace Request)"
+                columns={agreementColumns}
+                data={workplace}
+            />
+        </>
     )
 }

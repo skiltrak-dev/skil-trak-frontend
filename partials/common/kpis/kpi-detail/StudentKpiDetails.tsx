@@ -1,11 +1,9 @@
 'use client'
 import { useMemo } from 'react'
 
-import { AuthorizedUserComponent, InitialAvatar, Typography } from '@components'
-import { UserRoles } from '@constants'
+import { InitialAvatar, Typography } from '@components'
 import { UserStatus } from '@types'
 import { WeekFilter } from '../Common'
-import { VerifyAction } from '../HOD'
 import { SECTIONS_CONFIG } from './kpiComponentsData'
 import { SubadminDetailProgress } from './SubadminDetailProgress'
 
@@ -116,12 +114,6 @@ export const StudentKpiDetails = ({
                                     />
                                 )
                             )}
-
-                            <AuthorizedUserComponent
-                                roles={[UserRoles.SUBADMIN]}
-                            >
-                                <VerifyAction subadmin={subadmin} />
-                            </AuthorizedUserComponent>
                         </div>
                     )}
                 </div>

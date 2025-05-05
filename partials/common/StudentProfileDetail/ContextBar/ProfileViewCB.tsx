@@ -5,8 +5,10 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import { Student, SubAdmin } from '@types'
-import { getUserCredentials, maskText } from '@utils'
+import { useMaskText } from '@hooks'
+import { Student } from '@types'
+import { getUserCredentials } from '@utils'
+import { WPInvoiceStatus } from '../components'
 import {
     AssignToMeStudent,
     ContactStatus,
@@ -18,15 +20,8 @@ import {
     StudentExpireTime,
     StudentStatus,
 } from '../ContextBarComponents'
-import { useMaskText } from '@hooks'
 
-export const ProfileViewCB = ({
-    profile,
-    subadmin,
-}: {
-    profile: Student
-    subadmin?: SubAdmin
-}) => {
+export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     const role = getUserCredentials()?.role
 
     return (
@@ -57,6 +52,7 @@ export const ProfileViewCB = ({
                     </div>
                 </div>
             </div>
+
             <div className="flex justify-between">
                 <AuthorizedUserComponent
                     roles={[UserRoles.ADMIN, UserRoles.RTO, UserRoles.OBSERVER]}
@@ -74,16 +70,7 @@ export const ProfileViewCB = ({
                 </AuthorizedUserComponent>
             </div>
 
-            {/* <AuthorizedUserComponent
-                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
-            >
-                <div
-                    onClick={onViewProfileVisitorsClicked}
-                    className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200 w-fit ml-auto"
-                >
-                    View Visitors
-                </div>
-            </AuthorizedUserComponent> */}
+            <WPInvoiceStatus />
 
             {/* Expiry Date */}
             <div className="flex items-center gap-x-5 mt-3">
