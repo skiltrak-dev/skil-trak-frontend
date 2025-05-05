@@ -63,7 +63,6 @@ export const Socket = ({ children }: any) => {
     const dispatch = useDispatch()
 
     const invalidateCacheForEvent = (eventName: SocketNotificationsEvents) => {
-        console.log({ eventName })
         const tagsToInvalidate = (socketEventToTagMapping as any)[eventName]
         if (tagsToInvalidate) {
             tagsToInvalidate.forEach((tag: any) => {

@@ -18,7 +18,6 @@ type DaySelectorProps = {
 }
 
 export const DaySelector = ({ selectedDays, onChange }: DaySelectorProps) => {
-    console.log({ selectedDays })
     return (
         <div className="flex flex-wrap gap-2">
             {days.map((day) => {
