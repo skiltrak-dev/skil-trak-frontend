@@ -106,7 +106,7 @@ const Workplace: NextPageWithLayout = () => {
                 text: count?.data?.requested,
                 loading: count?.isLoading,
             },
-            element: <NeedAdminWorkplaces counts={count?.data} />,
+            element: <NeedAdminWorkplaces />,
         },
         {
             label: 'Assigned Requests',
