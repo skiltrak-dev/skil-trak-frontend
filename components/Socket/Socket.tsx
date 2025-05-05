@@ -34,6 +34,7 @@ export enum SocketNotificationsEvents {
 
 const socketEventToTagMapping = {
     [SocketNotificationsEvents.NoteAdded]: ['Notes'],
+    [SocketNotificationsEvents.EsignReceived]: ['E-Sign'],
     [SocketNotificationsEvents.MouNotification]: ['Mous'],
     [SocketNotificationsEvents.ExpiryReminder]: ['Reminders'],
     [SocketNotificationsEvents.MailNotification]: ['Messages'],
@@ -41,6 +42,7 @@ const socketEventToTagMapping = {
     [SocketNotificationsEvents.PlacementStarted]: ['Workplace'],
     [SocketNotificationsEvents.FeedBackNotification]: ['Feedback'],
     [SocketNotificationsEvents.AppointmentReminder]: ['Appointments'],
+    [SocketNotificationsEvents.EsignCompleted]: ['AssessmentEvidence'],
     [SocketNotificationsEvents.NewStudentAssigned]: ['SubAdminStudents'],
     [SocketNotificationsEvents.WorkplaceApproved]: ['SubAdminWorkplace'],
     [SocketNotificationsEvents.WorkplaceNotification]: ['SubAdminWorkplace'],
