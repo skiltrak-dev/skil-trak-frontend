@@ -27,6 +27,9 @@ export enum SocketNotificationsEvents {
     IndustryApprovedStudent = 'industryApprovedStudent',
     AppointmentBooked = 'appointmentBooked',
     DocumentUploaded = 'documentUploaded',
+    PlacementStarted = 'placementStarted',
+    PlacementCompleted = 'placementCompleted',
+    EsignReceived = 'esignReceived',
 }
 
 const socketEventToTagMapping = {
@@ -35,6 +38,7 @@ const socketEventToTagMapping = {
     [SocketNotificationsEvents.ExpiryReminder]: ['Reminders'],
     [SocketNotificationsEvents.MailNotification]: ['Messages'],
     [SocketNotificationsEvents.TicketNotification]: ['Tickets'],
+    [SocketNotificationsEvents.PlacementStarted]: ['Workplace'],
     [SocketNotificationsEvents.FeedBackNotification]: ['Feedback'],
     [SocketNotificationsEvents.AppointmentReminder]: ['Appointments'],
     [SocketNotificationsEvents.NewStudentAssigned]: ['SubAdminStudents'],
@@ -64,6 +68,7 @@ export const Socket = ({ children }: any) => {
 
     const invalidateCacheForEvent = (eventName: SocketNotificationsEvents) => {
         const tagsToInvalidate = (socketEventToTagMapping as any)[eventName]
+        console.log({ eventName })
         if (tagsToInvalidate) {
             tagsToInvalidate.forEach((tag: any) => {
                 dispatch(emptySplitApi.util.invalidateTags([tag]))
@@ -75,7 +80,9 @@ export const Socket = ({ children }: any) => {
         if (AuthUtils.isAuthenticated()) {
             socket?.emit('join', AuthUtils.getUserCredentials()?.id)
 
-            socket?.on('joined', (notify: { message: string }) => {})
+            socket?.on('joined', (notify: { message: string }) => {
+                console.log({ notify })
+            })
 
             Object.values(SocketNotificationsEvents)?.forEach(
                 (eventName: SocketNotificationsEvents) => {
@@ -84,6 +91,7 @@ export const Socket = ({ children }: any) => {
                             eventName,
                             eventListener: notify,
                         })
+                        console.log({ notify })
                         invalidateCacheForEvent(eventName)
 
                         notification.success({

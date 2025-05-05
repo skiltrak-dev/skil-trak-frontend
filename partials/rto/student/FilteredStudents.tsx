@@ -67,12 +67,12 @@ export const FilteredStudents = ({
             },
             Icon: FaEdit,
         },
-        // {
-        //     text: 'Block',
-        //     onClick: (student: Student) => onBlockClicked(student),
-        //     Icon: MdBlock,
-        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        // },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
     ]
 
     const columns: ColumnDef<Student>[] = [

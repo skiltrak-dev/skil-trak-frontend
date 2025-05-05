@@ -91,15 +91,6 @@ export const IncompleteSubmissionStudent = () => {
         )
     }
 
-    const onArchiveClicked = (student: Student) => {
-        setModal(
-            <ArchiveModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
     const onChangeStatus = (student: Student) => {
         setModal(
             <ChangeStudentStatusModal
@@ -185,12 +176,6 @@ export const IncompleteSubmissionStudent = () => {
             //           }
             //         : {}),
             // },
-            {
-                text: 'Archive',
-                onClick: (student: Student) => onArchiveClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
             {
                 text: 'Block',
                 onClick: (student: Student) => onBlockClicked(student),

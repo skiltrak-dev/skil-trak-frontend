@@ -61,15 +61,6 @@ export const CompletedStudents = () => {
         )
     }
 
-    const onArchiveClicked = (student: Student) => {
-        setModal(
-            <ArchiveModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
     const onChangeStatus = (student: Student) => {
         setModal(
             <ChangeStudentStatusModal
@@ -96,12 +87,6 @@ export const CompletedStudents = () => {
                 router.push(`/portals/rto/students/${student.id}?tab=overview`)
             },
             Icon: FaEye,
-        },
-        {
-            text: 'Archive',
-            onClick: (student: Student) => onArchiveClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Block',

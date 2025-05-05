@@ -1,16 +1,16 @@
 import {
-    Card,
-    Table,
-    Button,
-    EmptyData,
-    Typography,
-    TableAction,
     ActionButton,
-    UserCreatedAt,
-    TechnicalError,
+    Button,
+    Card,
+    CaseOfficerAssignedStudent,
+    EmptyData,
     LoadingAnimation,
     StudentExpiryDaysLeft,
-    CaseOfficerAssignedStudent,
+    Table,
+    TableAction,
+    TechnicalError,
+    Typography,
+    UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -27,12 +27,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock, MdChangeCircle } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
 import { IndustryCell } from './components/IndustryCell'
-import {
-    ArchiveModal,
-    AssignCoordinatorModal,
-    BlockModal,
-    RemoveCoordinator,
-} from './modals'
+import { AssignCoordinatorModal, BlockModal } from './modals'
 import { AssignMultipleCoordinatorModal } from './modals/AssignMultipleCoordinatorModal'
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -74,24 +69,11 @@ export const ApprovedStudent = () => {
         }
     }, [exportList?.isError])
 
-    const handleDownloadExcel = () => {
-        setIsExcelDownload(true)
-    }
-
     const onModalCancelClicked = () => setModal(null)
 
     const onBlockClicked = (student: Student) => {
         setModal(
             <BlockModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onArchiveClicked = (student: Student) => {
-        setModal(
-            <ArchiveModal
                 item={student}
                 onCancel={() => onModalCancelClicked()}
             />
@@ -123,15 +105,6 @@ export const ApprovedStudent = () => {
                 studentId={student?.id}
                 studentUser={student?.user}
                 rtoCoordinatorId={student?.rtoCoordinator?.id}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onRemoveCoordinatorClicked = (student: Student) => {
-        setModal(
-            <RemoveCoordinator
-                student={student}
                 onCancel={onModalCancelClicked}
             />
         )
@@ -183,12 +156,7 @@ export const ApprovedStudent = () => {
             //           }
             //         : {}),
             // },
-            {
-                text: 'Archive',
-                onClick: (student: Student) => onArchiveClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
+
             {
                 text: 'Block',
                 onClick: (student: Student) => onBlockClicked(student),
