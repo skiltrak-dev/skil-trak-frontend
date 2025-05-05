@@ -1,20 +1,7 @@
-import {
-    AuthorizedUserComponent,
-    Button,
-    Switch,
-    Tooltip,
-    Typography,
-} from '@components'
-import { UserRoles } from '@constants'
+import { Typography } from '@components'
 import { EsignDocumentStatus, getUserCredentials, isBrowser } from '@utils'
 import moment from 'moment'
 import { ReactNode, useState } from 'react'
-import { MdEmail } from 'react-icons/md'
-import { TiUser } from 'react-icons/ti'
-import { RequestResign, ResendMailModal } from '../modal'
-import { RiMailSendLine } from 'react-icons/ri'
-import { FaSignature } from 'react-icons/fa'
-import { CommonApi } from '@queries'
 import { AgreementSignStatusCard } from './AgreementSignStatusCard'
 
 export const CheckAgreementSignedStatus = ({
@@ -26,23 +13,7 @@ export const CheckAgreementSignedStatus = ({
 }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
 
-    const [toggleReminderEmail, toggleReminderEmailResult] =
-        CommonApi.ESign.useToggleReminderEmail()
-
     const onCancelClicked = () => setModal(null)
-
-    const onRequestResign = (eSign: any) => {
-        setModal(<RequestResign onCancel={onCancelClicked} eSign={eSign} />)
-    }
-    const onResendMailClicked = (signerId: number) => {
-        setModal(
-            <ResendMailModal
-                onCancel={onCancelClicked}
-                documentId={document?.id}
-                signerId={signerId}
-            />
-        )
-    }
 
     const role = getUserCredentials()?.role
 

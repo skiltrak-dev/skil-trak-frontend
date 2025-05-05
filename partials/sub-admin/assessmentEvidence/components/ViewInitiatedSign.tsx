@@ -29,8 +29,6 @@ export const ViewInitiatedSign = ({
 
     const [selectedDocument, setSelectedDocument] = useState<any>(null)
 
-    const { onFileClicked, documentsViewModal } = DocumentsView()
-
     useEffect(() => {
         if (document && document?.length > 0) {
             setSelectedDocument(document?.[0])
@@ -78,7 +76,6 @@ export const ViewInitiatedSign = ({
     return (
         <>
             {modal}
-            {documentsViewModal}
             {/* {filteredFiles && filteredFiles?.length > 0 && (
                 <div className="p-2 flex flex-wrap gap-x-2 gap-y-2 items-end  overflow-hidden">
                     {filteredFiles?.map((file: any, i: number) => (

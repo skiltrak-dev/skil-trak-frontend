@@ -32,8 +32,6 @@ export const AgreementSignStatusCard = ({
     const [toggleReminderEmail, toggleReminderEmailResult] =
         CommonApi.ESign.useToggleReminderEmail()
 
-    const subadmin = useSubadminProfile()
-
     const getPhoneNumber = (user: any) => {
         if (!user) return 'NA'
 
@@ -56,7 +54,6 @@ export const AgreementSignStatusCard = ({
         return 'bg-[#24556d0d] bg-opacity-5'
     }
     const backgroundClass = getBackgroundClass(signer?.status)
-    const phoneNumber = getPhoneNumber(signer?.user)
 
     const onCancelClicked = () => setModal(null)
 
