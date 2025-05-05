@@ -117,12 +117,7 @@ export const StudentProfileDetail = () => {
     useEffect(() => {
         if (profile?.isSuccess && profile?.data && !router.query?.tab) {
             contextBar.show(false)
-            contextBar.setContent(
-                <ProfileViewCB
-                    profile={profile?.data}
-                    subadmin={subadmin?.data}
-                />
-            )
+            contextBar.setContent(<ProfileViewCB profile={profile?.data} />)
         }
 
         return () => {
