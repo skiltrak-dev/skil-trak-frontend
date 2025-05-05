@@ -1,6 +1,4 @@
 import { Typography } from '@components'
-import { Industry } from '@types'
-import React from 'react'
 import { WorkplaceInfoCard } from './WorkplaceInfoCard'
 
 export const StudentWorkplaceInfo = ({
@@ -24,7 +22,6 @@ export const StudentWorkplaceInfo = ({
             data: industry?.industry?.website || '---',
         },
     ]
-    console.log(industry);
     return (
         <div className="flex flex-col h-full">
             <Typography variant="label" medium>

@@ -19,8 +19,6 @@ export const IndustrySelection = ({
     // selectedCourses: number[]
     workplace: any
 }) => {
-    console.log('workplace', workplace.data?.[0]?.assignedTo)
-
     const [industries, setIndustries] = useState<any[] | null>([])
     const [noRespondedIndustries, setNoRespondedIndustries] = useState<
         any | null
