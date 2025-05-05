@@ -37,10 +37,7 @@ export const ClosedTickets = () => {
     // columns.splice(columns?.length - 3, 0, {
     //     accessorKey: 'closedAt',
     //     cell: (info) => {
-    //         console.log(
-    //             'info.row.original?.closedAt',
-    //             info.row.original?.closedAt.slice(0, 10)
-    //         )
+    //
     //         return (
     //             <Typography variant="small" semibold>
     //                 <span className="whitespace-pre">
