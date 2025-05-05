@@ -94,7 +94,6 @@ const Workplace: NextPageWithLayout = () => {
                 text: count?.data?.studentProvided,
                 loading: count?.isLoading,
             },
-            // element: <AllStudentProvidedWorkplace />,
             element: <UpdatedAllStudentProvidedWorkplace />,
         },
         {
@@ -107,7 +106,6 @@ const Workplace: NextPageWithLayout = () => {
                 text: count?.data?.requested,
                 loading: count?.isLoading,
             },
-            // element: <AllRequestedWorkplace />,
             element: <NeedAdminWorkplaces counts={count?.data} />,
         },
         {
@@ -120,7 +118,6 @@ const Workplace: NextPageWithLayout = () => {
                 text: count?.data?.assigned,
                 loading: count?.isLoading,
             },
-            // element: <AssignedRequest />,
             element: <UpdatedAssignedRequest />,
         },
         {
@@ -133,7 +130,6 @@ const Workplace: NextPageWithLayout = () => {
                 text: count?.data?.unAssigned,
                 loading: count?.isLoading,
             },
-            // element: <UnAssignedRequest />,
             element: <UpdatedUnAssignedRequest />,
         },
         {
@@ -182,7 +178,6 @@ const Workplace: NextPageWithLayout = () => {
                 text: count?.data?.cancelled,
                 loading: count?.isLoading,
             },
-            // element: <CancelledRequests />,
             element: <UpdatedCancelledRequests />,
         },
     ]

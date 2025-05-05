@@ -1,15 +1,15 @@
-import Link from 'next/link'
-import { AdminApi } from '@queries'
-import { useRouter } from 'next/router'
-import moment, { Moment } from 'moment'
-import { SubAdminLayout } from '@layouts'
-import { RxCross2 } from 'react-icons/rx'
-import { PiUsersBold } from 'react-icons/pi'
-import { StudentKpiDetails, WeekFilter } from '@partials/common'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
-import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
+import { SubAdminLayout } from '@layouts'
+import { StudentKpiDetails } from '@partials/common'
 import { getMonthDates } from '@partials/common/kpis/Common/year-week-filter/functions'
 import { SECTIONS_CONFIG } from '@partials/common/kpis/kpi-detail/kpiComponentsData'
+import { AdminApi } from '@queries'
+import { Moment } from 'moment'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
+import { PiUsersBold } from 'react-icons/pi'
+import { RxCross2 } from 'react-icons/rx'
 
 const HodKpiDetail = () => {
     const router = useRouter()
@@ -23,15 +23,6 @@ const HodKpiDetail = () => {
         const { startDate, endDate } = getMonthDates()
         handleDatesChange(startDate, endDate)
     }, [])
-
-    const searchParams = useMemo(() => {
-        if (startDate && endDate) {
-            return `startDate:${moment(startDate).format(
-                'YYYY-MM-DD'
-            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`
-        }
-        return ''
-    }, [startDate, endDate])
 
     const subadmin = AdminApi.Kpi.subadminDetail(
         {

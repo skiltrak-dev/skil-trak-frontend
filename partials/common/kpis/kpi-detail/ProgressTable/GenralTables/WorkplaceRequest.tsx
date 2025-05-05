@@ -8,9 +8,39 @@ import { DataKpiTable } from '../../DataKpiTable'
 import { RiGitPullRequestFill } from 'react-icons/ri'
 import { CreatedAtDate, Typography } from '@components'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
+import { useColumnsAction } from '../../hooks'
 
-const workplaceColumns: ColumnDef<IWorkplaceIndustries & { course: Course }>[] =
-    [
+export const WorkplaceRequest = ({
+    endDate,
+    startDate,
+}: {
+    startDate: Moment | null
+    endDate: Moment | null
+}) => {
+    const router = useRouter()
+
+    const [page, setPage] = useState(1)
+    const [itemPerPage] = useState(10)
+
+    const { columnAction, modal } = useColumnsAction()
+
+    const workplace = AdminApi.Kpi.workplaceDetails(
+        {
+            limit: itemPerPage,
+            id: Number(router.query.id),
+            skip: itemPerPage * page - itemPerPage,
+            search: `startDate:${moment(startDate).format(
+                'YYYY-MM-DD'
+            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`,
+        },
+        {
+            skip: !router.query.id || !startDate || !endDate,
+        }
+    )
+
+    const workplaceColumns: ColumnDef<
+        IWorkplaceIndustries & { course: Course }
+    >[] = [
         {
             accessorKey: 'student.studentId',
             header: 'Student ID',
@@ -52,36 +82,14 @@ const workplaceColumns: ColumnDef<IWorkplaceIndustries & { course: Course }>[] =
             accessorKey: 'currentStatus',
             header: 'Status',
         },
+        ...(columnAction as ColumnDef<
+            IWorkplaceIndustries & { course: Course }
+        >[]),
     ]
-
-export const WorkplaceRequest = ({
-    endDate,
-    startDate,
-}: {
-    startDate: Moment | null
-    endDate: Moment | null
-}) => {
-    const router = useRouter()
-
-    const [page, setPage] = useState(1)
-    const [itemPerPage] = useState(10)
-
-    const workplace = AdminApi.Kpi.workplaceDetails(
-        {
-            limit: itemPerPage,
-            id: Number(router.query.id),
-            skip: itemPerPage * page - itemPerPage,
-            search: `startDate:${moment(startDate).format(
-                'YYYY-MM-DD'
-            )},endDate:${moment(endDate).format('YYYY-MM-DD')}`,
-        },
-        {
-            skip: !router.query.id || !startDate || !endDate,
-        }
-    )
 
     return (
         <div className="">
+            {modal}
             <DataKpiTable
                 colors="blue"
                 setPage={setPage}

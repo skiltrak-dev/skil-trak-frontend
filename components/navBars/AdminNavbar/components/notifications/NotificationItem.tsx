@@ -37,7 +37,7 @@ export const NotificationItem = ({
                             }
                             bold
                         >
-                            {ellipsisText(notification.title, 20)}
+                            {ellipsisText(notification.title, 17)}
                         </Typography>
                         <Typography
                             variant={'xs'}

@@ -104,8 +104,10 @@ export const IndustryStudentProfileDetail = ({ data }: { data: any }) => {
                                 <StudentReport workplace={profile} />
                             </div>
                         )}
-                        {WorkplaceCurrentStatus.AwaitingWorkplaceResponse ===
-                        profile?.currentStatus ? (
+                        {[
+                            WorkplaceCurrentStatus.AppointmentBooked,
+                            WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
+                        ]?.includes(profile?.currentStatus) ? (
                             <div className="py-2 flex items-center gap-x-2">
                                 <ActionButton
                                     variant={'success'}

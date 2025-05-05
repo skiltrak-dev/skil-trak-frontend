@@ -14,8 +14,15 @@ import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { useColumns } from './hooks'
 import { NeedWorkplaceEnum } from './NeedAdminWorkplaces'
+import { removeEmptyValues } from '@utils'
 
-export const Over3WeeksNeedWorkplace = () => {
+export const Over3WeeksNeedWorkplace = ({
+    filterData,
+    selectedDept,
+}: {
+    filterData: any
+    selectedDept: any
+}) => {
     const router = useRouter()
 
     const [page, setPage] = useState(1)
@@ -23,7 +30,17 @@ export const Over3WeeksNeedWorkplace = () => {
 
     const subAdminWorkplace = AdminApi.Workplace.useRequestedWorkplace(
         {
-            search: `threshHold:${NeedWorkplaceEnum.Over3Weeks}`,
+            search: `${JSON.stringify(
+                removeEmptyValues({
+                    ...filterData,
+                    threshHold: NeedWorkplaceEnum.Over3Weeks,
+                    depId: selectedDept,
+                })
+            )
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },

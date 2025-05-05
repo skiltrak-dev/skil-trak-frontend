@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { RiUserLine } from 'react-icons/ri'
 import { DataKpiTable } from '../../DataKpiTable'
+import { useColumnsAction } from '../../hooks'
 
 export const AppointmentTable = ({
     startDate,
@@ -18,6 +19,8 @@ export const AppointmentTable = ({
     const router = useRouter()
     const [page, setPage] = useState(1)
     const [itemPerPage] = useState(50)
+
+    const { columnAction, modal } = useColumnsAction()
 
     const appointment = AdminApi.Kpi.appointmentDetails(
         {
@@ -98,10 +101,12 @@ export const AppointmentTable = ({
                 />
             ),
         },
+        ...(columnAction as ColumnDef<KpiAppointment>[]),
     ]
 
     return (
         <>
+            {modal}
             <DataKpiTable
                 setPage={setPage}
                 colors="[blue]"

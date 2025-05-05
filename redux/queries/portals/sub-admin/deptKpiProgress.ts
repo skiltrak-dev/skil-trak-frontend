@@ -41,7 +41,7 @@ export const deptKpiProgressEndpoints = (
             url: `${PREFIX}/subadmin/${id}/kpi-verify`,
             method: 'PATCH',
         }),
-        invalidatesTags: ['Students', 'SubAdminStudents'],
+        invalidatesTags: ['Students', 'SubAdminStudents', 'KPIS'],
     }),
     deptKpiTargetList: builder.query<any, void>({
         query: () => `${PREFIX}/department/targets`,
