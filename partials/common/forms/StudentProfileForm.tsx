@@ -471,7 +471,7 @@ export const StudentProfileForm = ({
                             onlyValue
                             loading={rtoResponse.isLoading}
                             validationIcons
-                            disabled={student}
+                            disabled={student || role === UserRoles.RTO}
                             value={rtoOptions?.find(
                                 (rto: OptionType) => rto?.value === selectedRto
                             )}

@@ -189,7 +189,7 @@ export const AvailabilityForm = ({
                                 loading={result.isLoading}
                                 disabled={result.isLoading}
                             >
-                                Find Industries
+                                Find Industries Manually
                             </Button>
 
                             {autoResult && onSubmitBeta && (
@@ -201,9 +201,9 @@ export const AvailabilityForm = ({
                                     loading={autoResult.isLoading}
                                     disabled={autoResult.isLoading}
                                 >
-                                    Create Automated{' '}
+                                    Find Industries{' '}
                                     <span className="text-success-dark text-[11px]">
-                                        (Beta)
+                                        (Automatically)
                                     </span>
                                 </Button>
                             )}

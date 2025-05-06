@@ -133,7 +133,7 @@ export const ApprovedStudent = () => {
                 text: 'Edit',
                 onClick: (student: Student) =>
                     router.push(
-                        `portals/rto/students/${student.id}/edit-student`
+                        `/portals/rto/students/${student.id}/edit-student`
                     ),
                 Icon: FaEye,
             },

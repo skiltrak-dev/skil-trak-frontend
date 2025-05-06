@@ -170,7 +170,13 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                 setModal(null)
             }
         }
-    }, [profileCompletion, profile, pendingDocuments, router])
+    }, [
+        profileCompletion,
+        profile,
+        pendingDocuments,
+        router,
+        wpApprovalRequest,
+    ])
 
     return (
         <RedirectUnApprovedUsers

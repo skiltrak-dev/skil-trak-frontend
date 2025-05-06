@@ -35,7 +35,7 @@ export const NotificationCard = ({ notification }: { notification: any }) => {
         <div
             key={notification?.id}
             onClick={handleNotificationClick}
-            className={` shadow-[0px_0px_10px_0px_rgba(0,0,0,0.25)] w-full flex items-center gap-x-4 rounded-md border-b border-secondary px-3 py-2.5 cursor-pointer hover:bg-secondary transition-all`}
+            className={`shadow-[0px_0px_10px_0px_rgba(0,0,0,0.25)] w-full flex items-center gap-x-4 rounded-md border-b border-secondary px-3 py-2.5 cursor-pointer hover:bg-secondary transition-all`}
         >
             <GoDotFill
                 className={`text-2xl ${
@@ -71,7 +71,8 @@ export const NotificationCard = ({ notification }: { notification: any }) => {
                         }
                         medium
                     >
-                        {ellipsisText(notification.description, 70)}
+                        {notification.description}
+                        {/* {ellipsisText(notification.description, 70)} */}
                     </Typography>
                 </div>
                 <div className="flex items-center gap-x-2">
@@ -92,6 +93,7 @@ export const NotificationCard = ({ notification }: { notification: any }) => {
                                     ? 'text-[#A5A3A9]'
                                     : 'text-[#156CD7]'
                             }
+                            whiteSpacePre
                         >
                             {smartDateFormat(notification?.createdAt)}
                         </Typography>
@@ -103,6 +105,7 @@ export const NotificationCard = ({ notification }: { notification: any }) => {
                                     ? 'text-[#A5A3A9]'
                                     : 'text-[#156CD7]'
                             }
+                            whiteSpacePre
                         >
                             {smartDateTimeFormat(notification?.createdAt)}
                         </Typography>

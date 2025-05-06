@@ -7,7 +7,6 @@ import {
     StudentExpiryDaysLeft,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
@@ -15,22 +14,20 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
+import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
 import { BulkDeleteModal } from '@modals'
 import { AdminApi, commonApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { getBlockedByStudent, studentsListWorkplace } from '@utils'
+import { getBlockedByStudent, getUserCredentials } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCell } from '../industry/components'
 import { RtoCellInfo } from '../rto/components'
 import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
 import { DeleteModal, UnblockModal } from './modals'
-import { UserRoles } from '@constants'
-import { getUserCredentials } from '@utils'
 
 export const BlockedStudent = () => {
     const router = useRouter()

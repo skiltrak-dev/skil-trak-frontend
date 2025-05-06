@@ -1,18 +1,17 @@
 import {
-    Button,
     Card,
+    Button,
     EmptyData,
-    LoadingAnimation,
-    TechnicalError,
     Typography,
+    TechnicalError,
+    LoadingAnimation,
 } from '@components'
-import { ScheduleTimetable } from '@partials/common/StudentProfileDetail/components/Schedule/components'
+import moment from 'moment'
+import { useState } from 'react'
 import { IndustryApi } from '@queries'
 import { Course, Student } from '@types'
-import moment from 'moment'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
 import { AddSchedule } from '../../components'
+import { ScheduleTimetable } from '@partials/common/StudentProfileDetail/components/Schedule/components'
 
 export const StudentSchedule = ({
     workplace,
@@ -23,7 +22,6 @@ export const StudentSchedule = ({
     course: Course
     student: Student
 }) => {
-    const router = useRouter()
     const [addSchedule, setAddSchedule] = useState<boolean>(false)
 
     const schedules = IndustryApi.Workplace.useStudentSchedule(
@@ -35,9 +33,6 @@ export const StudentSchedule = ({
         {
             skip: !course?.id || !student?.user?.id,
         }
-        // {
-        //     skip: true,
-        // }
     )
 
     return (

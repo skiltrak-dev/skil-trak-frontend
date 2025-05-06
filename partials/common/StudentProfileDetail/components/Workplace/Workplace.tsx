@@ -31,7 +31,6 @@ import {
     WpApprovalReqRejected,
     WpApprovalRequest,
     WpCourse,
-    WPInvoiceStatus,
 } from './components'
 import { IndustryDetail } from './components/IndustryDetail'
 import { WPStatusForCancelButon } from './data'
@@ -71,7 +70,6 @@ export const Workplace = ({
         onViewWorkplaceQuestions,
         onViewPlacementStartedAnswers,
         onShowRejectedRequestModal,
-        onStatusChangeClicked,
     } = useWorkplaceHook({ student })
 
     const values = {

@@ -6,76 +6,8 @@ import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { useNotification, useSocketListener } from '@hooks'
 import { emptySplitApi } from '@queries/portals/empty.query'
-
-export enum SocketNotificationsEvents {
-    TicketNotification = 'ticketNotification',
-    MouNotification = 'mouNotification',
-    Notification = 'Notification',
-    MailNotification = 'mailNotification',
-    AppointmentReminder = 'appointmentReminder',
-    ExpiryReminder = 'expiryReminder',
-    FeedBackNotification = 'feedback',
-    WorkplaceNotification = 'workplaceRequest',
-    NoteAdded = 'newNoteAdded',
-    NewStudentAssigned = 'newStudentAssigned',
-    StudentUnSnoozed = 'studentUnSnoozed',
-    StudentProfileUpdated = 'studentProfileUpdated',
-    EsignCompleted = 'esignCompleted',
-    WorkplaceApproved = 'workplaceApproved',
-    newStudentAssigned = 'newStudentAssigned',
-    WorkplaceRequestApproved = 'workplaceRequestApproved',
-    IndustryApprovedStudent = 'industryApprovedStudent',
-    AppointmentBooked = 'appointmentBooked',
-    DocumentUploaded = 'documentUploaded',
-    PlacementStarted = 'placementStarted',
-    PlacementCompleted = 'placementCompleted',
-    EsignReceived = 'esignReceived',
-    StudentSnoozed = 'studentSnoozed',
-    StudentFlagged = 'studentFlagged',
-    StudentNotContactable = 'studentNotContactable',
-    StudentDocumentsCompleted = 'studentDocumentsCompleted',
-    NewStudentAdded = 'newStudentAdded',
-    AgreementUploaded = 'agreementUploaded',
-}
-
-const socketEventToTagMapping = {
-    [SocketNotificationsEvents.NoteAdded]: ['Notes'],
-    [SocketNotificationsEvents.EsignReceived]: ['E-Sign'],
-    [SocketNotificationsEvents.MouNotification]: ['Mous'],
-    [SocketNotificationsEvents.ExpiryReminder]: ['Reminders'],
-    [SocketNotificationsEvents.MailNotification]: ['Messages'],
-    [SocketNotificationsEvents.TicketNotification]: ['Tickets'],
-    [SocketNotificationsEvents.PlacementStarted]: ['Workplace'],
-    [SocketNotificationsEvents.FeedBackNotification]: ['Feedback'],
-    [SocketNotificationsEvents.AppointmentReminder]: ['Appointments'],
-    [SocketNotificationsEvents.EsignCompleted]: ['AssessmentEvidence'],
-    [SocketNotificationsEvents.NewStudentAssigned]: ['SubAdminStudents'],
-    [SocketNotificationsEvents.WorkplaceApproved]: ['SubAdminWorkplace'],
-    [SocketNotificationsEvents.WorkplaceNotification]: ['SubAdminWorkplace'],
-    [SocketNotificationsEvents.IndustryApprovedStudent]: ['SubAdminWorkplace'],
-    [SocketNotificationsEvents.WorkplaceRequestApproved]: ['SubAdminWorkplace'],
-    [SocketNotificationsEvents.StudentUnSnoozed]: [
-        'Students',
-        'SubAdminStudents',
-    ],
-    [SocketNotificationsEvents.StudentSnoozed]: [
-        'Students',
-        'SubAdminStudents',
-    ],
-    [SocketNotificationsEvents.StudentFlagged]: [
-        'Students',
-        'SubAdminStudents',
-    ],
-    [SocketNotificationsEvents.StudentNotContactable]: [
-        'Students',
-        'SubAdminStudents',
-    ],
-    [SocketNotificationsEvents.StudentDocumentsCompleted]: [
-        'AssessmentEvidence',
-    ],
-    [SocketNotificationsEvents.NewStudentAdded]: ['Students'],
-    [SocketNotificationsEvents.AgreementUploaded]: ['AssessmentEvidence'],
-}
+import { SocketNotificationsEvents } from './enum'
+import { socketEventToTagMapping } from './data'
 
 export const Socket = ({ children }: any) => {
     const router = useRouter()
@@ -110,8 +42,6 @@ export const Socket = ({ children }: any) => {
 
             socket?.on('joined', (notify: { message: string }) => {})
 
-            dispatch(emptySplitApi.util.invalidateTags(['AllNotifications']))
-
             Object.values(SocketNotificationsEvents)?.forEach(
                 (eventName: SocketNotificationsEvents) => {
                     socket?.on(eventName, (notify: any) => {
@@ -119,6 +49,11 @@ export const Socket = ({ children }: any) => {
                             eventName,
                             eventListener: notify,
                         })
+                        dispatch(
+                            emptySplitApi.util.invalidateTags([
+                                'AllNotifications',
+                            ])
+                        )
                         invalidateCacheForEvent(eventName)
 
                         notification.success({

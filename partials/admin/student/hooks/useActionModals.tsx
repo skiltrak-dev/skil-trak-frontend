@@ -15,12 +15,6 @@ export const useActionModals = (refetch: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [result, setResult] = useState<any | null>(null)
 
-    useEffect(() => {
-        if (result?.isSuccess) {
-            refetch()
-        }
-    }, [result])
-
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -55,11 +49,7 @@ export const useActionModals = (refetch: any) => {
 
     const onUnblockClicked = (student: Student) => {
         setModal(
-            <UnblockModal
-                setResult={setResult}
-                item={student}
-                onCancel={onModalCancelClicked}
-            />
+            <UnblockModal item={student} onCancel={onModalCancelClicked} />
         )
     }
     const onDeleteClicked = (student: Student) => {
