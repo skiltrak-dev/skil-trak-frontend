@@ -1,3 +1,4 @@
+import { PaginationValues } from '@types'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
@@ -7,7 +8,7 @@ export const notificationsEndpoints = (
 ) => ({
     getNotifications: builder.query<
         any,
-        { status?: string | undefined; skip?: number; limit?: number }
+        PaginationValues & { search?: string }
     >({
         query: (params: any) => ({
             url: `${PREFIX}`,

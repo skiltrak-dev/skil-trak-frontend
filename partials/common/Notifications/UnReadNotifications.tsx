@@ -18,8 +18,9 @@ export const UnReadNotifications = () => {
 
     const notifications = CommonApi.Notifications.useNotifications(
         {
-            skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
+            search: `isRead:${false}`,
+            skip: itemPerPage * page - itemPerPage,
         },
         {
             refetchOnMountOrArgChange: true,
@@ -40,6 +41,7 @@ export const UnReadNotifications = () => {
                                 <PageSize
                                     itemPerPage={itemPerPage}
                                     setItemPerPage={setItemPerPage}
+                                    records={notifications?.data?.data?.length}
                                 />
                                 <Pagination
                                     pagination={notifications?.data?.pagination}

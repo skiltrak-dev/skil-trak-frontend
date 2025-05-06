@@ -18,11 +18,11 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { PulseLoader } from 'react-spinners'
 import { Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { useAssessmentDocumentsView } from '../../hooks'
 import { SliderStyleContainer } from '../../styles'
+import { useAssessmentDocumentsView } from '../../hooks'
+import { AssessmentFilesUpload } from './AssessmentFilesUpload'
 import { AssessmentFileArchiveModal } from './AssessmentFileArchiveModal'
 import { AssessmentFilesOtherDocUpload } from './AssessmentFilesOtherDocUpload'
-import { AssessmentFilesUpload } from './AssessmentFilesUpload'
 
 export const AssessmentFiles = ({
     course,
