@@ -1,3 +1,4 @@
+import moment from 'moment'
 import {
     AuthorizedUserComponent,
     Button,
@@ -10,16 +11,15 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import { StudentApi, SubAdminApi } from '@queries'
-import { Course, Industry, User } from '@types'
-import { CourseSelectOption, formatOptionLabel } from '@utils'
-import moment from 'moment'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useMemo, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
-import { AddSchedule, ScheduleTimetable } from './components'
+import { Course, Industry, User } from '@types'
 import { ViewAvailability } from '../Workplace'
+import { StudentApi, SubAdminApi } from '@queries'
 import { useWorkplaceHook } from '../Workplace/hooks'
+import { AddSchedule, ScheduleTimetable } from './components'
+import { CourseSelectOption, formatOptionLabel } from '@utils'
+import { ReactElement, useEffect, useMemo, useState } from 'react'
 
 export const Schedule = ({
     user,

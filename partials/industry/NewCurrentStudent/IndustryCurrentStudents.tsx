@@ -1,10 +1,21 @@
-import { Card, EmptyData, LoadingAnimation, TechnicalError } from '@components'
-import { Notes, ProfileAppointments } from '@partials/common'
 import { IndustryApi } from '@queries'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { StudentSchedule } from '../currentStudents/tabs/detail/StudentSchedule'
+import { useEffect, useState } from 'react'
+import { Notes, ProfileAppointments } from '@partials/common'
 import { IndustryStudentProfileDetail, StudentAssessments } from './components'
+import { Card, EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { StudentSchedule } from '../currentStudents/tabs/detail/StudentSchedule'
+
+enum ProfileIds {
+    Workplace = 'workplace',
+    Notes = 'notes',
+    'Assessment Evidence' = 'assessments',
+    Mails = 'mails',
+    'All Communications' = 'allCommunication',
+    Appointments = 'appointments',
+    Tickets = 'tickets',
+    Schedule = 'schedule',
+}
 
 export const IndustryCurrentStudents = () => {
     const router = useRouter()
@@ -15,19 +26,39 @@ export const IndustryCurrentStudents = () => {
         { skip: !router.query.id }
     )
 
-    enum ProfileIds {
-        Workplace = 'workplace',
-        Notes = 'notes',
-        'Assessment Evidence' = 'assessments',
-        Mails = 'mails',
-        'All Communications' = 'allCommunication',
-        Appointments = 'appointments',
-        Tickets = 'tickets',
-        Schedule = 'schedule',
-    }
+    useEffect(() => {
+        let timer: any = null
+        if (selectedId) {
+            timer = setTimeout(() => {
+                setSelectedId('')
+            }, 2000)
+        }
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [selectedId])
 
     const activeBorder = (key: ProfileIds) =>
         selectedId === key ? 'border-2 border-primary rounded-xl' : ''
+
+    useEffect(() => {
+        if (
+            Object.values(ProfileIds)?.includes(
+                router?.query?.sectionId as ProfileIds
+            ) &&
+            profile?.isSuccess
+        ) {
+            setSelectedId(router?.query?.sectionId as ProfileIds)
+            onHandleScroll(router?.query?.sectionId as ProfileIds)
+        }
+    }, [router, profile])
+
+    const onHandleScroll = (id: string) => {
+        const detailItem = document.getElementById(`student-profile-${id}`)
+        if (detailItem) {
+            detailItem.scrollIntoView({ behavior: 'smooth' })
+        }
+    }
 
     return (
         <>
@@ -91,7 +122,12 @@ export const IndustryCurrentStudents = () => {
                         </div>
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 w-full">
-                        <div className="lg:col-span-2">
+                        <div
+                            className={`lg:col-span-2 ${activeBorder(
+                                ProfileIds.Schedule
+                            )}`}
+                            id={`student-profile-${ProfileIds.Schedule}`}
+                        >
                             <Card noPadding>
                                 <StudentSchedule
                                     workplace={profile?.data}

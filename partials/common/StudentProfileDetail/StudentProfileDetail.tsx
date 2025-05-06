@@ -36,7 +36,7 @@ enum ProfileIds {
     Workplace = 'workplace',
     Notes = 'notes',
     'Assessment Evidence' = 'assessments',
-    Mails = 'mails',
+    // Mails = 'mails',
     'All Communications' = 'allCommunication',
     Appointments = 'appointments',
     Tickets = 'tickets',
@@ -358,12 +358,13 @@ export const StudentProfileDetail = () => {
                     >
                         <AssessmentSubmissions student={profile?.data} />
                     </div>
-                    <div className="h-[640px] px-2  grid grid-cols-2 gap-x-3">
-                        <div
-                            className={`${activeBorder(
-                                ProfileIds.Mails
-                            )} !h-[99%] col-span-2`}
-                        >
+                    <div
+                        id={`student-profile-${ProfileIds['All Communications']}`}
+                        className={`h-[640px] px-2 grid grid-cols-2 gap-x-3 ${activeBorder(
+                            ProfileIds['All Communications']
+                        )}`}
+                    >
+                        <div className={` !h-[99%] col-span-2`}>
                             <MailsCommunication user={profile?.data?.user} />
                         </div>
                     </div>

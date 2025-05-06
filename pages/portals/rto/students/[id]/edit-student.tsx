@@ -1,17 +1,16 @@
 import { useContextBar, useNavbar, useNotification } from '@hooks'
-import { AdminLayout, RtoLayout } from '@layouts'
-import { Course, NextPageWithLayout } from '@types'
+import { RtoLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { StudentProfileForm } from '@partials/common'
 import {
-    AdminApi,
     SubAdminApi,
     useGetSubAdminStudentDetailQuery,
     useUpdateStudentProfileMutation,
 } from '@queries'
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 
 const EditStudent: NextPageWithLayout = () => {
     const router = useRouter()
