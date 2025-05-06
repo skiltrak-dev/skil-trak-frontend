@@ -48,10 +48,10 @@ export const ContactUs = ({ contactUsRef }: any) => {
         })
     }
     const handleSubmit = (values: any) => {
-        if (!captchaToken) {
-            alert('Please complete the captcha verification.')
-            return
-        }
+        // if (!captchaToken) {
+        //     alert('Please complete the captcha verification.')
+        //     return
+        // }
 
         onSubmit({ ...values, captchaToken })
     }

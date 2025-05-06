@@ -40,10 +40,10 @@ export const ContactForm = ({
     }, [result])
 
     const handleSubmit = (values: any) => {
-        if (!captchaToken) {
-            alert('Please complete the captcha verification.')
-            return
-        }
+        // if (!captchaToken) {
+        //     alert('Please complete the captcha verification.')
+        //     return
+        // }
 
         onSubmit({ ...values, captchaToken })
     }
