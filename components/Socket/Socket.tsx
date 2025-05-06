@@ -35,6 +35,7 @@ export enum SocketNotificationsEvents {
     StudentNotContactable = 'studentNotContactable',
     StudentDocumentsCompleted = 'studentDocumentsCompleted',
     NewStudentAdded = 'newStudentAdded',
+    AgreementUploaded = 'agreementUploaded',
 }
 
 const socketEventToTagMapping = {
@@ -73,6 +74,7 @@ const socketEventToTagMapping = {
         'AssessmentEvidence',
     ],
     [SocketNotificationsEvents.NewStudentAdded]: ['Students'],
+    [SocketNotificationsEvents.AgreementUploaded]: ['AssessmentEvidence'],
 }
 
 export const Socket = ({ children }: any) => {
@@ -107,6 +109,8 @@ export const Socket = ({ children }: any) => {
             socket?.emit('join', AuthUtils.getUserCredentials()?.id)
 
             socket?.on('joined', (notify: { message: string }) => {})
+
+            dispatch(emptySplitApi.util.invalidateTags(['AllNotifications']))
 
             Object.values(SocketNotificationsEvents)?.forEach(
                 (eventName: SocketNotificationsEvents) => {

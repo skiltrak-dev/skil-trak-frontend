@@ -38,6 +38,7 @@ export const AllNotifications = () => {
                                 <PageSize
                                     itemPerPage={itemPerPage}
                                     setItemPerPage={setItemPerPage}
+                                    records={notifications?.data?.data?.length}
                                 />
                                 <Pagination
                                     pagination={notifications?.data?.pagination}

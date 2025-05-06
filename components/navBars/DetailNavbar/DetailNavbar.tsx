@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import OutsideClickHandler from 'react-outside-click-handler'
 import {
     BadgeButton,
-    PlacementNotificationDropDown
+    PlacementNotificationDropDown,
 } from '../AdminNavbar/components'
 import { NotificationDropDown } from '../AdminNavbar/components/notifications'
 
@@ -18,9 +18,7 @@ import { DisplayNotifications } from '@components/Notification'
 import { MediaQueries, UserRoles } from '@constants'
 import { CommonApi } from '@queries'
 import Link from 'next/link'
-import {
-    BsFillTicketDetailedFill
-} from 'react-icons/bs'
+import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import { FaClipboardList, FaHistory } from 'react-icons/fa'
 import { LiaCertificateSolid } from 'react-icons/lia'
 import { useMediaQuery } from 'react-responsive'
@@ -32,8 +30,9 @@ export const DetailNavbar = () => {
 
     const isMobile = useMediaQuery(MediaQueries.Mobile)
     const data = CommonApi.Notifications.useNotifications({
-        skip: undefined,
-        limit: undefined,
+        search: `isRead:${false}`,
+        skip: 0,
+        limit: 30,
     })
     const placementNotifications =
         CommonApi.Notifications.usePlacementNotifications({
@@ -56,17 +55,7 @@ export const DetailNavbar = () => {
         useState(false)
     const [profileOptionsExpanded, setProfileOptionsExpanded] = useState(false)
 
-    // useEffect(() => {
-    //     if (eventListener) {
-    //         data.refetch()
-    //     }
-    // }, [eventListener])
-
     // filter over data to get only unread notifications
-    const unreadNotifications = data?.data?.data?.filter(
-        (notification: any) => !notification?.isRead
-    )
-    const count = unreadNotifications?.length
 
     const subadminLinkPrefix = '/portals/sub-admin'
 
@@ -225,7 +214,7 @@ export const DetailNavbar = () => {
                         <div className="relative">
                             <BadgeButton
                                 icon={IoMdNotifications}
-                                count={count || 0}
+                                count={data?.data?.data?.length || 0}
                                 max={9}
                                 onClick={() =>
                                     setNotificationsExpanded(
@@ -258,7 +247,7 @@ export const DetailNavbar = () => {
                         <div className="relative">
                             <BadgeButton
                                 icon={IoMdNotifications}
-                                count={count || 0}
+                                count={data?.data?.data?.length || 0}
                                 max={9}
                                 onClick={() =>
                                     setPlacementNotificationsExpanded(

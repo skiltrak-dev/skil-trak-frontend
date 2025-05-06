@@ -1,4 +1,4 @@
-import { Course, NextPageWithLayout, UserStatus } from '@types'
+import { NextPageWithLayout, UserStatus } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 
 // layouts
@@ -10,7 +10,6 @@ import {
     ContextBarLoading,
     Modal,
     NoData,
-    PageTitle,
     Typography,
 } from '@components'
 // icons

@@ -68,14 +68,14 @@ export const StudentInfoBoxCard = ({
                                 </div>
                             ))}
                         </div>
-                        <div className="flex justify-center mt-1">
+                        {/* <div className="flex justify-center mt-1">
                             <Link
                                 className="text-blue-400 text-xs"
                                 href={`/portals/sub-admin/students/${studentId}/detail`}
                             >
                                 View Profile
                             </Link>
-                        </div>
+                        </div> */}
                     </div>
                 </>
             )}
