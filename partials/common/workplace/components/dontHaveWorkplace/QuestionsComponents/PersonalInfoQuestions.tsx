@@ -14,10 +14,12 @@ import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 
 export const PersonalInfoQuestions = ({
+    userId,
     formMethods,
     selectedCourse,
     personalInfoData,
 }: {
+    userId?: number
     formMethods: any
     personalInfoData: any
     selectedCourse: number
@@ -30,12 +32,10 @@ export const PersonalInfoQuestions = ({
     const wpType = SubAdminApi.Student.getWpTypeByRtoAndCourse(
         {
             courseId: selectedCourse,
-            stdId: Number(router?.query?.id),
+            stdId: Number(userId),
         },
         {
-            skip:
-                (!router?.query?.id && role === UserRoles.SUBADMIN) ||
-                !selectedCourse,
+            skip: (!userId && role === UserRoles.SUBADMIN) || !selectedCourse,
         }
     )
 

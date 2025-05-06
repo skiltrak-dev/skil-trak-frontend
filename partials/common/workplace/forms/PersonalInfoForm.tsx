@@ -17,9 +17,11 @@ type PersonalInfoProps = {
     onSubmit: any
     courses: any
     personalInfoData: any
+    userId?: number
 }
 
 export const PersonalInfoForm = ({
+    userId,
     onSubmit,
     courses,
     personalInfoData,
@@ -137,6 +139,7 @@ export const PersonalInfoForm = ({
                             formMethods={formMethods}
                             personalInfoData={personalInfoData}
                             selectedCourse={selectedCourse?.value}
+                            userId={userId}
                         />
 
                         <div>

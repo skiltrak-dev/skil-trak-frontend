@@ -9,6 +9,7 @@ type PersonalInfoProps = {
     setPersonalInfoData: any
     personalInfoData: any
     courses: any
+    userId?: number
 }
 
 export const PersonalInfo = ({
@@ -16,6 +17,7 @@ export const PersonalInfo = ({
     personalInfoData,
     setPersonalInfoData,
     courses,
+    userId,
 }: PersonalInfoProps) => {
     const onSubmit = (values: any) => {
         let questions: {
@@ -95,6 +97,7 @@ export const PersonalInfo = ({
     return (
         <div>
             <PersonalInfoForm
+                userId={userId}
                 courses={courses}
                 onSubmit={onSubmit}
                 personalInfoData={personalInfoData}

@@ -30,6 +30,11 @@ export enum SocketNotificationsEvents {
     PlacementStarted = 'placementStarted',
     PlacementCompleted = 'placementCompleted',
     EsignReceived = 'esignReceived',
+    StudentSnoozed = 'studentSnoozed',
+    StudentFlagged = 'studentFlagged',
+    StudentNotContactable = 'studentNotContactable',
+    StudentDocumentsCompleted = 'studentDocumentsCompleted',
+    NewStudentAdded = 'newStudentAdded',
 }
 
 const socketEventToTagMapping = {
@@ -48,6 +53,26 @@ const socketEventToTagMapping = {
     [SocketNotificationsEvents.WorkplaceNotification]: ['SubAdminWorkplace'],
     [SocketNotificationsEvents.IndustryApprovedStudent]: ['SubAdminWorkplace'],
     [SocketNotificationsEvents.WorkplaceRequestApproved]: ['SubAdminWorkplace'],
+    [SocketNotificationsEvents.StudentUnSnoozed]: [
+        'Students',
+        'SubAdminStudents',
+    ],
+    [SocketNotificationsEvents.StudentSnoozed]: [
+        'Students',
+        'SubAdminStudents',
+    ],
+    [SocketNotificationsEvents.StudentFlagged]: [
+        'Students',
+        'SubAdminStudents',
+    ],
+    [SocketNotificationsEvents.StudentNotContactable]: [
+        'Students',
+        'SubAdminStudents',
+    ],
+    [SocketNotificationsEvents.StudentDocumentsCompleted]: [
+        'AssessmentEvidence',
+    ],
+    [SocketNotificationsEvents.NewStudentAdded]: ['Students'],
 }
 
 export const Socket = ({ children }: any) => {
@@ -70,7 +95,6 @@ export const Socket = ({ children }: any) => {
 
     const invalidateCacheForEvent = (eventName: SocketNotificationsEvents) => {
         const tagsToInvalidate = (socketEventToTagMapping as any)[eventName]
-        console.log({ eventName })
         if (tagsToInvalidate) {
             tagsToInvalidate.forEach((tag: any) => {
                 dispatch(emptySplitApi.util.invalidateTags([tag]))
@@ -82,9 +106,7 @@ export const Socket = ({ children }: any) => {
         if (AuthUtils.isAuthenticated()) {
             socket?.emit('join', AuthUtils.getUserCredentials()?.id)
 
-            socket?.on('joined', (notify: { message: string }) => {
-                console.log({ notify })
-            })
+            socket?.on('joined', (notify: { message: string }) => {})
 
             Object.values(SocketNotificationsEvents)?.forEach(
                 (eventName: SocketNotificationsEvents) => {
@@ -93,7 +115,6 @@ export const Socket = ({ children }: any) => {
                             eventName,
                             eventListener: notify,
                         })
-                        console.log({ notify })
                         invalidateCacheForEvent(eventName)
 
                         notification.success({
