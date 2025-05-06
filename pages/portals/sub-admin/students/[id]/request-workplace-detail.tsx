@@ -147,6 +147,7 @@ const RequestWorkplaceDetail: NextPageWithLayout = () => {
                                             setPersonalInfoData
                                         }
                                         courses={courses}
+                                        userId={Number(student?.data?.user?.id)}
                                         personalInfoData={personalInfoData}
                                     />
                                 )}
