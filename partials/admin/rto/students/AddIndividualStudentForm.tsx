@@ -10,7 +10,12 @@ import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi, AuthApi } from '@queries'
 import { Course } from '@types'
-import { CourseSelectOption, formatOptionLabel, onlyAlphabets } from '@utils'
+import {
+    ageOptions,
+    CourseSelectOption,
+    formatOptionLabel,
+    onlyAlphabets,
+} from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -102,24 +107,7 @@ export const AddIndividualStudentForm = () => {
             },
         })
     }
-    const ageOptions = [
-        {
-            label: '16-25',
-            value: '16-25',
-        },
-        {
-            label: '27-36',
-            value: '27-36',
-        },
-        {
-            label: '37-46',
-            value: '37-46',
-        },
-        {
-            label: '47-56',
-            value: '47-56',
-        },
-    ]
+
     return (
         <>
             <ShowErrorNotifications result={addStudentResult} />
@@ -178,8 +166,6 @@ export const AddIndividualStudentForm = () => {
                                 name={'age'}
                                 options={ageOptions}
                                 placeholder={'Select Age...'}
-                                // loading={rtoResponse.isLoading}
-                                // onChange={}
                                 validationIcons
                                 onlyValue
                             />
