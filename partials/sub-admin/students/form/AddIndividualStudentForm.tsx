@@ -10,14 +10,12 @@ import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
     AdminApi,
-    AuthApi,
     useGetSubAdminRTOCoursesQuery,
     useGetSubAdminRTODetailQuery,
 } from '@queries'
-import { Course, OptionType, Sector } from '@types'
+import { Course, OptionType } from '@types'
 import {
     CourseSelectOption,
-    SignUpUtils,
     ageOptions,
     formatOptionLabel,
     getDate,
