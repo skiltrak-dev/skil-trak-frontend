@@ -19,7 +19,12 @@ import {
 } from '@components'
 
 // hooks
-import { useActionModal, useContextBar, useNotification, useSubadminProfile } from '@hooks'
+import {
+    useActionModal,
+    useContextBar,
+    useNotification,
+    useSubadminProfile,
+} from '@hooks'
 
 // utills
 import { UserRoles } from '@constants'
@@ -456,7 +461,10 @@ export const IndustryProfileFrom = ({
                                     placeholder={'Select Sectors...'}
                                     multi
                                     loading={sectorResponse.isLoading}
-                                    disabled={role === UserRoles.SUBADMIN}
+                                    disabled={
+                                        role === UserRoles.SUBADMIN &&
+                                        !subadmin?.departmentMember?.isHod
+                                    }
                                     onChange={onSectorChanged}
                                     validationIcons
                                 />
@@ -471,7 +479,8 @@ export const IndustryProfileFrom = ({
                                     multi
                                     disabled={
                                         courseOptions?.length === 0 ||
-                                        role === UserRoles.SUBADMIN
+                                        (role === UserRoles.SUBADMIN &&
+                                            !subadmin?.departmentMember?.isHod)
                                     }
                                     validationIcons
                                     onChange={(e: any) => {
