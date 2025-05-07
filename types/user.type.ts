@@ -179,6 +179,7 @@ interface UserExtend extends User {
 export interface DeptMember extends BaseResponse {
     isHod: boolean
     department: Department
+    subadmin: SubAdmin & { assignStudents: number }
 }
 
 export interface Department extends BaseResponse {

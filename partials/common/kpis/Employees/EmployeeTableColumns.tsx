@@ -7,6 +7,7 @@ import {
     InitialAvatar,
     LoadingAnimation,
     TechnicalError,
+    Typography,
 } from '@components'
 import { AdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
@@ -22,6 +23,7 @@ import { CircularProgress } from '../Common/CircularProgress'
 import { MetricsHeader } from '../Common/MetricsHeader'
 import { SerialNumber } from '../Common/SerialNumber'
 import { DataTable } from '../Table'
+import Link from 'next/link'
 
 interface MetricsConfig {
     accessorKey: string
@@ -143,7 +145,10 @@ export const EmployeeTableColumns = ({
             header: 'Employee',
             enableSorting: false,
             cell: ({ row }) => (
-                <div className="flex gap-2">
+                <Link
+                    href={`/portals/admin/kpis-progress/${row?.original?.id}`}
+                    className="flex gap-2"
+                >
                     <InitialAvatar
                         name={row.original?.user?.name}
                         imageUrl={row.original?.user?.avatar}
@@ -156,7 +161,7 @@ export const EmployeeTableColumns = ({
                             {row.original?.user?.email}
                         </div>
                     </div>
-                </div>
+                </Link>
             ),
         },
         {
@@ -181,6 +186,21 @@ export const EmployeeTableColumns = ({
         },
         ...metricsColumns,
         {
+            accessorKey: 'departmentMember.subadmin.assignStudents',
+            header: 'Assigned Students',
+            cell: ({ row }) => (
+                <div className="flex items-center justify-center">
+                    <Typography variant="label" medium color="text-gray-400">
+                        {
+                            row?.original?.departmentMember.subadmin
+                                .assignStudents
+                        }
+                    </Typography>
+                </div>
+            ),
+            enableSorting: false,
+        },
+        {
             accessorKey: 'verified',
             header: 'Verified by HOD',
             cell: ({ row }) => (
@@ -196,6 +216,7 @@ export const EmployeeTableColumns = ({
             ),
             enableSorting: false,
         },
+
         {
             accessorKey: 'id',
             id: 'actions',
