@@ -10,12 +10,15 @@ export const coursesEndpoints = (
         providesTags: ['RTOCourses', 'RTO'],
     }),
     updateCourseHours: builder.mutation<any, any>({
-        query: (body) => ({
+        query: ({ body, rtoUserId }) => ({
             url: `${PREFIX}/course/edit-hours`,
             method: 'POST',
             body,
+            params: {
+                ...(rtoUserId ? { rtoUserId } : {}),
+            },
         }),
-        invalidatesTags: ['RTOCourses', 'RTO'],
+        invalidatesTags: ['RTOCourses', 'RTO', 'RTOS', 'Avatar', 'Profile'],
     }),
     addRtoCustomCourseRequirements: builder.mutation<any, any>({
         query: ({ id, body }) => ({

@@ -1,4 +1,4 @@
-import { Notes, ProfileAppointments } from '@partials/common'
+import { Notes, ProfileAppointments, UpdatedCourseList } from '@partials/common'
 import { MailsCommunication } from '@partials/common/StudentProfileDetail/components'
 import { Rto, SubAdmin } from '@types'
 import {
@@ -9,9 +9,10 @@ import {
     RtoProfileStatistics,
     InsuranceDocumentsData,
 } from './components'
-import { getUserCredentials } from '@utils'
+import { getSectors, getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
 import { SubAdminApi } from '@queries'
+import { Card } from '@components'
 
 export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
     const role = getUserCredentials()?.role
@@ -19,6 +20,8 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: role === UserRoles.ADMIN,
     })
+    const sectorsWithCourses = getSectors(rto?.courses)
+
     return (
         <div className="px-2.5 py-5">
             <RtoProfileTopbar rtoUserId={rto?.user?.id} />
@@ -31,7 +34,17 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
 
             {/* Sector */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-3 mt-5 h-[506px]">
-                <RtoSectors courses={rto?.courses} userId={rto?.user?.id} />
+                {role === UserRoles.ADMIN ? (
+                    <Card fullHeight>
+                        <UpdatedCourseList
+                            sectorsWithCourses={sectorsWithCourses}
+                            editCourseHours
+                            rtoUserId={rto?.user?.id}
+                        />
+                    </Card>
+                ) : (
+                    <RtoSectors courses={rto?.courses} userId={rto?.user?.id} />
+                )}
                 <div className="h-full">
                     <Notes userId={rto?.user?.id} />
                 </div>
