@@ -13,9 +13,11 @@ import { CourseList } from './CourseList'
 export const UpdatedCourseList = ({
     sectorsWithCourses,
     editCourseHours,
+    rtoUserId,
 }: {
     editCourseHours?: boolean
     sectorsWithCourses: any
+    rtoUserId?: any
 }) => {
     const [editCourse, setEditCourse] = useState<boolean>(false)
     const [selectedCourses, setSelectedCourses] = useState<any>([])
@@ -56,11 +58,15 @@ export const UpdatedCourseList = ({
 
     const onUpdateHours = () => {
         updateHours({
-            courses: selectedCourses?.map((c: any) => ({
-                course: c?.id,
-                hours: c?.hours,
-            })),
+            body: {
+                courses: selectedCourses?.map((c: any) => ({
+                    course: c?.id,
+                    hours: c?.hours,
+                })),
+            },
+            rtoUserId, // optional — pass only if you have it
         })
+       
     }
 
     return (

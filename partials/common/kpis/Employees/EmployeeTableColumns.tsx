@@ -189,6 +189,7 @@ export const EmployeeTableColumns = ({
             accessorKey: 'departmentMember.subadmin.assignStudents',
             header: 'Assigned Students',
             cell: ({ row }) => (
+
                 <div className="flex items-center justify-center">
                     <Typography variant="label" medium color="text-gray-500">
                         {
