@@ -1,21 +1,48 @@
-import { Button, GlobalModal, Select } from '@components'
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { Select } from '@components'
 import { SubAdminApi } from '@queries'
 import { AssignCoordinatorModal } from '../modals'
+import { Course, Student, SubAdmin } from '@types'
 
-export const AssignCoordinator = ({ student }: any) => {
+export const AssignCoordinator = ({ student }: { student: Student }) => {
     const departmentCoordinators =
         SubAdminApi.Student.useDepartmentCoordinators()
     const [modal, setModal] = useState<any | null>(null)
     const [changeCoordinator, setChangeCoordinator] = useState(false)
-    const subAdminOptions = departmentCoordinators?.data?.map(
-        (coordinator: any) => {
-            return {
-                label: coordinator.subadmin?.user?.name,
-                value: coordinator?.subadmin?.id,
+
+    const filterSubadminsByCourses = (
+        subadminsData: any,
+        coursesToCheck: number[]
+    ) => {
+        // Filter subadmins who have at least one of the specified courses
+        const filteredSubadmins = subadminsData?.filter(
+            (item: { subadmin: SubAdmin }) => {
+                const subadminCourses = item?.subadmin?.courses?.map(
+                    (course) => course?.id
+                )
+
+                // Check if any course ID from coursesToCheck exists in subadminCourses
+                return coursesToCheck?.some((courseId) =>
+                    subadminCourses?.includes(courseId)
+                )
             }
-        }
+        )
+
+        return filteredSubadmins
+    }
+
+    const studentCoursesIds = student?.courses?.map((c: Course) => c?.id)
+
+    const subAdminOptionsData = filterSubadminsByCourses(
+        departmentCoordinators?.data,
+        studentCoursesIds
     )
+
+    const subAdminOptions = subAdminOptionsData?.map((coordinator: any) => ({
+        value: coordinator?.subadmin?.id,
+        label: coordinator.subadmin?.user?.name,
+    }))
+
     const onCancelModal = () => {
         setModal(null)
     }
