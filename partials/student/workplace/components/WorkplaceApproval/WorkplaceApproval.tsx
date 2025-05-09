@@ -4,7 +4,6 @@ import { StudentWorkplaceInfo } from './StudentWorkplaceInfo'
 import { WorkplaceApprovalActions } from './WorkplaceApprovalActions'
 import { WorkplaceAvailableSlots } from './WorkplaceAvailableSlots'
 import { WorkplaceDetail } from './WorkplaceDetail'
-import { WorkplaceMapView } from './WorkplaceMapView'
 import { WorkplaceMapBoxView } from './WorkplaceMapBoxView'
 
 export const WorkplaceApproval = ({

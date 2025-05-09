@@ -20,7 +20,7 @@ import {
 import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { SubAdminApi } from '@queries'
+import { useGetSubAdminStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
@@ -48,11 +48,21 @@ export const NonContactableStudents = () => {
     }, [router])
 
     const { isLoading, isFetching, data, isError } =
-        SubAdminApi.Student.useNonContactableStudents(
+        // SubAdminApi.Student.useNonContactableStudents(
+        useGetSubAdminStudentsQuery(
             {
+                search: `${JSON.stringify({
+                    myStudent: true,
+                    nonContactable: true,
+                })
+                    .replaceAll('{', '')
+                    .replaceAll('}', '')
+                    .replaceAll('"', '')
+                    .trim()}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
+
             {
                 refetchOnMountOrArgChange: 30,
             }

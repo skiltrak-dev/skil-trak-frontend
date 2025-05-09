@@ -22,6 +22,7 @@ import {
     FilteredStudents,
     HighPriorityStudentsList,
     MyStudents,
+    NonContactableStudents,
     PendingStudents,
     PlacementStartedStudents,
     RejectedStudents,
@@ -98,6 +99,7 @@ export const SubadminStudents = () => {
 
     const isHod = subadmin?.departmentMember?.isHod
     const isManager = subadmin?.isManager
+    const isAssociatedWithRto = subadmin?.isAssociatedWithRto
     const filteredStudents = useGetSubAdminStudentsQuery(
         {
             search: `${JSON.stringify({
@@ -107,7 +109,9 @@ export const SubadminStudents = () => {
                 ...(flagged === true && { flagged }),
                 ...(snoozed === true && { snoozed }),
                 ...(nonContactable === true && { nonContactable }),
-                ...(!isManager && !isHod && { myStudent: true }),
+                ...(!isManager &&
+                    !isHod &&
+                    !isAssociatedWithRto && { myStudent: true }),
             })
                 .replaceAll('{', '')
                 .replaceAll('}', '')
@@ -154,7 +158,8 @@ export const SubadminStudents = () => {
         // isHod
         ...(isHod ||
         isManager ||
-        (subadmin?.hasAllStudentAccess && subadmin?.isAssociatedWithRto)
+        (subadmin?.hasAllStudentAccess && subadmin?.isAssociatedWithRto) ||
+        true
             ? [
                   {
                       label: 'Active',
@@ -204,6 +209,18 @@ export const SubadminStudents = () => {
                 query: { tab: 'weekly-students-calls' },
             },
             element: <StudentWeeklyCallList />,
+        },
+        {
+            label: 'Non Contactable Students',
+            badge: {
+                text: studentCount?.contContactable,
+                loading: count.isLoading,
+            },
+            href: {
+                pathname: 'students',
+                query: { tab: 'non-contactable-students' },
+            },
+            element: <NonContactableStudents />,
         },
         {
             label: 'Placement Started Students',
@@ -325,10 +342,6 @@ export const SubadminStudents = () => {
         }, 700),
         []
     )
-
-    // SubAdminApi
-    // Student
-    // useDownloadStudentCSV
 
     const filteredDataLength = checkFilteredDataLength({
         ...filter,

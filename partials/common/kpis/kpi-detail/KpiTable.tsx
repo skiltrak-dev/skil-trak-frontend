@@ -10,7 +10,7 @@ export const KpiTable: React.FC<KpiTableProps> = ({
     enableRowSelection,
 }) => {
     return (
-        <div className=" rounded-lg bg-white">
+        <div className="w-full overflow-auto rounded-lg bg-white">
             <div className="min-w-full inline-block align-middle">
                 <div className="overflow-">
                     <table
