@@ -7,6 +7,7 @@ import {
     EmptyData,
     LoadingAnimation,
     TechnicalError,
+    Tooltip,
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
@@ -35,6 +36,7 @@ import {
 import { IndustryDetail } from './components/IndustryDetail'
 import { WPStatusForCancelButon } from './data'
 import { useWorkplaceHook } from './hooks'
+import { TbSettingsAutomation } from 'react-icons/tb'
 
 export const Workplace = ({
     student,
@@ -277,7 +279,7 @@ export const Workplace = ({
                                                     selectedWorkplace?.currentStatus
                                                 }
                                             />
-                                            <div className="flex items-center justify-between">
+                                            <div className="flex items-end justify-between">
                                                 <WpCourse
                                                     wpCourse={
                                                         selectedWorkplace
@@ -292,6 +294,18 @@ export const Workplace = ({
                                                         )
                                                     }}
                                                 />
+
+                                                {appliedIndustry?.isAutomated && (
+                                                    <div className="border shadow-xl px-1 py-0.5 rounded bg-green-500 ">
+                                                        <Typography
+                                                            variant="xxs"
+                                                            color={'text-white'}
+                                                            uppercase
+                                                        >
+                                                            Auto
+                                                        </Typography>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

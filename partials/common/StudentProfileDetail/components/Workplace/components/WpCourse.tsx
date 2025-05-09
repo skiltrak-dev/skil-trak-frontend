@@ -12,14 +12,14 @@ export const WpCourse = ({
     onClick: () => void
 }) => {
     return (
-        <div className="flex items-center gap-x-2">
+        <div className="flex items-end gap-x-2">
             <Typography variant="xs" semibold>
                 Course :{' '}
             </Typography>
             <div className="flex items-center gap-x-1">
                 <div>
                     <Typography variant="xs">{wpCourse?.code}</Typography>
-                    <Typography variant="small" semibold>
+                    <Typography variant="xs" semibold>
                         {wpCourse?.title}
                     </Typography>
                 </div>

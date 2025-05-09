@@ -378,13 +378,7 @@ export const ApprovedStudent = () => {
                             options={tableActionOption}
                             rowItem={info?.row?.original}
                             lastIndex={length.includes(info?.row?.index)}
-                            onlyIcon
-                            Icon={BsThreeDotsVertical}
-                        >
-                            <button className="text-xs rounded px-4 py-2 uppercase font-medium text-gray-800 flex gap-x-2 items-center">
-                                <BsThreeDotsVertical />
-                            </button>
-                        </TableAction>
+                        />
                     </div>
                 )
             },

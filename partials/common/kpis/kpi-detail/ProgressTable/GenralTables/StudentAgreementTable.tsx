@@ -57,14 +57,6 @@ export const StudentAgreementTable = ({
             header: 'Name',
         },
         {
-            accessorKey: 'student.user.email',
-            header: 'Email',
-        },
-        {
-            accessorKey: 'student.phone',
-            header: 'Phone',
-        },
-        {
             accessorKey: 'courses',
             header: 'COURSES',
             cell: (info) => (

@@ -38,6 +38,7 @@ export interface WorkplaceWorkIndustriesType {
     accepted: boolean
     applied: boolean
     appliedDate: Date
+    isAutomated: boolean
     appointmentBooked: boolean
     appointmentBookedDate: Date
     awaitingAgreementSigned: boolean

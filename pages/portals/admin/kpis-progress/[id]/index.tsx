@@ -1,15 +1,15 @@
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { AdminLayout } from '@layouts'
 import { StudentKpiDetails } from '@partials/common'
+import { getMonthDates } from '@partials/common/kpis/Common/year-week-filter/functions'
+import { SECTIONS_CONFIG } from '@partials/common/kpis/kpi-detail/kpiComponentsData'
+import { AdminApi } from '@queries'
+import { Moment } from 'moment'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { PiUsersBold } from 'react-icons/pi'
 import { RxCross2 } from 'react-icons/rx'
-import { AdminApi } from '@queries'
-import { useRouter } from 'next/router'
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
-import moment, { Moment } from 'moment'
-import { getMonthDates } from '@partials/common/kpis/Common/year-week-filter/functions'
-import { SECTIONS_CONFIG } from '@partials/common/kpis/kpi-detail/kpiComponentsData'
 
 const KpiDetail = () => {
     const router = useRouter()

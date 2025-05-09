@@ -8,6 +8,7 @@ import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { DataKpiTable } from '../../DataKpiTable'
 import moment, { Moment } from 'moment'
 import { useColumnsAction } from '../../hooks'
+import { Course } from '@types'
 
 export const Completed = ({
     startDate,
@@ -19,11 +20,13 @@ export const Completed = ({
     const router = useRouter()
 
     const [page, setPage] = useState(1)
-    const [itemPerPage] = useState(10)
+    const [itemPerPage, setItemPerPage] = useState(20)
 
     const { columnAction, modal } = useColumnsAction()
 
-    const completedColumns: ColumnDef<IWorkplaceIndustries>[] = [
+    const completedColumns: ColumnDef<
+        IWorkplaceIndustries & { course: Course }
+    >[] = [
         {
             accessorKey: 'student.studentId',
             header: 'Student ID',
@@ -33,23 +36,15 @@ export const Completed = ({
             header: 'Name',
         },
         {
-            accessorKey: 'student.user.email',
-            header: 'Email',
-        },
-        {
-            accessorKey: 'student.phone',
-            header: 'Phone',
-        },
-        {
             accessorKey: 'courses',
             header: 'COURSES',
             cell: (info) => (
                 <div>
                     <Typography variant="small" normal>
-                        {info?.row?.original?.courses?.[0]?.code}
+                        {info?.row?.original?.course?.code}
                     </Typography>
                     <Typography variant="label" normal>
-                        {info?.row?.original?.courses?.[0]?.title}
+                        {info?.row?.original?.course?.title}
                     </Typography>
                 </div>
             ),
@@ -58,18 +53,12 @@ export const Completed = ({
             accessorKey: 'completedDate',
             header: 'Completed Date',
             cell: (info) => (
-                <CreatedAtDate
-                    createdAt={
-                        info.row?.original?.industries?.[0]?.isCompletedDate
-                    }
-                />
+                <CreatedAtDate createdAt={info.row?.original?.createdAt} />
             ),
         },
-        {
-            accessorKey: 'currentStatus',
-            header: 'Completion Status',
-        },
-        ...(columnAction as ColumnDef<IWorkplaceIndustries>[]),
+        ...(columnAction as ColumnDef<
+            IWorkplaceIndustries & { course: Course }
+        >[]),
     ]
 
     const workplace = AdminApi.Kpi.completedDetails(
@@ -95,6 +84,7 @@ export const Completed = ({
                 columns={completedColumns}
                 data={workplace}
                 setPage={setPage}
+                setItemPerPage={setItemPerPage}
             />
         </>
     )

@@ -22,7 +22,7 @@ export const SECTIONS_CONFIG = [
         ],
     },
     {
-        label: 'Call Industries',
+        label: 'Industries Call',
         components: [
             { component: CallIndustriesTable, key: 'call-industries' },
         ],

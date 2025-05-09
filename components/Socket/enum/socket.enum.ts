@@ -31,4 +31,5 @@ export enum SocketNotificationsEvents {
     NewStudentReceived = 'newStudentReceived',
     StudentScheduleAdded = 'studentScheduleAdded',
     WorkplaceApprovalReminder = 'workplaceApprovalReminder',
+    WorkplaceRequestPending = 'workplaceRequestPending',
 }

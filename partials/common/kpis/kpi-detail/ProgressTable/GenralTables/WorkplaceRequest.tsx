@@ -3,12 +3,12 @@ import { useState } from 'react'
 import { AdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import moment, { Moment } from 'moment'
+import { useColumnsAction } from '../../hooks'
 import { ColumnDef } from '@tanstack/react-table'
 import { DataKpiTable } from '../../DataKpiTable'
 import { RiGitPullRequestFill } from 'react-icons/ri'
 import { CreatedAtDate, Typography } from '@components'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
-import { useColumnsAction } from '../../hooks'
 
 export const WorkplaceRequest = ({
     endDate,
@@ -50,10 +50,6 @@ export const WorkplaceRequest = ({
             header: 'Name',
         },
         {
-            accessorKey: 'student.user.email',
-            header: 'Email',
-        },
-        {
             accessorKey: 'student.phone',
             header: 'Phone',
         },
@@ -77,10 +73,6 @@ export const WorkplaceRequest = ({
             cell: (info) => (
                 <CreatedAtDate createdAt={info.row?.original?.createdAt} />
             ),
-        },
-        {
-            accessorKey: 'currentStatus',
-            header: 'Status',
         },
         ...(columnAction as ColumnDef<
             IWorkplaceIndustries & { course: Course }

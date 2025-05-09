@@ -2,6 +2,7 @@ import {
     IndeterminateCheckbox,
     LoadingAnimation,
     NoData,
+    PageSize,
     Pagination,
     QuickTableAction,
     Typography,
@@ -23,6 +24,7 @@ import { KpiTable } from './KpiTable'
 
 interface DataKpiTableProps<Type> {
     enableRowSelection?: boolean
+    setItemPerPage?: any
     data: any
     columns: ColumnDef<Type>[]
     title: string
@@ -41,6 +43,7 @@ export const DataKpiTable = <Type,>({
     setPage,
     quickActions,
     enableRowSelection,
+    setItemPerPage,
 }: DataKpiTableProps<Type>) => {
     const tableColumns = useMemo<ColumnDef<Type>[]>(
         () => [
@@ -154,9 +157,14 @@ export const DataKpiTable = <Type,>({
                         <Typography semibold>{title}</Typography>
                     </div>
                     <div className="mt-1.5">
-                        <Typography variant="xs">
+                        <PageSize
+                            itemPerPage={data?.data?.pagination?.itemPerPage}
+                            setItemPerPage={setItemPerPage}
+                            records={data?.data?.data?.length}
+                        />
+                        {/* <Typography variant="xs">
                             {data?.data?.data?.length} Records
-                        </Typography>
+                        </Typography> */}
                     </div>
                 </div>
                 <div className="flex items-center gap-x-3">
