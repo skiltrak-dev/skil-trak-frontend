@@ -158,18 +158,18 @@ const StudentList: NextPageWithLayout = () => {
             element: <ApprovedStudent />,
         },
         // VerifiedEmailStudent
-        {
-            label: 'Verified Email',
-            href: {
-                pathname: 'student',
-                query: { tab: 'verified-email', page: 1, pageSize: 50 },
-            },
-            badge: {
-                text: data?.approved,
-                loading: isLoading,
-            },
-            element: <VerifiedEmailStudent />,
-        },
+        // {
+        //     label: 'Verified Email',
+        //     href: {
+        //         pathname: 'student',
+        //         query: { tab: 'verified-email', page: 1, pageSize: 50 },
+        //     },
+        //     badge: {
+        //         text: data?.approved,
+        //         loading: isLoading,
+        //     },
+        //     element: <VerifiedEmailStudent />,
+        // },
         {
             label: 'Flagged Students',
             href: {

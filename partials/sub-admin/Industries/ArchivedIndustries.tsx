@@ -147,13 +147,13 @@ export const ArchivedIndustries = () => {
         //         )
         //     },
         // },
-        {
-            header: () => 'Address',
-            accessorKey: 'address',
-            cell: ({ row }: any) => (
-                <TruncatedTextWithTooltip text={row?.original?.addressLine1} />
-            ),
-        },
+        // {
+        //     header: () => 'Address',
+        //     accessorKey: 'address',
+        //     cell: ({ row }: any) => (
+        //         <TruncatedTextWithTooltip text={row?.original?.addressLine1} />
+        //     ),
+        // },
         // {
         //     header: () => 'Enrolled Students',
         //     accessorKey: 'students',

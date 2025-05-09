@@ -27,6 +27,7 @@ import { useActionModal } from '@hooks'
 import { getUserCredentials } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModals } from './hooks'
+import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
 
 export const ApprovedIndustry = () => {
     const selectInputRef = useRef(null)
@@ -101,7 +102,15 @@ export const ApprovedIndustry = () => {
     const columns: ColumnDef<Industry>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => <IndustryCell industry={info?.row?.original} />,
+            cell: (info) => (
+                <div className="flex gap-x-2">
+                    <IndustryCell industry={info?.row?.original} />
+                    <ProfileCompletionProgress
+                        completedItems={3}
+                        totalItems={6}
+                    />
+                </div>
+            ),
             header: () => <span>Industry</span>,
         },
         {

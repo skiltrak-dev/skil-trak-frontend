@@ -71,14 +71,14 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
                                 </HideRestrictedData>
                             </AuthorizedUserComponent>
 
-                            <HideRestrictedData type={UserRoles.INDUSTRY}>
+                            {/* <HideRestrictedData type={UserRoles.INDUSTRY}>
                                 <p className="flex items-center gap-x-1">
                                     <span>
                                         <MdPhoneIphone />
                                     </span>
                                     {industry?.phoneNumber}
                                 </p>
-                            </HideRestrictedData>
+                            </HideRestrictedData> */}
                         </div>
                     </div>
                 </div>

@@ -111,18 +111,18 @@ const IndustryList: NextPageWithLayout = () => {
             element: <ApprovedIndustry />,
         },
         // EmailVerifiedIndustries
-        {
-            label: 'Email Verified',
-            href: {
-                pathname: 'industry',
-                query: { tab: 'email-verified', page: 1, pageSize: 50 },
-            },
-            badge: {
-                text: data?.approved,
-                loading: isLoading,
-            },
-            element: <EmailVerifiedIndustries />,
-        },
+        // {
+        //     label: 'Email Verified',
+        //     href: {
+        //         pathname: 'industry',
+        //         query: { tab: 'email-verified', page: 1, pageSize: 50 },
+        //     },
+        //     badge: {
+        //         text: data?.approved,
+        //         loading: isLoading,
+        //     },
+        //     element: <EmailVerifiedIndustries />,
+        // },
         {
             label: 'Snoozed',
             href: {

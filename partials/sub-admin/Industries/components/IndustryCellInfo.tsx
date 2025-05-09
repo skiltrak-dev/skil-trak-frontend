@@ -9,14 +9,15 @@ import { AiFillStar } from 'react-icons/ai'
 import { FaHandshake, FaHireAHelper } from 'react-icons/fa'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdPhoneIphone, MdSnooze } from 'react-icons/md'
-
+import { HiBriefcase } from 'react-icons/hi2'
+import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
 export const IndustryCellInfo = ({
     industry,
     isFavorite,
     call,
     onlyName = true,
 }: {
-    industry: Industry
+    industry: any
     isFavorite?: SubAdmin
     call?: boolean
     onlyName?: boolean
@@ -39,7 +40,22 @@ export const IndustryCellInfo = ({
     const createdAt = moment(callLog?.createdAt, 'YYYY-MM-DD')
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
-
+    const {
+        courseAdded,
+        CapacityUpdated,
+        ProfileUpdated,
+        trading_hours_and_shifts,
+        hasInsuranceDocuments,
+        hasIndustryChecks,
+    } = industry
+    const completedCount = [
+        courseAdded,
+        CapacityUpdated,
+        ProfileUpdated,
+        trading_hours_and_shifts,
+        hasInsuranceDocuments,
+        hasIndustryChecks,
+    ].filter(Boolean).length
     return (
         <Link
             legacyBehavior
@@ -78,10 +94,23 @@ export const IndustryCellInfo = ({
                     <div className="flex items-center gap-x-1">
                         <div className="flex items-center gap-x-2">
                             <div className="flex items-center gap-x-1">
-                                <p className="font-semibold">
-                                    {industry?.user?.name}
-                                </p>
-                                {industry?.isHiring ? <FaHireAHelper /> : ''}
+                                <div className="flex flex-col gap-y-1">
+                                    <p className="font-semibold">
+                                        {industry?.user?.name}
+                                    </p>
+                                    <ProfileCompletionProgress
+                                        completedItems={completedCount}
+                                        totalItems={6}
+                                    />
+                                </div>
+                                {industry?.isHiring && (
+                                    <div className="" title="Hiring">
+                                        <HiBriefcase
+                                            size={20}
+                                            className="text-blue-500"
+                                        />
+                                    </div>
+                                )}
                             </div>
 
                             {call &&
@@ -110,7 +139,7 @@ export const IndustryCellInfo = ({
                             <AiFillStar size={18} className="text-primary" />
                         )}
                     </div>
-                    {onlyName && (
+                    {/* {onlyName && (
                         <div className="font-medium text-xs text-gray-500">
                             <p className="flex items-center gap-x-1">
                                 <span>
@@ -119,7 +148,7 @@ export const IndustryCellInfo = ({
                                 {maskText(industry?.phoneNumber)}
                             </p>
                         </div>
-                    )}
+                    )} */}
                 </div>
             </a>
         </Link>

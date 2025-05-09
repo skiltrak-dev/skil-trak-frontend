@@ -32,6 +32,7 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 import { CgUnblock } from 'react-icons/cg'
 import { ellipsisText, getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
+import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
 
 export interface StatusTableActionOption<T> extends TableActionOption<T> {
     status: string[]
@@ -210,7 +211,15 @@ export const FilteredIndustry = ({
         {
             accessorKey: 'user.name',
             cell: (info) => {
-                return <IndustryCell industry={info.row.original} />
+                return (
+                    <div className="flex gap-x-2">
+                        <IndustryCell industry={info.row.original} />
+                        <ProfileCompletionProgress
+                            completedItems={3}
+                            totalItems={6}
+                        />
+                    </div>
+                )
             },
             header: () => <span>Industry</span>,
         },
