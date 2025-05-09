@@ -1,14 +1,14 @@
 import { CreatedAtDate, Typography } from '@components'
 import { AdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
+import { Course } from '@types'
+import moment, { Moment } from 'moment'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { HiCheck } from 'react-icons/hi'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { DataKpiTable } from '../../DataKpiTable'
-import moment, { Moment } from 'moment'
 import { useColumnsAction } from '../../hooks'
-import { Course } from '@types'
 
 export const Completed = ({
     startDate,
@@ -74,6 +74,7 @@ export const Completed = ({
             skip: !router.query.id || !startDate || !endDate,
         }
     )
+
     return (
         <>
             {modal}

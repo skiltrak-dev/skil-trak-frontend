@@ -222,22 +222,20 @@ export const StudentProfileDetail = () => {
                         }
                         onClick={() => {
                             role === UserRoles.ADMIN || subadmin?.data?.isAdmin
-                                ? router.push(
-                                      `/${getLink('student')}` ||
-                                          'portals/admin/student?tab=active&page=1&pageSize=50'
-                                  )
+                                ? getLink('student')
+                                    ? router.push(`/${getLink('student')}`)
+                                    : router.back()
                                 : role === UserRoles.SUBADMIN &&
                                   !subadmin?.data?.isAdmin
-                                ? router.push(
-                                      `/${getLink('subadmin-student')}` ||
-                                          '/portals/sub-admin/students?tab=all'
-                                  )
+                                ? getLink('subadmin-student')
+                                    ? router.push(
+                                          `/${getLink('subadmin-student')}`
+                                      )
+                                    : router.back()
                                 : role === UserRoles.RTO
-                                ? router.push(
-                                      '/portals/rto/students?tab=active'
-                                  )
+                                ? router.back()
                                 : role === UserRoles.OBSERVER
-                                ? router.push('/portals/observer')
+                                ? router.back()
                                 : '#'
                         }}
                     >
