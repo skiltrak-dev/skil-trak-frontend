@@ -23,6 +23,7 @@ import {
 import { paymentStatusData } from './InvoiceStatusData'
 import { FaEye } from 'react-icons/fa'
 import { BiSolidPencil } from 'react-icons/bi'
+import Link from 'next/link'
 
 export const InvoiceDataListing = ({
     startDate,
@@ -34,7 +35,7 @@ export const InvoiceDataListing = ({
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [page, setPage] = useState(1)
-    const [itemPerPage] = useState(30)
+    const [itemPerPage, setItemPerPage] = useState(30)
 
     const invoice = AdminApi.Invoice.invoiceRtoDataList(
         {
@@ -73,9 +74,7 @@ export const InvoiceDataListing = ({
         {
             text: 'Student Profile',
             onClick: (invoice: any) => {
-                router.push(
-                    `/portals/admin/student/${invoice?.student?.id}/detail`
-                )
+                router.push(`/portals/admin/student/${invoice?.stdId}/detail`)
             },
             Icon: FaEye,
         },
@@ -86,14 +85,17 @@ export const InvoiceDataListing = ({
             accessorKey: 'name',
             header: 'Name',
             cell: (info) => (
-                <div className="flex flex-col">
+                <Link
+                    href={`/portals/admin/student/${info?.row?.original?.stdId}/detail`}
+                    className="flex flex-col"
+                >
                     <Typography variant="small" color="text-gray-500" normal>
-                        {info.row?.original?.student?.studentId}
+                        {info.row?.original?.studentId}
                     </Typography>
-                    <Typography variant="label" normal>
-                        {info.row?.original?.student?.user?.name}
+                    <Typography variant="label" normal cursorPointer>
+                        {info.row?.original?.studentName}
                     </Typography>
-                </div>
+                </Link>
             ),
         },
         {
@@ -102,10 +104,10 @@ export const InvoiceDataListing = ({
             cell: (info) => (
                 <div>
                     <Typography variant="small" normal>
-                        {info?.row?.original?.course?.code}
+                        {info?.row?.original?.courseCode}
                     </Typography>
                     <Typography variant="label" normal>
-                        {info?.row?.original?.course?.title}
+                        {info?.row?.original?.courseTitle}
                     </Typography>
                 </div>
             ),
@@ -118,6 +120,18 @@ export const InvoiceDataListing = ({
                     <Badge
                         variant="success"
                         text={info?.row?.original?.invoiceAction}
+                    />
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'currentStatus',
+            header: 'WP Current Status',
+            cell: (info) => (
+                <div>
+                    <Badge
+                        variant="success"
+                        text={info?.row?.original?.currentStatus || '---'}
                     />
                 </div>
             ),
@@ -240,78 +254,9 @@ export const InvoiceDataListing = ({
                     data={invoice}
                     enableRowSelection
                     quickActions={quickActionsElements}
+                    setItemPerPage={setItemPerPage}
                 />
             </Card>
-            {/* <div className="flex flex-col gap-y-4 mb-32">
-                <Card noPadding>
-                    {appointment?.isError && <TechnicalError />}
-                    {appointment?.isLoading || appointment?.isFetching ? (
-                        <LoadingAnimation height="h-[60vh]" />
-                    ) : appointment?.data?.data &&
-                      appointment?.data?.data?.length ? (
-                        <Table
-                            columns={columns}
-                            data={appointment?.data?.data}
-                            quickActions={quickActionsElements}
-                            enableRowSelection
-                        >
-                            {({
-                                table,
-                                pagination,
-                                pageSize,
-                                quickActions,
-                            }: any) => {
-                                return (
-                                    <div>
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            <div className="flex items-center gap-x-8">
-                                                <div className="flex items-center gap-2">
-                                                    <div className="p-2 border border-[#1436B033] rounded-lg">
-                                                        <span
-                                                            className={` text-base`}
-                                                            style={{
-                                                                color: 'blue',
-                                                            }}
-                                                        >
-                                                            <RiUserLine />
-                                                        </span>
-                                                    </div>
-                                                    <Typography semibold>
-                                                        Invoice Data
-                                                    </Typography>
-                                                </div>{' '}
-                                                {pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage
-                                                )}
-                                            </div>
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
-                                                    appointment?.data
-                                                        ?.pagination,
-                                                    setPage
-                                                )}
-                                            </div>
-                                        </div>
-                                        <div className="px-6">{table}</div>
-                                    </div>
-                                )
-                            }}
-                        </Table>
-                    ) : (
-                        !appointment?.isError && (
-                            <EmptyData
-                                title={'No Pending RTO!'}
-                                description={
-                                    'You have no pending RTO request yet'
-                                }
-                                height={'50vh'}
-                            />
-                        )
-                    )}
-                </Card>
-            </div> */}
         </>
     )
 }
