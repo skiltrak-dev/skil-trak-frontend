@@ -214,10 +214,6 @@ export const FilteredIndustry = ({
                 return (
                     <div className="flex gap-x-2">
                         <IndustryCell industry={info.row.original} />
-                        <ProfileCompletionProgress
-                            completedItems={3}
-                            totalItems={6}
-                        />
                     </div>
                 )
             },
