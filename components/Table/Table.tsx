@@ -83,9 +83,9 @@ TableProps<Type>) => {
     const rtoSubAdmin = useSubadminProfile()?.isAssociatedWithRto
     //======================== Blinking rows ===========================
     const getTdClassNames = (row: any) => {
-        const isUnanswered = findCallLogsUnanswered
-            ?.map((student) => student?.id)
-            ?.includes(row?.original?.id)
+        // const isUnanswered = findCallLogsUnanswered
+        //     ?.map((student) => student?.id)
+        //     ?.includes(row?.original?.id)
         const awaitingAgreements = awaitingAgreementBeyondSevenDays
             ?.map((student) => student?.id)
             ?.includes(row?.original?.id)
@@ -99,7 +99,7 @@ TableProps<Type>) => {
         const status = row?.original?.user?.status
 
         return [
-            isUnanswered && !rtoSubAdmin ? 'blink' : '',
+            // isUnanswered && !rtoSubAdmin ? 'blink' : '',
             completeAndActive && !rtoSubAdmin ? 'blink-green' : '',
             awaitingAgreements && !rtoSubAdmin ? 'blink' : '',
             expiringInNext45Days && !rtoSubAdmin ? 'blink' : '',

@@ -205,18 +205,18 @@ export const PendingIndustries = () => {
                 )
             },
         },
-        {
-            accessorKey: 'addressLine1',
-            header: () => <span>Address</span>,
-            cell: (info) => (
-                <TruncatedTextWithTooltip
-                    text={`${
-                        info?.row?.original?.industry?.addressLine1
-                    },${' '} 
-            ${info?.row?.original?.industry?.suburb}`}
-                />
-            ),
-        },
+        // {
+        //     accessorKey: 'addressLine1',
+        //     header: () => <span>Address</span>,
+        //     cell: (info) => (
+        //         <TruncatedTextWithTooltip
+        //             text={`${
+        //                 info?.row?.original?.industry?.addressLine1
+        //             },${' '}
+        //     ${info?.row?.original?.industry?.suburb}`}
+        //         />
+        //     ),
+        // },
         {
             accessorKey: 'channel',
             header: () => <span>Created By</span>,
@@ -227,18 +227,21 @@ export const PendingIndustries = () => {
                     ) : (
                         <p>{info?.row?.original?.industry?.channel}</p>
                     )}
+                    <UserCreatedAt
+                        createdAt={info.row.original?.industry?.createdAt}
+                    />
                 </div>
             ),
         },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: (info) => (
-                <UserCreatedAt
-                    createdAt={info.row.original?.industry?.createdAt}
-                />
-            ),
-        },
+        // {
+        //     accessorKey: 'createdAt',
+        //     header: () => <span>Created At</span>,
+        //     cell: (info) => (
+        //         <UserCreatedAt
+        //             createdAt={info.row.original?.industry?.createdAt}
+        //         />
+        //     ),
+        // },
         {
             accessorKey: 'industry.approvalReviewQuestions',
             header: () => <span>Industry Answer</span>,

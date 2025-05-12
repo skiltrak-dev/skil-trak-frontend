@@ -25,6 +25,7 @@ import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { RiInboxArchiveFill } from 'react-icons/ri'
 import { IndustryCellInfo } from './components'
 import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
+import { FaArrowUp } from 'react-icons/fa'
 
 export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -156,34 +157,32 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
 
     const Columns: ColumnDef<Industry>[] = [
         {
-            header: () => 'Name',
+            header: () => 'Business Name',
             accessorKey: 'user',
-            cell: ({ row }) => (
-                <IndustryCellInfo
-                    industry={row.original}
-                    isFavorite={row?.original?.favoriteBy}
-                    call
-                />
-            ),
+            // sort: true,
+            cell: ({ row }: any) => {
+                return (
+                    <div className="">
+                        <IndustryCellInfo
+                            industry={row.original}
+                            isFavorite={row?.original?.favoriteBy}
+                            call
+                        />
+                    </div>
+                )
+            },
         },
         {
             accessorKey: 'abn',
-            header: () => <span>ABN</span>,
+            header: () => <span>ABN Number</span>,
         },
         {
-            header: () => 'Address',
-            accessorKey: 'address',
-            cell: ({ row }) => (
-                <TruncatedTextWithTooltip text={row?.original?.addressLine1} />
-            ),
-        },
-        {
-            header: () => 'Enrolled Students',
+            header: () => 'Students',
             accessorKey: 'students',
             cell: ({ row }) => {
                 const { enrolledStudents } = row.original
                 return (
-                    <Typography variant={'muted'} color={'gray'}>
+                    <Typography variant={'muted'} color={'gray'} center>
                         {enrolledStudents}
                     </Typography>
                 )
@@ -204,7 +203,7 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
         },
         {
             accessorKey: 'favouriteBy',
-            header: () => <span>Favourite By</span>,
+            header: () => <span>Bookmarked By</span>,
             cell: ({ row }) => (
                 <div>
                     <Typography variant="label">
@@ -217,26 +216,29 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
         },
         {
             accessorKey: 'channel',
-            header: () => <span>Created By</span>,
+            header: () => <span>Registered By</span>,
             cell: ({ row }) => (
                 <div>
                     {row?.original?.createdBy !== null ? (
-                        <p>{row?.original?.createdBy?.name}</p>
+                        <div className="bg-emerald-200 text-emerald-600 rounded-md px-4 py-0.5 inline-flex items-center gap-x-1">
+                            <FaArrowUp />
+                            <p className="text-sm">
+                                {row?.original?.createdBy?.name}
+                            </p>
+                        </div>
                     ) : (
-                        <p>{row?.original?.channel}</p>
+                        <div className="inline-flex items-center gap-x-1 bg-blue-200 text-blue-600 rounded-md px-4 py-0.5">
+                            <FaArrowUp />
+
+                            <p className="text-sm">{row?.original?.channel}</p>
+                        </div>
                     )}
+                    <UserCreatedAt createdAt={row?.original?.createdAt} />
                 </div>
             ),
         },
         {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: ({ row }) => (
-                <UserCreatedAt createdAt={row?.original?.createdAt} />
-            ),
-        },
-        {
-            header: () => 'Action',
+            header: () => 'Manage',
             accessorKey: 'Action',
             cell: ({ row }) => {
                 const actions = tableActionOptions(row.original)

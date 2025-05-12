@@ -105,7 +105,7 @@ export const StudentCellInfo = ({
                 <div>
                     <div className="flex items-center gap-x-2">
                         <div className="flex items-center gap-x-2">
-                            <p
+                            {/* <p
                                 className={
                                     'whitespace-nowrap text-xs text-gray-500'
                                 }
@@ -113,7 +113,7 @@ export const StudentCellInfo = ({
                                 <ErrorBoundary>
                                     {maskText(student?.studentId)}
                                 </ErrorBoundary>
-                            </p>
+                            </p> */}
                             {student?.nonContactable && (
                                 <div className="group relative bg-red-600 p-1 rounded-full flex items-center justify-center">
                                     <FiPhoneOff className="text-white text-[10px]" />
@@ -203,7 +203,7 @@ export const StudentCellInfo = ({
                             </div>
                         ) : null}
                     </div>
-                    <AuthorizedUserComponent
+                    {/* <AuthorizedUserComponent
                         roles={[
                             UserRoles.ADMIN,
                             UserRoles.RTO,
@@ -221,8 +221,8 @@ export const StudentCellInfo = ({
                                 </HideRestrictedData>
                             </p>
                         </div>
-                    </AuthorizedUserComponent>
-                    <div className="font-medium text-xs text-gray-500">
+                    </AuthorizedUserComponent> */}
+                    {/* <div className="font-medium text-xs text-gray-500">
                         <p className="flex items-center gap-x-1">
                             <span>
                                 <MdPhone />
@@ -231,7 +231,7 @@ export const StudentCellInfo = ({
                                 {maskText(student?.phone)}
                             </HideRestrictedData>
                         </p>
-                    </div>
+                    </div> */}
                 </div>
             </a>
         </Link>

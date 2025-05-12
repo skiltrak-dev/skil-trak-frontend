@@ -22,6 +22,7 @@ import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
 import { SubAdminApi } from '@queries'
 import { RiInboxArchiveFill } from 'react-icons/ri'
 import { ColumnDef } from '@tanstack/react-table'
+import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
 
 export const FilteredIndustry = ({
     industry,
@@ -127,12 +128,19 @@ export const FilteredIndustry = ({
         {
             header: () => 'Name',
             accessorKey: 'user',
-            cell: ({ row }) => (
-                <IndustryCellInfo
-                    industry={row.original}
-                    isFavorite={row.original?.favoriteBy}
-                    call
-                />
+            // sort: true,
+            cell: ({ row }: any) => (
+                <div className="flex gap-x-2">
+                    <IndustryCellInfo
+                        industry={row.original}
+                        isFavorite={row.original?.favoriteBy}
+                        call
+                    />
+                    <ProfileCompletionProgress
+                        completedItems={3}
+                        totalItems={6}
+                    />
+                </div>
             ),
         },
         {

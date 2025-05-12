@@ -112,13 +112,13 @@ export const FavoriteIndustries = () => {
             accessorKey: 'abn',
             header: () => <span>ABN</span>,
         },
-        {
-            header: () => 'Address',
-            accessorKey: 'address',
-            cell: ({ row }) => (
-                <TruncatedTextWithTooltip text={row?.original?.addressLine1} />
-            ),
-        },
+        // {
+        //     header: () => 'Address',
+        //     accessorKey: 'address',
+        //     cell: ({ row }) => (
+        //         <TruncatedTextWithTooltip text={row?.original?.addressLine1} />
+        //     ),
+        // },
         {
             header: () => 'Enrolled Students',
             accessorKey: 'students',
@@ -165,16 +165,11 @@ export const FavoriteIndustries = () => {
                     ) : (
                         <p>{row?.original?.channel}</p>
                     )}
+                    <UserCreatedAt createdAt={row?.original?.createdAt} />
                 </div>
             ),
         },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: ({ row }) => (
-                <UserCreatedAt createdAt={row?.original?.createdAt} />
-            ),
-        },
+
         {
             header: () => 'Action',
             accessorKey: 'Action',
