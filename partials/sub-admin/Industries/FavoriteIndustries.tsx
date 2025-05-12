@@ -34,7 +34,6 @@ export const FavoriteIndustries = () => {
     const [page, setPage] = useState(1)
 
     // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -173,21 +172,18 @@ export const FavoriteIndustries = () => {
         {
             header: () => 'Action',
             accessorKey: 'Action',
-            cell: ({ row }) => {
-                return (
-                    <TableAction
-                        options={tableActionOptions}
-                        rowItem={row.original}
-                    />
-                )
-            },
+            cell: ({ row }) => (
+                <TableAction
+                    options={tableActionOptions}
+                    rowItem={row.original}
+                />
+            ),
         },
     ]
 
     return (
         <>
-            {modal && modal}
-            {passwordModal}
+            {modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (
@@ -196,8 +192,6 @@ export const FavoriteIndustries = () => {
                     <Table
                         columns={Columns?.filter((c: any) => c?.header) as any}
                         data={data.data}
-                        // quickActions={quickActionsElements}
-                        enableRowSelection
                     >
                         {({
                             table,

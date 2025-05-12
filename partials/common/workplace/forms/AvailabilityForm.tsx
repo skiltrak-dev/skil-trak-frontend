@@ -168,51 +168,54 @@ export const AvailabilityForm = ({
                             })}
                         </div>
                         <div className="my-4">
-                            <Typography variant={'muted'} color={'grayLight'}>
+                            {/* <Typography variant={'muted'} color={'grayLight'}>
                                 * Click Find Workplace Manually to submit your
                                 request. A SkilTrak coordinator will then
                                 manually match you with a suitable workplace.
-                            </Typography>
+                            </Typography> */}
                             <Typography variant={'muted'} color={'grayLight'}>
                                 * Click Auto-Match & Apply (Beta) to let the
                                 system automatically find and apply to the
                                 nearest available workplace on your behalf.
                             </Typography>
                         </div>
-                        <div className="flex items-center gap-x-4">
-                            <Button
-                                variant={'secondary'}
-                                onClick={() => {
-                                    setActive((active: number) => active - 1)
-                                }}
-                            >
-                                Previous
-                            </Button>
-                            <Button
-                                onClick={() => {
-                                    onSubmit(daysAvailability)
-                                }}
-                                loading={result.isLoading}
-                                disabled={result.isLoading}
-                            >
-                                Find Workplace Manually
-                            </Button>
-
-                            {autoResult && onSubmitBeta && (
+                        <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-x-4">
                                 <Button
+                                    variant={'secondary'}
                                     onClick={() => {
-                                        onSubmitBeta(daysAvailability)
+                                        setActive(
+                                            (active: number) => active - 1
+                                        )
                                     }}
-                                    outline
-                                    loading={autoResult.isLoading}
-                                    disabled={autoResult.isLoading}
                                 >
-                                    Auto-Match & Apply{' '}
-                                    <span className="text-success-dark text-[11px]">
-                                        (Automatically)
-                                    </span>
+                                    Previous
                                 </Button>
-                            )}
+                                {autoResult && onSubmitBeta && (
+                                    <Button
+                                        onClick={() => {
+                                            onSubmitBeta(daysAvailability)
+                                        }}
+                                        loading={autoResult.isLoading}
+                                        disabled={autoResult.isLoading}
+                                    >
+                                        Auto-Match & Apply (Automatically)
+                                    </Button>
+                                )}
+                            </div>
+                            <div>
+                                <button
+                                    onClick={() => {
+                                        if (!result?.isLoading) {
+                                            onSubmit(daysAvailability)
+                                        }
+                                    }}
+                                    disabled={result?.isLoading}
+                                    className="text-[10px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-2 py-1 rounded-md shadow focus:outline-none focus:ring-4 bg-transparent text-primary hover:bg-primary-dark hover:text-white border-primary-dark"
+                                >
+                                    {result?.isLoading ? 'Loading...' : 'More'}
+                                </button>
+                            </div>
                         </div>
                     </Card>
                 </div>

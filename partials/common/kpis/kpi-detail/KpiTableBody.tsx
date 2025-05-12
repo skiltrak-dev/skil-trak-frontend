@@ -1,8 +1,6 @@
-import React from 'react'
-import { Row, flexRender } from '@tanstack/react-table'
 import { TableData } from '@partials/common/kpis'
-import { original } from '@reduxjs/toolkit'
-import { KpiTypes } from '@types'
+import { Row, flexRender } from '@tanstack/react-table'
+import React from 'react'
 
 interface TableBodyProps {
     rows: Row<TableData>[]
