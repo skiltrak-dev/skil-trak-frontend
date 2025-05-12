@@ -1,17 +1,14 @@
-import { InitialAvatar, Typography } from '@components'
 import { CommonApi } from '@queries'
-import { ellipsisText } from '@utils'
-import React from 'react'
-import { GoDotFill } from 'react-icons/go'
-import { LuClock4 } from 'react-icons/lu'
-import { smartDateFormat, smartDateTimeFormat } from '../functions'
 import { useRouter } from 'next/router'
+import { LuClock4 } from 'react-icons/lu'
+import { GoDotFill } from 'react-icons/go'
+import { InitialAvatar, Typography } from '@components'
+import { smartDateFormat, smartDateTimeFormat } from '../functions'
 
 export const NotificationCard = ({ notification }: { notification: any }) => {
     const router = useRouter()
 
-    const [readNotifications, resultReadNotifications] =
-        CommonApi.Notifications.useIsReadNotification()
+    const [readNotifications] = CommonApi.Notifications.useIsReadNotification()
 
     const handleNotificationClick = async (e: any) => {
         e.preventDefault()

@@ -156,9 +156,9 @@ export const Notification = ({
                         {primaryAction && (
                             <span
                                 className="cursor-pointer"
-                                onClick={() => {
+                                onClick={(e: any) => {
                                     if (primaryAction.onClick) {
-                                        primaryAction.onClick()
+                                        primaryAction.onClick(e)
                                         onDismiss()
                                     }
                                 }}
@@ -175,9 +175,9 @@ export const Notification = ({
                         {secondaryAction && (
                             <span
                                 className="cursor-pointer"
-                                onClick={() => {
+                                onClick={(e: any) => {
                                     if (secondaryAction.onClick) {
-                                        secondaryAction.onClick()
+                                        secondaryAction.onClick(e)
                                         onDismiss()
                                     }
                                 }}

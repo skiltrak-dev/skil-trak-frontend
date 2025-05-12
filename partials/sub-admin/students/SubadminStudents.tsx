@@ -158,8 +158,7 @@ export const SubadminStudents = () => {
         // isHod
         ...(isHod ||
         isManager ||
-        (subadmin?.hasAllStudentAccess && subadmin?.isAssociatedWithRto) ||
-        true
+        (subadmin?.hasAllStudentAccess && subadmin?.isAssociatedWithRto)
             ? [
                   {
                       label: 'Active',

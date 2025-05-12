@@ -1,13 +1,13 @@
 import { AuthUtils } from '@utils'
-import { useEffect, useState } from 'react'
-
 import { io } from 'socket.io-client'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { socketEventToTagMapping } from './data'
+import { SocketNotificationsEvents } from './enum'
 import { useNotification, useSocketListener } from '@hooks'
 import { emptySplitApi } from '@queries/portals/empty.query'
-import { SocketNotificationsEvents } from './enum'
-import { socketEventToTagMapping } from './data'
+import { CommonApi } from '@queries'
 
 export const Socket = ({ children }: any) => {
     const router = useRouter()
@@ -33,6 +33,26 @@ export const Socket = ({ children }: any) => {
             tagsToInvalidate.forEach((tag: any) => {
                 dispatch(emptySplitApi.util.invalidateTags([tag]))
             })
+        }
+    }
+
+    const [readNotifications] = CommonApi.Notifications.useIsReadNotification()
+
+    const handleNotificationClick = async (e: any, notification: any) => {
+        e?.preventDefault()
+
+        try {
+            // First mark the notification as read
+            if (!notification.isRead && notification?.notificationId) {
+                await readNotifications(notification?.notificationId)
+            }
+
+            // Then navigate to the link
+            if (notification?.link) {
+                router.push(notification?.link)
+            }
+        } catch (error) {
+            console.error('Error handling notification click:', error)
         }
     }
 
@@ -62,7 +82,9 @@ export const Socket = ({ children }: any) => {
                             dissmissTimer: 6000,
                             primaryAction: {
                                 text: 'View',
-                                onClick: () => router.push(notify?.link),
+                                onClick: (e: any) => {
+                                    handleNotificationClick(e, notify)
+                                },
                             },
                             position: 'topright',
                         })
