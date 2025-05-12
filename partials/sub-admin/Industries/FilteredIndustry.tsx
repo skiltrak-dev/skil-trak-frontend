@@ -136,10 +136,6 @@ export const FilteredIndustry = ({
                         isFavorite={row.original?.favoriteBy}
                         call
                     />
-                    <ProfileCompletionProgress
-                        completedItems={3}
-                        totalItems={6}
-                    />
                 </div>
             ),
         },

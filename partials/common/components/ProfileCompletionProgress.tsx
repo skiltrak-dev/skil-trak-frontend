@@ -90,13 +90,6 @@ const ProfileCompletionProgress = ({
 }: ProfileCompletionProps) => {
     const percentage = Math.round((completedItems / totalItems) * 100)
 
-    // Determine color based on completion percentage
-    // const getColor = () => {
-    //     if (percentage >= 95) return '#4ADE80' // Green (like in the image)
-    //     if (percentage >= 75) return '#FBBF24' // Yellow (like in the image)
-    //     if (percentage >= 50) return '#F97316' // Orange (like in the image)
-    //     return '#F87171' // Light red (like in the image)
-    // }
     const getColor = (percentage: any) => {
         if (percentage < 40) return '#F87171' // Red
         if (percentage < 70) return '#F97316' // Orange
@@ -104,7 +97,7 @@ const ProfileCompletionProgress = ({
         return '#4ADE80' // Green
     }
     const getLightColor = (percentage: any) => {
-        if (percentage < 40) return '#FEE2E2' // Light Red
+        if (percentage < 40) return '#FEE2E2' 
         if (percentage < 70) return '#FFEDD5' // Light Orange
         if (percentage < 90) return '#FEF9C3' // Light Yellow
         return '#DCFCE7' // Light Green
