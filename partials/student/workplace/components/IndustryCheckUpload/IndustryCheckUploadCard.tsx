@@ -73,7 +73,6 @@ export const IndustryCheckUploadCard = ({
     }
 
     const handleChange = async (docs: FileList) => {
-        console.log('No')
         const { filteredDocs, formData } = formDataUpload(docs)
 
         if (filteredDocs?.length) {
@@ -91,7 +90,6 @@ export const IndustryCheckUploadCard = ({
     }
 
     const handleChangeOtherDocs = async (docs: FileList) => {
-        console.log('Yes')
         const { filteredDocs, formData } = formDataUpload(docs)
 
         if (filteredDocs?.length) {
