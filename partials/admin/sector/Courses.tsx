@@ -75,11 +75,6 @@ export const Courses = () => {
         AdminApi.Courses.useCourseToggleSupersede()
     // on switch supersede
 
-    // find course where isSuperseded is true
-    // const supersededCourse = data?.data?.filter(
-    //     (course: Course) => course?.isSuperseded
-    // )
-
     const onModalCancelClicked = () => {
         setModal(null)
     }

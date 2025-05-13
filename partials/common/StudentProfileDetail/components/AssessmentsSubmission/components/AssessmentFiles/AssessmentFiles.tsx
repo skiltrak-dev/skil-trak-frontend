@@ -23,6 +23,7 @@ import { useAssessmentDocumentsView } from '../../hooks'
 import { AssessmentFilesUpload } from './AssessmentFilesUpload'
 import { AssessmentFileArchiveModal } from './AssessmentFileArchiveModal'
 import { AssessmentFilesOtherDocUpload } from './AssessmentFilesOtherDocUpload'
+import Link from 'next/link'
 
 export const AssessmentFiles = ({
     course,
@@ -244,6 +245,40 @@ export const AssessmentFiles = ({
                     getAssessmentResponse.isSuccess && (
                         <NoData text="There is no Assessment Files!" simple />
                     )
+                )}
+                {selectedFolder && (
+                    <div className="flex justify-between items-start mt-2">
+                        <div className="mb-4">
+                            <div className="flex items-center gap-x-2">
+                                <p className="text-sm text-gray-400 font-semibold">
+                                    Description:
+                                </p>
+                            </div>
+                            <p className="text-sm font-semibold">
+                                <Typography
+                                    variant="small"
+                                    color="text-gray-700"
+                                >
+                                    {selectedFolder?.description}
+                                </Typography>
+                            </p>
+
+                            {selectedFolder?.link && (
+                                <div className="flex items-center gap-x-1 mt-2">
+                                    <Typography variant="label" semibold>
+                                        Link to apply:
+                                    </Typography>
+                                    <Link
+                                        href={selectedFolder?.link + ''}
+                                        target="_blank"
+                                        className="text-sm text-info underline font-semibold"
+                                    >
+                                        {selectedFolder?.link}
+                                    </Link>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 )}
                 {children}
             </div>
