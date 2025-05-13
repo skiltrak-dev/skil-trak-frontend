@@ -1,7 +1,7 @@
 import { InitialAvatar, Tooltip } from '@components'
 import { SubAdminApi } from '@queries'
 import { Industry, SubAdmin } from '@types'
-import { maskText, setLink } from '@utils'
+import { ellipsisText, maskText, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -56,6 +56,20 @@ export const IndustryCellInfo = ({
         hasInsuranceDocuments,
         hasIndustryChecks,
     ].filter(Boolean).length
+
+    const profileFields = [
+        { key: 'courseAdded', label: 'Courses' },
+        { key: 'CapacityUpdated', label: 'Capacity' },
+        { key: 'ProfileUpdated', label: 'Profile' },
+        { key: 'trading_hours_and_shifts', label: 'Trading Hours & Shifts' },
+        { key: 'hasInsuranceDocuments', label: 'Insurance Documents' },
+        { key: 'hasIndustryChecks', label: 'Industry Checks' },
+    ]
+
+    // Find the missing items
+    const incompleteItems = profileFields
+        .filter((field) => !industry[field.key as keyof typeof industry])
+        .map((field) => field.label)
     return (
         <Link
             legacyBehavior
@@ -91,17 +105,30 @@ export const IndustryCellInfo = ({
                         industry?.snoozedDate !== null && (
                             <MdSnooze size={14} className="text-red-500" />
                         )}
-                    <div className="flex items-center gap-x-1">
+                    <div className="flex gap-x-1">
                         <div className="flex items-center gap-x-2">
-                            <div className="flex items-center gap-x-1">
+                            <div className="flex gap-x-1">
                                 <div className="flex flex-col gap-y-1">
-                                    <p className="font-semibold">
-                                        {industry?.user?.name}
+                                    <p
+                                        className="font-semibold"
+                                        title={industry?.user?.name}
+                                    >
+                                        {ellipsisText(industry?.user?.name, 12)}
                                     </p>
-                                    <ProfileCompletionProgress
-                                        completedItems={completedCount}
-                                        totalItems={6}
-                                    />
+                                    <div
+                                        title={
+                                            incompleteItems.length
+                                                ? `Missing: ${incompleteItems.join(
+                                                      ', '
+                                                  )}`
+                                                : 'All set!'
+                                        }
+                                    >
+                                        <ProfileCompletionProgress
+                                            completedItems={completedCount}
+                                            totalItems={6}
+                                        />
+                                    </div>
                                 </div>
                                 {industry?.isHiring && (
                                     <div className="" title="Hiring">

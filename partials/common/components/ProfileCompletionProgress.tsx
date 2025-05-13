@@ -1,76 +1,3 @@
-// import React from 'react'
-
-// interface ProfileCompletionProps {
-//     completedItems: number
-//     totalItems: number
-//     size?: number
-//     strokeWidth?: number
-//     showLabel?: boolean
-// }
-
-// const ProfileCompletionProgress = ({
-//     completedItems,
-//     totalItems,
-//     size = 40,
-//     strokeWidth = 4,
-//     showLabel = true,
-// }: ProfileCompletionProps) => {
-//     const radius = (size - strokeWidth) / 2
-//     const circumference = 2 * Math.PI * radius
-//     const percentage = Math.round((completedItems / totalItems) * 100)
-//     const strokeDashoffset = circumference - (percentage / 100) * circumference
-
-//     // Determine color based on completion percentage
-//     const getColor = () => {
-//         if (percentage === 100) return '#10B981' // Green-500 for complete
-//         if (percentage >= 75) return '#3B82F6' // Blue-500 for mostly complete
-//         if (percentage >= 50) return '#F59E0B' // Amber-500 for half complete
-//         return '#EF4444' // Red-500 for mostly incomplete
-//     }
-
-//     return (
-//         <div className="flex items-center space-x-2">
-//             <div className="relative" style={{ width: size, height: size }}>
-//                 {/* Background Circle */}
-//                 <svg width={size} height={size} className="rotate-[-90deg]">
-//                     <circle
-//                         cx={size / 2}
-//                         cy={size / 2}
-//                         r={radius}
-//                         fill="none"
-//                         stroke="#E5E7EB" // Gray-200
-//                         strokeWidth={strokeWidth}
-//                     />
-//                     {/* Progress Circle */}
-//                     <circle
-//                         cx={size / 2}
-//                         cy={size / 2}
-//                         r={radius}
-//                         fill="none"
-//                         stroke={getColor()}
-//                         strokeWidth={strokeWidth}
-//                         strokeDasharray={circumference}
-//                         strokeDashoffset={strokeDashoffset}
-//                         strokeLinecap="round"
-//                     />
-//                 </svg>
-//                 {/* Percentage Text */}
-//                 <div className="absolute inset-0 flex items-center justify-center text-[10px] font-semibold">
-//                     {percentage}%
-//                 </div>
-//             </div>
-
-//             {/* {showLabel && (
-//                 <div className="text-sm text-gray-600">
-//                     {completedItems}/{totalItems} complete
-//                 </div>
-//             )} */}
-//         </div>
-//     )
-// }
-
-// export default ProfileCompletionProgress
-
 import React from 'react'
 
 interface ProfileCompletionProps {
@@ -97,7 +24,7 @@ const ProfileCompletionProgress = ({
         return '#4ADE80' // Green
     }
     const getLightColor = (percentage: any) => {
-        if (percentage < 40) return '#FEE2E2' 
+        if (percentage < 40) return '#FEE2E2'
         if (percentage < 70) return '#FFEDD5' // Light Orange
         if (percentage < 90) return '#FEF9C3' // Light Yellow
         return '#DCFCE7' // Light Green

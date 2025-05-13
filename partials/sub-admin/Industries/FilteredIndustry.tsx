@@ -248,7 +248,7 @@ export const FilteredIndustry = ({
                             columns={
                                 Columns?.filter((c: any) => c?.header) as any
                             }
-                            data={industry?.data.data}
+                            data={industry?.data?.data}
                             // quickActions={quickActionsElements}
                             enableRowSelection
                         >

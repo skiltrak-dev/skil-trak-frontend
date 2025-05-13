@@ -24,7 +24,7 @@ import { BranchCell, IndustryCell, SectorCell } from './components'
 // hooks
 import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
-import { getUserCredentials } from '@utils'
+import { ellipsisText, getUserCredentials } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModals } from './hooks'
 import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
@@ -103,10 +103,6 @@ export const ApprovedIndustry = () => {
             cell: (info) => (
                 <div className="flex gap-x-2">
                     <IndustryCell industry={info?.row?.original} />
-                    <ProfileCompletionProgress
-                        completedItems={3}
-                        totalItems={6}
-                    />
                 </div>
             ),
             header: () => <span>Industry</span>,
@@ -140,7 +136,7 @@ export const ApprovedIndustry = () => {
         },
         {
             accessorKey: 'abn',
-            header: () => <span>ABN</span>,
+            header: () => <span>ABN Number</span>,
         },
         {
             accessorKey: 'studentCount',
@@ -165,42 +161,50 @@ export const ApprovedIndustry = () => {
             header: () => <span>Sectors</span>,
             cell: (info) => <SectorCell industry={info?.row?.original} />,
         },
-        {
-            accessorKey: 'suburb',
-            header: () => <span>Suburb</span>,
-        },
-        {
-            accessorKey: 'addressLine1',
-            header: () => <span>Address</span>,
-            cell: (info) => (
-                <TruncatedTextWithTooltip
-                    text={info?.row?.original?.addressLine1}
-                />
-            ),
-        },
+        // {
+        //     accessorKey: 'addressLine1',
+        //     header: () => <span>Address</span>,
+        //     cell: (info) => (
+        //         <TruncatedTextWithTooltip
+        //             text={info?.row?.original?.addressLine1}
+        //         />
+        //     ),
+        // },
         {
             accessorKey: 'channel',
             header: () => <span>Created By</span>,
             cell: (info) => (
                 <div>
                     {info?.row?.original?.createdBy !== null ? (
-                        <p>{info?.row?.original?.createdBy?.name}</p>
+                        <div className="bg-emerald-200 text-emerald-600 rounded-md px-2 py-0.5 inline-flex items-center gap-x-1">
+                            {/* <FaArrowUp /> */}
+                            <p
+                                title={info?.row?.original?.createdBy?.name}
+                                className="text-xs whitespace-nowrap"
+                            >
+                                {ellipsisText(
+                                    info?.row?.original?.createdBy?.name,
+                                    10
+                                )}
+                            </p>
+                        </div>
                     ) : (
-                        <p>{info?.row?.original?.channel}</p>
+                        <div className="inline-flex items-center gap-x-1 bg-blue-200 text-blue-600 rounded-md px-2 py-0.5">
+                            {/* <FaArrowUp /> */}
+
+                            <p className="text-xs">
+                                {info?.row?.original?.channel}
+                            </p>
+                        </div>
                     )}
+                    <UserCreatedAt createdAt={info?.row?.original?.createdAt} />
                 </div>
             ),
         },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: (info) => (
-                <UserCreatedAt createdAt={info?.row?.original?.createdAt} />
-            ),
-        },
+
         {
             accessorKey: 'action',
-            header: () => <span>Action</span>,
+            header: () => <span>Manage</span>,
             cell: (info: any) => {
                 return (
                     <div className="flex gap-x-1 items-center">

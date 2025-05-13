@@ -20,7 +20,7 @@ import {
 import { useGetSubAdminIndustriesQuery } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { Industry, SubAdmin, UserStatus } from '@types'
-import { getUserCredentials, setLink } from '@utils'
+import { ellipsisText, getUserCredentials, setLink } from '@utils'
 import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { RiInboxArchiveFill } from 'react-icons/ri'
 import { IndustryCellInfo } from './components'
@@ -220,17 +220,20 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
             cell: ({ row }) => (
                 <div>
                     {row?.original?.createdBy !== null ? (
-                        <div className="bg-emerald-200 text-emerald-600 rounded-md px-4 py-0.5 inline-flex items-center gap-x-1">
-                            <FaArrowUp />
-                            <p className="text-sm">
-                                {row?.original?.createdBy?.name}
+                        <div className="bg-emerald-200 text-emerald-600 rounded-md px-2 py-0.5 inline-flex items-center gap-x-1">
+                            {/* <FaArrowUp /> */}
+                            <p className="text-x whitespace-nowrap">
+                                {ellipsisText(
+                                    row.original?.createdBy?.name,
+                                    10
+                                )}
                             </p>
                         </div>
                     ) : (
-                        <div className="inline-flex items-center gap-x-1 bg-blue-200 text-blue-600 rounded-md px-4 py-0.5">
-                            <FaArrowUp />
+                        <div className="inline-flex items-center gap-x-1 bg-blue-200 text-blue-600 rounded-md px-2 py-0.5">
+                            {/* <FaArrowUp /> */}
 
-                            <p className="text-sm">{row?.original?.channel}</p>
+                            <p className="text-xs">{row?.original?.channel}</p>
                         </div>
                     )}
                     <UserCreatedAt createdAt={row?.original?.createdAt} />

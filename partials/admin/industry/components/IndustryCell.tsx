@@ -4,17 +4,49 @@ import {
     InitialAvatar,
 } from '@components'
 import { UserRoles } from '@constants'
+import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
 import { Industry } from '@types'
-import { QueryType, queryToUrl } from '@utils'
+import { QueryType, ellipsisText, queryToUrl } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaHandshake, FaHireAHelper } from 'react-icons/fa'
 import { HiOutlineSpeakerphone } from 'react-icons/hi'
 import { MdEmail, MdPhoneIphone, MdSnooze } from 'react-icons/md'
 
-export const IndustryCell = ({ industry }: { industry: Industry }) => {
+export const IndustryCell = ({ industry }: any) => {
     const router = useRouter()
     const query = queryToUrl(router.query as QueryType)
+
+    const {
+        courseAdded,
+        CapacityUpdated,
+        ProfileUpdated,
+        trading_hours_and_shifts,
+        hasInsuranceDocuments,
+        hasIndustryChecks,
+    } = industry
+    const completedCount = [
+        courseAdded,
+        CapacityUpdated,
+        ProfileUpdated,
+        trading_hours_and_shifts,
+        hasInsuranceDocuments,
+        hasIndustryChecks,
+    ].filter(Boolean).length
+
+    const profileFields = [
+        { key: 'courseAdded', label: 'Courses' },
+        { key: 'CapacityUpdated', label: 'Capacity' },
+        { key: 'ProfileUpdated', label: 'Profile' },
+        { key: 'trading_hours_and_shifts', label: 'Trading Hours & Shifts' },
+        { key: 'hasInsuranceDocuments', label: 'Insurance Documents' },
+        { key: 'hasIndustryChecks', label: 'Industry Checks' },
+    ]
+
+    // Find the missing items
+    const incompleteItems = profileFields
+        .filter((field) => !industry[field.key as keyof typeof industry])
+        .map((field) => field.label)
 
     return (
         <Link legacyBehavior href={`/portals/admin/industry/${industry?.id}`}>
@@ -45,10 +77,29 @@ export const IndustryCell = ({ industry }: { industry: Industry }) => {
                         industry?.snoozedDate !== null ? (
                             <MdSnooze size={14} className="text-red-500" />
                         ) : null}
-                        <div className="flex items-center gap-x-2">
-                            <p className="font-semibold">
-                                {industry?.user?.name}
-                            </p>
+                        <div className="flex gap-x-2">
+                            <div className="flex flex-col gap-y-1">
+                                <p
+                                    className="font-semibold"
+                                    title={industry?.user?.name}
+                                >
+                                    {ellipsisText(industry?.user?.name, 12)}
+                                </p>
+                                <div
+                                    title={
+                                        incompleteItems.length
+                                            ? `Missing: ${incompleteItems.join(
+                                                  ', '
+                                              )}`
+                                            : 'All set!'
+                                    }
+                                >
+                                    <ProfileCompletionProgress
+                                        completedItems={completedCount}
+                                        totalItems={6}
+                                    />
+                                </div>
+                            </div>
 
                             {industry?.isHiring ? (
                                 <div>

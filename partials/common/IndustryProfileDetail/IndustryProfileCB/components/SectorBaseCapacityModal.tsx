@@ -36,6 +36,11 @@ export const SectorBaseCapacityModal = ({
         { sector: string; capacity: number }[]
     >([])
     const { notification } = useNotification()
+    // TODO: Add student to enrolled once the appointment is booked (backend)
+    // TODO: Remove student from enrolled once the placement is Canceled/Terminated/Schedule Completed (backend)
+    // TODO: If the capacity and enrolled student(s) value are equal then show a message below that you can't place more student to industry until the currently enrolled  status changed (sc/cancel/terminated) (frontend)
+    // TODO: Also show the last updated date of capacity and show the name of coordinator who updated
+    // TODO: Capacity should be updated by coordinator only if the coordinator have fav the industry or HOD can update
 
     // API Calls
     // Getting sector based capacity data
@@ -53,33 +58,6 @@ export const SectorBaseCapacityModal = ({
     const [updateOldCapacity, updateOldCapacityResult] =
         SubAdminApi.Industry.useUpdateOldCapacityToSectorBase()
 
-    // // Extracted Industry Sectors from its own courses
-    // const extractIndustrySectors = (() => {
-    //     const sectors = industry.courses.map((item: any) => item.sector)
-    //     const seen = new Set()
-    //     return sectors?.filter((sector: any) => {
-    //         if (seen.has(sector.id)) {
-    //             return false
-    //         } else {
-    //             seen.add(sector.id)
-    //             return true
-    //         }
-    //     })
-    // })()
-
-    // // // SubAdmin Assign Sectors from
-    // const uniqueSectors = (() => {
-    //     const sectors = subadminCourses?.data?.map((item: any) => item?.sector)
-    //     const seen = new Set()
-    //     return sectors?.filter((sector: any) => {
-    //         if (seen.has(sector.id)) {
-    //             return false
-    //         } else {
-    //             seen.add(sector.id)
-    //             return true
-    //         }
-    //     })
-    // })()
     const extractIndustrySectors = React.useMemo(() => {
         const sectors = industry?.courses?.map((item: any) => item.sector)
         const seen = new Set()
@@ -129,6 +107,7 @@ export const SectorBaseCapacityModal = ({
             const currentSector = data?.find(
                 (sector: SectorData) => sector?.id === editingSectorId
             )
+
             if (editingCapacity <= (currentSector?.capacity ?? 0)) {
                 notification.error({
                     title: 'Invalid Capacity',
@@ -221,7 +200,7 @@ export const SectorBaseCapacityModal = ({
                                         </Typography>
                                     </div>
                                     <Typography variant="label">
-                                        Capacity / Enrolled
+                                        Slots Capacity / Enrolled
                                     </Typography>
                                 </div>
 
