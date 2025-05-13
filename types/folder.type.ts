@@ -1,3 +1,4 @@
+import { StudentResponseType } from './assessment-evidence.type'
 import { BaseResponse } from './base.type'
 import { Course } from './sector.type'
 import { Industry, User } from './user.type'
@@ -23,6 +24,9 @@ export interface Folder extends BaseResponse {
     description: string
     isRequired: boolean
     isCustom?: boolean
+    isIndustryCheck?: boolean
     course?: Course
     industry?: Industry
+    link: string
+    studentResponse: StudentResponseType[]
 }

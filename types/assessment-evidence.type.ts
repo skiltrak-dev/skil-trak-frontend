@@ -79,6 +79,7 @@ export interface AssessmentEvidenceDetailType extends BaseResponse {
     studentResponse: StudentResponseType[]
     isAgreement: boolean
     isIndustryCheck: boolean
+    link: string
     otherDoc: boolean
 }
 

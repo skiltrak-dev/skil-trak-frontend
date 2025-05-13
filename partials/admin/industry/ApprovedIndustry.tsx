@@ -17,7 +17,7 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { AdminApi } from '@queries'
 import { Industry, UserStatus } from '@types'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { BranchCell, IndustryCell, SectorCell } from './components'
 
@@ -30,8 +30,6 @@ import { useActionModals } from './hooks'
 import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
 
 export const ApprovedIndustry = () => {
-    const selectInputRef = useRef(null)
-
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)

@@ -19,7 +19,7 @@
         "@next/bundle-analyzer": "15.1.1",
         "@popperjs/core": "^2.11.8",
         "@radix-ui/react-accordion": "^1.1.2",
-        "@ramonak/react-progress-bar": "^5.0.3",
+        "@ramonak/react-progress-bar": "^5.4.0",
         "@react-google-maps/api": "^2.18.1",
         "@reduxjs/toolkit": "^1.8.4",
         "@stripe/stripe-js": "^1.48.0",

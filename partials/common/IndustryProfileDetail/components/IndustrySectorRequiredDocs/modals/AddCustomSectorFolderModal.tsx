@@ -1,9 +1,9 @@
-import { GlobalModal, ShowErrorNotifications, Typography } from '@components'
-import { AddSectoIndustryChecksForm } from '@partials/admin/sector/form'
 import React from 'react'
-import { MdCancel } from 'react-icons/md'
 import { IndustryApi } from '@queries'
 import { useNotification } from '@hooks'
+import { MdCancel } from 'react-icons/md'
+import { AddSectoIndustryChecksForm } from '@partials/admin/sector/form'
+import { GlobalModal, ShowErrorNotifications, Typography } from '@components'
 
 export const AddCustomSectorFolderModal = ({
     onCancel,

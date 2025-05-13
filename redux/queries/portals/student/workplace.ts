@@ -153,4 +153,9 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['Students'],
     }),
+
+    getWpIndustryChecks: builder.query<any, void>({
+        query: () => `${PREFIX}/assessment-evidence/view/by-student`,
+        providesTags: ['StudentAssessmentEvidence', 'AssessmentEvidence'],
+    }),
 })

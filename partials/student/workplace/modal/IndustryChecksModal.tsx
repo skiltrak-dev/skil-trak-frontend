@@ -1,41 +1,78 @@
 import { Button, GlobalModal, Typography } from '@components'
-import { FileUpload } from '@hoc'
-import React from 'react'
+import { StudentApi } from '@queries'
+import { Folder } from '@types'
+import Image from 'next/image'
 import { MdCancel } from 'react-icons/md'
+import { IndustryCheckUploadCard } from '../components'
 
-const UploadFile = ({ name, fileList }: { name: string; fileList: any }) => (
-    <div className=" bg-primaryNew-dark rounded-[5px] flex justify-between items-center px-5 py-2.5">
-        <Typography variant="small" medium color="text-white">
-            Saad
-        </Typography>
-
-        <Button>
-            <label htmlFor={`file_id_${name}`} className="cursor-pointer">
-                Upload Document
-            </label>
-        </Button>
-    </div>
-)
-
-export const IndustryChecksModal = ({ onCancel }: { onCancel: () => void }) => {
+export const IndustryChecksModal = ({
+    studentId,
+    industryChecks,
+    onCancel,
+}: {
+    studentId: number
+    industryChecks: any
+    onCancel: () => void
+}) => {
     return (
-        <GlobalModal>
-            <div className="relative max-w-[1076px] w-full">
+        <GlobalModal className="max-h-[90vh] overflow-auto !max-w-5xl !w-full">
+            <div className="w-full px-7 sm:px-16 md:px-28 xl:px-36 relative flex flex-col gap-y-5 py-7">
                 <MdCancel
                     onClick={onCancel}
-                    className="absolute -top-3 -right-3 transition-all duration-500 text-black hover:text-black text-3xl cursor-pointer hover:rotate-90"
+                    className="transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90 absolute top-2 right-2"
                 />
-                <div className="h-[80vh] md:h-[88vh]  overflow-auto custom-scrollbar">
-                    <Typography variant="title" center>
-                        Industry Checks
+                <div className="flex flex-col gap-y-2 justify-between items-center">
+                    <Image
+                        alt={''}
+                        width={50}
+                        height={50}
+                        src={'/images/students/schedule.png'}
+                    />
+                    <div className="mx-auto">
+                        <Typography center semibold>
+                            Documents Required Before Placement
+                        </Typography>
+                    </div>
+                </div>
+                <div>
+                    <Typography center variant="label" block>
+                        <span className="leading-4 text-center">
+                            Before your Skiltrak coordinator can finalize your
+                            placement with the [industry name], please upload
+                            the required industry checks. Completing this step
+                            is essential to proceed to placement started status.
+                        </span>
                     </Typography>
 
-                    <FileUpload
-                        onChange={(docs: FileList) => {}}
-                        name={'attachments'}
-                        component={UploadFile}
-                        multiple
-                        limit={Number(1111111111)}
+                    <div className="max-h-48 overflow-auto mt-4 flex flex-col gap-y-2 border border-[#6B7280] rounded-md px-7 py-4">
+                        {industryChecks?.assessmentEvidence?.map(
+                            (assessment: Folder, i: number) => (
+                                <IndustryCheckUploadCard
+                                    key={i}
+                                    folder={assessment}
+                                />
+                            )
+                        )}
+
+                        {industryChecks?.otherDocs?.map(
+                            (assessment: Folder, i: number) => (
+                                <IndustryCheckUploadCard
+                                    key={i}
+                                    otherDocs
+                                    folder={assessment}
+                                    studentId={studentId}
+                                />
+                            )
+                        )}
+                    </div>
+                </div>
+
+                {/*  */}
+                <div className="flex justify-center">
+                    <Button
+                        variant="primaryNew"
+                        text="Close"
+                        onClick={onCancel}
                     />
                 </div>
             </div>

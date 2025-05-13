@@ -1,7 +1,3 @@
-import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
-import { NextPageWithLayout } from '@types'
-import { useActionModal, useContextBar, useNavbar } from '@hooks'
 import {
     BackButton,
     Button,
@@ -11,18 +7,20 @@ import {
     TechnicalError,
 } from '@components'
 import { IndustryProfile } from '@components/IndustryProfile'
+import { useContextBar, useNavbar } from '@hooks'
+import { SubAdminLayout } from '@layouts'
 import { DetailTabs } from '@partials/sub-admin/Industries/tabs'
 import { useGetSubAdminIndustryProfileQuery } from '@queries'
+import { NextPageWithLayout } from '@types'
 import { getLink } from '@utils'
-import { SubAdminLayout } from '@layouts'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect } from 'react'
 
 const IndustriesProfile: NextPageWithLayout = () => {
     const { setContent, show, hide } = useContextBar()
 
     const pathname = useRouter()
     const { id } = pathname.query
-
-    const { passwordModal, onViewPassword } = useActionModal()
 
     const navBar = useNavbar()
 
@@ -47,10 +45,8 @@ const IndustriesProfile: NextPageWithLayout = () => {
         }
     }, [data, isSuccess, setContent])
 
-    const onSnooze = () => {}
     return (
         <>
-            {passwordModal}
             <div className="flex justify-between items-end mb-4">
                 <div>
                     <BackButton
@@ -63,12 +59,6 @@ const IndustriesProfile: NextPageWithLayout = () => {
                     <PageTitle title="Industry Profile" />
                 </div>
                 <div className="flex items-center gap-x-2">
-                    {/* <Button
-                        text={'View Password'}
-                        onClick={() => {
-                            onViewPassword({ user: data?.user })
-                        }}
-                    /> */}
                     <Button
                         text="Book Appointment"
                         variant="info"

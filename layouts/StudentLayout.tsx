@@ -14,7 +14,10 @@ import { useJoyRide } from '@hooks'
 import { UsersPendingEsignModal } from '@partials/eSign/modal/UsersPendingEsignModal'
 import { ProfileModal } from '@partials/student/Profile/modal/ProfileModal'
 import { studentProfileKeys } from '@partials/student/components'
-import { WorkplaceApprovalModal } from '@partials/student/workplace/modal'
+import {
+    IndustryChecksModal,
+    WorkplaceApprovalModal,
+} from '@partials/student/workplace/modal'
 import {
     CommonApi,
     StudentApi,
@@ -94,6 +97,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const profile = useGetStudentProfileDetailQuery(undefined, {
         refetchOnMountOrArgChange: true,
     })
+    const industryChecks = StudentApi.Workplace.getWpIndustryChecks()
 
     const values = { ...profile?.data, ...profile?.data?.user }
 
@@ -124,10 +128,6 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
         )
     }
 
-    // useEffect(() => {
-    //     setModal(<IndustryChecksModal onCancel={onCancel} />)
-    // }, [])
-
     useEffect(() => {
         if (profile.isSuccess) {
             if (profileCompletion && profileCompletion < 100) {
@@ -142,6 +142,19 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                     <WorkplaceApprovalModal
                         onCancel={onCancel}
                         wpApprovalRequest={wpApprovalRequest?.data}
+                    />
+                )
+            } else if (
+                industryChecks?.data &&
+                industryChecks?.isSuccess &&
+                (industryChecks?.data?.assessmentEvidence?.length > 0 ||
+                    industryChecks?.data?.otherDocs?.length > 0)
+            ) {
+                setModal(
+                    <IndustryChecksModal
+                        onCancel={onCancel}
+                        studentId={profile?.data?.id}
+                        industryChecks={industryChecks?.data}
                     />
                 )
             } else if (pendingDocuments.isSuccess) {
@@ -176,6 +189,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
         pendingDocuments,
         router,
         wpApprovalRequest,
+        industryChecks,
     ])
 
     return (
