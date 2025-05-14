@@ -250,9 +250,9 @@ export const Courses = ({
         getFolders?.data?.assessmentEvidence ||
         (getFolders?.data as AssessmentEvidenceDetailType[] | undefined)
 
-    const allCommentsAdded = all?.every(
-        (f: any) => f?.studentResponse[0]?.comment
-    )
+    const allCommentsAdded = all
+        ?.filter((folder: any) => !folder?.isIndustryCheck)
+        ?.every((f: any) => f?.studentResponse[0]?.comment)
 
     const iconClasses =
         'border border-secondary absolute top-1/2 -mt-2 z-10 cursor-pointer bg-primaryNew text-white shadow-md rounded-full hover:scale-150 transition-all hover:opacity-100 w-5 h-5 flex justify-center items-center'
