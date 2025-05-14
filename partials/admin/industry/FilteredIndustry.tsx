@@ -19,7 +19,7 @@ import { Industry, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { IndustryCell, SectorCell } from './components'
+import { IndustryCellProgressbar, SectorCell } from './components'
 import {
     AcceptModal,
     ArchiveModal,
@@ -213,7 +213,7 @@ export const FilteredIndustry = ({
             cell: (info) => {
                 return (
                     <div className="flex gap-x-2">
-                        <IndustryCell industry={info.row.original} />
+                        <IndustryCellProgressbar industry={info.row.original} />
                     </div>
                 )
             },

@@ -298,19 +298,6 @@ export const SnoozedIndustry = () => {
             {modal && modal}
             {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
-                <PageHeading
-                    title={'Approved Industries'}
-                    subtitle={'List of Approved Industries'}
-                >
-                    {/* {data && data?.data?.length ? (
-                        <Button
-                            text="Export"
-                            variant="action"
-                            Icon={FaFileExport}
-                        />
-                    ) : null} */}
-                </PageHeading>
-
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading ? (

@@ -44,6 +44,7 @@ import { AdminApi, CommonApi, SubAdminApi } from '@queries'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 import { TbClockCheck, TbEyeSearch } from 'react-icons/tb'
+import { ImOffice } from 'react-icons/im'
 
 export type RouteNavLinkCountType = {
     loading: boolean
@@ -170,7 +171,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
         {
             text: 'Departments',
             path: getRoutePath('/departments'),
-            Icon: RiShieldUserFill,
+            Icon: ImOffice,
             visible: checkIsHod,
         },
         {
@@ -181,7 +182,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             text: 'Management',
         },
         {
-            text: 'KPIS',
+            text: "KPI's",
             path: getRoutePath('/kpis-progress'),
             Icon: TbClockCheck,
             visible: checkIsHod,

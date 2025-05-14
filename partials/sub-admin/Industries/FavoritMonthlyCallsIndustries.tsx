@@ -24,7 +24,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Industry } from '@types'
 import { setLink } from '@utils'
 import { MdFavorite } from 'react-icons/md'
-import { IndustryCellInfo } from './components'
+import { IndustryCellInfo, IndustryCellInfoProgressbar } from './components'
 import { AddToFavoriteModal } from './modals'
 
 export const FavoritMonthlyCallsIndustries = () => {
@@ -94,7 +94,7 @@ export const FavoritMonthlyCallsIndustries = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }) => (
-                <IndustryCellInfo
+                <IndustryCellInfoProgressbar
                     industry={row.original}
                     isFavorite={row.original?.favoriteBy}
                     call

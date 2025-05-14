@@ -11,11 +11,43 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaHandshake, FaHireAHelper } from 'react-icons/fa'
 import { HiOutlineSpeakerphone } from 'react-icons/hi'
+import { HiBriefcase } from 'react-icons/hi2'
 import { MdEmail, MdPhoneIphone, MdSnooze } from 'react-icons/md'
 
-export const IndustryCell = ({ industry }: any) => {
+export const IndustryCellProgressbar = ({ industry }: any) => {
     const router = useRouter()
     const query = queryToUrl(router.query as QueryType)
+
+    const {
+        courseAdded,
+        CapacityUpdated,
+        ProfileUpdated,
+        trading_hours_and_shifts,
+        hasInsuranceDocuments,
+        hasIndustryChecks,
+    } = industry
+    const completedCount = [
+        courseAdded,
+        CapacityUpdated,
+        ProfileUpdated,
+        trading_hours_and_shifts,
+        hasInsuranceDocuments,
+        hasIndustryChecks,
+    ].filter(Boolean).length
+
+    const profileFields = [
+        { key: 'courseAdded', label: 'Courses' },
+        { key: 'CapacityUpdated', label: 'Capacity' },
+        { key: 'ProfileUpdated', label: 'Profile' },
+        { key: 'trading_hours_and_shifts', label: 'Trading Hours & Shifts' },
+        { key: 'hasInsuranceDocuments', label: 'Insurance Documents' },
+        { key: 'hasIndustryChecks', label: 'Industry Checks' },
+    ]
+
+    // Find the missing items
+    const incompleteItems = profileFields
+        .filter((field) => !industry[field.key as keyof typeof industry])
+        .map((field) => field.label)
 
     return (
         <Link legacyBehavior href={`/portals/admin/industry/${industry?.id}`}>
@@ -46,7 +78,7 @@ export const IndustryCell = ({ industry }: any) => {
                         industry?.snoozedDate !== null ? (
                             <MdSnooze size={14} className="text-red-500" />
                         ) : null}
-                        <div className="flex items-center gap-x-2">
+                        <div className="flex gap-x-2">
                             <div className="flex flex-col gap-y-1">
                                 <p
                                     className="font-semibold"
@@ -54,11 +86,28 @@ export const IndustryCell = ({ industry }: any) => {
                                 >
                                     {ellipsisText(industry?.user?.name, 20)}
                                 </p>
+                                <div
+                                    title={
+                                        incompleteItems.length
+                                            ? `Missing: ${incompleteItems.join(
+                                                  ', '
+                                              )}`
+                                            : 'All set!'
+                                    }
+                                >
+                                    <ProfileCompletionProgress
+                                        completedItems={completedCount}
+                                        totalItems={6}
+                                    />
+                                </div>
                             </div>
 
                             {industry?.isHiring ? (
                                 <div>
-                                    <HiOutlineSpeakerphone className="text-lg" />
+                                    <HiBriefcase
+                                        size={20}
+                                        className="text-blue-500"
+                                    />
                                 </div>
                             ) : (
                                 ''

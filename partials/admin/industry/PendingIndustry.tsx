@@ -145,11 +145,11 @@ export const PendingIndustry = () => {
             cell: (info) => {
                 return <IndustryCell industry={info.row.original} />
             },
-            header: () => <span>Industry</span>,
+            header: () => <span>Business Name</span>,
         },
         {
             accessorKey: 'abn',
-            header: () => <span>ABN</span>,
+            header: () => <span>ABN Number</span>,
             cell: (info) => info.getValue(),
         },
         {
@@ -173,18 +173,10 @@ export const PendingIndustry = () => {
                 return <SectorCell industry={info.row.original} />
             },
         },
-        {
-            accessorKey: 'addressLine1',
-            header: () => <span>Address</span>,
-            cell: (info) => (
-                <TruncatedTextWithTooltip
-                    text={info?.row?.original?.addressLine1}
-                />
-            ),
-        },
+
         {
             accessorKey: 'channel',
-            header: () => <span>Created By</span>,
+            header: () => <span>Registered By</span>,
             cell: (info) => (
                 <div>
                     {info.row.original?.createdBy !== null ? (
@@ -192,19 +184,20 @@ export const PendingIndustry = () => {
                     ) : (
                         <p>{info?.row?.original?.channel}</p>
                     )}
+                    <UserCreatedAt createdAt={info.row.original?.createdAt} />
                 </div>
             ),
         },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: (info) => (
-                <UserCreatedAt createdAt={info.row.original?.createdAt} />
-            ),
-        },
+        // {
+        //     accessorKey: 'createdAt',
+        //     header: () => <span>Created At</span>,
+        //     cell: (info) => (
+        //         <UserCreatedAt createdAt={info.row.original?.createdAt} />
+        //     ),
+        // },
         {
             accessorKey: 'action',
-            header: () => <span>Action</span>,
+            header: () => <span>Manage</span>,
             cell: (info: any) => {
                 return (
                     <div className="flex gap-x-1 items-center">
@@ -277,7 +270,7 @@ export const PendingIndustry = () => {
             {passwordModal && passwordModal}
 
             <div className="flex flex-col gap-y-4 mb-32">
-                <PageHeading
+                {/* <PageHeading
                     title={'Pending Industries'}
                     subtitle={'List of Pending Industries'}
                 >
@@ -290,7 +283,7 @@ export const PendingIndustry = () => {
                             />
                         </>
                     ) : null}
-                </PageHeading>
+                </PageHeading> */}
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

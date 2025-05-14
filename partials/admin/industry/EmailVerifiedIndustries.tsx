@@ -254,7 +254,7 @@ export const EmailVerifiedIndustries = () => {
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Approved Industries'}
-                    subtitle={'List of Approved Industries'}
+                    // subtitle={'List of Approved Industries'}
                 >
                     {/* {data && data?.data?.length ? (
                         <Button

@@ -23,7 +23,7 @@ import { Industry, SubAdmin, UserStatus } from '@types'
 import { ellipsisText, getUserCredentials, setLink } from '@utils'
 import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { RiInboxArchiveFill } from 'react-icons/ri'
-import { IndustryCellInfo } from './components'
+import { IndustryCellInfo, IndustryCellInfoProgressbar } from './components'
 import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
 import { FaArrowUp } from 'react-icons/fa'
 
@@ -163,7 +163,7 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
             cell: ({ row }: any) => {
                 return (
                     <div className="">
-                        <IndustryCellInfo
+                        <IndustryCellInfoProgressbar
                             industry={row.original}
                             isFavorite={row?.original?.favoriteBy}
                             call
