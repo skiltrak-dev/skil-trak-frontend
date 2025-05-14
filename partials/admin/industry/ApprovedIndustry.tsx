@@ -32,7 +32,7 @@ import { useActionModal } from '@hooks'
 import { ellipsisText, getUserCredentials } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModals } from './hooks'
-import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
+
 
 export const ApprovedIndustry = () => {
     const router = useRouter()

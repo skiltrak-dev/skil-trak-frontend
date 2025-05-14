@@ -22,7 +22,6 @@ import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
 import { SubAdminApi } from '@queries'
 import { RiInboxArchiveFill } from 'react-icons/ri'
 import { ColumnDef } from '@tanstack/react-table'
-import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
 
 export const FilteredIndustry = ({
     industry,

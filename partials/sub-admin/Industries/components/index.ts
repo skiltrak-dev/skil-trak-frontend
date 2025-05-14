@@ -1,4 +1,4 @@
 export * from './IndustryCellInfo'
 export * from './IndustryCallLogDetail'
-export * from '../../../common/components/ProfileCompletionProgress'
+export * from '../../../common/components/IndustryProfileChecklist'
 export * from './IndustryCellInfoProgressbar'

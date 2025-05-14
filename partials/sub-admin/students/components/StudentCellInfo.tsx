@@ -1,5 +1,6 @@
 import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
 import { useScrollIntoView, useSubadminProfile } from '@hooks'
+import { CopyData } from '@partials/common/FindWorkplaces/components'
 import { Student } from '@types'
 import { isBrowser, setLink } from '@utils'
 import moment from 'moment'
@@ -149,9 +150,17 @@ export const StudentCellInfo = ({
                             </div>
                         </div>
                         <div className="flex items-center gap-x-1.5">
-                            <p className="text-gray-800 font-medium">
-                                {student?.user?.name} {student?.familyName}{' '}
-                            </p>
+                            <div className="group flex items-center gap-x-1">
+                                <p className="text-gray-800 font-medium">
+                                    {student?.user?.name} {student?.familyName}{' '}
+                                </p>
+                                <CopyData
+                                    text={`${student?.user?.name} ${
+                                        student?.familyName ?? ''
+                                    }`}
+                                    type={'Student Name'}
+                                />
+                            </div>
                             {student?.tickets &&
                             student?.tickets?.length > 0 ? (
                                 <div className="w-4 h-4 rounded  relative group">
