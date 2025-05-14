@@ -36,6 +36,8 @@ export const SectorBaseCapacityModal = ({
         { sector: string; capacity: number }[]
     >([])
     const { notification } = useNotification()
+
+
     // API Calls
     // Getting sector based capacity data
     const { data, isLoading, isError } =

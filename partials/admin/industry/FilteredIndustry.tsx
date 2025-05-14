@@ -32,7 +32,6 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 import { CgUnblock } from 'react-icons/cg'
 import { ellipsisText, getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
-import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
 
 export interface StatusTableActionOption<T> extends TableActionOption<T> {
     status: string[]

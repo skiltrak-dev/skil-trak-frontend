@@ -10,7 +10,8 @@ import { FaHandshake, FaHireAHelper } from 'react-icons/fa'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdPhoneIphone, MdSnooze } from 'react-icons/md'
 import { HiBriefcase } from 'react-icons/hi2'
-import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
+import { ProfileCompletionProgress } from '@partials/common'
+import { CopyData } from '@partials/common/FindWorkplaces/components'
 export const IndustryCellInfoProgressbar = ({
     industry,
     isFavorite,
@@ -109,12 +110,21 @@ export const IndustryCellInfoProgressbar = ({
                         <div className="flex items-center gap-x-2">
                             <div className="flex gap-x-1">
                                 <div className="flex flex-col gap-y-1">
-                                    <p
-                                        className="font-semibold"
-                                        title={industry?.user?.name}
-                                    >
-                                        {ellipsisText(industry?.user?.name, 12)}
-                                    </p>
+                                    <div className="group flex items-center gap-x-1">
+                                        <p
+                                            className="font-semibold"
+                                            title={industry?.user?.name}
+                                        >
+                                            {ellipsisText(
+                                                industry?.user?.name,
+                                                20
+                                            )}
+                                        </p>
+                                        <CopyData
+                                            text={industry?.user?.name}
+                                            type={'Industry Name'}
+                                        />
+                                    </div>
                                     <div
                                         title={
                                             incompleteItems.length

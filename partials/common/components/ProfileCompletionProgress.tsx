@@ -8,7 +8,7 @@ interface ProfileCompletionProps {
     showPercentage?: boolean
 }
 
-const ProfileCompletionProgress = ({
+export const ProfileCompletionProgress = ({
     completedItems,
     totalItems,
     height = 24,
@@ -62,5 +62,3 @@ const ProfileCompletionProgress = ({
     }
     return <ProgressBar percentage={percentage} />
 }
-
-export default ProfileCompletionProgress

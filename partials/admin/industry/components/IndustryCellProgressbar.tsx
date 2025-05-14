@@ -4,7 +4,8 @@ import {
     InitialAvatar,
 } from '@components'
 import { UserRoles } from '@constants'
-import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
+import { ProfileCompletionProgress } from '@partials/common'
+import { CopyData } from '@partials/common/FindWorkplaces/components'
 import { Industry } from '@types'
 import { QueryType, ellipsisText, queryToUrl } from '@utils'
 import Link from 'next/link'
@@ -80,12 +81,18 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
                         ) : null}
                         <div className="flex gap-x-2">
                             <div className="flex flex-col gap-y-1">
-                                <p
-                                    className="font-semibold"
-                                    title={industry?.user?.name}
-                                >
-                                    {ellipsisText(industry?.user?.name, 20)}
-                                </p>
+                                <div className="group flex items-center gap-x-1">
+                                    <p
+                                        className="font-semibold"
+                                        title={industry?.user?.name}
+                                    >
+                                        {ellipsisText(industry?.user?.name, 20)}
+                                    </p>
+                                    <CopyData
+                                        text={industry?.user?.name}
+                                        type={'Industry Name'}
+                                    />
+                                </div>
                                 <div
                                     title={
                                         incompleteItems.length

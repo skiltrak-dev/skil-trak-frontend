@@ -8,6 +8,7 @@ import {
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary'
 import { UserRoles } from '@constants'
 import { useScrollIntoView, useSubadminProfile } from '@hooks'
+import { CopyData } from '@partials/common/FindWorkplaces/components'
 import { Student } from '@types'
 import { isBrowser, maskText, setLink } from '@utils'
 import moment from 'moment'
@@ -184,12 +185,21 @@ export const StudentCellInfo = ({
                     </div>
 
                     <div className="flex items-center gap-x-1.5">
-                        <p className="font-semibold">
-                            {student?.user?.name || ''}{' '}
-                            {student?.familyName?.toLowerCase() === 'na'
-                                ? ''
-                                : student?.familyName || ''}
-                        </p>
+                        <div className="group flex items-center gap-x-1">
+                            <p className="font-semibold">
+                                {student?.user?.name || ''}{' '}
+                                {student?.familyName?.toLowerCase() === 'na'
+                                    ? ''
+                                    : student?.familyName || ''}
+                            </p>
+                            <CopyData
+                                text={`${student?.user?.name} ${
+                                    student?.familyName || ''
+                                }`}
+                                type={'Student Name'}
+                            />
+                        </div>
+
                         {student?.tickets && student?.tickets?.length > 0 ? (
                             <div className="w-5 h-5 flex items-center justify-center rounded relative group">
                                 <BiMessageRoundedDots className="text-primary text-lg" />
