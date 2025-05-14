@@ -19,7 +19,12 @@ import { Industry, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { BranchCell, IndustryCell, SectorCell } from './components'
+import {
+    BranchCell,
+    IndustryCell,
+    IndustryCellProgressbar,
+    SectorCell,
+} from './components'
 
 // hooks
 import { UserRoles } from '@constants'
@@ -102,37 +107,10 @@ export const ApprovedIndustry = () => {
             accessorKey: 'user.name',
             cell: (info) => (
                 <div className="flex gap-x-2">
-                    <IndustryCell industry={info?.row?.original} />
+                    <IndustryCellProgressbar industry={info?.row?.original} />
                 </div>
             ),
-            header: () => <span>Industry</span>,
-        },
-        {
-            accessorKey: 'branches',
-            cell: (info) => {
-                return (
-                    <div className="flex justify-start">
-                        {info?.row?.original?.branches?.length > 0 ? (
-                            <BranchCell industry={info.row.original} />
-                        ) : info?.row?.original?.headQuarter !== null ? (
-                            <div className="flex flex-col gap-y-1 items-center">
-                                <p className="text-xs font-semibold text-blue-400">
-                                    Head Quarter
-                                </p>
-                                <p className="text-xs font-semibold text-gray-400">
-                                    {
-                                        info?.row?.original?.headQuarter?.user
-                                            ?.name
-                                    }
-                                </p>
-                            </div>
-                        ) : (
-                            'N/A'
-                        )}
-                    </div>
-                )
-            },
-            header: () => <span>Branches</span>,
+            header: () => <span>Business Name</span>,
         },
         {
             accessorKey: 'abn',
@@ -148,7 +126,12 @@ export const ApprovedIndustry = () => {
             cell: (info) => {
                 return (
                     <div>
-                        <p>{info?.row?.original?.contactPerson}</p>
+                        <p>
+                            {ellipsisText(
+                                info?.row?.original?.contactPerson,
+                                15
+                            )}
+                        </p>
                         <p className="text-xs text-gray-500">
                             {info?.row?.original?.contactPersonNumber}
                         </p>
@@ -161,37 +144,25 @@ export const ApprovedIndustry = () => {
             header: () => <span>Sectors</span>,
             cell: (info) => <SectorCell industry={info?.row?.original} />,
         },
-        // {
-        //     accessorKey: 'addressLine1',
-        //     header: () => <span>Address</span>,
-        //     cell: (info) => (
-        //         <TruncatedTextWithTooltip
-        //             text={info?.row?.original?.addressLine1}
-        //         />
-        //     ),
-        // },
         {
             accessorKey: 'channel',
             header: () => <span>Created By</span>,
             cell: (info) => (
                 <div>
                     {info?.row?.original?.createdBy !== null ? (
-                        <div className="bg-emerald-200 text-emerald-600 rounded-md px-2 py-0.5 inline-flex items-center gap-x-1">
-                            {/* <FaArrowUp /> */}
+                        <div className="bg-emerald-100 text-emerald-600 rounded-md px-2 py-0.5 flex items-center gap-x-1">
                             <p
                                 title={info?.row?.original?.createdBy?.name}
                                 className="text-xs whitespace-nowrap"
                             >
                                 {ellipsisText(
                                     info?.row?.original?.createdBy?.name,
-                                    10
+                                    14
                                 )}
                             </p>
                         </div>
                     ) : (
-                        <div className="inline-flex items-center gap-x-1 bg-blue-200 text-blue-600 rounded-md px-2 py-0.5">
-                            {/* <FaArrowUp /> */}
-
+                        <div className="flex items-center gap-x-1 bg-blue-100 text-blue-600 rounded-md px-2 py-0.5">
                             <p className="text-xs">
                                 {info?.row?.original?.channel}
                             </p>
@@ -263,19 +234,6 @@ export const ApprovedIndustry = () => {
             {modal && modal}
             {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
-                <PageHeading
-                    title={'Approved Industries'}
-                    subtitle={'List of Approved Industries'}
-                >
-                    {/* {data && data?.data?.length ? (
-                        <Button
-                            text="Export"
-                            variant="action"
-                            Icon={FaFileExport}
-                        />
-                    ) : null} */}
-                </PageHeading>
-
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading ? (

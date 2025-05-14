@@ -22,7 +22,7 @@ import { Industry, SubAdmin, UserStatus } from '@types'
 import { getUserCredentials, setLink } from '@utils'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { RiInboxUnarchiveFill } from 'react-icons/ri'
-import { IndustryCellInfo } from './components'
+import { IndustryCellInfo, IndustryCellInfoProgressbar } from './components'
 import { AddToFavoriteModal, UnArchiveModal } from './modals'
 
 export const ArchivedIndustries = () => {
@@ -128,7 +128,7 @@ export const ArchivedIndustries = () => {
             accessorKey: 'user',
             sort: true,
             cell: ({ row }: any) => (
-                <IndustryCellInfo industry={row.original} call />
+                <IndustryCellInfoProgressbar industry={row.original} call />
             ),
         },
         {

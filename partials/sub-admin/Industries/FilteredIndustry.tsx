@@ -13,7 +13,7 @@ import { PageHeading } from '@components/headings'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
-import { IndustryCellInfo } from './components'
+import { IndustryCellInfo, IndustryCellInfoProgressbar } from './components'
 //icons
 import { getUserCredentials } from '@utils'
 import { FaEye, FaPencilAlt } from 'react-icons/fa'
@@ -131,7 +131,7 @@ export const FilteredIndustry = ({
             // sort: true,
             cell: ({ row }: any) => (
                 <div className="flex gap-x-2">
-                    <IndustryCellInfo
+                    <IndustryCellInfoProgressbar
                         industry={row.original}
                         isFavorite={row.original?.favoriteBy}
                         call

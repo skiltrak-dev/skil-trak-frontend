@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 interface PageHeadingProps {
     children?: ReactNode
     title: string
-    subtitle: string
+    subtitle?: string
 }
 export const PageHeading = ({
     children,

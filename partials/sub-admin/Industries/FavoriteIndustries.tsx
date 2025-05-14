@@ -23,7 +23,7 @@ import { useGetFavouriteIndustriesQuery } from '@queries'
 import { Industry } from '@types'
 import { setLink } from '@utils'
 import { MdFavorite } from 'react-icons/md'
-import { IndustryCellInfo } from './components'
+import { IndustryCellInfo, IndustryCellInfoProgressbar } from './components'
 import { AddToFavoriteModal } from './modals'
 import { ColumnDef } from '@tanstack/react-table'
 
@@ -100,7 +100,7 @@ export const FavoriteIndustries = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }) => (
-                <IndustryCellInfo
+                <IndustryCellInfoProgressbar
                     industry={row.original}
                     isFavorite={row.original?.favoriteBy}
                     call

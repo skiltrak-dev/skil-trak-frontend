@@ -11,7 +11,7 @@ import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdPhoneIphone, MdSnooze } from 'react-icons/md'
 import { HiBriefcase } from 'react-icons/hi2'
 import ProfileCompletionProgress from '@partials/common/components/ProfileCompletionProgress'
-export const IndustryCellInfo = ({
+export const IndustryCellInfoProgressbar = ({
     industry,
     isFavorite,
     call,
@@ -40,7 +40,36 @@ export const IndustryCellInfo = ({
     const createdAt = moment(callLog?.createdAt, 'YYYY-MM-DD')
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
+    const {
+        courseAdded,
+        CapacityUpdated,
+        ProfileUpdated,
+        trading_hours_and_shifts,
+        hasInsuranceDocuments,
+        hasIndustryChecks,
+    } = industry
+    const completedCount = [
+        courseAdded,
+        CapacityUpdated,
+        ProfileUpdated,
+        trading_hours_and_shifts,
+        hasInsuranceDocuments,
+        hasIndustryChecks,
+    ].filter(Boolean).length
 
+    const profileFields = [
+        { key: 'courseAdded', label: 'Courses' },
+        { key: 'CapacityUpdated', label: 'Capacity' },
+        { key: 'ProfileUpdated', label: 'Profile' },
+        { key: 'trading_hours_and_shifts', label: 'Trading Hours & Shifts' },
+        { key: 'hasInsuranceDocuments', label: 'Insurance Documents' },
+        { key: 'hasIndustryChecks', label: 'Industry Checks' },
+    ]
+
+    // Find the missing items
+    const incompleteItems = profileFields
+        .filter((field) => !industry[field.key as keyof typeof industry])
+        .map((field) => field.label)
     return (
         <Link
             legacyBehavior
@@ -76,15 +105,31 @@ export const IndustryCellInfo = ({
                         industry?.snoozedDate !== null && (
                             <MdSnooze size={14} className="text-red-500" />
                         )}
-                    <div className="flex items-center gap-x-1">
+                    <div className="flex gap-x-1">
                         <div className="flex items-center gap-x-2">
-                            <div className="flex items-center gap-x-1">
-                                <p
-                                    className="font-semibold"
-                                    title={industry?.user?.name}
-                                >
-                                    {ellipsisText(industry?.user?.name, 12)}
-                                </p>
+                            <div className="flex gap-x-1">
+                                <div className="flex flex-col gap-y-1">
+                                    <p
+                                        className="font-semibold"
+                                        title={industry?.user?.name}
+                                    >
+                                        {ellipsisText(industry?.user?.name, 12)}
+                                    </p>
+                                    <div
+                                        title={
+                                            incompleteItems.length
+                                                ? `Missing: ${incompleteItems.join(
+                                                      ', '
+                                                  )}`
+                                                : 'All set!'
+                                        }
+                                    >
+                                        <ProfileCompletionProgress
+                                            completedItems={completedCount}
+                                            totalItems={6}
+                                        />
+                                    </div>
+                                </div>
                                 {industry?.isHiring && (
                                     <div className="" title="Hiring">
                                         <HiBriefcase
