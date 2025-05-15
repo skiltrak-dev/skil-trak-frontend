@@ -1,17 +1,17 @@
-import { InitialAvatar, Tooltip } from '@components'
+import { InitialAvatar } from '@components'
 import { SubAdminApi } from '@queries'
-import { Industry, SubAdmin } from '@types'
-import { ellipsisText, maskText, setLink } from '@utils'
+import { SubAdmin } from '@types'
+import { ellipsisText, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiFillStar } from 'react-icons/ai'
-import { FaHandshake, FaHireAHelper } from 'react-icons/fa'
-import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
-import { MdPhoneIphone, MdSnooze } from 'react-icons/md'
+import { FaHandshake } from 'react-icons/fa'
 import { HiBriefcase } from 'react-icons/hi2'
 import { CopyData } from '@partials/common/FindWorkplaces/components'
 
+import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
+import { MdSnooze } from 'react-icons/md'
 export const IndustryCellInfo = ({
     industry,
     isFavorite,

@@ -27,7 +27,6 @@ import {
     SnoozedStudents,
     StudentScheduleEndedList,
     UnAssignedStudent,
-    VerifiedEmailStudent,
 } from '@partials/admin/student'
 import { AdminApi } from '@queries'
 import { NextPageWithLayout, StudentsFilterType, UserStatus } from '@types'

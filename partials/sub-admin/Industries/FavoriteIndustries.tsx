@@ -111,13 +111,6 @@ export const FavoriteIndustries = () => {
             accessorKey: 'abn',
             header: () => <span>ABN</span>,
         },
-        // {
-        //     header: () => 'Address',
-        //     accessorKey: 'address',
-        //     cell: ({ row }) => (
-        //         <TruncatedTextWithTooltip text={row?.original?.addressLine1} />
-        //     ),
-        // },
         {
             header: () => 'Enrolled Students',
             accessorKey: 'students',

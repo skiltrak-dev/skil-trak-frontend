@@ -55,13 +55,15 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
 
             <div className="flex justify-between">
                 <AuthorizedUserComponent
-                    roles={[UserRoles.ADMIN, UserRoles.RTO, UserRoles.OBSERVER]}
+                    roles={[UserRoles.ADMIN, UserRoles.RTO, UserRoles.SUBADMIN]}
                 >
                     <HideRestrictedData type={UserRoles.STUDENT}>
                         <Typography variant="xs" color="text-[#6B7280]">
                             {process.env.NEXT_PUBLIC_NODE_ENV === 'local'
                                 ? profile?.user?.email
-                                : useMaskText({ key: profile?.user?.email })}
+                                : useMaskText({
+                                      key: profile?.user?.email,
+                                  })}
                         </Typography>
                     </HideRestrictedData>
                 </AuthorizedUserComponent>

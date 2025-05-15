@@ -5,23 +5,12 @@ import {
     NoData,
     Typography,
 } from '@components'
-import { Course } from '@types'
-import React, { useEffect, useState } from 'react'
-import { FaBook } from 'react-icons/fa'
 import { MediaQueries, UserRoles } from '@constants'
-import { useMediaQuery } from 'react-responsive'
 import Modal from '@modals/Modal'
-import {
-    draftToHtmlText,
-    InputContentEditor,
-    ShowErrorNotifications,
-} from '@components'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FormProvider, useForm } from 'react-hook-form'
-import { RtoApi } from '@queries'
-import * as yup from 'yup'
-import { useNotification } from '@hooks'
-import { convertFromHTML, ContentState, EditorState } from 'draft-js'
+import { Course } from '@types'
+import { useEffect, useState } from 'react'
+import { FaBook } from 'react-icons/fa'
+import { useMediaQuery } from 'react-responsive'
 import { AddCustomCourseRequirements } from './AddCustomCourseRequirements'
 
 const getFirstCourse = (sectorWithCourse: any) => {
@@ -44,12 +33,19 @@ export const CourseRequirementsDetail = ({
     const isMobile = useMediaQuery(MediaQueries.Mobile)
 
     const [selectedCourse, setSelectedCourse] = useState<Course | undefined>()
+    console.group({ selectedCourse })
+
     useEffect(() => {
         const firstCourse = getFirstCourse(sectorsWithCourses)
-        if (firstCourse && !selectedCourse && !isMobile) {
-            setSelectedCourse(firstCourse)
+        const allCourses = Object.values(sectorsWithCourses)?.flat()
+        const course = allCourses?.find(
+            (a: any) => a?.id === selectedCourse?.id
+        )
+
+        if (firstCourse && !isMobile) {
+            setSelectedCourse(course ? course : firstCourse)
         }
-    }, [loading])
+    }, [loading, sectorsWithCourses])
 
     const onCourseClicked = (course: Course) => {
         setSelectedCourse(course)
@@ -144,19 +140,9 @@ export const CourseRequirementsDetail = ({
                                                 <Modal.Open opens="updateCourseRequirements">
                                                     <Button
                                                         text={
-                                                            selectedCourse
-                                                                ?.courseRequirements
-                                                                ?.length
-                                                                ? 'Edit Requirements'
-                                                                : 'Add Requirements'
+                                                            'Edit Requirements'
                                                         }
-                                                        variant={
-                                                            selectedCourse
-                                                                ?.courseRequirements
-                                                                ?.length
-                                                                ? 'info'
-                                                                : 'primary'
-                                                        }
+                                                        variant={'info'}
                                                     />
                                                 </Modal.Open>
                                                 <Modal.Window name="updateCourseRequirements">

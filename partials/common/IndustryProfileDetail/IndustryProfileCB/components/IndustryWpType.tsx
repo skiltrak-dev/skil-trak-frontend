@@ -58,22 +58,30 @@ export const IndustryWpType = ({
                         <Typography variant="small">
                             {industryWpType?.data?.name}
                         </Typography>
-                        <div
-                            className="rounded-full p-1 shadow-lg bg-white cursor-pointer"
-                            onClick={() => {
-                                onAddIndustryWPType(industryWpType?.data?.id)
-                            }}
-                        >
-                            <BiSolidPencil className="text-info" />
-                        </div>
-                        <div
-                            className="rounded-full p-1 shadow-lg bg-white cursor-pointer"
-                            onClick={() => {
-                                onDeleteIndustryWPType(industryWpType?.data)
-                            }}
-                        >
-                            <MdDelete className="text-error" />
-                        </div>
+                        <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                            <>
+                                <div
+                                    className="rounded-full p-1 shadow-lg bg-white cursor-pointer"
+                                    onClick={() => {
+                                        onAddIndustryWPType(
+                                            industryWpType?.data?.id
+                                        )
+                                    }}
+                                >
+                                    <BiSolidPencil className="text-info" />
+                                </div>
+                                <div
+                                    className="rounded-full p-1 shadow-lg bg-white cursor-pointer"
+                                    onClick={() => {
+                                        onDeleteIndustryWPType(
+                                            industryWpType?.data
+                                        )
+                                    }}
+                                >
+                                    <MdDelete className="text-error" />
+                                </div>
+                            </>
+                        </AuthorizedUserComponent>
                     </div>
                 </div>
             ) : (

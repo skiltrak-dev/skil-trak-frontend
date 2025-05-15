@@ -53,7 +53,8 @@ export const StudentWPCellInfo = ({ student }: { student: Student }) => {
                 {student?.addressLine1 ?? 'N/A'}
             </Typography>
             {(student?.subadmin?.user?.id === subadmin?.user?.id ||
-                subadmin?.isManager) && (
+                subadmin?.isManager ||
+                subadmin?.departmentMember?.isHod) && (
                 <Link
                     href={`/portals/sub-admin/students/${student?.id}/detail`}
                     className="text-blue-500 text-xs"
