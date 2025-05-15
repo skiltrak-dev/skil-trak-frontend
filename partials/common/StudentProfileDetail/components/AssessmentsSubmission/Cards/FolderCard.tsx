@@ -2,6 +2,7 @@ import { Tooltip, Typography } from '@components'
 import { AssessmentEvidenceDetailType, StudentResponseType } from '@types'
 import classNames from 'classnames'
 import { HiOutlineDocumentText } from 'react-icons/hi'
+import { IoIosCheckboxOutline } from 'react-icons/io'
 import { IoBagCheckSharp } from 'react-icons/io5'
 import { PiHandshakeDuotone } from 'react-icons/pi'
 
@@ -100,6 +101,18 @@ export const FolderCard = ({
                                     }
                                 />
                                 <Tooltip>Industry Check</Tooltip>
+                            </div>
+                        </div>
+                    ) : null}
+                    {folder?.isFacilityCheckList ? (
+                        <div className="absolute right-2">
+                            <div className="relative group">
+                                <IoIosCheckboxOutline
+                                    className={
+                                        active ? 'text-white' : 'text-[#374151]'
+                                    }
+                                />
+                                <Tooltip>Facility Check List</Tooltip>
                             </div>
                         </div>
                     ) : null}

@@ -7,6 +7,7 @@ import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { BsTicketDetailed } from 'react-icons/bs'
+import { FaEnvelope, FaPhone } from 'react-icons/fa'
 import { FiPhoneOff } from 'react-icons/fi'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { LuFlagTriangleRight } from 'react-icons/lu'
@@ -178,6 +179,30 @@ export const StudentCellInfo = ({
                                 </div>
                             ) : null}
                         </div>
+                        {subadmin?.isAssociatedWithRto && (
+                            <>
+                                {student?.user?.email && (
+                                    <div className="flex items-center gap-x-2 text-sm">
+                                        <span className="text-gray-400">
+                                            <FaEnvelope />
+                                        </span>
+                                        <p className="text-gray-500">
+                                            {student?.user?.email}
+                                        </p>
+                                    </div>
+                                )}
+                                {student?.phone && (
+                                    <div className="flex items-center gap-x-2 text-sm">
+                                        <span className="text-gray-400">
+                                            <FaPhone />
+                                        </span>
+                                        <p className="text-gray-500">
+                                            {student?.phone}
+                                        </p>
+                                    </div>
+                                )}
+                            </>
+                        )}
                     </a>
                 </Link>
             </div>

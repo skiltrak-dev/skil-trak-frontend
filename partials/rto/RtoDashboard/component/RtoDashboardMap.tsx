@@ -84,12 +84,14 @@ export const RtoDashboardMap = ({ address }: { address: string }) => {
         // Function to get latitude and longitude from address
         const getLatLngFromAddress = async () => {
             try {
-                const response = await fromAddress(address)
+                if (address) {
+                    const response = await fromAddress(address)
 
-                const { lat, lng } = response.results[0].geometry.location
-                if (map) {
-                    map.setCenter({ lat, lng })
-                    map.setZoom(13)
+                    const { lat, lng } = response.results[0]?.geometry?.location
+                    if (map) {
+                        map.setCenter({ lat, lng })
+                        map.setZoom(13)
+                    }
                 }
             } catch (error) {
                 console.error('Error getting lat/lng from address:', error)

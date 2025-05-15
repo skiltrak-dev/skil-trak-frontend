@@ -24,12 +24,7 @@ import { getFilterQuery, isDateWithinLast7Days } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { CourseView } from './contextBar'
-import {
-    CourseSupersedeModal,
-    DeleteCourseModal,
-    RequirementModal,
-} from './modals'
-import Modal from '@modals/Modal'
+import { DeleteCourseModal, RequirementModal } from './modals'
 
 const filterKeys = ['code', 'title']
 

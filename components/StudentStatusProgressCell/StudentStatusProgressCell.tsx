@@ -53,6 +53,12 @@ const StudentProgress = (appliedIndustry?: any) => ({
         color: 'text-error',
         image: 'placement-cancelled.png',
     },
+    '6-Qualification Issue': {
+        status: 'Qualification Issue',
+        description: 'qualification issued',
+        color: 'text-error',
+        image: 'placement-cancelled.png',
+    },
 })
 
 export const StudentStatusProgressCell = ({

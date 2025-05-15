@@ -2,14 +2,13 @@ import {
     ActionButton,
     Card,
     EmptyData,
-    LoadingAnimation,
     Table,
     TableAction,
     TableActionOption,
     TableSkeleton,
     TechnicalError,
     TruncatedTextWithTooltip,
-    Typography,
+    Typography
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'

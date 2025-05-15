@@ -117,6 +117,10 @@ export const CourseFolderForm = ({
 
                         <Checkbox label={'Is Agreement'} name="isAgreement" />
                         <Checkbox
+                            label={'Is Facility Checklist'}
+                            name="isFacilityCheckList"
+                        />
+                        <Checkbox
                             label={'Is IndustryCheck'}
                             name="isIndustryCheck"
                             defaultChecked={isIndustryCheck}

@@ -1,7 +1,9 @@
 import { ShowErrorNotifications, Typography } from '@components'
+import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { StudentStatusEnum } from '@types'
+import { getUserCredentials } from '@utils'
 import React, { useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import OutsideClickHandler from 'react-outside-click-handler'
@@ -16,6 +18,8 @@ export const StudentStatus = ({
 }) => {
     const [isOpened, setIsOpened] = useState<boolean>(false)
     const [selectedStatus, setSelectedStatus] = useState<StudentStatusEnum>()
+
+    const role = getUserCredentials()?.role
 
     const { notification } = useNotification()
 
@@ -62,6 +66,10 @@ export const StudentStatus = ({
             label: 'Expired',
             value: StudentStatusEnum.EXPIRED,
         },
+        {
+            label: 'Qualification Issued',
+            value: StudentStatusEnum.QUALIFICATION_ISSUED,
+        },
     ]
     return (
         <>
@@ -106,19 +114,28 @@ export const StudentStatus = ({
                                     isOpened ? 'max-h-40' : 'max-h-0'
                                 }`}
                             >
-                                {studentStatusOptions.map((status, index) => (
-                                    <div
-                                        className="border-b border-gray-100 py-1 cursor-pointer"
-                                        key={index}
-                                        onClick={() => {
-                                            onChangeStudentStatus(status.value)
-                                        }}
-                                    >
-                                        <Typography variant="small" medium>
-                                            {status.label}
-                                        </Typography>
-                                    </div>
-                                ))}
+                                {studentStatusOptions
+                                    ?.slice(
+                                        0,
+                                        role === UserRoles.RTO
+                                            ? studentStatusOptions?.length
+                                            : -1
+                                    )
+                                    ?.map((status, index) => (
+                                        <div
+                                            className="border-b border-gray-100 py-1 cursor-pointer"
+                                            key={index}
+                                            onClick={() => {
+                                                onChangeStudentStatus(
+                                                    status.value
+                                                )
+                                            }}
+                                        >
+                                            <Typography variant="small" medium>
+                                                {status.label}
+                                            </Typography>
+                                        </div>
+                                    ))}
                             </div>
                         </div>
                     </OutsideClickHandler>

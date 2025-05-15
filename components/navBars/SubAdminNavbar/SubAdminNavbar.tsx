@@ -5,6 +5,7 @@ import { CommonApi, SubAdminApi } from '@queries'
 import {
     FaClipboardList,
     FaFileSignature,
+    FaIndustry,
     FaUserGraduate,
 } from 'react-icons/fa'
 import { HiDocumentReport, HiUsers } from 'react-icons/hi'
@@ -12,6 +13,7 @@ import { IoMdSettings } from 'react-icons/io'
 import { MdEmail, MdSpaceDashboard } from 'react-icons/md'
 import { NavLinkItem } from '../NavLinkItem'
 import { GrUserAdmin } from 'react-icons/gr'
+import { IoCheckmarkCircleSharp } from 'react-icons/io5'
 
 const PREFIX = '/portals/sub-admin'
 
@@ -45,6 +47,8 @@ export const SubAdminNavbar = () => {
         TalentPool: `${PREFIX}/talent-pool`,
         CoordinatorsList: `${PREFIX}/department`,
         MyStudentsReports: `${PREFIX}/tasks/my-students-report`,
+        Industries: `${PREFIX}/users/industries`,
+        ManagerApprovalList: `${PREFIX}/manager-approval-list?tab=remove-partner-requests&page=1&pageSize=50`,
     }
     const pendingDocsCount = CommonApi.ESign.pendingDocsCount(undefined, {
         refetchOnMountOrArgChange: true,
@@ -66,13 +70,29 @@ export const SubAdminNavbar = () => {
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
         },
-        {
-            link: Routes.Users,
-            text: 'Users',
-            Icon: HiUsers,
-            activeClasses: 'bg-blue-100 text-blue-700',
-            inActiveClasses: 'text-slate-700',
-        },
+
+        ...(!isAssociatedWithRto
+            ? [
+                  {
+                      link: Routes.Users,
+                      text: 'Users',
+                      Icon: HiUsers,
+                      activeClasses: 'bg-blue-100 text-blue-700',
+                      inActiveClasses: 'text-slate-700',
+                  },
+              ]
+            : []),
+        ...(isAssociatedWithRto
+            ? [
+                  {
+                      link: Routes.Industries,
+                      text: 'Industries',
+                      Icon: FaIndustry,
+                      activeClasses: 'bg-green-100 text-green-700',
+                      inActiveClasses: 'text-slate-700',
+                  },
+              ]
+            : []),
         {
             link: Routes.Tasks,
             text: 'Tasks',
@@ -110,6 +130,17 @@ export const SubAdminNavbar = () => {
                       link: Routes.CoordinatorsList,
                       text: 'Dept Coordinators',
                       Icon: GrUserAdmin,
+                      activeClasses: 'bg-green-100 text-green-700',
+                      inActiveClasses: 'text-slate-700',
+                  },
+              ]
+            : []),
+        ...(isManager
+            ? [
+                  {
+                      link: Routes.ManagerApprovalList,
+                      text: 'Approval List',
+                      Icon: IoCheckmarkCircleSharp,
                       activeClasses: 'bg-green-100 text-green-700',
                       inActiveClasses: 'text-slate-700',
                   },

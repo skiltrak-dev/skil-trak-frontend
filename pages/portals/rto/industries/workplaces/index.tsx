@@ -110,16 +110,16 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
             header: () => 'Abn',
             accessorKey: 'abn',
         },
-        {
-            header: () => 'Student',
-            accessorKey: 'workplaceRequest.student.user.name',
-            cell: ({ row }: any) => row.original?.students?.length,
-            // cell: ({ row }: any) => (
-            //     <StudentCellInfo
-            //         student={row.original?.workplaceRequest?.student}
-            //     />
-            // ),
-        },
+        // {
+        //     header: () => 'Student',
+        //     accessorKey: 'workplaceRequest.student.user.name',
+        //     cell: ({ row }: any) => row.original?.students?.length,
+        //     // cell: ({ row }: any) => (
+        //     //     <StudentCellInfo
+        //     //         student={row.original?.workplaceRequest?.student}
+        //     //     />
+        //     // ),
+        // },
         {
             header: () => 'Address',
             accessorKey: 'address',

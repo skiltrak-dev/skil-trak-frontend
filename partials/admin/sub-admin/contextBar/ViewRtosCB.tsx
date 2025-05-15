@@ -84,9 +84,12 @@ export const ViewRtosCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                 </Typography>
 
                 <div>
+                    {rtoList?.isError && (
+                        <NoData text="Technical Error!" isError />
+                    )}
                     {rtoList.isLoading ? (
                         <ContextBarLoading />
-                    ) : rtoList.data?.length ? (
+                    ) : rtoList?.isSuccess && rtoList.data?.length ? (
                         rtoList.data.map((rto: Rto) => (
                             <AssignedRto
                                 rto={rto}
@@ -95,7 +98,9 @@ export const ViewRtosCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                             />
                         ))
                     ) : (
-                        <NoData text={'No RTOs Assigned'} />
+                        rtoList?.isSuccess && (
+                            <NoData text={'No RTOs Assigned'} />
+                        )
                     )}
                 </div>
             </div>
