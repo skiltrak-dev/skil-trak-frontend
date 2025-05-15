@@ -50,7 +50,13 @@ export const Switch = ({
             )}
 
             <div className="relative group">
-                <label className={customStyleClass || 'switch'}>
+                <label
+                    className={
+                        `${customStyleClass} ${
+                            disabled ? 'profileSwitchDisabled' : ''
+                        }` || 'switch'
+                    }
+                >
                     <input
                         {...(id ? { id } : {})}
                         name={name}

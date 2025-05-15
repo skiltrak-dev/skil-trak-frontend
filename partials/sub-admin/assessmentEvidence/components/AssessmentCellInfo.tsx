@@ -1,14 +1,14 @@
-import { InitialAvatar, useAuthorizedUserComponent } from '@components'
-import { UserRoles } from '@constants'
+import { InitialAvatar } from '@components'
 import { useSubadminProfile } from '@hooks'
-import { getUserCredentials, maskText, setLink } from '@utils'
+import { getUserCredentials, setLink } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { FaEnvelope, FaPhone } from 'react-icons/fa'
 
 export const AssessmentCellInfo = ({ item }: { item: any }) => {
     const router = useRouter()
     const subadminId = getUserCredentials()?.id
+
+    const subadmin = useSubadminProfile()
 
     return (
         <div className="flex items-center relative">
@@ -25,7 +25,9 @@ export const AssessmentCellInfo = ({ item }: { item: any }) => {
                 <Link
                     legacyBehavior
                     href={
-                        item?.student?.subadmin?.user?.id === subadminId
+                        item?.student?.subadmin?.user?.id === subadminId ||
+                        subadmin?.isManager ||
+                        subadmin?.departmentMember?.isHod
                             ? {
                                   pathname: `/portals/sub-admin/students/${item?.student?.id}/detail`,
                                   query: {

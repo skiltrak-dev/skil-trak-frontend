@@ -6,7 +6,7 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import { useWorkplace } from '@hooks'
+import { useMaskText, useWorkplace } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { maskText } from '@utils'
 import { useRouter } from 'next/router'
@@ -76,7 +76,9 @@ export const RtoDetail = ({
                                         variant="xs"
                                         color="text-[#6B7280]"
                                     >
-                                        {maskText(rtoDetail?.data?.user?.email)}
+                                        {useMaskText({
+                                            key: rtoDetail?.data?.user?.email,
+                                        })}
                                     </Typography>
                                 </div>
                             </div>

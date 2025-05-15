@@ -126,6 +126,12 @@ export interface Rto extends BaseResponse {
     assessmentTools: AssessmentToolsType[]
 }
 
+export interface RemovePartnerRequest extends BaseResponse {
+    comment: string
+    status: string
+    industry: Industry
+}
+
 export interface Student extends BaseResponse {
     id: number
     studentId: string
@@ -233,6 +239,12 @@ export interface SubAdmin extends BaseResponse {
     studentsCount: number
 }
 
+export interface PartnerRemovalRequests extends BaseResponse {
+    comment: string
+    status: string
+    action: string
+}
+
 export interface Industry extends BaseResponse {
     id: number
     abn: string
@@ -269,6 +281,7 @@ export interface Industry extends BaseResponse {
     locations: any
     enrolledStudents: number
     favoriteBy: SubAdmin
+    partnerRemovalRequests: PartnerRemovalRequests[]
 }
 
 export interface PendingIndustry extends Industry {

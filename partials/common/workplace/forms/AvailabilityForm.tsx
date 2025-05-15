@@ -202,19 +202,38 @@ export const AvailabilityForm = ({
                                         Auto-Match & Apply (Automatically)
                                     </Button>
                                 )}
+                                <AuthorizedUserComponent
+                                    roles={[UserRoles.STUDENT]}
+                                >
+                                    <Button
+                                        onClick={() => {
+                                            onSubmit(daysAvailability)
+                                        }}
+                                        loading={result.isLoading}
+                                        disabled={result.isLoading}
+                                    >
+                                        Find Industries
+                                    </Button>
+                                </AuthorizedUserComponent>
                             </div>
                             <div>
-                                <button
-                                    onClick={() => {
-                                        if (!result?.isLoading) {
-                                            onSubmit(daysAvailability)
-                                        }
-                                    }}
-                                    disabled={result?.isLoading}
-                                    className="text-[10px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-2 py-1 rounded-md shadow focus:outline-none focus:ring-4 bg-transparent text-primary hover:bg-primary-dark hover:text-white border-primary-dark"
+                                <AuthorizedUserComponent
+                                    roles={[UserRoles.SUBADMIN]}
                                 >
-                                    {result?.isLoading ? 'Loading...' : 'More'}
-                                </button>
+                                    <button
+                                        onClick={() => {
+                                            if (!result?.isLoading) {
+                                                onSubmit(daysAvailability)
+                                            }
+                                        }}
+                                        disabled={result?.isLoading}
+                                        className="text-[10px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-2 py-1 rounded-md shadow focus:outline-none focus:ring-4 bg-transparent text-primary hover:bg-primary-dark hover:text-white border-primary-dark"
+                                    >
+                                        {result?.isLoading
+                                            ? 'Loading...'
+                                            : 'More'}
+                                    </button>
+                                </AuthorizedUserComponent>
                             </div>
                         </div>
                     </Card>

@@ -41,7 +41,9 @@ export const TitleAndDate = ({ mailDetail }: { mailDetail: any }) => {
     return (
         <div className="flex items-center justify-between">
             <div className="my-5 flex items-center gap-x-2">
-                <InitialAvatar name={mailDetail?.sender?.name} large />
+                {mailDetail?.sender?.name && (
+                    <InitialAvatar name={mailDetail?.sender?.name} large />
+                )}
                 <div>
                     <div className="flex items-center gap-x-2">
                         <Typography medium>

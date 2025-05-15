@@ -339,6 +339,9 @@
     .profileSwitch input:checked + .slider {
         background-color: #128c7e;
     }
+    .profileSwitchDisabled input:checked + .slider {
+        background-color: #1edbc5;
+    }
 
     .profileSwitch input:focus + .slider {
         box-shadow: 0px 0px 2px var(--theme-primary-light);

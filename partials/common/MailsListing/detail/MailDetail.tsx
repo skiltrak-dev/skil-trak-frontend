@@ -50,6 +50,65 @@ export const MailDetail = () => {
     const toggleRepliesExpansion = () => {
         setIsRepliesExpanded(!isRepliesExpanded)
     }
+
+    function removeBlueColor(html: string): string {
+        // Create a DOM parser to work with the HTML
+        const parser: DOMParser = new DOMParser()
+        const doc: Document = parser.parseFromString(html, 'text/html')
+
+        // Find all elements with style attributes
+        const elementsWithStyle: NodeListOf<Element> =
+            doc.querySelectorAll('[style]')
+
+        // Process each element with a style attribute
+        elementsWithStyle.forEach((element: Element) => {
+            const currentStyle: string = element.getAttribute('style') || ''
+
+            // Remove 'color:blue' from the style, handling different variations
+            // This handles cases like 'color:blue;', 'color: blue;', etc.
+            const newStyle: string = currentStyle
+                .replace(/color\s*:\s*blue\s*;?/gi, '')
+                .replace(/;\s*;/g, ';') // Clean up any double semicolons
+                .replace(/;\s*$/g, '') // Remove trailing semicolons
+                .trim()
+
+            // Update the style attribute or remove it if empty
+            if (newStyle) {
+                element.setAttribute('style', newStyle)
+            } else {
+                element.removeAttribute('style')
+            }
+        })
+
+        // Return the processed HTML
+        return new XMLSerializer().serializeToString(doc)
+    }
+
+    function removeBlueColorComprehensive(html: string): string {
+        // Process inline styles
+        let processedHtml: string = removeBlueColor(html)
+
+        // Process style tags
+        const styleRegex: RegExp = /(<style[^>]*>)([\s\S]*?)(<\/style>)/gi
+        processedHtml = processedHtml.replace(
+            styleRegex,
+            (
+                match: string,
+                openTag: string,
+                cssContent: string,
+                closeTag: string
+            ) => {
+                // Remove color:blue from CSS content
+                const processedCss: string = cssContent.replace(
+                    /color\s*:\s*blue\s*;/gi,
+                    ''
+                )
+                return openTag + processedCss + closeTag
+            }
+        )
+
+        return processedHtml
+    }
     return (
         <div>
             {mailDetail.isError ? <TechnicalError /> : null}
@@ -69,14 +128,16 @@ export const MailDetail = () => {
                         <div
                             className="text-sm"
                             dangerouslySetInnerHTML={{
-                                __html: mailDetail?.data?.message,
+                                __html: removeBlueColorComprehensive(
+                                    mailDetail?.data?.message
+                                ),
                             }}
                         />
                     </div>
 
                     {/* Replies Accordion */}
                     {mailDetail?.data?.replies &&
-                        mailDetail.data.replies.length > 0 && (
+                        mailDetail?.data?.replies?.length > 0 && (
                             <div className="border border-gray-200 rounded-lg">
                                 {/* Accordion Header */}
                                 <div
@@ -100,7 +161,7 @@ export const MailDetail = () => {
                                         {mailDetail?.data?.replies?.map(
                                             (reply: any) => (
                                                 <div
-                                                    key={reply.id}
+                                                    key={reply?.id}
                                                     className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
                                                 >
                                                     <div className="flex justify-between items-center mb-2">
@@ -109,7 +170,7 @@ export const MailDetail = () => {
                                                                 <p className="inline-block font-medium text-gray-800">
                                                                     {
                                                                         reply
-                                                                            .sender
+                                                                            ?.sender
                                                                             ?.name
                                                                     }
                                                                     {/* <span className="ml-1 text-xs text-gray-400">
@@ -151,18 +212,18 @@ export const MailDetail = () => {
                                                     <div
                                                         className="text-sm text-gray-600"
                                                         dangerouslySetInnerHTML={{
-                                                            __html: reply.message,
+                                                            __html: reply?.message,
                                                         }}
                                                     />
-                                                    {reply.attachments &&
-                                                        reply.attachments
-                                                            .length > 0 && (
+                                                    {reply?.attachments &&
+                                                        reply?.attachments
+                                                            ?.length > 0 && (
                                                             <div className="mt-2 text-sm text-gray-500">
                                                                 Attachments:{' '}
                                                                 {
                                                                     reply
-                                                                        .attachments
-                                                                        .length
+                                                                        ?.attachments
+                                                                        ?.length
                                                                 }
                                                             </div>
                                                         )}
