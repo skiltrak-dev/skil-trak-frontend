@@ -264,7 +264,7 @@ export const RtoDashboardStudents = () => {
                     </Typography>
                     <div className="flex items-center gap-x-14">
                         {links?.map((link) => (
-                            <Link href={link?.link}>
+                            <Link href={link?.link} key={link?.link}>
                                 <span className="text-[15px] font-medium underline text-[#007AFF]">
                                     {link?.text}
                                 </span>

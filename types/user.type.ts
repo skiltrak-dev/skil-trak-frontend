@@ -1,6 +1,5 @@
 import { AssessmentToolsType, Course, Packages } from '@types'
 import { BaseResponse } from './base.type'
-import { Note } from './note.type'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { ReportingType } from '@partials/admin/rto/enum'
 import { IndustryPlacementStatus } from '@partials/common'
@@ -12,6 +11,7 @@ export enum StudentStatusEnum {
     COMPLETED = 'completed',
     CANCELLED = 'cancelled',
     EXPIRED = 'expired',
+    QUALIFICATION_ISSUED = 'qualification issued',
 }
 
 export enum UserStatus {
@@ -127,6 +127,7 @@ export interface Rto extends BaseResponse {
 }
 
 export interface RemovePartnerRequest extends BaseResponse {
+    id: number
     comment: string
     status: string
     industry: Industry

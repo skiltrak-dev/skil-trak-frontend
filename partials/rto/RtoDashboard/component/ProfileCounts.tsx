@@ -128,7 +128,7 @@ export const ProfileCounts = ({
             />
             <div className="mt-[18px] grid grid-cols-2 gap-x-3.5 gap-y-[18px]">
                 {countsData.map((data, i) => (
-                    <div className="mt-[18px]">
+                    <div key={i} className="mt-[18px]">
                         <ProfileCountsCard key={i} data={data} />
                     </div>
                 ))}

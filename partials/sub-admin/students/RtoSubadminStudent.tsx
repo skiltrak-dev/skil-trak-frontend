@@ -22,18 +22,11 @@ import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { RTOCellInfo } from '../rto/components'
 import { StudentCellInfo, SubadminStudentIndustries } from './components'
 
-//
-
-// Icons
 import { FaEdit, FaEye } from 'react-icons/fa'
-
-// components
 
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import {
     AddToNonContactableStudents,
-    AssignStudentModal,
-    BlockModal,
     ChangeStudentStatusModal,
     HighPriorityModal,
 } from './modals'
@@ -62,14 +55,11 @@ export const RtoSubadminStudent = () => {
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState<SubAdminStudentsFilterType>(
         {} as SubAdminStudentsFilterType
     )
     const [studentId, setStudentId] = useState<any | null>(null)
-    const [studentIdValue, setStudentIdValue] = useState<string>('')
     const [studentName, setStudentName] = useState<any | null>(null)
-    const [studentNameValue, setStudentNameValue] = useState<string>('')
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
@@ -82,8 +72,6 @@ export const RtoSubadminStudent = () => {
         })
         setFilter(query as SubAdminStudentsFilterType)
     }, [router])
-
-    const count = SubAdminApi.Student.useCount()
 
     const students = SubAdminApi.Student.useGetRtoCoordinatorStudents(
         {

@@ -65,18 +65,6 @@ export const RtoCoordinatorsIndustries = () => {
             header: () => <span>ABN</span>,
         },
         {
-            header: () => 'Suburb',
-            accessorKey: 'suburb',
-            cell: ({ row }: any) => {
-                const { suburb } = row.original
-                return (
-                    <Typography variant={'label'} color={'black'}>
-                        {suburb}
-                    </Typography>
-                )
-            },
-        },
-        {
             header: () => 'Address',
             accessorKey: 'address',
             cell: ({ row }: any) => {

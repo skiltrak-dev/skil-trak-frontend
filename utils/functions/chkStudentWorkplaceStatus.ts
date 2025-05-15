@@ -51,6 +51,7 @@ export const checkStudentStatus = (studentStatus: string) => {
         'expired',
         'cancelled',
         'terminated',
+        'qualification issued',
     ]
 
     const step = StudentStatus.findIndex((status) => status === studentStatus)

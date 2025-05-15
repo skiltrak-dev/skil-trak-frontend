@@ -65,8 +65,9 @@ export const ProfileViewContextBar = ({ rto }: { rto: Rto }) => {
 
                     {rto?.subadmin.length && (
                         <InitialAvatarContainer show={1}>
-                            {rto?.subadmin.map((coordinator: any) => (
+                            {rto?.subadmin?.map((coordinator: any) => (
                                 <InitialAvatar
+                                    key={coordinator?.id}
                                     name={coordinator?.user?.name}
                                     first
                                 />

@@ -1,27 +1,30 @@
 import {
     ActionButton,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
+import { UserRoles } from '@constants'
 import { useActionModal, useContextBar } from '@hooks'
-import { AdminApi, CommonApi, commonApi } from '@queries'
+import { AllowAllStudentsAccessModal } from '@partials/rto/coordinators/modal'
+import { AdminApi, commonApi } from '@queries'
 import { Rto, SubAdmin, User, UserStatus } from '@types'
+import { checkListLength, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { BsArchiveFill } from 'react-icons/bs'
+import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { SiOpenaccess } from 'react-icons/si'
+import { RtoCellInfo } from '../rto/components'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import {
@@ -29,15 +32,9 @@ import {
     AllowLoginAfterHoursModal,
     ArchiveModal,
     AssignAutoWorkplaceModal,
-    AssociatedWithRTOModal,
     BlockModal,
     RemoveFromAssociatedRTOModal,
 } from './modals'
-import { UserRoles } from '@constants'
-import { RtoCellInfo } from '../rto/components'
-import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
-import { checkListLength, getUserCredentials } from '@utils'
-import { AllowAllStudentsAccessModal } from '@partials/rto/coordinators/modal'
 
 export const ActiveRTOSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)

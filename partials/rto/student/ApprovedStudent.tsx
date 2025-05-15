@@ -29,6 +29,7 @@ import { SectorCell, StudentCellInfo } from './components'
 import { IndustryCell } from './components/IndustryCell'
 import { AssignCoordinatorModal, BlockModal } from './modals'
 import { AssignMultipleCoordinatorModal } from './modals/AssignMultipleCoordinatorModal'
+
 export const ApprovedStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)

@@ -27,7 +27,10 @@ export const RtoDashboard = ({ rto }: { rto: Rto }) => {
     return (
         <div className="flex flex-col gap-y-8 mb-12">
             <div>
-                <RtoDashboardStatistics rto={rto} rtoUserId={getUserCredentials()?.id} />
+                <RtoDashboardStatistics
+                    rto={rto}
+                    rtoUserId={getUserCredentials()?.id}
+                />
             </div>
             <div>
                 <RtoDashboardStudents />
@@ -36,9 +39,7 @@ export const RtoDashboard = ({ rto }: { rto: Rto }) => {
                 <div className="flex flex-col col-span-7">
                     <div className="flex-grow">
                         <div className="h-full">
-                            <RtoDashboardMap
-                                address={`${rto?.addressLine1} ${rto?.suburb}}`}
-                            />
+                            <RtoDashboardMap address={rto?.addressLine1} />
                         </div>
                     </div>
                 </div>
