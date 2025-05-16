@@ -4,7 +4,10 @@ import {
     InitialAvatar,
 } from '@components'
 import { UserRoles } from '@constants'
-import { ProfileCompletionProgress } from '@partials/common'
+import {
+    IndustryProfileChecklist,
+    ProfileCompletionProgress,
+} from '@partials/common'
 import { CopyData } from '@partials/common/FindWorkplaces/components'
 import { Industry } from '@types'
 import { QueryType, ellipsisText, queryToUrl } from '@utils'
@@ -60,7 +63,7 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
                     )
                 }}
             >
-                <div className="flex items-center gap-x-2 relative z-10">
+                <div className="flex items-center gap-x-2">
                     <div className="shadow-inner-image rounded-full relative">
                         {industry?.user?.name && (
                             <InitialAvatar
@@ -93,19 +96,17 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
                                         type={'Industry Name'}
                                     />
                                 </div>
-                                <div
-                                    title={
-                                        incompleteItems.length
-                                            ? `Missing: ${incompleteItems.join(
-                                                  ', '
-                                              )}`
-                                            : 'All set!'
-                                    }
-                                >
+                                <div className="relative group">
                                     <ProfileCompletionProgress
                                         completedItems={completedCount}
                                         totalItems={6}
                                     />
+                                    <div className="absolute !z-50 top-4 left-0 group-hover:block hidden w-full">
+                                        <IndustryProfileChecklist
+                                            profileFields={profileFields}
+                                            industry={industry}
+                                        />
+                                    </div>
                                 </div>
                             </div>
 

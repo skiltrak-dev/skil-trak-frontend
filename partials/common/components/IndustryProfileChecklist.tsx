@@ -6,7 +6,7 @@ interface ProfileFieldItem {
 }
 
 interface IndustryProfileChecklistProps {
-    industry: Record<string, boolean>
+    industry: any
     profileFields: ProfileFieldItem[]
 }
 
@@ -14,24 +14,45 @@ export const IndustryProfileChecklist = ({
     industry,
     profileFields,
 }: IndustryProfileChecklistProps) => {
+    const {
+        courseAdded,
+        CapacityUpdated,
+        ProfileUpdated,
+        trading_hours_and_shifts,
+        hasInsuranceDocuments,
+        hasIndustryChecks,
+    } = industry
+
+    const profileChecks = {
+        courseAdded,
+        CapacityUpdated,
+        ProfileUpdated,
+        trading_hours_and_shifts,
+        hasInsuranceDocuments,
+        hasIndustryChecks,
+    }
     // Find the completed and incomplete items
     const completedItems = profileFields
-        .filter((field) => industry[field.key as keyof typeof industry])
+        .filter(
+            (field) => profileChecks[field.key as keyof typeof profileChecks]
+        )
         .map((field) => field.label)
 
     const incompleteItems = profileFields
-        .filter((field) => !industry[field.key as keyof typeof industry])
+        .filter(
+            (field) => !profileChecks[field.key as keyof typeof profileChecks]
+        )
         .map((field) => field.label)
 
     const uploadedCount = completedItems.length
     const missingCount = incompleteItems.length
 
     return (
-        <div className="w-full rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="w-full rounded-lg border border-gray-200 bg-white p-6 shadow-sm min-w-72">
             <div className="flex flex-col space-y-4">
                 {profileFields.map((field) => {
                     const isCompleted =
-                        industry[field.key as keyof typeof industry]
+                        profileChecks[field.key as keyof typeof profileChecks]
                     return (
                         <div
                             key={field.key}

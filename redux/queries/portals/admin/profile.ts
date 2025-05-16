@@ -28,7 +28,7 @@ export const profileEndpoints = (
 
     // View Progress by course
     getAdminProgressByCourse: builder.query<any, any>({
-        query: () => `${PREFIX}progress-by-course`,
+        query: () => `${PREFIX}/progress-by-course`,
         providesTags: ['Profile'],
     }),
 })

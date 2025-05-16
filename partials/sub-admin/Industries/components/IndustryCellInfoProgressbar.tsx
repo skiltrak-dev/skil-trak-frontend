@@ -10,7 +10,10 @@ import { FaHandshake, FaHireAHelper } from 'react-icons/fa'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdPhoneIphone, MdSnooze } from 'react-icons/md'
 import { HiBriefcase } from 'react-icons/hi2'
-import { ProfileCompletionProgress } from '@partials/common'
+import {
+    IndustryProfileChecklist,
+    ProfileCompletionProgress,
+} from '@partials/common'
 import { CopyData } from '@partials/common/FindWorkplaces/components'
 export const IndustryCellInfoProgressbar = ({
     industry,
@@ -83,7 +86,7 @@ export const IndustryCellInfoProgressbar = ({
             }
         >
             <a
-                className="flex items-center gap-x-2 relative z-10"
+                className="flex items-center gap-x-2"
                 onClick={() => {
                     setLink('subadmin-industries', router)
                 }}
@@ -126,18 +129,25 @@ export const IndustryCellInfoProgressbar = ({
                                         />
                                     </div>
                                     <div
-                                        title={
-                                            incompleteItems.length
-                                                ? `Missing: ${incompleteItems.join(
-                                                      ', '
-                                                  )}`
-                                                : 'All set!'
-                                        }
+                                        // title={
+                                        //     incompleteItems.length
+                                        //         ? `Missing: ${incompleteItems.join(
+                                        //               ', '
+                                        //           )}`
+                                        //         : 'All set!'
+                                        // }
+                                        className="relative group"
                                     >
                                         <ProfileCompletionProgress
                                             completedItems={completedCount}
                                             totalItems={6}
                                         />
+                                        <div className="absolute !z-50 top-4 left-0 group-hover:block hidden w-full">
+                                            <IndustryProfileChecklist
+                                                profileFields={profileFields}
+                                                industry={industry}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 {industry?.isHiring && (
