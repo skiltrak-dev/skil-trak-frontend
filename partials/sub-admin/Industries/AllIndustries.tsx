@@ -204,15 +204,21 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
         {
             accessorKey: 'favouriteBy',
             header: () => <span>Bookmarked By</span>,
-            cell: ({ row }) => (
-                <div>
-                    <Typography variant="label">
-                        {row?.original?.favoriteBy
-                            ? row?.original?.favoriteBy?.user?.name
-                            : '---'}
-                    </Typography>
-                </div>
-            ),
+            cell: ({ row }) => {
+                const userName = row?.original?.favoriteBy?.user?.name
+
+                return (
+                    <div className="flex items-center">
+                        {userName ? (
+                            <div className="relative px-3 py-1 bg-orange-100 text-orange-600  rounded-tl-lg rounded-br-lg clip-path-bookmark">
+                                {userName}
+                            </div>
+                        ) : (
+                            <span className="text-gray-400">—</span>
+                        )}
+                    </div>
+                )
+            },
         },
         {
             accessorKey: 'channel',
@@ -220,9 +226,9 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
             cell: ({ row }) => (
                 <div>
                     {row?.original?.createdBy !== null ? (
-                        <div className="bg-emerald-200 text-emerald-600 rounded-md px-2 py-0.5 inline-flex items-center gap-x-1">
+                        <div className="bg-emerald-100 text-emerald-600 rounded-md px-2 py-0.5 flex items-center gap-x-1">
                             {/* <FaArrowUp /> */}
-                            <p className="text-x whitespace-nowrap">
+                            <p className="text-xs whitespace-nowrap">
                                 {ellipsisText(
                                     row.original?.createdBy?.name,
                                     10
@@ -230,7 +236,7 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
                             </p>
                         </div>
                     ) : (
-                        <div className="inline-flex items-center gap-x-1 bg-blue-200 text-blue-600 rounded-md px-2 py-0.5">
+                        <div className="flex items-center gap-x-1 bg-blue-100 text-blue-600 rounded-md px-2 py-0.5">
                             {/* <FaArrowUp /> */}
 
                             <p className="text-xs">{row?.original?.channel}</p>

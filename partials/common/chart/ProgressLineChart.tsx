@@ -20,7 +20,7 @@ export const ProgressLineChart = () => {
     // query
     const getRtos = CommonApi.Filter.useRtos()
     const sectorResponse = AuthApi.useSectors({})
-    
+
     const chartCount = AdminApi.Admin.useDashboardChartCounts(
         {
             search: `${JSON.stringify(
