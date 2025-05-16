@@ -90,7 +90,9 @@ const Kpis = () => {
                         <div className="flex justify-end mb-4">
                             <div
                                 onClick={handleExpand}
-                                className="bg-white shadow-lg rounded-md p-2 flex items-center gap-x-1 cursor-pointer "
+                                className={
+                                    'bg-white shadow-md rounded-md p-2 flex items-center gap-x-1 cursor-pointer '
+                                }
                             >
                                 {isExpanded ? (
                                     <IoClose
@@ -103,7 +105,7 @@ const Kpis = () => {
                                         className="text-blue-500"
                                     />
                                 )}
-                                <p className="text-xs font-medium text-gray-700">
+                                <p className={`text-xs font-medium  `}>
                                     {isExpanded ? 'Collapse' : 'View Details'}
                                 </p>
                             </div>

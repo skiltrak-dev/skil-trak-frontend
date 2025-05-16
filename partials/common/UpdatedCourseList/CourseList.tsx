@@ -14,11 +14,13 @@ export const CourseList = ({
     selectedCourses,
     courses,
     editCourse,
+    userId,
 }: {
     selectedCourses: any
     setSelectedCourses: any
     editCourse: boolean
     courses: Course[]
+    userId?: any
 }) => {
     useEffect(() => {
         setSelectedCourses((prevCourses: any) => {
@@ -119,113 +121,15 @@ export const CourseList = ({
                             <Typography variant={'xs'} medium>
                                 {c?.title}
                             </Typography>
-                            <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.RTO, UserRoles.ADMIN]}
+                            >
                                 <RtoWorkplaceTypes
                                     courseId={c?.id}
+                                    userId={userId}
                                     workplaceTypes={c?.workplaceTypes}
                                 />
                             </AuthorizedUserComponent>
-                        </div>
-                    </div>
-                </Fragment>
-            ))}
-        </div>
-    )
-
-    return (
-        <div>
-            {courses?.map((c: Course) => (
-                <Fragment key={c?.id}>
-                    <div className="flex gap-x-2 justify-start">
-                        <div className="flex flex-col items-center">
-                            <div className="bg-blue-400 p-2 rounded-full"></div>
-                            <div className="bg-blue-400 w-[1px] h-full"></div>
-                        </div>
-                        <div className="grid grid-cols-4 w-full items-center">
-                            <div className="pb-2 col-span-3">
-                                <Typography
-                                    variant={'small'}
-                                    color={'text-gray-500'}
-                                >
-                                    {c?.code}
-                                </Typography>
-                                <Typography
-                                    variant={'small'}
-                                    color={'text-gray-500'}
-                                >
-                                    hours:{' '}
-                                    {c?.extraHours && c?.extraHours?.length > 0
-                                        ? Number(
-                                              c?.extraHours?.[0]?.hours
-                                          ).toFixed(0)
-                                        : c?.hours}
-                                </Typography>
-                                <Typography
-                                    variant={'small'}
-                                    color={'text-gray-800'}
-                                >
-                                    {c?.title}
-                                </Typography>
-                            </div>
-                            {editCourse && (
-                                <div>
-                                    <Typography variant="xs" medium>
-                                        Hours:
-                                    </Typography>
-                                    <input
-                                        placeholder="Hours"
-                                        className="border rounded p-1.5 text-xs w-full"
-                                        name="hours"
-                                        type="number"
-                                        value={
-                                            selectedCourses?.find(
-                                                (s: any) => s?.id === c?.id
-                                            )
-                                                ? selectedCourses?.find(
-                                                      (s: any) =>
-                                                          s?.id === c?.id
-                                                  )?.hours
-                                                : c?.hours
-                                        }
-                                        onChange={(e: any) => {
-                                            setSelectedCourses(
-                                                (course: any) => {
-                                                    const existingCourse =
-                                                        courses?.find(
-                                                            (ccc: any) =>
-                                                                ccc.id === c.id
-                                                        )
-                                                    return existingCourse
-                                                        ? [
-                                                              ...course?.filter(
-                                                                  (a: any) =>
-                                                                      a?.id !==
-                                                                      c?.id
-                                                              ),
-                                                              {
-                                                                  id: c?.id,
-                                                                  hours: Number(
-                                                                      e.target
-                                                                          .value
-                                                                  ),
-                                                              },
-                                                          ]
-                                                        : [
-                                                              ...course,
-                                                              {
-                                                                  id: c?.id,
-                                                                  hours: Number(
-                                                                      e.target
-                                                                          .value
-                                                                  ),
-                                                              },
-                                                          ]
-                                                }
-                                            )
-                                        }}
-                                    />
-                                </div>
-                            )}
                         </div>
                     </div>
                 </Fragment>

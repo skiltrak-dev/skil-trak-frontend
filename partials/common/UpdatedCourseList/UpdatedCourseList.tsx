@@ -66,7 +66,6 @@ export const UpdatedCourseList = ({
             },
             rtoUserId, // optional — pass only if you have it
         })
-       
     }
 
     return (
@@ -114,6 +113,7 @@ export const UpdatedCourseList = ({
                                         setSelectedCourses(val)
                                     }}
                                     selectedCourses={selectedCourses}
+                                    userId={rtoUserId}
                                 />
                             </div>
                         ))}
