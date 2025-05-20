@@ -5,6 +5,7 @@ import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions
 import {
     PaginatedResponse,
     PaginationValues,
+    PaginationWithSearch,
     ProvideIndustryDetail,
     Student,
     StudentStatusEnum,
@@ -195,10 +196,11 @@ export const studentsEndpoints = (
         invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
 
-    setNotContactable: builder.mutation<any, number>({
-        query: (id) => ({
+    setNotContactable: builder.mutation<any, { id: number; comment?: string }>({
+        query: ({ id, ...body }) => ({
             url: `${PREFIX}/student/update-not-contactable/${id}`,
             method: 'PATCH',
+            body,
         }),
         invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
@@ -731,5 +733,27 @@ export const studentsEndpoints = (
             }
         },
         providesTags: ['SubAdminStudents'],
+    }),
+
+    studentActionsApprovalRequests: builder.query<any, PaginationWithSearch>({
+        query: (params) => ({
+            url: `${PREFIX}/student/update-requests`,
+            params,
+        }),
+        providesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+
+    studentActionsRequestCount: builder.query<any, void>({
+        query: () => `${PREFIX}/student/update-requests/count`,
+        providesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+
+    updateStudentApprovalActions: builder.mutation<any, any>({
+        query: ({ id, status }) => ({
+            url: `${PREFIX}/student-request/${id}/update-status`,
+            method: 'PATCH',
+            params: { status },
+        }),
+        invalidatesTags: ['SubAdminIndustries', 'Industries'],
     }),
 })

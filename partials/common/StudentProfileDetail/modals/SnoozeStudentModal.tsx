@@ -36,9 +36,10 @@ export const SnoozeStudentModal = ({
             ...values,
         }).then((res: any) => {
             if (res?.data) {
-                notification.success({
-                    title: 'Student Snoozed',
-                    description: 'Student Snoozed Successfully',
+                notification.warning({
+                    title: 'Student Snoozed Request Sent',
+                    description:
+                        'Student Snoozed Request sent to manager Successfully',
                 })
                 onCancel()
             }
@@ -62,9 +63,6 @@ export const SnoozeStudentModal = ({
                             name={'date'}
                             placeholder="Enter Snoozing End Date"
                             type={'date'}
-                            // onChange={(e: any) => {
-                            //     onChange(e.target?.value)
-                            // }}
                             min={getDate()}
                         />
                         <TextArea

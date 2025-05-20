@@ -1,5 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { PaginationValues } from '@types'
 
 const PREFIX = 'rtos'
 export const industriesEndpoints = (
@@ -13,5 +14,21 @@ export const industriesEndpoints = (
             }
         },
         providesTags: ['RTOIndustries'],
+    }),
+
+    getBlackListedIndustries: builder.query<any, PaginationValues>({
+        query: (params) => ({
+            url: `${PREFIX}/workplaces/black-listed/list`,
+            params,
+        }),
+        providesTags: ['RTOIndustries'],
+    }),
+
+    removeFromBlackList: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/workplace/${id}/remove/from/black-list`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOIndustries'],
     }),
 })

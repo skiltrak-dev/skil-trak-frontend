@@ -28,6 +28,7 @@ import {
     SectorBaseCapacityModal,
     SnoozeIndustrySwitch,
 } from './components'
+import { IndustryRequestsActions } from '@partials/sub-admin/ManagerApprovalList/enum'
 
 export const IndustryProfileCB = ({
     isHod,
@@ -140,20 +141,24 @@ export const IndustryProfileCB = ({
                 </AuthorizedUserComponent>
             </div>
 
-            {/*  */}
             <div className="flex justify-between items-center gap-x-3 mt-2">
-                {/*  */}
                 <IndustryWpType industryUserId={industry?.user?.id} />
             </div>
 
             <SnoozeIndustrySwitch
                 industry={industry}
                 industryId={industry?.id}
+                partnerRemovalRequests={industry?.partnerRemovalRequests?.find(
+                    (r) => r?.action === IndustryRequestsActions.Snoozed
+                )}
             />
             <MakeIndustryPartner
                 industryId={industry?.id}
                 isPartner={industry?.isPartner}
                 PartneredBy={industry?.PartneredBy}
+                partnerRemovalRequests={industry?.partnerRemovalRequests?.find(
+                    (r) => r?.action === IndustryRequestsActions.Partner
+                )}
             />
             {/*  */}
             <IndustryJobHiring

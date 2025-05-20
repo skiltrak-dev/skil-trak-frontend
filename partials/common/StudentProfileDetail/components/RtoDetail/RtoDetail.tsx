@@ -71,15 +71,6 @@ export const RtoDetail = ({
                                             {rtoDetail?.data?.user?.name}
                                         </span>
                                     </Typography>
-
-                                    <Typography
-                                        variant="xs"
-                                        color="text-[#6B7280]"
-                                    >
-                                        {useMaskText({
-                                            key: rtoDetail?.data?.user?.email,
-                                        })}
-                                    </Typography>
                                 </div>
                             </div>
                         </div>

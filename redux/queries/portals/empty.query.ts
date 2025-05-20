@@ -51,6 +51,7 @@ const subadminTagTypes = [
     'Coordinates',
     'SubAdminRtos',
     'SubAdminReports',
+    'SubAdminCourses',
     'SubAdminStudents',
     'SetUnAvailability',
     'SubAdminWorkplace',

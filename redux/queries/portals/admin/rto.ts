@@ -299,6 +299,13 @@ export const rtoEndpoints = (
         }),
         invalidatesTags: ['RTOS'],
     }),
+    rtoWpApprovalRequest: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto/${id}/settings/workplace-approval/toggle`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
 
     studentAccountsExists: builder.query<Rto, number>({
         query: (id: number) => `${PREFIX}/rtos/view/${id}`,

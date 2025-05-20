@@ -121,6 +121,16 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         )
     }, [selectedWorkplace?.workplaceApprovaleRequest])
 
+    const latestWorkplaceApprovaleRequestRto = useMemo(() => {
+        return selectedWorkplace?.workplaceApprovaleRequest?.reduce(
+            (latest: any, current: any) =>
+                new Date(current?.createdAt) > new Date(latest?.createdAt)
+                    ? current
+                    : latest,
+            selectedWorkplace?.workplaceApprovaleRequest?.[0]
+        )
+    }, [selectedWorkplace?.workplaceApprovaleRequest])
+
     useEffect(() => {
         if (sortedWorkplace && sortedWorkplace?.length > 0) {
             // setWorkplaceRes(sortedWorkplace)
@@ -412,6 +422,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         folders,
         sortedWorkplace,
         latestWorkplaceApprovaleRequest,
+        latestWorkplaceApprovaleRequestRto,
         onCancelWPClicked,
         onCancelWPRequestClicked,
         onUpdateWorkplaceCourseClicked,

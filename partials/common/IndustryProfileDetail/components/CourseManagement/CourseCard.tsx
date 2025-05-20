@@ -1,23 +1,38 @@
-import React from 'react'
-import { AuthorizedUserComponent, Typography } from '@components'
-import { IoCheckmarkDoneOutline } from 'react-icons/io5'
-import { ApprovedCourseTooltip } from './ApprovedCourseTooltip'
-import { ApprovedSectorTooltip } from './ApprovedSectorTooltip'
-import { FaRegEdit } from 'react-icons/fa'
+import { ActionButton, AuthorizedUserComponent, Typography } from '@components'
 import { UserRoles } from '@constants'
+import { FileUpload } from '@hoc'
 import Modal from '@modals/Modal'
+import { Pencil, Trash2 } from 'lucide-react'
+import { FaRegEdit } from 'react-icons/fa'
+import { IoCheckmarkDoneOutline } from 'react-icons/io5'
 import {
-    AddCourseModal,
     AddPrevCourseDescription,
     DeleteCourseModal,
     EditCourseModal,
 } from './modal'
-import Link from 'next/link'
-import { ellipsisText } from '@utils'
-import { Pencil, RefreshCw } from 'lucide-react'
-import { Trash2 } from 'lucide-react'
+import { SubAdminApi } from '@queries'
+import { useNotification } from '@hooks'
 
 export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
+    const [uploadFile, uploadFileResult] =
+        SubAdminApi.Industry.uploadCourseDocForIndustry()
+
+    const { notification } = useNotification()
+
+    const onUploadCourseFile = async (doc: File) => {
+        const formData = new FormData()
+        formData.append('file', doc)
+        console.log({ doc })
+        const res: any = await uploadFile({ id: data?.id, body: formData })
+
+        if (res?.data) {
+            notification.success({
+                title: 'File Uploaded',
+                description: 'File Uploaded Successfully',
+            })
+        }
+    }
+
     const approvals = isPreviousCourses
         ? data?.courses || []
         : data?.industryCourseApprovals || []
@@ -59,6 +74,26 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
         return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`
     }
 
+    const onFileUpload = ({
+        name,
+        fileList,
+    }: {
+        name: string
+        fileList: any
+    }) => {
+        return (
+            <ActionButton
+                variant="info"
+                loading={uploadFileResult?.isLoading}
+                disabled={uploadFileResult?.isLoading}
+            >
+                <label htmlFor={`file_id_${name}`} className="cursor-pointer">
+                    Upload File
+                </label>
+            </ActionButton>
+        )
+    }
+
     return (
         <div className="flex flex-col gap-4 mt-4">
             {approvals?.map((approval: any, index: any) => (
@@ -75,6 +110,7 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                 {approval?.course?.sector?.name ??
                                     approval?.sector?.name}
                             </Typography>
+
                             {!isPreviousCourses && (
                                 <span className="px-3 py-1 bg-green-100 text-green-800 rounded-md text-sm">
                                     Approved
@@ -96,12 +132,13 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                 )}
                             </AuthorizedUserComponent>
                         </div>
+
                         {!isPreviousCourses && (
                             <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                                 <div className="flex items-center gap-x-2">
                                     <Modal>
                                         <Modal.Open opens="editCourse">
-                                            <Pencil  className="cursor-pointer bg-[#047857] text-white rounded-lg p-1" />
+                                            <Pencil className="cursor-pointer bg-[#047857] text-white rounded-lg p-1" />
                                         </Modal.Open>
                                         <Modal.Window name="editCourse">
                                             <EditCourseModal
@@ -141,16 +178,19 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                     - {approval?.course?.code ?? approval?.code}
                                 </Typography>
                             </div>
-                            <div className="text-right">
-                                <Typography
-                                    variant="small"
-                                    color="text-gray-600"
-                                >
-                                    Course Hours
-                                </Typography>
-                                <Typography variant="muted" center>
-                                    {approval?.course?.hours ?? approval?.hours}
-                                </Typography>
+                            <div>
+                                <div className="text-right">
+                                    <Typography
+                                        variant="small"
+                                        color="text-gray-600"
+                                    >
+                                        Course Hours
+                                    </Typography>
+                                    <Typography variant="muted" center>
+                                        {approval?.course?.hours ??
+                                            approval?.hours}
+                                    </Typography>
+                                </div>
                             </div>
 
                             {!isPreviousCourses &&
@@ -169,7 +209,7 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                 isPreviousCourses
                                     ? 'bg-red-500'
                                     : 'bg-emerald-700'
-                            }  text-white p-4 rounded-md w-full mb-4 flex gap-x-5 items-start`}
+                            } relative text-white p-4 rounded-md w-full mb-4 flex gap-x-5 items-start`}
                         >
                             <div className="mb-2 whitespace-nowrap flex flex-col">
                                 <Typography variant="small" color="white">
@@ -192,6 +232,16 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                             'No description available'}
                                     </Typography>
                                 </div>
+                            </div>
+                            <div className="absolute bottom-0 right-2">
+                                <FileUpload
+                                    onChange={(doc: File) => {
+                                        onUploadCourseFile(doc)
+                                    }}
+                                    name={'attachments'}
+                                    component={onFileUpload}
+                                    limit={Number(1111111111)}
+                                />
                             </div>
                             {isPreviousCourses && (
                                 <div className="flex justify-end w-full">

@@ -210,12 +210,14 @@ export const WpCancelationRequest = () => {
                             CancelationRequestEnum.Pending
                         }
                         text={'Reject'}
+                        variant="error"
                         onClick={() => {
                             onRejectRequestClicked(info.row.original)
                         }}
                     />
                     <Button
                         text={'Approve'}
+                        variant="success"
                         disabled={
                             info.row.original?.status !==
                             CancelationRequestEnum.Pending

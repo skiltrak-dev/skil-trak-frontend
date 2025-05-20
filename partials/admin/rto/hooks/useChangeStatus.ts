@@ -6,7 +6,7 @@ export const useChangeStatus = () => {
         AdminApi.Rtos.useChangeStatusMutation()
 
     const onArchive = async (rto: Rto) => {
-        await changeStatus({ id: rto.id, status: UserStatus.Archived })
+        return await changeStatus({ id: rto.id, status: UserStatus.Archived })
     }
 
     const onAccept = async (rto: Rto) => {
@@ -18,7 +18,7 @@ export const useChangeStatus = () => {
     }
 
     const onBlock = async (rto: Rto) => {
-        await changeStatus({ id: rto.id, status: UserStatus.Blocked })
+        return await changeStatus({ id: rto.id, status: UserStatus.Blocked })
     }
 
     return { onAccept, onArchive, onReject, onBlock, changeStatusResult }

@@ -1,18 +1,30 @@
 import { CommonApi } from '@queries'
-import { Industry, User } from '@types'
+import { Industry, PartnerRemovalRequests, User } from '@types'
 import { useNotification } from '@hooks'
 import { ReactElement, useState } from 'react'
-import { SnoozeIndustryModal } from '@partials/common/modal'
-import { ShowErrorNotifications, Switch, Typography } from '@components'
+import {
+    SnoozeIndustryModal,
+    UnSnoozeIndustryModal,
+} from '@partials/common/modal'
+import {
+    ShowErrorNotifications,
+    Switch,
+    Tooltip,
+    TooltipPosition,
+    Typography,
+} from '@components'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
+import { CiSquareQuestion } from 'react-icons/ci'
 
 export const SnoozeIndustrySwitch = ({
     industry,
     industryId,
+    partnerRemovalRequests,
 }: {
     industry: Industry
     industryId: number
+    partnerRemovalRequests: PartnerRemovalRequests | undefined
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -24,23 +36,36 @@ export const SnoozeIndustrySwitch = ({
     const onCancelClicked = () => setModal(null)
 
     const onSnooze = () => {
-        setModal(
-            <SnoozeIndustryModal
-                onCancel={onCancelClicked}
-                industry={industry}
-            />
-        )
+        if (partnerRemovalRequests) {
+            notification.warning({
+                title: 'Snooze Request Already Sent',
+                description: 'Snooze Request Already Sent',
+            })
+        } else {
+            setModal(
+                <SnoozeIndustryModal
+                    onCancel={onCancelClicked}
+                    industry={industry}
+                />
+            )
+        }
     }
 
     const onRemoveSnooze = () => {
-        unSnooze(Number(industryId))?.then((res: any) => {
-            if (res?.data) {
-                notification.error({
-                    title: `Industry Un Snoozed`,
-                    description: `Industry "${industry?.user?.name}" has been Un Snoozed.`,
-                })
-            }
-        })
+        setModal(
+            <UnSnoozeIndustryModal
+                industry={industry}
+                onCancel={onCancelClicked}
+            />
+        )
+        // unSnooze(Number(industryId))?.then((res: any) => {
+        //     if (res?.data) {
+        //         notification.error({
+        //             title: `Industry Un Snoozed`,
+        //             description: `Industry "${industry?.user?.name}" has been Un Snoozed.`,
+        //         })
+        //     }
+        // })
     }
     const role = getUserCredentials()?.role
     const checkRto = role === UserRoles.RTO
@@ -55,6 +80,14 @@ export const SnoozeIndustrySwitch = ({
                     </Typography>
                 </div>
                 <div className="flex items-center gap-x-2">
+                    {partnerRemovalRequests && (
+                        <div className="relative group">
+                            <CiSquareQuestion size={22} />
+                            <Tooltip position={TooltipPosition.center}>
+                                Snoozed Request Already Sent
+                            </Tooltip>
+                        </div>
+                    )}
                     <Typography variant="small" bold color={'text-[#BF0000]'}>
                         NO
                     </Typography>
@@ -67,10 +100,18 @@ export const SnoozeIndustrySwitch = ({
                                     : onSnooze()
                             }}
                             value={industry?.isSnoozed}
+                            // {...(industry?.isSnoozed
+                            //     ? { isChecked: industry?.isSnoozed }
+                            //     : {})}
+                            isChecked={industry?.isSnoozed}
                             defaultChecked={industry?.isSnoozed}
                             customStyleClass={'profileSwitch'}
                             loading={unSnoozeResult.isLoading}
-                            disabled={unSnoozeResult.isLoading || checkRto}
+                            disabled={
+                                unSnoozeResult.isLoading ||
+                                checkRto ||
+                                !!partnerRemovalRequests
+                            }
                         />
                     </div>
                     <Typography variant="small" bold>

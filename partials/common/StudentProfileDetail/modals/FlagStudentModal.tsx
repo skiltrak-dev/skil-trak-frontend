@@ -1,18 +1,15 @@
-import * as Yup from 'yup'
-import { SubAdminApi } from '@queries'
-import { useNotification } from '@hooks'
-import { MdSnooze } from 'react-icons/md'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FormProvider, useForm } from 'react-hook-form'
 import {
     Modal,
-    RadioButton,
     RadioGroup,
     ShowErrorNotifications,
     TextArea,
-    TextInput,
     Typography,
 } from '@components'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useNotification } from '@hooks'
+import { SubAdminApi } from '@queries'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as Yup from 'yup'
 
 export const FlagStudentModal = ({
     onCancel,
@@ -46,9 +43,9 @@ export const FlagStudentModal = ({
         }
         problamaticStudent({ studentId, body }).then((res: any) => {
             if (res?.data) {
-                notification.success({
-                    title: 'Mark As Flaged',
-                    description: `Marked As Flaged`,
+                notification.warning({
+                    title: 'Mark As Flaged request sent',
+                    description: `Marked As Flaged request sent to manager!`,
                 })
                 onCancel()
             }

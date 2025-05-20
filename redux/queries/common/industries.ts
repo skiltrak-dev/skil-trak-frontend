@@ -40,18 +40,25 @@ export const industriesEndpoints = (
         providesTags: ['Industry'],
     }),
 
-    snoozeIndustry: builder.mutation<Industry, { id: number; date: Date }>({
-        query: ({ id, date }) => ({
+    snoozeIndustry: builder.mutation<
+        Industry,
+        { id: number; date: Date; comment?: string }
+    >({
+        query: ({ id, ...body }) => ({
             url: `shared/industry/snooze/${id}`,
             method: 'POST',
-            body: { date },
+            body,
         }),
         invalidatesTags: ['Industries'],
     }),
 
-    unSnoozeIndustry: builder.mutation<Industry, number>({
-        query: (id) => ({
+    unSnoozeIndustry: builder.mutation<
+        Industry,
+        { comment?: string; id: number }
+    >({
+        query: ({ id, ...body }) => ({
             url: `shared/industry/reactivate/${id}`,
+            body,
             method: 'PATCH',
         }),
         invalidatesTags: ['Industries'],

@@ -6,13 +6,13 @@ import {
     RtoNavbar,
 } from '@components'
 import { useAlert, useContextBar, useJoyRide } from '@hooks'
-import { UsersPendingEsignModal } from '@partials/eSign/modal/UsersPendingEsignModal'
 import { CommonApi } from '@queries'
 import { AuthUtils, EsignDocumentStatus } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
+import { UsersPendingEsignModal } from '@partials/eSign/modal/UsersPendingEsignModal'
 interface RtoLayoutProps {
     pageTitle?: PageTitleProps
     children: ReactNode
@@ -66,30 +66,14 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
         }
     )
 
-    const status = AuthUtils.getUserCredentials()?.status
-
-    // useEffect(() => {
-    //     if (status === UserStatus.Pending) {
-    //         alert.warning({
-    //             title: `Your account is Pending`,
-    //             description:
-    //                 'Your request is waiting for approval. Meanwhile, your functionalities will be limited',
-    //             autoDismiss: false,
-    //         })
-    //     }
-    //     return () => {
-    //         setAlerts([])
-    //     }
-    // }, [])
-
     useEffect(() => {
         setMounted(true)
     }, [])
 
     useEffect(() => {
         if (
-            pendingDocuments.isSuccess &&
             otherAllUserSigned &&
+            pendingDocuments.isSuccess &&
             otherAllUserSigned?.length > 0
         ) {
             const route = `/portals/student/assessments/e-sign/${otherAllUserSigned?.[0]?.id}`

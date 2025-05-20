@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    Button,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -62,8 +63,6 @@ export const ApprovedRto = () => {
         }
     )
 
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
-
     const contextBar = useContextBar()
     const onViewSubAdminsClicked = (rto: Rto) => {
         contextBar.setTitle('Sub Admins')
@@ -78,13 +77,6 @@ export const ApprovedRto = () => {
             text: 'View',
             onClick: (rto: any) => {
                 router.push(`/portals/admin/rto/${rto.id}?tab=sectors`)
-            },
-            Icon: FaEye,
-        },
-        {
-            text: 'New Profile',
-            onClick: (rto: any) => {
-                router.push(`/portals/admin/rto/${rto.id}/detail`)
             },
             Icon: FaEye,
         },
@@ -107,109 +99,41 @@ export const ApprovedRto = () => {
         {
             ...(role === UserRoles.ADMIN
                 ? {
-                      text: rto?.autoReleaseLogBook
-                          ? 'Remove Logbook'
-                          : 'Allow Logbook',
-                      onClick: (rto: Rto) =>
-                          handleOpenModal(
-                              AdminRtoModalType.RELEASE_LOG_BOOK,
-                              rto
-                          ),
-                      Icon: FaBook,
-                      color: rto?.autoReleaseLogBook
-                          ? 'bg-error-light text-error-dark'
-                          : '',
-                  }
-                : {}),
-        },
-        {
-            ...(role === UserRoles.ADMIN
-                ? {
-                      text: 'Invoice Permission',
-                      onClick: (rto: Rto) =>
-                          handleOpenModal(
-                              AdminRtoModalType.ALLOW_INVOICING,
-                              rto
-                          ),
-                      Icon: FaFileInvoiceDollar,
-                  }
-                : {}),
-        },
-        {
-            ...(role === UserRoles.ADMIN
-                ? {
-                      text: rto?.allowUpdate
-                          ? 'Remove Updation'
-                          : `Allow Updation`,
-                      onClick: (rto: Rto) =>
-                          handleOpenModal(
-                              AdminRtoModalType.ALLOW_UPDATION,
-                              rto
-                          ),
-                      Icon: MdOutlineUpdate,
-                  }
-                : {}),
-        },
-        {
-            ...(role === UserRoles.ADMIN
-                ? {
-                      text: rto?.allowAutoComplete
-                          ? 'Remove Auto Complete'
-                          : `Allow Auto Complete`,
-                      onClick: (rto: Rto) =>
-                          handleOpenModal(
-                              AdminRtoModalType.ALLOW_AUTO_COMPLETE,
-                              rto
-                          ),
-                      Icon: MdIncompleteCircle,
-                  }
-                : {}),
-        },
-        {
-            ...(role === UserRoles.ADMIN
-                ? {
-                      text: 'Allow Partial Submission',
-                      onClick: (rto: Rto) =>
-                          handleOpenModal(
-                              AdminRtoModalType.ALLOW_PARTIAL_SUBMISSION,
-                              rto
-                          ),
-                      Icon: FaHourglassHalf,
-                  }
-                : {}),
-        },
-        {
-            ...(role === UserRoles.ADMIN
-                ? {
                       text: 'Permissions',
                       onClick: (rto: Rto) =>
-                          handleOpenModal(
-                              AdminRtoModalType.ALLOW_PERMISSIONS,
-                              rto
-                          ),
-                      Icon: MdIncompleteCircle,
+                          handleOpenModal(AdminRtoModalType.PERMISSION, rto),
+                      Icon: FaEdit,
                   }
                 : {}),
         },
-        {
-            text: 'Sub Admins',
-            onClick: (item: any) => onViewSubAdminsClicked(item),
-            Icon: FaEdit,
-        },
-        {
-            text: 'Archive',
-            onClick: (rto: Rto) =>
-                handleOpenModal(AdminRtoModalType.ARCHIVE, rto),
-            Icon: MdBlock,
-            color: 'text-primary hover:bg-primary-light hover:border-primary-dark',
-        },
-        {
-            text: 'Block',
-            onClick: (rto: Rto) =>
-                handleOpenModal(AdminRtoModalType.BLOCK, rto),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
+
+        // {
+        //     ...(role === UserRoles.ADMIN
+        //         ? {
+        //               text: 'Invoice Permission',
+        //               onClick: (rto: Rto) =>
+        //                   handleOpenModal(
+        //                       AdminRtoModalType.ALLOW_INVOICING,
+        //                       rto
+        //                   ),
+        //               Icon: FaFileInvoiceDollar,
+        //           }
+        //         : {}),
+        // },
+
+        // {
+        //     ...(role === UserRoles.ADMIN
+        //         ? {
+        //               text: 'Auto Report Permissions',
+        //               onClick: (rto: Rto) =>
+        //                   handleOpenModal(
+        //                       AdminRtoModalType.ALLOW_PERMISSIONS,
+        //                       rto
+        //                   ),
+        //               Icon: MdIncompleteCircle,
+        //           }
+        //         : {}),
+        // },
     ]
 
     const columns: ColumnDef<Rto>[] = [
@@ -232,6 +156,18 @@ export const ApprovedRto = () => {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: (info) => <SectorCell rto={info.row.original} />,
+        },
+        {
+            accessorKey: 'subadmin',
+            header: () => <span>Subadmins</span>,
+            cell: (info) => (
+                <ActionButton
+                    variant="info"
+                    onClick={() => onViewSubAdminsClicked(info.row.original)}
+                >
+                    Subadmins
+                </ActionButton>
+            ),
         },
         {
             accessorKey: 'suburb',

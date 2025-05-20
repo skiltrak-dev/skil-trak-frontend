@@ -89,47 +89,6 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
         },
     ]
 
-    const columns: ColumnDef<any>[] = [
-        {
-            accessorKey: 'name',
-            cell: (info) => (
-                <div className="flex items-center gap-x-1">
-                    {info.row.original?.name && (
-                        <InitialAvatar name={info.row.original?.name} />
-                    )}
-                    <Typography variant={'label'}>
-                        {info.row.original.name}
-                    </Typography>
-                </div>
-            ),
-            header: () => <span>Name</span>,
-        },
-        {
-            accessorKey: 'email',
-            header: () => <span>Email</span>,
-            cell: (info) => info.getValue(),
-        },
-
-        {
-            accessorKey: 'phone',
-            header: () => <span>Phone Number</span>,
-            cell: (info) => info.getValue(),
-        },
-        {
-            accessorKey: 'action',
-            header: () => <span>Action</span>,
-            cell: (info: any) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
-        },
-    ]
     const onClickShowSupervisorList = () => {
         setShowSupervisorList(!showSupervisorList)
     }
@@ -143,47 +102,54 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
             <div className="">
                 {modal}
 
-                {/*  */}
-
                 <div id="add-admin">
-                    <div className="flex gap-x-2 border rounded-md p-2.5 items-center justify-between shadow-lg relative w-full">
-                        <Typography variant={'label'}>Supervisors</Typography>
-                        <div className="flex items-center gap-x-1 ">
-                            <AuthorizedUserComponent
-                                roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
-                            >
+                    <div className=" gap-x-2 border rounded-md p-2.5 items-center justify-between shadow-lg relative w-full">
+                        <div className="flex items-center gap-x-2 justify-between">
+                            <Typography variant={'label'}>
+                                Supervisors
+                            </Typography>
+                            <div className="flex items-center gap-x-1 ">
+                                <AuthorizedUserComponent
+                                    roles={[
+                                        UserRoles.SUBADMIN,
+                                        UserRoles.ADMIN,
+                                    ]}
+                                >
+                                    <div
+                                        onClick={() => {
+                                            contextBar.setTitle(
+                                                'Add Supervisor'
+                                            )
+                                            contextBar.show()
+                                            contextBar.setContent(
+                                                <AddSupervisor
+                                                    industry={industry}
+                                                />
+                                            )
+                                        }}
+                                        className="border rounded-md p-1 cursor-pointer"
+                                    >
+                                        <LuPlus />
+                                    </div>
+                                </AuthorizedUserComponent>
                                 <div
-                                    onClick={() => {
-                                        contextBar.setTitle('Add Supervisor')
-                                        contextBar.show()
-                                        contextBar.setContent(
-                                            <AddSupervisor
-                                                industry={industry}
-                                            />
-                                        )
-                                    }}
+                                    onClick={onClickShowSupervisorList}
                                     className="border rounded-md p-1 cursor-pointer"
                                 >
-                                    <LuPlus />
+                                    <MdKeyboardArrowDown
+                                        className={`transition-all duration-300 ${
+                                            showSupervisorList
+                                                ? 'rotate-180'
+                                                : 'rotate-0'
+                                        }`}
+                                    />
                                 </div>
-                            </AuthorizedUserComponent>
-                            <div
-                                onClick={onClickShowSupervisorList}
-                                className="border rounded-md p-1 cursor-pointer"
-                            >
-                                <MdKeyboardArrowDown
-                                    className={`transition-all duration-300 ${
-                                        showSupervisorList
-                                            ? 'rotate-180'
-                                            : 'rotate-0'
-                                    }`}
-                                />
                             </div>
                         </div>
                         <div
                             className={`${
                                 showSupervisorList ? 'block' : 'hidden'
-                            } absolute top-11 z-40 left-0 transition-all max-h-60 overflow-auto custom-scrollbar duration-300 bg-white border rounded-md px-4 py-2 w-full`}
+                            }  top-11 z-40 left-0 transition-all max-h-60 overflow-auto custom-scrollbar duration-300 bg-white border rounded-md px-4 py-2 w-full`}
                         >
                             <div className="">
                                 {supervisors.isError ? (
@@ -215,6 +181,12 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                                                 <InfoCard
                                                     title={'Phone Number'}
                                                     data={supervisor?.phone}
+                                                />
+                                                <InfoCard
+                                                    title={'Qualification'}
+                                                    data={
+                                                        supervisor?.qualification
+                                                    }
                                                 />
                                                 <div className="flex items-center gap-x-2 justify-center">
                                                     <div

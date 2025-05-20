@@ -18,6 +18,7 @@ import { TiPin } from 'react-icons/ti'
 import { PuffLoader } from 'react-spinners'
 import { NotesTemplateStatus } from '../forms'
 import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
+import moment from 'moment'
 
 export const NoteCard = ({ note }: { note: NoteType | any }) => {
     const { notification } = useNotification()
@@ -174,21 +175,13 @@ export const NoteCard = ({ note }: { note: NoteType | any }) => {
                                             : 'text-white'
                                     } `}
                                 >
-                                    {format(
-                                        new Date(
-                                            note?.isEnabled!! ||
-                                                note.createdAt!!
-                                        ),
-                                        'EEE dd, LLL, yyyy'
-                                    )}{' '}
-                                    at{' '}
-                                    {format(
-                                        new Date(
-                                            note?.isEnabled!! ||
-                                                note.createdAt!!
-                                        ),
-                                        'hh:mm aa'
-                                    )}
+                                    {moment(
+                                        note?.isEnabled!! || note.createdAt!!
+                                    )
+                                        .tz('Australia/Melbourne')
+                                        .format(
+                                            'ddd DD, MMM, yyyy [at] hh:mm A'
+                                        )}
                                 </p>
                             </div>
                         </div>

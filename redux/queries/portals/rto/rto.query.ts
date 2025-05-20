@@ -1,16 +1,16 @@
-import { emptySplitApi } from '../empty.query'
-import { appointmentsEndpoints } from './appointments'
-import { assessmentToolsEndpoints } from './assessmentTools'
-import { contactPersonEndpoints } from './contactPerson'
-import { coordinatorEndpoints } from './coordinator'
-import { coursesEndpoints } from './courses'
-import { industriesEndpoints } from './industries'
-import { rtoDocumentsEndpoints } from './rtoDocuments'
 import { mouEndpoints } from './mou'
+import { coursesEndpoints } from './courses'
 import { profileEndpoints } from './profile'
 import { studentEndpoints } from './student'
+import { emptySplitApi } from '../empty.query'
 import { workplaceEndpoints } from './workplace'
 import { insuranceEndpoints } from './insurance'
+import { industriesEndpoints } from './industries'
+import { coordinatorEndpoints } from './coordinator'
+import { appointmentsEndpoints } from './appointments'
+import { contactPersonEndpoints } from './contactPerson'
+import { rtoDocumentsEndpoints } from './rtoDocuments'
+import { assessmentToolsEndpoints } from './assessmentTools'
 
 export const rtoApi = emptySplitApi.injectEndpoints({
     // ---------- RTO ENDPOINTS ---------- //
@@ -111,6 +111,8 @@ export const {
 
     // --- INDUSTRIES --- //
     useGetIndustriesListQuery,
+    useRemoveFromBlackListMutation,
+    useGetBlackListedIndustriesQuery,
 
     // --- MOU --- //
     useGetRtoMOUListQuery,
@@ -140,7 +142,9 @@ export const {
 
     // --- WORKPLACES --- //
     useGetRTOWorkplacesQuery,
+    useWpApprovalRequestQuery,
     useGetRTOWorkplaceDetailQuery,
+    useWpApprovalRequestChangeStatusMutation,
 
     // ---- DOCUMENTS ---- //
     useGetRtoDocumentsQuery,
@@ -222,5 +226,13 @@ export const RtoApi = {
     Insurance: {
         rtoInsuranceList: useGetRtoInsuranceTypeQuery,
         uploadInsuranceDocs: useUploadRtoInsuranceDocsMutation,
+    },
+    Workplace: {
+        wpApprovalRequest: useWpApprovalRequestQuery,
+        wpAppReqChangeStatus: useWpApprovalRequestChangeStatusMutation,
+    },
+    Industry: {
+        removeFromBlackList: useRemoveFromBlackListMutation,
+        getBlackListedIndustries: useGetBlackListedIndustriesQuery,
     },
 }

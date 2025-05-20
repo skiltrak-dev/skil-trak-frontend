@@ -1,9 +1,8 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
-import { CommonApi, useRemoveJobMutation } from '@queries'
+import { CommonApi } from '@queries'
 
 import { Industry } from '@types'
-import { useEffect } from 'react'
 import { FaTrash } from 'react-icons/fa'
 
 export const UnSnoozeIndustryModal = ({
@@ -18,18 +17,16 @@ export const UnSnoozeIndustryModal = ({
         CommonApi.Industries.useUnSnoozeIndustry()
 
     const onConfirmUClicked = async (industry: any) => {
-        await unSnooze(Number(industry?.id))
-    }
+        const res: any = await unSnooze({ id: Number(industry?.id) })
 
-    useEffect(() => {
-        if (unSnoozeResult.isSuccess) {
+        if (res?.data) {
             notification.error({
                 title: `Industry Un Snoozed`,
                 description: `Industry "${industry?.user?.name}" has been Un Snoozed.`,
             })
             onCancel()
         }
-    }, [unSnoozeResult])
+    }
 
     return (
         <>

@@ -4,23 +4,29 @@ import {
     GlobalModal,
     ShowErrorNotifications,
     Switch,
+    Tooltip,
+    TooltipPosition,
     Typography,
 } from '@components'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useNotification } from '@hooks'
 import { FlagStudentModal } from '../../modals'
 import { TiWarning } from 'react-icons/ti'
+import { PartnerRemovalRequests } from '@types'
+import { CiSquareQuestion } from 'react-icons/ci'
 
 export const ProblamaticStudent = ({
     hasIssue,
     disabled,
     studentId,
     isReported,
+    studentUpdateRequest,
 }: {
     disabled: boolean
     hasIssue: boolean
     studentId: number
     isReported?: boolean
+    studentUpdateRequest?: PartnerRemovalRequests
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [isChecked, setIsChecked] = useState(hasIssue)
@@ -119,20 +125,33 @@ export const ProblamaticStudent = ({
                         </Typography>
                     </div>
                     <div className="col-span-3 grid grid-cols-2">
-                        <div className="-mb-2">
-                            <Switch
-                                name="priority"
-                                customStyleClass={'profileSwitch'}
-                                onChange={handleSwitchChange}
-                                isChecked={hasIssue}
-                                value={hasIssue}
-                                defaultChecked={hasIssue}
-                                loading={problamaticStudentResult.isLoading}
-                                disabled={
-                                    problamaticStudentResult.isLoading ||
-                                    disabled
-                                }
-                            />
+                        <div className="flex items-center gap-x-1">
+                            {' '}
+                            {studentUpdateRequest && (
+                                <div className="relative group">
+                                    <CiSquareQuestion size={22} />
+                                    <Tooltip position={TooltipPosition.center}>
+                                        Flagged Request Already Sent For
+                                        Approval
+                                    </Tooltip>
+                                </div>
+                            )}
+                            <div className="-mb-2">
+                                <Switch
+                                    name="priority"
+                                    customStyleClass={'profileSwitch'}
+                                    onChange={handleSwitchChange}
+                                    isChecked={hasIssue}
+                                    value={hasIssue}
+                                    defaultChecked={hasIssue}
+                                    loading={problamaticStudentResult.isLoading}
+                                    disabled={
+                                        problamaticStudentResult.isLoading ||
+                                        disabled ||
+                                        !!studentUpdateRequest
+                                    }
+                                />
+                            </div>
                         </div>
                         <Typography variant="small" normal>
                             Yes

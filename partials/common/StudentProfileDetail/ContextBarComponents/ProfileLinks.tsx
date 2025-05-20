@@ -1,6 +1,6 @@
 import { TableAction, Typography } from '@components'
 import { UserRoles } from '@constants'
-import { useActionModal } from '@hooks'
+import { useActionModal, useNotification } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student } from '@types'
 import { getUserCredentials } from '@utils'
@@ -19,6 +19,7 @@ import { MdSnooze } from 'react-icons/md'
 import { TbMessage2Up } from 'react-icons/tb'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { ViewProfileVisitorsModal } from '@partials/common/modal'
+import { IndustryRequestsActions } from '@partials/sub-admin/ManagerApprovalList/enum'
 
 export const ProfileLinks = ({ profile }: { profile: Student }) => {
     const router = useRouter()
@@ -27,10 +28,16 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
 
     const role = getUserCredentials()?.role
 
+    const { notification } = useNotification()
+
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: role !== UserRoles.SUBADMIN,
         refetchOnMountOrArgChange: true,
     })
+
+    const studentUpdateRequest = profile?.studentUpdateRequests?.find(
+        (r) => r?.action === IndustryRequestsActions.Flagged
+    )
 
     const onCancelClicked = () => setModal(null)
 
@@ -44,9 +51,19 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
     }
 
     const onSnooze = () => {
-        setModal(
-            <SnoozeStudentModal onCancel={onCancelClicked} student={profile} />
-        )
+        if (studentUpdateRequest) {
+            notification.warning({
+                title: 'Snooze Request Already Sent',
+                description: 'Snooze Request Already Sent to manager!',
+            })
+        } else {
+            setModal(
+                <SnoozeStudentModal
+                    onCancel={onCancelClicked}
+                    student={profile}
+                />
+            )
+        }
     }
 
     const UnSnoozeModal = () => {
