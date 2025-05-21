@@ -4,9 +4,11 @@ import {
     ShowErrorNotifications,
     TextArea,
     Typography,
+    useAuthorizedUserComponent,
 } from '@components'
+import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNotification } from '@hooks'
+import { useNotification, useSubadminProfile } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
@@ -22,6 +24,13 @@ export const FlagStudentModal = ({
         SubAdminApi.Student.useProblamaticStudent()
 
     const { notification } = useNotification()
+
+    const subadmin = useSubadminProfile()
+
+    const hasPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
 
     const validationSchema = Yup.object({
         comment: Yup.string().required('Please provide the note'),
@@ -43,9 +52,13 @@ export const FlagStudentModal = ({
         }
         problamaticStudent({ studentId, body }).then((res: any) => {
             if (res?.data) {
-                notification.warning({
-                    title: 'Mark As Flaged request sent',
-                    description: `Marked As Flaged request sent to manager!`,
+                notification?.[hasPermission ? 'success' : 'warning']({
+                    title: `Mark As Flaged ${
+                        !hasPermission ? 'request sent' : ''
+                    }`,
+                    description: `Marked As Flaged ${
+                        !hasPermission ? 'request sent to manager' : ''
+                    } successfully!`,
                 })
                 onCancel()
             }

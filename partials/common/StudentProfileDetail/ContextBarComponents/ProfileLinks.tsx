@@ -36,7 +36,7 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
     })
 
     const studentUpdateRequest = profile?.studentUpdateRequests?.find(
-        (r) => r?.action === IndustryRequestsActions.Flagged
+        (r) => r?.action === IndustryRequestsActions.Snoozed
     )
 
     const onCancelClicked = () => setModal(null)

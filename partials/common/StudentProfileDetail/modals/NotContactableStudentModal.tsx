@@ -1,6 +1,12 @@
-import { Modal, ShowErrorNotifications, TextArea } from '@components'
+import {
+    Modal,
+    ShowErrorNotifications,
+    TextArea,
+    useAuthorizedUserComponent,
+} from '@components'
+import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNotification } from '@hooks'
+import { useNotification, useSubadminProfile } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student } from '@types'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -19,6 +25,13 @@ export const NotContactableStudentModal = ({
 
     const { notification } = useNotification()
 
+    const subadmin = useSubadminProfile()
+
+    const hasPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
+
     const validationSchema = Yup.object({
         comment: Yup.string().required('Please provide the note'),
     })
@@ -28,39 +41,43 @@ export const NotContactableStudentModal = ({
         mode: 'all',
     })
 
-    const onSubmit = (values: any) => {
-        notContactable({
+    const onSubmit = async (values: any) => {
+        const res: any = await notContactable({
             id: studentId,
             ...values,
-        }).then((res: any) => {
-            if (res?.data) {
-                notification.success({
-                    title: 'Student Snoozed',
-                    description: 'Student Snoozed Successfully',
-                })
-                onCancel()
-            }
         })
+
+        if (res?.data) {
+            notification?.[hasPermission ? 'success' : 'warning']({
+                title: `Student Snoozed ${
+                    !hasPermission ? 'Request Sent' : ''
+                }!`,
+                description: `Student Snoozed ${
+                    !hasPermission ? 'Request Sent to Manager' : ''
+                } Successfully!`,
+            })
+            onCancel()
+        }
     }
     return (
         <>
             <ShowErrorNotifications result={notContactableResult} />
             <Modal
                 titleIcon={MdSnooze}
-                title="Snooze Student"
+                title="Not Contactble Student"
                 onCancelClick={onCancel}
-                subtitle="Snooze Student"
+                subtitle="Not Contactble Student"
                 loading={notContactableResult.isLoading}
                 onConfirmClick={methods.handleSubmit(onSubmit)}
             >
                 <FormProvider {...methods}>
                     <form className="w-full">
                         <TextArea
-                            label={'Provide Note Please'}
+                            rows={5}
                             required
                             name={'comment'}
                             placeholder={'reason...'}
-                            rows={5}
+                            label={'Provide Note Please'}
                         />
                     </form>
                 </FormProvider>

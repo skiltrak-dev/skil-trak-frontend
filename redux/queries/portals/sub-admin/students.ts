@@ -740,12 +740,12 @@ export const studentsEndpoints = (
             url: `${PREFIX}/student/update-requests`,
             params,
         }),
-        providesTags: ['SubAdminIndustries', 'Industries'],
+        providesTags: ['SubAdminStudents'],
     }),
 
     studentActionsRequestCount: builder.query<any, void>({
         query: () => `${PREFIX}/student/update-requests/count`,
-        providesTags: ['SubAdminIndustries', 'Industries'],
+        providesTags: ['SubAdminStudents'],
     }),
 
     updateStudentApprovalActions: builder.mutation<any, any>({
@@ -754,6 +754,6 @@ export const studentsEndpoints = (
             method: 'PATCH',
             params: { status },
         }),
-        invalidatesTags: ['SubAdminIndustries', 'Industries'],
+        invalidatesTags: ['SubAdminStudents'],
     }),
 })

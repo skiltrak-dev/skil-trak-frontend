@@ -4,6 +4,7 @@ import { IoDocumentTextOutline } from 'react-icons/io5'
 import { MdHomeWork, MdNotifications, MdSpaceDashboard } from 'react-icons/md'
 import { RiAdminFill, RiAdminLine } from 'react-icons/ri'
 import { NavLinkItem } from '../NavLinkItem'
+import { FaIndustry } from 'react-icons/fa'
 
 const PREFIX = '/portals/rto'
 
@@ -87,8 +88,8 @@ export const RtoNavbar = () => {
         },
         {
             link: Routes.WpApprovalRequest,
-            text: 'Wp Approval Request',
-            Icon: IoDocumentTextOutline,
+            text: 'Workplace Approval',
+            Icon: FaIndustry,
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
             id: 'insuranceDocuments',

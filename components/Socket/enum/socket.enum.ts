@@ -22,6 +22,7 @@ export enum SocketNotificationsEvents {
     PlacementCompleted = 'placementCompleted',
     EsignReceived = 'esignReceived',
     StudentSnoozed = 'studentSnoozed',
+    IndustrySnoozed = 'industrySnoozed',
     StudentFlagged = 'studentFlagged',
     StudentNotContactable = 'studentNotContactable',
     StudentDocumentsCompleted = 'studentDocumentsCompleted',
@@ -32,4 +33,5 @@ export enum SocketNotificationsEvents {
     StudentScheduleAdded = 'studentScheduleAdded',
     WorkplaceApprovalReminder = 'workplaceApprovalReminder',
     WorkplaceRequestPending = 'workplaceRequestPending',
+    IndustryPartnerRemoval = 'industryPartnerRemoval',
 }

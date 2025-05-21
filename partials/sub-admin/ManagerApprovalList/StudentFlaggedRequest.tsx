@@ -33,8 +33,8 @@ export const StudentFlaggedRequest = () => {
     const [page, setPage] = useState(1)
 
     useEffect(() => {
-        setPage(Number(router.query.page))
-        setItemPerPage(Number(router.query.pageSize))
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
     const { isLoading, isFetching, data, isError, isSuccess } =

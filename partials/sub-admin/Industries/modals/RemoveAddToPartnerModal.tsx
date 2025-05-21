@@ -1,9 +1,15 @@
 import * as Yup from 'yup'
 import { SubAdminApi } from '@queries'
-import { useNotification } from '@hooks'
+import { useNotification, useSubadminProfile } from '@hooks'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Modal, ShowErrorNotifications, TextArea } from '@components'
+import {
+    Modal,
+    ShowErrorNotifications,
+    TextArea,
+    useAuthorizedUserComponent,
+} from '@components'
+import { UserRoles } from '@constants'
 
 export const RemoveAddToPartnerModal = ({
     onCancel,
@@ -16,6 +22,13 @@ export const RemoveAddToPartnerModal = ({
 
     const [addToPartner, addToPartnerResult] =
         SubAdminApi.Industry.useAddToPartner()
+
+    const subadmin = useSubadminProfile()
+
+    const hasPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
 
     const validationSchema = Yup.object({
         comment: Yup.string().required('Note is required!'),
@@ -32,10 +45,13 @@ export const RemoveAddToPartnerModal = ({
             studentCapacity: 0,
             ...values,
         })
+
         if (res?.data) {
-            notification.success({
-                title: 'Request Sent',
-                description: 'Remove Partner Request sent to Manager',
+            notification?.[hasPermission ? 'success' : 'warning']({
+                title: `Request Sent`,
+                description: `Remove from Partner ${
+                    !hasPermission ? 'Request sent to Manager' : ''
+                } Successfully!`,
             })
         }
     }

@@ -1,9 +1,10 @@
 import { Modal, ShowErrorNotifications, TextArea, TextInput } from '@components'
+import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student } from '@types'
-import { getDate } from '@utils'
+import { getDate, getUserCredentials } from '@utils'
 import { FormProvider, useForm } from 'react-hook-form'
 import { MdSnooze } from 'react-icons/md'
 import * as Yup from 'yup'
@@ -15,6 +16,8 @@ export const SnoozeStudentModal = ({
     student: Student
     onCancel: () => void
 }) => {
+    const role = getUserCredentials()?.role
+
     const [snoozeStudent, snoozeStudentResult] =
         SubAdminApi.Student.useSnoozeStudent()
 
@@ -36,10 +39,17 @@ export const SnoozeStudentModal = ({
             ...values,
         }).then((res: any) => {
             if (res?.data) {
-                notification.warning({
-                    title: 'Student Snoozed Request Sent',
-                    description:
-                        'Student Snoozed Request sent to manager Successfully',
+                notification?.[
+                    role === UserRoles.ADMIN ? 'success' : 'warning'
+                ]({
+                    title: `Student Snoozed ${
+                        role !== UserRoles.ADMIN ? 'Request Sent' : ''
+                    } `,
+                    description: `Student Snoozed ${
+                        role !== UserRoles.ADMIN
+                            ? 'Request sent to manager'
+                            : ''
+                    }  Successfully`,
                 })
                 onCancel()
             }

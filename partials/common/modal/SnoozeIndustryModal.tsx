@@ -1,6 +1,13 @@
-import { Modal, ShowErrorNotifications, TextArea, TextInput } from '@components'
+import {
+    Modal,
+    ShowErrorNotifications,
+    TextArea,
+    TextInput,
+    useAuthorizedUserComponent,
+} from '@components'
+import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNotification } from '@hooks'
+import { useNotification, useSubadminProfile } from '@hooks'
 import { CommonApi } from '@queries'
 import { Industry } from '@types'
 import { getDate } from '@utils'
@@ -21,6 +28,13 @@ export const SnoozeIndustryModal = ({
 
     const { notification } = useNotification()
 
+    const subadmin = useSubadminProfile()
+
+    const hasPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
+
     const validationSchema = Yup.object({
         comment: Yup.string().required('Note is required!'),
         date: Yup.string().required('Date is required!'),
@@ -38,9 +52,13 @@ export const SnoozeIndustryModal = ({
         })
 
         if (res?.data) {
-            notification.success({
-                title: 'Industry Snoozed',
-                description: 'Industry Snoozed Successfully',
+            notification[hasPermission ? 'success' : 'warning']({
+                title: `Industry Snoozed ${
+                    !hasPermission ? 'Request sent' : ''
+                }!`,
+                description: `Industry Snoozed ${
+                    !hasPermission ? 'Request sent to manager' : ''
+                } Successfully!`,
             })
             onCancel()
         }

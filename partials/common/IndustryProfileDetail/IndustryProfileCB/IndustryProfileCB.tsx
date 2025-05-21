@@ -147,7 +147,6 @@ export const IndustryProfileCB = ({
 
             <SnoozeIndustrySwitch
                 industry={industry}
-                industryId={industry?.id}
                 partnerRemovalRequests={industry?.partnerRemovalRequests?.find(
                     (r) => r?.action === IndustryRequestsActions.Snoozed
                 )}

@@ -35,8 +35,8 @@ export const IndustryPartnerRemovalRequest = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     useEffect(() => {
-        setPage(Number(router.query.page))
-        setItemPerPage(Number(router.query.pageSize))
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
     const { isLoading, isFetching, data, isError, isSuccess } =

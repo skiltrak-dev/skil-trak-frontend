@@ -138,6 +138,7 @@ export const {
     useAssignRtoCoordinatorToStudentsMutation,
     useAssignRtoCoordinatorToMultiStudentsMutation,
     useGetReportDownloadLinkQuery,
+    useGetRtoMyReportDownloadQuery,
     useGetExportStudentListQuery,
 
     // --- WORKPLACES --- //
@@ -197,6 +198,7 @@ export const RtoApi = {
         assignMultiStudentToCoordinator:
             useAssignRtoCoordinatorToMultiStudentsMutation,
         useReportDownloadLink: useGetReportDownloadLinkQuery,
+        getRtoMyReportDownload: useGetRtoMyReportDownloadQuery,
         useExportStudentList: useGetExportStudentListQuery,
         useRtoReportedStudentsList: useGetRtoReportedStudentsListQuery,
         useUpdateReportedStudentComment:
