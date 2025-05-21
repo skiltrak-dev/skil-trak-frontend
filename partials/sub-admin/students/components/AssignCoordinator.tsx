@@ -3,12 +3,14 @@ import { Select } from '@components'
 import { SubAdminApi } from '@queries'
 import { AssignCoordinatorModal } from '../modals'
 import { Course, Student, SubAdmin } from '@types'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 export const AssignCoordinator = ({ student }: { student: Student }) => {
     const departmentCoordinators =
         SubAdminApi.Student.useDepartmentCoordinators()
     const [modal, setModal] = useState<any | null>(null)
     const [changeCoordinator, setChangeCoordinator] = useState(false)
+    const [rowId, setRowId] = useState<number | null>(null)
 
     const filterSubadminsByCourses = (
         subadminsData: any,
@@ -55,27 +57,23 @@ export const AssignCoordinator = ({ student }: { student: Student }) => {
             />
         )
     }
-
+    const checkRow = student?.id === rowId
     return (
         <>
             {modal && modal}{' '}
-            <div className="min-w-48 relative z-10">
+            <div
+                className={`min-w-48 ${
+                    !checkRow ? 'relative z-10' : ' relative z-50'
+                }`}
+            >
                 {!changeCoordinator && !student.subadmin ? (
-                    <div className="">
-                        <Select
-                            name={'subAdmin'}
-                            placeholder={'Select Sub Admin'}
-                            options={subAdminOptions}
-                            loading={departmentCoordinators?.isLoading}
-                            disabled={departmentCoordinators?.isLoading}
-                            onChange={(e: any) => {
-                                onChangeCoordinator(Number(e?.value))
+                    <OutsideClickHandler onOutsideClick={() => setRowId(null)}>
+                        <div
+                            className=""
+                            onClick={() => {
+                                setRowId(student?.id)
                             }}
-                        />
-                    </div>
-                ) : changeCoordinator ? (
-                    <div className="flex items-start gap-x-2">
-                        <div className="">
+                        >
                             <Select
                                 name={'subAdmin'}
                                 placeholder={'Select Sub Admin'}
@@ -84,18 +82,55 @@ export const AssignCoordinator = ({ student }: { student: Student }) => {
                                 disabled={departmentCoordinators?.isLoading}
                                 onChange={(e: any) => {
                                     onChangeCoordinator(Number(e?.value))
+                                    setRowId(student?.id)
                                 }}
                             />
                         </div>
-                        <button
-                            onClick={() => {
+                    </OutsideClickHandler>
+                ) : changeCoordinator ? (
+                    <>
+                        <OutsideClickHandler
+                            onOutsideClick={() => {
                                 setChangeCoordinator(false)
+                                setRowId(null)
                             }}
-                            className="text-red-400 text-xs hover:text-red-600"
                         >
-                            cancel
-                        </button>
-                    </div>
+                            <div className="flex items-start gap-x-2 ">
+                                <div
+                                    onClick={() => {
+                                        setRowId(student?.id)
+                                    }}
+                                    className=""
+                                >
+                                    <Select
+                                        name={'subAdmin'}
+                                        placeholder={'Select Sub Admin'}
+                                        options={subAdminOptions}
+                                        loading={
+                                            departmentCoordinators?.isLoading
+                                        }
+                                        disabled={
+                                            departmentCoordinators?.isLoading
+                                        }
+                                        onChange={(e: any) => {
+                                            onChangeCoordinator(
+                                                Number(e?.value)
+                                            )
+                                        }}
+                                    />
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        setChangeCoordinator(false)
+                                        setRowId(null)
+                                    }}
+                                    className="text-red-400 text-xs hover:text-red-600 relative z-10"
+                                >
+                                    cancel
+                                </button>
+                            </div>
+                        </OutsideClickHandler>
+                    </>
                 ) : (
                     <div className="flex items-center gap-x-2">
                         <p className="text-xs font-medium text-gray-600">
@@ -104,8 +139,9 @@ export const AssignCoordinator = ({ student }: { student: Student }) => {
                         <button
                             onClick={() => {
                                 setChangeCoordinator(true)
+                                setRowId(student?.id)
                             }}
-                            className="text-link text-xs underline hover:text-link-dark"
+                            className={`text-link text-xs underline hover:text-link-dark `}
                         >
                             change
                         </button>
