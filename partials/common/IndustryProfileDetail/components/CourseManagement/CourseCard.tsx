@@ -22,7 +22,6 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
     const onUploadCourseFile = async (doc: File) => {
         const formData = new FormData()
         formData.append('file', doc)
-        console.log({ doc })
         const res: any = await uploadFile({ id: data?.id, body: formData })
 
         if (res?.data) {
