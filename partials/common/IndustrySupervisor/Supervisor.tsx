@@ -165,7 +165,7 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                                     }}
                                     className="border rounded-md p-1 cursor-pointer"
                                 >
-                                    <LuPlus /> .....
+                                    <LuPlus />
                                 </div>
                             </AuthorizedUserComponent>
                             <div
