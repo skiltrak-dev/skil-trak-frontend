@@ -97,11 +97,13 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                             </AuthorizedUserComponent>
                         </div>
                         {!isPreviousCourses && (
-                            <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            >
                                 <div className="flex items-center gap-x-2">
                                     <Modal>
                                         <Modal.Open opens="editCourse">
-                                            <Pencil  className="cursor-pointer bg-[#047857] text-white rounded-lg p-1" />
+                                            <Pencil className="cursor-pointer bg-[#047857] text-white rounded-lg p-1" />
                                         </Modal.Open>
                                         <Modal.Window name="editCourse">
                                             <EditCourseModal
