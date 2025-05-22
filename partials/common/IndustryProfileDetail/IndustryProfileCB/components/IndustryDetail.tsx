@@ -87,7 +87,9 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                                 : useRestrictedData(
                                       industry?.isSnoozed
                                           ? '---'
-                                          : maskText(industry?.phoneNumber),
+                                          : industry?.phoneNumber
+                                          ? maskText(industry?.phoneNumber)
+                                          : 'Number block for 24 hours',
                                       UserRoles.INDUSTRY
                                   )
                         }
@@ -121,6 +123,7 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                     >
                         <AuthorizedUserComponent
                             roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            isAssociatedWithRto={false}
                         >
                             <div
                                 className="bg-primaryNew py-1.5 px-2.5 rounded"
@@ -140,21 +143,26 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                             </div>
                         </AuthorizedUserComponent>
                     </UserProfileDetailCard>
-                    {industry?.callLog?.[0] &&
-                    industry?.callLog?.[0]?.isAnswered === null ? (
-                        <div className="px-2.5 pb-2 flex justify-between">
-                            <Typography
-                                normal
-                                variant="xs"
-                                color="text-gray-500 block"
-                            >
-                                Last Call Log
-                            </Typography>
-                            <LatestCallAnswer
-                                callLog={industry?.callLog?.[0]}
-                            />
-                        </div>
-                    ) : null}
+                    <AuthorizedUserComponent
+                        roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                        isAssociatedWithRto={false}
+                    >
+                        {industry?.callLog?.[0] &&
+                        industry?.callLog?.[0]?.isAnswered === null ? (
+                            <div className="px-2.5 pb-2 flex justify-between">
+                                <Typography
+                                    normal
+                                    variant="xs"
+                                    color="text-gray-500 block"
+                                >
+                                    Last Call Log
+                                </Typography>
+                                <LatestCallAnswer
+                                    callLog={industry?.callLog?.[0]}
+                                />
+                            </div>
+                        ) : null}
+                    </AuthorizedUserComponent>
                 </div>
                 <div>
                     <UserProfileDetailCard

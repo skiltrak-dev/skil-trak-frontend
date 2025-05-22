@@ -44,7 +44,9 @@ export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
                         detail={useRestrictedData(
                             industry?.isSnoozed
                                 ? '---'
-                                : maskText(industry?.contactPersonNumber),
+                                : industry?.contactPersonNumber
+                                ? maskText(industry?.contactPersonNumber)
+                                : 'Phone No block for 24 hrs',
                             UserRoles.INDUSTRY
                         )}
                         onClick={

@@ -151,6 +151,7 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                         <div className="flex items-center gap-x-1 ">
                             <AuthorizedUserComponent
                                 roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                                isAssociatedWithRto={false}
                             >
                                 <div
                                     onClick={() => {
@@ -164,7 +165,7 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                                     }}
                                     className="border rounded-md p-1 cursor-pointer"
                                 >
-                                    <LuPlus />
+                                    <LuPlus /> .....
                                 </div>
                             </AuthorizedUserComponent>
                             <div

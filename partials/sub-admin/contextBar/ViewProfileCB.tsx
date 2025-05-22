@@ -10,6 +10,7 @@ import { getUserCredentials } from '@utils'
 import Link from 'next/link'
 import { PulseLoader } from 'react-spinners'
 import { ProfileLinks } from '../components'
+import { TodoList } from '../todoList'
 export const ViewProfileCB = ({
     subadmin,
     statistics,
@@ -148,12 +149,19 @@ export const ViewProfileCB = ({
                 </div>
 
                 <div className="mt-5">
-                    <Typography variant="label" semibold>
-                        To do List:
-                    </Typography>
+                    <div className="flex justify-between">
+                        <Typography variant="label" semibold>
+                            Todo List:
+                        </Typography>
+                        <Link href={'/portals/sub-admin/todo-list-details'}>
+                            <Typography variant="small" color="text-link">
+                                View all
+                            </Typography>
+                        </Link>
+                    </div>
 
-                    {/*  */}
-                    <div className="flex flex-col gap-y-2 mt-2">
+                    {/* TODO: New requirements for todo   */}
+                    {/* <div className="flex flex-col gap-y-2 mt-2">
                         {sectionsData.map((secData, i) => (
                             <Link href={secData?.link || '#'} key={i}>
                                 <div className="flex items-center justify-between border border-[#6B728050] rounded-md py-3.5 px-2.5">
@@ -180,7 +188,9 @@ export const ViewProfileCB = ({
                                 </div>
                             </Link>
                         ))}
-                    </div>
+                    </div> */}
+
+                    <TodoList />
                 </div>
             </div>
         </>
