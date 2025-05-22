@@ -18,11 +18,11 @@ const IndustryDetail: NextPageWithLayout = () => {
     })
     const subadmin = useSubadminProfile()
 
-    useEffect(() => {
-        if (subadmin?.isAssociatedWithRto && subadmin) {
-            router.back()
-        }
-    }, [subadmin])
+    // useEffect(() => {
+    //     if (subadmin?.isAssociatedWithRto && subadmin) {
+    //         router.back()
+    //     }
+    // }, [subadmin])
 
     return (
         <div>
