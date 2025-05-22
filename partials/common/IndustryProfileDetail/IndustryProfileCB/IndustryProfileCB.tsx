@@ -146,20 +146,25 @@ export const IndustryProfileCB = ({
                 <IndustryWpType industryUserId={industry?.user?.id} />
             </div>
 
-            <SnoozeIndustrySwitch
-                industry={industry}
-                industryId={industry?.id}
-            />
-            <MakeIndustryPartner
-                industryId={industry?.id}
-                isPartner={industry?.isPartner}
-                PartneredBy={industry?.PartneredBy}
-            />
-            {/*  */}
-            <IndustryJobHiring
-                industryUserId={industry?.user?.id}
-                isHiringIndustry={industry?.isHiring}
-            />
+            <AuthorizedUserComponent
+                roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                isAssociatedWithRto={false}
+            >
+                <SnoozeIndustrySwitch
+                    industry={industry}
+                    industryId={industry?.id}
+                />
+                <MakeIndustryPartner
+                    industryId={industry?.id}
+                    isPartner={industry?.isPartner}
+                    PartneredBy={industry?.PartneredBy}
+                />
+                {/*  */}
+                <IndustryJobHiring
+                    industryUserId={industry?.user?.id}
+                    isHiringIndustry={industry?.isHiring}
+                />
+            </AuthorizedUserComponent>
 
             {/*  */}
             <IndustryDetail industry={industry} />
@@ -168,7 +173,12 @@ export const IndustryProfileCB = ({
             <IndustryInsuranceDoc industry={industry} />
             {/* Add Supervisor  */}
             <IndustrySupervisor industry={industry} />
-            <IndustryLocations industry={industry} />
+            <AuthorizedUserComponent
+                roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                isAssociatedWithRto={false}
+            >
+                <IndustryLocations industry={industry} />
+            </AuthorizedUserComponent>
 
             {/*  */}
             {/* <IndustrySectors courses={industry?.courses} /> */}

@@ -151,6 +151,7 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                         <div className="flex items-center gap-x-1 ">
                             <AuthorizedUserComponent
                                 roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                                isAssociatedWithRto={false}
                             >
                                 <div
                                     onClick={() => {
