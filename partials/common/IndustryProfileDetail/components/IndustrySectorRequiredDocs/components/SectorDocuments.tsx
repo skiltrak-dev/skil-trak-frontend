@@ -1,10 +1,17 @@
 import React, { ReactElement, useState } from 'react'
 import { IndustryApi } from '@queries'
-import { Button, LoadingAnimation, NoData, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    Button,
+    LoadingAnimation,
+    NoData,
+    Typography,
+} from '@components'
 import { SectorIndustryDocs } from './SectorIndustryDocs'
 import { Industry } from '@types'
 import { AddCustomSectorFolderModal } from '../modals'
 import { CustomSectorDoc } from './CustomSectorDoc'
+import { UserRoles } from '@constants'
 
 export const SectorDocuments = ({
     industry,
@@ -47,16 +54,21 @@ export const SectorDocuments = ({
                         Only selected documents will be required
                     </Typography>
                 </div>
-                <div className="flex items-start gap-x-2">
-                    <Button
-                        variant="info"
-                        onClick={() => {
-                            onViewAddCustomSectorDocs()
-                        }}
-                    >
-                        <span className="whitespace-pre">Add Custom</span>
-                    </Button>
-                </div>
+                <AuthorizedUserComponent
+                    roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                    isAssociatedWithRto={false}
+                >
+                    <div className="flex items-start gap-x-2">
+                        <Button
+                            variant="info"
+                            onClick={() => {
+                                onViewAddCustomSectorDocs()
+                            }}
+                        >
+                            <span className="whitespace-pre">Add Custom</span>
+                        </Button>
+                    </div>
+                </AuthorizedUserComponent>
             </div>
             {docs?.isError ? (
                 <NoData text="There is some technical issue!" isError />

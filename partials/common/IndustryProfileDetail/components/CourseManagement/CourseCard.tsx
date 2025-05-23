@@ -124,10 +124,73 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                             {/* <ApprovedSectorTooltip
                             courses={approval?.courses || []}
                         /> */}
-                            <div className="flex items-center gap-x-2">
-                                <Typography variant="subtitle">
-                                    {approval?.course?.sector?.name ??
-                                        approval?.sector?.name}
+
+                        <div className="flex items-center gap-x-2">
+                            <Typography variant="subtitle">
+                                {approval?.course?.sector?.name ??
+                                    approval?.sector?.name}
+                            </Typography>
+                            {!isPreviousCourses && (
+                                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-md text-sm">
+                                    Approved
+                                </span>
+                            )}
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            >
+                                {!isPreviousCourses && approval?.actionBy && (
+                                    <div className="flex gap-x-1">
+                                        <Typography
+                                            variant="xxs"
+                                            color="text-emerald-500"
+                                        >
+                                            Approved by:{' '}
+                                            {approval?.actionBy?.name}
+                                        </Typography>
+                                    </div>
+                                )}
+                            </AuthorizedUserComponent>
+                        </div>
+                        {!isPreviousCourses && (
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            >
+                                <div className="flex items-center gap-x-2">
+                                    <Modal>
+                                        <Modal.Open opens="editCourse">
+                                            <Pencil className="cursor-pointer bg-[#047857] text-white rounded-lg p-1" />
+                                        </Modal.Open>
+                                        <Modal.Window name="editCourse">
+                                            <EditCourseModal
+                                                course={approval}
+                                                courseRequestId={approval?.id}
+                                            />
+                                        </Modal.Window>
+                                    </Modal>
+                                    <Modal>
+                                        <Modal.Open opens="updateCourseDescription">
+                                            <Trash2 className="cursor-pointer bg-red-500 text-white rounded-lg p-1" />
+                                        </Modal.Open>
+                                        <Modal.Window name="updateCourseDescription">
+                                            <DeleteCourseModal
+                                                // courseId={approval?.course?.id}
+                                                course={approval}
+                                            />
+                                        </Modal.Window>
+                                    </Modal>
+                                </div>
+                            </AuthorizedUserComponent>
+                        )}
+                    </div>
+
+                    <div className="p-4 border rounded-md bg-[#95C6FB26] bg-opacity-15">
+                        <div className="flex justify-between gap-x-12 w-full items-center mb-4">
+                            <div className="flex items-center gap-x-1">
+                                <Typography
+                                    variant="small"
+                                    color="text-gray-600"
+                                >
+                                    COURSES -{' '}
                                 </Typography>
 
                                 {!isPreviousCourses && (

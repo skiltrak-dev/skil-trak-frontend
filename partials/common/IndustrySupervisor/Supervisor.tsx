@@ -103,17 +103,18 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                 {modal}
 
                 <div id="add-admin">
-                    <div className=" gap-x-2 border rounded-md p-2.5 items-center justify-between shadow-lg relative w-full">
-                        <div className="flex items-center gap-x-2 justify-between">
+                    <div className="flex gap-x-2 border rounded-md p-2.5 items-center justify-between shadow-lg relative w-full">
+                        <div className="flex items-center gap-x-2 justify-between w-full">
                             <Typography variant={'label'}>
                                 Supervisors
                             </Typography>
-                            <div className="flex items-center gap-x-1 ">
+                            <div className="flex items-center gap-x-1">
                                 <AuthorizedUserComponent
                                     roles={[
                                         UserRoles.SUBADMIN,
                                         UserRoles.ADMIN,
                                     ]}
+                                    isAssociatedWithRto={false}
                                 >
                                     <div
                                         onClick={() => {
@@ -146,10 +147,11 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                                 </div>
                             </div>
                         </div>
+
                         <div
                             className={`${
                                 showSupervisorList ? 'block' : 'hidden'
-                            }  top-11 z-40 left-0 transition-all max-h-60 overflow-auto custom-scrollbar duration-300 bg-white border rounded-md px-4 py-2 w-full`}
+                            } absolute top-11 z-40 left-0 transition-all max-h-60 overflow-auto custom-scrollbar duration-300 bg-white border rounded-md px-4 py-2 w-full`}
                         >
                             <div className="">
                                 {supervisors.isError ? (
@@ -163,56 +165,59 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                                     <PulseLoader size={6} />
                                 ) : supervisors?.data &&
                                   supervisors?.data?.data?.length ? (
-                                    //
-                                    supervisors?.data?.data?.map(
-                                        (supervisor: any) => (
-                                            <div
-                                                key={supervisor?.id}
-                                                className="p-2 flex flex-col gap-y-2 bg-[#24556D1A] bg-opacity-10 border border-[#A5A3A9] rounded-md"
-                                            >
-                                                <InfoCard
-                                                    title={'Supervisor Name'}
-                                                    data={supervisor?.name}
-                                                />
-                                                <InfoCard
-                                                    title={'Email'}
-                                                    data={supervisor?.email}
-                                                />
-                                                <InfoCard
-                                                    title={'Phone Number'}
-                                                    data={supervisor?.phone}
-                                                />
-                                                <InfoCard
-                                                    title={'Qualification'}
-                                                    data={
-                                                        supervisor?.qualification
-                                                    }
-                                                />
-                                                <div className="flex items-center gap-x-2 justify-center">
-                                                    <div
-                                                        onClick={() => {
-                                                            onDeleteClicked(
-                                                                supervisor
-                                                            )
-                                                        }}
-                                                        className="bg-primaryNew p-2 rounded-md cursor-pointer"
-                                                    >
-                                                        <RiDeleteBin6Line className="text-white" />
-                                                    </div>
-                                                    <div
-                                                        onClick={() => {
-                                                            onEditSupervisor(
-                                                                supervisor
-                                                            )
-                                                        }}
-                                                        className="bg-primaryNew p-2 rounded-md cursor-pointer"
-                                                    >
-                                                        <CiEdit className="text-white" />
+                                    <div className="space-y-2">
+                                        {supervisors?.data?.data?.map(
+                                            (supervisor: any) => (
+                                                <div
+                                                    key={supervisor?.id}
+                                                    className="p-2 flex flex-col gap-y-2 bg-[#24556D1A] bg-opacity-10 border border-[#A5A3A9] rounded-md"
+                                                >
+                                                    <InfoCard
+                                                        title={
+                                                            'Supervisor Name'
+                                                        }
+                                                        data={supervisor?.name}
+                                                    />
+                                                    <InfoCard
+                                                        title={'Email'}
+                                                        data={supervisor?.email}
+                                                    />
+                                                    <InfoCard
+                                                        title={'Phone Number'}
+                                                        data={supervisor?.phone}
+                                                    />
+                                                    <InfoCard
+                                                        title={'Qualification'}
+                                                        data={
+                                                            supervisor?.qualification
+                                                        }
+                                                    />
+                                                    <div className="flex items-center gap-x-2 justify-center">
+                                                        <div
+                                                            onClick={() => {
+                                                                onDeleteClicked(
+                                                                    supervisor
+                                                                )
+                                                            }}
+                                                            className="bg-primaryNew p-2 rounded-md cursor-pointer"
+                                                        >
+                                                            <RiDeleteBin6Line className="text-white" />
+                                                        </div>
+                                                        <div
+                                                            onClick={() => {
+                                                                onEditSupervisor(
+                                                                    supervisor
+                                                                )
+                                                            }}
+                                                            className="bg-primaryNew p-2 rounded-md cursor-pointer"
+                                                        >
+                                                            <CiEdit className="text-white" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    )
+                                            )
+                                        )}
+                                    </div>
                                 ) : (
                                     <div className="text-center p-3 text-[10px] whitespace-nowrap text-gray-400 border-2 border-dashed border-gray-200 rounded-md">
                                         No supervisors found

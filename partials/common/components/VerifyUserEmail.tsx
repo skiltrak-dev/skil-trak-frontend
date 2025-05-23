@@ -27,7 +27,10 @@ export const VerifyUserEmail = ({
                     {isEmailVerified ? 'Email Verified' : 'Email Not Verified'}{' '}
                 </Tooltip>
             </div>
-            <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+            <AuthorizedUserComponent
+                roles={[UserRoles.SUBADMIN]}
+                isAssociatedWithRto={false}
+            >
                 {!isEmailVerified && (
                     <div className="">
                         <Modal>

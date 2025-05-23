@@ -148,11 +148,18 @@ export const ViewProfileCB = ({
                 </div>
 
                 <div className="mt-5">
-                    <Typography variant="label" semibold>
-                        To do List:
-                    </Typography>
+                    <div className="flex justify-between">
+                        <Typography variant="label" semibold>
+                            Todo List:
+                        </Typography>
+                        {/* <Link href={'/portals/sub-admin/todo-list-details'}>
+                            <Typography variant="small" color="text-link">
+                                View all
+                            </Typography>
+                        </Link> */}
+                    </div>
 
-                    {/*  */}
+                    {/* TODO: New requirements for todo   */}
                     <div className="flex flex-col gap-y-2 mt-2">
                         {sectionsData.map((secData, i) => (
                             <Link href={secData?.link || '#'} key={i}>
@@ -181,6 +188,8 @@ export const ViewProfileCB = ({
                             </Link>
                         ))}
                     </div>
+
+                    {/* <TodoList /> */}
                 </div>
             </div>
         </>

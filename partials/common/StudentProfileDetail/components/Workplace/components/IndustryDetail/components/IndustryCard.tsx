@@ -80,6 +80,8 @@ export const IndustryCard = ({
                                 ? `/portals/admin/industry/${industry?.industry?.id}?tab=sectors`
                                 : role === UserRoles.SUBADMIN
                                 ? `/portals/sub-admin/users/industries/${industry?.industry?.id}?tab=overview`
+                                : role === UserRoles.RTO
+                                ? `/portals/rto/industries/workplaces/${industry?.industry?.id}`
                                 : '#'
                         }
                         className="flex items-center gap-x-2 cursor-pointer"

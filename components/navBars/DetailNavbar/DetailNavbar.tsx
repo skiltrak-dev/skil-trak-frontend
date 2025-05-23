@@ -238,7 +238,7 @@ export const DetailNavbar = () => {
                         </div>
                     </OutsideClickHandler>
                 </AuthorizedUserComponent>
-                <AuthorizedUserComponent roles={[UserRoles.RTO]}>
+                {/* <AuthorizedUserComponent roles={[UserRoles.RTO]}>
                     <OutsideClickHandler
                         onOutsideClick={() => {
                             setPlacementNotificationsExpanded(false)
@@ -257,17 +257,6 @@ export const DetailNavbar = () => {
                                 text={'Placement'}
                             />
 
-                            {/* <NotificationDropDown
-                                expanded={notificationsExpanded}
-                                data={data?.data}
-                                isReadNotification={isReadNotification}
-                                resultIsReadNotification={
-                                    resultIsReadNotification
-                                }
-                                setNotificationsExpanded={(value: boolean) => {
-                                    setNotificationsExpanded(value)
-                                }}
-                            /> */}
                             <PlacementNotificationDropDown
                                 expanded={placementNotificationsExpanded}
                                 data={placementNotifications?.data}
@@ -281,7 +270,7 @@ export const DetailNavbar = () => {
                             />
                         </div>
                     </OutsideClickHandler>
-                </AuthorizedUserComponent>
+                </AuthorizedUserComponent> */}
 
                 <OutsideClickHandler
                     onOutsideClick={() => {
