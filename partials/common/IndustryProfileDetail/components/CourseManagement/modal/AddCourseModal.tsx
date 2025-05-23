@@ -110,9 +110,9 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
         const res: any = await addCourse(formData)
 
         if (res?.data) {
-            notification.success({
-                title: 'Course Added',
-                description: 'Course added successfully',
+            notification.warning({
+                title: 'Course Request Added',
+                description: 'Course request sent to hod for approval.',
             })
 
             onCloseModal()
@@ -159,6 +159,8 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
                                     onlyValue
                                     onChange={(e: any) => setSelectedSector(e)}
                                     required
+                                    loading={subadminCourses?.isLoading}
+                                    disabled={subadminCourses?.isLoading}
                                 />
                             </div>
                             <div className="w-1/2">

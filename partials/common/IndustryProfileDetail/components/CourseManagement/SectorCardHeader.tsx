@@ -13,7 +13,6 @@ export const SectorCardHeader = () => {
         skip: !id,
         // refetchOnMountOrArgChange: true,
     })
-    const userRole = getUserCredentials().role
 
     return (
         <>

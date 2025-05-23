@@ -37,6 +37,14 @@ export const invoiceEndpoints = (
         invalidatesTags: ['Invoice', 'RTOS'],
     }),
 
+    markDuplicateToggle: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/${id}/duplicate/toggle`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Invoice', 'RTOS'],
+    }),
+
     invoiceRtosList: builder.query<any, PaginationWithSearch>({
         query: (params) => ({
             url: `${PREFIX}/rtos/allowed-invoicing/list`,

@@ -19,6 +19,7 @@ import {
     ChangeStatusModal,
     ConfirmAllPaymentModal,
     ConfirmPaymentModal,
+    ToggleDuplicateModal,
 } from '../modals'
 import { paymentStatusData } from './InvoiceStatusData'
 import { FaEye } from 'react-icons/fa'
@@ -68,6 +69,12 @@ export const InvoiceDataListing = ({
 
     const onStatusChangeClicked = (id: any) => {
         setModal(<ChangeStatusModal onCancel={onCancelModal} id={id} />)
+    }
+
+    const onToggleDuplicate = (invoice: any) => {
+        setModal(
+            <ToggleDuplicateModal onCancel={onCancelModal} invoice={invoice} />
+        )
     }
 
     const tableActionOptions: TableActionOption<any>[] = [
@@ -192,6 +199,22 @@ export const InvoiceDataListing = ({
                             />
                         </div>
                     )}
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'isDuplicated',
+            header: 'Duplicated',
+            cell: (info) => (
+                <div className="flex flex-col gap-y-2.5">
+                    <ActionButton
+                        variant="info"
+                        onClick={() => onToggleDuplicate(info?.row?.original)}
+                    >
+                        {info?.row?.original?.isDuplicated
+                            ? 'Remove Duplicated'
+                            : 'Mark as Duplicate'}
+                    </ActionButton>
                 </div>
             ),
         },

@@ -435,6 +435,7 @@ const {
     useAddInvoiceCategoryMutation,
     useChangePaymentStatusMutation,
     useInvoiceRtoDataDownloadQuery,
+    useMarkDuplicateToggleMutation,
     useAddRtoInvoiceSettingMutation,
 } = adminApi
 
@@ -775,6 +776,7 @@ export const AdminApi = {
         confirmAllPayment: useConfirmAllPaymentMutation,
         addInvoiceCategory: useAddInvoiceCategoryMutation,
         invoiceCategorisList: useInvoiceCategorisListQuery,
+        markDuplicateToggle: useMarkDuplicateToggleMutation,
         changePaymentStatus: useChangePaymentStatusMutation,
         addRtoInvoiceSetting: useAddRtoInvoiceSettingMutation,
         invoiceRtoDataDownload: useInvoiceRtoDataDownloadQuery,

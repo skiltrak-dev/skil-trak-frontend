@@ -45,7 +45,7 @@ export const RejectWpApprovalRequest = ({
                 inputKey={wpAppReq?.industry?.user?.name}
                 onConfirm={onConfirmUClicked}
                 loading={changeStatusResult.isLoading}
-                description={`You are about to reject "${wpAppReq?.industry?.user?.name}". Do you wish to continue?`}
+                description={`if you block this industry ${wpAppReq?.industry?.user?.name}, remember none of your student will be assigned to this industry in future against this particular sector. Do you wish to continue?`}
             />
         </>
     )

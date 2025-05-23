@@ -1,5 +1,6 @@
 import {
     Badge,
+    Button,
     Card,
     EmptyData,
     InitialAvatar,
@@ -66,23 +67,24 @@ export const RtoWpApproval = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption<RtoApprovalWorkplaceRequest>[] =
-        [
-            {
-                text: 'Approve',
-                onClick: (appReq) => {
-                    onApprove(appReq)
-                },
-                Icon: FaEye,
+    const tableActionOptions: TableActionOption<RtoApprovalWorkplaceRequest> &
+        { variant: string }[] = [
+        {
+            text: 'Approve',
+            onClick: (appReq) => {
+                onApprove(appReq)
             },
-            {
-                text: 'Reject',
-                onClick: (appReq) => {
-                    onReject(appReq)
-                },
-                Icon: FaEdit,
+            Icon: FaEye,
+            variant: '',
+        },
+        {
+            text: 'Reject',
+            onClick: (appReq) => {
+                onReject(appReq)
             },
-        ]
+            Icon: FaEdit,
+        },
+    ]
 
     const columns: ColumnDef<RtoApprovalWorkplaceRequest>[] = [
         {
@@ -164,9 +166,20 @@ export const RtoWpApproval = () => {
             header: () => <span>Action</span>,
             cell: (info: any) => (
                 <div className="flex gap-x-1 items-center">
-                    <TableAction
-                        options={tableActionOptions}
-                        rowItem={info.row.original}
+                    <Button
+                        text="Approve"
+                        onClick={() => {
+                            onApprove(info.row.original)
+                        }}
+                        variant="success"
+                    />
+
+                    <Button
+                        text="Reject"
+                        onClick={() => {
+                            onReject(info.row.original)
+                        }}
+                        variant="error"
                     />
                 </div>
             ),
