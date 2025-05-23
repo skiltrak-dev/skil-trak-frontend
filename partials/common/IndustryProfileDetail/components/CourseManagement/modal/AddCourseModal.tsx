@@ -101,7 +101,6 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
             industry: router.query.id,
             reference: reference?.join(','),
         }
-        console.log({ data })
 
         Object.entries(data)?.forEach(([key, values]: any) => {
             formData.append(key, values)

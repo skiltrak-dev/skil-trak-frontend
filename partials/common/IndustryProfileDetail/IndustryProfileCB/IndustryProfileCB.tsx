@@ -145,19 +145,23 @@ export const IndustryProfileCB = ({
                 <IndustryWpType industryUserId={industry?.user?.id} />
             </div>
 
-
             <AuthorizedUserComponent
                 roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
                 isAssociatedWithRto={false}
             >
                 <SnoozeIndustrySwitch
                     industry={industry}
-                    industryId={industry?.id}
+                    partnerRemovalRequests={industry?.partnerRemovalRequests?.find(
+                        (r) => r?.action === IndustryRequestsActions.Snoozed
+                    )}
                 />
                 <MakeIndustryPartner
                     industryId={industry?.id}
                     isPartner={industry?.isPartner}
                     PartneredBy={industry?.PartneredBy}
+                    partnerRemovalRequests={industry?.partnerRemovalRequests?.find(
+                        (r) => r?.action === IndustryRequestsActions.Partner
+                    )}
                 />
                 {/*  */}
                 <IndustryJobHiring
