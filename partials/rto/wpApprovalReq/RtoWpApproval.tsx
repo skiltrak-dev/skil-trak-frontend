@@ -67,25 +67,6 @@ export const RtoWpApproval = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption<RtoApprovalWorkplaceRequest> &
-        { variant: string }[] = [
-        {
-            text: 'Approve',
-            onClick: (appReq) => {
-                onApprove(appReq)
-            },
-            Icon: FaEye,
-            variant: '',
-        },
-        {
-            text: 'Reject',
-            onClick: (appReq) => {
-                onReject(appReq)
-            },
-            Icon: FaEdit,
-        },
-    ]
-
     const columns: ColumnDef<RtoApprovalWorkplaceRequest>[] = [
         {
             accessorKey: 'user.name',
