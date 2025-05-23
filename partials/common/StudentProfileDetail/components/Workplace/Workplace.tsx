@@ -36,7 +36,6 @@ import {
 import { IndustryDetail } from './components/IndustryDetail'
 import { WPStatusForCancelButon } from './data'
 import { useWorkplaceHook } from './hooks'
-import { TbSettingsAutomation } from 'react-icons/tb'
 
 export const Workplace = ({
     student,
@@ -66,6 +65,7 @@ export const Workplace = ({
         ignoreCompletedWP,
         sortedWorkplace,
         latestWorkplaceApprovaleRequest,
+        latestWorkplaceApprovaleRequestRto,
         onCancelWPClicked,
         onCancelWPRequestClicked,
         onUpdateWorkplaceCourseClicked,
@@ -374,6 +374,13 @@ export const Workplace = ({
                                                             latestWorkplaceApprovaleRequest?.comment
                                                         )
                                                     }}
+                                                />
+                                            ) : null}
+                                            {latestWorkplaceApprovaleRequestRto?.rtoApprovalStatus ===
+                                            'rejected' ? (
+                                                <WpApprovalReqRejected
+                                                    onClick={() => {}}
+                                                    userName="Rto"
                                                 />
                                             ) : null}
                                             {selectedWorkplace

@@ -201,6 +201,16 @@ export const useRequestType = ({
             date: appliedIndustry?.awaitingStudentResponseDate,
         },
         {
+            primaryText: 'Waiting For Rto',
+            secondaryText: 'with Case Officer',
+            color: 'text-primary-light',
+            onClick: (isCleared: (bool: boolean) => void) => {
+                isCleared(true)
+            },
+            status: WorkplaceCurrentStatus.AwaitingRtoResponse,
+            date: appliedIndustry?.interviewDate || workplace?.interviewDate,
+        },
+        {
             primaryText: 'Waiting For Industry',
             secondaryText: 'for Workplace Response',
             color: 'text-info-light',

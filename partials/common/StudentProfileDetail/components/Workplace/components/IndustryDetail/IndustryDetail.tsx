@@ -1,5 +1,6 @@
 import {
     AuthorizedUserComponent,
+    Card,
     NoData,
     Tooltip,
     Typography,
@@ -16,7 +17,7 @@ import {
 import { AvailabelMeetingDate } from '@partials/student/workplace/components/WorkplaceApproval/AvailabelMeetingDate'
 import { AddIndustryCB } from '@partials/sub-admin/workplace/contextBar'
 import { Course, Student } from '@types'
-import { getUserCredentials } from '@utils'
+import { getUserCredentials, WorkplaceCurrentStatus } from '@utils'
 import Image from 'next/image'
 import { ReactElement, useState } from 'react'
 import { IoIosWarning, IoMdDocument } from 'react-icons/io'
@@ -178,29 +179,33 @@ export const IndustryDetail = ({
                         {appliedIndustry?.AgreementSigned && (
                             <AgreementView workplace={workplace} />
                         )}
-                        <Typography variant={'small'} color={'text-info'}>
-                            <span
-                                className="font-semibold cursor-pointer whitespace-pre"
-                                onClick={() => {
-                                    if (
-                                        role === UserRoles.ADMIN ||
-                                        !appliedIndustry ||
-                                        subadmin?.departmentMember?.isHod ||
-                                        subadmin?.isManager
-                                    ) {
-                                        onViewContactedIndustries()
-                                    } else {
-                                        notification.warning({
-                                            title: 'Already Applied',
-                                            description:
-                                                'Student have already applied to industry',
-                                        })
-                                    }
-                                }}
-                            >
-                                View Contacted Industry
-                            </span>
-                        </Typography>
+                        <AuthorizedUserComponent
+                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                        >
+                            <Typography variant={'small'} color={'text-info'}>
+                                <span
+                                    className="font-semibold cursor-pointer whitespace-pre"
+                                    onClick={() => {
+                                        if (
+                                            role === UserRoles.ADMIN ||
+                                            !appliedIndustry ||
+                                            subadmin?.departmentMember?.isHod ||
+                                            subadmin?.isManager
+                                        ) {
+                                            onViewContactedIndustries()
+                                        } else {
+                                            notification.warning({
+                                                title: 'Already Applied',
+                                                description:
+                                                    'Student have already applied to industry',
+                                            })
+                                        }
+                                    }}
+                                >
+                                    View Contacted Industry
+                                </span>
+                            </Typography>
+                        </AuthorizedUserComponent>
                         {!appliedIndustry &&
                         !workplace?.byExistingAbn &&
                         !workplace?.studentProvidedWorkplace &&
@@ -293,7 +298,21 @@ export const IndustryDetail = ({
                         //     VIEW ON MAP
                         // </button>
                         <div className="relative w-full h-full">
-                            {!showMap ? (
+                            {workplace?.currentStatus ===
+                            WorkplaceCurrentStatus.AwaitingRtoResponse ? (
+                                <Card noPadding fullHeight>
+                                    <div className="flex justify-center items-center bg-yellow-100 p-5">
+                                        <Typography
+                                            variant="label"
+                                            bold
+                                            uppercase
+                                        >
+                                            Waiting For Rto to Approve the
+                                            Industry
+                                        </Typography>
+                                    </div>
+                                </Card>
+                            ) : (
                                 <div className="px-4 absolute top-0 left-0 w-full h-full bg-[#00000095] flex flex-col gap-y-1.5 justify-center">
                                     <AuthorizedUserComponent
                                         excludeRoles={[
@@ -347,7 +366,7 @@ export const IndustryDetail = ({
                                         </p>
                                     </AuthorizedUserComponent>
                                 </div>
-                            ) : null}
+                            )}
                         </div>
                     ) : (
                         <div className="p-2.5">

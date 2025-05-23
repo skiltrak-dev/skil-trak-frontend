@@ -1,17 +1,20 @@
 import {
-    ActionButton,
-    Button,
     Modal,
     ShowErrorNotifications,
+    TextArea,
     TextInput,
+    useAuthorizedUserComponent,
 } from '@components'
-import { useNotification } from '@hooks'
+import { UserRoles } from '@constants'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useNotification, useSubadminProfile } from '@hooks'
 import { CommonApi } from '@queries'
 import { Industry } from '@types'
 import { getDate } from '@utils'
-import React, { useEffect, useState } from 'react'
-import { AiFillCheckCircle } from 'react-icons/ai'
+import { useEffect } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import { MdSnooze } from 'react-icons/md'
+import * as Yup from 'yup'
 
 export const SnoozeIndustryModal = ({
     onCancel,
@@ -20,32 +23,44 @@ export const SnoozeIndustryModal = ({
     industry: Industry
     onCancel: () => void
 }) => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [snoozeIndustry, snoozeIndustryResult] =
         CommonApi.Industries.useSnoozeIndustry()
 
     const { notification } = useNotification()
 
-    useEffect(() => {
-        if (snoozeIndustryResult.isSuccess) {
-            notification.success({
-                title: 'Industry Snoozed',
-                description: 'Industry Snoozed Successfully',
+    const subadmin = useSubadminProfile()
+
+    const hasPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
+
+    const validationSchema = Yup.object({
+        comment: Yup.string().required('Note is required!'),
+        date: Yup.string().required('Date is required!'),
+    })
+
+    const methods = useForm({
+        mode: 'all',
+        resolver: yupResolver(validationSchema),
+    })
+
+    const onSubmit = async (values: any) => {
+        const res: any = await snoozeIndustry({
+            id: industry?.id,
+            ...values,
+        })
+
+        if (res?.data) {
+            notification[hasPermission ? 'success' : 'warning']({
+                title: `Industry Snoozed ${
+                    !hasPermission ? 'Request sent' : ''
+                }!`,
+                description: `Industry Snoozed ${
+                    !hasPermission ? 'Request sent to manager' : ''
+                } Successfully!`,
             })
             onCancel()
-        }
-    }, [snoozeIndustryResult])
-
-    const onChange = (date: Date) => {
-        setSelectedDate(date)
-    }
-
-    const onSubmit = () => {
-        if (selectedDate) {
-            snoozeIndustry({
-                id: industry?.id,
-                date: selectedDate,
-            })
         }
     }
     return (
@@ -53,38 +68,48 @@ export const SnoozeIndustryModal = ({
             <ShowErrorNotifications result={snoozeIndustryResult} />
             <Modal
                 titleIcon={MdSnooze}
-                showActions={false}
-                onConfirmClick={() => {}}
                 title="Snooze Industry"
-                subtitle="Snooze Industry"
                 onCancelClick={onCancel}
+                subtitle="Snooze Industry"
+                loading={snoozeIndustryResult?.isLoading}
+                onConfirmClick={methods.handleSubmit(onSubmit)}
             >
-                <div className="flex w-full items-center gap-x-2">
-                    <div className="w-full">
-                        <TextInput
-                            label={'Enter Snoozing Date'}
-                            name={'endDate'}
-                            placeholder="Enter Snoozing End Date"
-                            type={'date'}
-                            onChange={(e: any) => {
-                                onChange(e.target?.value)
-                            }}
-                            min={getDate()}
-                        />
-                    </div>
-                    <Button
-                        // Icon={AiFillCheckCircle}
-                        text={'Snooze'}
-                        onClick={() => {
-                            onSubmit()
-                        }}
-                        variant="info"
-                        loading={snoozeIndustryResult.isLoading}
-                        disabled={
-                            snoozeIndustryResult.isLoading || !selectedDate
-                        }
-                    />
-                </div>
+                <FormProvider {...methods}>
+                    <form className="mt-2 w-full">
+                        <div className="flex w-full items-center gap-x-2">
+                            <div className="w-full">
+                                <TextInput
+                                    label={'Enter Snoozing Date'}
+                                    name={'date'}
+                                    placeholder="Enter Snoozing End Date"
+                                    type={'date'}
+                                    min={getDate()}
+                                />
+                                <TextArea
+                                    label={'Note'}
+                                    name={'comment'}
+                                    placeholder={'Enter Note Here...'}
+                                    validationIcons
+                                    required
+                                    rows={6}
+                                />
+                                {/* <Button
+                                    // Icon={AiFillCheckCircle}
+                                    text={'Snooze'}
+                                    onClick={() => {
+                                        onSubmit()
+                                    }}
+                                    variant="info"
+                                    loading={snoozeIndustryResult.isLoading}
+                                    disabled={
+                                        snoozeIndustryResult.isLoading ||
+                                        !selectedDate
+                                    }
+                                /> */}
+                            </div>
+                        </div>
+                    </form>
+                </FormProvider>
             </Modal>
         </>
     )

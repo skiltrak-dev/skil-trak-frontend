@@ -1,6 +1,6 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
-import { useAlert, useNotification } from '@hooks'
-import { Student, SubAdmin } from '@types'
+import { useNotification } from '@hooks'
+import { Student } from '@types'
 import { useEffect } from 'react'
 import { HiCheckBadge } from 'react-icons/hi2'
 
@@ -14,14 +14,13 @@ export const AddToNonContactableStudents = ({
     student: Student
     onCancel: () => void
 }) => {
-    const { alert } = useAlert()
     const { notification } = useNotification()
 
     const [notContactable, notContactableResult] =
         SubAdminApi.Student.useNotContactable()
 
     const onConfirmClicked = async (student: Student) => {
-        await notContactable(student?.id)
+        await notContactable({ id: student?.id })
     }
 
     useEffect(() => {

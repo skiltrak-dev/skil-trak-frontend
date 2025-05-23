@@ -1,18 +1,17 @@
-import * as Yup from 'yup'
-import { SubAdminApi } from '@queries'
-import { useNotification } from '@hooks'
-import { MdSnooze } from 'react-icons/md'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FormProvider, useForm } from 'react-hook-form'
 import {
     Modal,
-    RadioButton,
     RadioGroup,
     ShowErrorNotifications,
     TextArea,
-    TextInput,
     Typography,
+    useAuthorizedUserComponent,
 } from '@components'
+import { UserRoles } from '@constants'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useNotification, useSubadminProfile } from '@hooks'
+import { SubAdminApi } from '@queries'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as Yup from 'yup'
 
 export const FlagStudentModal = ({
     onCancel,
@@ -25,6 +24,13 @@ export const FlagStudentModal = ({
         SubAdminApi.Student.useProblamaticStudent()
 
     const { notification } = useNotification()
+
+    const subadmin = useSubadminProfile()
+
+    const hasPermission = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN],
+        isHod: subadmin?.departmentMember?.isHod,
+    })
 
     const validationSchema = Yup.object({
         comment: Yup.string().required('Please provide the note'),
@@ -46,9 +52,13 @@ export const FlagStudentModal = ({
         }
         problamaticStudent({ studentId, body }).then((res: any) => {
             if (res?.data) {
-                notification.success({
-                    title: 'Mark As Flaged',
-                    description: `Marked As Flaged`,
+                notification?.[hasPermission ? 'success' : 'warning']({
+                    title: `Mark As Flaged ${
+                        !hasPermission ? 'request sent' : ''
+                    }`,
+                    description: `Marked As Flaged ${
+                        !hasPermission ? 'request sent to manager' : ''
+                    } successfully!`,
                 })
                 onCancel()
             }

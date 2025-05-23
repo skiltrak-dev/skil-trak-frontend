@@ -1,22 +1,12 @@
 import { ReactElement, useEffect } from 'react'
 
-import { RtoLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
 import { Animations } from '@animations'
-import {
-    AssessmentResultCard,
-    Button,
-    DisplayPrimaryActions,
-    HelpQuestionSet,
-    PendingSignatureCard,
-    PlacementProgressCard,
-    QuestionCard,
-    RtoContextBarData,
-    SidebarCalendar,
-} from '@components'
-import { useContextBar } from '@hooks'
-import { CommonCB } from '@partials/rto/contextBar'
+import { DisplayPrimaryActions } from '@components'
 import { FigureCard } from '@components/sections/subAdmin'
+import { useContextBar } from '@hooks'
+import { RtoLayout } from '@layouts'
+import { CommonCB } from '@partials/rto/contextBar'
+import { NextPageWithLayout } from '@types'
 
 // queries
 import { RtoApi } from '@queries'
@@ -29,17 +19,17 @@ const PrimaryLinks = [
         animation: Animations.Student.Workplace.MyWorkplace,
     },
     {
+        title: 'Black Listed Industries',
+        description: 'Your Black Listed Industries',
+        link: 'industries/black-listes-industries',
+        animation: Animations.Industry.Consultation.Consultation,
+    },
+    {
         title: 'MoUs',
         description: 'Sign MoUs With Industries',
         link: 'industries/mous',
         animation: Animations.Student.Appointments.Esign,
     },
-    // {
-    //     title: 'Consultations',
-    //     description: 'Your Consultations With Industries',
-    //     link: 'industries/consultations',
-    //     animation: Animations.Industry.Consultation.Consultation,
-    // },
 ]
 
 const RtoIndustries: NextPageWithLayout = () => {

@@ -79,11 +79,11 @@ export const SubadminStudents = () => {
     const [studentName, setStudentName] = useState<any | null>(null)
     const [studentNameValue, setStudentNameValue] = useState<string>('')
 
-    const [snoozed, setSnoozed] = useState<boolean>(false)
-    const [nonContactable, setNonContactable] = useState<boolean>(false)
-    const [flagged, setFlagged] = useState<boolean>(false)
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
+    const [snoozed, setSnoozed] = useState<boolean>(false)
+    const [flagged, setFlagged] = useState<boolean>(false)
+    const [nonContactable, setNonContactable] = useState<boolean>(false)
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -145,7 +145,11 @@ export const SubadminStudents = () => {
         }
     }, [])
 
-    const tabs: TabProps[] = [
+    interface SubadminTabProps extends TabProps {
+        isAssociatedWithRto?: boolean
+    }
+
+    const tabs: SubadminTabProps[] = [
         {
             label: 'Pending',
             href: { pathname: 'students', query: { tab: UserStatus.Pending } },
@@ -154,6 +158,7 @@ export const SubadminStudents = () => {
                 loading: count.isLoading,
             },
             element: <PendingStudents />,
+            isAssociatedWithRto: true,
         },
         // isHod
         ...(isHod ||
@@ -168,6 +173,7 @@ export const SubadminStudents = () => {
                           loading: count.isLoading,
                       },
                       element: <AllStudents />,
+                      isAssociatedWithRto: true,
                   },
               ]
             : []),
@@ -196,6 +202,7 @@ export const SubadminStudents = () => {
             },
             href: { pathname: 'students', query: { tab: 'my-students' } },
             element: <MyStudents />,
+            isAssociatedWithRto: true,
         },
         {
             label: 'Weekly Student Calls List',
@@ -220,6 +227,7 @@ export const SubadminStudents = () => {
                 query: { tab: 'non-contactable-students' },
             },
             element: <NonContactableStudents />,
+            isAssociatedWithRto: true,
         },
         {
             label: 'Placement Started Students',
@@ -295,6 +303,7 @@ export const SubadminStudents = () => {
                 loading: count.isLoading,
             },
             element: <RejectedStudents />,
+            isAssociatedWithRto: true,
         },
         {
             label: 'Blocked',
@@ -304,6 +313,7 @@ export const SubadminStudents = () => {
                 loading: count.isLoading,
             },
             element: <BlockedStudents />,
+            isAssociatedWithRto: true,
         },
         {
             label: 'Archived',
@@ -313,6 +323,7 @@ export const SubadminStudents = () => {
                 loading: count.isLoading,
             },
             element: <ArchivedStudents />,
+            isAssociatedWithRto: true,
         },
         {
             label: 'Completed Students',
@@ -325,8 +336,13 @@ export const SubadminStudents = () => {
                 loading: count.isLoading,
             },
             element: <CompletedStudents />,
+            isAssociatedWithRto: true,
         },
     ]
+
+    const isAssociatedStudentTabs = tabs?.filter(
+        (tab) => tab?.isAssociatedWithRto
+    )
 
     const delayedNameSearch = useCallback(
         debounce((value) => {
@@ -443,7 +459,9 @@ export const SubadminStudents = () => {
             ) : null}
 
             {!filteredDataLength && (
-                <TabNavigation tabs={tabs}>
+                <TabNavigation
+                    tabs={isAssociatedWithRto ? isAssociatedStudentTabs : tabs}
+                >
                     {({ header, element }: any) => {
                         return (
                             <div>
