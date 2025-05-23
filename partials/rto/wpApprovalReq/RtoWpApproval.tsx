@@ -1,4 +1,5 @@
 import {
+    ActionButton,
     Badge,
     Button,
     Card,
@@ -6,24 +7,24 @@ import {
     InitialAvatar,
     LoadingAnimation,
     Table,
-    TableAction,
-    TableActionOption,
     TechnicalError,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { RtoApi } from '@queries'
+import { RtoApprovalWorkplaceRequest } from '@types'
 import moment from 'moment'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { RtoApprovalWorkplaceRequest, Student } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { StudentCellInfo } from '../student/components'
-import { ApproveWpApprovalRequest, RejectWpApprovalRequest } from './modal'
+import {
+    ApproveWpApprovalRequest,
+    RejectWpApprovalRequest,
+    WPApprovalCourseRequirementModal,
+} from './modal'
 
 export const RtoWpApproval = () => {
     const router = useRouter()
@@ -67,6 +68,15 @@ export const RtoWpApproval = () => {
         )
     }
 
+    const onViewCourseRequirement = (wpAppReq: RtoApprovalWorkplaceRequest) => {
+        setModal(
+            <WPApprovalCourseRequirementModal
+                wpAppReq={wpAppReq}
+                onCancel={onCancelModal}
+            />
+        )
+    }
+
     const columns: ColumnDef<RtoApprovalWorkplaceRequest>[] = [
         {
             accessorKey: 'user.name',
@@ -79,40 +89,49 @@ export const RtoWpApproval = () => {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
             cell: (info) => (
-                <Link
-                    legacyBehavior
-                    href={`/portals/rto/industries/workplaces/${info?.row?.original?.industry?.id}`}
-                >
-                    <a className="flex items-center gap-x-2">
-                        <div className="shadow-inner-image rounded-full relative">
-                            <InitialAvatar
-                                name={info?.row?.original?.industry?.user?.name}
-                                imageUrl={
-                                    info?.row?.original?.industry?.user?.avatar
-                                }
-                            />
-                        </div>
-                        <div>
-                            <p className="font-semibold">
-                                {info?.row?.original?.industry?.user?.name}
+                <div className="flex items-center gap-x-2">
+                    <div className="shadow-inner-image rounded-full relative">
+                        <InitialAvatar
+                            name={info?.row?.original?.industry?.user?.name}
+                            imageUrl={
+                                info?.row?.original?.industry?.user?.avatar
+                            }
+                        />
+                    </div>
+                    <div>
+                        <p className="font-semibold">
+                            {info?.row?.original?.industry?.user?.name}
+                        </p>
+                        <div className="font-medium text-xs text-gray-500">
+                            <p className="flex items-center gap-x-1">
+                                <span>
+                                    <MdEmail />
+                                </span>
+                                {info?.row?.original?.industry?.user?.email}
                             </p>
-                            <div className="font-medium text-xs text-gray-500">
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdEmail />
-                                    </span>
-                                    {info?.row?.original?.industry?.user?.email}
-                                </p>
-                                <p className="flex items-center gap-x-1">
-                                    <span>
-                                        <MdPhoneIphone />
-                                    </span>
-                                    {info?.row?.original?.industry?.phoneNumber}
-                                </p>
-                            </div>
+                            <p className="flex items-center gap-x-1">
+                                <span>
+                                    <MdPhoneIphone />
+                                </span>
+                                {info?.row?.original?.industry?.phoneNumber}
+                            </p>
                         </div>
-                    </a>
-                </Link>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'a',
+            header: () => <span>Requirement</span>,
+            cell: (info) => (
+                <ActionButton
+                    onClick={() => {
+                        onViewCourseRequirement(info?.row?.original)
+                    }}
+                    variant="info"
+                >
+                    View Course
+                </ActionButton>
             ),
         },
         {

@@ -277,6 +277,21 @@ export interface PartnerRemovalRequests extends BaseResponse {
     action: string
 }
 
+export interface IndustryCourseApprovals extends BaseResponse {
+    id: number
+
+    status: string
+    description: string
+    note: null
+    file: null
+    reference: string[]
+    isPreviousCourse: boolean
+    isCoordinatorAdded: boolean
+    addedBy: User
+    actionBy: User
+    course: Course
+}
+
 export interface Industry extends BaseResponse {
     id: number
     abn: string
@@ -314,6 +329,7 @@ export interface Industry extends BaseResponse {
     enrolledStudents: number
     favoriteBy: SubAdmin
     partnerRemovalRequests: PartnerRemovalRequests[]
+    industryCourseApprovals: IndustryCourseApprovals[]
 }
 
 export interface PendingIndustry extends Industry {
