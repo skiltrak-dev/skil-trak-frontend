@@ -55,7 +55,11 @@ export const SectorDocuments = ({
                     </Typography>
                 </div>
                 <AuthorizedUserComponent
-                    roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                    roles={[
+                        UserRoles.SUBADMIN,
+                        UserRoles.ADMIN,
+                        UserRoles.INDUSTRY,
+                    ]}
                     isAssociatedWithRto={false}
                 >
                     <div className="flex items-start gap-x-2">

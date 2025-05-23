@@ -174,7 +174,11 @@ export const IndustryProfileCB = ({
             {/* Add Supervisor  */}
             <IndustrySupervisor industry={industry} />
             <AuthorizedUserComponent
-                roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                roles={[
+                    UserRoles.SUBADMIN,
+                    UserRoles.ADMIN,
+                    UserRoles.INDUSTRY,
+                ]}
                 isAssociatedWithRto={false}
             >
                 <IndustryLocations industry={industry} />

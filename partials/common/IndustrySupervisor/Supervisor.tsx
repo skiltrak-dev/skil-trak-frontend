@@ -104,18 +104,17 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
 
                 <div id="add-admin">
                     <div className="flex gap-x-2 border rounded-md p-2.5 items-center justify-between shadow-lg relative w-full">
-                        <div className="flex items-center gap-x-2 justify-between w-full">
-                            <Typography variant={'label'}>
-                                Supervisors
-                            </Typography>
-                            <div className="flex items-center gap-x-1">
-                                <AuthorizedUserComponent
-                                    roles={[
-                                        UserRoles.SUBADMIN,
-                                        UserRoles.ADMIN,
-                                    ]}
-                                    isAssociatedWithRto={false}
-                                >
+
+                        <Typography variant={'label'}>Supervisors</Typography>
+                        <div className="flex items-center gap-x-1 ">
+                            <AuthorizedUserComponent
+                                roles={[
+                                    UserRoles.SUBADMIN,
+                                    UserRoles.ADMIN,
+                                    UserRoles.INDUSTRY,
+                                ]}
+                                isAssociatedWithRto={false}
+                            >
                                     <div
                                         onClick={() => {
                                             contextBar.setTitle(
@@ -147,7 +146,6 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                                 </div>
                             </div>
                         </div>
-
                         <div
                             className={`${
                                 showSupervisorList ? 'block' : 'hidden'
