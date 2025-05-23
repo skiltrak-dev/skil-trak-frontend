@@ -92,7 +92,6 @@ export const AddPrevCourseDescription = ({ courseId, onCloseModal }: any) => {
                 onCloseModal() // ✅ Close only on success
                 methods.reset()
             } else {
-                console.log({ res })
                 showErrorNotifications({ isError: true, ...res })
             }
         } catch (error) {
