@@ -377,21 +377,33 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                                         }}
                                                     />
                                                 ) : (
-                                                    <FileUpload
-                                                        onChange={(
-                                                            doc: File
-                                                        ) => {
-                                                            onUploadCourseFile(
-                                                                approval?.id,
-                                                                doc
-                                                            )
-                                                        }}
-                                                        name={'attachments'}
-                                                        component={onFileUpload}
-                                                        limit={Number(
-                                                            1111111111
-                                                        )}
-                                                    />
+                                                    <AuthorizedUserComponent
+                                                        roles={[
+                                                            UserRoles.ADMIN,
+                                                            UserRoles.SUBADMIN,
+                                                        ]}
+                                                        isAssociatedWithRto={
+                                                            false
+                                                        }
+                                                    >
+                                                        <FileUpload
+                                                            onChange={(
+                                                                doc: File
+                                                            ) => {
+                                                                onUploadCourseFile(
+                                                                    approval?.id,
+                                                                    doc
+                                                                )
+                                                            }}
+                                                            name={'attachments'}
+                                                            component={
+                                                                onFileUpload
+                                                            }
+                                                            limit={Number(
+                                                                1111111111
+                                                            )}
+                                                        />
+                                                    </AuthorizedUserComponent>
                                                 )}
                                             </div>
                                         )}

@@ -94,120 +94,138 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
     }
 
     return (
-        <Waypoint onEnter={() => setIsViewed(true)}>
-            <div>
+        <Waypoint
+            onEnter={() => {
+                setIsViewed(true)
+            }}
+        >
+            <div className="">
                 {modal}
 
                 <div id="add-admin">
-                    <div className="flex gap-x-2 border rounded-md p-2.5 items-center justify-between shadow-lg relative w-full">
-                        <Typography variant={'label'}>Supervisors</Typography>
-                        <div className="flex items-center gap-x-1 ">
-                            <AuthorizedUserComponent
-                                roles={[
-                                    UserRoles.SUBADMIN,
-                                    UserRoles.ADMIN,
-                                    UserRoles.INDUSTRY,
-                                ]}
-                                isAssociatedWithRto={false}
-                            >
+                    <div className=" gap-x-2 border rounded-md p-2.5 items-center justify-between shadow-lg relative w-full">
+                        <div className="flex items-center gap-x-2 justify-between w-full">
+                            <Typography variant={'label'}>
+                                Supervisors
+                            </Typography>
+                            <div className="flex items-center gap-x-1">
+                                <AuthorizedUserComponent
+                                    roles={[
+                                        UserRoles.SUBADMIN,
+                                        UserRoles.ADMIN,
+                                        UserRoles.INDUSTRY,
+                                    ]}
+                                    isAssociatedWithRto={false}
+                                >
+                                    <div
+                                        onClick={() => {
+                                            contextBar.setTitle(
+                                                'Add Supervisor'
+                                            )
+                                            contextBar.show()
+                                            contextBar.setContent(
+                                                <AddSupervisor
+                                                    industry={industry}
+                                                />
+                                            )
+                                        }}
+                                        className="border rounded-md p-1 cursor-pointer"
+                                    >
+                                        <LuPlus />
+                                    </div>
+                                </AuthorizedUserComponent>
                                 <div
-                                    onClick={() => {
-                                        contextBar.setTitle('Add Supervisor')
-                                        contextBar.show()
-                                        contextBar.setContent(
-                                            <AddSupervisor
-                                                industry={industry}
-                                            />
-                                        )
-                                    }}
+                                    onClick={onClickShowSupervisorList}
                                     className="border rounded-md p-1 cursor-pointer"
                                 >
-                                    <LuPlus />
+                                    <MdKeyboardArrowDown
+                                        className={`transition-all duration-300 ${
+                                            showSupervisorList
+                                                ? 'rotate-180'
+                                                : 'rotate-0'
+                                        }`}
+                                    />
                                 </div>
-                            </AuthorizedUserComponent>
-                            <div
-                                onClick={onClickShowSupervisorList}
-                                className="border rounded-md p-1 cursor-pointer"
-                            >
-                                <MdKeyboardArrowDown
-                                    className={`transition-all duration-300 ${
-                                        showSupervisorList
-                                            ? 'rotate-180'
-                                            : 'rotate-0'
-                                    }`}
-                                />
                             </div>
                         </div>
-                    </div>
 
-                    <div
-                        className={`${
-                            showSupervisorList ? 'block' : 'hidden'
-                        } absolute top-11 z-40 left-0 transition-all max-h-60 overflow-auto custom-scrollbar duration-300 bg-white border rounded-md px-4 py-2 w-full`}
-                    >
-                        {supervisors.isError ? (
-                            <NoData
-                                simple
-                                text="There is technical issue!"
-                                isError
-                            />
-                        ) : supervisors.isLoading ? (
-                            <PulseLoader size={6} />
-                        ) : supervisors?.data?.data?.length ? (
-                            <div className="space-y-2">
-                                {supervisors.data.data.map(
-                                    (supervisor: any) => (
-                                        <div
-                                            key={supervisor.id}
-                                            className="p-2 flex flex-col gap-y-2 bg-[#24556D1A] bg-opacity-10 border border-[#A5A3A9] rounded-md"
-                                        >
-                                            <InfoCard
-                                                title="Supervisor Name"
-                                                data={supervisor.name}
-                                            />
-                                            <InfoCard
-                                                title="Email"
-                                                data={supervisor.email}
-                                            />
-                                            <InfoCard
-                                                title="Phone Number"
-                                                data={supervisor.phone}
-                                            />
-                                            <InfoCard
-                                                title="Qualification"
-                                                data={supervisor.qualification}
-                                            />
-                                            <div className="flex items-center gap-x-2 justify-center">
+                        <div
+                            className={`${
+                                showSupervisorList ? 'block' : 'hidden'
+                            }  top-11 z-40 left-0 transition-all max-h-60 overflow-auto custom-scrollbar duration-300 bg-white border rounded-md px-4 py-2 w-full`}
+                        >
+                            <div className="">
+                                {supervisors.isError ? (
+                                    <NoData
+                                        simple
+                                        text="There is technical issue!"
+                                        isError
+                                    />
+                                ) : null}
+                                {supervisors.isLoading ? (
+                                    <PulseLoader size={6} />
+                                ) : supervisors?.data &&
+                                  supervisors?.data?.data?.length ? (
+                                    <div className="space-y-2">
+                                        {supervisors?.data?.data?.map(
+                                            (supervisor: any) => (
                                                 <div
-                                                    onClick={() =>
-                                                        onDeleteClicked(
-                                                            supervisor
-                                                        )
-                                                    }
-                                                    className="bg-primaryNew p-2 rounded-md cursor-pointer"
+                                                    key={supervisor?.id}
+                                                    className="p-2 flex flex-col gap-y-2 bg-[#24556D1A] bg-opacity-10 border border-[#A5A3A9] rounded-md"
                                                 >
-                                                    <RiDeleteBin6Line className="text-white" />
+                                                    <InfoCard
+                                                        title={
+                                                            'Supervisor Name'
+                                                        }
+                                                        data={supervisor?.name}
+                                                    />
+                                                    <InfoCard
+                                                        title={'Email'}
+                                                        data={supervisor?.email}
+                                                    />
+                                                    <InfoCard
+                                                        title={'Phone Number'}
+                                                        data={supervisor?.phone}
+                                                    />
+                                                    <InfoCard
+                                                        title={'Qualification'}
+                                                        data={
+                                                            supervisor?.qualification
+                                                        }
+                                                    />
+                                                    <div className="flex items-center gap-x-2 justify-center">
+                                                        <div
+                                                            onClick={() => {
+                                                                onDeleteClicked(
+                                                                    supervisor
+                                                                )
+                                                            }}
+                                                            className="bg-primaryNew p-2 rounded-md cursor-pointer"
+                                                        >
+                                                            <RiDeleteBin6Line className="text-white" />
+                                                        </div>
+                                                        <div
+                                                            onClick={() => {
+                                                                onEditSupervisor(
+                                                                    supervisor
+                                                                )
+                                                            }}
+                                                            className="bg-primaryNew p-2 rounded-md cursor-pointer"
+                                                        >
+                                                            <CiEdit className="text-white" />
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div
-                                                    onClick={() =>
-                                                        onEditSupervisor(
-                                                            supervisor
-                                                        )
-                                                    }
-                                                    className="bg-primaryNew p-2 rounded-md cursor-pointer"
-                                                >
-                                                    <CiEdit className="text-white" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
+                                            )
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div className="text-center p-3 text-[10px] whitespace-nowrap text-gray-400 border-2 border-dashed border-gray-200 rounded-md">
+                                        No supervisors found
+                                    </div>
                                 )}
                             </div>
-                        ) : (
-                            <div className="text-center p-3 text-[10px] whitespace-nowrap text-gray-400 border-2 border-dashed border-gray-200 rounded-md">
-                                No supervisors found
-                            </div>
-                        )}
+                        </div>
                     </div>
                 </div>
             </div>

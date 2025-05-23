@@ -10,7 +10,6 @@ import {
     Filter,
     InitialAvatar,
     LoadingAnimation,
-    PageTitle,
     RTOWorkplaceFilters,
     SetDetaultQueryFilteres,
     Table,
@@ -41,7 +40,7 @@ const filterKeys = [
     'courseId',
 ]
 
-const BlackListedIndustries: NextPageWithLayout = (props: Props) => {
+const BlackListedIndustries: NextPageWithLayout = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -87,7 +86,7 @@ const BlackListedIndustries: NextPageWithLayout = (props: Props) => {
                 return (
                     <Link
                         legacyBehavior
-                        href={`/portals/rto/industries/workplaces/${row?.original?.id}`}
+                        href={`/portals/rto/industries/workplaces/${row?.original?.industry?.id}`}
                     >
                         <a className="flex items-center gap-x-2">
                             <div className="shadow-inner-image rounded-full relative">
