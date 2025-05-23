@@ -150,7 +150,11 @@ export const Supervisor = ({ industry }: { industry?: Industry }) => {
                         <Typography variant={'label'}>Supervisors</Typography>
                         <div className="flex items-center gap-x-1 ">
                             <AuthorizedUserComponent
-                                roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                                roles={[
+                                    UserRoles.SUBADMIN,
+                                    UserRoles.ADMIN,
+                                    UserRoles.INDUSTRY,
+                                ]}
                                 isAssociatedWithRto={false}
                             >
                                 <div
