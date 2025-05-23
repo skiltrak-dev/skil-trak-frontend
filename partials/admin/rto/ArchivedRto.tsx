@@ -20,7 +20,7 @@ import { Rto, UserStatus } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdUnarchive } from 'react-icons/md'
 import { RtoCellInfo, SectorCell } from './components'
-import { DeleteModal } from './modals'
+import { DeleteModal, UnblockModal } from './modals'
 import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
 
@@ -47,9 +47,9 @@ export const ArchivedRto = () => {
         setModal(null)
     }
     const onUnarchiveClicked = (rto: Rto) => {
-        // setModal(
-        //    <UnblockModal rto={rto} onCancel={() => onModalCancelClicked()} />
-        // )
+        setModal(
+            <UnblockModal rto={rto} onCancel={() => onModalCancelClicked()} />
+        )
     }
     const onDeleteClicked = (rto: Rto) => {
         setModal(

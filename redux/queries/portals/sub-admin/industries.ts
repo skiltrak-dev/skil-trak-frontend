@@ -2,6 +2,7 @@ import { UserRoles } from '@constants'
 import { IndustryPlacementStatus } from '@partials/common'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { PaginationWithSearch } from '@types'
 
 const PREFIX = 'subadmin'
 export const subAdminIndustriesEndpoints = (
@@ -95,10 +96,11 @@ export const subAdminIndustriesEndpoints = (
     }),
     addToPartner: builder.mutation<
         any,
-        { industry: number; studentCapacity?: number }
+        { industry: number; studentCapacity?: number; note?: string }
     >({
-        query: ({ industry, studentCapacity }) => ({
+        query: ({ industry, studentCapacity, ...body }) => ({
             url: `${PREFIX}/industry/partner/add/${industry}`,
+            body,
             // body: { studentCapacity },
             method: 'PATCH',
         }),
@@ -228,6 +230,15 @@ export const subAdminIndustriesEndpoints = (
         providesTags: ['SubAdminIndustries', 'Industries'],
     }),
 
+    uploadCourseDocForIndustry: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/industry-course/${id}/upload-document`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+
     getRejectedDepartmentIndustry: builder.query<any, any>({
         query: (params) => ({
             url: `department/rejected-list`,
@@ -268,5 +279,27 @@ export const subAdminIndustriesEndpoints = (
             body,
         }),
         invalidatesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+
+    removePartnerIndustryRequest: builder.query<any, PaginationWithSearch>({
+        query: (params) => ({
+            url: `${PREFIX}/industry/partner-removal-requests`,
+            params,
+        }),
+        providesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+
+    updatePartnerRemovalRequestStatus: builder.mutation<any, any>({
+        query: ({ id, status }) => ({
+            url: `${PREFIX}/industry/partner-removal-request/${id}/update-status`,
+            method: 'PATCH',
+            params: { status },
+        }),
+        invalidatesTags: ['SubAdminIndustries', 'Industries'],
+    }),
+
+    removalRequestCount: builder.query<any, void>({
+        query: () => `${PREFIX}/industry/partner-removal-counts`,
+        providesTags: ['SubAdminIndustries', 'Industries'],
     }),
 })

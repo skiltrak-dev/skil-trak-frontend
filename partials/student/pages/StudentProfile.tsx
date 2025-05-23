@@ -278,7 +278,7 @@ export const StudentProfile = ({ noTitle }: { noTitle?: boolean }) => {
                                 data?.nonContactable ? 'secondary' : 'info'
                             }
                             onClick={() => {
-                                notContactable(data?.id)
+                                notContactable({ id: data?.id })
                             }}
                             loading={notContactableResult.isLoading}
                             disabled={notContactableResult.isLoading}

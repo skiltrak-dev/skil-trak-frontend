@@ -11,10 +11,12 @@ import { BulkBlockModal } from './BulkBlockModal'
 import { BulkUnBlockModal } from './BulkUnBlockModal'
 import { DeleteModal } from './DeleteModal'
 import { RejectModal } from './RejectModal'
-import { ReleaseLogbookPermissionModal } from './ReleaseLogbookPermissionModal'
 import { UnblockModal } from './UnblockModal'
+import { ReleaseLogbookPermissionModal } from './ReleaseLogbookPermissionModal'
+import { AllowPermissionModal } from './AllowPermissionModal'
 
 export enum AdminRtoModalType {
+    PERMISSION = 'permission',
     ARCHIVE = 'archive',
     BLOCK = 'block',
     BULK_BLOCK = 'bulkBlock',
@@ -38,6 +40,9 @@ export const getAdminRtoModal = (
     const modals: Record<AdminRtoModalType, ReactNode> = {
         [AdminRtoModalType.ARCHIVE]: (
             <ArchiveModal item={rto} onCancel={onCancel} />
+        ),
+        [AdminRtoModalType.PERMISSION]: (
+            <AllowPermissionModal rto={rto} onCancel={onCancel} />
         ),
         [AdminRtoModalType.BLOCK]: <BlockModal rto={rto} onCancel={onCancel} />,
         [AdminRtoModalType.BULK_BLOCK]: (

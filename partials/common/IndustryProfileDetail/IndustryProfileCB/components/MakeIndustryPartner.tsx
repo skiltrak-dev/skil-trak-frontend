@@ -1,6 +1,3 @@
-import { SubAdminApi } from '@queries'
-import { useNotification } from '@hooks'
-import { ReactElement, useState } from 'react'
 import {
     ShowErrorNotifications,
     Switch,
@@ -8,20 +5,26 @@ import {
     TooltipPosition,
     Typography,
 } from '@components'
-import { AddToPartnerModal } from '@partials/sub-admin/Industries/modals/AddToPartnerModal'
-import { IoInformationCircleSharp } from 'react-icons/io5'
-import { User } from '@types'
-import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
+import { useNotification } from '@hooks'
+import { RemoveAddToPartnerModal } from '@partials/sub-admin/Industries'
+import { SubAdminApi } from '@queries'
+import { PartnerRemovalRequests, User } from '@types'
+import { getUserCredentials } from '@utils'
+import { ReactElement, useState } from 'react'
+import { CiSquareQuestion } from 'react-icons/ci'
+import { IoInformationCircleSharp } from 'react-icons/io5'
 
 export const MakeIndustryPartner = ({
     industryId,
     isPartner,
     PartneredBy,
+    partnerRemovalRequests,
 }: {
     PartneredBy: User
     industryId: number
     isPartner: boolean
+    partnerRemovalRequests: PartnerRemovalRequests | undefined
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -50,20 +53,34 @@ export const MakeIndustryPartner = ({
     }
 
     const onRemovePartner = () => {
-        addToPartner({ industry: industryId, studentCapacity: 0 })?.then(
-            (res: any) => {
-                if (res?.data) {
-                    notification.error({
-                        title: 'Industry Removed from Partner',
-                        description:
-                            'Industry Removed from Partner Successfully',
-                    })
-                }
-            }
-        )
+        if (partnerRemovalRequests) {
+            notification.warning({
+                title: 'Removal Partner Request Already Sent',
+                description: 'Removal Partner Request Already Sent',
+            })
+        } else {
+            setModal(
+                <RemoveAddToPartnerModal
+                    industry={industryId}
+                    onCancel={onCancelClicked}
+                />
+            )
+        }
+        // addToPartner({ industry: industryId, studentCapacity: 0 })?.then(
+        //     (res: any) => {
+        //         if (res?.data) {
+        //             notification.error({
+        //                 title: 'Industry Removed from Partner',
+        //                 description:
+        //                     'Industry Removed from Partner Successfully',
+        //             })
+        //         }
+        //     }
+        // )
     }
     const role = getUserCredentials()?.role
     const checkRto = role === UserRoles.RTO
+
     return (
         <div>
             {modal}
@@ -85,6 +102,14 @@ export const MakeIndustryPartner = ({
                     ) : null}
                 </div>
                 <div className="flex items-center gap-x-2">
+                    {partnerRemovalRequests && (
+                        <div className="relative group">
+                            <CiSquareQuestion size={22} />
+                            <Tooltip position={TooltipPosition.center}>
+                                Removal Partner Request Already Sent
+                            </Tooltip>
+                        </div>
+                    )}
                     <Typography variant="small" bold color={'text-[#BF0000]'}>
                         NO
                     </Typography>
@@ -95,10 +120,15 @@ export const MakeIndustryPartner = ({
                                 isPartner ? onRemovePartner() : onAddPartner()
                             }}
                             value={isPartner}
+                            {...(isPartner ? { isChecked: isPartner } : {})}
                             defaultChecked={isPartner}
                             customStyleClass={'profileSwitch'}
                             loading={addToPartnerResult.isLoading}
-                            disabled={addToPartnerResult.isLoading || checkRto}
+                            disabled={
+                                addToPartnerResult.isLoading ||
+                                checkRto ||
+                                !!partnerRemovalRequests
+                            }
                         />
                     </div>
                     <Typography variant="small" bold>

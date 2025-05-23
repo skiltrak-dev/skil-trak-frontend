@@ -110,16 +110,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
             header: () => 'Abn',
             accessorKey: 'abn',
         },
-        // {
-        //     header: () => 'Student',
-        //     accessorKey: 'workplaceRequest.student.user.name',
-        //     cell: ({ row }: any) => row.original?.students?.length,
-        //     // cell: ({ row }: any) => (
-        //     //     <StudentCellInfo
-        //     //         student={row.original?.workplaceRequest?.student}
-        //     //     />
-        //     // ),
-        // },
+
         {
             header: () => 'Address',
             accessorKey: 'address',
@@ -198,12 +189,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                 {isLoading ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data?.length ? (
-                    <Table<any>
-                        columns={columns}
-                        data={data.data}
-                        // quickActions={quickActionsElements}
-                        enableRowSelection
-                    >
+                    <Table<any> columns={columns} data={data?.data}>
                         {({
                             table,
                             pagination,

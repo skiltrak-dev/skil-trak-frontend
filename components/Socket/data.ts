@@ -16,6 +16,7 @@ export const socketEventToTagMapping = {
     [SocketNotificationsEvents.WorkplaceNotification]: ['SubAdminWorkplace'],
     [SocketNotificationsEvents.IndustryApprovedStudent]: ['SubAdminWorkplace'],
     [SocketNotificationsEvents.WorkplaceRequestApproved]: ['SubAdminWorkplace'],
+    [SocketNotificationsEvents.IndustrySnoozed]: ['SubAdminIndustries'],
     [SocketNotificationsEvents.StudentUnSnoozed]: [
         'Students',
         'SubAdminStudents',
@@ -39,4 +40,5 @@ export const socketEventToTagMapping = {
     [SocketNotificationsEvents.AgreementUploaded]: ['AssessmentEvidence'],
     [SocketNotificationsEvents.WorkplaceOptionsAvailable]: ['Workplace'],
     [SocketNotificationsEvents.StudentScheduleAdded]: ['IndustryWorkplace'],
+    [SocketNotificationsEvents.IndustryPartnerRemoval]: ['SubAdminIndustries'],
 }

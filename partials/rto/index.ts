@@ -1,6 +1,7 @@
 export * from './forms'
 export * from './Tickets'
 export * from './RtoDashboard'
+export * from './wpApprovalReq'
 export * from './contactPersons'
 export * from './assessmentsTools'
 export * from './insuranceDocuments'

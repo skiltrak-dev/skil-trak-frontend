@@ -30,8 +30,6 @@ export const CourseFolderForm = ({
     const [selectedType, setSelectedType] = useState<string | null>(null)
     const [isIndustryCheck, setIsIndustryCheck] = useState<boolean>(false)
 
-    console.log({ initialValues })
-
     useEffect(() => {
         if (initialValues) {
             if (initialValues?.type) {

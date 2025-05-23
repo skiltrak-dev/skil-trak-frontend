@@ -256,6 +256,13 @@ export const studentEndpoints = (
         }),
         providesTags: ['Rto-Students'],
     }),
+    getRtoMyReportDownload: builder.query<any, any>({
+        query: ({ userId, ...params }) => ({
+            url: `${STATISTICS}/rto/data/${userId}`,
+            params,
+        }),
+        providesTags: ['Rto-Students'],
+    }),
     getExportStudentList: builder.query<any, any>({
         query: ({ userId, ...params }) => ({
             url: `${PREFIX}/students-list/download/${userId}`,

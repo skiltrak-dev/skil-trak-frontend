@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from '@types'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 // layouts
 import { RtoLayout } from '@layouts'
@@ -7,8 +7,15 @@ import { RtoLayout } from '@layouts'
 import { RTOReports } from '@partials/common/Reports'
 import { RtoApi } from '@queries'
 import { getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
 
 const Report: NextPageWithLayout = () => {
+    const router = useRouter()
+
+    useEffect(() => {
+        // router.push(`/portals/rto/report/my-report`)
+    }, [router])
+
     const profile = RtoApi.Rto.useProfile()
     const user = getUserCredentials()
     return <RTOReports user={user} createdAt={profile?.data?.createdAt} />

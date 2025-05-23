@@ -46,6 +46,7 @@ export const AddSupervisor = ({ industry, initialValues, edit }: any) => {
         name: Yup.string().required('Name is required!'),
         email: Yup.string().required('Email is required!'),
         phone: Yup.string().required('Phone is required!'),
+        qualification: Yup.string().required('Qualification is required!'),
     })
 
     const methods = useForm({
@@ -102,6 +103,13 @@ export const AddSupervisor = ({ industry, initialValues, edit }: any) => {
                             label={'Phone'}
                             name={'phone'}
                             placeholder={'Your Phone Here...'}
+                            validationIcons
+                            required
+                        />
+                        <TextInput
+                            label={'Qualification'}
+                            name={'qualification'}
+                            placeholder={'Your Qualification Here...'}
                             validationIcons
                             required
                         />

@@ -20,6 +20,7 @@ import {
     StudentExpireTime,
     StudentStatus,
 } from '../ContextBarComponents'
+import { IndustryRequestsActions } from '@partials/sub-admin/ManagerApprovalList/enum'
 
 export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     const role = getUserCredentials()?.role
@@ -95,19 +96,22 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                 studentId={profile?.id}
                 nonContactable={profile?.nonContactable}
                 disabled={role === UserRoles.OBSERVER}
+                studentUpdateRequest={profile?.studentUpdateRequests?.find(
+                    (r) => r?.action === IndustryRequestsActions.NonContactable
+                )}
             />
 
-            {/*  */}
             <ProblamaticStudent
                 studentId={profile?.id}
                 hasIssue={profile?.hasIssue}
                 disabled={role === UserRoles.OBSERVER}
                 isReported={profile?.isReported}
+                studentUpdateRequest={profile?.studentUpdateRequests?.find(
+                    (r) => r?.action === IndustryRequestsActions.Flagged
+                )}
             />
 
-            {/* Student Detail */}
             <StudentDetail profile={profile} />
-            {/* <RtoDetail rto={profile?.rto} /> */}
             <EmergencyContact profile={profile} />
 
             {/* Student Status */}
@@ -117,8 +121,6 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                     studentStatus={profile?.studentStatus}
                 />
             </AuthorizedUserComponent>
-
-            {/* RTO */}
         </div>
     )
 }

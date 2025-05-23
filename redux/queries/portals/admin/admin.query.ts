@@ -185,6 +185,7 @@ const {
     useRtoStatusChangeMutation,
     useRtoStudentsLogsListQuery,
     useRtoAllowPermissionsMutation,
+    useRtoWpApprovalRequestMutation,
     useAllowInvoicingPermissionMutation,
     useRtoAllowPartialSubmissionMutation,
     useRtoCreateAssessmentToolsMutation,
@@ -434,6 +435,7 @@ const {
     useAddInvoiceCategoryMutation,
     useChangePaymentStatusMutation,
     useInvoiceRtoDataDownloadQuery,
+    useMarkDuplicateToggleMutation,
     useAddRtoInvoiceSettingMutation,
 } = adminApi
 
@@ -507,6 +509,7 @@ export const AdminApi = {
         useApprovedList: useRtosApprovedQuery,
         useDetailQuery: useRtoDetailQuery,
         useChangeStatusMutation: useRtoStatusChangeMutation,
+        rtoWpApprovalRequest: useRtoWpApprovalRequestMutation,
         useRtoStudentsLogsList: useRtoStudentsLogsListQuery,
         allowPermissions: useRtoAllowPermissionsMutation,
         allowPartialSubmission: useRtoAllowPartialSubmissionMutation,
@@ -773,6 +776,7 @@ export const AdminApi = {
         confirmAllPayment: useConfirmAllPaymentMutation,
         addInvoiceCategory: useAddInvoiceCategoryMutation,
         invoiceCategorisList: useInvoiceCategorisListQuery,
+        markDuplicateToggle: useMarkDuplicateToggleMutation,
         changePaymentStatus: useChangePaymentStatusMutation,
         addRtoInvoiceSetting: useAddRtoInvoiceSettingMutation,
         invoiceRtoDataDownload: useInvoiceRtoDataDownloadQuery,

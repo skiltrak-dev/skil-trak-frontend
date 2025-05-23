@@ -1,5 +1,6 @@
 import {
     Alert,
+    AuthorizedUserComponent,
     EmptyData,
     LoadingAnimation,
     TechnicalError,
@@ -298,7 +299,6 @@ export const StudentProfileDetail = () => {
                     </div>
                 )}
             </div>
-
             {profile.isError && <TechnicalError />}
             {profile.isLoading ? (
                 <LoadingAnimation />

@@ -5,6 +5,7 @@ import {
     TagInput,
     TextArea,
     Typography,
+    UploadFile,
 } from '@components'
 import { useNotification } from '@hooks'
 import { LabelTag } from '@partials/student/talentPool'
@@ -17,6 +18,7 @@ import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import { FileUpload } from '@hoc'
 
 export const AddCourseModal = ({ courses, onCloseModal }: any) => {
     const [tags, setTags] = useState<any>({
@@ -35,24 +37,11 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
         sector: yup.number().required('Sector is required'),
         courses: yup.number().required('Course is required'),
         description: yup.string().required('Description is required'),
-        // reference: yup.string().url('Invalid URL format'),
     })
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
-
-    useEffect(() => {
-        if (addCourseResult.isSuccess) {
-            notification.success({
-                title: 'Course Added',
-                description: 'Course added successfully',
-            })
-
-            onCloseModal()
-            methods.reset()
-        }
-    }, [addCourseResult.isSuccess])
 
     const subadminCourses = CommonApi.Courses.subadminCoursesList()
     const sectorsWithCourses = getSectors(subadminCourses?.data)
@@ -99,15 +88,36 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
         }))
     }
 
-    const onSubmit = (data: any) => {
-        const { course, description } = data
+    const onSubmit = async (values: any) => {
+        const { course, description } = values
         const { reference } = tags
-        addCourse({
-            course: course,
-            description: description,
-            reference: reference,
+
+        const formData = new FormData()
+
+        const data = {
+            course,
+            description,
+            file: values?.file?.[0],
             industry: router.query.id,
+            reference: reference?.join(','),
+        }
+        console.log({ data })
+
+        Object.entries(data)?.forEach(([key, values]: any) => {
+            formData.append(key, values)
         })
+
+        const res: any = await addCourse(formData)
+
+        if (res?.data) {
+            notification.warning({
+                title: 'Course Request Added',
+                description: 'Course request sent to hod for approval.',
+            })
+
+            onCloseModal()
+            methods.reset()
+        }
     }
 
     const submitForm = () => {
@@ -149,6 +159,8 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
                                     onlyValue
                                     onChange={(e: any) => setSelectedSector(e)}
                                     required
+                                    loading={subadminCourses?.isLoading}
+                                    disabled={subadminCourses?.isLoading}
                                 />
                             </div>
                             <div className="w-1/2">
@@ -204,6 +216,7 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
                                 )}
                             </div>
                         </div>
+                        <FileUpload component={UploadFile} name={'file'} />
                         <div className="flex justify-center">
                             <Button
                                 text={'Sent Request'}

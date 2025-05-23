@@ -1,39 +1,19 @@
-import { NextPageWithLayout } from '@types'
 import { ReactElement } from 'react'
+import { NextPageWithLayout } from '@types'
 
-//components
 import {
     MyStudents,
-    RtoSubadminStudent,
     SubadminStudents,
+    RtoSubadminStudent,
 } from '@partials/sub-admin/students'
 
 // query
 import { SubAdminApi } from '@queries'
 
-// hooks
-
-//Layouts
 import { SubAdminLayout } from '@layouts'
 import { LoadingAnimation, TechnicalError } from '@components'
 
-type Props = {}
-
-const filterKeys = [
-    'nowp',
-    'name',
-    'email',
-    'phone',
-    'rtoId',
-    'suburb',
-    'status',
-    'courseId',
-    'studentId',
-    'industryId',
-    'currentStatus',
-]
-
-const Students: NextPageWithLayout = (props: Props) => {
+const Students: NextPageWithLayout = () => {
     const profile = SubAdminApi.SubAdmin.useProfile()
 
     return (

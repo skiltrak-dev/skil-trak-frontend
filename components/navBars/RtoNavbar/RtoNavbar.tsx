@@ -1,31 +1,27 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-
-import { MdNotifications, MdSpaceDashboard, MdHomeWork } from 'react-icons/md'
-import { FaClipboardList } from 'react-icons/fa'
-import { HiDocumentReport, HiUsers } from 'react-icons/hi'
 import { AiOutlineUsergroupAdd } from 'react-icons/ai'
+import { HiDocumentReport } from 'react-icons/hi'
+import { IoDocumentTextOutline } from 'react-icons/io5'
+import { MdHomeWork, MdNotifications, MdSpaceDashboard } from 'react-icons/md'
 import { RiAdminFill, RiAdminLine } from 'react-icons/ri'
 import { NavLinkItem } from '../NavLinkItem'
-import { IoDocumentTextOutline } from 'react-icons/io5'
+import { FaIndustry } from 'react-icons/fa'
 
 const PREFIX = '/portals/rto'
 
 const Routes = {
     Dashboard: `${PREFIX}`,
+    Tasks: `${PREFIX}/tasks`,
+    Report: `${PREFIX}/report`,
+    Industries: `${PREFIX}/industries`,
+    Notifications: `${PREFIX}/notifications`,
     Students: `${PREFIX}/students?tab=active`,
     ContactPerson: `${PREFIX}/admins/contact-person`,
-    Industries: `${PREFIX}/industries`,
-    Tasks: `${PREFIX}/tasks`,
-    Coordinators: `${PREFIX}/coordinators?tab=my-coordinators`,
-    Notifications: `${PREFIX}/notifications`,
-    Report: `${PREFIX}/report`,
     InsuranceDocuments: `${PREFIX}/insurance-documents`,
+    WpApprovalRequest: `${PREFIX}/wp-approval-request`,
+    Coordinators: `${PREFIX}/coordinators?tab=my-coordinators`,
 }
 
 export const RtoNavbar = () => {
-    const router = useRouter()
-
     const rtoPortalData = [
         {
             link: Routes.Dashboard,
@@ -86,6 +82,14 @@ export const RtoNavbar = () => {
             link: Routes.InsuranceDocuments,
             text: 'Insurance Documents',
             Icon: IoDocumentTextOutline,
+            activeClasses: 'bg-blue-100 text-blue-700',
+            inActiveClasses: 'text-slate-700',
+            id: 'insuranceDocuments',
+        },
+        {
+            link: Routes.WpApprovalRequest,
+            text: 'Workplace Approval',
+            Icon: FaIndustry,
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
             id: 'insuranceDocuments',

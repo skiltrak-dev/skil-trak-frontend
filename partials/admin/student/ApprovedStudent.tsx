@@ -32,7 +32,6 @@ import { useActionModal, useModal } from '@hooks'
 
 import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
-import { BsThreeDotsVertical } from 'react-icons/bs'
 
 export const ApprovedStudent = () => {
     const router = useRouter()

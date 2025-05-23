@@ -111,6 +111,7 @@ export interface Rto extends BaseResponse {
     zipCode: string
     allowUpdate: boolean
     allowAutoComplete: boolean
+    workplaceApprovalRequired: boolean
     autoReleaseLogBook: boolean
     allowInvoicing: boolean
     allowAutoReport: boolean
@@ -126,6 +127,15 @@ export interface Rto extends BaseResponse {
     assessmentTools: AssessmentToolsType[]
 }
 
+export interface StudentActionsRequest extends BaseResponse {
+    id: number
+    comment: string
+    status: string
+    action: string
+    snoozedDate: Date
+    student: Student
+    requestedBy: User
+}
 export interface RemovePartnerRequest extends BaseResponse {
     id: number
     comment: string
@@ -176,6 +186,27 @@ export interface Student extends BaseResponse {
     isSnoozed: boolean
     isTransferred: boolean
     isAddressUpdated: boolean
+    studentUpdateRequests: PartnerRemovalRequests[]
+}
+
+export interface RtoApprovalWorkplaceRequest extends BaseResponse {
+    id: number
+    status: string
+    isRtoApprovalRequired: boolean
+    rtoApprovalStatus: string
+    declaration: string
+    isAutomated: boolean
+    comment: string
+    dates: Dates
+    approvalDate: string
+    approvalChannal: string
+    student: Student
+    industry: Industry
+}
+
+export interface Dates {
+    date1: string
+    date2: string
 }
 
 interface UserExtend extends User {

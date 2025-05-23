@@ -28,7 +28,7 @@ import {
     Select,
     ShowErrorNotifications,
     TextInput,
-    Typography
+    Typography,
 } from '@components'
 
 // query
@@ -43,6 +43,7 @@ import ClickAwayListener from 'react-click-away-listener'
 import { FaTimes } from 'react-icons/fa'
 import { IoCheckmark } from 'react-icons/io5'
 import { StudentNotesDropdown } from '../components'
+import moment from 'moment'
 
 interface onSubmitType {
     title: string
@@ -236,6 +237,7 @@ export const CreateStudentNote = ({
                         student: studentId,
                         postedFor: receiverId,
                         studentNote: noteRes?.data?.id,
+                        // createdAt: moment().add('days', 2).format('dd/mm/yyyy'),
                         // status: selectedStatus,
                     })
                     if (res?.data) {

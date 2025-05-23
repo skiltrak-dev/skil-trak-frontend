@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
     Card,
@@ -10,10 +10,18 @@ import {
 } from '@components'
 import { CommonApi } from '@queries'
 import { NotificationCard } from './components'
+import { useRouter } from 'next/router'
 
 export const AllNotifications = () => {
+    const router = useRouter()
+
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
+
+    useEffect(() => {
+        setPage(Number(router.query.page || 1))
+        setItemPerPage(Number(router.query.pageSize || 50))
+    }, [router])
 
     const notifications = CommonApi.Notifications.useNotifications(
         {
