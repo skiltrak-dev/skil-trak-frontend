@@ -6,6 +6,7 @@ import { UserRoles } from '@constants'
 import { IndustryApi } from '@queries'
 import { Industry } from '@types'
 import { getUserCredentials } from '@utils'
+import { useSubadminProfile } from '@hooks'
 
 export const SectorIndustryDocs = ({
     doc,
@@ -18,6 +19,9 @@ export const SectorIndustryDocs = ({
 
     const [makeOptional, makeOptionalResult] =
         IndustryApi.Folders.addIndustrySectorDocsOptional()
+    const subadmin = useSubadminProfile()
+
+    const isAssociatedWithRto = subadmin?.isAssociatedWithRto
 
     const onMakeOptional = async () => {
         try {
@@ -47,7 +51,11 @@ export const SectorIndustryDocs = ({
                     defaultChecked={doc?.isRequired}
                     // defaultChecked={true}
                     customStyleClass={'profileSwitch'}
-                    disabled={checkRto || makeOptionalResult?.isLoading}
+                    disabled={
+                        checkRto ||
+                        isAssociatedWithRto ||
+                        makeOptionalResult?.isLoading
+                    }
                     loading={makeOptionalResult?.isLoading}
                     onChange={() => {
                         onMakeOptional()
