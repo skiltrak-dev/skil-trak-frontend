@@ -1,4 +1,4 @@
-import { Button } from '@components'
+import { Button, Card, Typography } from '@components'
 import { RtoLayout } from '@layouts'
 import { DownloadRtoMyReportModal } from '@partials/rto/myReports'
 import React, { ReactElement, useState } from 'react'
@@ -16,14 +16,24 @@ const MyReports = () => {
     return (
         <div>
             {modal}
-            <Button
-                onClick={() => {
-                    onViewClicked()
-                }}
-                variant="action"
-                Icon={IoMdDownload}
-                text={'Monthly Report Download'}
-            />
+            <Card>
+                <div className="flex flex-col gap-y-2">
+                    <Typography variant="title">
+                        Download Monthly Report
+                    </Typography>
+                    
+                    <div>
+                        <Button
+                            onClick={() => {
+                                onViewClicked()
+                            }}
+                            variant="info"
+                            Icon={IoMdDownload}
+                            text={'Monthly Report Download'}
+                        />
+                    </div>
+                </div>
+            </Card>
         </div>
     )
 }

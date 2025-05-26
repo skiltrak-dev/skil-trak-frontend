@@ -25,7 +25,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { DeleteWpTypeModal } from './modals'
 
-const filterKeys = ['title']
+const filterKeys = ['title', 'sectorId']
 
 export const WorkplaceTypes = () => {
     const router = useRouter()
