@@ -11,7 +11,7 @@ const PREFIX = '/portals/rto'
 const Routes = {
     Dashboard: `${PREFIX}`,
     Tasks: `${PREFIX}/tasks`,
-    Report: `${PREFIX}/report`,
+    Report: `${PREFIX}/report/my-report`,
     Industries: `${PREFIX}/industries`,
     Notifications: `${PREFIX}/notifications`,
     Students: `${PREFIX}/students?tab=active`,
@@ -103,7 +103,7 @@ export const RtoNavbar = () => {
             Icon: HiDocumentReport,
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
-            id: 'reports/my-report',
+            id: 'reports',
         },
     ]
     return (

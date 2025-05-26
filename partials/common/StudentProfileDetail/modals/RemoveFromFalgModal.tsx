@@ -1,7 +1,7 @@
 import { Modal, TextArea, useAuthorizedUserComponent } from '@components'
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNotification } from '@hooks'
+import { useNotification, useSubadminProfile } from '@hooks'
 import { SubAdminApi } from '@queries'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -19,9 +19,11 @@ export const RemoveFromFalgModal = ({
     const [problamaticStudent, problamaticStudentResult] =
         SubAdminApi.Student.useProblamaticStudent()
 
+    const subadmin = useSubadminProfile()
+
     const hasPermission = useAuthorizedUserComponent({
         roles: [UserRoles.ADMIN],
-        isHod: true,
+        isHod: subadmin?.departmentMember?.isHod,
     })
 
     const validationSchema = Yup.object({
