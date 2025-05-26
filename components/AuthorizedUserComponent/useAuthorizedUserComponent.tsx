@@ -21,12 +21,25 @@ export const useAuthorizedUserComponent = ({
     // If excludeRoles is provided, check if user is not excluded
     const isNotExcluded = !excludeRoles?.length || !excludeRoles.includes(role)
 
+    console.log(
+        'HHH',
+        ((hasPermission && isNotExcluded) || isHod
+            ? (subadmin && subadmin.departmentMember?.isHod) || false
+            : false) &&
+            (isAssociatedWithRto
+                ? subadmin?.isAssociatedWithRto
+                : isAssociatedWithRto === false
+                ? !subadmin?.isAssociatedWithRto
+                : true)
+    )
+
     return (
-        ((hasPermission && isNotExcluded) || isHod) &&
-        (isAssociatedWithRto
-            ? subadmin?.isAssociatedWithRto
-            : isAssociatedWithRto === false
-            ? !subadmin?.isAssociatedWithRto
-            : true)
+        (hasPermission && isNotExcluded) ||
+        ((isHod ? subadmin.departmentMember?.isHod : false) &&
+            (isAssociatedWithRto
+                ? subadmin?.isAssociatedWithRto
+                : isAssociatedWithRto === false
+                ? !subadmin?.isAssociatedWithRto
+                : true))
     )
 }

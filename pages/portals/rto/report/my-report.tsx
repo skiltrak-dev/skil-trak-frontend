@@ -18,10 +18,8 @@ const MyReports = () => {
             {modal}
             <Card>
                 <div className="flex flex-col gap-y-2">
-                    <Typography variant="title">
-                        Download Monthly Report
-                    </Typography>
-                    
+                    <Typography variant="title">Download Report</Typography>
+
                     <div>
                         <Button
                             onClick={() => {
@@ -29,7 +27,7 @@ const MyReports = () => {
                             }}
                             variant="info"
                             Icon={IoMdDownload}
-                            text={'Monthly Report Download'}
+                            text={'Download Report Via Range'}
                         />
                     </div>
                 </div>

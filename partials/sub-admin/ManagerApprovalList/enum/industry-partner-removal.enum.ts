@@ -9,4 +9,5 @@ export enum IndustryRequestsActions {
     Snoozed = 'Snoozed',
     NonContactable = 'nonContactable',
     Flagged = 'flagged',
+    UnFlagged = 'unFlagged',
 }

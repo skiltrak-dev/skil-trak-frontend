@@ -109,6 +109,9 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                 studentUpdateRequest={profile?.studentUpdateRequests?.find(
                     (r) => r?.action === IndustryRequestsActions.Flagged
                 )}
+                studentUnFlaggedRequest={profile?.studentUpdateRequests?.find(
+                    (r) => r?.action === IndustryRequestsActions.UnFlagged
+                )}
             />
 
             <StudentDetail profile={profile} />

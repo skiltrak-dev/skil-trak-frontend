@@ -10,12 +10,14 @@ export const ProblamaticStudent = ({
     studentId,
     isReported,
     studentUpdateRequest,
+    studentUnFlaggedRequest,
 }: {
     disabled: boolean
     hasIssue: boolean
     studentId: number
     isReported?: boolean
     studentUpdateRequest?: PartnerRemovalRequests
+    studentUnFlaggedRequest?: PartnerRemovalRequests
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -78,6 +80,15 @@ export const ProblamaticStudent = ({
                                     </Tooltip>
                                 </div>
                             )}
+                            {studentUnFlaggedRequest && (
+                                <div className="relative group">
+                                    <CiSquareQuestion size={22} />
+                                    <Tooltip position={TooltipPosition.center}>
+                                        Un Flagged Request Already Sent For
+                                        Approval
+                                    </Tooltip>
+                                </div>
+                            )}
                             <div className="-mb-2">
                                 <Switch
                                     name="priority"
@@ -87,7 +98,9 @@ export const ProblamaticStudent = ({
                                     value={hasIssue}
                                     defaultChecked={hasIssue}
                                     disabled={
-                                        disabled || !!studentUpdateRequest
+                                        disabled ||
+                                        !!studentUpdateRequest ||
+                                        !!studentUnFlaggedRequest
                                     }
                                 />
                             </div>
