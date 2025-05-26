@@ -3,6 +3,7 @@ import { SubAdminLayout } from '@layouts'
 import {
     IndustryPartnerRemovalRequest,
     IndustrySnoozeRemovalRequest,
+    RemoveFromFlaggedStudentRequest,
     StudentFlaggedRequest,
     StudentNotContactableRequest,
     StudentSnoozeRemovalRequest,
@@ -96,6 +97,22 @@ const ManagerApprovalList: NextPageWithLayout = () => {
                 loading: studentActionsCount?.isLoading,
             },
             element: <StudentFlaggedRequest />,
+        },
+        {
+            label: 'Student Remove Flagged Requests',
+            href: {
+                pathname: 'manager-approval-list',
+                query: {
+                    page: 1,
+                    pageSize: 50,
+                    tab: 'student-remove-flagged-requests',
+                },
+            },
+            badge: {
+                text: studentActionsCount?.data?.unFlagged,
+                loading: studentActionsCount?.isLoading,
+            },
+            element: <RemoveFromFlaggedStudentRequest />,
         },
     ]
     return (

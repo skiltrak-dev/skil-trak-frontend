@@ -17,7 +17,7 @@ export const AuthorizedUserComponent = ({
     const hasPermission = useAuthorizedUserComponent({
         roles,
         excludeRoles,
-        isHod,
+        isHod: !!isHod,
         isAssociatedWithRto,
     })
 

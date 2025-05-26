@@ -103,7 +103,7 @@ export const RtoNavbar = () => {
             Icon: HiDocumentReport,
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
-            id: 'reports',
+            id: 'reports/my-report',
         },
     ]
     return (
