@@ -1,46 +1,28 @@
-import {
-    ActionButton,
-    AuthorizedUserComponent,
-    Tooltip,
-    Typography,
-} from '@components'
+import { AuthorizedUserComponent, Typography } from '@components'
 import { UserRoles } from '@constants'
-import { FileUpload } from '@hoc'
 import Modal from '@modals/Modal'
 import { Pencil, Trash2 } from 'lucide-react'
-import { FaCloudUploadAlt, FaEye, FaRegEdit } from 'react-icons/fa'
+import { useMemo } from 'react'
+import { FaRegEdit } from 'react-icons/fa'
 import { IoCheckmarkDoneOutline } from 'react-icons/io5'
 import {
     AddPrevCourseDescription,
     DeleteCourseModal,
     EditCourseModal,
-} from './modal'
-import { SubAdminApi } from '@queries'
-import { useNotification } from '@hooks'
-import { useAssessmentDocumentsView } from '@partials/common/StudentProfileDetail/components'
+} from '../modal'
+import dynamic from 'next/dynamic'
+const UploadCourseFile = dynamic(() => import('./UploadCourseFile'), {
+    ssr: false,
+})
 
 export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
-    const [uploadFile, uploadFileResult] =
-        SubAdminApi.Industry.uploadCourseDocForIndustry()
-
-    const { notification } = useNotification()
-
-    const onUploadCourseFile = async (id: number, doc: File) => {
-        const formData = new FormData()
-        formData.append('file', doc)
-        const res: any = await uploadFile({ id, body: formData })
-
-        if (res?.data) {
-            notification.success({
-                title: 'File Uploaded',
-                description: 'File Uploaded Successfully',
-            })
-        }
-    }
-
-    const approvals = isPreviousCourses
-        ? data?.courses || []
-        : data?.industryCourseApprovals || []
+    const approvals = useMemo(
+        () =>
+            isPreviousCourses
+                ? data?.courses || []
+                : data?.industryCourseApprovals || [],
+        [data, isPreviousCourses]
+    )
 
     const isValidUrl = (url: any): boolean => {
         if (!url || typeof url !== 'string') return false
@@ -79,49 +61,15 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
         return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`
     }
 
-    const onFileUpload = ({
-        name,
-        fileList,
-    }: {
-        name: string
-        fileList: any
-    }) => {
-        return (
-            <ActionButton
-                variant="info"
-                loading={uploadFileResult?.isLoading}
-                disabled={uploadFileResult?.isLoading}
-            >
-                <label htmlFor={`file_id_${name}`} className="cursor-pointer">
-                    <FaCloudUploadAlt />
-                </label>
-            </ActionButton>
-        )
-    }
-
-    const { onFileClicked, documentsViewModal } = useAssessmentDocumentsView()
-
-    const extension = (fileName: string) =>
-        fileName
-            ?.replaceAll('{"', '')
-            .replaceAll('"}', '')
-            ?.split('.')
-            .reverse()[0]
-
     return (
         <>
-            {documentsViewModal}
             <div className="flex flex-col gap-4 mt-4">
-                {approvals?.map((approval: any, index: any) => (
+                {[...approvals]?.map((approval: any) => (
                     <div
                         key={approval.id}
                         className="overflow-auto custom-scrollbar"
                     >
                         <div className="p-4 bg-gray-50 flex items-center gap-x-2 justify-between">
-                            {/* <ApprovedSectorTooltip
-                            courses={approval?.courses || []}
-                        /> */}
-
                             <div className="flex items-center gap-x-2">
                                 <Typography variant="subtitle">
                                     {approval?.course?.sector?.name ??
@@ -268,111 +216,7 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                 </div>
                                 <div className="flex justify-end gap-x-2 w-full">
                                     {!isPreviousCourses && (
-                                        <div className=" bottom-0 right-2">
-                                            {approval?.file ? (
-                                                <div className="flex items-start gap-x-1">
-                                                    <div className="relative group">
-                                                        <ActionButton
-                                                            Icon={FaEye}
-                                                            onClick={() => {
-                                                                onFileClicked({
-                                                                    ...approval,
-                                                                    extension:
-                                                                        extension(
-                                                                            approval?.file
-                                                                        ),
-                                                                    file: approval?.file
-                                                                        .replaceAll(
-                                                                            '{"',
-                                                                            ''
-                                                                        )
-                                                                        .replaceAll(
-                                                                            '"}',
-                                                                            ''
-                                                                        ),
-                                                                    type: 'all',
-                                                                    showEdit:
-                                                                        false,
-                                                                })
-                                                            }}
-                                                        />
-
-                                                        <Tooltip>
-                                                            View File
-                                                        </Tooltip>
-                                                    </div>
-                                                    <AuthorizedUserComponent
-                                                        roles={[
-                                                            UserRoles.ADMIN,
-                                                            UserRoles.SUBADMIN,
-                                                        ]}
-                                                        isAssociatedWithRto={
-                                                            false
-                                                        }
-                                                    >
-                                                        <div className="relative group">
-                                                            <FileUpload
-                                                                onChange={(
-                                                                    doc: File
-                                                                ) => {
-                                                                    onUploadCourseFile(
-                                                                        approval?.id,
-                                                                        doc
-                                                                    )
-                                                                }}
-                                                                name={
-                                                                    'attachments'
-                                                                }
-                                                                component={
-                                                                    onFileUpload
-                                                                }
-                                                                limit={Number(
-                                                                    1111111111
-                                                                )}
-                                                                showError={
-                                                                    false
-                                                                }
-                                                            />
-                                                            <Tooltip>
-                                                                Edit File
-                                                            </Tooltip>
-                                                        </div>
-                                                    </AuthorizedUserComponent>
-                                                </div>
-                                            ) : (
-                                                <AuthorizedUserComponent
-                                                    roles={[
-                                                        UserRoles.ADMIN,
-                                                        UserRoles.SUBADMIN,
-                                                    ]}
-                                                    isAssociatedWithRto={false}
-                                                >
-                                                    <div className="relative group">
-                                                        <FileUpload
-                                                            onChange={(
-                                                                doc: File
-                                                            ) => {
-                                                                onUploadCourseFile(
-                                                                    approval?.id,
-                                                                    doc
-                                                                )
-                                                            }}
-                                                            showError={false}
-                                                            name={'attachments'}
-                                                            component={
-                                                                onFileUpload
-                                                            }
-                                                            limit={Number(
-                                                                1111111111
-                                                            )}
-                                                        />
-                                                        <Tooltip>
-                                                            Upload File
-                                                        </Tooltip>
-                                                    </div>
-                                                </AuthorizedUserComponent>
-                                            )}
-                                        </div>
+                                        <UploadCourseFile approval={approval} />
                                     )}
                                     {isPreviousCourses && (
                                         <AuthorizedUserComponent
