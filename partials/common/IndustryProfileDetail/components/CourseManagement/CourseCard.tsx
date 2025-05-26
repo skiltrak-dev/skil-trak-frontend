@@ -161,6 +161,7 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                         UserRoles.ADMIN,
                                         UserRoles.SUBADMIN,
                                     ]}
+                                    isAssociatedWithRto={false}
                                 >
                                     <div className="flex items-center gap-x-2">
                                         <Modal>
@@ -410,6 +411,7 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                         {isPreviousCourses && (
                                             <AuthorizedUserComponent
                                                 roles={[UserRoles.SUBADMIN]}
+                                                isAssociatedWithRto={false}
                                             >
                                                 <Modal>
                                                     <Modal.Open opens="addCourseDescription">
