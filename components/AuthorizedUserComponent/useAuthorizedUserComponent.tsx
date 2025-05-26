@@ -21,8 +21,10 @@ export const useAuthorizedUserComponent = ({
     // If excludeRoles is provided, check if user is not excluded
     const isNotExcluded = !excludeRoles?.length || !excludeRoles.includes(role)
 
+    const checkIsHod = isHod ? subadmin?.departmentMember?.isHod : false
+
     return (
-        ((hasPermission && isNotExcluded) || isHod) &&
+        ((hasPermission && isNotExcluded) || checkIsHod) &&
         (isAssociatedWithRto
             ? subadmin?.isAssociatedWithRto
             : isAssociatedWithRto === false

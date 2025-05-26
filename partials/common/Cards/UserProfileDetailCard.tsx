@@ -14,7 +14,6 @@ export const UserProfileDetailCard = ({
     border?: boolean
     children?: ReactNode
 }) => {
-    console.log('details', detail)
     return (
         <div
             onClick={() => {

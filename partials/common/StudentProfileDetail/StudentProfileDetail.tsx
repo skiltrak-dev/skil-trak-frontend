@@ -7,7 +7,7 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import { useAlert, useContextBar, useNavbar } from '@hooks'
+import { useAlert, useContextBar } from '@hooks'
 import {
     CommonApi,
     SubAdminApi,
