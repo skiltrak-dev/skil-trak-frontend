@@ -36,6 +36,8 @@ export const DisplayNotifications = () => {
         [NotificationPosition.BottomLeft]: 'flex-col-reverse left-0 bottom-0',
         [NotificationPosition.TopRight]: 'flex-col right-0 top-0',
         [NotificationPosition.BottomRight]: 'flex-col-reverse right-0 bottom-0',
+        [NotificationPosition.CenterRight]:
+            'flex-col-reverse right-0 bottom-1/2 translate-y-1/2',
     }
 
     return (
@@ -53,7 +55,7 @@ export const DisplayNotifications = () => {
                         return (
                             <div
                                 key={key}
-                                className={`${classes} flex gap-y-1 fixed z-[9999999] p-4`}
+                                className={`${classes} flex gap-y-1 fixed z-[9999999] p-4 `}
                             >
                                 {values?.map((notification: any) => (
                                     <div

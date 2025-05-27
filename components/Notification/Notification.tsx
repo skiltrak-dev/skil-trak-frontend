@@ -40,6 +40,7 @@ export const NotificationPositionOptions = [
     'bottomleft',
     'topright',
     'bottomright',
+    'centerright',
 ] as const
 
 export interface NotificationProps {

@@ -17,7 +17,7 @@ const Routes = {
     Students: `${PREFIX}/students?tab=active`,
     ContactPerson: `${PREFIX}/admins/contact-person`,
     InsuranceDocuments: `${PREFIX}/insurance-documents`,
-    WpApprovalRequest: `${PREFIX}/wp-approval-request`,
+    WpApprovalRequest: `${PREFIX}/wp-approval-request?tab=approval-list&page=1&pageSize=50`,
     Coordinators: `${PREFIX}/coordinators?tab=my-coordinators`,
 }
 

@@ -4,7 +4,6 @@ import { ChangeWorkplaceStatus } from '@partials/common'
 import { SubAdmin } from '@types'
 import classNames from 'classnames'
 import moment from 'moment'
-import { ReactElement, useState } from 'react'
 import { FaFileSignature } from 'react-icons/fa'
 
 type WorkplaceRequestStatus =
@@ -60,14 +59,21 @@ const WorkplaceRequestProgress = (appliedIndustry?: any) => {
             image: 'waiting.png',
             date: appliedIndustry?.awaitingWorkplaceResponseDate,
         },
-        '5-Waiting For Industry': {
+        '5-Waiting For Rto': {
+            status: 'Waiting For Rto',
+            description: 'for Workplace Response',
+            color: 'text-primary',
+            image: 'waiting.png',
+            date: appliedIndustry?.awaitingWorkplaceResponseDate,
+        },
+        '6-Waiting For Industry': {
             status: 'Waiting For Industry',
             description: 'for Workplace Response',
             color: 'text-indigo-400',
             image: 'waiting.png',
             date: appliedIndustry?.awaitingWorkplaceResponseDate,
         },
-        '6-Interview': {
+        '7-Interview': {
             status: 'Interview',
             description: 'with Case Officer',
             color: 'text-orange-500',
@@ -75,62 +81,62 @@ const WorkplaceRequestProgress = (appliedIndustry?: any) => {
             date: appliedIndustry?.interviewDate,
         },
 
-        '6-Meeting': {
+        '8-Meeting': {
             status: 'Appointment',
             description: 'with Workplace Supervisor',
             color: 'text-indigo-600',
             image: 'appointment.png',
             date: appliedIndustry?.appointmentBookedDate,
         },
-        '7-AgreementPending': {
+        '9-AgreementPending': {
             status: 'Agreement & Eligibility Pending',
             description: 'Checklist Pending',
             color: 'text-blue-500',
             image: 'agreement.png',
             date: appliedIndustry?.awaitingAgreementSignedDate,
         },
-        '8-AgreementSigned': {
+        '10-AgreementSigned': {
             status: 'Agreement & Eligibility Signed',
             description: 'Checklist Signed',
             color: 'text-green-500',
             image: 'agreement.png',
             date: appliedIndustry?.AgreementSignedDate,
         },
-        '9-PlacementStarted': {
+        '11-PlacementStarted': {
             status: 'Placement Started',
             description: '',
             color: 'text-white',
             image: 'placement-started.png',
             date: appliedIndustry?.placementStartedDate,
         },
-        '10-PlacementCancelled': {
+        '12-PlacementCancelled': {
             status: 'Request Cancelled',
             description: 'request cancelled',
             color: 'text-error',
             image: 'placement-cancelled.png',
             date: appliedIndustry?.cancelledDate,
         },
-        '11-PlacementCompleted': {
+        '13-PlacementCompleted': {
             status: 'Schedule Completed',
             description: 'placement-completed',
             color: 'text-green-500',
             image: 'placement-cancelled.png',
             date: appliedIndustry?.isCompletedDate,
         },
-        '12-NotResponded': {
+        '14-NotResponded': {
             status: 'Industry NotResponded',
             description: 'industry not-responded',
             color: 'text-green-500',
             image: 'placement-cancelled.png',
             date: appliedIndustry?.industryResponseDate,
         },
-        '13-Rejected': {
+        '15-Rejected': {
             status: 'Rejected',
             description: 'placement-rejected',
             color: 'text-error',
             image: 'placement-cancelled.png',
         },
-        '14-Terminated': {
+        '16-Terminated': {
             status: 'Terminated',
             description: 'placement-terminated',
             color: 'text-error',
@@ -151,7 +157,23 @@ export const ProgressCell = ({
 }: {
     studentId?: number
     status?: WorkplaceRequestStatus
-    step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | number
+    step:
+        | 1
+        | 2
+        | 3
+        | 4
+        | 5
+        | 6
+        | 7
+        | 8
+        | 9
+        | 10
+        | 11
+        | 12
+        | 13
+        | 14
+        | 15
+        | number
     assigned?: SubAdmin
     appliedIndustry: any
     studentProvidedWorkplace?: boolean
@@ -169,10 +191,10 @@ export const ProgressCell = ({
             true,
         'bg-white':
             currentStatus.status !==
-            WorkplaceRequestProgress()['9-PlacementStarted'].status,
+            WorkplaceRequestProgress()['11-PlacementStarted'].status,
         'bg-green-500':
             currentStatus.status ===
-            WorkplaceRequestProgress()['9-PlacementStarted'].status,
+            WorkplaceRequestProgress()['11-PlacementStarted'].status,
     })
 
     const onProgressClicked = (studentId: number | undefined) => {

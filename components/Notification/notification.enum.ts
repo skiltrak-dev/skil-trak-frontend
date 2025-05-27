@@ -3,4 +3,5 @@ export enum NotificationPosition {
     BottomLeft = 'bottomleft',
     TopRight = 'topright',
     BottomRight = 'bottomright',
+    CenterRight = 'centerright',
 }

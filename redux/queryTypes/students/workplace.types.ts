@@ -1,6 +1,13 @@
 import { WorkplaceAnswerEnum } from '@partials/common'
 import { WorkplaceEmploymentDocument } from '@partials/student'
-import { Course, Industry, Student, SubAdmin, UserStatus } from '@types'
+import {
+    Course,
+    Industry,
+    RtoApprovalWorkplaceRequest,
+    Student,
+    SubAdmin,
+    UserStatus,
+} from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
 import { BaseResponse } from 'types/base.type'
 
@@ -114,4 +121,5 @@ export interface IWorkplaceIndustries {
     student?: Student
     questions?: WorkplaceQuestionType[]
     employmentDocument?: EmploymentDocument
+    workplaceApprovaleRequest?: RtoApprovalWorkplaceRequest[]
 }

@@ -19,12 +19,6 @@ const PrimaryLinks = [
         animation: Animations.Student.Workplace.MyWorkplace,
     },
     {
-        title: 'Black Listed Industries',
-        description: 'Your Black Listed Industries',
-        link: 'industries/black-listes-industries',
-        animation: Animations.Industry.Consultation.Consultation,
-    },
-    {
         title: 'MoUs',
         description: 'Sign MoUs With Industries',
         link: 'industries/mous',

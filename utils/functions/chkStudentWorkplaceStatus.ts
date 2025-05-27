@@ -27,6 +27,7 @@ export const checkWorkplaceStatus = (currentStatus: WorkplaceCurrentStatus) => {
         'applied',
         'caseOfficerAssigned',
         'awaitingStudentResponse',
+        'awaitingRtoResponse',
         'awaitingWorkplaceResponse',
         'interview',
         'appointmentBooked',

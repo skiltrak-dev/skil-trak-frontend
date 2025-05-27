@@ -43,11 +43,12 @@ const UploadCourseFile = ({ approval }: { approval: any }) => {
                                         .replaceAll('"}', ''),
                                     type: 'all',
                                     showEdit: false,
+                                    showDownload: false,
                                 })
                             }}
                         />
 
-                        <Tooltip>View File</Tooltip>
+                        <Tooltip>View Checklist</Tooltip>
                     </div>
                     <AuthorizedUserComponent
                         roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
@@ -70,7 +71,7 @@ const UploadCourseFile = ({ approval }: { approval: any }) => {
                                 Icon={FaCloudUploadAlt}
                                 onClick={onUploadFile}
                             />
-                            <Tooltip>Edit File</Tooltip>
+                            <Tooltip>Edit Checklist File</Tooltip>
                         </div>
                     </AuthorizedUserComponent>
                 </div>
@@ -93,7 +94,7 @@ const UploadCourseFile = ({ approval }: { approval: any }) => {
                             Icon={FaCloudUploadAlt}
                             onClick={onUploadFile}
                         />
-                        <Tooltip>Upload File</Tooltip>
+                        <Tooltip>Upload Checklist File</Tooltip>
                     </div>
                 </AuthorizedUserComponent>
             )}

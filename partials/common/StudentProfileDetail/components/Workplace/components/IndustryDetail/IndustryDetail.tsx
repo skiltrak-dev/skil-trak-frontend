@@ -1,6 +1,7 @@
 import {
     AuthorizedUserComponent,
     Card,
+    InitialAvatar,
     NoData,
     Tooltip,
     Typography,
@@ -53,7 +54,6 @@ export const IndustryDetail = ({
 }) => {
     const contextBar = useContextBar()
     const { notification } = useNotification()
-    const [showMap, setShowMap] = useState<boolean>(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const { onFileClicked, documentsViewModal } = useAssessmentDocumentsView()
@@ -63,6 +63,8 @@ export const IndustryDetail = ({
     const suggestedIndustries = workplace?.industries?.filter(
         (i: any) => !i.applied
     )
+
+    const industry = workplace?.workplaceApprovaleRequest?.[0]?.industry
 
     const onCancelClicked = () => setModal(null)
 
@@ -301,7 +303,7 @@ export const IndustryDetail = ({
                             {workplace?.currentStatus ===
                             WorkplaceCurrentStatus.AwaitingRtoResponse ? (
                                 <Card noPadding fullHeight>
-                                    <div className="flex justify-center items-center bg-yellow-100 p-5">
+                                    <div className="flex flex-col justify-center items-center bg-yellow-100 p-5">
                                         <Typography
                                             variant="label"
                                             bold
@@ -310,6 +312,30 @@ export const IndustryDetail = ({
                                             Waiting For Rto to Approve the
                                             Industry
                                         </Typography>
+                                        <div>
+                                            <Typography variant="small">
+                                                Industry Detail:
+                                            </Typography>
+                                            <div className="flex items-center justify-center gap-x-2">
+                                                {industry?.user?.name && (
+                                                    <InitialAvatar
+                                                        name={
+                                                            industry?.user?.name
+                                                        }
+                                                        imageUrl={
+                                                            industry?.user
+                                                                ?.avatar
+                                                        }
+                                                    />
+                                                )}
+                                                <Typography
+                                                    variant="label"
+                                                    bold
+                                                >
+                                                    {industry?.user?.name}
+                                                </Typography>
+                                            </div>
+                                        </div>
                                     </div>
                                 </Card>
                             ) : (

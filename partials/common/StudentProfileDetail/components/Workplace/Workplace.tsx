@@ -7,7 +7,6 @@ import {
     EmptyData,
     LoadingAnimation,
     TechnicalError,
-    Tooltip,
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
