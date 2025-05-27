@@ -40,7 +40,7 @@ export const UploadCourseFileModal = ({
                 (value) =>
                     value &&
                     value?.length > 0 &&
-                    value?.[0]?.size <= 10 * 1024 * 1024 // 10MB
+                    value?.[0]?.size <= 5 * 1024 * 1024 // 5MB
             )
             .test(
                 'fileType',

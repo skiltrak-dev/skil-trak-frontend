@@ -1,38 +1,23 @@
 import {
-    Badge,
-    Button,
     Card,
-    EmptyData,
-    LoadingAnimation,
     Table,
-    TableAction,
-    TableActionOption,
+    EmptyData,
     TechnicalError,
-    Typography,
-    UserCreatedAt,
+    LoadingAnimation,
 } from '@components'
-import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye } from 'react-icons/fa'
-
-import { RtoCellInfo } from '@partials/admin/rto/components'
 import { SubAdminApi } from '@queries'
-import { RemovePartnerRequest, Student, UserStatus } from '@types'
-import moment from 'moment'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
-import { IndustryCellInfo } from '../Industries'
-import {
-    ApprovePartnerIndustryApprovalList,
-    RejectPartnerIndustryApprovalList,
-} from './modal'
-import { IndustryRequestRemovalStatus, IndustryRequestsActions } from './enum'
+import { useEffect, useState } from 'react'
+import { useIndustryColumns } from './hooks'
+import { IndustryRequestsActions } from './enum'
 
 export const IndustryPartnerRemovalRequest = () => {
     const router = useRouter()
 
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
-    const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const { columns, modal } = useIndustryColumns()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -50,93 +35,6 @@ export const IndustryPartnerRemovalRequest = () => {
                 refetchOnMountOrArgChange: 30,
             }
         )
-
-    const onCancel = () => setModal(null)
-
-    const onApproveClicked = (request: RemovePartnerRequest) => {
-        setModal(
-            <ApprovePartnerIndustryApprovalList
-                request={request}
-                onCancel={onCancel}
-            />
-        )
-    }
-
-    const onRejectClicked = (request: RemovePartnerRequest) => {
-        setModal(
-            <RejectPartnerIndustryApprovalList
-                request={request}
-                onCancel={onCancel}
-            />
-        )
-    }
-
-    const columns: ColumnDef<RemovePartnerRequest>[] = [
-        {
-            accessorKey: 'user.name',
-            cell: (info) => (
-                <IndustryCellInfo industry={info.row.original?.industry} />
-            ),
-            header: () => <span>Industry</span>,
-        },
-        {
-            accessorKey: 'industry.abn',
-            header: () => <span>ABN</span>,
-        },
-        {
-            header: () => 'Contact Person',
-            accessorKey: 'contactPersonNumber',
-            cell: ({ row }) => {
-                const { contactPersonNumber, contactPerson } =
-                    row.original?.industry
-                return (
-                    <Typography variant={'muted'} color={'gray'}>
-                        {contactPersonNumber} {contactPerson}
-                    </Typography>
-                )
-            },
-        },
-        {
-            accessorKey: 'createdBy',
-            header: () => <span>Created At</span>,
-            cell: ({ row }) => (
-                <UserCreatedAt createdAt={row?.original?.createdAt} />
-            ),
-        },
-        {
-            accessorKey: 'status',
-            header: () => <span>Status</span>,
-            cell: ({ row }) => (
-                <Badge
-                    text={row?.original?.status}
-                    variant={
-                        row.original?.status ===
-                        IndustryRequestRemovalStatus.REJECTED
-                            ? 'error'
-                            : 'warning'
-                    }
-                />
-            ),
-        },
-        {
-            accessorKey: 'action',
-            header: () => <span>Action</span>,
-            cell: (info) => (
-                <div className="flex gap-x-1 items-center">
-                    <Button
-                        text={'Approve'}
-                        variant="success"
-                        onClick={() => onApproveClicked(info.row.original)}
-                    />
-                    <Button
-                        text={'Reject'}
-                        variant="error"
-                        onClick={() => onRejectClicked(info.row.original)}
-                    />
-                </div>
-            ),
-        },
-    ]
 
     return (
         <>
