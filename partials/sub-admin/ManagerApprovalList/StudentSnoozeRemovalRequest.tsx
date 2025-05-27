@@ -1,34 +1,21 @@
 import {
-    Badge,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
     Table,
     TechnicalError,
-    Typography,
-    UserCreatedAt,
 } from '@components'
-import { ColumnDef } from '@tanstack/react-table'
 import { SubAdminApi } from '@queries'
-import { RemovePartnerRequest, StudentActionsRequest } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
-import { IndustryCellInfo } from '../Industries'
-import { IndustryRequestRemovalStatus, IndustryRequestsActions } from './enum'
-import {
-    ApprovePartnerIndustryApprovalList,
-    RejectPartnerIndustryApprovalList,
-    StudentApprovalActionsModal,
-    StudentRejectActionsModal,
-} from './modal'
-import { StudentCellInfo } from '../students'
-import { FaEnvelope } from 'react-icons/fa'
+import { useEffect, useState } from 'react'
+import { IndustryRequestsActions } from './enum'
+import { useStudentColumns } from './hooks'
 
 export const StudentSnoozeRemovalRequest = () => {
     const router = useRouter()
 
-    const [modal, setModal] = useState<ReactElement | null>(null)
+    const { columns, modal } = useStudentColumns()
+
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
 
@@ -48,92 +35,6 @@ export const StudentSnoozeRemovalRequest = () => {
                 refetchOnMountOrArgChange: 30,
             }
         )
-
-    const onCancel = () => setModal(null)
-
-    const onApproveClicked = (request: StudentActionsRequest) => {
-        setModal(
-            <StudentApprovalActionsModal
-                request={request}
-                onCancel={onCancel}
-            />
-        )
-    }
-
-    const onRejectClicked = (request: StudentActionsRequest) => {
-        setModal(
-            <StudentRejectActionsModal request={request} onCancel={onCancel} />
-        )
-    }
-
-    const columns: ColumnDef<StudentActionsRequest>[] = [
-        {
-            accessorKey: 'user.name',
-            cell: (info) => (
-                <StudentCellInfo student={info.row.original?.student} />
-            ),
-            header: () => <span>Student</span>,
-        },
-        {
-            accessorKey: 'requestedBy',
-            header: () => <span>Requested By</span>,
-            cell: (info) => (
-                <div>
-                    <Typography variant="label">
-                        {info?.row?.original?.requestedBy?.name}
-                    </Typography>
-                    <div className="flex items-center gap-x-1">
-                        <span className="text-gray-400">
-                            <FaEnvelope />
-                        </span>
-                        <Typography variant="small" color="text-gray-500">
-                            {info?.row?.original?.requestedBy?.email}
-                        </Typography>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            accessorKey: 'createdBy',
-            header: () => <span>Created At</span>,
-            cell: ({ row }) => (
-                <UserCreatedAt createdAt={row?.original?.createdAt} />
-            ),
-        },
-        {
-            accessorKey: 'status',
-            header: () => <span>Status</span>,
-            cell: ({ row }) => (
-                <Badge
-                    text={row?.original?.status}
-                    variant={
-                        row.original?.status ===
-                        IndustryRequestRemovalStatus.REJECTED
-                            ? 'error'
-                            : 'warning'
-                    }
-                />
-            ),
-        },
-        {
-            accessorKey: 'action',
-            header: () => <span>Action</span>,
-            cell: (info) => (
-                <div className="flex gap-x-1 items-center">
-                    <Button
-                        text={'Approve'}
-                        variant="success"
-                        onClick={() => onApproveClicked(info.row.original)}
-                    />
-                    <Button
-                        text={'Reject'}
-                        variant="error"
-                        onClick={() => onRejectClicked(info.row.original)}
-                    />
-                </div>
-            ),
-        },
-    ]
 
     return (
         <>
