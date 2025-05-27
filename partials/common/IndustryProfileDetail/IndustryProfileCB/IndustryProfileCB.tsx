@@ -155,6 +155,8 @@ export const IndustryProfileCB = ({
                         (r) => r?.action === IndustryRequestsActions.Snoozed
                     )}
                 />
+
+                
                 <MakeIndustryPartner
                     industryId={industry?.id}
                     isPartner={industry?.isPartner}
