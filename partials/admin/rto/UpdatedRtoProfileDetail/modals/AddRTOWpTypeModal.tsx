@@ -64,8 +64,8 @@ export const AddRTOWpTypeModal = ({
                 showActions={false}
                 loading={addResult?.isLoading}
             >
-                <div className="max-h-[70vh] overflow-auto custom-scrollbar">
-                    <div className="max-w-3xl w-full">
+                <div className="max-h-[70vh] min-h-[40vh] overflow-auto custom-scrollbar">
+                    <div className="max-w-3xl w-full min-h-[40vh]">
                         <Select
                             label={'Add Workplace Types'}
                             name="wpTypes"

@@ -126,7 +126,11 @@ export const IndustryBranchesAddress = ({
 
                     <div className="flex items-center gap-x-1 ">
                         <AuthorizedUserComponent
-                            roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                            roles={[
+                                UserRoles.SUBADMIN,
+                                UserRoles.ADMIN,
+                                UserRoles.INDUSTRY,
+                            ]}
                         >
                             <div
                                 onClick={onAddLocations}

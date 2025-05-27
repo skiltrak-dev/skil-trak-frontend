@@ -1,4 +1,4 @@
-import { Typography } from '@components'
+import { Checkbox, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { useGoogleMaps } from '@hooks'
 import { CommonApi, RtoApi } from '@queries'
@@ -79,7 +79,7 @@ setKey(process.env.NEXT_PUBLIC_MAP_KEY as string)
 export const RtoDashboardMap = ({ address }: { address: string }) => {
     const [map, setMap] = useState<google.maps.Map | null>(null)
     const [visibleMarkers, setVisibleMarkers] = useState<any>([])
-
+    const [showFutureIndustries, setShowFutureIndustries] = useState(false)
     useEffect(() => {
         // Function to get latitude and longitude from address
         const getLatLngFromAddress = async () => {
@@ -108,6 +108,7 @@ export const RtoDashboardMap = ({ address }: { address: string }) => {
     const futureIndustries = CommonApi.FindWorkplace.mapFutureIndustries(
         undefined,
         {
+            skip: !showFutureIndustries,
             refetchOnMountOrArgChange: true,
         }
     )
@@ -164,12 +165,24 @@ export const RtoDashboardMap = ({ address }: { address: string }) => {
             setVisibleMarkers(markers)
         }
     }, [industries, futureIndustries])
+
+    const handleShowFutureIndustries = () => {
+        setShowFutureIndustries(!showFutureIndustries)
+    }
     return (
         <div className={'flex flex-col gap-y-1 h-full'}>
             {/* {JSON.stringify(abc())} */}
-            <Typography center variant="label" semibold>
-                Industries On Skiltrak Data Base According to Your Courses
-            </Typography>
+            <div className="flex justify-between items-center">
+                <Typography center variant="label" semibold>
+                    Industries On Skiltrak Data Base According to Your Courses
+                </Typography>
+                <Checkbox
+                    name="futureIndustries"
+                    onChange={handleShowFutureIndustries}
+                    label="Show Future Industries"
+                    value={showFutureIndustries}
+                />
+            </div>
             <div className={'rounded-md overflow-hidden h-full'}>
                 {isLoaded ? (
                     <GoogleMap
@@ -257,40 +270,47 @@ export const RtoDashboardMap = ({ address }: { address: string }) => {
                                 </>
                             )}
                         </MarkerClusterer>
-                        {/* futureIndustryClusterOptions */}
-                        <MarkerClusterer options={futureIndustryClusterOptions}>
-                            {(clusterer) => (
-                                <>
-                                    {visibleMarkers
-                                        ?.filter(
-                                            (marker: any) =>
-                                                marker?.department &&
-                                                !marker?.user &&
-                                                !marker?.courses
-                                        )
-                                        .map((marker: any) => (
-                                            <div key={marker?.id}>
-                                                <Marker
-                                                    icon={{
-                                                        url:
-                                                            marker?.department &&
-                                                            '/images/icons/future-industry-pin.png',
 
-                                                        scaledSize:
-                                                            new google.maps.Size(
-                                                                29,
-                                                                38
-                                                            ),
-                                                    }}
-                                                    position={marker.location}
-                                                    // label={marker.name}
-                                                    clusterer={clusterer}
-                                                />
-                                            </div>
-                                        ))}
-                                </>
-                            )}
-                        </MarkerClusterer>
+                        {/* futureIndustryClusterOptions */}
+                        {showFutureIndustries && (
+                            <MarkerClusterer
+                                options={futureIndustryClusterOptions}
+                            >
+                                {(clusterer) => (
+                                    <>
+                                        {visibleMarkers
+                                            ?.filter(
+                                                (marker: any) =>
+                                                    marker?.department &&
+                                                    !marker?.user &&
+                                                    !marker?.courses
+                                            )
+                                            .map((marker: any) => (
+                                                <div key={marker?.id}>
+                                                    <Marker
+                                                        icon={{
+                                                            url:
+                                                                marker?.department &&
+                                                                '/images/icons/future-industry-pin.png',
+
+                                                            scaledSize:
+                                                                new google.maps.Size(
+                                                                    29,
+                                                                    38
+                                                                ),
+                                                        }}
+                                                        position={
+                                                            marker.location
+                                                        }
+                                                        // label={marker.name}
+                                                        clusterer={clusterer}
+                                                    />
+                                                </div>
+                                            ))}
+                                    </>
+                                )}
+                            </MarkerClusterer>
+                        )}
                     </GoogleMap>
                 ) : (
                     ''
