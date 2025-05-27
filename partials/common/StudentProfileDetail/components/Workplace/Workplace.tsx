@@ -114,20 +114,27 @@ export const Workplace = ({
                         </span>
                     </Typography>
                     <div className="flex items-center gap-x-2">
-                        <div>
-                            <Button
-                                text={
-                                    showPreviousWorkplace
-                                        ? 'Current WP'
-                                        : 'Cancelled WP'
-                                }
-                                variant={
-                                    showPreviousWorkplace ? 'success' : 'error'
-                                }
-                                onClick={togglePreviousWorkplace}
-                            />
-                            {/* )} */}
-                        </div>
+                        <AuthorizedUserComponent
+                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            isAssociatedWithRto={false}
+                        >
+                            <div>
+                                <Button
+                                    text={
+                                        showPreviousWorkplace
+                                            ? 'Current WP'
+                                            : 'Cancelled WP'
+                                    }
+                                    variant={
+                                        showPreviousWorkplace
+                                            ? 'success'
+                                            : 'error'
+                                    }
+                                    onClick={togglePreviousWorkplace}
+                                />
+                                {/* )} */}
+                            </div>
+                        </AuthorizedUserComponent>
                         <AuthorizedUserComponent
                             roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                         >
