@@ -24,7 +24,7 @@ export const useShowErrorNotification = () => {
                         title: errorTitle,
                         description: msg,
                         autoDismiss: true,
-                        dissmissTimer: 4500,
+                        dissmissTimer: 5000,
                         position,
                     })
                 }
@@ -35,7 +35,7 @@ export const useShowErrorNotification = () => {
                         result.error?.data?.message ||
                         'Please check your network connection',
                     autoDismiss: true,
-                    dissmissTimer: 4500,
+                    dissmissTimer: 5000,
                     position,
                 })
             }

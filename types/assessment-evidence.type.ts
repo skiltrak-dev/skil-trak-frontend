@@ -16,6 +16,7 @@ export interface AssessmentEvidenceFolder extends BaseResponse {
     notAssessed: boolean
     isAgreement: boolean
     studentResponse: StudentResponseType[]
+    isFacilityCheckList: boolean
 }
 
 export interface CourseWithAssessmentEvidence extends Course {

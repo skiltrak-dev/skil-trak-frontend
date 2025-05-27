@@ -6,40 +6,27 @@ import {
     LoadingAnimation,
     StudentExpiryDaysLeft,
     Table,
-    TableAction,
     TechnicalError,
     Typography,
-    UserCreatedAt,
+    UserCreatedAt
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEye } from 'react-icons/fa'
 
-export const Students = () => {
-    return <div>Students</div>
-}
-
-import { EditTimer } from '@components/StudentTimer/EditTimer'
 import {
     IndustryCell,
     SectorCell,
     StudentCellInfo,
 } from '@partials/rto/student/components'
-import { ArchiveModal, BlockModal } from '@partials/rto/student/modals'
-import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
 import { RtoApi, useGetRtoStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
 import { getUserCredentials, studentsListWorkplace } from '@utils'
 import { saveAs } from 'file-saver'
-import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 export const RtoDashboardStudents = () => {
     const router = useRouter()
-    const [modal, setModal] = useState<ReactElement | null>(null)
-    const [changeExpiryData, setChangeExpiryData] = useState(false)
     const [isExcelDownload, setIsExcelDownload] = useState<boolean>(false)
     const userId = getUserCredentials()?.id
 
@@ -51,9 +38,7 @@ export const RtoDashboardStudents = () => {
         { skip: !isExcelDownload }
     )
 
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [page, setPage] = useState(1)
-    const { isLoading, data, isError, refetch } = useGetRtoStudentsQuery({
+    const { isLoading, data, isError } = useGetRtoStudentsQuery({
         search: `status:${UserStatus.Approved}`,
         skip: 0,
         limit: 5,
@@ -71,84 +56,12 @@ export const RtoDashboardStudents = () => {
         }
     }, [exportList?.data, exportList?.isSuccess])
 
-    const onModalCancelClicked = () => setModal(null)
-
-    const onBlockClicked = (student: Student) => {
-        setModal(
-            <BlockModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onArchiveClicked = (student: Student) => {
-        setModal(
-            <ArchiveModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStudentStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onDateClick = (student: Student) => {
-        setModal(
-            <EditTimer
-                studentId={student?.user?.id}
-                date={student?.expiryDate}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const tableActionOptions = (student: Student) => {
-        return [
-            {
-                text: 'View',
-                onClick: (student: Student) =>
-                    router.push(
-                        `/portals/rto/students/${student.id}?tab=overview`
-                    ),
-                Icon: FaEye,
-            },
-            {
-                text: 'Edit',
-                onClick: (student: Student) =>
-                    router.push(
-                        `portals/rto/students/${student.id}/edit-student`
-                    ),
-                Icon: FaEye,
-            },
-            {
-                text: 'Archive',
-                onClick: (student: Student) => onArchiveClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Block',
-                onClick: (student: Student) => onBlockClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-        ]
-    }
-
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} call />
-            },
+            cell: (info) => (
+                <StudentCellInfo student={info.row.original} call />
+            ),
             header: () => <span>Student</span>,
         },
         {
@@ -222,21 +135,6 @@ export const RtoDashboardStudents = () => {
                 <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
-        {
-            accessorKey: 'action',
-            header: () => <span>Action</span>,
-            cell: (info) => {
-                const tableActionOption = tableActionOptions(info.row.original)
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOption}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
-        },
     ]
 
     const links = [
@@ -256,7 +154,6 @@ export const RtoDashboardStudents = () => {
 
     return (
         <>
-            {modal && modal}
             <Card fullHeight shadowType="profile" noPadding>
                 <div className="px-4 py-3 flex justify-between items-center border-b border-secondary-dark">
                     <Typography semibold>

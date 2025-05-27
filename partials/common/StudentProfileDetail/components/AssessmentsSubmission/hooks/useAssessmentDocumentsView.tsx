@@ -73,6 +73,7 @@ export const useAssessmentDocumentsView = () => {
                     extension={file?.extension}
                     filename={file?.filename}
                     showEdit={file?.showEdit}
+                    showDownload={file?.showDownload}
                 />
             )
         } else if (

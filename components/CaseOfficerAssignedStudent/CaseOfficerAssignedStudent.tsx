@@ -140,7 +140,7 @@ export const CaseOfficerAssignedStudent = ({
                     appliedIndustry={updatedAlliedIndustry}
                     studentId={student?.id}
                     assigned={updatedWorkplace?.assignedTo || student?.subadmin}
-                    step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
+                    step={steps > 15 ? 15 : steps < 1 ? 1 : steps}
                     studentProvidedWorkplace={
                         updatedWorkplace?.studentProvidedWorkplace ||
                         updatedWorkplace?.byExistingAbn

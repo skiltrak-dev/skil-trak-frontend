@@ -121,7 +121,7 @@ export const RtoWpApproval = () => {
             ),
         },
         {
-            accessorKey: 'a',
+            accessorKey: 'requirement',
             header: () => <span>Requirement</span>,
             cell: (info) => (
                 <ActionButton

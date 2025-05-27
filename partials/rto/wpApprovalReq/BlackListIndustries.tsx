@@ -1,7 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react'
 // Layouts
-import { RtoLayout } from '@layouts'
-import { NextPageWithLayout, RTOWorkplaceFormFilter } from '@types'
+import { RTOWorkplaceFormFilter } from '@types'
 //components
 import {
     Button,
@@ -21,12 +20,14 @@ import Link from 'next/link'
 // Queries
 import { RtoApi } from '@queries'
 // Next Image
+import { RemoveFromBlackListModal } from '@partials/rto/BlackListedIndustries'
 import { ColumnDef } from '@tanstack/react-table'
+import { RtoApprovalWorkplaceRequest } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { FaFileExport } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
-import { RemoveFromBlackListModal } from '@partials/rto/BlackListedIndustries'
+import { WPApprovalCourseRequirementModal } from './modal'
 
 type Props = {}
 
@@ -40,7 +41,7 @@ const filterKeys = [
     'courseId',
 ]
 
-const BlackListedIndustries: NextPageWithLayout = () => {
+export const BlackListIndustries = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -70,6 +71,15 @@ const BlackListedIndustries: NextPageWithLayout = () => {
             <RemoveFromBlackListModal
                 onCancel={onCancel}
                 wpRequest={wpRequest}
+            />
+        )
+    }
+
+    const onViewCourseRequirement = (wpAppReq: RtoApprovalWorkplaceRequest) => {
+        setModal(
+            <WPApprovalCourseRequirementModal
+                wpAppReq={wpAppReq}
+                onCancel={onCancel}
             />
         )
     }
@@ -126,6 +136,20 @@ const BlackListedIndustries: NextPageWithLayout = () => {
                 return `${addressLine1} ${addressLine2}`
             },
         },
+        // {
+        //     accessorKey: 'requirement',
+        //     header: () => <span>Requirement</span>,
+        //     cell: (info) => (
+        //         <ActionButton
+        //             onClick={() => {
+        //                 onViewCourseRequirement(info?.row?.original)
+        //             }}
+        //             variant="info"
+        //         >
+        //             View Course
+        //         </ActionButton>
+        //     ),
+        // },
         {
             header: () => 'Action',
             accessorKey: 'Action',
@@ -222,16 +246,3 @@ const BlackListedIndustries: NextPageWithLayout = () => {
         </>
     )
 }
-BlackListedIndustries.getLayout = (page: ReactElement) => {
-    return (
-        <RtoLayout
-            pageTitle={{
-                title: 'Black Listed Industries',
-            }}
-        >
-            {page}
-        </RtoLayout>
-    )
-}
-
-export default BlackListedIndustries

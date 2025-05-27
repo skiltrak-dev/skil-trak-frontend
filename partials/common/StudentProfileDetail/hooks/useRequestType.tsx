@@ -292,37 +292,37 @@ export const useRequestType = ({
             secondaryText: 'Checklist Signed',
             color: 'text-success',
             onClick: (isCleared: (bool: boolean) => void) => {
+                // if (
+                //     student?.user?.schedules &&
+                //     student?.user?.schedules?.length > 0
+                // ) {
                 if (
-                    student?.user?.schedules &&
-                    student?.user?.schedules?.length > 0
+                    workplace?.currentStatus ===
+                    WorkplaceCurrentStatus.AwaitingAgreementSigned
                 ) {
-                    if (
-                        workplace?.currentStatus ===
-                        WorkplaceCurrentStatus.AwaitingAgreementSigned
-                    ) {
-                        // notification.info({
-                        //     title: 'Agreement Sign',
-                        //     description:
-                        //         'Now You can upload the agreement file on th workplace which is provided by student or you can request to student to upload the agreement file',
-                        // })
-                        // isCleared(false)
-                        onChangeStatusToSigned()
-                    } else {
-                        isCleared(false)
-                        notification.error({
-                            title: 'Approve or reject',
-                            description:
-                                'You must have to Approve the workplace request',
-                        })
-                    }
+                    // notification.info({
+                    //     title: 'Agreement Sign',
+                    //     description:
+                    //         'Now You can upload the agreement file on th workplace which is provided by student or you can request to student to upload the agreement file',
+                    // })
+                    // isCleared(false)
+                    onChangeStatusToSigned()
                 } else {
-                    setModal(
-                        <ShowScheduleInfoModal
-                            status={AddScheduleStatus.AgreementSigned}
-                            onCancel={onModalCancelClicked}
-                        />
-                    )
+                    isCleared(false)
+                    notification.error({
+                        title: 'Approve or reject',
+                        description:
+                            'You must have to Approve the workplace request',
+                    })
                 }
+                // } else {
+                //     setModal(
+                //         <ShowScheduleInfoModal
+                //             status={AddScheduleStatus.AgreementSigned}
+                //             onCancel={onModalCancelClicked}
+                //         />
+                //     )
+                // }
             },
             status: WorkplaceCurrentStatus.AgreementSigned,
             date: appliedIndustry?.AgreementSignedDate,

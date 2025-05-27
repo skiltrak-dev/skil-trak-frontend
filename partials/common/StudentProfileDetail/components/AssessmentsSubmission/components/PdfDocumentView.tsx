@@ -12,6 +12,7 @@ import { isBrowser } from '@utils'
 import { UserRoles } from '@constants'
 
 interface PdfViewModalProps {
+    showDownload?: boolean
     url: string
     onCancelButtonClick?: (value?: boolean) => void
     downloadUrl: string
@@ -28,6 +29,7 @@ export const PdfDocumentView = ({
     onCancelButtonClick,
     downloadUrl,
     file,
+    showDownload = true,
     extension,
 }: PdfViewModalProps) => {
     const [totalPages, setTotalPages] = useState(0)
@@ -69,14 +71,16 @@ export const PdfDocumentView = ({
                                         }}
                                     />
                                 ) : null}
-                                <Button
-                                    text="Download Document"
-                                    onClick={() => {
-                                        if (isBrowser()) {
-                                            window.open(downloadUrl)
-                                        }
-                                    }}
-                                />
+                                {showDownload && (
+                                    <Button
+                                        text="Download Document"
+                                        onClick={() => {
+                                            if (isBrowser()) {
+                                                window.open(downloadUrl)
+                                            }
+                                        }}
+                                    />
+                                )}
                             </AuthorizedUserComponent>
                             <MdCancel
                                 onClick={() => {
@@ -93,20 +97,6 @@ export const PdfDocumentView = ({
                         <div className="min-w-[100%] flex flex-col items-center">
                             <div className="w-full px-4 flex justify-between">
                                 <div>
-                                    <AuthorizedUserComponent
-                                        excludeRoles={[UserRoles.OBSERVER]}
-                                    >
-                                        <div>
-                                            <a
-                                                href={downloadUrl}
-                                                target="_blank"
-                                                rel={'noreferrer'}
-                                                className="text-sm font-semibold text-info"
-                                            >
-                                                Download
-                                            </a>
-                                        </div>
-                                    </AuthorizedUserComponent>
                                     <p className="text-sm">
                                         <span className="text-gray-500">
                                             Page

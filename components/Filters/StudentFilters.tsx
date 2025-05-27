@@ -49,6 +49,10 @@ export const workplaceProgressOptions = [
         value: WorkplaceCurrentStatus.AwaitingStudentResponse,
     },
     {
+        label: 'Waiting For Rto',
+        value: WorkplaceCurrentStatus.AwaitingRtoResponse,
+    },
+    {
         label: 'Waiting',
         value: WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
     },
@@ -242,7 +246,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     }}
                     showError={false}
                 />
-                {getUserRole?.role !== 'rto' && (
+                {getUserRole?.role !== UserRoles.RTO && (
                     <Select
                         label={'Search By Rto'}
                         name={'rtoId'}
