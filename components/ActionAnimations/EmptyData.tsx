@@ -2,8 +2,13 @@
 
 import { Animations } from '@animations'
 import Link from 'next/link'
-import Lottie from 'react-lottie'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
+
+// Dynamically import Lottie with no SSR
+const Lottie = dynamic(() => import('react-lottie'), {
+    ssr: false,
+})
 
 interface EmptyDataProps {
     title?: string

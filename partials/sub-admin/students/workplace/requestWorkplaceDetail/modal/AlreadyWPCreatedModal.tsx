@@ -1,7 +1,12 @@
 import { GlobalModal, Typography } from '@components'
 import { useRouter } from 'next/router'
-import Lottie from 'react-lottie'
 import { Animations } from '@animations'
+import dynamic from 'next/dynamic'
+
+// Dynamically import Lottie with no SSR
+const Lottie = dynamic(() => import('react-lottie'), {
+    ssr: false,
+})
 
 export const AlreadyWPCreatedModal = () => {
     const router = useRouter()

@@ -201,17 +201,23 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                     <Typography variant="label" color="white">
                                         Description
                                     </Typography>
-                                    <div
-                                        title={approval?.description}
-                                        className="w-full"
-                                    >
-                                        <Typography
+
+                                    <div className="w-full min-w-80">
+                                        <div
+                                            className="customTailwingStyles-inline-style customTailwingStyles text-xs text-white !bg-transparent"
+                                            dangerouslySetInnerHTML={{
+                                                __html:
+                                                    approval?.description ||
+                                                    'No description available',
+                                            }}
+                                        />
+                                        {/* <Typography
                                             variant="xs"
                                             color="text-white"
                                         >
                                             {approval?.description ||
                                                 'No description available'}
-                                        </Typography>
+                                        </Typography> */}
                                     </div>
                                 </div>
                                 <div className="flex justify-end gap-x-2 w-full">

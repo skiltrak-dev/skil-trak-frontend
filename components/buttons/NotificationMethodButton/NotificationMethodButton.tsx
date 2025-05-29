@@ -1,10 +1,12 @@
 import React from 'react'
-
-// components
-
-import Lottie from 'react-lottie'
 import { MdCheckCircle } from 'react-icons/md'
 import { Typography } from '@components/Typography'
+import dynamic from 'next/dynamic'
+
+// Dynamically import Lottie with no SSR
+const Lottie = dynamic(() => import('react-lottie'), {
+    ssr: false,
+})
 
 interface NotificationMethodButtonProps {
     text: string

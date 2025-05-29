@@ -1,9 +1,15 @@
 import { GlobalModal, Typography } from '@components'
 import { useRouter } from 'next/router'
-import Lottie from 'react-lottie'
 import { Animations } from '@animations'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
+
+import dynamic from 'next/dynamic'
+
+// Dynamically import Lottie with no SSR
+const Lottie = dynamic(() => import('react-lottie'), {
+    ssr: false,
+})
 
 export const WorkplaceCreatedModal = ({
     onCancel,

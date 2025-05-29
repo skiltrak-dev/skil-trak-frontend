@@ -1,4 +1,9 @@
-import Lottie from 'react-lottie'
+import dynamic from 'next/dynamic'
+
+// Dynamically import Lottie with no SSR
+const Lottie = dynamic(() => import('react-lottie'), {
+    ssr: false,
+})
 
 interface LottieAnimationProps {
     loop?: boolean
