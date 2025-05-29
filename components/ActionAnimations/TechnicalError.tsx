@@ -1,6 +1,11 @@
 import { Animations } from '@animations'
 import Image from 'next/image'
-import Lottie from 'react-lottie'
+import dynamic from 'next/dynamic'
+
+// Dynamically import Lottie with no SSR
+const Lottie = dynamic(() => import('react-lottie'), {
+    ssr: false,
+})
 
 export const TechnicalError = ({
     title,

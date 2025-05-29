@@ -4,6 +4,10 @@ import { useRouter } from 'next/router'
 
 import {
     Button,
+    draftToHtmlText,
+    htmlToDraftText,
+    InputContentEditor,
+    inputEditorErrorMessage,
     ShowErrorNotifications,
     TagInput,
     TextArea,
@@ -35,14 +39,18 @@ export const EditCourseModal = ({
     const validationSchema = yup.object().shape({
         // sector: yup.number().required('Sector is required'),
         // courses: yup.number().required('Course is required'),
-        description: yup.string().required('Description is required'),
+        description: yup
+            .mixed()
+            .test('Message', 'Description is required', (value) =>
+                inputEditorErrorMessage(value)
+            ),
         // reference: yup.string().url('Invalid URL format'),
     })
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         mode: 'all',
         defaultValues: {
-            description: course.description ?? '',
+            description: htmlToDraftText(course.description ?? ''),
         },
     })
 
@@ -77,7 +85,7 @@ export const EditCourseModal = ({
         const { reference } = tags
         updateCourse({
             body: {
-                description: description,
+                description: draftToHtmlText(description),
                 reference: reference,
             },
             id: courseRequestId,
@@ -123,12 +131,19 @@ export const EditCourseModal = ({
                         </div>
                         <div className="flex justify-between gap-x-5 w-full mt-4">
                             <div className="w-1/2 min-w-96">
-                                <TextArea
+                                {/* <TextArea
                                     name="description"
                                     rows={5}
                                     placeholder="Enter description"
                                     required
-                                />
+                                /> */}
+                                <div className="">
+                                    <InputContentEditor
+                                        name="description"
+                                        // label="Description"
+                                        // height="300px"
+                                    />
+                                </div>
                             </div>
                             <div className="w-1/2 min-w-64">
                                 <TagInput
