@@ -106,6 +106,14 @@ export const subAdminIndustriesEndpoints = (
         }),
         invalidatesTags: ['SubAdminIndustries'],
     }),
+    // confirm course
+    confirmCourseDescription: builder.mutation<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}/course-approval/request/${id}/content/verify`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdminIndustries', 'Industries'],
+    }),
     industryCallLog: builder.mutation<
         any,
         { industry: number; receiver: UserRoles }

@@ -46,6 +46,7 @@ const UploadCourseFile = ({ approval }: { approval: any }) => {
                                     showDownload: false,
                                 })
                             }}
+                            variant="success"
                         />
 
                         <Tooltip>View Checklist</Tooltip>
@@ -70,6 +71,7 @@ const UploadCourseFile = ({ approval }: { approval: any }) => {
                             <ActionButton
                                 Icon={FaCloudUploadAlt}
                                 onClick={onUploadFile}
+                                variant="info"
                             />
                             <Tooltip>Edit Checklist File</Tooltip>
                         </div>
@@ -93,6 +95,7 @@ const UploadCourseFile = ({ approval }: { approval: any }) => {
                         <ActionButton
                             Icon={FaCloudUploadAlt}
                             onClick={onUploadFile}
+                            variant="info"
                         />
                         <Tooltip>Upload Checklist File</Tooltip>
                     </div>

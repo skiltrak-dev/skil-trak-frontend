@@ -471,6 +471,7 @@ export const {
     useChangeIndustryStudentsAcceptingStatusMutation,
     useGetIndustryStudentsScheduleQuery,
     useRequestToAddCoursesToIndustryMutation,
+    useConfirmCourseDescriptionMutation,
 
     useAddPrevCourseDescriptionMutation,
     useGetIndustryRequestedCoursesQuery,
@@ -664,6 +665,7 @@ export const SubAdminApi = {
         useSectorBaseCapacity: useUpdateSectorBaseCapacityMutation,
         useUpdateOldCapacityToSectorBase:
             useUpdateOldCapacityToSectorBaseMutation,
+        useConfirmCourseDescription: useConfirmCourseDescriptionMutation,
     },
     Rto: {
         useRtoStatsCount: useSubadminRtoStatisticsCountQuery,
