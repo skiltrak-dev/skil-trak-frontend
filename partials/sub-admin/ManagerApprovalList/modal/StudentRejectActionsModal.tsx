@@ -20,7 +20,7 @@ export const StudentRejectActionsModal = ({
     const onConfirmUClicked = async () => {
         const res: any = await changeStatus({
             id: Number(request?.id),
-            status: IndustryRequestRemovalStatus.APPROVED,
+            status: IndustryRequestRemovalStatus.REJECTED,
         })
         if (res?.data) {
             notification.success({

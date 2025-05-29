@@ -114,10 +114,18 @@ export const useIndustryColumns = () => {
                         text={'Approve'}
                         variant="success"
                         onClick={() => onApproveClicked(info.row.original)}
+                        disabled={
+                            info.row.original?.status !==
+                            IndustryRequestRemovalStatus.PENDING
+                        }
                     />
                     <Button
                         text={'Reject'}
                         variant="error"
+                        disabled={
+                            info.row.original?.status !==
+                            IndustryRequestRemovalStatus.PENDING
+                        }
                         onClick={() => onRejectClicked(info.row.original)}
                     />
                 </div>
