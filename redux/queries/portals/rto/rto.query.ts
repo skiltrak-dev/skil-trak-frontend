@@ -145,6 +145,7 @@ export const {
     useGetRTOWorkplacesQuery,
     useWpApprovalRequestQuery,
     useGetRTOWorkplaceDetailQuery,
+    useWpApprovalRequestCountQuery,
     useWpApprovalRequestChangeStatusMutation,
 
     // ---- DOCUMENTS ---- //
@@ -231,6 +232,7 @@ export const RtoApi = {
     },
     Workplace: {
         wpApprovalRequest: useWpApprovalRequestQuery,
+        wpApprovalRequestCount: useWpApprovalRequestCountQuery,
         wpAppReqChangeStatus: useWpApprovalRequestChangeStatusMutation,
     },
     Industry: {

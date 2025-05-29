@@ -113,11 +113,19 @@ export const useStudentColumns = () => {
                     <Button
                         text={'Approve'}
                         variant="success"
+                        disabled={
+                            info.row.original?.status !==
+                            IndustryRequestRemovalStatus.PENDING
+                        }
                         onClick={() => onApproveClicked(info.row.original)}
                     />
                     <Button
                         text={'Reject'}
                         variant="error"
+                        disabled={
+                            info.row.original?.status !==
+                            IndustryRequestRemovalStatus.PENDING
+                        }
                         onClick={() => onRejectClicked(info.row.original)}
                     />
                 </div>

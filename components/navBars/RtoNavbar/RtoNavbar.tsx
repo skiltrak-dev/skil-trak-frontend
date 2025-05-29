@@ -5,6 +5,7 @@ import { MdHomeWork, MdNotifications, MdSpaceDashboard } from 'react-icons/md'
 import { RiAdminFill, RiAdminLine } from 'react-icons/ri'
 import { NavLinkItem } from '../NavLinkItem'
 import { FaIndustry } from 'react-icons/fa'
+import { RtoApi } from '@queries'
 
 const PREFIX = '/portals/rto'
 
@@ -22,6 +23,8 @@ const Routes = {
 }
 
 export const RtoNavbar = () => {
+    const count = RtoApi.Workplace.wpApprovalRequestCount()
+
     const rtoPortalData = [
         {
             link: Routes.Dashboard,
@@ -93,6 +96,7 @@ export const RtoNavbar = () => {
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
             id: 'insuranceDocuments',
+            count: count?.data?.pendingRequests,
         },
     ]
 

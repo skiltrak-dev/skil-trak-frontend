@@ -21,7 +21,14 @@ export const workplaceEndpoints = (
         providesTags: ['RTOWorkplace'],
     }),
     wpApprovalRequest: builder.query<any, PaginationValues>({
-        query: () => `${PREFIX}/workplace-approval/request/pending/list`,
+        query: (params) => ({
+            url: `${PREFIX}/workplace-approval/request/pending/list`,
+            params,
+        }),
+        providesTags: ['RTOWorkplace'],
+    }),
+    wpApprovalRequestCount: builder.query<any, void>({
+        query: () => `${PREFIX}/workplace-approval/request/pending/count`,
         providesTags: ['RTOWorkplace'],
     }),
     wpApprovalRequestChangeStatus: builder.mutation<

@@ -20,7 +20,7 @@ export const WPApprovalCourseRequirementModal = ({
 
     return (
         <>
-            <GlobalModal>
+            <GlobalModal className="max-w-5xl">
                 <div className="flex justify-between items-center px-5 py-2">
                     <Typography variant="title">Course Requirements</Typography>
                     <FaRegTimesCircle
