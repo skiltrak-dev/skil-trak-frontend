@@ -23,17 +23,35 @@ import {
 import draftToHtml from 'draftjs-to-html'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
+// Add the utility functions here or import them
+const stripBackgroundColors = (html: any) => {
+    if (!html) return html
+
+    let cleanedHtml = html.replace(/background-color:\s*[^;]+;?/gi, '')
+    cleanedHtml = cleanedHtml.replace(
+        /background:\s*[^;]*(?:rgb|rgba|#|hsl|hsla|[a-z]+)[^;]*;?/gi,
+        ''
+    )
+    cleanedHtml = cleanedHtml.replace(/style="\s*"/gi, '')
+    cleanedHtml = cleanedHtml.replace(/style=''\s*/gi, '')
+
+    return cleanedHtml
+}
 export const draftToHtmlText = (draftText: EditorState) => {
     let content = ''
     if (draftText) {
         content = draftToHtml(convertToRaw(draftText?.getCurrentContent()))
+        content = stripBackgroundColors(content)
     }
     return content
 }
 
 export const htmlToDraftText = (content: string) => {
     if (content) {
-        const blocksFromHTML = convertFromHTML(content)
+        const cleanedContent = stripBackgroundColors(content)
+        const blocksFromHTML = convertFromHTML(cleanedContent)
+        // const blocksFromHTML = convertFromHTML(content)
+
         return EditorState.createWithContent(
             ContentState.createFromBlockArray(
                 blocksFromHTML.contentBlocks,
@@ -51,23 +69,6 @@ export const inputEditorErrorMessage = (value: EditorState) => {
     }
     return false
 }
-
-// export const htmlToDraftText = (
-//     methods: any,
-//     content: string,
-//     name: string
-// ) => {
-//     if (content) {
-//         const blocksFromHTML = convertFromHTML(content)
-//         const bodyValue = EditorState.createWithContent(
-//             ContentState.createFromBlockArray(
-//                 blocksFromHTML.contentBlocks,
-//                 blocksFromHTML.entityMap
-//             )
-//         )
-//         methods.setValue(name, bodyValue)
-//     }
-// }
 
 export const InputContentEditor = ({
     name,
@@ -88,20 +89,30 @@ export const InputContentEditor = ({
 
     const error = methods?.formState?.errors?.[name]?.message
 
-    // const inputString = `<p>Saad</p>\n<img src="http://localhost:3000/images/icons/avatars/std-boy.png" alt="undefined" style="height: auto;width: auto"/>\n<p></p>\n`
-
-    // // Regular expression to find image tags
-    // const imgTagRegex = /<img\s+src="([^"]+)"[^>]*>/g
-
-    // // Array to store the found URLs
-    // const imgUrls = []
-
-    // let match
-    // while ((match = imgTagRegex.exec(inputString))) {
-    //     imgUrls.push(match[1])
-    // }
-
-    // const cleanedString = inputString.replace(imgTagRegex, '')
+    // Handle paste to clean background colors
+    const handlePastedText = (
+        text: string,
+        html: string,
+        editorState: EditorState,
+        onChange: (editorState: EditorState) => void
+    ) => {
+        if (html) {
+            const cleanedHtml = stripBackgroundColors(html)
+            const blocksFromHTML = convertFromHTML(cleanedHtml)
+            const contentState = ContentState.createFromBlockArray(
+                blocksFromHTML.contentBlocks,
+                blocksFromHTML.entityMap
+            )
+            const newEditorState = EditorState.push(
+                editorState,
+                contentState,
+                'insert-fragment'
+            )
+            onChange(newEditorState)
+            return true // Indicate that we handled the paste
+        }
+        return false // Let the editor handle the paste normally
+    }
 
     return (
         <div>
@@ -145,6 +156,7 @@ export const InputContentEditor = ({
                                     onChange(e)
                                 }
                             }}
+                            handlePastedText={handlePastedText}
                         />
                     )
                 }}

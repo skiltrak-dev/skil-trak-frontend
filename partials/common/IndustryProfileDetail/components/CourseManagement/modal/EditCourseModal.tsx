@@ -129,8 +129,8 @@ export const EditCourseModal = ({
                                 ({course?.course?.sector?.name})
                             </Typography>
                         </div>
-                        <div className="flex justify-between gap-x-5 w-full mt-4">
-                            <div className="w-1/2 min-w-96">
+                        <div className="flex flex-col gap-y-2 w-full mt-4">
+                            <div className=" min-w-96">
                                 {/* <TextArea
                                     name="description"
                                     rows={5}
@@ -145,7 +145,7 @@ export const EditCourseModal = ({
                                     />
                                 </div>
                             </div>
-                            <div className="w-1/2 min-w-64">
+                            <div className="min-w-64">
                                 <TagInput
                                     name="reference"
                                     onTagEnter={handleTagEnter}
