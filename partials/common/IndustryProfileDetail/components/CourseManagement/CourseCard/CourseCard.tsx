@@ -1,5 +1,6 @@
 import {
     AuthorizedUserComponent,
+    Button,
     ShowErrorNotifications,
     Typography,
 } from '@components'
@@ -18,6 +19,9 @@ import dynamic from 'next/dynamic'
 import { ellipsisText } from '@utils'
 import { SubAdminApi } from '@queries'
 import { useNotification } from '@hooks'
+import { AddContentForOldIndustry } from './AddContentForOldIndustry'
+import { EditIndustryCourseContent } from './EditIndustryCourseContent'
+import { DeleteIndustryCourse } from './DeleteIndustryCourse'
 const UploadCourseFile = dynamic(() => import('./UploadCourseFile'), {
     ssr: false,
 })
@@ -35,23 +39,30 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
         SubAdminApi.Industry.useConfirmCourseDescription()
     const onConfirmContent = (courseId: string) => {
         confirmContent(courseId).then((res: any) => {
-            if (res.isSuccess) {
+            console.log('res', res)
+            if (res.data) {
                 notification.success({
                     title: 'Content Confirmed',
                     description:
                         'Course content has been confirmed successfully.',
                 })
+            } else {
+                notification.error({
+                    title: 'Error',
+                    description:
+                        res?.error?.data?.message || 'Something went wrong',
+                })
             }
         })
     }
-    useEffect(() => {
-        if (confirmContentResult.isSuccess) {
-            notification.success({
-                title: 'Content Confirmed',
-                description: 'Course content has been confirmed successfully.',
-            })
-        }
-    }, [confirmContentResult.isSuccess])
+    // useEffect(() => {
+    //     if (confirmContentResult.isSuccess) {
+    //         notification.success({
+    //             title: 'Content Confirmed',
+    //             description: 'Course content has been confirmed successfully.',
+    //         })
+    //     }
+    // }, [confirmContentResult.isSuccess])
 
     const isValidUrl = (url: any): boolean => {
         if (!url || typeof url !== 'string') return false
@@ -91,7 +102,7 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
     }
     return (
         <>
-            <ShowErrorNotifications result={confirmContentResult} />
+            {/* <ShowErrorNotifications result={confirmContentResult} />  */}
             <div className="flex flex-col gap-4 mt-4">
                 {[...approvals]?.map((approval: any) => (
                     <div
@@ -133,81 +144,52 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                         )}
                                 </AuthorizedUserComponent>
                             </div>
-                            {!isPreviousCourses && (
-                                <AuthorizedUserComponent
-                                    roles={[
-                                        UserRoles.ADMIN,
-                                        UserRoles.SUBADMIN,
-                                    ]}
-                                    isAssociatedWithRto={false}
-                                >
-                                    <div className="flex items-center gap-x-2">
+                            {/* {!isPreviousCourses && ( */}
+                            <div className="flex items-center gap-x-2">
+                                {!isPreviousCourses && (
+                                    <>
                                         {!approval?.isContentVerified && (
-                                            <button
-                                                onClick={() => {
-                                                    onConfirmContent(
-                                                        approval?.id
-                                                    )
-                                                }}
-                                                className="p-1 border border-red-200 bg-red-100 text-red-500 rounded-md text-xs font-medium"
-                                            >
-                                                Confirm
-                                            </button>
-                                        )}
-                                        {!isPreviousCourses && (
-                                            <UploadCourseFile
-                                                approval={approval}
-                                            />
-                                        )}
-                                        {isPreviousCourses && (
                                             <AuthorizedUserComponent
-                                                roles={[UserRoles.SUBADMIN]}
+                                                roles={[
+                                                    UserRoles.ADMIN,
+                                                    UserRoles.SUBADMIN,
+                                                ]}
                                                 isAssociatedWithRto={false}
                                             >
-                                                <Modal>
-                                                    <Modal.Open opens="addCourseDescription">
-                                                        <FaRegEdit
-                                                            className="text-white cursor-pointer"
-                                                            size={20}
-                                                        />
-                                                    </Modal.Open>
-                                                    <Modal.Window name="addCourseDescription">
-                                                        <AddPrevCourseDescription
-                                                            courseId={
-                                                                approval?.id
-                                                            }
-                                                        />
-                                                    </Modal.Window>
-                                                </Modal>
+                                                <Button
+                                                    onClick={() => {
+                                                        onConfirmContent(
+                                                            approval?.id
+                                                        )
+                                                    }}
+                                                    text="Confirm"
+                                                    disabled={
+                                                        confirmContentResult.isLoading
+                                                    }
+                                                    loading={
+                                                        confirmContentResult.isLoading
+                                                    }
+                                                    variant="error"
+                                                    outline
+                                                />
                                             </AuthorizedUserComponent>
                                         )}
-                                        <Modal>
-                                            <Modal.Open opens="editCourse">
-                                                <Pencil className="cursor-pointer bg-[#047857] text-white rounded-lg p-1" />
-                                            </Modal.Open>
-                                            <Modal.Window name="editCourse">
-                                                <EditCourseModal
-                                                    course={approval}
-                                                    courseRequestId={
-                                                        approval?.id
-                                                    }
-                                                />
-                                            </Modal.Window>
-                                        </Modal>
-                                        <Modal>
-                                            <Modal.Open opens="updateCourseDescription">
-                                                <Trash2 className="cursor-pointer bg-red-500 text-white rounded-lg p-1" />
-                                            </Modal.Open>
-                                            <Modal.Window name="updateCourseDescription">
-                                                <DeleteCourseModal
-                                                    // courseId={approval?.course?.id}
-                                                    course={approval}
-                                                />
-                                            </Modal.Window>
-                                        </Modal>
-                                    </div>
-                                </AuthorizedUserComponent>
-                            )}
+                                        <UploadCourseFile approval={approval} />
+                                        <EditIndustryCourseContent
+                                            approval={approval}
+                                        />
+                                        <DeleteIndustryCourse
+                                            approval={approval}
+                                        />
+                                    </>
+                                )}
+                                {isPreviousCourses && (
+                                    <AddContentForOldIndustry
+                                        id={approval?.id}
+                                    />
+                                )}
+                            </div>
+                            {/* )} */}
                             {/* <div className="flex justify-end gap-x-2 w-full my-2">
                                 {!isPreviousCourses && (
                                     <UploadCourseFile approval={approval} />
@@ -284,37 +266,22 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                     isPreviousCourses
                                         ? 'bg-red-500'
                                         : 'bg-emerald-700'
-                                } relative text-white p-4 rounded-md w-full mb-4 flex gap-x-5 items-start`}
+                                } relative text-white p-4 rounded-md w-full mb-4 flex gap-x-5 items-start h-56 overflow-auto custom-scrollbar`}
                             >
-                                <div className="mb-2 whitespace-nowrap flex flex-col">
-                                    <Typography variant="small" color="white">
-                                        Action Perform
-                                    </Typography>
-                                    <Typography variant="label" color="white">
-                                        Course Added
-                                    </Typography>
-                                </div>
                                 <div>
-                                    <Typography variant="label" color="white">
+                                    {/* <Typography variant="label" color="white">
                                         Description
-                                    </Typography>
+                                    </Typography> */}
 
                                     <div className="w-full min-w-80">
                                         <div
-                                            className="w-full customTailwingStyles-inline-style customTailwingStyles text-xs text-white !bg-transparent"
+                                            className="w-full customTailwingStyles-inline-style customTailwingStyles text-xs text-white !bg-transparent leading-relaxed"
                                             dangerouslySetInnerHTML={{
                                                 __html:
                                                     approval?.description ||
                                                     'No description available',
                                             }}
                                         />
-                                        {/* <Typography
-                                            variant="xs"
-                                            color="text-white"
-                                        >
-                                            {approval?.description ||
-                                                'No description available'}
-                                        </Typography> */}
                                     </div>
                                 </div>
                             </div>
@@ -325,6 +292,7 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                         UserRoles.SUBADMIN,
                                         UserRoles.ADMIN,
                                     ]}
+                                    isAssociatedWithRto={false}
                                 >
                                     <div>
                                         <span className="text-gray-600">
