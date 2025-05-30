@@ -46,7 +46,7 @@ export const TechnicalError = ({
                 )}
             </div>
             <h3 className="text-2xl font-bold text-gray-500 mb-2">
-                {title || 'Some thing is not right'}
+                {title || 'Something is not right'}
             </h3>
             {description && (
                 <>

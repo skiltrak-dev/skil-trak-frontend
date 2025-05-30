@@ -21,11 +21,11 @@ export const UserCreatedAt = ({
                     {moment(createdAt).format('Do MMM YYYY')}
                 </span>
             </Typography>
-            {/* <Typography variant={'small'} color={'text-gray-500'}>
+            <Typography variant={'small'} color={'text-gray-500'}>
                 <span className="whitespace-pre">
                     {moment(createdAt).format('hh:mm:ss a')}
                 </span>
-            </Typography> */}
+            </Typography>
         </div>
     )
 }

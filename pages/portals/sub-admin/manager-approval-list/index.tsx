@@ -133,9 +133,7 @@ const ManagerApprovalList: NextPageWithLayout = () => {
 
 ManagerApprovalList.getLayout = (page: ReactElement) => {
     return (
-        <SubAdminLayout
-            pageTitle={{ title: 'Workplace Cancellation Requests' }}
-        >
+        <SubAdminLayout pageTitle={{ title: 'Workplace Approval Requests' }}>
             {page}
         </SubAdminLayout>
     )

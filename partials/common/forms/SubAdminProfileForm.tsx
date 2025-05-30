@@ -3,13 +3,11 @@ import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
-// queries
-
 // components
 import { Avatar, Button, Card, TextInput } from '@components'
 
 // hooks
-import { useActionModal, useContextBar, useNotification } from '@hooks'
+import { useActionModal, useContextBar } from '@hooks'
 
 export const SubAdminProfileForm = ({
     result,
@@ -21,7 +19,6 @@ export const SubAdminProfileForm = ({
     onSubmit: any
 }) => {
     const contextBar = useContextBar()
-    const { notification } = useNotification()
 
     const { onUpdatePassword, passwordModal } = useActionModal()
 
@@ -29,15 +26,6 @@ export const SubAdminProfileForm = ({
         contextBar.setContent(null)
         contextBar.hide()
     }, [])
-
-    useEffect(() => {
-        if (result.isSuccess) {
-            notification.success({
-                title: 'Profile Updated',
-                description: 'Profile Updated Successfully',
-            })
-        }
-    }, [result])
 
     const validationSchema = yup.object({
         // Profile Information
@@ -53,7 +41,7 @@ export const SubAdminProfileForm = ({
         // Contact Person Information
 
         // Address Information
-        address: yup.string().required('Must provide address'),
+        addressLine1: yup.string().required('Must provide address'),
     })
 
     const formMethods = useForm({
@@ -63,12 +51,12 @@ export const SubAdminProfileForm = ({
 
     useEffect(() => {
         if (profile?.data && profile.isSuccess) {
-            const { coordinatorId, phone, address } = profile?.data
+            const { coordinatorId, phone, addressLine1 } = profile?.data
             const { name, email } = profile?.data?.user
             const values: any = {
                 coordinatorId,
                 phone,
-                address,
+                addressLine1,
                 name,
                 email,
             }
@@ -131,7 +119,7 @@ export const SubAdminProfileForm = ({
                             </div>
                             <TextInput
                                 label={'Address'}
-                                name={'address'}
+                                name={'addressLine1'}
                                 placeholder={'Your Address ...'}
                                 validationIcons
                             />

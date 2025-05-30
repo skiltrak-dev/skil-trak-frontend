@@ -9,11 +9,8 @@ import { Typography } from '@components/Typography'
 
 // functions
 import { AuthUtils } from '@utils'
-// import { useMessage } from "@hooks"
 import { MdAvTimer } from 'react-icons/md'
 
-// functions
-import { InitialAvatar } from '@components/InitialAvatar'
 import { ellipsisText, userStatus } from '@utils'
 import { Attachments } from './Attachments'
 
