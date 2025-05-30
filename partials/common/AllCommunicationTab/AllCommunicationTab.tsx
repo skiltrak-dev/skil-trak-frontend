@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import { Waypoint } from 'react-waypoint'
 import moment from 'moment'
 import {
     AuthorizedUserComponent,

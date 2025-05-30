@@ -4,6 +4,7 @@ import {
     EmptyData,
     LoadingAnimation,
     TechnicalError,
+    Typography,
 } from '@components'
 import { TitleAndDate } from './TitleAndDate'
 import { DetailMailTopbar } from './DetailMailTopbar'
@@ -12,6 +13,7 @@ import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { HiChevronDown, HiChevronUp, HiOutlineReply } from 'react-icons/hi'
 import { ComposeMail } from '../tabs'
+import { Attachments } from '@components/Mail/Attachments'
 
 export const MailDetail = () => {
     const [isReply, setIsReply] = useState(false)
@@ -133,6 +135,9 @@ export const MailDetail = () => {
                                 ),
                             }}
                         />
+                        <Attachments
+                            attachments={mailDetail?.data?.attachments}
+                        />
                     </div>
 
                     {/* Replies Accordion */}
@@ -218,13 +223,15 @@ export const MailDetail = () => {
                                                     {reply?.attachments &&
                                                         reply?.attachments
                                                             ?.length > 0 && (
-                                                            <div className="mt-2 text-sm text-gray-500">
-                                                                Attachments:{' '}
-                                                                {
-                                                                    reply
-                                                                        ?.attachments
-                                                                        ?.length
-                                                                }
+                                                            <div>
+                                                                <Typography variant="label">
+                                                                    Attachments:
+                                                                </Typography>
+                                                                <Attachments
+                                                                    attachments={
+                                                                        reply?.attachments
+                                                                    }
+                                                                />
                                                             </div>
                                                         )}
                                                 </div>

@@ -64,8 +64,6 @@ export const UploadCourseFileModal = ({
     const onSubmit = async (values: any) => {
         const formData = new FormData()
 
-        console.log({ approval })
-
         formData.append('file', values?.file?.[0])
 
         const res: any = await uploadFile({ id: approval?.id, body: formData })

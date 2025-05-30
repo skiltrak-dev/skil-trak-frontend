@@ -179,7 +179,7 @@ export const RtoDashboardMap = ({ address }: { address: string }) => {
                 <Checkbox
                     name="futureIndustries"
                     onChange={handleShowFutureIndustries}
-                    label="Show Future Industries"
+                    label="Show More Industries"
                     value={showFutureIndustries}
                 />
             </div>
