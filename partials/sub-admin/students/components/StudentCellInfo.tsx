@@ -2,7 +2,7 @@ import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
 import { useScrollIntoView, useSubadminProfile } from '@hooks'
 import { CopyData } from '@partials/common/FindWorkplaces/components'
 import { Student } from '@types'
-import { isBrowser, setLink } from '@utils'
+import { ellipsisText, isBrowser, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -187,7 +187,10 @@ export const StudentCellInfo = ({
                                             <FaEnvelope />
                                         </span>
                                         <p className="text-gray-500">
-                                            {student?.user?.email}
+                                            {ellipsisText(
+                                                student?.user?.email,
+                                                20
+                                            )}
                                         </p>
                                     </div>
                                 )}

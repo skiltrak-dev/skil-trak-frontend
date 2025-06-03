@@ -5,7 +5,7 @@ import { IndustryProfileDetail } from '@partials/common'
 import { useGetSubAdminIndustryProfileQuery } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement } from 'react'
 
 const IndustryDetail: NextPageWithLayout = () => {
     const router = useRouter()

@@ -44,6 +44,6 @@ export const SubadminStudentIndustries = ({
     ) : industries && industries?.length > 0 ? (
         <IndustryCellInfo onlyName={false} industry={industries?.[0]} />
     ) : (
-        <Typography center>N/A</Typography>
+        <Typography center>-----</Typography>
     )
 }

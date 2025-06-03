@@ -21,7 +21,6 @@ export const StudentProvidedActions = ({
     courses: Course[]
 }) => {
     const [actionStatus, setActionStatus] = useState<any | string>('')
-    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const { notification } = useNotification()
 
@@ -49,11 +48,8 @@ export const StudentProvidedActions = ({
         }
     }, [changeCustomIndustryStatusResult])
 
-    const onModalCancelClicked = () => setModal(null)
-
     return (
         <div>
-            {modal}
             <ShowErrorNotifications result={changeCustomIndustryStatusResult} />
             {workplace?.industryStatus === UserStatus.Pending ? (
                 <div className="flex items-center gap-x-2">

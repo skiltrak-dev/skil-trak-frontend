@@ -46,7 +46,7 @@ const filterKeys = [
     'coordinator',
 ]
 
-export const MyStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
+export const MyStudents = () => {
     const router = useRouter()
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState<SubAdminStudentsFilterType>(

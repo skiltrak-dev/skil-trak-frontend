@@ -14,7 +14,7 @@ import {
 import { AssignCoordinator } from './components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
-import { useJoyRide } from '@hooks'
+import { useJoyRide, useSubadminProfile } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useEffect, useState } from 'react'
@@ -31,6 +31,8 @@ export const AllStudents = () => {
     const router = useRouter()
 
     const [mount, setMount] = useState(false)
+
+    const subadmin = useSubadminProfile()
 
     useEffect(() => {
         if (!mount) {
@@ -106,14 +108,16 @@ export const AllStudents = () => {
 
     const updatedColumns = columnsWithCustomActions(tableActionOptions)
 
-    updatedColumns.splice(6, 0, {
-        accessorKey: 'assignCoordinator',
-        header: () => <span>Assign Coordinator</span>,
-        cell: ({ row }) => {
-            if (!checkIsHod) return <p>---</p>
-            return <AssignCoordinator student={row?.original} />
-        },
-    })
+    if (!subadmin?.isAssociatedWithRto) {
+        updatedColumns.splice(6, 0, {
+            accessorKey: 'assignCoordinator',
+            header: () => <span>Assign Coordinator</span>,
+            cell: ({ row }) => {
+                if (!checkIsHod) return <p>---</p>
+                return <AssignCoordinator student={row?.original} />
+            },
+        })
+    }
 
     return (
         <div>

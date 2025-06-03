@@ -25,9 +25,12 @@ import { getStudentWorkplaceAppliedIndustry, setLink } from '@utils'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { InterviewModal } from '@partials/sub-admin/workplace/modals'
 import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
+import { useSubadminProfile } from '@hooks'
 
 export const useColumns = () => {
     const router = useRouter()
+
+    const subadmin = useSubadminProfile()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -155,6 +158,8 @@ export const useColumns = () => {
         ]
     }
 
+    const isAssociatedWithRto = subadmin?.isAssociatedWithRto
+
     const columns: ColumnDef<Student>[] = [
         {
             header: () => 'Name',
@@ -163,22 +168,29 @@ export const useColumns = () => {
                 <StudentCallLogDetail student={row.original} call />
             ),
         },
-        {
-            header: () => 'RTO',
-            accessorKey: 'rto',
-            cell({ row }: any) {
-                const { rto } = row.original
+        ...(isAssociatedWithRto
+            ? []
+            : [
+                  {
+                      header: () => 'RTO',
+                      accessorKey: 'rto',
+                      cell({ row }: any) {
+                          const { rto } = row.original
 
-                return (
-                    <div className="flex gap-x-2 items-center">
-                        {rto.user.name && (
-                            <InitialAvatar name={rto.user.name} small />
-                        )}
-                        {rto?.user?.name}
-                    </div>
-                )
-            },
-        },
+                          return (
+                              <div className="flex gap-x-2 items-center">
+                                  {rto.user.name && (
+                                      <InitialAvatar
+                                          name={rto.user.name}
+                                          small
+                                      />
+                                  )}
+                                  {rto?.user?.name}
+                              </div>
+                          )
+                      },
+                  },
+              ]),
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
@@ -196,7 +208,7 @@ export const useColumns = () => {
         },
         {
             accessorKey: 'expiry',
-            header: () => <span>Expiry Countdown</span>,
+            header: () => <span>Days Left</span>,
             cell: (info) => (
                 <StudentExpiryDaysLeft
                     expiryDate={info.row.original?.expiryDate}

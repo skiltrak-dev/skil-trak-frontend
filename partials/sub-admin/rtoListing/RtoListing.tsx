@@ -27,7 +27,14 @@ import { IoWarning } from 'react-icons/io5'
 import { RiSchoolFill } from 'react-icons/ri'
 
 type Props = {}
-const filterKeys = ['businessName', 'address', 'sector', 'email', 'phone']
+const filterKeys = [
+    'email',
+    'phone',
+    'sector',
+    'rtoCode',
+    'address',
+    'businessName',
+]
 export const RtoListing = () => {
     const [filterAction, setFilterAction] = useState(null)
     const [itemPerPage, setItemPerPage] = useState(50)

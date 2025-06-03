@@ -16,7 +16,7 @@ import {
 import { FaSchool } from 'react-icons/fa'
 // animations
 // hooks
-import { useContextBar } from '@hooks'
+import { useContextBar, useSubadminProfile } from '@hooks'
 import { ViewProfileCB } from '@partials/sub-admin/contextBar'
 
 import { FigureCardVII } from '@components/sections/subAdmin/components/Cards/FigureCard'
@@ -44,9 +44,10 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
     const subadminCourses = CommonApi.Courses.subadminCoursesList()
-    const subadmin = SubAdminApi.SubAdmin.useProfile()
+    // const subadmin = SubAdminApi.SubAdmin.useProfile()
+    const subadmin = useSubadminProfile()
 
-    const checkIsHod = subadmin?.data?.departmentMember?.isHod
+    const checkIsHod = subadmin?.departmentMember?.isHod
 
     const statistics = SubAdminApi.Count.statistics(undefined, {
         skip: status !== UserStatus.Approved,
@@ -78,10 +79,10 @@ const SubAdminDashboard: NextPageWithLayout = () => {
     const router = useRouter()
     // const joyride = useJoyRide()
     useEffect(() => {
-        if (subadmin.isSuccess) {
+        if (subadmin) {
             contextBar.setContent(
                 <ViewProfileCB
-                    subadmin={subadmin?.data}
+                    subadmin={subadmin}
                     statistics={statistics?.data}
                 />
             )
@@ -192,8 +193,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
         <>
             {modal}
             <div className="mb-4 flex justify-between items-center">
-                {/* <PageTitle title={'Dashboard'} /> */}
-                {subadmin?.data?.globalSearchAccess && (
+                {subadmin?.globalSearchAccess && (
                     <Button
                         text="Global Search"
                         onClick={onViewGlobalSearchModal}
@@ -203,7 +203,13 @@ const SubAdminDashboard: NextPageWithLayout = () => {
             <div className="flex flex-col gap-y-6 pb-8">
                 <div className="flex flex-col gap-y-4">
                     <div className="flex items-end justify-between gap-x-2.5 w-full mt-2">
-                        <div className="grid grid-cols-2 gap-x-2.5 gap-y-8 w-1/2">
+                        <div
+                            className={`grid grid-cols-2 gap-x-2.5 gap-y-8 ${
+                                subadmin?.isAssociatedWithRto
+                                    ? 'w-full'
+                                    : 'w-1/2'
+                            }`}
+                        >
                             {/* {checkIsHod && (
                                 <>
                                     <FigureCardVII
@@ -231,7 +237,7 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                             <FigureCardVII
                                 imageUrl="/images/figure-card/fig-card-2.svg"
                                 count={
-                                    subadmin?.data?.isAssociatedWithRto
+                                    subadmin?.isAssociatedWithRto
                                         ? statistics?.data
                                               ?.countByRtoCoordinator
                                         : statistics?.data?.myStudents
@@ -269,11 +275,13 @@ const SubAdminDashboard: NextPageWithLayout = () => {
                                 link={'sub-admin/tasks/appointments'}
                             />
                         </div>
-                        <div className="w-1/2">
-                            <Card>
-                                <ProgressChart data={data} />
-                            </Card>
-                        </div>
+                        {!subadmin?.isAssociatedWithRto && (
+                            <div className="w-1/2">
+                                <Card>
+                                    <ProgressChart data={data} />
+                                </Card>
+                            </div>
+                        )}
                     </div>
                 </div>
 
