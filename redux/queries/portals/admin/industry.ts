@@ -176,6 +176,6 @@ export const industryEndpoints = (
             method: 'PATCH',
             body,
         }),
-        invalidatesTags: ['RequestToAddCourse'],
+        invalidatesTags: ['RequestToAddCourse', 'SubAdminCourses'],
     }),
 })
