@@ -1,5 +1,5 @@
-import { ActionButton } from '@components'
-import { useContextBar } from '@hooks'
+import { ActionButton, Typography } from '@components'
+import { useContextBar, useSubadminProfile } from '@hooks'
 import { Course, Rto, Student } from '@types'
 import { ViewSectorsCB } from '../contextBar'
 import { CourseDot } from './CourseDot'
@@ -13,6 +13,8 @@ export const SectorCell = ({
     student: Student
 }) => {
     const contextBar = useContextBar()
+
+    const subadmin = useSubadminProfile()
 
     useEffect(() => {
         return () => {
@@ -33,7 +35,7 @@ export const SectorCell = ({
     return (
         <div className="w-fit">
             <div className="flex flex-col items-center">
-                {!hideButton && (
+                {!hideButton && !subadmin?.isAssociatedWithRto && (
                     <ActionButton
                         variant="link"
                         onClick={() => onViewSectorClicked(student)}
@@ -42,11 +44,27 @@ export const SectorCell = ({
                         <span className="whitespace-pre">View / Edit</span>
                     </ActionButton>
                 )}
-                <div className="flex gap-x-1">
-                    {student?.courses?.map((c: Course) => (
-                        <CourseDot key={c?.id} course={c} />
-                    ))}
-                </div>
+                {subadmin?.isAssociatedWithRto ? (
+                    <div className="flex flex-col gap-y-0.5 max-h-16 overflow-auto custom-scrollbar">
+                        {student?.courses?.map((c: Course) => (
+                            <div className="bg-primaryNew px-1 py-0.5 rounded">
+                                <Typography
+                                    variant="xs"
+                                    color="text-white"
+                                    whiteSpacePre
+                                >
+                                    {c?.title}
+                                </Typography>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="flex gap-x-1">
+                        {student?.courses?.map((c: Course) => (
+                            <CourseDot key={c?.id} course={c} />
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     )

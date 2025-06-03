@@ -115,7 +115,7 @@ export const IndustryCellInfoProgressbar = ({
                                 <div className="flex flex-col gap-y-1">
                                     <div className="group flex items-center gap-x-1">
                                         <p
-                                            className="font-semibold"
+                                            className="text-gray-800 font-medium"
                                             title={industry?.user?.name}
                                         >
                                             {ellipsisText(

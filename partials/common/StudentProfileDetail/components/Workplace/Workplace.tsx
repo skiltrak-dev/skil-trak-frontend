@@ -185,6 +185,10 @@ export const Workplace = ({
                     </div>
                 </div>
 
+                {studentWorkplace.isError ? (
+                    <TechnicalError height="h-64" description={false} />
+                ) : null}
+
                 {studentWorkplace?.isLoading ? (
                     <LoadingAnimation />
                 ) : studentWorkplace?.data &&

@@ -1,57 +1,40 @@
-import React, { ReactElement, useEffect, useState } from 'react'
 import moment from 'moment'
+import { ReactElement, useEffect, useState } from 'react'
 
 // Icons
 import { AiFillDelete } from 'react-icons/ai'
 
 // Components
 import {
-    TableAction,
-    Card,
-    Typography,
     ActionAlert,
-    Table,
-    TechnicalError,
+    Card,
     EmptyData,
     LoadingAnimation,
+    Table,
+    TableAction,
     TableChildrenProps,
-    // Alerts,
-    // DeleteActionPopup,
-    // ActionDropDown,
+    TechnicalError,
+    Typography,
 } from '@components'
 import { EmployeeDetailForm } from './form'
 
-// Context
-// import { EmployeeDataContext } from "context";
-
 //redux
-import {
-    useRemoveEmployeeMutation,
-    useGetEmployeeQuery,
-    useAddEmployeeMutation,
-} from '@queries'
+import { useGetEmployeeQuery } from '@queries'
 
 // Context
-import { useNotification, useContextBar } from '@hooks'
+import { useContextBar } from '@hooks'
 
 // Colors
-import { ThemeColors } from '@utils'
-import { DeleteModal } from './modals'
 import { MdEdit } from 'react-icons/md'
 import { EditEmployeeCB } from './contextBar'
-
-const Colors = ThemeColors
+import { DeleteModal } from './modals'
 
 export const EmployeeSchedule = () => {
     // hooks
     const { setContent, show } = useContextBar()
 
-    const { notification } = useNotification()
-
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const [filter, setFilter] = useState({})
-    const [filterActionButton, setFilterActionButton] = useState(null)
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     // query

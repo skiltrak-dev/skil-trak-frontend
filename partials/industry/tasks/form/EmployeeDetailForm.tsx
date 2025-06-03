@@ -10,6 +10,7 @@ import * as yup from 'yup'
 
 // components
 import {
+    ActionButton,
     Button,
     Checkbox,
     TextInput,
@@ -124,7 +125,8 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
                             </div>
                             {fields.map((item, index) => (
                                 <div
-                                    className="flex flex-col md:flex-row items-start gap-x-6 px-2 py-1"
+                                    // className="flex flex-col md:flex-row items-start gap-x-6 px-2 py-1"
+                                    className="grid grid-cols-1 md:grid-cols-4 gap-y-2 md:gap-x-6 p-2"
                                     key={item?.id}
                                 >
                                     <TextInput
@@ -139,17 +141,17 @@ export const EmployeeDetailForm = ({ onVolunteer, employeeDetail }: any) => {
                                         placeholder="Enter your Mobile No"
                                         name={`employee.${index}.mobileNo`}
                                     />
-                                    <div>
+                                    <div className="flex items-start gap-x-2">
                                         <TextInput
                                             placeholder="Enter your Email"
                                             name={`employee.${index}.email`}
                                         />
-                                        <MdDelete
-                                            className="text-error"
-                                            size={18}
+                                        <ActionButton
+                                            Icon={MdDelete}
                                             onClick={() => {
                                                 remove(index)
                                             }}
+                                            variant="error"
                                         />
                                     </div>
                                 </div>

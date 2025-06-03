@@ -54,18 +54,18 @@ export const IndustryCellInfo = ({
             }
         >
             <a
-                className="flex items-center gap-x-2 relative z-10"
+                className=""
                 onClick={() => {
                     setLink('subadmin-industries', router)
                 }}
             >
                 <div className="shadow-inner-image rounded-full relative">
-                    {industry?.user?.name && (
+                    {/* {industry?.user?.name && (
                         <InitialAvatar
                             name={industry?.user?.name}
                             imageUrl={industry?.user?.avatar}
                         />
-                    )}
+                    )} */}
                     {industry?.isPartner ? (
                         <div className="absolute -bottom-1 -right-1 w-5 h-5 flex items-center justify-center bg-green-500 rounded-full text-white">
                             <FaHandshake size={14} />
@@ -82,7 +82,7 @@ export const IndustryCellInfo = ({
                             <div className="flex items-center gap-x-1">
                                 <div className="group flex items-center gap-x-1">
                                     <p
-                                        className="font-semibold"
+                                        className="text-gray-800 font-medium"
                                         title={industry?.user?.name}
                                     >
                                         {ellipsisText(industry?.user?.name, 20)}

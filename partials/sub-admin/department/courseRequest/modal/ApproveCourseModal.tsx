@@ -4,6 +4,7 @@ import {
     TagInput,
     TextArea,
     Typography,
+    useShowErrorNotification,
 } from '@components'
 import React, { useEffect, useState } from 'react'
 import { SubAdminApi } from '@queries'
@@ -21,6 +22,8 @@ export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
     })
     const [courseRequest, courseRequestResult] =
         SubAdminApi.SubAdmin.useDepartmentCourseRequest()
+
+    const showErrorNotifications = useShowErrorNotification()
 
     const { notification } = useNotification()
 
@@ -66,11 +69,11 @@ export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
         mode: 'all',
     })
 
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
         if (!validateForm()) return
         const { description } = data
         const { reference } = tags
-        courseRequest({
+        const res: any = await courseRequest({
             params: {
                 id: request.id,
                 status: 'approved',
@@ -80,17 +83,42 @@ export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
                 description: description,
             },
         })
+        if (res?.data) {
+            notification.info({
+                title: 'Course Description',
+                description: 'Course description successfully updated.',
+            })
+            // onCloseModal() // ✅ Close only on success
+            // methods.reset()
+        } else {
+            showErrorNotifications({ isError: true, ...res })
+        }
     }
     const submitForm = () => {
         onSubmit(methods.getValues())
     }
-    const onClickApprove = () => {
-        courseRequest({
+    const onClickApprove = async () => {
+        const res: any = await courseRequest({
             params: {
                 id: request.id,
                 status: 'approved',
             },
         })
+
+        if (res?.data) {
+            notification.info({
+                title: 'Course Description',
+                description: 'Course description successfully updated.',
+            })
+            // onCloseModal() // ✅ Close only on success
+            // methods.reset()
+        } else {
+            notification.error({
+                title: res?.error?.data?.error,
+                description: res?.error?.data?.message,
+            })
+            showErrorNotifications({ isError: true, ...res })
+        }
     }
 
     return (
