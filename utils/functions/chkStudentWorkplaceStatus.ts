@@ -8,6 +8,7 @@ export enum WorkplaceCurrentStatus {
     Applied = 'applied',
     CaseOfficerAssigned = 'caseOfficerAssigned',
     Interview = 'interview',
+    IndustryEligibility = 'industryEligibilty',
     AwaitingWorkplaceResponse = 'awaitingWorkplaceResponse',
     AwaitingStudentResponse = 'awaitingStudentResponse',
     AwaitingRtoResponse = 'awaitingRtoResponse',

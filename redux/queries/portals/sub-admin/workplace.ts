@@ -263,13 +263,11 @@ export const workplaceEndpoints = (
         invalidatesTags: ['SubAdminWorkplace'],
     }),
     changeCustomIndustryStatus: builder.mutation<any, any>({
-        query: ({ industryId, status, workplaceId }) => {
-            return {
-                url: `${PREFIX}custom-workplace-request/action/${industryId}/${workplaceId}`,
-                method: 'PATCH',
-                params: { status },
-            }
-        },
+        query: ({ industryId, status, workplaceId }) => ({
+            url: `${PREFIX}custom-workplace-request/action/${industryId}/${workplaceId}`,
+            method: 'PATCH',
+            params: { status },
+        }),
         invalidatesTags: ['SubAdminWorkplace'],
     }),
     removeAppliedIndustry: builder.mutation<

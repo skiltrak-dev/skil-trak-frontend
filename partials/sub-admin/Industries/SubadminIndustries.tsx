@@ -148,7 +148,7 @@ export const SubadminIndustries = () => {
         ]
         if (isHod) {
             baseTabs.push({
-                label: 'Pending',
+                label: 'Industries Sector Approval',
                 href: {
                     pathname: 'industries',
                     query: { tab: UserStatus.Pending },

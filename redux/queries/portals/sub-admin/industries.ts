@@ -24,6 +24,25 @@ export const subAdminIndustriesEndpoints = (
         }),
         providesTags: ['SubAdminIndustries'],
     }),
+    getStdProvidedWpAppReq: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/student/workplace-approval-requests`,
+            params,
+        }),
+        providesTags: ['SubAdminIndustries'],
+    }),
+    changeWPProvidedStatus: builder.mutation<
+        any,
+        { id: number; status: string }
+    >({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/student/workplace-approval/${id}/update`,
+            params,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdminIndustries'],
+    }),
+
     getRtoCoordinatorsIndustry: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/industries/list/by-students`,
