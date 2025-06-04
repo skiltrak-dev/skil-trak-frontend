@@ -10,6 +10,7 @@ import {
 } from '@components'
 import { SubAdminLayout } from '@layouts'
 import Modal from '@modals/Modal'
+import { EditIndustryCourseContent } from '@partials/common/IndustryProfileDetail/components/CourseManagement'
 import {
     ApproveCourseModal,
     RejectCourseModal,
@@ -21,6 +22,7 @@ import { NextPageWithLayout } from '@types'
 import { ellipsisText } from '@utils'
 import { ReactElement, useState } from 'react'
 import { FaRegDotCircle } from 'react-icons/fa'
+import { IoEyeOutline } from 'react-icons/io5'
 import { DataResponse } from 'redux/queryTypes'
 
 export enum Status {
