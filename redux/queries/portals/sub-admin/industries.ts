@@ -131,7 +131,7 @@ export const subAdminIndustriesEndpoints = (
             url: `${PREFIX}/course-approval/request/${id}/content/verify`,
             method: 'PATCH',
         }),
-        invalidatesTags: ['SubAdminIndustries', 'Industries'],
+        invalidatesTags: ['RequestToAddCourse'],
     }),
     industryCallLog: builder.mutation<
         any,

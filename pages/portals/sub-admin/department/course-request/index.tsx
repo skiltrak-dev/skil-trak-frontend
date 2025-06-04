@@ -113,28 +113,31 @@ const CourseRequest: NextPageWithLayout = () => {
                     <div>
                         {info?.row?.original?.description !== null ||
                         info?.row?.original?.reference !== null ? (
-                            <Modal>
-                                <Modal.Open opens="approveCourseRequest">
-                                    <Button
-                                        variant="info"
-                                        text="View"
-                                        outline
-                                    />
-                                </Modal.Open>
-                                <Modal.Window name="approveCourseRequest">
-                                    <ViewCourseRequestDetailsModal
-                                        description={
-                                            info.row?.original?.description
-                                        }
-                                        reference={
-                                            info.row?.original?.reference
-                                        }
-                                    />
-                                </Modal.Window>
-                            </Modal>
+                            <div className="flex items-center gap-x-2">
+                                <EditIndustryCourseContent
+                                    approval={info.row?.original}
+                                />
+                                <Modal>
+                                    <Modal.Open opens="approveCourseRequest">
+                                        <div className="cursor-pointer bg-indigo-500 text-white rounded-lg p-1">
+                                            <IoEyeOutline className="text-white" />
+                                        </div>
+                                    </Modal.Open>
+                                    <Modal.Window name="approveCourseRequest">
+                                        <ViewCourseRequestDetailsModal
+                                            description={
+                                                info.row?.original?.description
+                                            }
+                                            reference={
+                                                info.row?.original?.reference
+                                            }
+                                        />
+                                    </Modal.Window>
+                                </Modal>
+                            </div>
                         ) : (
                             <Typography variant="small" color="text-red-400">
-                                Description and reference not added yet
+                                 Not added yet
                             </Typography>
                         )}
                     </div>
