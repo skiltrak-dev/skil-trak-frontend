@@ -8,7 +8,7 @@ import {
     FaIndustry,
     FaUserGraduate,
 } from 'react-icons/fa'
-import { HiDocumentReport, HiUsers } from 'react-icons/hi'
+import { HiUsers } from 'react-icons/hi'
 import { IoMdSettings } from 'react-icons/io'
 import { MdEmail, MdSpaceDashboard } from 'react-icons/md'
 import { NavLinkItem } from '../NavLinkItem'

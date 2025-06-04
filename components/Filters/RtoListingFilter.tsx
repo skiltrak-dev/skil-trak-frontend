@@ -56,6 +56,7 @@ export const RtoListingFilter = ({
                             businessName: e.target.value,
                         })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="email"
@@ -66,6 +67,7 @@ export const RtoListingFilter = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="phone"
@@ -76,6 +78,17 @@ export const RtoListingFilter = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, phone: e.target.value })
                     }}
+                    showError={false}
+                />
+                <TextInput
+                    name="rtoCode"
+                    label={'Rto Code'}
+                    placeholder={'Search by Rto Code...'}
+                    value={filter?.rtoCode}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, rtoCode: e.target.value })
+                    }}
+                    showError={false}
                 />
                 <TextInput
                     name="address"
@@ -86,6 +99,7 @@ export const RtoListingFilter = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, address: e.target.value })
                     }}
+                    showError={false}
                 />
 
                 <Select
@@ -103,6 +117,7 @@ export const RtoListingFilter = ({
                     }}
                     validationIcons
                     onlyValue
+                    showError={false}
                 />
                 {/* <Select
                     label={'Search by is contacted'}

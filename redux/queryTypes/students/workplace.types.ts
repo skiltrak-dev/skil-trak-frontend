@@ -5,6 +5,7 @@ import {
     Industry,
     RtoApprovalWorkplaceRequest,
     Student,
+    StudentProvidedWpAppRequest,
     SubAdmin,
     UserStatus,
 } from '@types'
@@ -122,4 +123,5 @@ export interface IWorkplaceIndustries {
     questions?: WorkplaceQuestionType[]
     employmentDocument?: EmploymentDocument
     workplaceApprovaleRequest?: RtoApprovalWorkplaceRequest[]
+    studentProvidedWorkplaceRequestApproval?: StudentProvidedWpAppRequest
 }

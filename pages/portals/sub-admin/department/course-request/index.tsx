@@ -1,33 +1,27 @@
 // useDepartmentCoursesRequestList
-import { ReactElement, useState } from 'react'
-import { NextPageWithLayout } from '@types'
-import { SubAdminLayout } from '@layouts'
-import { SubAdminApi } from '@queries'
 import {
-    ActionButton,
     Button,
     Card,
     EmptyData,
     LoadingAnimation,
-    PageSize,
-    Pagination,
     Table,
     TechnicalError,
     Typography,
 } from '@components'
+import { SubAdminLayout } from '@layouts'
+import Modal from '@modals/Modal'
 import {
     ApproveCourseModal,
-    CourseRequestCard,
     RejectCourseModal,
     ViewCourseRequestDetailsModal,
 } from '@partials/sub-admin'
-import { DataResponse } from 'redux/queryTypes'
+import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import Modal from '@modals/Modal'
+import { NextPageWithLayout } from '@types'
 import { ellipsisText } from '@utils'
+import { ReactElement, useState } from 'react'
 import { FaRegDotCircle } from 'react-icons/fa'
-import { EditIndustryCourseContent } from '@partials/common/IndustryProfileDetail/components/CourseManagement'
-import { IoEyeOutline } from 'react-icons/io5'
+import { DataResponse } from 'redux/queryTypes'
 
 export enum Status {
     PENDING = 'pending',

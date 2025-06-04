@@ -301,7 +301,48 @@ export const IndustryDetail = ({
                         // </button>
                         <div className="relative w-full h-full">
                             {workplace?.currentStatus ===
-                            WorkplaceCurrentStatus.AwaitingRtoResponse ? (
+                                WorkplaceCurrentStatus.IndustryEligibility &&
+                            workplace.studentProvidedWorkplace ? (
+                                <Card>
+                                    <Typography variant="label" center block>
+                                        Waiting for HOD to approve the industry
+                                        eligibility
+                                    </Typography>
+                                    <div>
+                                        <Typography variant="small" center>
+                                            Industry Detail:
+                                        </Typography>
+                                        <div className="flex items-center justify-center gap-x-2">
+                                            {workplace
+                                                ?.studentProvidedWorkplaceRequestApproval
+                                                ?.industry?.user?.name && (
+                                                <InitialAvatar
+                                                    name={
+                                                        workplace
+                                                            ?.studentProvidedWorkplaceRequestApproval
+                                                            ?.industry?.user
+                                                            ?.name
+                                                    }
+                                                    imageUrl={
+                                                        workplace
+                                                            ?.studentProvidedWorkplaceRequestApproval
+                                                            ?.industry?.user
+                                                            ?.avatar
+                                                    }
+                                                />
+                                            )}
+                                            <Typography variant="label" bold>
+                                                {
+                                                    workplace
+                                                        ?.studentProvidedWorkplaceRequestApproval
+                                                        ?.industry?.user?.name
+                                                }
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                </Card>
+                            ) : workplace?.currentStatus ===
+                              WorkplaceCurrentStatus.AwaitingRtoResponse ? (
                                 <Card noPadding fullHeight>
                                     <div className="flex flex-col justify-center items-center bg-yellow-100 p-5">
                                         <Typography

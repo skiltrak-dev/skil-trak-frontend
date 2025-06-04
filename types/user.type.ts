@@ -1,9 +1,9 @@
-import { AssessmentToolsType, Course, Packages } from '@types'
 import { BaseResponse } from './base.type'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { ReportingType } from '@partials/admin/rto/enum'
 import { IndustryPlacementStatus } from '@partials/common'
 import { InvoiceTypeEnum } from '@partials/admin/invoices'
+import { AssessmentToolsType, Course, Packages } from '@types'
 
 export enum StudentStatusEnum {
     ACTIVE = 'active',
@@ -290,6 +290,14 @@ export interface IndustryCourseApprovals extends BaseResponse {
     addedBy: User
     actionBy: User
     course: Course
+}
+
+export interface StudentProvidedWpAppRequest extends BaseResponse {
+    id: number
+    status: string
+    industry: Industry
+    course: Course
+    student: Student
 }
 
 export interface Industry extends BaseResponse {

@@ -429,6 +429,14 @@ export const useRequestType = ({
             date: appliedIndustry?.caseOfficerAssignedDate,
         },
         {
+            primaryText: 'Industry Eligibility',
+            secondaryText: 'Case Officer',
+            color: 'text-primary',
+            onClick: () => {},
+            status: WorkplaceCurrentStatus.IndustryEligibility,
+            date: appliedIndustry?.caseOfficerAssignedDate,
+        },
+        {
             primaryText: 'Interview',
             secondaryText: 'with Case Officer',
             color: 'text-primary-light',

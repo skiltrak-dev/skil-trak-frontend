@@ -24,11 +24,7 @@ import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import {
-    CourseDot,
-    IndustryCell,
-    SectorCell,
-} from '@partials/admin/industry/components'
+import { CourseDot, SectorCell } from '@partials/admin/industry/components'
 import {
     ApproveIndustryWithQuestionsModal,
     MultiAcceptModal,
@@ -38,12 +34,12 @@ import { useChangeStatus } from '@partials/admin/industry/hooks'
 import { AcceptModal, RejectModal, ViewIndustryReviewAnswers } from '../modal'
 import { CoursesCell } from '@partials/rto/coordinators'
 import Modal from '@modals/Modal'
+import { IndustryCellInfo } from '@partials/sub-admin/Industries'
 
 export const PendingIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const role = getUserCredentials()?.role
-    const { notification } = useNotification()
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -114,46 +110,12 @@ export const PendingIndustries = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption<any>[] = [
-        {
-            text: 'View',
-            onClick: (industry: any) => {
-                router.push(`/portals/admin/industry/${industry.id}`)
-            },
-            Icon: FaEye,
-        },
-        {
-            text: 'Old Profile',
-            onClick: (industry: any) =>
-                router.push(
-                    `/portals/admin/industry/${industry?.id}/detail?tab=students`
-                ),
-            Icon: FaEye,
-        },
-        {
-            ...(role === UserRoles.ADMIN
-                ? {
-                      text: 'View Password',
-                      onClick: (industry: Industry) => onViewPassword(industry),
-                      Icon: RiLockPasswordFill,
-                  }
-                : {}),
-        },
-        {
-            text: 'Edit',
-            onClick: (row: any) => {
-                router.push(`/portals/admin/industry/edit-industry/${row.id}`)
-            },
-            Icon: FaEdit,
-        },
-    ]
-
     const columns: ColumnDef<PendingIndustry>[] = [
         {
             accessorKey: 'industry.user',
-            cell: (info) => {
-                return <IndustryCell industry={info?.row?.original?.industry} />
-            },
+            cell: (info) => (
+                <IndustryCellInfo industry={info?.row?.original?.industry} />
+            ),
             header: () => <span>Industry</span>,
         },
         {
@@ -285,11 +247,6 @@ export const PendingIndustries = () => {
                         >
                             Reject
                         </ActionButton>
-
-                        {/* <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original?.industry}
-                        /> */}
                     </div>
                 )
             },
