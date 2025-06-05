@@ -10,9 +10,10 @@ import {
 } from '@components'
 import { SubAdminLayout } from '@layouts'
 import Modal from '@modals/Modal'
-import { EditIndustryCourseContent } from '@partials/common/IndustryProfileDetail/components/CourseManagement'
 import {
     ApproveCourseModal,
+    ApproveEditCourseModal,
+    CourseRequestCard,
     RejectCourseModal,
     ViewCourseRequestDetailsModal,
 } from '@partials/sub-admin'
@@ -22,7 +23,12 @@ import { NextPageWithLayout } from '@types'
 import { ellipsisText } from '@utils'
 import { ReactElement, useState } from 'react'
 import { FaRegDotCircle } from 'react-icons/fa'
+import {
+    EditCourseModal,
+    EditIndustryCourseContent,
+} from '@partials/common/IndustryProfileDetail/components/CourseManagement'
 import { IoEyeOutline } from 'react-icons/io5'
+import { Pencil } from 'lucide-react'
 import { DataResponse } from 'redux/queryTypes'
 
 export enum Status {
@@ -116,14 +122,13 @@ const CourseRequest: NextPageWithLayout = () => {
                         {info?.row?.original?.description !== null ||
                         info?.row?.original?.reference !== null ? (
                             <div className="flex items-center gap-x-2">
-                                <EditIndustryCourseContent
-                                    approval={info.row?.original}
-                                />
                                 <Modal>
                                     <Modal.Open opens="approveCourseRequest">
-                                        <div className="cursor-pointer bg-indigo-500 text-white rounded-lg p-1">
-                                            <IoEyeOutline className="text-white" />
-                                        </div>
+                                        <Button
+                                            variant="info"
+                                            text="View"
+                                            outline
+                                        />
                                     </Modal.Open>
                                     <Modal.Window name="approveCourseRequest">
                                         <ViewCourseRequestDetailsModal
@@ -139,7 +144,7 @@ const CourseRequest: NextPageWithLayout = () => {
                             </div>
                         ) : (
                             <Typography variant="small" color="text-red-400">
-                                 Not added yet
+                                Not added yet
                             </Typography>
                         )}
                     </div>
