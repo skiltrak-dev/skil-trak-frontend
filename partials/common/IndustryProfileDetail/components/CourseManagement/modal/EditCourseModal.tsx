@@ -12,6 +12,7 @@ import {
     TagInput,
     TextArea,
     Typography,
+    UploadFile,
 } from '@components'
 import { useNotification } from '@hooks'
 import { LabelTag } from '@partials/student/talentPool'
@@ -19,6 +20,7 @@ import { AdminApi } from '@queries'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import { FileUpload } from '@hoc'
 
 export const EditCourseModal = ({
     course,
@@ -81,13 +83,28 @@ export const EditCourseModal = ({
     }
 
     const onSubmit = (data: any) => {
-        const { description } = data
+        // const { description } = data
+        // const { reference } = tags
+        // updateCourse({
+        //     body: {
+        //         description: draftToHtmlText(description),
+        //         reference: reference,
+        //     },
+        //     id: courseRequestId,
+        // })
+        const { description, file } = data
         const { reference } = tags
+
+        const formData = new FormData()
+        formData.append('description', draftToHtmlText(description))
+        formData.append('reference', JSON.stringify(reference))
+
+        if (file?.[0]) {
+            formData.append('file', file[0])
+        }
+
         updateCourse({
-            body: {
-                description: draftToHtmlText(description),
-                reference: reference,
-            },
+            body: formData,
             id: courseRequestId,
         })
     }
@@ -158,6 +175,11 @@ export const EditCourseModal = ({
                                     />
                                 )}
                             </div>
+                            <FileUpload
+                                name={'file'}
+                                component={UploadFile}
+                                limit={Number(1111111111)}
+                            />
                         </div>
                         <div className="flex justify-center">
                             <Button
