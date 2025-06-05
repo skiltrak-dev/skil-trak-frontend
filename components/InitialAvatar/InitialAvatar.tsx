@@ -1,9 +1,6 @@
 import classNames from 'classnames'
 import { useState } from 'react'
 
-// utils
-import { trimText } from '@utils'
-
 interface InitialAvatarProps {
     first?: boolean
     name: string
@@ -12,6 +9,7 @@ interface InitialAvatarProps {
     description?: string
     small?: boolean
     large?: boolean
+    socketId?: string
 }
 
 const BgColors = {
@@ -50,6 +48,7 @@ export const InitialAvatar = ({
     description,
     large,
     small,
+    socketId,
 }: InitialAvatarProps) => {
     // const backgroundColor = 'bg-indigo-800'
     const initials = name?.split(' ')
@@ -126,6 +125,10 @@ export const InitialAvatar = ({
                     </div>
                 )}
             </div>
+
+            {socketId && (
+                <div className="absolute -top-0.5 -left-3 h-3 w-3 rounded-full bg-[#08ff00]"></div>
+            )}
 
             <div
                 className={`hidden group-hover:block absolute -translate-x-1/2 left-1/2 top-9 bg-slate-800 text-slate-200 px-2 py-1 w-auto rounded`}

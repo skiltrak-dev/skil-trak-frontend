@@ -8,6 +8,5 @@ export const WPStatusForCancelButon = [
     WorkplaceCurrentStatus.AwaitingStudentResponse,
     WorkplaceCurrentStatus.AppointmentBooked,
     WorkplaceCurrentStatus.CaseOfficerAssigned,
-    WorkplaceCurrentStatus.AwaitingAgreementSigned,
     WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
 ]

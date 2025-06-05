@@ -5,15 +5,12 @@ import { getUserCredentials } from '@utils'
 import { FaFileInvoiceDollar, FaSchool } from 'react-icons/fa'
 import { usePermission } from './usePermission'
 import { useChangeStatus } from './useChangeStatus'
-import { ReactElement, useState } from 'react'
 import { useModal } from '@hooks'
 import { AdminRtoModalType, getAdminRtoModal } from '../modals'
-import { MdIncompleteCircle } from 'react-icons/md'
+import { MdIncompleteCircle, MdOutlinePayment } from 'react-icons/md'
 
 export const usePermissionData = (rto: Rto) => {
     const { Actions, results } = usePermission()
-
-    // const [modal, setModal] = useState<ReactElement | null>(null)
 
     const { modal, openModal, closeModal } = useModal()
 
@@ -71,6 +68,13 @@ export const usePermissionData = (rto: Rto) => {
             toggle: rto?.allowPartialSubmission,
             isLoading: results?.allowPermissionsResult.isLoading,
             Icon: FaSchool,
+        },
+        {
+            text: 'Can View Payment Status',
+            onClick: () => Actions?.onAllowCanViewPayment(rto),
+            toggle: rto?.canViewPaymentStatus,
+            isLoading: results?.rtoCanViewPaymentResult.isLoading,
+            Icon: MdOutlinePayment,
         },
         {
             text: 'Archive',

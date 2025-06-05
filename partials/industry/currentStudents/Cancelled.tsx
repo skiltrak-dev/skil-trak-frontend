@@ -1,23 +1,9 @@
-import moment from 'moment'
-import React from 'react'
-import { RiBook2Fill } from 'react-icons/ri'
-import {
-    Button,
-    TechnicalError,
-    EmptyData,
-    Card,
-    Typography,
-} from '@components'
-import {
-    CurrentStudentCard,
-    Notes,
-    StudentAvailability,
-    StudentDetail,
-} from './components'
+import { EmptyData, TechnicalError } from '@components'
+import { CurrentStudentCard } from './components'
 
 // query
-import { useGetIndustryWorkplaceQuery } from '@queries'
 import { LoadingAnimation } from '@components/LoadingAnimation'
+import { useGetIndustryWorkplaceQuery } from '@queries'
 
 export const Cancelled = () => {
     // query

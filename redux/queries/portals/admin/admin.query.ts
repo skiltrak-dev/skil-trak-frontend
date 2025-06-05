@@ -192,6 +192,7 @@ const {
     useRtoUpdateAssessmentToolsMutation,
     useRtoRemoveAssessmentToolsMutation,
     useRtoAssessmentToolArchiveMutation,
+    useRtoCanViewPaymentStatusToggleMutation,
 
     useCheckStudentEmailMutation,
 
@@ -521,6 +522,7 @@ export const AdminApi = {
         useUpdateAssessmentTools: useRtoUpdateAssessmentToolsMutation,
         useRemoveAssessmentTools: useRtoRemoveAssessmentToolsMutation,
         useArchiveAssessmentTools: useRtoAssessmentToolArchiveMutation,
+        rtoCanViewPaymentStatusToggle: useRtoCanViewPaymentStatusToggleMutation,
 
         useRtoImportStudents: useRtoImportStudentsMutation,
         useRtoAddStudent: useRtoAddStudentMutation,

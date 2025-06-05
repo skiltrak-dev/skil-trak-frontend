@@ -78,12 +78,24 @@ export const usePermission = () => {
             })
     }
 
+    const onAllowCanViewPayment = async (rto: Rto) => {
+        const res: any = await queries.rtoCanViewPayment(rto?.id)
+
+        if (res?.data) {
+            notification.success({
+                title: 'Payment View Status Changed',
+                description: 'Payment View Status Changed Successfully!',
+            })
+        }
+    }
+
     return {
         results,
         Actions: {
             onAllWpRequest,
-            onAllowLogbookClicked,
             onAllowUpdateClicked,
+            onAllowCanViewPayment,
+            onAllowLogbookClicked,
             onAllowPermissionClicked,
             onAllowAutoCompleteClicked,
         },

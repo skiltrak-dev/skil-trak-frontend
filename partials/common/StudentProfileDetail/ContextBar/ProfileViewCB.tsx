@@ -99,6 +99,7 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                 studentUpdateRequest={profile?.studentUpdateRequests?.find(
                     (r) => r?.action === IndustryRequestsActions.NonContactable
                 )}
+                nonContactableAt={profile?.nonContactableAt}
             />
 
             <ProblamaticStudent

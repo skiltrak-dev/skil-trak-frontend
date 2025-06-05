@@ -116,6 +116,7 @@ export interface Rto extends BaseResponse {
     allowInvoicing: boolean
     allowAutoReport: boolean
     allowPartialSubmission: boolean
+    canViewPaymentStatus: boolean
     reportType: ReportingType
     user: User
     package: Packages
@@ -187,6 +188,7 @@ export interface Student extends BaseResponse {
     isTransferred: boolean
     isAddressUpdated: boolean
     studentUpdateRequests: PartnerRemovalRequests[]
+    nonContactableAt: Date
 }
 
 export interface RtoApprovalWorkplaceRequest extends BaseResponse {

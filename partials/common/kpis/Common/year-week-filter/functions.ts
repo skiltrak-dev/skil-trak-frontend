@@ -28,20 +28,17 @@ export const getWeeksOfCurrentMonth = (
     startDate: string
     endDate: string
 }> => {
-    // Initialize moment with the given date
-
-    // Get the first day of the month
     const firstDayOfMonth = moment(momentDate).startOf('month')
-
-    // Get the last day of the month
-    const lastDayOfMonth = moment(momentDate).endOf('month')
 
     // Find the first Monday within the month
     // If the first day is not Monday, move to the next Monday
     const firstMonday = moment(firstDayOfMonth)
+
     if (firstMonday.day() !== 1) {
         // If not Monday (1)
-        firstMonday.day(8) // Next Monday (move to next week's Monday)
+        // firstMonday.day(8) // Next Monday (move to next week's Monday)
+        const daysToAdd = (8 - firstMonday.day()) % 7
+        firstMonday.add(daysToAdd, 'days')
 
         // If we've gone out of the month, go back to first day
         if (firstMonday.month() !== momentDate.month()) {
