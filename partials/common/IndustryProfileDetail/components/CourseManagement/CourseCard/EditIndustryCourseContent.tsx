@@ -9,7 +9,7 @@ export const EditIndustryCourseContent = ({ approval }: any) => {
     return (
         <div>
             <AuthorizedUserComponent
-                roles={[UserRoles.SUBADMIN]}
+                roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
                 isAssociatedWithRto={false}
             >
                 <Modal>

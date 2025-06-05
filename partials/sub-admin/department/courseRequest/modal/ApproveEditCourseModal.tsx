@@ -21,9 +21,11 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { FileUpload } from '@hoc'
-import Link from 'next/link'
+import Modal from '@modals/Modal'
+import { ApproveCourseModal } from './ApproveCourseModal'
+import { Status } from '../CourseRequestCard'
 
-export const EditCourseModal = ({
+export const ApproveEditCourseModal = ({
     course,
     onCloseModal,
     courseRequestId,
@@ -64,7 +66,7 @@ export const EditCourseModal = ({
                 description: 'Course details updated successfully',
             })
 
-            onCloseModal()
+            // onCloseModal()
             methods.reset()
         }
     }, [updateCourseResult.isSuccess])
@@ -98,21 +100,16 @@ export const EditCourseModal = ({
 
         const formData = new FormData()
         formData.append('description', draftToHtmlText(description))
-        // formData.append('reference', JSON.stringify(reference))
-        formData.append('reference', reference.join(','))
+        formData.append('reference', JSON.stringify(reference))
 
-        // if (file?.[0]) {
-        //     formData.append('file', file[0])
-        // }
-        if (file && Array.isArray(file) && file[0] instanceof File) {
+        if (file?.[0]) {
             formData.append('file', file[0])
-        } else if (course?.file) {
-            formData.append('oldFile', course?.file)
         }
 
         updateCourse({
             body: formData,
             id: courseRequestId,
+            isFormData: true, // optional: if your API hook supports this flag
         })
     }
 
@@ -128,6 +125,7 @@ export const EditCourseModal = ({
         // }
         onSubmit(methods.getValues())
     }
+
     // department /courses/request-list
     return (
         <>
@@ -182,35 +180,25 @@ export const EditCourseModal = ({
                                     />
                                 )}
                             </div>
-                            {course?.file && (
-                                <Typography variant="body">
-                                    A file has already been uploaded for this
-                                    course.&nbsp;
-                                    <Link
-                                        href={`https://docs.google.com/gview?url=${encodeURIComponent(
-                                            course?.file
-                                        )}&embedded=true`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-indigo-500 underline hover:text-indigo-700"
-                                    >
-                                        View current file
-                                    </Link>
-                                </Typography>
-                            )}
                             <FileUpload
                                 name={'file'}
                                 component={UploadFile}
                                 limit={Number(1111111111)}
                             />
                         </div>
-                        <div className="flex justify-center">
+                        <div className="flex justify-center items-end gap-x-2">
                             <Button
                                 text={'Update'}
                                 variant="info"
                                 onClick={submitForm}
                                 loading={updateCourseResult.isLoading}
                                 disabled={updateCourseResult.isLoading}
+                            />
+
+                            <Button
+                                disabled={course?.status !== Status.PENDING}
+                                variant="success"
+                                text="Approve"
                             />
                         </div>
                     </div>

@@ -171,12 +171,22 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                                     />
                                                 </AuthorizedUserComponent>
                                             )}
-                                            <UploadCourseFile
-                                                approval={approval}
-                                            />
-                                            <EditIndustryCourseContent
-                                                approval={approval}
-                                            />
+                                            {approval?.isContentVerified && (
+                                                <>
+                                                    <AuthorizedUserComponent
+                                                        roles={[
+                                                            UserRoles.ADMIN,
+                                                        ]}
+                                                    >
+                                                        {/* <UploadCourseFile
+                                                            approval={approval}
+                                                        /> */}
+                                                        <EditIndustryCourseContent
+                                                            approval={approval}
+                                                        />
+                                                    </AuthorizedUserComponent>
+                                                </>
+                                            )}
                                             <DeleteIndustryCourse
                                                 approval={approval}
                                             />

@@ -56,18 +56,6 @@ const UploadCourseFile = ({ approval }: { approval: any }) => {
                         isAssociatedWithRto={false}
                     >
                         <div className="relative group">
-                            {/* <FileUpload
-                                onChange={(doc: File) => {
-                                    onUploadCourseFile({
-                                        id: approval?.id,
-                                        doc,
-                                    })
-                                }}
-                                name={'attachmentsssss'}
-                                component={FileUploadAction}
-                                limit={Number(1111111111)}
-                                showError={false}
-                            /> */}
                             <ActionButton
                                 Icon={FaCloudUploadAlt}
                                 onClick={onUploadFile}
@@ -92,11 +80,11 @@ const UploadCourseFile = ({ approval }: { approval: any }) => {
                             component={FileUploadAction}
                             limit={Number(1111111111)}
                         /> */}
-                        <ActionButton
+                        {/* <ActionButton
                             Icon={FaCloudUploadAlt}
                             onClick={onUploadFile}
                             variant="info"
-                        />
+                        /> */}
                         <Tooltip>Upload Checklist File</Tooltip>
                     </div>
                 </AuthorizedUserComponent>
