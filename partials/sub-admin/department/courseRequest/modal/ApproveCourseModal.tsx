@@ -1,9 +1,14 @@
 import {
     Button,
+    draftToHtmlText,
+    htmlToDraftText,
+    InputContentEditor,
+    inputEditorErrorMessage,
     ShowErrorNotifications,
     TagInput,
     TextArea,
     Typography,
+    UploadFile,
     useShowErrorNotification,
 } from '@components'
 import React, { useEffect, useState } from 'react'
@@ -13,12 +18,15 @@ import { LabelTag } from '@partials/student/talentPool'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import { FileUpload } from '@hoc'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
     const [description, setDescription] = useState('')
     const [validationError, setValidationError] = useState('')
     const [tags, setTags] = useState<any>({
-        reference: [],
+        reference: request?.reference?.length ? request?.reference : [],
     })
     const [courseRequest, courseRequestResult] =
         SubAdminApi.SubAdmin.useDepartmentCourseRequest()
@@ -61,27 +69,43 @@ export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
         }))
     }
     const validationSchema = yup.object().shape({
-        description: yup.string().required('Description is required'),
-        // reference: yup.string().url('Invalid URL format'),
+        description: yup
+            .mixed()
+            .test('Message', 'Description is required', (value) =>
+                inputEditorErrorMessage(value)
+            ),
     })
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         mode: 'all',
+        defaultValues: {
+            description: htmlToDraftText(request?.description ?? ''),
+            file: request?.file,
+        },
     })
 
     const onSubmit = async (data: any) => {
-        if (!validateForm()) return
-        const { description } = data
+        // if (!validateForm()) return
+        const { description, file } = data
         const { reference } = tags
+
+        const formData = new FormData()
+        formData.append('description', draftToHtmlText(description))
+        // formData.append('reference', JSON.stringify(reference))
+        formData.append('reference', reference.join(','))
+
+        if (file && Array.isArray(file) && file[0] instanceof File) {
+            formData.append('file', file[0])
+        } else if (request?.file) {
+            formData.append('oldFile', request.file)
+        }
+
         const res: any = await courseRequest({
             params: {
                 id: request.id,
                 status: 'approved',
             },
-            body: {
-                reference: reference,
-                description: description,
-            },
+            body: formData,
         })
         if (res?.data) {
             notification.info({
@@ -93,122 +117,96 @@ export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
         } else {
             showErrorNotifications({ isError: true, ...res })
         }
+
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}:`, value)
+        }
     }
+
     const submitForm = () => {
         onSubmit(methods.getValues())
     }
-    const onClickApprove = async () => {
-        const res: any = await courseRequest({
-            params: {
-                id: request.id,
-                status: 'approved',
-            },
-        })
-
-        if (res?.data) {
-            notification.info({
-                title: 'Course Description',
-                description: 'Course description successfully updated.',
-            })
-            // onCloseModal() // ✅ Close only on success
-            // methods.reset()
-        } else {
-            notification.error({
-                title: res?.error?.data?.error,
-                description: res?.error?.data?.message,
-            })
-            showErrorNotifications({ isError: true, ...res })
-        }
-    }
-
+    console.log('request.file', request.file)
     return (
         <>
             <ShowErrorNotifications result={courseRequestResult} />
-
             <div className="flex justify-center flex-col items-center gap-4 px-8 py-4">
-                <Typography variant="h4">Approve Course</Typography>
-                {request?.description !== null && (
-                    <Typography variant="body">
-                        Are you sure you want to approve this course?
-                    </Typography>
-                )}
-                {request?.description === null && (
-                    <>
-                        <Typography variant="body">
-                            If you want to approve the course, please provide
-                            these details
-                        </Typography>
-                        <FormProvider {...methods}>
-                            <form onSubmit={methods.handleSubmit(onSubmit)}>
-                                <div className="flex gap-x-5 w-full">
-                                    <div className="flex flex-col gap-y-2">
-                                        <Typography variant="small" semibold>
-                                            Description
-                                        </Typography>
-                                        <Typography variant="small" medium>
-                                            Please provide the reason why you
-                                            are adding this course to the
-                                            industry.
-                                        </Typography>
-                                        <TextArea
-                                            name="description"
-                                            required
-                                            placeholder="Enter description here..."
-                                            onChange={(e: any) => {
-                                                setDescription(e?.target?.value)
-                                            }}
-                                            rows={4}
-                                            // showError={false}
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-y-2">
-                                        <Typography variant="small" semibold>
-                                            Reference URLs (Optional)
-                                        </Typography>
-                                        <Typography variant="small" medium>
-                                            Where did you find out about this
-                                            course? Please provide a reference
-                                            link.
-                                        </Typography>
-                                        <TagInput
-                                            name="reference"
-                                            onTagEnter={handleTagEnter}
-                                        />
-                                        {tags?.reference?.length > 0 && (
-                                            <LabelTag
-                                                tagName={'reference'}
-                                                tags={tags}
-                                                handleRemoveTag={
-                                                    handleRemoveTag
-                                                }
-                                            />
-                                        )}
+                <FormProvider {...methods}>
+                    <form onSubmit={methods.handleSubmit(onSubmit)}>
+                        <div className="flex justify-center  flex-col gap-y-2 px-2 py-2">
+                            <div className="flex flex-col gap-y-2 items-center">
+                                <Image
+                                    src={'/images/industry/add-course-icon.svg'}
+                                    width={50}
+                                    height={50}
+                                    alt="course icon"
+                                />
+                                <Typography
+                                    variant="subtitle"
+                                    semibold
+                                    color="text-indigo-400"
+                                    italic
+                                >
+                                    {' '}
+                                    {request?.course?.title} -{' '}
+                                    {request?.course?.code} (
+                                    {request?.course?.sector?.name})
+                                </Typography>
+                            </div>
+                            <div className="flex flex-col gap-y-2 w-full mt-4">
+                                <div className=" min-w-96">
+                                    <div className="">
+                                        <InputContentEditor name="description" />
                                     </div>
                                 </div>
-                                <div className="flex justify-center">
-                                    <Button
-                                        variant="success"
-                                        onClick={submitForm}
-                                        text="Approve"
-                                        loading={courseRequestResult.isLoading}
-                                        disabled={courseRequestResult.isLoading}
+
+                                <div className="flex flex-col gap-y-2">
+                                    <TagInput
+                                        name="reference"
+                                        onTagEnter={handleTagEnter}
                                     />
+                                    {tags?.reference?.length > 0 && (
+                                        <LabelTag
+                                            tagName={'reference'}
+                                            tags={tags}
+                                            handleRemoveTag={handleRemoveTag}
+                                        />
+                                    )}
                                 </div>
-                            </form>
-                        </FormProvider>
-                    </>
-                )}
-                {request?.description !== null && (
-                    <div className="flex justify-center gap-x-4">
-                        <Button
-                            variant="success"
-                            onClick={onClickApprove}
-                            text="Approve"
-                            loading={courseRequestResult.isLoading}
-                            disabled={courseRequestResult.isLoading}
-                        />
-                    </div>
-                )}
+                                {request?.file && (
+                                    <Typography variant="body">
+                                        A file has already been uploaded for
+                                        this course.&nbsp;
+                                        <Link
+                                            href={`https://docs.google.com/gview?url=${encodeURIComponent(
+                                                request.file
+                                            )}&embedded=true`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-indigo-500 underline hover:text-indigo-700"
+                                        >
+                                            View current file
+                                        </Link>
+                                    </Typography>
+                                )}
+                                <FileUpload
+                                    name={'file'}
+                                    component={UploadFile}
+                                    limit={Number(1111111111)}
+                                />
+                            </div>
+                            <div className="flex justify-center">
+                                <Button
+                                    variant="success"
+                                    onClick={submitForm}
+                                    text="Approve"
+                                    loading={courseRequestResult.isLoading}
+                                    disabled={courseRequestResult.isLoading}
+                                />
+                            </div>
+                        </div>
+                    </form>
+                </FormProvider>
             </div>
         </>
     )
