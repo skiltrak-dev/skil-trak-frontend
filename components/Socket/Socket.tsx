@@ -15,6 +15,14 @@ export const Socket = ({ children }: any) => {
 
     const { notification } = useNotification()
     const { setEventListener } = useSocketListener()
+
+    const disconnectSocket = () => {
+        if (socket) {
+            socket.disconnect()
+            console.log('Socket disconnected')
+        }
+    }
+
     useEffect(() => {
         setSocket(
             io(`${process.env.NEXT_PUBLIC_SOCKET_END_POINT}`, { secure: true })
@@ -60,7 +68,9 @@ export const Socket = ({ children }: any) => {
         if (AuthUtils.isAuthenticated()) {
             socket?.emit('join', AuthUtils.getUserCredentials()?.id)
 
-            socket?.on('joined', (notify: { message: string }) => {})
+            socket?.on('joined', () => {})
+
+            socket?.on('off', () => {})
 
             Object.values(SocketNotificationsEvents)?.forEach(
                 (eventName: SocketNotificationsEvents) => {
@@ -99,6 +109,7 @@ export const Socket = ({ children }: any) => {
                     socket.off(event)
                 })
                 socket.off('joined')
+                disconnectSocket()
             }
         }
     }, [socket, router])

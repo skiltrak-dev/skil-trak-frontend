@@ -183,6 +183,7 @@ export const IndustryDetail = ({
                         )}
                         <AuthorizedUserComponent
                             roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            isAssociatedWithRto={false}
                         >
                             <Typography variant={'small'} color={'text-info'}>
                                 <span

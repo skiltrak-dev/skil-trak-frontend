@@ -27,7 +27,7 @@ export const FolderCard = ({
     //         ? folder?.studentResponse?.[0]
     //         : null
 
-    const getStatusBadge = () => {
+    const getStatusBadge = (isAgreement?: boolean) => {
         switch (response?.status) {
             case 'approved':
                 return (
@@ -37,7 +37,11 @@ export const FolderCard = ({
                 )
             case 'pending':
                 return (
-                    <Typography color="text-primary" variant="xs" medium>
+                    <Typography
+                        color={isAgreement ? 'text-white' : 'text-primary'}
+                        variant="xs"
+                        medium
+                    >
                         Pending
                     </Typography>
                 )
@@ -57,6 +61,9 @@ export const FolderCard = ({
         }
     }
 
+    const isAgreement = folder?.isAgreement
+    const isFacilityCheckList = folder?.isFacilityCheckList
+
     const commentClasses = classNames({
         'text-[11px]': true,
         'text-gray-500': response?.status === 'pending' && !active,
@@ -67,6 +74,14 @@ export const FolderCard = ({
             !active,
         'text-white': active,
     })
+
+    const mainClasses = classNames({
+        'bg-primaryNew': active,
+        'bg-[#2ECC40]': isAgreement,
+        'bg-[#FFDC00]': isFacilityCheckList,
+        'bg-white border border-secondary-dark': !active,
+    })
+
     return (
         <div
             onClick={() => {
@@ -74,20 +89,24 @@ export const FolderCard = ({
                     onClick()
                 }
             }}
-            className={`cursor-pointer p-2.5 ${
-                active
-                    ? 'bg-primaryNew'
-                    : 'bg-white border border-secondary-dark'
-            }  rounded-md flex flex-col gap-y-1`}
+            className={`cursor-pointer p-2.5 ${mainClasses}  rounded-md flex flex-col gap-y-1`}
         >
             <div className="relative flex items-center justify-between gap-x-2">
                 <div className="flex items-center gap-x-2">
                     <HiOutlineDocumentText
-                        className={active ? 'text-white' : 'text-[#374151]'}
+                        className={
+                            active || isAgreement
+                                ? 'text-white'
+                                : 'text-[#374151]'
+                        }
                     />
                     <Typography
                         variant="xxs"
-                        color={active ? 'text-white' : 'text-[#374151]'}
+                        color={
+                            active || isAgreement
+                                ? 'text-white'
+                                : 'text-[#374151]'
+                        }
                         medium
                     >
                         {folder?.name}
@@ -120,13 +139,19 @@ export const FolderCard = ({
                     {folder?.isAgreement && (
                         <PiHandshakeDuotone
                             className={`${
-                                active ? 'text-white' : 'text-[#374151]'
+                                active || isAgreement
+                                    ? 'text-white'
+                                    : 'text-[#374151]'
                             }`}
                         />
                     )}
                     <Typography
                         variant={'small'}
-                        color={active ? 'text-white' : 'text-[#374151]'}
+                        color={
+                            active || isAgreement
+                                ? 'text-white'
+                                : 'text-[#374151]'
+                        }
                     >
                         {response?.files?.length
                             ? `(${response?.files?.length})`
@@ -136,14 +161,18 @@ export const FolderCard = ({
                 {response ? (
                     response?.reSubmitted ? (
                         <Typography
-                            color={active ? 'text-blue-200' : 'text-info'}
+                            color={
+                                active || isAgreement
+                                    ? 'text-blue-200'
+                                    : 'text-info'
+                            }
                             variant="xs"
                             medium
                         >
                             Re-Submitted
                         </Typography>
                     ) : (
-                        getStatusBadge()
+                        getStatusBadge(isAgreement)
                     )
                 ) : null}
             </div>

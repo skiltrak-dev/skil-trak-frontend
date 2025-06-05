@@ -307,6 +307,14 @@ export const rtoEndpoints = (
         invalidatesTags: ['RTOS'],
     }),
 
+    rtoCanViewPaymentStatusToggle: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto/${id}/toggle/can-view-payment-status`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
+
     studentAccountsExists: builder.query<Rto, number>({
         query: (id: number) => `${PREFIX}/rtos/view/${id}`,
         providesTags: ['STUDENT EMAILS'],

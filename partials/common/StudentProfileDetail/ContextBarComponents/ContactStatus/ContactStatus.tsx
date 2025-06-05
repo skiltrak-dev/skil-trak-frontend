@@ -5,23 +5,27 @@ import {
     Tooltip,
     TooltipPosition,
     Typography,
+    UserCreatedAt,
 } from '@components'
 import { SubAdminApi } from '@queries'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { NotContactableStudentModal } from '../../modals'
 import { PartnerRemovalRequests } from '@types'
 import { CiSquareQuestion } from 'react-icons/ci'
+import moment from 'moment'
 
 export const ContactStatus = ({
     disabled,
     studentId,
     nonContactable,
     studentUpdateRequest,
+    nonContactableAt,
 }: {
     studentId: number
     disabled: boolean
     nonContactable: boolean
     studentUpdateRequest?: PartnerRemovalRequests
+    nonContactableAt: Date
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -58,7 +62,7 @@ export const ContactStatus = ({
         <>
             {modal}
             <ShowErrorNotifications result={notContactableResult} />
-            <div className="py-3 border-b border-secondary-dark">
+            <div className="py-3 border-b border-secondary-dark flex flex-col gap-y-1">
                 <Typography variant="small" medium>
                     Status
                 </Typography>
@@ -104,6 +108,14 @@ export const ContactStatus = ({
                         </Typography>
                     </div>
                 </div>
+                {nonContactable && (
+                    <div className="flex items-center gap-x-2">
+                        <Typography variant="small" center>
+                            Notcontactable At:
+                        </Typography>
+                        <UserCreatedAt createdAt={nonContactableAt} />
+                    </div>
+                )}
             </div>
         </>
     )

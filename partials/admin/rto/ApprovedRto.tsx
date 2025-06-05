@@ -1,6 +1,5 @@
 import {
     ActionButton,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -11,30 +10,22 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import {
-    FaBook,
-    FaEdit,
-    FaEye,
-    FaFileInvoiceDollar,
-    FaHourglassHalf,
-} from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { UserRoles } from '@constants'
 import { useActionModal, useContextBar, useModal } from '@hooks'
-import { AdminApi, commonApi } from '@queries'
+import { AdminApi } from '@queries'
 import { Rto, UserStatus } from '@types'
 import { checkListLength, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { MdBlock, MdIncompleteCircle, MdOutlineUpdate } from 'react-icons/md'
+import { MdBlock } from 'react-icons/md'
 import { RtoCellInfo, SectorCell } from './components'
 import { ViewSubAdminsCB } from './contextBar'
 import { AdminRtoModalType, getAdminRtoModal } from './modals'
 
 export const ApprovedRto = () => {
     const router = useRouter()
-
-    // const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -106,34 +97,6 @@ export const ApprovedRto = () => {
                   }
                 : {}),
         },
-
-        // {
-        //     ...(role === UserRoles.ADMIN
-        //         ? {
-        //               text: 'Invoice Permission',
-        //               onClick: (rto: Rto) =>
-        //                   handleOpenModal(
-        //                       AdminRtoModalType.ALLOW_INVOICING,
-        //                       rto
-        //                   ),
-        //               Icon: FaFileInvoiceDollar,
-        //           }
-        //         : {}),
-        // },
-
-        // {
-        //     ...(role === UserRoles.ADMIN
-        //         ? {
-        //               text: 'Auto Report Permissions',
-        //               onClick: (rto: Rto) =>
-        //                   handleOpenModal(
-        //                       AdminRtoModalType.ALLOW_PERMISSIONS,
-        //                       rto
-        //                   ),
-        //               Icon: MdIncompleteCircle,
-        //           }
-        //         : {}),
-        // },
     ]
 
     const columns: ColumnDef<Rto>[] = [

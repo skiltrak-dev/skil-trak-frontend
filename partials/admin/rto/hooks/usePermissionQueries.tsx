@@ -12,14 +12,19 @@ export const usePermissionQueries = () => {
 
     const [allowPermissions, allowPermissionsResult] =
         AdminApi.Rtos.allowPartialSubmission()
+
     const [rtoWpApprovalRequest, rtoWpApprovalRequestResult] =
         AdminApi.Rtos.rtoWpApprovalRequest()
+
+    const [rtoCanViewPayment, rtoCanViewPaymentResult] =
+        AdminApi.Rtos.rtoCanViewPaymentStatusToggle()
     return {
         queries: {
             allowUpdation,
             releaseLogbook,
             allowAutoUpdate,
             allowPermissions,
+            rtoCanViewPayment,
             rtoWpApprovalRequest,
         },
         results: {
@@ -27,6 +32,7 @@ export const usePermissionQueries = () => {
             releaseLogbookResult,
             allowAutoUpdateResult,
             allowPermissionsResult,
+            rtoCanViewPaymentResult,
             rtoWpApprovalRequestResult,
         },
     }

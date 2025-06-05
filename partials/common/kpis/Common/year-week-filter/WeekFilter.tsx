@@ -50,6 +50,8 @@ export const WeekFilter = ({
         setCMonthsDates(getWeeksOfCurrentMonth())
     }, [])
 
+    console.log('getWeeksOfCurrentMonth()', getWeeksOfCurrentMonth())
+
     const toggleWeekSelection = (weekIndex: number) => {
         const isSelected = weekIndex === selectedWeek
         setSelectedWeek(isSelected ? null : weekIndex)

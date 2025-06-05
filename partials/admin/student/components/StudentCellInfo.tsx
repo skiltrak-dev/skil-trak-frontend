@@ -99,6 +99,7 @@ export const StudentCellInfo = ({
                             <InitialAvatar
                                 name={student?.user?.name}
                                 imageUrl={student?.user?.avatar}
+                                socketId={student?.user?.socketId}
                             />
                         )}
                     </ErrorBoundary>

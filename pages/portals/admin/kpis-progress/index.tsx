@@ -15,7 +15,6 @@ import { ReactElement, useState } from 'react'
 import { IoIosAddCircle } from 'react-icons/io'
 import { LuSettings } from 'react-icons/lu'
 import { PiUsersBold } from 'react-icons/pi'
-import { RxHamburgerMenu } from 'react-icons/rx'
 import { IoClose } from 'react-icons/io5'
 import { IoIosArrowBack } from 'react-icons/io'
 
