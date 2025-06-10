@@ -1,7 +1,8 @@
+import { ShowErrorNotifications, useShowErrorNotification } from '@components'
+import { useNotification } from '@hooks'
 import { AvailabilityForm } from '@partials/common'
-import { useWorkPlaceRequestMutation } from '@queries'
-import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import { SubAdminApi, useWorkPlaceRequestMutation } from '@queries'
+import { useEffect } from 'react'
 
 type AvailabilityProps = {
     setActive: any
@@ -18,9 +19,12 @@ export const Availability = ({
     // query
     const [workplaceRequest, workplaceRequestResult] =
         useWorkPlaceRequestMutation()
+    const [createAutoWp, createAutoWpResult] =
+        SubAdminApi.Student.createAutomatedWp()
 
-    const router = useRouter()
-    const { id } = router.query
+    const { notification } = useNotification()
+
+    const showErrorNotifications = useShowErrorNotification()
 
     useEffect(() => {
         if (workplaceRequestResult.isSuccess) {
@@ -35,11 +39,34 @@ export const Availability = ({
         })
     }
 
+    const onSubmitBeta = async (daysAvailability: any) => {
+        await createAutoWp({
+            ...personalInfoData,
+            generalAvailabilities: daysAvailability,
+            date1: null,
+            date2: null,
+        }).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: 'Workplace Added',
+                    description: 'Workplace Added Successfully!',
+                })
+            }
+            if (res?.error?.data) {
+                showErrorNotifications(res)
+                setActive(1)
+            }
+        })
+    }
+
     return (
         <div>
+            <ShowErrorNotifications result={createAutoWpResult} />
             <AvailabilityForm
                 setActive={setActive}
                 onSubmit={onSubmit}
+                onSubmitBeta={onSubmitBeta}
+                autoResult={createAutoWpResult}
                 result={workplaceRequestResult}
                 availabilities={availabilities}
                 setAvailabilities={setAvailabilities}
