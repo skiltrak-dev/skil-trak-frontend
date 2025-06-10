@@ -543,28 +543,31 @@ export const Courses = ({
                         <AuthorizedUserComponent
                             excludeRoles={[UserRoles.OBSERVER]}
                         >
-                            {(getAssessmentResponse?.data?.assessmentFolder
-                                ?.isAgreement ||
-                                getAssessmentResponse?.data?.assessmentFolder
-                                    ?.isFacilityCheckList) && (
-                                <AddComment
-                                    resultId={result?.id}
-                                    studentId={student?.id}
-                                    comment={
-                                        getAssessmentResponse?.data?.comment
-                                    }
-                                    assessmentResponseId={
-                                        getAssessmentResponse?.data?.id
-                                    }
-                                    assessmentFolder={
-                                        getAssessmentResponse?.data
-                                            ?.assessmentFolder
-                                    }
-                                    folderStatus={
-                                        getAssessmentResponse?.data?.status
-                                    }
-                                />
-                            )}
+                            {getAssessmentResponse?.data &&
+                                getAssessmentResponse?.isSuccess &&
+                                (getAssessmentResponse?.data?.assessmentFolder
+                                    ?.isAgreement ||
+                                    getAssessmentResponse?.data
+                                        ?.assessmentFolder
+                                        ?.isFacilityCheckList) && (
+                                    <AddComment
+                                        resultId={result?.id}
+                                        studentId={student?.id}
+                                        comment={
+                                            getAssessmentResponse?.data?.comment
+                                        }
+                                        assessmentResponseId={
+                                            getAssessmentResponse?.data?.id
+                                        }
+                                        assessmentFolder={
+                                            getAssessmentResponse?.data
+                                                ?.assessmentFolder
+                                        }
+                                        folderStatus={
+                                            getAssessmentResponse?.data?.status
+                                        }
+                                    />
+                                )}
                             {getAssessmentResponse?.isSuccess &&
                             getAssessmentResponse?.data &&
                             (result?.result === Result.Pending ||

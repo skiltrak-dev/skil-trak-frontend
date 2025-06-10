@@ -324,6 +324,7 @@ export const {
     useGetSubAdminStudentCoursesQuery,
     useGetSubAdminStudentDetailQuery,
     useGetSubAdminStudentRtoDetailQuery,
+    useGetAllStudentCancelledWorkplacesQuery,
     useUpdateStudentDateMutation,
     useGetWorkplaceIndustryDetailQuery,
     useUpdateStudentApprovalActionsMutation,
@@ -620,6 +621,8 @@ export const SubAdminApi = {
         workplaceStudentDetail: useGetWorkplaceStudentDetailQuery,
         getWorkplaceForSchedule: useGetWorkplaceForScheduleQuery,
         getStudentRtoDetail: useGetSubAdminStudentRtoDetailQuery,
+        getAllStudentCancelledWorkplaces:
+            useGetAllStudentCancelledWorkplacesQuery,
         releaseStudentLogbook: useReleaseStudentLogbookMutation,
         getIncompleteSubmissionsForWorkplace:
             useGetIncompleteSubmissionsForWorkplaceQuery,
