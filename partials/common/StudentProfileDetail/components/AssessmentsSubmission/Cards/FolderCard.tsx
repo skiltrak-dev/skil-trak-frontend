@@ -79,7 +79,8 @@ export const FolderCard = ({
         'bg-primaryNew': active,
         'bg-[#2ECC40]': isAgreement,
         'bg-[#FFDC00]': isFacilityCheckList,
-        'bg-white border border-secondary-dark': !active,
+        'bg-white border border-secondary-dark':
+            !active && !isAgreement && !isFacilityCheckList,
     })
 
     return (
@@ -94,19 +95,11 @@ export const FolderCard = ({
             <div className="relative flex items-center justify-between gap-x-2">
                 <div className="flex items-center gap-x-2">
                     <HiOutlineDocumentText
-                        className={
-                            active || isAgreement
-                                ? 'text-white'
-                                : 'text-[#374151]'
-                        }
+                        className={active ? 'text-white' : 'text-[#374151]'}
                     />
                     <Typography
                         variant="xxs"
-                        color={
-                            active || isAgreement
-                                ? 'text-white'
-                                : 'text-[#374151]'
-                        }
+                        color={active ? 'text-white' : 'text-[#374151]'}
                         medium
                     >
                         {folder?.name}
@@ -139,19 +132,13 @@ export const FolderCard = ({
                     {folder?.isAgreement && (
                         <PiHandshakeDuotone
                             className={`${
-                                active || isAgreement
-                                    ? 'text-white'
-                                    : 'text-[#374151]'
+                                active ? 'text-white' : 'text-[#374151]'
                             }`}
                         />
                     )}
                     <Typography
                         variant={'small'}
-                        color={
-                            active || isAgreement
-                                ? 'text-white'
-                                : 'text-[#374151]'
-                        }
+                        color={active ? 'text-white' : 'text-[#374151]'}
                     >
                         {response?.files?.length
                             ? `(${response?.files?.length})`
@@ -161,11 +148,7 @@ export const FolderCard = ({
                 {response ? (
                     response?.reSubmitted ? (
                         <Typography
-                            color={
-                                active || isAgreement
-                                    ? 'text-blue-200'
-                                    : 'text-info'
-                            }
+                            color={active ? 'text-blue-200' : 'text-info'}
                             variant="xs"
                             medium
                         >

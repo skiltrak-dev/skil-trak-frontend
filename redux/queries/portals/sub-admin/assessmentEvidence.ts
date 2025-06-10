@@ -127,8 +127,9 @@ export const assessmentEvidenceEndpoints = (
             std,
             assessmentFolderId,
         }) => ({
-            url: `${PREFIX}/student/assessment-evidence/comment/${folderId}/${std}/${resultId}/${assessmentFolderId}`,
+            url: `${PREFIX}/student/assessment-evidence/comment/${folderId}/${std}/${assessmentFolderId}`,
             method: 'PATCH',
+            params: { result: resultId },
             body: { status, comment },
         }),
         invalidatesTags: ['AssessmentEvidence', 'SubAdminStudents'],

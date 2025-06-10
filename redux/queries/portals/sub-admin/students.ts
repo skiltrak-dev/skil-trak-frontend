@@ -371,6 +371,11 @@ export const studentsEndpoints = (
         providesTags: ['SubAdminStudents'],
     }),
 
+    getAllStudentCancelledWorkplaces: builder.query<any, any>({
+        query: (id) => `${PREFIX}/student/${id}/cancelled-workplace-requests`,
+        providesTags: ['SubAdminStudents'],
+    }),
+
     getStudentCallLog: builder.query<any, number>({
         query: (studentId) => ({
             url: `call-log`,
