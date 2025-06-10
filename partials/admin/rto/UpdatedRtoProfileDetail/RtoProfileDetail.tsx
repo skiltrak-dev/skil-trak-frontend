@@ -8,6 +8,7 @@ import {
     RtoAssessmentTools,
     RtoProfileStatistics,
     InsuranceDocumentsData,
+    RtoNotifications,
 } from './components'
 import { getSectors, getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
@@ -101,6 +102,11 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
             {/* Mails */}
             <div className="mt-5">
                 <MailsCommunication user={rto?.user} />
+            </div>
+
+            {/* Notifications */}
+            <div className="mt-5 h-[500px]">
+                <RtoNotifications rtoUser={rto?.user} />
             </div>
         </div>
     )

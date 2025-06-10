@@ -51,7 +51,7 @@ const UploadCourseFile = ({ approval }: { approval: any }) => {
 
                         <Tooltip>View Checklist</Tooltip>
                     </div>
-                    <AuthorizedUserComponent
+                    {/* <AuthorizedUserComponent
                         roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                         isAssociatedWithRto={false}
                     >
@@ -63,7 +63,7 @@ const UploadCourseFile = ({ approval }: { approval: any }) => {
                             />
                             <Tooltip>Edit Checklist File</Tooltip>
                         </div>
-                    </AuthorizedUserComponent>
+                    </AuthorizedUserComponent> */}
                 </div>
             ) : (
                 <AuthorizedUserComponent

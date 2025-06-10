@@ -1,28 +1,15 @@
-import {
-    AuthorizedUserComponent,
-    Button,
-    ShowErrorNotifications,
-    Typography,
-} from '@components'
+import { AuthorizedUserComponent, Button, Typography } from '@components'
 import { UserRoles } from '@constants'
-import Modal from '@modals/Modal'
-import { Pencil, Trash2 } from 'lucide-react'
-import { useEffect, useMemo } from 'react'
-import { FaRegEdit } from 'react-icons/fa'
-import { IoCheckmarkDoneOutline } from 'react-icons/io5'
-import {
-    AddPrevCourseDescription,
-    DeleteCourseModal,
-    EditCourseModal,
-} from '../modal'
-import dynamic from 'next/dynamic'
-import { ellipsisText } from '@utils'
-import { SubAdminApi } from '@queries'
 import { useNotification } from '@hooks'
-import { AddContentForOldIndustry } from './AddContentForOldIndustry'
-import { EditIndustryCourseContent } from './EditIndustryCourseContent'
-import { DeleteIndustryCourse } from './DeleteIndustryCourse'
+import { SubAdminApi } from '@queries'
+import { ellipsisText } from '@utils'
 import { marked } from 'marked'
+import dynamic from 'next/dynamic'
+import { useMemo } from 'react'
+import { IoCheckmarkDoneOutline } from 'react-icons/io5'
+import { AddContentForOldIndustry } from './AddContentForOldIndustry'
+import { DeleteIndustryCourse } from './DeleteIndustryCourse'
+import { EditIndustryCourseContent } from './EditIndustryCourseContent'
 const UploadCourseFile = dynamic(() => import('./UploadCourseFile'), {
     ssr: false,
 })
@@ -93,6 +80,8 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
         // Add protocol if missing
         return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`
     }
+
+    console.log({ approvals })
 
     return (
         <>
@@ -171,22 +160,14 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                                     />
                                                 </AuthorizedUserComponent>
                                             )}
-                                            {approval?.isContentVerified && (
-                                                <>
-                                                    <AuthorizedUserComponent
-                                                        roles={[
-                                                            UserRoles.ADMIN,
-                                                        ]}
-                                                    >
-                                                        {/* <UploadCourseFile
-                                                            approval={approval}
-                                                        /> */}
-                                                        <EditIndustryCourseContent
-                                                            approval={approval}
-                                                        />
-                                                    </AuthorizedUserComponent>
-                                                </>
-                                            )}
+                                            <>
+                                                <UploadCourseFile
+                                                    approval={approval}
+                                                />
+                                                <EditIndustryCourseContent
+                                                    approval={approval}
+                                                />
+                                            </>
                                             <DeleteIndustryCourse
                                                 approval={approval}
                                             />

@@ -1,4 +1,4 @@
-import { AuthorizedUserComponent, Typography } from '@components'
+import { AuthorizedUserComponent, Button, Card, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { AvailableMeetingDates, WorkplaceMapBoxView } from '@partials/student'
 import { WorkplaceAvailableSlots } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceAvailableSlots'
@@ -6,8 +6,10 @@ import { WorkplaceInfo } from '@partials/student/workplace/components/WorkplaceA
 import { SubAdminApi } from '@queries'
 import { SubAdmin } from '@types'
 import { getUserCredentials } from '@utils'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { AssignedCoordinator } from './AssignedCoordinator'
+import { useRouter } from 'next/router'
+import { UpdateIndustryEligibilityModal } from '../../modals'
 
 export const WorkplaceApprovalReq = ({
     wpReqApproval,
@@ -17,8 +19,11 @@ export const WorkplaceApprovalReq = ({
     wpReqApproval: any
 }) => {
     const [mount, setMount] = useState<boolean>(false)
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const role = getUserCredentials()?.role
+
+    const router = useRouter()
 
     const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
         skip: role !== UserRoles.SUBADMIN,
@@ -32,21 +37,74 @@ export const WorkplaceApprovalReq = ({
         }
     }, [])
 
+    const onCancel = () => setModal(null)
+
+    const onUpdateIndustryEligibility = () => {
+        setModal(
+            <UpdateIndustryEligibilityModal
+                onCancel={onCancel}
+                wpReqApproval={wpReqApproval}
+            />
+        )
+    }
 
     return (
         <div className="h-full">
-            <div className="grid grid-cols-3 gap-x-6 items-center border-b border-[#F7910F] px-4 py-2">
-                <Typography variant="label" semibold block capitalize>
-                    eligible workplace option for placement
-                </Typography>
-                <div className="col-span-2">
-                    <Typography variant="small" medium color="text-[#24556D]">
-                        Workplace Approval Request has been sent to the student
-                        once the student approves, you will be able to update
-                        the request status.{' '}
+            {modal}
+            {wpReqApproval?.isEligible ? (
+                <div className="grid grid-cols-3 gap-x-6 items-center border-b border-[#F7910F] px-4 py-2">
+                    <Typography variant="label" semibold block capitalize>
+                        eligible workplace option for placement
                     </Typography>
+                    <div className="col-span-2">
+                        <Typography
+                            variant="small"
+                            medium
+                            color="text-[#24556D]"
+                        >
+                            Workplace Approval Request has been sent to the
+                            student once the student approves, you will be able
+                            to update the request status.{' '}
+                        </Typography>
+                    </div>
                 </div>
-            </div>
+            ) : (
+                <Card noPadding>
+                    <div className="flex flex-col gap-y-2 items-center px-4 py-2 bg-primary-light">
+                        <Typography variant="label" block medium center>
+                            The workplace course file does not exist or the
+                            course content has not yet been approved. Once
+                            approved, you will be able to send the workplace to
+                            the student for approval.
+                        </Typography>
+                        <div className="col-span-2 flex justify-end gap-x-3">
+                            <Button
+                                outline
+                                text="Update Workplace"
+                                variant="info"
+                                disabled={role === UserRoles.RTO}
+                                onClick={() => {
+                                    role === UserRoles.ADMIN
+                                        ? router.push(
+                                              `/portals/admin/industry/${wpReqApproval?.industry?.id}`
+                                          )
+                                        : role === UserRoles.SUBADMIN
+                                        ? router.push(
+                                              `/portals/sub-admin/users/industries/${wpReqApproval?.industry?.id}?tab=students`
+                                          )
+                                        : ''
+                                }}
+                            />
+                            <Button
+                                variant="success"
+                                text="Submit For Approval"
+                                disabled={role === UserRoles.RTO}
+                                onClick={onUpdateIndustryEligibility}
+                            />
+                        </div>
+                    </div>
+                </Card>
+            )}
 
             <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                 <div className="px-4 py-2.5 grid grid-cols-7 gap-x-4 gap-y-3">
