@@ -202,7 +202,7 @@ export const AvailabilityForm = ({
                                         Auto-Match & Apply (Automatically)
                                     </Button>
                                 )}
-                                <AuthorizedUserComponent
+                                {/* <AuthorizedUserComponent
                                     roles={[UserRoles.STUDENT]}
                                 >
                                     <Button
@@ -214,9 +214,9 @@ export const AvailabilityForm = ({
                                     >
                                         Find Industries
                                     </Button>
-                                </AuthorizedUserComponent>
+                                </AuthorizedUserComponent> */}
                             </div>
-                            <div>
+                            {/* <div>
                                 <AuthorizedUserComponent
                                     roles={[UserRoles.SUBADMIN]}
                                 >
@@ -234,7 +234,7 @@ export const AvailabilityForm = ({
                                             : 'More'}
                                     </button>
                                 </AuthorizedUserComponent>
-                            </div>
+                            </div> */}
                         </div>
                     </Card>
                 </div>
