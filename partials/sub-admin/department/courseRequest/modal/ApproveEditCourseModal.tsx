@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 import {
     Button,
@@ -10,19 +10,16 @@ import {
     inputEditorErrorMessage,
     ShowErrorNotifications,
     TagInput,
-    TextArea,
     Typography,
     UploadFile,
 } from '@components'
+import { FileUpload } from '@hoc'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { LabelTag } from '@partials/student/talentPool'
 import { AdminApi } from '@queries'
 import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { FileUpload } from '@hoc'
-import Modal from '@modals/Modal'
-import { ApproveCourseModal } from './ApproveCourseModal'
 import { Status } from '../CourseRequestCard'
 
 export const ApproveEditCourseModal = ({
