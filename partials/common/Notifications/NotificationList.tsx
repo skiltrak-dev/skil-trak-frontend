@@ -4,7 +4,7 @@ import { Typography } from '@components'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { notificationTabs } from './data'
 
-export const NotificationList = () => {
+export const NotificationList = ({ userId }: { userId?: number }) => {
     const [selectedTab, setSelectedTab] = useState(notificationTabs?.[0]?.text)
 
     const Component = notificationTabs?.find(
@@ -28,7 +28,7 @@ export const NotificationList = () => {
                     </div>
                 ))}
             </div>
-            <div>{Component && <Component />}</div>
+            <div>{Component && <Component userId={userId} />}</div>
         </div>
     )
 }

@@ -34,8 +34,6 @@ export const EditCourseModal = ({
 
     const { notification } = useNotification()
 
-    const router = useRouter()
-
     const [updateCourse, updateCourseResult] =
         AdminApi.Industries.useUpdateIndustryProfileCourse()
 
@@ -129,6 +127,7 @@ export const EditCourseModal = ({
         onSubmit(methods.getValues())
     }
     // department /courses/request-list
+
     return (
         <>
             <ShowErrorNotifications result={updateCourseResult} />

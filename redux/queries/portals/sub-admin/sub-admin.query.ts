@@ -310,6 +310,7 @@ export const {
     useSubAdminStudentCountQuery,
     useProblamaticStudentMutation,
     useCreateAutomatedWpMutation,
+    useUpdateWpIndustryEligibilityMutation,
     useSubAdminRequestWorkplaceMutation,
     useStudentActionsApprovalRequestsQuery,
     useSendPasswordToStudentMailMutation,
@@ -568,6 +569,7 @@ export const SubAdminApi = {
 
     Student: {
         createAutomatedWp: useCreateAutomatedWpMutation,
+        updateWpIndustryEligibility: useUpdateWpIndustryEligibilityMutation,
         addStudentNote: useAddStudentNoteMutation,
         useProblamaticStudent: useProblamaticStudentMutation,
         useCount: useSubAdminStudentCountQuery,

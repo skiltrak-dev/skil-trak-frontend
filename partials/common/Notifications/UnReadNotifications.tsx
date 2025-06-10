@@ -12,12 +12,13 @@ import {
 import { CommonApi } from '@queries'
 import { NotificationCard } from './components'
 
-export const UnReadNotifications = () => {
+export const UnReadNotifications = ({ userId }: { userId?: number }) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
     const notifications = CommonApi.Notifications.useNotifications(
         {
+            id: userId,
             limit: itemPerPage,
             search: `isRead:${false}`,
             skip: itemPerPage * page - itemPerPage,
@@ -50,8 +51,10 @@ export const UnReadNotifications = () => {
                             </div>
                             <div className="flex flex-col gap-y-2">
                                 {notifications?.data?.data?.map(
-                                    (notification: any, i: any) => (
+                                    (notification: any) => (
                                         <NotificationCard
+                                            userId={userId}
+                                            key={notification?.id}
                                             notification={notification}
                                         />
                                     )

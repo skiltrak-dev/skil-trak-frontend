@@ -12,7 +12,7 @@ import { CommonApi } from '@queries'
 import { NotificationCard } from './components'
 import { useRouter } from 'next/router'
 
-export const AllNotifications = () => {
+export const AllNotifications = ({ userId }: { userId?: number }) => {
     const router = useRouter()
 
     const [page, setPage] = useState(1)
@@ -25,6 +25,7 @@ export const AllNotifications = () => {
 
     const notifications = CommonApi.Notifications.useNotifications(
         {
+            id: userId,
             limit: itemPerPage,
             skip: itemPerPage * page - itemPerPage,
         },
@@ -55,8 +56,10 @@ export const AllNotifications = () => {
                             </div>
                             <div className="flex flex-col gap-y-2">
                                 {notifications?.data?.data?.map(
-                                    (notification: any, i: any) => (
+                                    (notification: any) => (
                                         <NotificationCard
+                                            userId={userId}
+                                            key={notification?.id}
                                             notification={notification}
                                         />
                                     )

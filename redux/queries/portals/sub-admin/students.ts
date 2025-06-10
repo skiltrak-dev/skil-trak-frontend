@@ -761,4 +761,12 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['SubAdminStudents'],
     }),
+
+    updateWpIndustryEligibility: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/approval-request/${id}/industry-eligibility/update`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdminStudents'],
+    }),
 })

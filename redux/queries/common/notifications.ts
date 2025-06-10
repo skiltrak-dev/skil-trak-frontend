@@ -8,7 +8,7 @@ export const notificationsEndpoints = (
 ) => ({
     getNotifications: builder.query<
         any,
-        PaginationValues & { search?: string }
+        PaginationValues & { search?: string; id?: number }
     >({
         query: (params: any) => ({
             url: `${PREFIX}`,

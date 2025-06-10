@@ -12,18 +12,18 @@ import { useRouter } from 'next/router'
 import { ReactNode, useRef, useState } from 'react'
 import { IoIosArchive } from 'react-icons/io'
 
-import { UserRoles } from '@constants'
+import Link from 'next/link'
 import Modal from '@modals/Modal'
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
-import { PulseLoader } from 'react-spinners'
+import { UserRoles } from '@constants'
 import { Navigation } from 'swiper/modules'
+import { PulseLoader } from 'react-spinners'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { SliderStyleContainer } from '../../styles'
 import { useAssessmentDocumentsView } from '../../hooks'
 import { AssessmentFilesUpload } from './AssessmentFilesUpload'
 import { AssessmentFileArchiveModal } from './AssessmentFileArchiveModal'
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { AssessmentFilesOtherDocUpload } from './AssessmentFilesOtherDocUpload'
-import Link from 'next/link'
 
 export const AssessmentFiles = ({
     course,
