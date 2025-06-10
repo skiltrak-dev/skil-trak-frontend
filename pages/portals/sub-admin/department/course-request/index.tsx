@@ -12,8 +12,6 @@ import { SubAdminLayout } from '@layouts'
 import Modal from '@modals/Modal'
 import {
     ApproveCourseModal,
-    ApproveEditCourseModal,
-    CourseRequestCard,
     RejectCourseModal,
     ViewCourseRequestDetailsModal,
 } from '@partials/sub-admin'
@@ -23,12 +21,6 @@ import { NextPageWithLayout } from '@types'
 import { ellipsisText } from '@utils'
 import { ReactElement, useState } from 'react'
 import { FaRegDotCircle } from 'react-icons/fa'
-import {
-    EditCourseModal,
-    EditIndustryCourseContent,
-} from '@partials/common/IndustryProfileDetail/components/CourseManagement'
-import { IoEyeOutline } from 'react-icons/io5'
-import { Pencil } from 'lucide-react'
 import { DataResponse } from 'redux/queryTypes'
 
 export enum Status {
