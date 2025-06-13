@@ -10,8 +10,8 @@ export const WorkplaceApproval = ({
     onCancel,
     wpApprovalData,
 }: {
-    onCancel?: () => void
     wpApprovalData: any
+    onCancel?: () => void
 }) => {
     return (
         <div className="px-4 py-2 w-full max-w-[inherit] h-full bg-white rounded-[10px]">

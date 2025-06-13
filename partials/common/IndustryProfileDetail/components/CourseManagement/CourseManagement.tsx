@@ -6,9 +6,9 @@ import { SectorCardHeader } from './SectorCardHeader'
 import { CourseCard } from './CourseCard'
 import { Waypoint } from 'react-waypoint'
 import { LoadingAnimation, NoData } from '@components'
+import { Industry } from '@types'
 
-export const CourseManagement = () => {
-    // Call api here
+export const CourseManagement = ({ industry }: { industry: Industry }) => {
     const router = useRouter()
     const [isEntered, setIsEntered] = useState<boolean>(false)
 
@@ -48,7 +48,7 @@ export const CourseManagement = () => {
                         <LoadingAnimation height="32" />
                     ) : data?.data?.length > 0 ||
                       industryPreviousCourses?.data?.length > 0 ? (
-                        <>
+                        <div className="flex flex-col gap-y-3">
                             {industryPreviousCourses?.data?.map((item: any) => (
                                 <CourseCard
                                     key={item.id}
@@ -57,9 +57,13 @@ export const CourseManagement = () => {
                                 />
                             ))}
                             {data?.data?.map((item: any) => (
-                                <CourseCard key={item?.id} data={item} />
+                                <CourseCard
+                                    key={item?.id}
+                                    data={item}
+                                    industry={industry}
+                                />
                             ))}
-                        </>
+                        </div>
                     ) : (
                         !isError &&
                         !industryPreviousCourses.isError && (

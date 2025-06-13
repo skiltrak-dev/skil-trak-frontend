@@ -1,9 +1,8 @@
-import React from 'react'
 import { RtoApi } from '@queries'
-import { Button, LoadingAnimation, NoData, Typography } from '@components'
-import { InsuranceDocumentCard } from './card'
-import { UserRoles } from '@constants'
+import { UserRoles } from '@constants' 
 import { getUserCredentials } from '@utils'
+import { InsuranceDocumentCard } from './card'
+import { Button, LoadingAnimation, NoData, Typography } from '@components'
 
 export const InsuranceDocuments = ({
     rtoUser,

@@ -35,6 +35,7 @@ export interface Course extends BaseResponse {
     code: string
     title: string
     name: string
+    level: number
     description: string
     hours: number
     requirements: string

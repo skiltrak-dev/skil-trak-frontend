@@ -150,16 +150,24 @@ export const SubadminStudents = () => {
     }
 
     const tabs: SubadminTabProps[] = [
-        {
-            label: 'Pending',
-            href: { pathname: 'students', query: { tab: UserStatus.Pending } },
-            badge: {
-                text: studentCount?.pending,
-                loading: count.isLoading,
-            },
-            element: <PendingStudents />,
-            isAssociatedWithRto: true,
-        },
+        ...(isHod || isManager || subadmin?.isAssociatedWithRto
+            ? [
+                  {
+                      label: 'Pending',
+                      href: {
+                          pathname: 'students',
+                          query: { tab: UserStatus.Pending },
+                      },
+                      badge: {
+                          text: studentCount?.pending,
+                          loading: count.isLoading,
+                      },
+                      element: <PendingStudents />,
+                      isAssociatedWithRto: true,
+                  },
+              ]
+            : []),
+
         // isHod
         ...(isHod ||
         isManager ||

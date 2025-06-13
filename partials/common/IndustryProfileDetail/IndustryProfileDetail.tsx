@@ -125,7 +125,7 @@ export const IndustryProfileDetail = ({
                         }`}
                     >
                         <Card noPadding>
-                            <CourseManagement />
+                            <CourseManagement industry={industry} />
                         </Card>
                     </div>
 

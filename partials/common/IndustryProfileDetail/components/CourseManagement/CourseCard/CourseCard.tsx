@@ -1,6 +1,12 @@
-import { AuthorizedUserComponent, Button, Typography } from '@components'
+import {
+    ActionButton,
+    AuthorizedUserComponent,
+    Button,
+    Tooltip,
+    Typography,
+} from '@components'
 import { UserRoles } from '@constants'
-import { useNotification } from '@hooks'
+import { useContextBar, useNotification } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { ellipsisText } from '@utils'
 import { marked } from 'marked'
@@ -10,11 +16,22 @@ import { IoCheckmarkDoneOutline } from 'react-icons/io5'
 import { AddContentForOldIndustry } from './AddContentForOldIndustry'
 import { DeleteIndustryCourse } from './DeleteIndustryCourse'
 import { EditIndustryCourseContent } from './EditIndustryCourseContent'
+import { MdSupervisorAccount } from 'react-icons/md'
+import { AddSupervisor } from '@partials/common/IndustrySupervisor/form'
+import Modal from '@modals/Modal'
+import { SupervisorsListBySector } from '../modal'
+import { TbEyeUp } from 'react-icons/tb'
 const UploadCourseFile = dynamic(() => import('./UploadCourseFile'), {
     ssr: false,
 })
 
-export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
+export const CourseCard = ({
+    data,
+    industry,
+    isPreviousCourses = false,
+}: any) => {
+    const contextBar = useContextBar()
+
     const approvals = useMemo(
         () =>
             isPreviousCourses
@@ -27,7 +44,6 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
         SubAdminApi.Industry.useConfirmCourseDescription()
     const onConfirmContent = (courseId: string) => {
         confirmContent(courseId).then((res: any) => {
-            console.log('res', res)
             if (res.data) {
                 notification.success({
                     title: 'Content Confirmed',
@@ -81,7 +97,375 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
         return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`
     }
 
-    console.log({ approvals })
+    function groupCoursesBySector(data: any) {
+        const sectorMap = new Map()
+        data.forEach((item: any) => {
+            const sectorCode = item?.course?.sector?.code
+            const sectorInfo = item?.course?.sector
+            // Create course object with all relevant data
+            const courseData = {
+                ...item,
+                course: {
+                    id: item?.course?.id,
+                    code: item?.course?.code,
+                    title: item?.course?.title,
+                    hours: item?.course?.hours,
+                },
+            }
+            if (sectorMap?.has(sectorCode)) {
+                // Add course to existing sector
+                sectorMap?.get(sectorCode).courses.push(courseData)
+            } else {
+                // Create new sector entry
+                sectorMap.set(sectorCode, {
+                    sector: sectorInfo,
+                    actionBy: courseData?.actionBy,
+                    courses: [courseData],
+                })
+            }
+        })
+        // Convert Map to Array
+        return Array.from(sectorMap.values())
+    }
+
+    function groupDirectCoursesBySector(courses: any) {
+        const sectorMap = new Map()
+
+        courses?.forEach((course: any) => {
+            const sectorCode = course?.sector?.code
+            const sectorInfo = course?.sector
+
+            // Create course object without sector (since sector is at parent level)
+            const courseData = {
+                id: course?.id,
+                code: course?.code,
+                title: course?.title,
+                hours: course?.hours,
+            }
+
+            if (sectorMap.has(sectorCode)) {
+                // Add course to existing sector
+                sectorMap.get(sectorCode).courses?.push(courseData)
+            } else {
+                // Create new sector entry
+                sectorMap.set(sectorCode, {
+                    sector: sectorInfo,
+                    courses: [courseData],
+                })
+            }
+        })
+
+        // Convert Map to Array
+        return Array.from(sectorMap.values())
+    }
+
+    // Execute the grouping
+    const sectorsData = groupCoursesBySector(approvals)
+
+    const groupedCourseData = groupDirectCoursesBySector(approvals)
+
+    const allSectors = isPreviousCourses ? groupedCourseData : sectorsData
+
+    return (
+        <div className="flex flex-col gap-y-2">
+            {allSectors?.map((sectorData: any) => (
+                <div className="flex flex-col  mt-4 bg-gray-100 p-2 rounded border-2 border-dashed border-gray-400">
+                    <div className="p-4 bg-gray-50 flex items-center gap-x-2 justify-between">
+                        <div className="flex items-center gap-x-2">
+                            <Typography variant="subtitle">
+                                {sectorData?.sector?.name}
+                            </Typography>
+                            {!isPreviousCourses && (
+                                <span className="p-1 bg-green-100 border border-green-200 text-green-700 rounded-md text-[9px] font-medium">
+                                    Approved
+                                </span>
+                            )}
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            >
+                                {!isPreviousCourses && sectorData?.actionBy && (
+                                    <div className="flex gap-x-1">
+                                        <Typography
+                                            variant="xxs"
+                                            color="text-emerald-500"
+                                        >
+                                            Approved by:{' '}
+                                            {ellipsisText(
+                                                sectorData?.actionBy?.name,
+                                                5
+                                            )}
+                                        </Typography>
+                                    </div>
+                                )}
+                            </AuthorizedUserComponent>
+                        </div>
+                        <AuthorizedUserComponent
+                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                        >
+                            {industry && (
+                                <div className="flex items-center justify-end gap-x-2">
+                                    <div>
+                                        <Modal>
+                                            <Modal.Open opens="addDepartmentCourse">
+                                                <div className="relative group">
+                                                    <ActionButton
+                                                        Icon={TbEyeUp}
+                                                        variant="warning"
+                                                    >
+                                                        View Supervisor
+                                                    </ActionButton>
+                                                </div>
+                                            </Modal.Open>
+                                            <Modal.Window name="addDepartmentCourse">
+                                                <SupervisorsListBySector
+                                                    industry={industry}
+                                                    sector={sectorData?.sector}
+                                                />
+                                            </Modal.Window>
+                                        </Modal>
+                                    </div>
+                                    <div className="relative group flex ">
+                                        <ActionButton
+                                            Icon={MdSupervisorAccount}
+                                            variant="dark"
+                                            onClick={() => {
+                                                contextBar.setTitle(
+                                                    'Add Supervisor'
+                                                )
+                                                contextBar.show()
+                                                contextBar.setContent(
+                                                    <AddSupervisor
+                                                        industry={industry}
+                                                        sector={
+                                                            sectorData?.sector
+                                                        }
+                                                    />
+                                                )
+                                            }}
+                                        >
+                                            Add Supervisor
+                                        </ActionButton>
+                                    </div>
+                                </div>
+                            )}
+                        </AuthorizedUserComponent>
+                    </div>
+
+                    <div className="flex flex-col gap-y-3">
+                        {[...sectorData?.courses]?.map((approval: any) => {
+                            const rawText = approval?.description || ''
+                            const parsedHtml = marked.parse(rawText)
+                            return (
+                                <div
+                                    key={approval.id}
+                                    className="overflow-auto custom-scrollbar"
+                                >
+                                    <div className="p-4 border rounded-md bg-[#95C6FB26] bg-opacity-15">
+                                        <div className="flex justify-between gap-x-12 w-full items-center mb-4">
+                                            <div className="flex items-center gap-x-1">
+                                                <Typography
+                                                    variant="small"
+                                                    color="text-gray-600"
+                                                >
+                                                    COURSES -{' '}
+                                                </Typography>
+
+                                                <Typography variant="muted">
+                                                    {approval?.course?.title ??
+                                                        approval?.title}{' '}
+                                                    -{' '}
+                                                    {approval?.course?.code ??
+                                                        approval?.code}
+                                                </Typography>
+                                            </div>
+                                            <div>
+                                                <div className="text-right ">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="text-gray-600"
+                                                        whiteSpacePre
+                                                    >
+                                                        Course Hours
+                                                    </Typography>
+                                                    <Typography
+                                                        variant="muted"
+                                                        center
+                                                    >
+                                                        {approval?.course
+                                                            ?.hours ??
+                                                            approval?.hours}
+                                                    </Typography>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-center gap-x-2">
+                                                {!isPreviousCourses && (
+                                                    <>
+                                                        {!approval?.isContentVerified && (
+                                                            <AuthorizedUserComponent
+                                                                roles={[
+                                                                    UserRoles.ADMIN,
+                                                                    UserRoles.SUBADMIN,
+                                                                ]}
+                                                                isAssociatedWithRto={
+                                                                    false
+                                                                }
+                                                            >
+                                                                <Button
+                                                                    onClick={() => {
+                                                                        onConfirmContent(
+                                                                            approval?.id
+                                                                        )
+                                                                    }}
+                                                                    text="Confirm"
+                                                                    disabled={
+                                                                        confirmContentResult.isLoading
+                                                                    }
+                                                                    loading={
+                                                                        confirmContentResult.isLoading
+                                                                    }
+                                                                    variant="error"
+                                                                    outline
+                                                                />
+                                                            </AuthorizedUserComponent>
+                                                        )}
+                                                        <>
+                                                            <UploadCourseFile
+                                                                approval={
+                                                                    approval
+                                                                }
+                                                            />
+                                                            <EditIndustryCourseContent
+                                                                approval={
+                                                                    approval
+                                                                }
+                                                            />
+                                                        </>
+                                                        <DeleteIndustryCourse
+                                                            approval={approval}
+                                                        />
+                                                    </>
+                                                )}
+                                                {isPreviousCourses && (
+                                                    <AddContentForOldIndustry
+                                                        id={approval?.id}
+                                                    />
+                                                )}
+                                            </div>
+
+                                            {!isPreviousCourses &&
+                                                !approval?.isPreviousCourse &&
+                                                approval?.isCoordinatorAdded && (
+                                                    <div>
+                                                        <IoCheckmarkDoneOutline
+                                                            size={25}
+                                                            className="text-emerald-500"
+                                                        />
+                                                    </div>
+                                                )}
+                                        </div>
+                                        <div
+                                            className={`${
+                                                isPreviousCourses
+                                                    ? 'bg-red-500'
+                                                    : 'bg-emerald-700'
+                                            } relative text-white p-4 rounded-md w-full mb-4 flex gap-x-5 items-start max-h-56 overflow-auto custom-scrollbar`}
+                                        >
+                                            <div>
+                                                {/* <Typography variant="label" color="white">
+                                        Description
+                                    </Typography> */}
+
+                                                <div className="w-full min-w-80">
+                                                    <div
+                                                        className="w-full customTailwingStyles-inline-style customTailwingStyles text-xs text-white !bg-transparent leading-relaxed"
+                                                        dangerouslySetInnerHTML={{
+                                                            __html:
+                                                                parsedHtml ||
+                                                                'No description available',
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between text-[10px]">
+                                            <AuthorizedUserComponent
+                                                roles={[
+                                                    UserRoles.SUBADMIN,
+                                                    UserRoles.ADMIN,
+                                                ]}
+                                                isAssociatedWithRto={false}
+                                            >
+                                                <div>
+                                                    <span className="text-gray-600">
+                                                        Requested by:{' '}
+                                                    </span>
+                                                    <span>
+                                                        {approval?.addedBy
+                                                            ?.name || 'N/A'}
+                                                    </span>
+                                                </div>
+                                            </AuthorizedUserComponent>
+                                            {/* <div>
+                                <span className="text-gray-600">
+                                    Reference URL:{' '}
+                                </span>
+                                <span>{approval?.reference?.[0] || 'N/A'}</span>
+                            </div> */}
+                                            <div>
+                                                <span className="text-gray-600">
+                                                    Reference URL:{' '}
+                                                </span>
+
+                                                {isValidUrl(
+                                                    approval?.reference?.[0]
+                                                ) ? (
+                                                    <a
+                                                        href={getCleanExternalUrl(
+                                                            approval
+                                                                ?.reference?.[0]
+                                                        )}
+                                                        className="text-blue-500 hover:underline"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        {getCleanExternalUrl(
+                                                            approval
+                                                                ?.reference?.[0]
+                                                        ) || 'N/A'}
+                                                    </a>
+                                                ) : (
+                                                    <span>
+                                                        {approval
+                                                            ?.reference?.[0] ??
+                                                            'N/A'}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div>
+                                                <span className="text-gray-600">
+                                                    DATE:{' '}
+                                                </span>
+                                                <span>
+                                                    {approval?.updatedAt
+                                                        ? approval?.updatedAt?.slice(
+                                                              0,
+                                                              10
+                                                          )
+                                                        : 'N/A'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
 
     return (
         <>
@@ -230,7 +614,7 @@ export const CourseCard = ({ data, isPreviousCourses = false }: any) => {
                                         isPreviousCourses
                                             ? 'bg-red-500'
                                             : 'bg-emerald-700'
-                                    } relative text-white p-4 rounded-md w-full mb-4 flex gap-x-5 items-start h-56 overflow-auto custom-scrollbar`}
+                                    } relative text-white p-4 rounded-md w-full mb-4 flex gap-x-5 items-start max-h-56 overflow-auto custom-scrollbar`}
                                 >
                                     <div>
                                         {/* <Typography variant="label" color="white">

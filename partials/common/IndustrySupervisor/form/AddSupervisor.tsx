@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
-import { ShowErrorNotifications } from '@components'
+import { Select, ShowErrorNotifications } from '@components'
 
 // components
 import { Typography, Button, TextInput } from '@components'
@@ -10,10 +10,27 @@ import { Typography, Button, TextInput } from '@components'
 // query
 import { IndustryApi, RtoApi } from '@queries'
 import { useContextBar, useNotification } from '@hooks'
+import { SupervisorQualification } from '../data'
+import { OptionType } from '@types'
 
-export const AddSupervisor = ({ industry, initialValues, edit }: any) => {
+export const AddSupervisor = ({
+    industry,
+    initialValues,
+    edit,
+    sector,
+}: any) => {
     const { notification } = useNotification()
     const { hide, setContent, setTitle } = useContextBar()
+
+    const [selectedQualification, setSelectedQualification] = useState<
+        number | null
+    >(null)
+
+    useEffect(() => {
+        if (initialValues?.level) {
+            setSelectedQualification(initialValues?.level)
+        }
+    }, [initialValues])
 
     const [addSupervisor, addSupervisorResult] =
         IndustryApi.Supervisor.addSupervisor()
@@ -44,10 +61,12 @@ export const AddSupervisor = ({ industry, initialValues, edit }: any) => {
 
     const validationSchema = Yup.object({
         name: Yup.string().required('Name is required!'),
-        email: Yup.string().required('Email is required!'),
-        phone: Yup.string().required('Phone is required!'),
-        qualification: Yup.string().required('Qualification is required!'),
+        // email: Yup.string().required('Email is required!'),
+        level: Yup.number().required('Qualification is required!'),
+        title: Yup.string().required('Course Title is required!'),
     })
+
+    console.log({ initialValues })
 
     const methods = useForm({
         mode: 'all',
@@ -64,6 +83,7 @@ export const AddSupervisor = ({ industry, initialValues, edit }: any) => {
             : addSupervisor({
                   ...values,
                   industry: industry?.id,
+                  sector: sector?.id,
               })
     }
 
@@ -92,24 +112,28 @@ export const AddSupervisor = ({ industry, initialValues, edit }: any) => {
                             validationIcons
                             required
                         />
+
+                        <div className="relative z-30">
+                            <Select
+                                name="level"
+                                label={'Qualification'}
+                                options={SupervisorQualification}
+                                onlyValue
+                                onChange={(e: number) => {
+                                    setSelectedQualification(e)
+                                }}
+                                value={SupervisorQualification?.find(
+                                    (l: OptionType) =>
+                                        l.value === selectedQualification
+                                )}
+                                // menuPlacement="top"
+                            />
+                        </div>
+
                         <TextInput
-                            label={'Email'}
-                            name={'email'}
-                            placeholder={'Your Email Here...'}
-                            validationIcons
-                            required
-                        />
-                        <TextInput
-                            label={'Phone'}
-                            name={'phone'}
-                            placeholder={'Your Phone Here...'}
-                            validationIcons
-                            required
-                        />
-                        <TextInput
-                            label={'Qualification'}
-                            name={'qualification'}
-                            placeholder={'Your Qualification Here...'}
+                            label={'Course Title'}
+                            name={'title'}
+                            placeholder={'Your Course Title Here...'}
                             validationIcons
                             required
                         />

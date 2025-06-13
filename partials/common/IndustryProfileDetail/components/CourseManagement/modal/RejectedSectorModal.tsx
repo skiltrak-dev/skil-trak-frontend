@@ -1,9 +1,8 @@
 import { LoadingAnimation, NoData, Typography } from '@components'
-import React, { useState } from 'react'
-import { TextInfo } from '../TextInfo'
-import { useRouter } from 'next/router'
 import { SubAdminApi } from '@queries'
-import { CourseRequestRejected, IndustryRequestRejected } from './components'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { CourseRequestRejected } from './components'
 
 export const RejectedSectorModal = () => {
     const [itemPerPage, setItemPerPage] = useState<any>(50)
@@ -67,9 +66,7 @@ export const RejectedSectorModal = () => {
                         />
                     </>
                 ) : (
-                    !isError && (
-                        <NoData text="No Data found" />
-                    )
+                    !isError && <NoData text="No Data found" />
                 )}
                 {/* {onIndustryAcceptanceCourses.isError && (
                     <NoData text="Something went wrong" />
