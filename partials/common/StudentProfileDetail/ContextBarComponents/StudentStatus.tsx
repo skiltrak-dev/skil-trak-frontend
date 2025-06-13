@@ -117,7 +117,8 @@ export const StudentStatus = ({
                                 {studentStatusOptions
                                     ?.slice(
                                         0,
-                                        role === UserRoles.RTO
+                                        role === UserRoles.RTO ||
+                                            role === UserRoles.ADMIN
                                             ? studentStatusOptions?.length
                                             : -1
                                     )

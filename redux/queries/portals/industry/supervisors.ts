@@ -12,6 +12,13 @@ export const supervisorsEndpoints = (
         }),
         providesTags: ['Industries'],
     }),
+    getSupervisorBySector: builder.query<
+        any,
+        { indId: number; sectorId: number }
+    >({
+        query: ({ indId, sectorId }) => `${PREFIX}/${indId}/${sectorId}`,
+        providesTags: ['Industries'],
+    }),
     addSupervisor: builder.mutation<any, any>({
         query: (body) => ({
             url: `${PREFIX}`,

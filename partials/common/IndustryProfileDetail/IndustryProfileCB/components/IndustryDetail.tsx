@@ -70,29 +70,27 @@ export const IndustryDetail = ({ industry }: { industry: Industry }) => {
                             }
                         }}
                     />
-                    <UserProfileDetailCard
-                        title="Created At"
-                        detail={moment(industry?.createdAt).format(
-                            'MMM, DD YYYY hh:mm A'
-                        )}
-                    />
+                    <AuthorizedUserComponent excludeRoles={[UserRoles.RTO]}>
+                        <UserProfileDetailCard
+                            title="Created At"
+                            detail={moment(industry?.createdAt).format(
+                                'MMM, DD YYYY hh:mm A'
+                            )}
+                        />
+                    </AuthorizedUserComponent>
                 </div>
                 <div className="border border-[#6B728050] rounded-md">
                     <UserProfileDetailCard
                         border={false}
                         title="Phone Number"
-                        detail={
-                            checkRto
-                                ? industry?.phoneNumber
-                                : useRestrictedData(
-                                      industry?.isSnoozed
-                                          ? '---'
-                                          : industry?.phoneNumber
-                                          ? maskText(industry?.phoneNumber)
-                                          : 'Number block for 24 hours',
-                                      UserRoles.INDUSTRY
-                                  )
-                        }
+                        detail={useRestrictedData(
+                            industry?.isSnoozed
+                                ? '---'
+                                : industry?.phoneNumber
+                                ? maskText(industry?.phoneNumber)
+                                : 'Number block for 24 hours',
+                            UserRoles.INDUSTRY
+                        )}
                         onClick={() => {
                             if (canAssessData) {
                                 if (

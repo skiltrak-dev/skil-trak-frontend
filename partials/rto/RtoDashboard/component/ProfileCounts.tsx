@@ -85,7 +85,7 @@ export const ProfileCounts = ({
             },
         },
         {
-            title: 'Total Students Received',
+            title: 'Pending Students',
             count: Number(statisticsCount?.data?.pendingStudent),
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,

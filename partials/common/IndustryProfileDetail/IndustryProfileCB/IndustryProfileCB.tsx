@@ -88,15 +88,19 @@ export const IndustryProfileCB = ({
                                 {industry?.user?.name}
                             </span>
                         </Typography>
-                        <VerifyUserEmail
-                            isEmailVerified={isEmailVerified}
-                            userId={industry?.user?.id}
-                            userName={industry?.user?.name}
-                        />
-                        <VerifiedEmailHistory
-                            userId={industry?.user?.id}
-                            isEmailVerified={isEmailVerified}
-                        />
+                        <AuthorizedUserComponent
+                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                        >
+                            <VerifyUserEmail
+                                isEmailVerified={isEmailVerified}
+                                userId={industry?.user?.id}
+                                userName={industry?.user?.name}
+                            />
+                            <VerifiedEmailHistory
+                                userId={industry?.user?.id}
+                                isEmailVerified={isEmailVerified}
+                            />
+                        </AuthorizedUserComponent>
                     </div>
                     <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                         <HideRestrictedData type={UserRoles.INDUSTRY}>
@@ -156,7 +160,6 @@ export const IndustryProfileCB = ({
                     )}
                 />
 
-                
                 <MakeIndustryPartner
                     industryId={industry?.id}
                     isPartner={industry?.isPartner}
@@ -178,7 +181,7 @@ export const IndustryProfileCB = ({
 
             <IndustryInsuranceDoc industry={industry} />
             {/* Add Supervisor  */}
-            <IndustrySupervisor industry={industry} />
+            {/* <IndustrySupervisor industry={industry} /> */}
             <AuthorizedUserComponent
                 roles={[
                     UserRoles.SUBADMIN,

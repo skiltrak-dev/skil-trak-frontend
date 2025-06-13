@@ -236,7 +236,7 @@ export const PendingStudents = ({ subadmin }: { subadmin?: SubAdmin }) => {
                     !isError && (
                         <EmptyData
                             title={'No Students'}
-                            description={'You have not approved Students yet'}
+                            description={'You have not pending Students yet'}
                             height={'50vh'}
                         />
                     )

@@ -218,6 +218,7 @@ export const {
     useGetSupervisorQuery,
     useAddSupervisorMutation,
     useEditSupervisorMutation,
+    useGetSupervisorBySectorQuery,
     useRemoveSupervisorMutation,
 
     // ----- BRANCHES ----- //
@@ -370,6 +371,7 @@ export const IndustryApi = {
         useGetSupervisor: useGetSupervisorQuery,
         addSupervisor: useAddSupervisorMutation,
         editSupervisor: useEditSupervisorMutation,
+        getSupervisorBySector: useGetSupervisorBySectorQuery,
         removeSupervisor: useRemoveSupervisorMutation,
     },
     Branches: {

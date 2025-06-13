@@ -10,9 +10,9 @@ import {
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AdminApi } from '@queries'
-import { Course, Sector } from '@types'
+import { Course, OptionType, Sector } from '@types'
 import { isBrowser } from '@utils'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -35,10 +35,19 @@ export const CourseForm = ({
 }: CourseFormProps) => {
     const { data, isLoading } = AdminApi.Sectors.useListQuery(undefined)
 
+    const [level, setLevel] = useState<number | null>(null)
+
+    useEffect(() => {
+        if (initialValues?.level && !level) {
+            setLevel(initialValues?.level)
+        }
+    }, [initialValues])
+
     const validationSchema = yup.object({
         title: yup.string().required('Title is required'),
         code: yup.string().required('Code is Required'),
         hours: yup.number().required('Hours are required'),
+        level: yup.number().required('Level is required'),
         sector: yup.number().required('Sector are required'),
     })
 
@@ -53,6 +62,49 @@ export const CourseForm = ({
         },
         mode: 'all',
     })
+
+    const LevelsOptions = [
+        {
+            label: 'Level 1',
+            value: 1,
+        },
+        {
+            label: 'Level 2',
+            value: 2,
+        },
+        {
+            label: 'Level 3',
+            value: 3,
+        },
+        {
+            label: 'Level 4',
+            value: 4,
+        },
+        {
+            label: 'Level 5',
+            value: 5,
+        },
+        {
+            label: 'Level 6',
+            value: 6,
+        },
+        {
+            label: 'Level 7',
+            value: 7,
+        },
+        {
+            label: 'Level 8',
+            value: 8,
+        },
+        {
+            label: 'Level 9',
+            value: 9,
+        },
+        {
+            label: 'Level 10',
+            value: 10,
+        },
+    ]
 
     return (
         <FormProvider {...methods}>
@@ -132,6 +184,22 @@ export const CourseForm = ({
                             required
                             validationIcons
                         />
+
+                        <div className="relative z-30">
+                            <Select
+                                name="level"
+                                label={'Course Level'}
+                                options={LevelsOptions}
+                                onlyValue
+                                onChange={(e: number) => {
+                                    setLevel(e)
+                                }}
+                                value={LevelsOptions?.find(
+                                    (l: OptionType) => l.value === Number(level)
+                                )}
+                                // menuPlacement="top"
+                            />
+                        </div>
                     </div>
 
                     <div>

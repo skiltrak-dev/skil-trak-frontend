@@ -52,7 +52,7 @@ export const IndustryWpType = ({
                                 : 'text-gray-500'
                         }
                     >
-                        Industry Type
+                        Workplace Type
                     </Typography>
                     <div className="flex items-center gap-x-1">
                         <Typography variant="small">

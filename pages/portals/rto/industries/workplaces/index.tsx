@@ -86,20 +86,6 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                             </div>
                             <div>
                                 <p className="font-semibold">{name}</p>
-                                <div className="font-medium text-xs text-gray-500">
-                                    <p className="flex items-center gap-x-1">
-                                        <span>
-                                            <MdEmail />
-                                        </span>
-                                        {email}
-                                    </p>
-                                    <p className="flex items-center gap-x-1">
-                                        <span>
-                                            <MdPhoneIphone />
-                                        </span>
-                                        {phoneNumber}
-                                    </p>
-                                </div>
                             </div>
                         </a>
                     </Link>

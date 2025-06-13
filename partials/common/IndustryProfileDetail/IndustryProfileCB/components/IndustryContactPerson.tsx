@@ -39,7 +39,7 @@ export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
                         title="Name"
                         detail={industry?.contactPerson}
                     />
-                    <UserProfileDetailCard
+                    {/* <UserProfileDetailCard
                         title="Phone"
                         detail={useRestrictedData(
                             industry?.isSnoozed
@@ -79,7 +79,7 @@ export const IndustryContactPerson = ({ industry }: { industry: Industry }) => {
                                   }
                                 : undefined
                         }
-                    />
+                    /> */}
                 </div>
             </div>
         </div>
