@@ -45,7 +45,7 @@ export const SubAdminNavbar = () => {
         ESign: `${PREFIX}/e-sign?tab=all`,
         VolunteerRequest: `${PREFIX}/volunteer-requests?tab=pending`,
         TalentPool: `${PREFIX}/talent-pool`,
-        CoordinatorsList: `${PREFIX}/department`,
+        DeptSectionsList: `${PREFIX}/department`,
         MyStudentsReports: `${PREFIX}/tasks/my-students-report`,
         Industries: `${PREFIX}/users/industries`,
         ManagerApprovalList: `${PREFIX}/manager-approval-list?tab=remove-partner-requests&page=1&pageSize=50`,
@@ -127,8 +127,8 @@ export const SubAdminNavbar = () => {
         ...(checkIsHod
             ? [
                   {
-                      link: Routes.CoordinatorsList,
-                      text: 'Dept Coordinators',
+                      link: Routes.DeptSectionsList,
+                      text: 'Dept Section',
                       Icon: GrUserAdmin,
                       activeClasses: 'bg-green-100 text-green-700',
                       inActiveClasses: 'text-slate-700',

@@ -31,7 +31,9 @@ const callStudentColumns: ColumnDef<any>[] = [
         accessorKey: 'callDate',
         header: 'Call Date',
         cell: (info) => (
-            <CreatedAtDate createdAt={info.row?.original?.createdAt} />
+            <CreatedAtDate
+                createdAt={info.row?.original?.callLog?.[0]?.createdAt}
+            />
         ),
     },
     {
