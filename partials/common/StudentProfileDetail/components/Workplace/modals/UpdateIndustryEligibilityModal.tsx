@@ -15,8 +15,6 @@ export const UpdateIndustryEligibilityModal = ({
     const [update, updateResult] =
         SubAdminApi.Student.updateWpIndustryEligibility()
 
-    console.log({ wpReqApproval })
-
     const onConfirmUClicked = async (wpReqApproval: any) => {
         const res: any = await update(Number(wpReqApproval?.id))
         if (res?.data) {
