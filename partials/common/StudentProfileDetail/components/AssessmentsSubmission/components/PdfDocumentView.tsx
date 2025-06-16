@@ -7,7 +7,12 @@ import { useEffect, useState } from 'react'
 import { Document, Page } from 'react-pdf'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { Typography } from '@components/Typography'
-import { AuthorizedUserComponent, Button, Portal } from '@components'
+import {
+    AuthorizedUserComponent,
+    Button,
+    Portal,
+    UserCreatedAt,
+} from '@components'
 import { isBrowser } from '@utils'
 import { UserRoles } from '@constants'
 
@@ -100,7 +105,7 @@ export const PdfDocumentView = ({
                                     <p className="text-sm">
                                         <span className="text-gray-500">
                                             Page
-                                        </span>{' '}
+                                        </span>
                                         <span className="font-semibold">
                                             {currentPage}/{totalPages}
                                         </span>
@@ -128,6 +133,16 @@ export const PdfDocumentView = ({
                             </div>
                             {mounted && extension === 'pdf' ? (
                                 <div className="shadow rounded-lg overflow-hidden">
+                                    {file?.createdAt && (
+                                        <div className="flex flex-col items-end">
+                                            <Typography variant="small">
+                                                File Created At:
+                                            </Typography>
+                                            <UserCreatedAt
+                                                createdAt={file?.createdAt}
+                                            />
+                                        </div>
+                                    )}
                                     <Document
                                         file={url}
                                         onLoadSuccess={({ numPages }) => {

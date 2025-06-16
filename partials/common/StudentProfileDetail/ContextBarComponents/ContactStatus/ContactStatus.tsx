@@ -109,10 +109,7 @@ export const ContactStatus = ({
                     </div>
                 </div>
                 {nonContactable && (
-                    <div className="flex items-center gap-x-2">
-                        <Typography variant="small" center>
-                            Notcontactable At:
-                        </Typography>
+                    <div className="flex justify-center items-center gap-x-2">
                         <UserCreatedAt createdAt={nonContactableAt} />
                     </div>
                 )}

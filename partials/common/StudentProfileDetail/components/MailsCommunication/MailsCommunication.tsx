@@ -1,11 +1,11 @@
-import { AuthorizedUserComponent, Button, Card, TabProps } from '@components'
 import { User } from '@types'
-import { ReactElement, useCallback, useState } from 'react'
-import { ComposeMailModal } from '../../modals'
-import { AllCommunication } from '../AllCommunication'
-import { Mails } from '../Mails/Mails'
 import { Tabs } from '../Tabs'
 import { UserRoles } from '@constants'
+import { Mails } from '../Mails/Mails'
+import { ComposeMailModal } from '../../modals'
+import { AllCommunication } from '../AllCommunication'
+import { ReactElement, useCallback, useState } from 'react'
+import { AuthorizedUserComponent, Button, Card, TabProps } from '@components'
 
 export const MailsCommunication = ({ user }: { user: User }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)

@@ -20,7 +20,7 @@ export const WorkplaceRequest = ({
     const router = useRouter()
 
     const [page, setPage] = useState(1)
-    const [itemPerPage] = useState(10)
+    const [itemPerPage, setItemPerPage] = useState(10)
 
     const { columnAction, modal } = useColumnsAction()
 
@@ -85,6 +85,7 @@ export const WorkplaceRequest = ({
             <DataKpiTable
                 colors="blue"
                 setPage={setPage}
+                setItemPerPage={setItemPerPage}
                 data={workplace}
                 title="Workplace Request"
                 columns={workplaceColumns}

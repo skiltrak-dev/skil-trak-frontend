@@ -571,14 +571,12 @@ export const studentsEndpoints = (
         Student,
         { id: number; status: UserStatus }
     >({
-        query: ({ id, status }) => {
-            return {
-                url: `${PREFIX}/students/status`,
-                method: 'PATCH',
-                params: { id },
-                body: { status },
-            }
-        },
+        query: ({ id, status }) => ({
+            url: `${PREFIX}/students/status`,
+            method: 'PATCH',
+            params: { id },
+            body: { status },
+        }),
         invalidatesTags: ['Students', 'SubAdminStudents'],
     }),
     changeStudentCurrentStatus: builder.mutation<

@@ -305,8 +305,8 @@ export const CourseCard = ({
                                                             <AuthorizedUserComponent
                                                                 roles={[
                                                                     UserRoles.ADMIN,
-                                                                    UserRoles.SUBADMIN,
                                                                 ]}
+                                                                isHod
                                                                 isAssociatedWithRto={
                                                                     false
                                                                 }
@@ -341,9 +341,21 @@ export const CourseCard = ({
                                                                 }
                                                             />
                                                         </>
-                                                        <DeleteIndustryCourse
-                                                            approval={approval}
-                                                        />
+                                                        <AuthorizedUserComponent
+                                                            roles={[
+                                                                UserRoles.ADMIN,
+                                                            ]}
+                                                            isHod
+                                                            isAssociatedWithRto={
+                                                                false
+                                                            }
+                                                        >
+                                                            <DeleteIndustryCourse
+                                                                approval={
+                                                                    approval
+                                                                }
+                                                            />
+                                                        </AuthorizedUserComponent>
                                                     </>
                                                 )}
                                                 {isPreviousCourses && (

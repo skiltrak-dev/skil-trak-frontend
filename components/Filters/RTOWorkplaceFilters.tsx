@@ -3,20 +3,9 @@ import { Select, TextInput } from '@components/inputs'
 // query
 import { CommonApi, RtoApi } from '@queries'
 
-import { SetQueryFilters } from './SetQueryFilters'
-import { SelectOption } from './types'
 import { OptionType, RTOWorkplaceFormFilter } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
-
-interface FilterPropType {
-    studentId: string
-    name: string
-    email: string
-    location: string
-    subAdminId: string
-    industryId: string
-    courseId: string
-}
+import { SetQueryFilters } from './SetQueryFilters'
 
 interface ItemFilterProps {
     onFilterChange: (values: RTOWorkplaceFormFilter) => void
@@ -31,16 +20,18 @@ export const RTOWorkplaceFilters = ({
     const courses = RtoApi.Rto.useProfile()
     const rtoCoordinators = RtoApi.Coordinator.useList({})
 
-    const industryOptions = getIndustries?.data?.map((industry: any) => ({
-        value: industry?.id,
-        label: industry?.user?.name,
-    }))
+    const industryOptions =
+        getIndustries?.data?.map((industry: any) => ({
+            value: industry?.id,
+            label: industry?.user?.name,
+        })) || []
 
-    const coursesOptions = courses?.data?.courses?.map((course: any) => ({
-        item: course,
-        value: course?.id,
-        label: course?.title,
-    }))
+    const coursesOptions =
+        courses?.data?.courses?.map((course: any) => ({
+            item: course,
+            value: course?.id,
+            label: course?.title,
+        })) || []
 
     const coordinatorsOptions =
         rtoCoordinators?.data?.data && rtoCoordinators?.data?.data?.length > 0
@@ -62,6 +53,7 @@ export const RTOWorkplaceFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, studentId: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="name"
@@ -71,6 +63,7 @@ export const RTOWorkplaceFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, name: e.target.value })
                     }}
+                    showError={false}
                 />
                 <TextInput
                     name="email"
@@ -81,6 +74,7 @@ export const RTOWorkplaceFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, email: e.target.value })
                     }}
+                    showError={false}
                 />
 
                 <TextInput
@@ -91,6 +85,7 @@ export const RTOWorkplaceFilters = ({
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, location: e.target.value })
                     }}
+                    showError={false}
                 />
 
                 <Select
@@ -101,6 +96,7 @@ export const RTOWorkplaceFilters = ({
                         (coordinator: OptionType) =>
                             coordinator.value === Number(filter?.subAdminId)
                     )}
+                    showError={false}
                     placeholder={'Select Coordinator...'}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, subAdminId: e?.value })
@@ -118,6 +114,7 @@ export const RTOWorkplaceFilters = ({
                         (industry: OptionType) =>
                             industry.value === Number(filter?.industryId)
                     )}
+                    showError={false}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, industryId: e?.value })
                     }}
@@ -134,6 +131,7 @@ export const RTOWorkplaceFilters = ({
                         (course: OptionType) =>
                             course.value === Number(filter?.courseId)
                     )}
+                    showError={false}
                     onChange={(e: OptionType) => {
                         onFilterChange({
                             ...filter,

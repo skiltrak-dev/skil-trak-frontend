@@ -129,12 +129,7 @@ export const Mail = ({ message, sender, index }: any) => {
                                 {message?.subject || 'Message Subject'}
                             </Typography>
                             <Typography variant={'label'} color={'gray'}>
-                                {myMessages
-                                    ? 'You'
-                                    : message?.sender?.coordinator === null
-                                    ? 'Super Admin'
-                                    : message?.sender?.coordinator
-                                          ?.departmentMember?.department?.name}
+                                {myMessages ? 'You' : message?.sender?.name}
                             </Typography>
                             {message?.ccUsers &&
                                 message?.ccUsers?.length > 0 && (
@@ -204,15 +199,22 @@ export const Mail = ({ message, sender, index }: any) => {
                                 {/* {message?.message} */}
                             </span>
 
-                            <div className="mt-3">
-                                <Typography
-                                    variant={'label'}
-                                    color={'text-gray-700'}
-                                >
-                                    Attachments
-                                </Typography>
-                            </div>
-                            <Attachments attachments={message?.attachments} />
+                            {message?.attachments &&
+                            message?.attachments?.length > 0 ? (
+                                <>
+                                    <div className="mt-3">
+                                        <Typography
+                                            variant={'label'}
+                                            color={'text-gray-700'}
+                                        >
+                                            Attachments
+                                        </Typography>
+                                    </div>
+                                    <Attachments
+                                        attachments={message?.attachments}
+                                    />
+                                </>
+                            ) : null}
                         </p>
 
                         {/* show message status icons */}
