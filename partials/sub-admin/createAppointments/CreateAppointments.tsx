@@ -318,19 +318,6 @@ export const CreateAppointments = () => {
                     </div>
                 </Card>
 
-                <Card noPadding>
-                    <Courses
-                        setSelectedCourse={setSelectedCourse}
-                        selectedCourse={selectedCourse}
-                        rto={
-                            selectedPerson.selectedAppointmentFor ===
-                            AppointmentUserEnum.RTO
-                                ? selectedUser.selectedAppointmentForUser
-                                : null
-                        }
-                    />
-                </Card>
-
                 <SearchUser
                     user={user as UserRoles}
                     query={query}
@@ -339,6 +326,16 @@ export const CreateAppointments = () => {
                     setSelectedUser={setSelectedUser}
                     setSelectedPerson={setSelectedPerson}
                 />
+
+                <Card noPadding>
+                    <Courses
+                        setSelectedCourse={setSelectedCourse}
+                        selectedCourse={selectedCourse}
+                        selectedAppointmentForUser={
+                            selectedUser?.selectedAppointmentForUser
+                        }
+                    />
+                </Card>
 
                 <Card>
                     <div className="flex justify-between items-center gap-x-3 w-full">

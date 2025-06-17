@@ -148,12 +148,12 @@ export const StudentProfileDetail = () => {
                             title:
                                 profile?.data?.studentStatus ===
                                 StudentStatusEnum.COMPLETED
-                                    ? 'Student is Completed'
+                                    ? 'Student Placement Completed'
                                     : 'Student is Archived',
                             description:
                                 profile?.data?.studentStatus ===
                                 StudentStatusEnum.COMPLETED
-                                    ? 'Student is Completed'
+                                    ? 'The student has successfully completed all required placement activities'
                                     : 'Student is Archived',
                             autoDismiss: false,
                         })
