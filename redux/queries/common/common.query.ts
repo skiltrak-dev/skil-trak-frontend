@@ -490,6 +490,7 @@ const {
     // ---- COURSE ---- //
     useGetCoursesListQuery,
     useGetAllCoursesByRtoQuery,
+    useGetAppointmentCoursesQuery,
     useGetSubadminCoursesListQuery,
 
     // ---- AGREEMENT ---- //
@@ -696,6 +697,7 @@ export const CommonApi = {
         useCoursesList: useGetCoursesListQuery,
         getCoursesByRto: useGetAllCoursesByRtoQuery,
         subadminCoursesList: useGetSubadminCoursesListQuery,
+        getAppointmentCourses: useGetAppointmentCoursesQuery,
     },
 
     Notes: {

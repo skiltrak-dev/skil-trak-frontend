@@ -1,65 +1,102 @@
-// query
-import { CommonApi } from '@queries'
-
-// query
-import { Select, SelectOption } from '@components'
-import { Course, OptionType } from '@types'
-import { CourseSelectOption, formatOptionLabel } from '@utils'
+import { Course } from '@types'
 import { useEffect } from 'react'
+import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
+import { Card, LoadingAnimation, NoData, Typography } from '@components'
 
 export const Courses = ({
-    setSelectedCourse,
     selectedCourse,
-    rto,
+    setSelectedCourse,
+    selectedAppointmentForUser,
 }: {
-    rto?: number | null
-    setSelectedCourse: (value: number) => void
     selectedCourse: number | null
+    selectedAppointmentForUser?: number | null
+    setSelectedCourse: (value: number) => void
 }) => {
     const router = useRouter()
 
-    const courses = CommonApi.Courses.getCoursesByRto(Number(rto))
-    const courseOptions = courses?.isSuccess
-        ? courses?.data?.map((course: Course) => ({
-              item: course,
-              value: course?.id,
-              label: course?.title,
-          }))
-        : []
+    const getAppointmentCourses = CommonApi.Courses.getAppointmentCourses(
+        Number(selectedAppointmentForUser)
+    )
 
     useEffect(() => {
-        if (courseOptions && courseOptions?.length > 0 && !selectedCourse) {
+        if (
+            getAppointmentCourses?.data &&
+            getAppointmentCourses?.data?.length > 0
+        ) {
+            console.log('UJi')
             setSelectedCourse(
-                Number(router?.query?.courseId) || courseOptions?.[0]?.value
+                Number(router?.query?.courseId) ||
+                    getAppointmentCourses?.data?.[0]?.id
             )
         }
-    }, [courseOptions, router])
+    }, [getAppointmentCourses, router])
 
     return (
-        <div className="bg-[#F7910F40] p-4 w-full">
-            <div className="max-w-md ">
-                <Select
-                    name={'course'}
-                    required
-                    options={courseOptions}
-                    value={courseOptions?.find(
-                        (course: SelectOption) =>
-                            course?.value === selectedCourse
-                    )}
-                    label={'Select Course'}
-                    loading={courses?.isLoading || courses?.isFetching}
-                    disabled={courses?.isLoading || courses?.isFetching}
-                    onlyValue
-                    onChange={(e: OptionType) => {
-                        setSelectedCourse(Number(e))
-                    }}
-                    components={{
-                        Option: CourseSelectOption,
-                    }}
-                    formatOptionLabel={formatOptionLabel}
-                />
+        <Card noPadding>
+            <div className="p-4 w-full">
+                <Typography variant="subtitle">Select Course*</Typography>
+                {getAppointmentCourses?.isError && (
+                    <NoData text="There is some technical issue!" />
+                )}
+                {getAppointmentCourses?.isLoading ? (
+                    <LoadingAnimation size={80} />
+                ) : getAppointmentCourses?.data &&
+                  getAppointmentCourses?.data?.length > 0 &&
+                  getAppointmentCourses?.isSuccess ? (
+                    <div className="grid grid-cols-6 gap-3">
+                        {getAppointmentCourses?.data?.map((c: Course) => (
+                            <Card noPadding>
+                                <div
+                                    className={`h-20 flex flex-col justify-center p-3 rounded-xl border border-gray-400 ${
+                                        selectedCourse === c?.id
+                                            ? 'bg-primaryNew-dark'
+                                            : ''
+                                    } cursor-pointer`}
+                                    onClick={() => {
+                                        setSelectedCourse(c?.id)
+                                    }}
+                                >
+                                    <Typography
+                                        variant="small"
+                                        medium
+                                        center
+                                        color={
+                                            selectedCourse === c?.id
+                                                ? 'text-white'
+                                                : ''
+                                        }
+                                    >
+                                        {c?.code}
+                                    </Typography>
+                                    <Typography
+                                        variant="small"
+                                        medium
+                                        center
+                                        color={
+                                            selectedCourse === c?.id
+                                                ? 'text-white'
+                                                : ''
+                                        }
+                                    >
+                                        {c?.title}
+                                    </Typography>
+                                </div>
+                            </Card>
+                        ))}
+                    </div>
+                ) : (
+                    getAppointmentCourses?.isSuccess && (
+                        <NoData
+                            text={
+                                selectedAppointmentForUser
+                                    ? 'There is no course available against this course'
+                                    : 'Please Select a Appointment For User to view courses'
+                            }
+                        />
+                    )
+                )}
             </div>
-        </div>
+        </Card>
     )
 }

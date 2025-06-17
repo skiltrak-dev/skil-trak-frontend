@@ -1,17 +1,10 @@
 import { ReactElement } from 'react'
-
-import { StudentLayout, SubAdminLayout } from '@layouts'
+import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { CreateAppointments } from '@partials/sub-admin'
 
-type Props = {}
-
-const CreateAppointment: NextPageWithLayout = (props: Props) => {
-    return (
-        <>
-            <CreateAppointments />
-        </>
-    )
+const CreateAppointment: NextPageWithLayout = () => {
+    return <CreateAppointments />
 }
 CreateAppointment.getLayout = (page: ReactElement) => {
     return (

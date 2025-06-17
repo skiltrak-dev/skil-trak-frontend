@@ -18,6 +18,16 @@ export const coursesEndpoints = (
         },
         providesTags: ['Course'],
     }),
+    getAppointmentCourses: builder.query<any, number>({
+        query: (id) => {
+            const params = id ? { id } : {}
+            return {
+                url: `appointments/courses/get/by-user`,
+                params,
+            }
+        },
+        providesTags: ['Course'],
+    }),
     getCoursesList: builder.query<any, void>({
         query: () => `shared/courses/list`,
         providesTags: ['Course'],

@@ -15,7 +15,7 @@ export const NoData = ({ text, simple, isError }: NoDataProps) => {
             {!simple ? (
                 <span
                     className={`text-4xl ${
-                        isError ? 'text-slate-50' : 'text-slate-300'
+                        isError ? 'text-slate-50' : 'text-slate-400'
                     }`}
                 >
                     <FaBoxOpen />
@@ -23,7 +23,7 @@ export const NoData = ({ text, simple, isError }: NoDataProps) => {
             ) : null}
             <p
                 className={`text-sm font-semibold ${
-                    isError ? 'text-slate-50' : 'text-slate-300'
+                    isError ? 'text-slate-50' : 'text-slate-400'
                 }`}
             >
                 {text || 'No Data'}
