@@ -73,7 +73,7 @@ export const AddAssessmentForm = ({ edit, assessment, courses }: Props) => {
             {/* <Typography variant={'small'} color={'text-gray-500'}>
                 Add Assessment
             </Typography> */}
-            {/* <Typography variant={'label'}>Job Training Institute</Typography> */}
+            {/* <Typography variant={'label'}>Job Training Organization</Typography> */}
             <FormProvider {...methods}>
                 <form
                     className="mt-2 w-full"

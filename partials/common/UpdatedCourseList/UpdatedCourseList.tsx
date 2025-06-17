@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    Badge,
     NoData,
     ShowErrorNotifications,
     Typography,
@@ -77,14 +78,13 @@ export const UpdatedCourseList = ({
                         Eligible Sectors
                     </Typography>
                     {!editCourse && editCourseHours && (
-                        <div
-                            className="text-xs bg-blue-300 rounded-md text-blue-900 px-2 py-0.5 cursor-pointer w-fit ml-auto"
+                        <Badge
                             onClick={() => {
                                 setEditCourse(true)
                             }}
-                        >
-                            Edit Course Hours
-                        </div>
+                            text="Edit Course Hours"
+                            variant="secondary"
+                        />
                     )}
                 </div>
 

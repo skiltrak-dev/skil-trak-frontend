@@ -54,7 +54,7 @@ const RtoSignUp: NextPageWithLayout = () => {
     return (
         <>
             <Head>
-                <title>RTO Sign Up</title>
+                <title>Training Organization Sign Up</title>
                 <meta
                     name="description"
                     content="Sign up as a RTO"

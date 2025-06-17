@@ -316,7 +316,7 @@ export const RtoSignUpForm = ({
                 {/* Personal Information */}
                 <div className="w-full">
                     <Typography variant={'subtitle'} color={'text-gray-500'}>
-                        RTO Information
+                        Training Organization Information
                     </Typography>
                     <p className="text-gray-400 text-sm leading-6">
                         Your information is required to make things clear and
@@ -328,7 +328,7 @@ export const RtoSignUpForm = ({
                         <TextInput
                             label={'Name'}
                             name={'name'}
-                            placeholder={'RTO Name...'}
+                            placeholder={'Training Organization Name...'}
                             validationIcons
                             required
                         />

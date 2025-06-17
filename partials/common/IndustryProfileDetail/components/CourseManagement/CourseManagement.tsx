@@ -41,7 +41,7 @@ export const CourseManagement = ({ industry }: { industry: Industry }) => {
             <div className="p-6">
                 <SectorCardHeader />
                 {(isError || industryPreviousCourses.isError) && (
-                    <NoData text={'Something went wrong'} />
+                    <NoData text={'Something went wrong'} isError />
                 )}
                 <div className="max-h-[380px] min-h-[370px] overflow-auto custom-scrollbar">
                     {isLoading || industryPreviousCourses.isLoading ? (

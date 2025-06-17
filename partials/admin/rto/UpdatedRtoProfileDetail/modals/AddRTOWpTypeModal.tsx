@@ -25,6 +25,7 @@ export const AddRTOWpTypeModal = ({
     workplaceTypes: WorkplaceTypes[]
 }) => {
     const [selectedTypes, setSelectedTypes] = useState<number[]>([])
+    const [isOpenedWpDropdown, setIsOpenedWpDropdown] = useState(false)
 
     const { notification } = useNotification()
 
@@ -53,6 +54,8 @@ export const AddRTOWpTypeModal = ({
             onCancel()
         }
     }
+
+    const wpOptionHeight = wpTypesOptions?.length * 4
     return (
         <>
             <ShowErrorNotifications result={addResult} />
@@ -64,8 +67,17 @@ export const AddRTOWpTypeModal = ({
                 showActions={false}
                 loading={addResult?.isLoading}
             >
-                <div className="max-h-[70vh] min-h-[40vh] overflow-auto custom-scrollbar">
-                    <div className="max-w-3xl w-full min-h-[40vh]">
+                <div
+                    className={`max-h-[70vh] min-h-[40vh] overflow-auto custom-scrollbar`}
+                >
+                    <div
+                        className={`max-w-3xl w-full max-h-[75vh] overflow-auto`}
+                        style={{
+                            minHeight: isOpenedWpDropdown
+                                ? `${wpOptionHeight}rem`
+                                : '',
+                        }}
+                    >
                         <Select
                             label={'Add Workplace Types'}
                             name="wpTypes"
@@ -74,6 +86,12 @@ export const AddRTOWpTypeModal = ({
                             loading={wpTypes?.isLoading}
                             disabled={wpTypes?.isLoading}
                             onlyValue
+                            onMenuOpen={() => {
+                                setIsOpenedWpDropdown(true)
+                            }}
+                            onMenuClose={() => {
+                                setIsOpenedWpDropdown(false)
+                            }}
                             onChange={(e: number[]) => setSelectedTypes(e)}
                         />
                         <div className="flex justify-end items-center">

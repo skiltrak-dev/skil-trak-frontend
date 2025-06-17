@@ -126,7 +126,6 @@ export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
     const submitForm = () => {
         onSubmit(methods.getValues())
     }
-    console.log('request.file', request.file)
     return (
         <>
             <ShowErrorNotifications result={courseRequestResult} />

@@ -1,10 +1,8 @@
-import { ActionButton, Tooltip, Typography } from '@components'
-import { WorkplaceType, WorkplaceTypes } from '@types'
-import React, { ReactElement, useState } from 'react'
-import { GoDotFill } from 'react-icons/go'
+import { WorkplaceTypes } from '@types'
 import { TiPlus } from 'react-icons/ti'
+import { ReactElement, useState } from 'react'
 import { AddRTOWpTypeModal, DeleteRtoWpTypeModal } from '../../modals'
-import { MdDelete } from 'react-icons/md'
+import { Badge } from '@components'
 
 export const RtoWorkplaceTypes = ({
     workplaceTypes,
@@ -64,8 +62,7 @@ export const RtoWorkplaceTypes = ({
                     </div> */}
                 </div>
                 <div className="relative group flex-shrink-0">
-                    <ActionButton
-                        variant="info"
+                    <Badge
                         onClick={() => {
                             onAddWpTypeClicked(
                                 courseId,
@@ -75,9 +72,9 @@ export const RtoWorkplaceTypes = ({
                                 )
                             )
                         }}
-                    >
-                        WP Types
-                    </ActionButton>
+                        text="WP Types"
+                        variant="info"
+                    />
                 </div>
             </div>
         </>
