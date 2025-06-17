@@ -145,9 +145,7 @@ export const SubadminIndustries = () => {
                     loading: count.isLoading,
                 },
             },
-        ]
-        if (isHod) {
-            baseTabs.push({
+            {
                 label: 'Industries Sector Approval',
                 href: {
                     pathname: 'industries',
@@ -158,20 +156,46 @@ export const SubadminIndustries = () => {
                     loading: pendingCount.isLoading,
                 },
                 element: <PendingIndustries />,
-            }),
-                baseTabs.push({
-                    label: 'Rejected',
-                    href: {
-                        pathname: 'industries',
-                        query: { tab: UserStatus.Rejected },
-                    },
-                    element: <RejectedIndustries />,
-                    badge: {
-                        text: rejectedCount?.data,
-                        loading: rejectedCount.isLoading,
-                    },
-                })
-        }
+            },
+            {
+                label: 'Rejected',
+                href: {
+                    pathname: 'industries',
+                    query: { tab: UserStatus.Rejected },
+                },
+                element: <RejectedIndustries />,
+                badge: {
+                    text: rejectedCount?.data,
+                    loading: rejectedCount.isLoading,
+                },
+            },
+        ]
+        // if (isHod) {
+        //     baseTabs.push({
+        //         label: 'Industries Sector Approval',
+        //         href: {
+        //             pathname: 'industries',
+        //             query: { tab: UserStatus.Pending },
+        //         },
+        //         badge: {
+        //             text: pendingCount?.data,
+        //             loading: pendingCount.isLoading,
+        //         },
+        //         element: <PendingIndustries />,
+        //     }),
+        //         baseTabs.push({
+        //             label: 'Rejected',
+        //             href: {
+        //                 pathname: 'industries',
+        //                 query: { tab: UserStatus.Rejected },
+        //             },
+        //             element: <RejectedIndustries />,
+        //             badge: {
+        //                 text: rejectedCount?.data,
+        //                 loading: rejectedCount.isLoading,
+        //             },
+        //         })
+        // }
         return baseTabs
     }, [count, isHod, rejectedCount, pendingCount])
 
