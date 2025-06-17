@@ -24,7 +24,7 @@ export const InitialAvatarContainer = ({
                         +{children?.length - show} More
                     </span>
 
-                    <div className="group-hover:flex hidden absolute -top-14 shadow-lg rounded bg-slate-800 text-slate-100 font-normal flex-col">
+                    <div className="group-hover:flex hidden z-10 absolute -top-14 right-0 shadow-lg rounded bg-slate-800 text-slate-100 font-normal flex-col">
                         {children?.map((child: any, idx: number) => {
                             if (idx >= show) {
                                 return (

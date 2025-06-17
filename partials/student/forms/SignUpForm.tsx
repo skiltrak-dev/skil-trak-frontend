@@ -449,7 +449,7 @@ export const StudentSignUpForm = ({
                         required
                      /> */}
                             <Select
-                                label={'Search RTOs'}
+                                label={'Search Training Organization'}
                                 {...(storedData
                                     ? {
                                           defaultValue: storedData.sectors,
@@ -460,7 +460,7 @@ export const StudentSignUpForm = ({
                                 }}
                                 name={'rto'}
                                 options={rtoOptions}
-                                placeholder={'Search Rtos...'}
+                                placeholder={'Search Training Organization...'}
                                 loading={rtoResponse.isLoading}
                                 onChange={(e: any) => {
                                     setSelectedRto(e)

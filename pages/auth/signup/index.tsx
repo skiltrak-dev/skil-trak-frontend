@@ -15,7 +15,7 @@ const PortalTypeOptions = [
         videoUrl: 'https://www.youtube.com/watch?v=OSaVf1WjzJY',
     },
     {
-        text: 'RTO',
+        text: 'Training Organization',
         link: '/auth/signup/rto?step=account-info',
         Icon: '/images/auth/rto-icon.svg',
         videoUrl: 'https://www.youtube.com/watch?v=gqTXp7KA458',
@@ -88,7 +88,7 @@ const SignUp: NextPage = () => {
                         <Typography variant="body">
                             Already have account?{' '}
                             <Link legacyBehavior href="/auth/login">
-                                <a className="text-link">Please Login</a>
+                                <a className="text-link">Login</a>
                             </Link>
                         </Typography>
                     </div>

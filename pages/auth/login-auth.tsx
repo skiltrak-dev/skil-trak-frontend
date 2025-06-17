@@ -295,7 +295,7 @@ const Login: NextPage = () => {
                                     Don&apos;t have account?{' '}
                                     <Link legacyBehavior href="/auth/signup">
                                         <a className="text-link">
-                                            Please Create Account
+                                            Create Account
                                         </a>
                                     </Link>
                                 </Typography>

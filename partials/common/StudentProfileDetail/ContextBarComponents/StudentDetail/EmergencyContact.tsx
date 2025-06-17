@@ -28,8 +28,8 @@ export const EmergencyContact = ({ profile }: { profile: Student }) => {
                         detail={useRestrictedData(
                             useMaskText({
                                 key:
-                                    profile?.emergencyPersonPhone.toLocaleLowerCase() !==
-                                    'na'
+                                    profile?.emergencyPersonPhone?.toLocaleLowerCase() !==
+                                        'na' && profile?.emergencyPersonPhone
                                         ? profile?.emergencyPersonPhone
                                         : '-----',
                             }),

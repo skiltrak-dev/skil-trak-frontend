@@ -51,7 +51,7 @@ export const SessionExpireModal = ({ onCancel }: { onCancel: () => void }) => {
                     confirmText={'Login'}
                     titleIcon={AiFillWarning}
                 >
-                    Your Session is Expired, Please Login Again
+                    Your Session is Expired, Login Again
                 </Modal>
             </Portal>
         </div>

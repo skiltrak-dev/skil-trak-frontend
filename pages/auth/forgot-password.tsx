@@ -161,7 +161,7 @@ const ForgotPassword: NextPage = () => {
                             <Typography variant="body">
                                 Already have account?{' '}
                                 <Link legacyBehavior href="/auth/login">
-                                    <a className="text-link">Please Login</a>
+                                    <a className="text-link">Login</a>
                                 </Link>
                             </Typography>
                         </div>

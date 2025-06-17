@@ -34,6 +34,8 @@ export type SelectProps = {
     showError?: boolean
     shadow?: string
     onInputChange?: (e: any) => void
+    onMenuOpen?: () => void
+    onMenuClose?: () => void
 } & InputProps
 
 export const Select = forwardRef(
@@ -42,7 +44,8 @@ export const Select = forwardRef(
             id,
             name,
             label,
-
+            onMenuOpen,
+            onMenuClose,
             multi,
             options,
             defaultValue,
@@ -210,6 +213,8 @@ export const Select = forwardRef(
                     {...(ref ? { ref } : {})}
                     placeholder={placeholder}
                     isClearable={value !== ''}
+                    onMenuOpen={onMenuOpen}
+                    onMenuClose={onMenuClose}
                     defaultValue={defaultValue}
                     onInputChange={onInputChange}
                     formatOptionLabel={formatOptionLabel}

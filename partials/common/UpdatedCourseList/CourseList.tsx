@@ -1,13 +1,8 @@
-import {
-    ActionButton,
-    AuthorizedUserComponent,
-    Button,
-    Typography,
-} from '@components'
+import { AuthorizedUserComponent, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { RtoWorkplaceTypes } from '@partials/admin/rto/UpdatedRtoProfileDetail/components/RtoSectors/RtoWorkplaceTypes'
 import { Course } from '@types'
-import React, { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect } from 'react'
 
 export const CourseList = ({
     setSelectedCourses,

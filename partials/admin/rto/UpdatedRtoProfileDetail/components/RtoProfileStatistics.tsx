@@ -1,21 +1,20 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { Rto } from '@types'
 import { Card } from '@components'
-import { AdminApi, RtoApi, SubAdminApi } from '@queries'
-import { ProfileCounts } from './ProfileCounts'
-import { RtoProfileProgress } from './RtoProfileProgress'
 import { UserRoles } from '@constants'
-import { getUserCredentials, validEmail } from '@utils'
-import Modal from '@modals/Modal'
-import { ViewProgressByCourseChart } from '@partials/common'
+import { getUserCredentials } from '@utils'
+import { ProfileCounts } from './ProfileCounts'
+import { useEffect, useMemo, useState } from 'react'
+import { AdminApi, RtoApi, SubAdminApi } from '@queries'
+import { RtoProfileProgress } from './RtoProfileProgress'
 
 export const RtoProfileStatistics = ({
-    rtoUserId,
-    subadmin,
     rto,
+    subadmin,
+    rtoUserId,
 }: {
+    rto: Rto
     subadmin: any
     rtoUserId: number
-    rto: any
 }) => {
     const rtoCourses = rto?.courses
     const rtoCourseOptions: any = useMemo(
@@ -30,16 +29,10 @@ export const RtoProfileStatistics = ({
     useEffect(() => {
         setSelectedCourse(rtoCourseOptions?.[0])
     }, [rtoCourseOptions])
-    const { data, isLoading, isError, isSuccess } =
-        RtoApi.Rto.useRtoProgressByCourse(
-            {
-                courseId: selectedCourse?.value ?? selectedCourse,
-                userId: rtoUserId,
-            }
-            // {
-            //     refetchOnMountOrArgChange: true,
-            // }
-        )
+    const { data } = RtoApi.Rto.useRtoProgressByCourse({
+        courseId: selectedCourse?.value ?? selectedCourse,
+        userId: rtoUserId,
+    })
     const role = getUserCredentials()?.role
 
     const statisticsCount = AdminApi.Rtos.useStatisticsCount(

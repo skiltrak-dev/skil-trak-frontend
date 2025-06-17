@@ -28,12 +28,14 @@ export const RejectCourseModal = ({ request, onCloseModal }: any) => {
 
     const onConfirmReject = () => {
         if (rejectionNote.trim()) {
+            const formData = new FormData()
+            formData.append('note', rejectionNote?.replace(/[\r\n]+/g, ' '))
             courseRequest({
                 params: {
                     id: request.id,
                     status: 'rejected',
                 },
-                body: { note: rejectionNote?.replace(/[\r\n]+/g, ' ') },
+                body: formData,
             })
         }
     }
