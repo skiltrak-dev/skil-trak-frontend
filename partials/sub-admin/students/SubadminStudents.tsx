@@ -150,7 +150,10 @@ export const SubadminStudents = () => {
     }
 
     const tabs: SubadminTabProps[] = [
-        ...(isHod || isManager || subadmin?.isAssociatedWithRto
+        ...(isHod ||
+        isManager ||
+        subadmin?.isAssociatedWithRto ||
+        subadmin?.hasAllStudentAccess
             ? [
                   {
                       label: 'Pending',
@@ -169,9 +172,7 @@ export const SubadminStudents = () => {
             : []),
 
         // isHod
-        ...(isHod ||
-        isManager ||
-        (subadmin?.hasAllStudentAccess && subadmin?.isAssociatedWithRto)
+        ...(isHod || isManager || subadmin?.hasAllStudentAccess
             ? [
                   {
                       label: 'Active',

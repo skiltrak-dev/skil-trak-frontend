@@ -1,37 +1,31 @@
-import {
-    ActionButton,
-    AuthorizedUserComponent,
-    Button,
-    Tooltip,
-    Typography,
-} from '@components'
+import { AuthorizedUserComponent, Button, Typography } from '@components'
 import { UserRoles } from '@constants'
-import { useContextBar, useNotification } from '@hooks'
+import { useNotification } from '@hooks'
 import { SubAdminApi } from '@queries'
 import { ellipsisText } from '@utils'
 import { marked } from 'marked'
-import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
 import { IoCheckmarkDoneOutline } from 'react-icons/io5'
-import { AddContentForOldIndustry } from './AddContentForOldIndustry'
-import { DeleteIndustryCourse } from './DeleteIndustryCourse'
-import { EditIndustryCourseContent } from './EditIndustryCourseContent'
-import { MdSupervisorAccount } from 'react-icons/md'
-import { AddSupervisor } from '@partials/common/IndustrySupervisor/form'
-import Modal from '@modals/Modal'
-import { SupervisorsListBySector } from '../modal'
-import { TbEyeUp } from 'react-icons/tb'
-const UploadCourseFile = dynamic(() => import('./UploadCourseFile'), {
-    ssr: false,
-})
+
+import {
+    AddContentForOldIndustry,
+    DeleteIndustryCourse,
+    EditIndustryCourseContent,
+    IndustryCourseSupervisors,
+    UploadCourseFile,
+} from '../components'
+import {
+    getCleanExternalUrl,
+    groupCoursesBySector,
+    groupDirectCoursesBySector,
+    isValidUrl,
+} from '../functions'
 
 export const CourseCard = ({
     data,
     industry,
     isPreviousCourses = false,
 }: any) => {
-    const contextBar = useContextBar()
-
     const approvals = useMemo(
         () =>
             isPreviousCourses
@@ -58,105 +52,6 @@ export const CourseCard = ({
                 })
             }
         })
-    }
-
-    const isValidUrl = (url: any): boolean => {
-        if (!url || typeof url !== 'string') return false
-
-        try {
-            // More comprehensive URL validation
-            const parsedUrl = new URL(
-                url.startsWith('http') ? url : `https://${url}`
-            )
-
-            // Additional checks
-            return (
-                parsedUrl.protocol === 'https:' ||
-                parsedUrl.protocol === 'http:'
-            )
-        } catch {
-            return false
-        }
-    }
-
-    const getCleanExternalUrl = (url: string | undefined | null): string => {
-        if (!url) return '#'
-
-        // Trim whitespace
-        url = url.trim()
-
-        // Handle common prefixes and domains
-        const cleanUrl = url
-            .replace(/^(https?:\/\/)?(www\.)?(skiltrak\.com\.au\/)?/i, '')
-            .replace(/\s+/g, '') // Remove any whitespace
-
-        // If empty after cleaning, return fallback
-        if (!cleanUrl) return '#'
-
-        // Add protocol if missing
-        return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`
-    }
-
-    function groupCoursesBySector(data: any) {
-        const sectorMap = new Map()
-        data.forEach((item: any) => {
-            const sectorCode = item?.course?.sector?.code
-            const sectorInfo = item?.course?.sector
-            // Create course object with all relevant data
-            const courseData = {
-                ...item,
-                course: {
-                    id: item?.course?.id,
-                    code: item?.course?.code,
-                    title: item?.course?.title,
-                    hours: item?.course?.hours,
-                },
-            }
-            if (sectorMap?.has(sectorCode)) {
-                // Add course to existing sector
-                sectorMap?.get(sectorCode).courses.push(courseData)
-            } else {
-                // Create new sector entry
-                sectorMap.set(sectorCode, {
-                    sector: sectorInfo,
-                    actionBy: courseData?.actionBy,
-                    courses: [courseData],
-                })
-            }
-        })
-        // Convert Map to Array
-        return Array.from(sectorMap.values())
-    }
-
-    function groupDirectCoursesBySector(courses: any) {
-        const sectorMap = new Map()
-
-        courses?.forEach((course: any) => {
-            const sectorCode = course?.sector?.code
-            const sectorInfo = course?.sector
-
-            // Create course object without sector (since sector is at parent level)
-            const courseData = {
-                id: course?.id,
-                code: course?.code,
-                title: course?.title,
-                hours: course?.hours,
-            }
-
-            if (sectorMap.has(sectorCode)) {
-                // Add course to existing sector
-                sectorMap.get(sectorCode).courses?.push(courseData)
-            } else {
-                // Create new sector entry
-                sectorMap.set(sectorCode, {
-                    sector: sectorInfo,
-                    courses: [courseData],
-                })
-            }
-        })
-
-        // Convert Map to Array
-        return Array.from(sectorMap.values())
     }
 
     // Execute the grouping
@@ -199,56 +94,10 @@ export const CourseCard = ({
                                 )}
                             </AuthorizedUserComponent>
                         </div>
-                        <AuthorizedUserComponent
-                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
-                        >
-                            {industry && (
-                                <div className="flex items-center justify-end gap-x-2">
-                                    <div>
-                                        <Modal>
-                                            <Modal.Open opens="addDepartmentCourse">
-                                                <div className="relative group">
-                                                    <ActionButton
-                                                        Icon={TbEyeUp}
-                                                        variant="warning"
-                                                    >
-                                                        View Supervisor
-                                                    </ActionButton>
-                                                </div>
-                                            </Modal.Open>
-                                            <Modal.Window name="addDepartmentCourse">
-                                                <SupervisorsListBySector
-                                                    industry={industry}
-                                                    sector={sectorData?.sector}
-                                                />
-                                            </Modal.Window>
-                                        </Modal>
-                                    </div>
-                                    <div className="relative group flex ">
-                                        <ActionButton
-                                            Icon={MdSupervisorAccount}
-                                            variant="dark"
-                                            onClick={() => {
-                                                contextBar.setTitle(
-                                                    'Add Supervisor'
-                                                )
-                                                contextBar.show()
-                                                contextBar.setContent(
-                                                    <AddSupervisor
-                                                        industry={industry}
-                                                        sector={
-                                                            sectorData?.sector
-                                                        }
-                                                    />
-                                                )
-                                            }}
-                                        >
-                                            Add Supervisor
-                                        </ActionButton>
-                                    </div>
-                                </div>
-                            )}
-                        </AuthorizedUserComponent>
+                        <IndustryCourseSupervisors
+                            industry={industry}
+                            sectorData={sectorData}
+                        />
                     </div>
 
                     <div className="flex flex-col gap-y-3">

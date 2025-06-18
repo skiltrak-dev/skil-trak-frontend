@@ -10,14 +10,10 @@ import { MdModeEdit } from 'react-icons/md'
 export const SupervisorsListBySector = ({
     sector,
     industry,
+    getSupervisorBySector,
     onCloseModal,
 }: any) => {
     const contextBar = useContextBar()
-
-    const getSupervisorBySector = IndustryApi.Supervisor.getSupervisorBySector({
-        sectorId: sector?.id,
-        indId: industry?.id,
-    })
 
     const qualificationLevel = SupervisorQualification?.find(
         (level) => level.value === getSupervisorBySector?.data?.level
