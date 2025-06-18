@@ -4,6 +4,7 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
+    Portal,
     Table,
     TableAction,
     TableActionOption,
@@ -19,7 +20,7 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 import { UserRoles } from '@constants'
 import { useActionModal, useNotification, useSubadminProfile } from '@hooks'
 import { AdminApi, SubAdminApi } from '@queries'
-import { Industry, PendingIndustry, UserStatus } from '@types'
+import { Industry, PendingIndustry, SubAdmin, UserStatus } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -35,6 +36,9 @@ import { AcceptModal, RejectModal, ViewIndustryReviewAnswers } from '../modal'
 import { CoursesCell } from '@partials/rto/coordinators'
 import Modal from '@modals/Modal'
 import { IndustryCellInfo } from '@partials/sub-admin/Industries'
+import { FavoriteModal } from '../FavoriteModal'
+import { MdFavorite, MdFavoriteBorder, MdOutlineFavorite } from 'react-icons/md'
+import { AddToFavoriteModal } from '@partials/sub-admin/rto/modals'
 
 export const PendingIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -111,12 +115,49 @@ export const PendingIndustries = () => {
             />
         )
     }
+    const onFavoriteClicked = (industry: any) => {
+        setModal(
+            <Portal>
+                <AddToFavoriteModal
+                    industry={industry}
+                    onCancel={() => onModalCancelClicked()}
+                />
+            </Portal>
+        )
+    }
+    const subadminId = getUserCredentials()?.id
+    const isFavorite = (subAdmin: SubAdmin[] | undefined) =>
+        subAdmin?.find((subadmin: any) => subadmin?.user?.id === subadminId)
+
+    const tableActionOptions = (industry: any) => {
+        const subAdmin = isFavorite(industry?.subAdmin)
+        return [
+            {
+                text: `${
+                    industry?.favoriteBy &&
+                    industry?.favoriteBy?.user?.id === subadminId
+                        ? 'Un Favourite'
+                        : 'Add Favourite'
+                }`,
+                onClick: (industry: any) => onFavoriteClicked(industry),
+                Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
+                color: `${
+                    industry?.subAdmin && industry?.subAdmin?.length > 0
+                        ? 'text-error'
+                        : 'text-primary'
+                }`,
+            },
+        ]
+    }
 
     const columns: ColumnDef<PendingIndustry>[] = [
         {
             accessorKey: 'industry.user',
             cell: (info) => (
-                <IndustryCellInfo industry={info?.row?.original?.industry} />
+                <IndustryCellInfo
+                    industry={info?.row?.original?.industry}
+                    isFavorite={info?.row?.original?.industry?.favoriteBy}
+                />
             ),
             header: () => <span>Industry</span>,
         },
@@ -139,6 +180,7 @@ export const PendingIndustries = () => {
                 )
             },
         },
+
         {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
@@ -227,12 +269,27 @@ export const PendingIndustries = () => {
                 )
             },
         },
+        {
+            accessorKey: 'action',
+            header: () => <span>Action</span>,
+            cell: (info: any) => {
+                const tableActionOption = tableActionOptions(
+                    info?.row?.original?.industry
+                )
+                return (
+                    <TableAction
+                        options={tableActionOption}
+                        rowItem={info?.row?.original?.industry}
+                    />
+                )
+            },
+        },
     ]
 
     if (isHod) {
-        columns.push({
-            accessorKey: 'action',
-            header: () => <span>Action</span>,
+        columns.splice(columns.length - 1, 0, {
+            accessorKey: 'request',
+            header: () => <span>Request</span>,
             cell: (info: any) => (
                 <div className="flex gap-x-2 items-center">
                     <ActionButton
