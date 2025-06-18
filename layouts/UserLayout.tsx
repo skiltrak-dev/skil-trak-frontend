@@ -19,13 +19,13 @@ export const UserLayout = ({ children }: UserLayoutProps) => {
 
     useEffect(() => {
         const handleRouteChange = () => {
-            // if (childrenRef.current) {
-            //     childrenRef.current.scrollTo({
-            //         top: 0,
-            //         left: 0,
-            //         behavior: 'smooth',
-            //     })
-            // }
+            if (childrenRef.current) {
+                childrenRef.current.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'smooth',
+                })
+            }
         }
 
         // Add event listener for route changes

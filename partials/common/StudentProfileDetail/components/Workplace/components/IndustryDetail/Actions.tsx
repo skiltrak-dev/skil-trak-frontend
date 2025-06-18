@@ -8,10 +8,6 @@ import {
 import { Course, Student, UserStatus } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
 import { ReactElement, useState } from 'react'
-import {
-    AgreementSignedModal,
-    ShowScheduleInfoBeforeApproveWPModal,
-} from '../../modals'
 import { InitiateSign } from './components'
 
 export const Actions = ({

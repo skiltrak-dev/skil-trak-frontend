@@ -34,19 +34,14 @@ export const PendingCourses = () => {
                 <>
                     {pendingCourses?.data?.data?.length > 0 && (
                         <div className="flex flex-col gap-y-3">
-                            {pendingCourses?.data?.data?.map((item: any) => {
-                                console.log('item', item)
-                                return item?.industryCourseApprovals?.map(
-                                    (approval: any) => (
-                                        <CourseCard
-                                            key={item?.id}
-                                            data={item}
-                                            industry={industry}
-                                            isPending
-                                        />
-                                    )
-                                )
-                            })}
+                            {pendingCourses?.data?.data?.map((item: any) => (
+                                <CourseCard
+                                    key={item?.id}
+                                    data={item}
+                                    industry={industry}
+                                    isPending
+                                />
+                            ))}
                         </div>
                     )}
                 </>

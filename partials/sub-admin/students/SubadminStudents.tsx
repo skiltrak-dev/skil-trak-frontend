@@ -152,8 +152,7 @@ export const SubadminStudents = () => {
     const tabs: SubadminTabProps[] = [
         ...(isHod ||
         isManager ||
-        subadmin?.isAssociatedWithRto ||
-        subadmin?.hasAllStudentAccess
+        (subadmin?.isAssociatedWithRto && subadmin?.hasAllStudentAccess)
             ? [
                   {
                       label: 'Pending',
