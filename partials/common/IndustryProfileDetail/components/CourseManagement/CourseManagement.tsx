@@ -3,7 +3,7 @@ import { SubAdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { SectorCardHeader } from './SectorCardHeader'
 
-import { CourseCard, PendingCourseCard } from './CourseCard'
+import { CourseCard } from './CourseCard'
 import { Waypoint } from 'react-waypoint'
 import { LoadingAnimation, NoData } from '@components'
 import { Industry } from '@types'
@@ -112,10 +112,6 @@ export const CourseManagement = ({ industry }: { industry: Industry }) => {
                                                 <div className="flex flex-col gap-y-3">
                                                     {pendingCourses?.data?.data?.map(
                                                         (item: any) => {
-                                                            console.log(
-                                                                'item',
-                                                                item
-                                                            )
                                                             return item?.industryCourseApprovals?.map(
                                                                 (
                                                                     approval: any
@@ -191,22 +187,13 @@ export const CourseManagement = ({ industry }: { industry: Industry }) => {
                                         <div className="flex flex-col gap-y-3">
                                             {pendingCourses?.data?.data?.map(
                                                 (item: any) => {
-                                                    console.log('item', item)
-                                                    return item?.industryCourseApprovals?.map(
-                                                        (approval: any) => (
-                                                            // <PendingCourseCard
-                                                            //     // key={item.id}
-                                                            //     pendingCourse={approval}
-                                                            // />
-                                                            <CourseCard
-                                                                key={item?.id}
-                                                                data={item}
-                                                                industry={
-                                                                    industry
-                                                                }
-                                                                isPending
-                                                            />
-                                                        )
+                                                    return (
+                                                        <CourseCard
+                                                            key={item?.id}
+                                                            data={item}
+                                                            industry={industry}
+                                                            isPending
+                                                        />
                                                     )
                                                 }
                                             )}
