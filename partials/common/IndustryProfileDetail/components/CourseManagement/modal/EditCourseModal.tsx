@@ -31,6 +31,7 @@ export const EditCourseModal = ({
     const [tags, setTags] = useState<any>({
         reference: course?.reference?.length ? course?.reference : [],
     })
+    console.log('course', tags)
 
     const { notification } = useNotification()
 

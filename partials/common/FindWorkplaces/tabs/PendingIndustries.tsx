@@ -17,7 +17,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { UserRoles } from '@constants'
-import { useActionModal, useNotification } from '@hooks'
+import { useActionModal, useNotification, useSubadminProfile } from '@hooks'
 import { AdminApi, SubAdminApi } from '@queries'
 import { Industry, PendingIndustry, UserStatus } from '@types'
 import { getUserCredentials } from '@utils'
@@ -58,6 +58,8 @@ export const PendingIndustries = () => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
+    const subadmin = useSubadminProfile()
+    const isHod = subadmin?.departmentMember?.isHod
 
     const { changeStatusResult } = useChangeStatus()
     const onModalCancelClicked = () => {
@@ -225,33 +227,34 @@ export const PendingIndustries = () => {
                 )
             },
         },
-        {
+    ]
+
+    if (isHod) {
+        columns.push({
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info: any) => {
-                return (
-                    <div className="flex gap-x-2 items-center">
-                        <ActionButton
-                            variant="success"
-                            onClick={() => onAcceptClicked(info.row?.original)}
-                            loading={changeStatusResult.isLoading}
-                            disabled={changeStatusResult.isLoading}
-                        >
-                            Accept
-                        </ActionButton>
-                        <ActionButton
-                            variant="error"
-                            onClick={() => onRejectClicked(info.row?.original)}
-                            loading={changeStatusResult.isLoading}
-                            disabled={changeStatusResult.isLoading}
-                        >
-                            Reject
-                        </ActionButton>
-                    </div>
-                )
-            },
-        },
-    ]
+            cell: (info: any) => (
+                <div className="flex gap-x-2 items-center">
+                    <ActionButton
+                        variant="success"
+                        onClick={() => onAcceptClicked(info.row?.original)}
+                        loading={changeStatusResult.isLoading}
+                        disabled={changeStatusResult.isLoading}
+                    >
+                        Accept
+                    </ActionButton>
+                    <ActionButton
+                        variant="error"
+                        onClick={() => onRejectClicked(info.row?.original)}
+                        loading={changeStatusResult.isLoading}
+                        disabled={changeStatusResult.isLoading}
+                    >
+                        Reject
+                    </ActionButton>
+                </div>
+            ),
+        })
+    }
 
     const quickActionsElements = {
         id: 'id',

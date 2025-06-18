@@ -25,6 +25,7 @@ export const CourseCard = ({
     data,
     industry,
     isPreviousCourses = false,
+    isPending = false,
 }: any) => {
     const approvals = useMemo(
         () =>
@@ -33,6 +34,7 @@ export const CourseCard = ({
                 : data?.industryCourseApprovals || [],
         [data, isPreviousCourses]
     )
+    console.log('approvals', approvals)
     const { notification } = useNotification()
     const [confirmContent, confirmContentResult] =
         SubAdminApi.Industry.useConfirmCourseDescription()
@@ -70,7 +72,7 @@ export const CourseCard = ({
                             <Typography variant="subtitle">
                                 {sectorData?.sector?.name}
                             </Typography>
-                            {!isPreviousCourses && (
+                            {!isPreviousCourses && !isPending && (
                                 <span className="p-1 bg-green-100 border border-green-200 text-green-700 rounded-md text-[9px] font-medium">
                                     Approved
                                 </span>
@@ -126,6 +128,13 @@ export const CourseCard = ({
                                                     {approval?.course?.code ??
                                                         approval?.code}
                                                 </Typography>
+                                                {isPending && (
+                                                    <div className="">
+                                                        <span className="py-0.5 px-2 bg-red-100 border border-red-200 text-red-700 rounded-md text-[10px] font-medium">
+                                                            Pending
+                                                        </span>
+                                                    </div>
+                                                )}
                                             </div>
                                             <div>
                                                 <div className="text-right ">
@@ -150,34 +159,35 @@ export const CourseCard = ({
                                             <div className="flex items-center gap-x-2">
                                                 {!isPreviousCourses && (
                                                     <>
-                                                        {!approval?.isContentVerified && (
-                                                            <AuthorizedUserComponent
-                                                                roles={[
-                                                                    UserRoles.ADMIN,
-                                                                ]}
-                                                                isHod
-                                                                isAssociatedWithRto={
-                                                                    false
-                                                                }
-                                                            >
-                                                                <Button
-                                                                    onClick={() => {
-                                                                        onConfirmContent(
-                                                                            approval?.id
-                                                                        )
-                                                                    }}
-                                                                    text="Confirm"
-                                                                    disabled={
-                                                                        confirmContentResult.isLoading
+                                                        {!approval?.isContentVerified &&
+                                                            !isPending && (
+                                                                <AuthorizedUserComponent
+                                                                    roles={[
+                                                                        UserRoles.ADMIN,
+                                                                    ]}
+                                                                    isHod
+                                                                    isAssociatedWithRto={
+                                                                        false
                                                                     }
-                                                                    loading={
-                                                                        confirmContentResult.isLoading
-                                                                    }
-                                                                    variant="error"
-                                                                    outline
-                                                                />
-                                                            </AuthorizedUserComponent>
-                                                        )}
+                                                                >
+                                                                    <Button
+                                                                        onClick={() => {
+                                                                            onConfirmContent(
+                                                                                approval?.id
+                                                                            )
+                                                                        }}
+                                                                        text="Confirm"
+                                                                        disabled={
+                                                                            confirmContentResult.isLoading
+                                                                        }
+                                                                        loading={
+                                                                            confirmContentResult.isLoading
+                                                                        }
+                                                                        variant="error"
+                                                                        outline
+                                                                    />
+                                                                </AuthorizedUserComponent>
+                                                            )}
                                                         <>
                                                             <UploadCourseFile
                                                                 approval={
@@ -229,6 +239,8 @@ export const CourseCard = ({
                                             className={`${
                                                 isPreviousCourses
                                                     ? 'bg-red-500'
+                                                    : isPending
+                                                    ? 'bg-indigo-500'
                                                     : 'bg-emerald-700'
                                             } relative text-white p-4 rounded-md w-full mb-4 flex gap-x-5 items-start max-h-56 overflow-auto custom-scrollbar`}
                                         >
@@ -474,6 +486,8 @@ export const CourseCard = ({
                                     className={`${
                                         isPreviousCourses
                                             ? 'bg-red-500'
+                                            : approval?.status === 'pending'
+                                            ? 'bg-indigo-500'
                                             : 'bg-emerald-700'
                                     } relative text-white p-4 rounded-md w-full mb-4 flex gap-x-5 items-start max-h-56 overflow-auto custom-scrollbar`}
                                 >

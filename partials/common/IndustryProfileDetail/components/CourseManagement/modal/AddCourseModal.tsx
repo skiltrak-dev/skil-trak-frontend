@@ -36,7 +36,7 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
     const validationSchema = yup.object().shape({
         sector: yup.number().required('Sector is required'),
         courses: yup.number().required('Course is required'),
-        description: yup.string().required('Description is required'),
+        // description: yup.string().required('Description is required'),
     })
     const methods = useForm({
         resolver: yupResolver(validationSchema),
@@ -129,7 +129,7 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
         //     })
         //     return
         // }
-        onSubmit(methods.getValues())
+        methods.handleSubmit(onSubmit)()
     }
     // department /courses/request-list
     return (
@@ -176,9 +176,9 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
                         </div>
                         <Typography variant="label" semibold>
                             If you want to Add the course in this sector, please
-                            provide these details
+                            upload the checklist file
                         </Typography>
-                        <div className="flex gap-x-5 mt-4">
+                        {/* <div className="flex gap-x-5 mt-4">
                             <div className="flex flex-col gap-y-2">
                                 <Typography variant="small" semibold>
                                     Description
@@ -214,7 +214,7 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
                                     />
                                 )}
                             </div>
-                        </div>
+                        </div> */}
                         <FileUpload component={UploadFile} name={'file'} />
                         <div className="flex justify-center">
                             <Button
