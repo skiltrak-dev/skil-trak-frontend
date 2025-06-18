@@ -5,7 +5,7 @@ import { ReactElement, useState } from 'react'
 import { FaCloudUploadAlt, FaEye } from 'react-icons/fa'
 import { UploadCourseFileModal } from '../modal'
 
-const UploadCourseFile = ({ approval }: { approval: any }) => {
+export const UploadCourseFile = ({ approval }: { approval: any }) => {
     const { onFileClicked, documentsViewModal } = useAssessmentDocumentsView()
 
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -92,5 +92,3 @@ const UploadCourseFile = ({ approval }: { approval: any }) => {
         </div>
     )
 }
-
-export default UploadCourseFile
