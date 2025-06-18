@@ -16,7 +16,7 @@ export const CourseManagement = ({ industry }: { industry: Industry }) => {
         'approved'
     )
 
-    const { data, isLoading, isError, isFetching } =
+    const { data, isLoading, isError } =
         SubAdminApi.Industry.useIndustryRequestedCourses(
             {
                 id: router.query.id,

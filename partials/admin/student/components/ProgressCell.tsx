@@ -143,6 +143,12 @@ const WorkplaceRequestProgress = (appliedIndustry?: any) => {
             image: 'placement-cancelled.png',
             date: appliedIndustry?.terminatedDate,
         },
+        '17-Industry-Eligibility': {
+            status: 'Industry-Eligibility',
+            description: 'placement-terminated',
+            color: 'text-error',
+            image: 'placement-cancelled.png',
+        },
     }
 }
 
@@ -173,6 +179,8 @@ export const ProgressCell = ({
         | 13
         | 14
         | 15
+        | 16
+        | 17
         | number
     assigned?: SubAdmin
     appliedIndustry: any
@@ -183,6 +191,7 @@ export const ProgressCell = ({
     const currentStatus: CurrentStatus = Object.values(
         WorkplaceRequestProgress(appliedIndustry)
     )[step - 1]
+    console.log({ stepstepstep: step })
 
     const contextBar = useContextBar()
 
@@ -202,6 +211,8 @@ export const ProgressCell = ({
         contextBar.show()
         contextBar.setTitle('Change Workplace Status')
     }
+
+    console.log({ currentStatus })
 
     return (
         <>

@@ -40,6 +40,7 @@ export const checkWorkplaceStatus = (currentStatus: WorkplaceCurrentStatus) => {
         'noResponse',
         'rejected',
         'terminated',
+        'industryEligibility',
     ]
     const step = requestTypeActions.findIndex(
         (status) => status === currentStatus
