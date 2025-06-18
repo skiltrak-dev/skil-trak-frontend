@@ -130,7 +130,11 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
 
     useEffect(() => {
         if (profile.isSuccess) {
-            if (profileCompletion && profileCompletion < 100) {
+            if (
+                profileCompletion &&
+                userData?.status !== 'pending' &&
+                profileCompletion < 100
+            ) {
                 setModal(
                     <ProfileModal
                         profileCompletion={profileCompletion}

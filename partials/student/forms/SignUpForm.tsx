@@ -45,13 +45,14 @@ export const StudentSignUpForm = ({
 
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
     const [searchRto, setSearchRto] = useState<string>('')
-    const [selectedRto, setSelectedRto] = useState<number | null>(null)
+    const [selectedRto, setSelectedRto] = useState<number | null | undefined>(
+        undefined
+    )
     const [selectedSector, setSelectedSector] = useState<any>(null)
     const [removedCourses, setRemovedCourses] = useState<number[] | null>(null)
     const [courseOptions, setCourseOptions] = useState<SelectOption[]>([])
     const [courseLoading, setCourseLoading] = useState(false)
     const [courseValues, setCourseValues] = useState<number[]>([])
-
     const rtoResponse = AuthApi.useSearchRtos(
         { search: searchRto },
         {
@@ -184,14 +185,15 @@ export const StudentSignUpForm = ({
             .string()
             .oneOf([yup.ref('password'), null], 'Passwords must match')
             .required('Must confirm entered password'),
-        emergencyPerson: yup.string().required('Must provide Emergency Person'),
-        emergencyPersonPhone: yup
-            .string()
-            .required('Must provide Emergency Person Phone'),
 
-        rto: yup.number().required('Must provide RTO'),
+        // rto: yup.number().required('Must provide RTO'),
+        rto: yup.mixed().nullable(), // optional if 'other' is selected
+        rtoInfo: yup.string().when('rto', {
+            is: (val: any) => !val || val === 'other',
+            then: (schema) => schema.required('Must provide custom RTO'),
+            otherwise: (schema) => schema.notRequired(),
+        }),
         // dob: yup.date().nullable(true).required('Must provide Date of Birth'),
-        age: yup.string().nullable().required('Must Select age'),
 
         phone: yup
             .string()
@@ -200,8 +202,10 @@ export const StudentSignUpForm = ({
             .required('Must provide phone number'),
 
         // Sector Information
-        sectors: yup.array().min(1, 'Must select at least 1 sector'),
-        courses: yup.array().min(1, 'Must select at least 1 course'),
+        // sectors: yup.array().min(1, 'Must select at least 1 sector'),
+        // courses: yup.array().min(1, 'Must select at least 1 course'),
+        // sectors: yup.string().required('Must provide a sector name'),
+        courseInfo: yup.string().required('Must list at least one course'),
 
         // Contact Person Information
         contactPersonName: yup
@@ -383,13 +387,7 @@ export const StudentSignUpForm = ({
                                 validationIcons
                                 required
                             />
-                            {/* <TextInput
-                                label={'Phone Number'}
-                                name={'phone'}
-                                placeholder={'Your phone number...'}
-                                validationIcons
-                                required
-                            /> */}
+
                             <PhoneInputWithCountry
                                 label={'Phone'}
                                 required
@@ -400,54 +398,6 @@ export const StudentSignUpForm = ({
                                 placeholder={'Enter your number'}
                             />
 
-                            <TextInput
-                                label={'Student ID'}
-                                name={'studentId'}
-                                placeholder={'Student ID...'}
-                                validationIcons
-                                required
-                            />
-                            {/* <TextInput
-                                label={'Date of Birth'}
-                                name={'dob'}
-                                type="date"
-                                max={getDate()}
-                                placeholder={'Date of Birth...'}
-                                validationIcons
-                                required
-                            /> */}
-                            <Select
-                                {...(storedData
-                                    ? { defaultValue: storedData?.age }
-                                    : {})}
-                                label={'Select Age'}
-                                name={'age'}
-                                options={ageOptions}
-                                placeholder={'Select Age...'}
-                                validationIcons
-                                onlyValue
-                            />
-                            <TextInput
-                                label={'Emergency Person'}
-                                name={'emergencyPerson'}
-                                placeholder={'Emergency Person...'}
-                                validationIcons
-                                required
-                            />
-                            <TextInput
-                                label={'Emergency Person Phone'}
-                                name={'emergencyPersonPhone'}
-                                placeholder={'emergencyPersonPhone...'}
-                                validationIcons
-                                required
-                            />
-                            {/* <TextInput
-                        label={'RTO'}
-                        name={'rto'}
-                        placeholder={'RTO...'}
-                        validationIcons
-                        required
-                     /> */}
                             <Select
                                 label={'Search Training Organization'}
                                 {...(storedData
@@ -459,16 +409,32 @@ export const StudentSignUpForm = ({
                                     debounceValue(e)
                                 }}
                                 name={'rto'}
-                                options={rtoOptions}
-                                placeholder={'Search Training Organization...'}
+                                placeholder={'Search Rtos...'}
                                 loading={rtoResponse.isLoading}
+                                options={[
+                                    ...rtoOptions,
+                                    { label: 'Other', value: 'other' },
+                                ]}
                                 onChange={(e: any) => {
-                                    setSelectedRto(e)
+                                    if (e === 'other') {
+                                        setSelectedRto(null)
+                                    } else {
+                                        setSelectedRto(e)
+                                    }
                                 }}
                                 validationIcons
                                 onlyValue
                                 {...(hader ? { value: rtoOptions?.[0] } : {})}
                             />
+                            {selectedRto === null && (
+                                <TextInput
+                                    label="RTO Info"
+                                    name="rto"
+                                    placeholder="Enter custom RTO name"
+                                    required
+                                    validationIcons
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -485,7 +451,7 @@ export const StudentSignUpForm = ({
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t py-4">
                     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
                         <div>
-                            <Select
+                            {/* <Select
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
@@ -499,10 +465,17 @@ export const StudentSignUpForm = ({
                                 loading={sectorResponse?.isLoading}
                                 onChange={onSectorChanged}
                                 validationIcons
-                            />
+                            /> */}
+                            {/* <TextInput
+                                label="Sector Name"
+                                name="sectors"
+                                placeholder="Enter your sector name..."
+                                required
+                                validationIcons
+                            /> */}
                         </div>
                         <div>
-                            <Select
+                            {/* <Select
                                 label={'Courses'}
                                 name={'courses'}
                                 defaultValue={courseOptions}
@@ -529,6 +502,14 @@ export const StudentSignUpForm = ({
                                     Option: CourseSelectOption,
                                 }}
                                 formatOptionLabel={formatOptionLabel}
+                            />
+                             */}
+                            <TextInput
+                                label="Course Info"
+                                name="courseInfo"
+                                placeholder="Enter course information..."
+                                required
+                                validationIcons
                             />
                         </div>
                     </div>
@@ -589,7 +570,7 @@ export const StudentSignUpForm = ({
                 </div>
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t lg:py-4 pt-4 lg:pt-0">
                     <div className="w-full">
-                        <div className="grid grid-cols-4 gap-x-3">
+                        <div className="grid grid-cols-4 gap-x-3 mt-5">
                             <div className="col-span-3">
                                 <TextInput
                                     label={'Primary Address'}
@@ -600,40 +581,6 @@ export const StudentSignUpForm = ({
                                     onChange={(e: any) =>
                                         handleAddressChange(e)
                                     }
-                                    // onChange={async (e: any) => {
-                                    //     setOnSuburbClicked(false)
-                                    //     if (e?.target?.value?.length > 4) {
-                                    //         try {
-                                    //             const { state } =
-                                    //                 await getAddressData(
-                                    //                     e?.target?.value
-                                    //                 )
-                                    //             const latLng = await getLatLng(
-                                    //                 e?.target?.value
-                                    //             )
-                                    //             const postalCode =
-                                    //                 await getPostalCode(latLng)
-
-                                    //             if (postalCode) {
-                                    //                 formMethods.setValue(
-                                    //                     'zipCode',
-                                    //                     postalCode
-                                    //                 )
-                                    //             }
-                                    //             if (state) {
-                                    //                 formMethods.setValue(
-                                    //                     'state',
-                                    //                     state
-                                    //                 )
-                                    //             }
-                                    //         } catch (error) {
-                                    //             console.error(
-                                    //                 'Error fetching postal code:',
-                                    //                 error
-                                    //             )
-                                    //         }
-                                    //     }
-                                    // }}
                                     onPlaceSuggetions={{
                                         placesSuggetions: onSuburbClicked,
                                         setIsPlaceSelected: setOnSuburbClicked,
@@ -646,47 +593,6 @@ export const StudentSignUpForm = ({
                                 placeholder={'Zip Code...'}
                                 validationIcons
                             />
-                            <div className="col-span-3">
-                                <TextInput
-                                    label={'Secondary Address (optional)'}
-                                    name={'addressLine2'}
-                                    placeholder={'Your Secondary Address...'}
-                                    validationIcons
-                                    placesSuggetions
-                                />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
-                            {/* <TextInput
-                                label={'Suburb'}
-                                name={'suburb'}
-                                placeholder={'Suburb...'}
-                                validationIcons
-                                placesSuggetions
-                                onChange={() => {
-                                    setOnSuburbClicked(false)
-                                }}
-                                onPlaceSuggetions={{
-                                    placesSuggetions: onSuburbClicked,
-                                    setIsPlaceSelected: setOnSuburbClicked,
-                                }}
-                            /> */}
-
-                            {/* <Select
-                                options={stateOptions}
-                                label={'State'}
-                                name={'state'}
-                                validationIcons
-                                onlyValue
-                            /> */}
-
-                            {/* <TextInput
-                                label={'State'}
-                                name={'state'}
-                                placeholder={'State...'}
-                                validationIcons
-                            /> */}
                         </div>
                     </div>
                 </div>

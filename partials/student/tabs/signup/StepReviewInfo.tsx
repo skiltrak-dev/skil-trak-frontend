@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 
 export const StepReviewInfo = () => {
     const router = useRouter()
-    const formData: StudentFormType = SignUpUtils.getValuesFromStorage()
+    const formData: any = SignUpUtils.getValuesFromStorage()
 
     const onEditData = () => {
         SignUpUtils.setEditingMode(true)
@@ -23,7 +23,6 @@ export const StepReviewInfo = () => {
         // set-up account type from here
         router.push({ query: { step: 'requested' } })
     }
-
     return (
         <div className="max-w-screen-xl mx-auto mt-4 px-2 xl:px-0">
             <div>
@@ -86,17 +85,7 @@ export const StepReviewInfo = () => {
                                             {formData.familyName || ''}
                                         </Typography>
                                     </InfoboxCard>
-                                    <InfoboxCard>
-                                        <Typography
-                                            variant={'xs'}
-                                            color={'text-gray-500'}
-                                        >
-                                            Student Id
-                                        </Typography>
-                                        <Typography variant={'label'}>
-                                            {formData.studentId || ''}
-                                        </Typography>
-                                    </InfoboxCard>
+
                                     <InfoboxCard>
                                         <Typography
                                             variant={'xs'}
@@ -108,32 +97,6 @@ export const StepReviewInfo = () => {
                                             {moment(formData.dob).format(
                                                 'MMM, Do YYYY'
                                             ) || ''}
-                                        </Typography>
-                                    </InfoboxCard>
-
-                                    <InfoboxCard>
-                                        <Typography
-                                            variant={'xs'}
-                                            color={'text-gray-500'}
-                                        >
-                                            Emergency Person
-                                        </Typography>
-                                        <Typography variant={'label'}>
-                                            {formData.emergencyPerson ||
-                                                'Not Provided'}
-                                        </Typography>
-                                    </InfoboxCard>
-
-                                    <InfoboxCard>
-                                        <Typography
-                                            variant={'xs'}
-                                            color={'text-gray-500'}
-                                        >
-                                            Emergency Person Phone
-                                        </Typography>
-                                        <Typography variant={'label'}>
-                                            {formData.emergencyPersonPhone ||
-                                                ''}
                                         </Typography>
                                     </InfoboxCard>
                                 </div>
@@ -180,22 +143,6 @@ export const StepReviewInfo = () => {
                         </div>
                     </div>
 
-                    {/* Pacakge Information
-                    <div>
-                        <div className="border-b border-secondary-dark mt-8">
-                            <Typography
-                                variant={'xs'}
-                                color={'text-gray-400'}
-                            >
-                                Your Package
-                            </Typography>
-                        </div>
-
-                        <div className="w-full mt-4 border px-4 py-4 rounded-xl">
-                            <PackageView pkg={formData.package} />
-                        </div>
-                    </div> */}
-
                     {/* Sector Info */}
                     <div>
                         <div className="border-b  border-secondary-dark mt-8">
@@ -204,35 +151,6 @@ export const StepReviewInfo = () => {
                             </Typography>
                         </div>
                         <div className="w-full mt-4 flex flex-col gap-y-5">
-                            <Card>
-                                <div className="mb-1">
-                                    <Typography
-                                        variant={'xs'}
-                                        color={'text-gray-500'}
-                                    >
-                                        Sector(s)
-                                    </Typography>
-                                </div>
-
-                                <div className="flex flex-col gap-y-1">
-                                    {formData.sectors?.map(
-                                        (sector: OptionType) => (
-                                            <InfoboxCard>
-                                                <div
-                                                    className=""
-                                                    key={Number(sector.value)}
-                                                >
-                                                    <Typography
-                                                        variant={'label'}
-                                                    >
-                                                        {sector.label}
-                                                    </Typography>
-                                                </div>
-                                            </InfoboxCard>
-                                        )
-                                    )}
-                                </div>
-                            </Card>
                             <Card>
                                 <div className="mb-2">
                                     <Typography
@@ -243,22 +161,11 @@ export const StepReviewInfo = () => {
                                     </Typography>
                                 </div>
                                 <div className="flex flex-col gap-y-1">
-                                    {formData.courses?.map(
-                                        (course: OptionType) => (
-                                            <InfoboxCard>
-                                                <div
-                                                    className=""
-                                                    key={Number(course.value)}
-                                                >
-                                                    <Typography
-                                                        variant={'label'}
-                                                    >
-                                                        {course.label}
-                                                    </Typography>
-                                                </div>
-                                            </InfoboxCard>
-                                        )
-                                    )}
+                                    <InfoboxCard>
+                                        <Typography variant="label">
+                                            {formData?.courseInfo || 'NA'}
+                                        </Typography>
+                                    </InfoboxCard>
                                 </div>
                             </Card>
                         </div>
