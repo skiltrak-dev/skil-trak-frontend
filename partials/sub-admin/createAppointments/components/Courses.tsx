@@ -37,7 +37,10 @@ export const Courses = ({
             <div className="p-4 w-full">
                 <Typography variant="subtitle">Select Course*</Typography>
                 {getAppointmentCourses?.isError && (
-                    <NoData text="There is some technical issue!" />
+                    <NoData
+                        text="There is some technical issue, Try Refresh the page!"
+                        isError
+                    />
                 )}
                 {getAppointmentCourses?.isLoading ? (
                     <LoadingAnimation size={80} />
