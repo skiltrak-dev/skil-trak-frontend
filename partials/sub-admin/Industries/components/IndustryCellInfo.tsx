@@ -1,4 +1,3 @@
-import { InitialAvatar } from '@components'
 import { SubAdminApi } from '@queries'
 import { SubAdmin } from '@types'
 import { ellipsisText, setLink } from '@utils'
@@ -9,7 +8,6 @@ import { AiFillStar } from 'react-icons/ai'
 import { FaHandshake } from 'react-icons/fa'
 import { HiBriefcase } from 'react-icons/hi2'
 import { CopyData } from '@partials/common/FindWorkplaces/components'
-
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdSnooze } from 'react-icons/md'
 export const IndustryCellInfo = ({
