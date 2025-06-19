@@ -24,7 +24,6 @@ export const Courses = ({
             getAppointmentCourses?.data &&
             getAppointmentCourses?.data?.length > 0
         ) {
-            console.log('UJi')
             setSelectedCourse(
                 Number(router?.query?.courseId) ||
                     getAppointmentCourses?.data?.[0]?.id

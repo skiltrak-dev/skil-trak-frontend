@@ -20,8 +20,6 @@ export const AllNotifications = ({ userId }: { userId?: number }) => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [isEntered, setIsEntered] = useState(true)
 
-    console.log({ isEntered })
-
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))

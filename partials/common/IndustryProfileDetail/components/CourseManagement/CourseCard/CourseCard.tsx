@@ -34,7 +34,6 @@ export const CourseCard = ({
                 : data?.industryCourseApprovals || [],
         [data, isPreviousCourses]
     )
-    console.log('approvals', approvals)
     const { notification } = useNotification()
     const [confirmContent, confirmContentResult] =
         SubAdminApi.Industry.useConfirmCourseDescription()

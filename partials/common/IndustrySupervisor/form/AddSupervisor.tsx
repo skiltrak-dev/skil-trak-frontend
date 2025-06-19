@@ -66,8 +66,6 @@ export const AddSupervisor = ({
         title: Yup.string().required('Course Title is required!'),
     })
 
-    console.log({ initialValues })
-
     const methods = useForm({
         mode: 'all',
         defaultValues: initialValues,
