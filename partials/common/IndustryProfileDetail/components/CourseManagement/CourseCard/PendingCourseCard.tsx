@@ -21,7 +21,7 @@ export const PendingCourseCard = ({ pendingCourse }: any) => {
     )
     const rawText = pendingCourse?.description || ''
     const parsedHtml = marked.parse(rawText)
-    // const extractedPendingCourses =
+    
     return (
         <div>
             <div

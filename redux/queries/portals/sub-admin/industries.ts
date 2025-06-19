@@ -329,4 +329,11 @@ export const subAdminIndustriesEndpoints = (
         query: () => `${PREFIX}/industry/partner-removal-counts`,
         providesTags: ['SubAdminIndustries', 'Industries'],
     }),
+    generateDescription: builder.mutation<any, any>({
+        query: ({ indId, courseId }) => ({
+            url: `${PREFIX}/industry/${indId}/course/${courseId}/description/update`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RequestToAddCourse', 'SubAdminCourses'],
+    }),
 })

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 
 import {
+    ActionButton,
     Button,
     draftToHtmlText,
     htmlToDraftText,
@@ -16,12 +17,13 @@ import {
 } from '@components'
 import { useNotification } from '@hooks'
 import { LabelTag } from '@partials/student/talentPool'
-import { AdminApi } from '@queries'
+import { AdminApi, SubAdminApi } from '@queries'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { FileUpload } from '@hoc'
 import Link from 'next/link'
+import { RiShining2Fill } from 'react-icons/ri'
 
 export const EditCourseModal = ({
     course,
@@ -31,21 +33,20 @@ export const EditCourseModal = ({
     const [tags, setTags] = useState<any>({
         reference: course?.reference?.length ? course?.reference : [],
     })
-
+    const router = useRouter()
     const { notification } = useNotification()
 
     const [updateCourse, updateCourseResult] =
         AdminApi.Industries.useUpdateIndustryProfileCourse()
+    const [generateContent, generateContentResult] =
+        SubAdminApi.Industry.useGenerateDescription()
 
     const validationSchema = yup.object().shape({
-        // sector: yup.number().required('Sector is required'),
-        // courses: yup.number().required('Course is required'),
         description: yup
             .mixed()
             .test('Message', 'Description is required', (value) =>
                 inputEditorErrorMessage(value)
             ),
-        // reference: yup.string().url('Invalid URL format'),
     })
     const methods = useForm({
         resolver: yupResolver(validationSchema),
@@ -66,6 +67,16 @@ export const EditCourseModal = ({
             methods.reset()
         }
     }, [updateCourseResult.isSuccess])
+    useEffect(() => {
+        if (generateContentResult.isSuccess) {
+            notification.success({
+                title: 'Course content generated',
+                description: 'Course content generated successfully',
+            })
+
+            onCloseModal()
+        }
+    }, [generateContentResult.isSuccess])
 
     const handleTagEnter = (name: string, newTag: string) => {
         setTags((prevTags: any) => ({
@@ -82,26 +93,13 @@ export const EditCourseModal = ({
     }
 
     const onSubmit = (data: any) => {
-        // const { description } = data
-        // const { reference } = tags
-        // updateCourse({
-        //     body: {
-        //         description: draftToHtmlText(description),
-        //         reference: reference,
-        //     },
-        //     id: courseRequestId,
-        // })
         const { description, file } = data
         const { reference } = tags
 
         const formData = new FormData()
         formData.append('description', draftToHtmlText(description))
-        // formData.append('reference', JSON.stringify(reference))
         formData.append('reference', reference.join(','))
 
-        // if (file?.[0]) {
-        //     formData.append('file', file[0])
-        // }
         if (file && Array.isArray(file) && file[0] instanceof File) {
             formData.append('file', file[0])
         } else if (course?.file) {
@@ -115,22 +113,20 @@ export const EditCourseModal = ({
     }
 
     const submitForm = () => {
-        // const { setError } = methods
-
-        // if (tags?.reference?.length === 0) {
-        //     setError('reference', {
-        //         type: 'reference',
-        //         message: 'Must enter your reference',
-        //     })
-        //     return
-        // }
         onSubmit(methods.getValues())
     }
-    // department /courses/request-list
+
+    const handleGenerateContent = () => {
+        const indId = router.query.id
+        const courseId = course?.course?.id
+        generateContent({ indId, courseId })
+    }
 
     return (
         <>
-            <ShowErrorNotifications result={updateCourseResult} />
+            <ShowErrorNotifications
+                result={updateCourseResult || generateContentResult}
+            />
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
                     <div className="flex justify-center  flex-col gap-y-2 px-2 py-2">
@@ -167,6 +163,24 @@ export const EditCourseModal = ({
                                         // height="300px"
                                     />
                                 </div>
+                                {!course?.isContentVerified &&
+                                    course.status !== 'pending' && (
+                                        <div className="flex justify-end">
+                                            <ActionButton
+                                                Icon={RiShining2Fill}
+                                                variant="dark"
+                                                onClick={handleGenerateContent}
+                                                loading={
+                                                    generateContentResult.isLoading
+                                                }
+                                                disabled={
+                                                    generateContentResult.isLoading
+                                                }
+                                            >
+                                                Generate
+                                            </ActionButton>
+                                        </div>
+                                    )}
                             </div>
                             <div className="min-w-64">
                                 <TagInput
