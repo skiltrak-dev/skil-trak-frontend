@@ -1,4 +1,6 @@
+export * from './RenderTabButton'
 export * from './UploadCourseFile'
+export * from './RenderCourseList'
 export * from './DeleteIndustryCourse'
 export * from './AddContentForOldIndustry'
 export * from './EditIndustryCourseContent'

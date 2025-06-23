@@ -1,15 +1,61 @@
-import { useState } from 'react'
-import { SubAdminApi } from '@queries'
-import { useRouter } from 'next/router'
-import { SectorCardHeader } from './SectorCardHeader'
-
-import { CourseCard } from './CourseCard'
-import { Waypoint } from 'react-waypoint'
 import { LoadingAnimation, NoData } from '@components'
+import { SubAdminApi } from '@queries'
 import { Industry } from '@types'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { Waypoint } from 'react-waypoint'
+import { CourseCard } from './CourseCard'
 import { PendingCourses } from './PendingCourses'
+import { SectorCardHeader } from './SectorCardHeader'
+import { RenderCourseList, RenderTabButton } from './components'
+import { courseManagementTabs } from './data'
+import { useCourseManagement } from './hooks'
 
 export const CourseManagement = ({ industry }: { industry: Industry }) => {
+    const { computedData, toggleTab, toggleTabHandler } = useCourseManagement()
+
+    const renderContent = () => {
+        if (computedData.showTabs) {
+            return (
+                <>
+                    <div className="flex items-center gap-x-2">
+                        {courseManagementTabs?.map((tab) => (
+                            <RenderTabButton
+                                key={tab?.tab}
+                                {...tab}
+                                onClick={() => toggleTabHandler(tab?.tab)}
+                                toggleTab={toggleTab}
+                            />
+                        ))}
+                    </div>
+
+                    {toggleTab === 'pending' ? (
+                        <PendingCourses />
+                    ) : (
+                        <div className="max-h-[380px] min-h-[370px] overflow-auto custom-scrollbar">
+                            <RenderCourseList industry={industry} />
+                        </div>
+                    )}
+                </>
+            )
+        }
+
+        return (
+            <div className="max-h-[380px] min-h-[370px] overflow-auto custom-scrollbar">
+                <RenderCourseList industry={industry} />
+            </div>
+        )
+    }
+
+    return (
+        <div className="p-6">
+            <SectorCardHeader />
+            {renderContent()}
+        </div>
+    )
+}
+
+export const CourseManagements = ({ industry }: { industry: Industry }) => {
     const router = useRouter()
     const [isEntered, setIsEntered] = useState<boolean>(false)
     const [toggleTab, setToggleTab] = useState<'pending' | 'approved'>(
@@ -163,7 +209,11 @@ export const CourseManagement = ({ industry }: { industry: Industry }) => {
                                     ) : (
                                         !isError &&
                                         !industryPreviousCourses.isError && (
-                                            <NoData text={'No Data Found'} />
+                                            <NoData
+                                                text={
+                                                    'No Data Found asdasdadaccccc'
+                                                }
+                                            />
                                         )
                                     )}
                                     {/* Pending Course */}
@@ -223,7 +273,7 @@ export const CourseManagement = ({ industry }: { industry: Industry }) => {
                             ) : (
                                 !isError &&
                                 !industryPreviousCourses.isError && (
-                                    <NoData text={'No Data Found'} />
+                                    <NoData text={'No Data Found sdf'} />
                                 )
                             )}
                             {/* Pending Course */}

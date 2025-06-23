@@ -2,23 +2,20 @@ import {
     Button,
     Select,
     ShowErrorNotifications,
-    TagInput,
-    TextArea,
     Typography,
     UploadFile,
 } from '@components'
 import { useNotification } from '@hooks'
-import { LabelTag } from '@partials/student/talentPool'
 import { CommonApi, SubAdminApi } from '@queries'
 import { getSectors } from '@utils'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-import React, { useEffect, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import { FileUpload } from '@hoc'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 export const AddCourseModal = ({ courses, onCloseModal }: any) => {
     const [tags, setTags] = useState<any>({
@@ -35,7 +32,7 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
 
     const validationSchema = yup.object().shape({
         sector: yup.number().required('Sector is required'),
-        courses: yup.number().required('Course is required'),
+        course: yup.number().required('Course is required'),
         // description: yup.string().required('Description is required'),
     })
     const methods = useForm({
@@ -119,19 +116,6 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
         }
     }
 
-    const submitForm = () => {
-        // const { setError } = methods
-
-        // if (tags?.reference?.length === 0) {
-        //     setError('reference', {
-        //         type: 'reference',
-        //         message: 'Must enter your reference',
-        //     })
-        //     return
-        // }
-        methods.handleSubmit(onSubmit)()
-    }
-    // department /courses/request-list
     return (
         <>
             <ShowErrorNotifications result={addCourseResult} />
@@ -219,7 +203,8 @@ export const AddCourseModal = ({ courses, onCloseModal }: any) => {
                         <div className="flex justify-center">
                             <Button
                                 text={'Sent Request'}
-                                onClick={submitForm}
+                                // onClick={submitForm}
+                                submit
                                 loading={addCourseResult.isLoading}
                                 disabled={addCourseResult.isLoading}
                             />
