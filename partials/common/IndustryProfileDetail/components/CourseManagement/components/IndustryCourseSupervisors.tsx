@@ -10,6 +10,7 @@ import { useContextBar } from '@hooks'
 import { AddSupervisor } from '@partials/common/IndustrySupervisor/form'
 import { IndustryApi } from '@queries'
 import PuffLoader from 'react-spinners/PuffLoader'
+import { getUserCredentials } from '@utils'
 
 export const IndustryCourseSupervisors = ({
     industry,
@@ -24,12 +25,12 @@ export const IndustryCourseSupervisors = ({
         sectorId: sectorData?.sector?.id,
         indId: industry?.id,
     })
-
+    const userRole = getUserCredentials()?.role
     return (
         <div>
             {' '}
             <AuthorizedUserComponent
-                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN, UserRoles.RTO]}
             >
                 {industry ? (
                     <div className="flex items-center justify-end gap-x-2">
@@ -64,7 +65,8 @@ export const IndustryCourseSupervisors = ({
                                 </Modal>
                             </div>
                         ) : getSupervisorBySector?.isSuccess &&
-                          !getSupervisorBySector?.data ? (
+                          !getSupervisorBySector?.data &&
+                          userRole !== UserRoles.RTO ? (
                             <div className="relative group flex ">
                                 <ActionButton
                                     Icon={MdSupervisorAccount}
