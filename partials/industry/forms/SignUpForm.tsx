@@ -147,6 +147,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
             .string()
             //    .matches(onlyAlphabets(), 'Please enter valid name')
             .required('Must provide your name'),
+        website: yup.string().required('Must provide website url'),
 
         email: yup
             .string()
@@ -351,7 +352,7 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                             <TextInput
                                 validationIcons
                                 name={'website'}
-                                label={'Website (Optional)'}
+                                label={'Website'}
                                 placeholder={'Website Url...'}
                             />
 
