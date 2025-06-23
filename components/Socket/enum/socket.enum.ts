@@ -34,4 +34,8 @@ export enum SocketNotificationsEvents {
     WorkplaceApprovalReminder = 'workplaceApprovalReminder',
     WorkplaceRequestPending = 'workplaceRequestPending',
     IndustryPartnerRemoval = 'industryPartnerRemoval',
+    NewIndustrySignUp = 'newIndustrySignUp',
+    IndustryApproved = 'IndustryApproved',
+    FacilityCheckListAdded = 'facilityCheckListAdded',
+    CourseRequestRejected = 'courseRequestRejected',
 }
