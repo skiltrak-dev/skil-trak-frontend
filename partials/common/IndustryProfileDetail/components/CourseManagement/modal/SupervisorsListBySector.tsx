@@ -1,4 +1,11 @@
-import { ActionButton, EmptyData, NoData, Typography } from '@components'
+import {
+    ActionButton,
+    AuthorizedUserComponent,
+    EmptyData,
+    NoData,
+    Typography,
+} from '@components'
+import { UserRoles } from '@constants'
 import { useContextBar } from '@hooks'
 import { SupervisorQualification } from '@partials/common/IndustrySupervisor'
 import { AddSupervisor } from '@partials/common/IndustrySupervisor/form'
@@ -46,27 +53,35 @@ export const SupervisorsListBySector = ({
                         <div className="">
                             <div className="relative bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 cursor-pointer transform hover:scale-105">
                                 <div className="absolute top-1 right-1">
-                                    <ActionButton
-                                        variant="info"
-                                        Icon={MdModeEdit}
-                                        onClick={() => {
-                                            contextBar.setTitle(
-                                                'Edit Supervisor'
-                                            )
-                                            contextBar.show()
-                                            contextBar.setContent(
-                                                <AddSupervisor
-                                                    edit
-                                                    sector={sector}
-                                                    industry={industry}
-                                                    initialValues={
-                                                        getSupervisorBySector?.data
-                                                    }
-                                                />
-                                            )
-                                            onCloseModal()
-                                        }}
-                                    />
+                                    <AuthorizedUserComponent
+                                        roles={[
+                                            UserRoles.ADMIN,
+                                            UserRoles.SUBADMIN,
+                                        ]}
+                                        isAssociatedWithRto={false}
+                                    >
+                                        <ActionButton
+                                            variant="info"
+                                            Icon={MdModeEdit}
+                                            onClick={() => {
+                                                contextBar.setTitle(
+                                                    'Edit Supervisor'
+                                                )
+                                                contextBar.show()
+                                                contextBar.setContent(
+                                                    <AddSupervisor
+                                                        edit
+                                                        sector={sector}
+                                                        industry={industry}
+                                                        initialValues={
+                                                            getSupervisorBySector?.data
+                                                        }
+                                                    />
+                                                )
+                                                onCloseModal()
+                                            }}
+                                        />
+                                    </AuthorizedUserComponent>
                                 </div>{' '}
                                 <div className="flex items-center mb-4">
                                     <div className="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
