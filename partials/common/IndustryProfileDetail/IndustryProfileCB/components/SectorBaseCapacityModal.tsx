@@ -122,6 +122,20 @@ export const SectorBaseCapacityModal = ({
             //     })
             //     return
             // }
+            if (editingCapacity < 1) {
+                notification.warning({
+                    title: 'Invalid Capacity',
+                    description: 'Capacity Must be greater then zero',
+                })
+                return
+            }
+            if (editingCapacity > 100) {
+                notification.warning({
+                    title: 'Invalid Capacity',
+                    description: 'Capacity Must be less then 100',
+                })
+                return
+            }
             updateCapacity({
                 id: editingSectorId,
                 body: { capacity: editingCapacity },
@@ -275,6 +289,12 @@ export const SectorBaseCapacityModal = ({
                                                                         <div className="w-20">
                                                                             <TextInput
                                                                                 name="capacity"
+                                                                                min={
+                                                                                    1
+                                                                                }
+                                                                                max={
+                                                                                    100
+                                                                                }
                                                                                 type="number"
                                                                                 placeholder="Capacity"
                                                                                 showError={

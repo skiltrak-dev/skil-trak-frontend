@@ -1,34 +1,34 @@
 export const SupervisorQualification = [
     {
-        label: 'Certificate II – Level 1',
+        label: 'Certificate II',
         value: 1,
     },
     {
-        label: 'Certificate III – Level 2',
+        label: 'Certificate III',
         value: 2,
     },
     {
-        label: 'Certificate IV – Level 3',
+        label: 'Certificate IV',
         value: 3,
     },
     {
-        label: 'Diploma – Level 4',
+        label: 'Diploma',
         value: 4,
     },
     {
-        label: 'Advanced Diploma – Level 5',
+        label: 'Advanced Diploma',
         value: 5,
     },
     {
-        label: 'Bachelor – Level 6',
+        label: 'Bachelor',
         value: 6,
     },
     {
-        label: 'Graduate Diploma – Level 7',
+        label: 'Graduate Diploma',
         value: 7,
     },
     {
-        label: 'Master – Level 8',
+        label: 'Master',
         value: 8,
     },
 ]

@@ -103,15 +103,15 @@ export const Socket = ({ children }: any) => {
             )
         }
 
-        return () => {
-            if (socket) {
-                Object.values(SocketNotificationsEvents).forEach((event) => {
-                    socket.off(event)
-                })
-                socket.off('joined')
-                disconnectSocket()
-            }
-        }
+        // return () => {
+        //     if (socket) {
+        //         Object.values(SocketNotificationsEvents).forEach((event) => {
+        //             socket.off(event)
+        //         })
+        //         socket.off('joined')
+        //         disconnectSocket()
+        //     }
+        // }
     }, [socket, router])
 
     return children

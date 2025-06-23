@@ -5,7 +5,7 @@ import { useFunctions } from '../hooks'
 import { Typography } from '@components'
 
 export const ReceiverMailsInbox = () => {
-    const [itemPerPage, setItemPerPage] = useState(20)
+    const [itemPerPage, setItemPerPage] = useState(30)
     const [page, setPage] = useState(1)
 
     const mailsList = CommonApi.Messages.useUserMails({
@@ -33,6 +33,7 @@ export const ReceiverMailsInbox = () => {
                 onPageChange={onPageChange}
                 onSelectMails={onSelectMails}
                 pagination={mailsList?.data?.pagination}
+                setPage={setPage}
             />
             <MailTitle mailFrom={'From'} />
             <MailingList
