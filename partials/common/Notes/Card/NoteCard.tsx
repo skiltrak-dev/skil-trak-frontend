@@ -140,7 +140,7 @@ export const NoteCard = ({ note }: { note: NoteType | any }) => {
                     <div>
                         <div className={`text-sm mt-1 mb-2`}>
                             <span
-                                className="block remove-text-bg"
+                                className="block remove-text-bg customTailwingStyles-inline-style customTailwingStyles"
                                 dangerouslySetInnerHTML={{
                                     __html: note?.body ?? note?.message,
                                 }}
