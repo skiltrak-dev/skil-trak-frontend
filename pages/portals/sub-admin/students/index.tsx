@@ -25,11 +25,8 @@ const Students: NextPageWithLayout = () => {
                 profile?.data?.isAssociatedWithRto &&
                 !profile?.data?.hasAllStudentAccess ? (
                     <RtoSubadminStudent />
-                ) : profile?.data?.canViewAllStudents ||
-                  profile?.data?.hasAllStudentAccess ? (
-                    <SubadminStudents />
                 ) : (
-                    <MyStudents />
+                    <SubadminStudents />
                 )
             ) : null}
         </div>
