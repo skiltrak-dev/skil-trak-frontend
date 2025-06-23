@@ -171,7 +171,7 @@ export const SubadminStudents = () => {
             : []),
 
         // isHod
-        ...(isHod || isManager || subadmin?.hasAllStudentAccess
+        ...(isHod || isManager || subadmin?.canViewAllStudents
             ? [
                   {
                       label: 'Active',
