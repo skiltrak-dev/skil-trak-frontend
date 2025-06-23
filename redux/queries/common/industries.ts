@@ -5,6 +5,14 @@ import { Industry, PaginationValues } from '@types'
 export const industriesEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    registerByFutureIndustry: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `industries/create/by-listing`,
+            method: 'POST',
+            body,
+        }),
+    }),
+
     isIndustryHiring: builder.mutation<Industry, number | undefined>({
         query: (id) => {
             const params = id ? { id } : {}

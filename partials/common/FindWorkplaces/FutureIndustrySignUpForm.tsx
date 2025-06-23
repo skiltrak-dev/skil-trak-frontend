@@ -132,6 +132,7 @@ export const FutureIndustrySignUpForm = ({
     const validationSchema = yup.object({
         // Profile Information
         name: yup.string().required('Must provide your name'),
+        website: yup.string().required('Must provide website url'),
 
         email: yup
             .string()

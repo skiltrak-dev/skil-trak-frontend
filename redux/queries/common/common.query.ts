@@ -261,13 +261,6 @@ export const commonApi = emptySplitApi.injectEndpoints({
             }),
         }),
 
-        registerByFutureIndustry: build.mutation<any, any>({
-            query: (body) => ({
-                url: `industries/create/by-listing`,
-                method: 'POST',
-                body,
-            }),
-        }),
         // Sit map industries
         getSiteMapIndustries: build.query<any, any>({
             query: (params) => {
