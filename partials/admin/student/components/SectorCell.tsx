@@ -4,6 +4,8 @@ import { Course, Rto, Student } from '@types'
 import { ViewSectorsCB } from '../contextBar'
 import { CourseDot } from './CourseDot'
 import { useEffect } from 'react'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 
 export const SectorCell = ({
     student,
@@ -15,6 +17,8 @@ export const SectorCell = ({
     const contextBar = useContextBar()
 
     const subadmin = useSubadminProfile()
+
+    const role = getUserCredentials()?.role
 
     useEffect(() => {
         return () => {
@@ -35,7 +39,9 @@ export const SectorCell = ({
     return (
         <div className="w-fit">
             <div className="flex flex-col items-center">
-                {!hideButton && !subadmin?.isAssociatedWithRto && (
+                {(subadmin?.departmentMember?.isHod ||
+                    subadmin?.isManager ||
+                    role === UserRoles.ADMIN) && (
                     <ActionButton
                         variant="link"
                         onClick={() => onViewSectorClicked(student)}

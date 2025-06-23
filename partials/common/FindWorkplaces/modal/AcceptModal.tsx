@@ -1,7 +1,7 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
-import { Industry, IndustryStatus } from '@types'
+import { Industry } from '@types'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { HiCheckBadge } from 'react-icons/hi2'

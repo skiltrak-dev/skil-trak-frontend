@@ -10,15 +10,13 @@ import {
     Typography,
 } from '@components'
 import { FigureCard } from '@components/sections/subAdmin'
-import { UserRoles } from '@constants'
 import { useContextBar } from '@hooks'
 import { SubAdminLayout } from '@layouts'
 import {
     ActiveIndustries,
-    WithoutEmailListing,
     AddIndustry,
     DepartmentFutureIndustries,
-    PendingIndustries,
+    WithoutEmailListing,
 } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
 import { ImportIndustriesListWithOTP } from '@partials/common/FindWorkplaces/contextBar'

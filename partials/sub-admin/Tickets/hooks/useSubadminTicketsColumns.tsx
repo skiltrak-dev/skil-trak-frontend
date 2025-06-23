@@ -66,11 +66,14 @@ export const useSubadminTicketsColumns = () => {
         },
         {
             accessorKey: 'assignedTo',
-            cell: (info) => (
-                <TicketUserAssignedTo
-                    ticket={info?.row?.original?.assignedTo}
-                />
-            ),
+            cell: (info) =>
+                info?.row?.original?.assignedTo ? (
+                    <TicketUserAssignedTo
+                        ticket={info?.row?.original?.assignedTo}
+                    />
+                ) : (
+                    '---'
+                ),
             header: () => <span>Assigned To</span>,
         },
         {

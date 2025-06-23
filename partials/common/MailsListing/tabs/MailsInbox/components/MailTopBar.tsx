@@ -1,4 +1,4 @@
-import { Checkbox, Tooltip, Typography } from '@components'
+import { Checkbox, Pagination, Tooltip, Typography } from '@components'
 import React, { ReactElement, useState } from 'react'
 import { IoMdArrowDropdown } from 'react-icons/io'
 import {
@@ -19,7 +19,9 @@ export const MailTopBar = ({
     isSelectedMails,
     selectedMails,
     onPageChange,
+    setPage,
 }: {
+    setPage: any
     selectedMails: number[]
     refetch: any
     hasNext: boolean
@@ -129,9 +131,14 @@ export const MailTopBar = ({
                             </>
                         ) : null}
                     </div>
-
                     {/*  */}
-                    <div className="flex items-center gap-x-4">
+                    <div className="flex items-center gap-x-2">
+                        <Typography variant="small" color="text-gray-500">
+                            {pagination?.totalResult} Results
+                        </Typography>
+                        <Pagination pagination={pagination} setPage={setPage} />
+                    </div>
+                    {/* <div className="flex items-center gap-x-4">
                         <Typography color="text-[#0000008A]" variant="label">
                             {(pagination?.currentPage - 1) *
                                 pagination?.itemPerPage +
@@ -161,7 +168,7 @@ export const MailTopBar = ({
                                 }}
                             />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>

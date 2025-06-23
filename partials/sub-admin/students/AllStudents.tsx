@@ -71,11 +71,8 @@ export const AllStudents = () => {
     const coordinatorProfile = SubAdminApi.SubAdmin.useProfile()
     const checkIsHod = coordinatorProfile?.data?.departmentMember?.isHod
 
-    // in the below I want to pass
-
-    // subadmin/students/reported/list
     // useSubAdminFlaggedStudents
-    const { isSuccess, isLoading, data, isError, isFetching, refetch } =
+    const { isLoading, data, isError, isFetching, refetch } =
         SubAdminApi.Student.useList(
             {
                 search: `status:${UserStatus.Approved}`,

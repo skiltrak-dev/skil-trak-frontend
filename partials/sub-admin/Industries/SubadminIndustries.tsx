@@ -83,6 +83,18 @@ export const SubadminIndustries = () => {
     const tabs: TabProps[] = useMemo(() => {
         const baseTabs = [
             {
+                label: 'Pending',
+                href: {
+                    pathname: 'industries',
+                    query: { tab: UserStatus.Pending },
+                },
+                badge: {
+                    text: pendingCount?.data,
+                    loading: pendingCount.isLoading,
+                },
+                element: <PendingIndustries />,
+            },
+            {
                 label: 'All',
                 href: { pathname: 'industries', query: { tab: 'all' } },
                 element: <AllIndustries isHod={isHod} />,
@@ -145,18 +157,7 @@ export const SubadminIndustries = () => {
                     loading: count.isLoading,
                 },
             },
-            {
-                label: 'Industries Sector Approval',
-                href: {
-                    pathname: 'industries',
-                    query: { tab: UserStatus.Pending },
-                },
-                badge: {
-                    text: pendingCount?.data,
-                    loading: pendingCount.isLoading,
-                },
-                element: <PendingIndustries />,
-            },
+
             {
                 label: 'Rejected',
                 href: {
