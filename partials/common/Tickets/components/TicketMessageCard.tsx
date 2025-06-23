@@ -175,7 +175,7 @@ export const TicketMessageCard = ({
                     </div>
                 </div>
                 <div
-                    className="text-sm text-gray-500 mt-1 py-1"
+                    className="text-sm text-gray-500 mt-1 py-1 customTailwingStyles-inline-style customTailwingStyles"
                     dangerouslySetInnerHTML={{
                         __html: message?.message,
                     }}
