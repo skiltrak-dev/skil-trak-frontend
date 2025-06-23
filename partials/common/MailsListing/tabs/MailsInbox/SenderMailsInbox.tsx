@@ -32,6 +32,7 @@ export const SenderMailsInbox = () => {
                 onPageChange={onPageChange}
                 onSelectMails={onSelectMails}
                 pagination={mailsList?.data?.pagination}
+                setPage={setPage}
             />
             <MailTitle mailFrom={'To'} />
             <MailingList

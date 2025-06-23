@@ -41,6 +41,7 @@ export const FilterMails = ({ query }: any) => {
                 onPageChange={onPageChange}
                 onSelectMails={onSelectMails}
                 pagination={mailsList?.data?.pagination}
+                setPage={setPage}
             />
             <MailingList
                 selectedMails={selectedMails}
