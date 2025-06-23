@@ -14,7 +14,7 @@ export const PendingCourses = () => {
 
     const pendingCourses = SubAdminApi.Industry.useIndustryRequestedCourses(
         {
-            id: router.query.id,
+            id: Number(router.query.id),
             params: {
                 search: `status:pending`,
                 skip: 50 * 1 - 50,
@@ -28,24 +28,20 @@ export const PendingCourses = () => {
     )
     return (
         <div>
-            {pendingCourses?.data.isLoading ? (
+            {pendingCourses.isLoading ? (
                 <LoadingAnimation height="32" />
             ) : (
                 <>
                     {pendingCourses?.data?.data?.length > 0 && (
                         <div className="flex flex-col gap-y-3">
-                            {pendingCourses?.data?.data?.map((item: any) => {
-                                return item?.industryCourseApprovals?.map(
-                                    (approval: any) => (
-                                        <CourseCard
-                                            key={item?.id}
-                                            data={item}
-                                            industry={industry}
-                                            isPending
-                                        />
-                                    )
-                                )
-                            })}
+                            {pendingCourses?.data?.data?.map((item: any) => (
+                                <CourseCard
+                                    key={item?.id}
+                                    data={item}
+                                    industry={industry}
+                                    isPending
+                                />
+                            ))}
                         </div>
                     )}
                 </>

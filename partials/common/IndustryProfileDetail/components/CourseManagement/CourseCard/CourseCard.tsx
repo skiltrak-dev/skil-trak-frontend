@@ -1,11 +1,11 @@
-import { AuthorizedUserComponent, Button, Typography } from '@components'
-import { UserRoles } from '@constants'
-import { useNotification } from '@hooks'
-import { SubAdminApi } from '@queries'
-import { ellipsisText } from '@utils'
 import { marked } from 'marked'
 import { useMemo } from 'react'
+import { ellipsisText } from '@utils'
+import { UserRoles } from '@constants'
+import { SubAdminApi } from '@queries'
+import { useNotification } from '@hooks'
 import { IoCheckmarkDoneOutline } from 'react-icons/io5'
+import { AuthorizedUserComponent, Button, Typography } from '@components'
 
 import {
     AddContentForOldIndustry,
