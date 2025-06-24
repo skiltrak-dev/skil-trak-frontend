@@ -11,6 +11,7 @@ import {
     LoadingAnimation,
     StudentExpiryDaysLeft,
     CaseOfficerAssignedStudent,
+    TableActionOption,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -27,12 +28,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock, MdChangeCircle } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
 import { IndustryCell } from './components/IndustryCell'
-import {
-    ArchiveModal,
-    AssignCoordinatorModal,
-    BlockModal,
-    RemoveCoordinator,
-} from './modals'
+import { AssignCoordinatorModal, BlockModal, RemoveCoordinator } from './modals'
 import { AssignMultipleCoordinatorModal } from './modals/AssignMultipleCoordinatorModal'
 export const IncompleteSubmissionStudent = () => {
     const router = useRouter()
@@ -139,75 +135,58 @@ export const IncompleteSubmissionStudent = () => {
         )
     }
 
-    const tableActionOptions = (student: Student) => {
-        return [
-            {
-                text: 'View',
-                onClick: (student: Student) =>
-                    router.push(
-                        `/portals/rto/students/${student.id}?tab=overview`
-                    ),
-                Icon: FaEye,
-            },
-            {
-                text: 'Edit',
-                onClick: (student: Student) =>
-                    router.push(
-                        `portals/rto/students/${student.id}/edit-student`
-                    ),
-                Icon: FaEye,
-            },
-            {
-                text: student?.rtoCoordinator
-                    ? 'Change Coordinator'
-                    : 'Assign Coordinator',
-                onClick: (student: Student) =>
-                    onAssignCoordinatorClicked(student),
-                Icon: FaUserPlus,
-            },
-            // {
-            //     ...(student?.rtoCoordinator
-            //         ? {
-            //               text: 'Remove Coordinator',
-            //               onClick: (student: Student) =>
-            //                   onRemoveCoordinatorClicked(student),
-            //               Icon: IoPersonRemoveSharp,
-            //               color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            //           }
-            //         : {}),
-            // },
-            {
-                text: 'Block',
-                onClick: (student: Student) => onBlockClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Change Status',
-                onClick: (student: Student) => onChangeStatus(student),
-                Icon: FaEdit,
-            },
-            {
-                text: 'Change Expiry',
-                onClick: (student: Student) => onDateClick(student),
-                Icon: FaEdit,
-            },
-        ]
-    }
+    const tableActionOptions = (
+        student: Student
+    ): TableActionOption<Student>[] => [
+        {
+            text: 'View',
+            onClick: (student) =>
+                router.push(`/portals/rto/students/${student.id}?tab=overview`),
+            Icon: FaEye,
+        },
+        {
+            text: 'Edit',
+            onClick: (student) =>
+                router.push(`portals/rto/students/${student.id}/edit-student`),
+            Icon: FaEye,
+        },
+        {
+            text: student?.rtoCoordinator
+                ? 'Change Coordinator'
+                : 'Assign Coordinator',
+            onClick: (student) => onAssignCoordinatorClicked(student),
+            Icon: FaUserPlus,
+        },
+        {
+            text: 'Block',
+            onClick: (student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Change Status',
+            onClick: (student) => onChangeStatus(student),
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Expiry',
+            onClick: (student) => onDateClick(student),
+            Icon: FaEdit,
+        },
+    ]
 
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} call />
-            },
-
+            cell: (info) => (
+                <StudentCellInfo student={info.row.original} call />
+            ),
             header: () => <span>Student</span>,
         },
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info: any) => {
+            cell: (info) => {
                 const industry = info.row.original?.industries
 
                 const appliedIndustry = studentsListWorkplace(
@@ -228,9 +207,7 @@ export const IncompleteSubmissionStudent = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
             accessorKey: 'expiry',
@@ -271,7 +248,7 @@ export const IncompleteSubmissionStudent = () => {
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },

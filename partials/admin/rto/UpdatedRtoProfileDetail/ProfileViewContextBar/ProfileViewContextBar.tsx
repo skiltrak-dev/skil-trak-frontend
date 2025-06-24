@@ -13,12 +13,8 @@ import {
 export const ProfileViewContextBar = ({ rto }: { rto: Rto }) => {
     return (
         <div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between">
                 <div>
-                    {/* <Avatar
-                        avatar={profile?.user?.avatar}
-                        name={profile?.user?.name}
-                    /> */}
                     <RtoAvatar
                         user={rto?.user?.id}
                         imageUrl={rto?.user?.avatar}

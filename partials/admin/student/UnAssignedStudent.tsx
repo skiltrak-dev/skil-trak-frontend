@@ -6,6 +6,7 @@ import {
     LoadingAnimation,
     Table,
     TableAction,
+    TableActionOption,
     TableChildrenProps,
     TechnicalError,
     Typography,
@@ -64,10 +65,10 @@ export const UnAssignedStudent = () => {
         )
     }
 
-    const tableActionOptions = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: any) => {
+            onClick: (student) => {
                 router.push(`/portals/admin/student/${student?.id}/detail`)
                 setLink('student', router)
             },
@@ -75,7 +76,7 @@ export const UnAssignedStudent = () => {
         },
         {
             text: 'Edit',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(
                     `/portals/admin/student/edit-student/${student?.id}`
                 )
@@ -84,13 +85,12 @@ export const UnAssignedStudent = () => {
         },
         {
             text: 'Change Status',
-            onClick: (student: Student) => onChangeStatus(student),
+            onClick: (student) => onChangeStatus(student),
             Icon: FaEdit,
         },
         {
             text: 'View Password',
-            onClick: (student: Student) =>
-                onViewPassword({ user: student?.user }),
+            onClick: (student) => onViewPassword({ user: student?.user }),
             Icon: RiLockPasswordFill,
         },
     ]
@@ -98,17 +98,17 @@ export const UnAssignedStudent = () => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info?.row?.original} call />
-            },
+            cell: (info) => (
+                <StudentCellInfo student={info?.row?.original} call />
+            ),
             header: () => <span>Student</span>,
         },
         {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info?.row?.original?.rto} short />
-            },
+            cell: (info) => (
+                <RtoCellInfo rto={info?.row?.original?.rto} short />
+            ),
         },
         {
             accessorKey: 'industry',
@@ -135,26 +135,24 @@ export const UnAssignedStudent = () => {
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: (info) => {
-                return (
-                    <>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'Do MMM YYYY'
-                                )}
-                            </span>
-                        </Typography>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'hh:mm:ss a'
-                                )}
-                            </span>
-                        </Typography>
-                    </>
-                )
-            },
+            cell: (info) => (
+                <>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(info?.row?.original?.createdAt).format(
+                                'Do MMM YYYY'
+                            )}
+                        </span>
+                    </Typography>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(info?.row?.original?.createdAt).format(
+                                'hh:mm:ss a'
+                            )}
+                        </span>
+                    </Typography>
+                </>
+            ),
         },
         {
             accessorKey: 'action',

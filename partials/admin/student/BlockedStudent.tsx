@@ -4,6 +4,7 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
+    ShowErrorNotifications,
     StudentExpiryDaysLeft,
     Table,
     TableAction,
@@ -284,6 +285,7 @@ export const BlockedStudent = () => {
         <>
             {modal && modal}
             {passwordModal && passwordModal}
+            <ShowErrorNotifications result={resultBulkAction} />
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Blocked Students'}

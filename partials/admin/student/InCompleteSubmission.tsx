@@ -19,7 +19,15 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { checkListLength, isBrowser, setLink } from '@utils'
+import {
+    checkListLength,
+    filterAwaitingAgreementBeyondSevenDays,
+    findCallLogsUnanswered,
+    findExpiringInNext45Days,
+    activeAndCompleted,
+    isBrowser,
+    setLink,
+} from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
@@ -71,20 +79,6 @@ export const InCompleteSubmission = () => {
         }
     }
 
-    // Attach the scroll event listener when the component mounts
-    // useEffect(() => {
-    //     if (listingRef.current) {
-    //         listingRef.current.addEventListener('scroll', handleScroll)
-    //     }
-
-    //     // Remove the event listener when the component unmounts
-    //     return () => {
-    //         if (listingRef.current) {
-    //             listingRef.current.removeEventListener('scroll', handleScroll)
-    //         }
-    //     }
-    // }, [listingRef])
-
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -104,104 +98,6 @@ export const InCompleteSubmission = () => {
             { refetchOnMountOrArgChange: 30 }
         )
     // AdminApi.Students.useFlaggedStudents
-
-    // ================= Blinking/Flashing rows of students ================
-    const activeAndCompleted = data?.data?.filter((student: any) => {
-        if (
-            student?.user?.status !== UserStatus.Approved &&
-            !student?.workplace?.length
-        ) {
-            // Skip if status is not Approved or no workplace
-
-            return false
-        }
-
-        const workplaceCount = student?.workplace?.length
-
-        if (
-            workplaceCount === 1 &&
-            student?.user?.status === UserStatus.Approved
-        ) {
-            // If only one workplace, check its status
-            return student?.workplace[0]?.currentStatus === 'completed'
-        } else if (
-            workplaceCount > 1 &&
-            student?.user?.status === UserStatus.Approved
-        ) {
-            // If multiple workplaces, all must have 'completed' status
-            // student.workplace.some(
-            //     (placement: any) => placement?.currentStatus === 'completed'
-            // )
-            return student?.workplace?.every(
-                (placement: any) => placement?.currentStatus === 'completed'
-            )
-        }
-
-        return false
-    })
-
-    const findCallLogsUnanswered = data?.data?.filter((student: any) => {
-        const unansweredCalls = student?.callLog?.filter((call: any) => {
-            if (call?.isAnswered === null) {
-                const isMoreThanSevenDays =
-                    moment().diff(moment(call?.createdAt), 'days') >= 7
-                return isMoreThanSevenDays
-            }
-            return false
-        })
-
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            unansweredCalls?.length > 0
-        )
-    })
-    const findExpiringInNext45Days = data?.data?.filter((student: any) => {
-        const expiryDate = new Date(student?.expiryDate)
-        const currentDate = new Date()
-        const timeDiff = expiryDate.getTime() - currentDate.getTime()
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            // student?.workplace?.length === 0 &&
-            daysDiff <= 45 &&
-            daysDiff >= 0
-        )
-    })
-
-    const filterAwaitingAgreementBeyondSevenDays = data?.data?.filter(
-        (student: any) => {
-            return (
-                !student?.hasIssue &&
-                !student?.isSnoozed &&
-                !student?.nonContactable &&
-                student?.workplace?.some((workplace: any) =>
-                    isWorkplaceValid(workplace)
-                )
-            )
-        }
-    )
-    // ============================= END ====================================
 
     const numberOfWeeks = 20
     const endDate = new Date() // Starting from the current date
@@ -486,12 +382,16 @@ export const InCompleteSubmission = () => {
                             data={data.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
-                            awaitingAgreementBeyondSevenDays={
-                                filterAwaitingAgreementBeyondSevenDays
-                            }
-                            findCallLogsUnanswered={findCallLogsUnanswered}
-                            findExpiringInNext45Days={findExpiringInNext45Days}
-                            activeAndCompleted={activeAndCompleted}
+                            awaitingAgreementBeyondSevenDays={filterAwaitingAgreementBeyondSevenDays(
+                                data?.data
+                            )}
+                            findCallLogsUnanswered={findCallLogsUnanswered(
+                                data?.data
+                            )}
+                            findExpiringInNext45Days={findExpiringInNext45Days(
+                                data?.data
+                            )}
+                            activeAndCompleted={activeAndCompleted(data?.data)}
                         >
                             {({
                                 table,

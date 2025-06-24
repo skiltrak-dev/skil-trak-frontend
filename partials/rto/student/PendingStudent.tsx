@@ -7,24 +7,22 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TechnicalError,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEye, FaFileExport } from 'react-icons/fa'
 
-import { useContextBar } from '@hooks'
 import { useGetRtoStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { StudentCellInfo } from './components'
-import { useChangeStatus } from './hooks'
 import { AcceptModal, RejectModal } from './modals'
 
 export const PendingStudent = () => {
     const router = useRouter()
-    const contextBar = useContextBar()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -35,7 +33,6 @@ export const PendingStudent = () => {
         limit: itemPerPage,
     })
 
-    const { changeStatusResult } = useChangeStatus()
     const onModalCancelClicked = () => {
         setModal(null)
     }
@@ -50,22 +47,22 @@ export const PendingStudent = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption<any>[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(`/portals/rto/students/${student.id}`)
             },
             Icon: FaEye,
         },
         {
             text: 'Approve',
-            onClick: (student: Student) => onAcceptClicked(student),
+            onClick: (student) => onAcceptClicked(student),
             Icon: FaEye,
         },
         {
             text: 'Reject',
-            onClick: (student: Student) => onRejectClicked(student),
+            onClick: (student) => onRejectClicked(student),
             Icon: FaEye,
         },
     ]
@@ -73,9 +70,7 @@ export const PendingStudent = () => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
-            },
+            cell: (info) => <StudentCellInfo student={info.row.original} />,
             header: () => <span>Student</span>,
         },
         {
@@ -92,16 +87,14 @@ export const PendingStudent = () => {
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info: any) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 
@@ -159,37 +152,41 @@ export const PendingStudent = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
+                            }: TableChildrenProps) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
+                                            {pageSize &&
+                                                pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    data?.data?.length
+                                                )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination &&
+                                                    pagination(
+                                                        data?.pagination,
+                                                        setPage
+                                                    )}
                                             </div>
                                         </div>
                                         <div className="px-6">{table}</div>
                                         {data?.data?.length > 10 && (
                                             <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage,
-                                                    data?.data?.length
-                                                )}
+                                                {pageSize &&
+                                                    pageSize(
+                                                        itemPerPage,
+                                                        setItemPerPage,
+                                                        data?.data?.length
+                                                    )}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
-                                                    {pagination(
-                                                        data?.pagination,
-                                                        setPage
-                                                    )}
+                                                    {pagination &&
+                                                        pagination(
+                                                            data?.pagination,
+                                                            setPage
+                                                        )}
                                                 </div>
                                             </div>
                                         )}

@@ -8,6 +8,7 @@ import {
     StudentExpiryDaysLeft,
     Table,
     TableAction,
+    TableActionOption,
     TableChildrenProps,
     TechnicalError,
     Typography,
@@ -18,8 +19,16 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
-import { checkListLength, isBrowser, setLink } from '@utils'
+import { Student } from '@types'
+import {
+    activeAndCompleted,
+    checkListLength,
+    filterAwaitingAgreementBeyondSevenDays,
+    findCallLogsUnanswered,
+    findExpiringInNext45Days,
+    isBrowser,
+    setLink,
+} from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
@@ -31,12 +40,10 @@ import { AdminStudentModalType, getAdminStudentsModal } from './modals'
 import { useActionModal, useModal } from '@hooks'
 
 import moment from 'moment'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 
 export const VerifiedEmailStudent = () => {
     const router = useRouter()
-    // const [modal, setModal] = useState<ReactElement | null>(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const listingRef = useRef<any>(null)
@@ -63,20 +70,6 @@ export const VerifiedEmailStudent = () => {
         }
     }
 
-    // Attach the scroll event listener when the component mounts
-    // useEffect(() => {
-    //     if (listingRef.current) {
-    //         listingRef.current.addEventListener('scroll', handleScroll)
-    //     }
-
-    //     // Remove the event listener when the component unmounts
-    //     return () => {
-    //         if (listingRef.current) {
-    //             listingRef.current.removeEventListener('scroll', handleScroll)
-    //         }
-    //     }
-    // }, [listingRef])
-
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -95,204 +88,74 @@ export const VerifiedEmailStudent = () => {
             },
             { refetchOnMountOrArgChange: 30 }
         )
-    // AdminApi.Students.useFlaggedStudents
 
-    // ================= Blinking/Flashing rows of students ================
-    const activeAndCompleted = data?.data?.filter((student: any) => {
-        if (
-            student?.user?.status !== UserStatus.Approved &&
-            !student?.workplace?.length
-        ) {
-            // Skip if status is not Approved or no workplace
-
-            return false
-        }
-
-        const workplaceCount = student?.workplace?.length
-
-        if (
-            workplaceCount === 1 &&
-            student?.user?.status === UserStatus.Approved
-        ) {
-            // If only one workplace, check its status
-            return student?.workplace[0]?.currentStatus === 'completed'
-        } else if (
-            workplaceCount > 1 &&
-            student?.user?.status === UserStatus.Approved
-        ) {
-            // If multiple workplaces, all must have 'completed' status
-            // student.workplace.some(
-            //     (placement: any) => placement?.currentStatus === 'completed'
-            // )
-            return student?.workplace?.every(
-                (placement: any) => placement?.currentStatus === 'completed'
-            )
-        }
-
-        return false
-    })
-
-    const findCallLogsUnanswered = data?.data?.filter((student: any) => {
-        const unansweredCalls = student?.callLog?.filter((call: any) => {
-            if (call?.isAnswered === null) {
-                const isMoreThanSevenDays =
-                    moment().diff(moment(call?.createdAt), 'days') >= 7
-                return isMoreThanSevenDays
-            }
-            return false
-        })
-
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            unansweredCalls?.length > 0
-        )
-    })
-    const findExpiringInNext45Days = data?.data?.filter((student: any) => {
-        const expiryDate = new Date(student?.expiryDate)
-        const currentDate = new Date()
-        const timeDiff = expiryDate.getTime() - currentDate.getTime()
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            // student?.workplace?.length === 0 &&
-            daysDiff <= 45 &&
-            daysDiff >= 0
-        )
-    })
-
-    const filterAwaitingAgreementBeyondSevenDays = data?.data?.filter(
-        (student: any) => {
-            return (
-                !student?.hasIssue &&
-                !student?.isSnoozed &&
-                !student?.nonContactable &&
-                student?.workplace?.some((workplace: any) =>
-                    isWorkplaceValid(workplace)
+    const tableActionOptions = (
+        student: Student
+    ): TableActionOption<Student>[] => [
+        {
+            text: 'View',
+            onClick: (student) => {
+                router.push(`/portals/admin/student/${student?.id}/detail`)
+                setLink('student', router)
+            },
+            Icon: FaEye,
+        },
+        {
+            text: 'Edit',
+            onClick: (student) => {
+                router.push(
+                    `/portals/admin/student/edit-student/${student?.id}`
                 )
-            )
-        }
-    )
-    // ============================= END ====================================
-
-    const numberOfWeeks = 20
-    const endDate = new Date() // Starting from the current date
-
-    const dateObjects = []
-
-    for (let i = numberOfWeeks - 1; i >= 0; i--) {
-        const currentDate = new Date(endDate)
-        currentDate.setDate(currentDate.getDate() - i * 7) // Decrement by a week
-
-        const lastWeekDate = new Date(currentDate)
-        lastWeekDate.setDate(lastWeekDate.getDate() + 6) // End of the week
-
-        const dateObject = {
-            startDate: currentDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
-            endDate: lastWeekDate.toISOString().slice(0, 10),
-        }
-
-        dateObjects.push(dateObject)
-    }
-
-    const tableActionOptions = (student: any) => {
-        return [
-            {
-                text: 'View',
-                onClick: (student: any) => {
-                    router.push(`/portals/admin/student/${student?.id}/detail`)
-                    setLink('student', router)
-                },
-                Icon: FaEye,
             },
-            {
-                text: 'Edit',
-                onClick: (student: Student) => {
-                    router.push(
-                        `/portals/admin/student/edit-student/${student?.id}`
-                    )
-                },
-                Icon: FaEdit,
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Status',
+            onClick: (student) => {
+                handleOpenModal(AdminStudentModalType.CHANGE_STATUS, student)
             },
-            {
-                text: 'Change Status',
-                onClick: (student: Student) => {
-                    // onChangeStatus(student)
-                    handleOpenModal(
-                        AdminStudentModalType.CHANGE_STATUS,
-                        student
-                    )
-                },
-                Icon: FaEdit,
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Expiry',
+            onClick: (student) => {
+                handleOpenModal(AdminStudentModalType.EDIT_TIMER, student)
             },
-            {
-                text: 'Change Expiry',
-                onClick: (student: Student) => {
-                    // onDateClick(student)
-                    handleOpenModal(AdminStudentModalType.EDIT_TIMER, student)
-                },
-                Icon: FaEdit,
+            Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (student) => onViewPassword({ user: student?.user }),
+            Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Block',
+            onClick: (student) => {
+                handleOpenModal(AdminStudentModalType.BLOCK, student)
             },
-            {
-                text: 'View Password',
-                onClick: (student: Student) =>
-                    onViewPassword({ user: student?.user }),
-                Icon: RiLockPasswordFill,
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: student?.isHighPriority
+                ? 'Remove Mark High Priority'
+                : 'Mark High Priority',
+            onClick: (student) => {
+                // onMarkAsHighPriorityClicked(student)
+                handleOpenModal(AdminStudentModalType.HIGH_PRIORITY, student)
             },
-            {
-                text: 'Block',
-                onClick: (student: Student) => {
-                    // onBlockClicked(student)
-                    handleOpenModal(AdminStudentModalType.BLOCK, student)
-                },
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            Icon: MdPriorityHigh,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Archive',
+            onClick: (student) => {
+                handleOpenModal(AdminStudentModalType.ARCHIVE, student)
             },
-            {
-                text: student?.isHighPriority
-                    ? 'Remove Mark High Priority'
-                    : 'Mark High Priority',
-                onClick: (student: Student) => {
-                    // onMarkAsHighPriorityClicked(student)
-                    handleOpenModal(
-                        AdminStudentModalType.HIGH_PRIORITY,
-                        student
-                    )
-                },
-                Icon: MdPriorityHigh,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Archive',
-                onClick: (student: Student) => {
-                    // onArchiveClicked(student)
-                    handleOpenModal(AdminStudentModalType.ARCHIVE, student)
-                },
-                Icon: MdBlock,
-                color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
-            },
-        ]
-    }
+            Icon: MdBlock,
+            color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
+        },
+    ]
 
     const columns: ColumnDef<Student>[] = [
         {
@@ -423,7 +286,6 @@ export const VerifiedEmailStudent = () => {
                                 AdminStudentModalType.BLOCK,
                                 student
                             )
-                            // onBlockClicked(student)
                         }}
                     >
                         Block
@@ -435,7 +297,6 @@ export const VerifiedEmailStudent = () => {
             <ActionButton
                 onClick={() => {
                     handleOpenModal(AdminStudentModalType.BULK_BLOCK, student)
-                    // onBlockMultiStudents(student)
                 }}
                 Icon={MdBlock}
                 variant="error"
@@ -464,7 +325,6 @@ export const VerifiedEmailStudent = () => {
                                 rel="noreferrer"
                                 className=""
                             >
-                                {' '}
                                 <Button
                                     text={'Export'}
                                     variant={'action'}
@@ -481,15 +341,19 @@ export const VerifiedEmailStudent = () => {
                     ) : data && data?.data.length ? (
                         <Table
                             columns={columns}
-                            data={data.data}
+                            data={data?.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
-                            awaitingAgreementBeyondSevenDays={
-                                filterAwaitingAgreementBeyondSevenDays
-                            }
-                            findCallLogsUnanswered={findCallLogsUnanswered}
-                            findExpiringInNext45Days={findExpiringInNext45Days}
-                            activeAndCompleted={activeAndCompleted}
+                            awaitingAgreementBeyondSevenDays={filterAwaitingAgreementBeyondSevenDays(
+                                data?.data
+                            )}
+                            findCallLogsUnanswered={findCallLogsUnanswered(
+                                data?.data
+                            )}
+                            findExpiringInNext45Days={findExpiringInNext45Days(
+                                data?.data
+                            )}
+                            activeAndCompleted={activeAndCompleted(data?.data)}
                         >
                             {({
                                 table,

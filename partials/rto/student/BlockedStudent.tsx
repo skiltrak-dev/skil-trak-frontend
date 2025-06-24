@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TechnicalError,
     Typography,
 } from '@components'
@@ -19,14 +20,12 @@ import { FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 import { useGetRtoStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
 import { studentsListWorkplace } from '@utils'
-import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { IndustryCell, SectorCell, StudentCellInfo } from './components'
 import { DeleteModal, UnblockModal } from './modals'
 
 export const BlockedStudent = () => {
-    const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -80,9 +79,7 @@ export const BlockedStudent = () => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
-            },
+            cell: (info) => <StudentCellInfo student={info.row.original} />,
             header: () => <span>Student</span>,
         },
         {
@@ -137,16 +134,14 @@ export const BlockedStudent = () => {
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info: any) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 
@@ -177,7 +172,7 @@ export const BlockedStudent = () => {
 
     return (
         <>
-            {modal && modal}
+            {modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Blocked Students'}
@@ -210,28 +205,28 @@ export const BlockedStudent = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
-                                return (
-                                    <div>
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
+                            }: TableChildrenProps) => (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize &&
+                                            pageSize(
                                                 itemPerPage,
                                                 setItemPerPage
                                             )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination &&
+                                                pagination(
                                                     data?.pagination,
                                                     setPage
                                                 )}
-                                            </div>
-                                        </div>
-                                        <div className="px-6 overflow-auto">
-                                            {table}
                                         </div>
                                     </div>
-                                )
-                            }}
+                                    <div className="px-6 overflow-auto">
+                                        {table}
+                                    </div>
+                                </div>
+                            )}
                         </Table>
                     ) : (
                         !isError && (

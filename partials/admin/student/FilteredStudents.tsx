@@ -45,14 +45,12 @@ export const FilteredStudents = ({
     setPage,
     itemPerPage,
     setItemPerPage,
-    setStatusSuccessResult,
 }: {
     filter: any
     student: any
     setPage: any
     itemPerPage: any
     setItemPerPage: any
-    setStatusSuccessResult: any
 }) => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)

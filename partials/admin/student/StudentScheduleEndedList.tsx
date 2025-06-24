@@ -5,12 +5,10 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
-    StudentExpiryDaysLeft,
     Table,
     TableAction,
     TableChildrenProps,
     TechnicalError,
-    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -22,8 +20,7 @@ import { Student, UserStatus } from '@types'
 import { checkListLength, isBrowser, setLink } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
-import { MdBlock, MdPriorityHigh } from 'react-icons/md'
-import { RiLockPasswordFill } from 'react-icons/ri'
+import { MdBlock } from 'react-icons/md'
 import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
 import {
     ArchiveModal,
@@ -36,8 +33,8 @@ import {
 // hooks
 import { useActionModal } from '@hooks'
 
-import moment from 'moment'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
+import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 
 export const StudentScheduleEndedList = () => {
@@ -63,27 +60,12 @@ export const StudentScheduleEndedList = () => {
         }
     }
 
-    // Attach the scroll event listener when the component mounts
-    // useEffect(() => {
-    //     if (listingRef.current) {
-    //         listingRef.current.addEventListener('scroll', handleScroll)
-    //     }
-
-    //     // Remove the event listener when the component unmounts
-    //     return () => {
-    //         if (listingRef.current) {
-    //             listingRef.current.removeEventListener('scroll', handleScroll)
-    //         }
-    //     }
-    // }, [listingRef])
-
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
     // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     const { isLoading, isFetching, data, isError } =
         AdminApi.Students.useListQuery(
@@ -209,72 +191,16 @@ export const StudentScheduleEndedList = () => {
         )
     }
 
-    const onArchiveClicked = (student: Student) => {
-        setModal(
-            <ArchiveModal item={student} onCancel={onModalCancelClicked} />
-        )
-    }
-    const onMarkAsHighPriorityClicked = (studetnt: Student) => {
-        setModal(
-            <HighPriorityModal
-                item={studetnt}
-                onCancel={onModalCancelClicked}
-                // setRefetchStudents={setRefetchStudents}
-            />
-        )
-    }
-
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onDateClick = (student: Student) => {
-        setModal(
-            <EditTimer
-                studentId={student?.user?.id}
-                date={student?.expiryDate}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const numberOfWeeks = 20
-    const endDate = new Date() // Starting from the current date
-
-    const dateObjects = []
-
-    for (let i = numberOfWeeks - 1; i >= 0; i--) {
-        const currentDate = new Date(endDate)
-        currentDate.setDate(currentDate.getDate() - i * 7) // Decrement by a week
-
-        const lastWeekDate = new Date(currentDate)
-        lastWeekDate.setDate(lastWeekDate.getDate() + 6) // End of the week
-
-        const dateObject = {
-            startDate: currentDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
-            endDate: lastWeekDate.toISOString().slice(0, 10),
-        }
-
-        dateObjects.push(dateObject)
-    }
-
-    const tableActionOptions = (student: any) => {
-        return [
-            {
-                text: 'View',
-                onClick: (student: any) => {
-                    router.push(`/portals/admin/student/${student?.id}/detail`)
-                    setLink('student', router)
-                },
-                Icon: FaEye,
+    const tableActionOptions = [
+        {
+            text: 'View',
+            onClick: (student: Student) => {
+                router.push(`/portals/admin/student/${student?.id}/detail`)
+                setLink('student', router)
             },
-        ]
-    }
+            Icon: FaEye,
+        },
+    ]
 
     const columns: ColumnDef<Student>[] = [
         {
@@ -357,13 +283,11 @@ export const StudentScheduleEndedList = () => {
             header: () => <span>Action</span>,
             cell: (info) => {
                 const length = checkListLength<Student>(data?.data as Student[])
-                const tableActionOption = tableActionOptions(
-                    info?.row?.original
-                )
+
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
-                            options={tableActionOption}
+                            options={tableActionOptions}
                             rowItem={info?.row?.original}
                             lastIndex={length.includes(info?.row?.index)}
                         />
@@ -424,8 +348,7 @@ export const StudentScheduleEndedList = () => {
 
     return (
         <>
-            {modal && modal}
-            {passwordModal && passwordModal}
+            {modal}
             <div className="flex flex-col gap-y-4">
                 <div className="flex">
                     <PageHeading

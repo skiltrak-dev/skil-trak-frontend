@@ -3,9 +3,11 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
+    ShowErrorNotifications,
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TechnicalError,
     Typography,
 } from '@components'
@@ -222,6 +224,8 @@ export const PendingStudent = () => {
         <>
             {modal && modal}
             {passwordModal && passwordModal}
+            <ShowErrorNotifications result={resultBulkAction} />
+
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Pending Students'}
@@ -244,48 +248,50 @@ export const PendingStudent = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
-                                return (
-                                    <div>
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
+                            }: TableChildrenProps) => (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize &&
+                                            pageSize(
                                                 itemPerPage,
                                                 setItemPerPage,
                                                 data?.data?.length
                                             )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination &&
+                                                pagination(
                                                     data?.pagination,
                                                     setPage
                                                 )}
-                                            </div>
                                         </div>
-                                        <div
-                                            className="px-6"
-                                            id={'studentScrollId'}
-                                        >
-                                            {table}
-                                        </div>
-                                        {data?.data?.length > 10 && (
-                                            <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize(
+                                    </div>
+                                    <div
+                                        className="px-6"
+                                        id={'studentScrollId'}
+                                    >
+                                        {table}
+                                    </div>
+                                    {data?.data?.length > 10 && (
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize &&
+                                                pageSize(
                                                     itemPerPage,
                                                     setItemPerPage,
                                                     data?.data?.length
                                                 )}
-                                                <div className="flex gap-x-2">
-                                                    {quickActions}
-                                                    {pagination(
+                                            <div className="flex gap-x-2">
+                                                {quickActions}
+                                                {pagination &&
+                                                    pagination(
                                                         data?.pagination,
                                                         setPage
                                                     )}
-                                                </div>
                                             </div>
-                                        )}
-                                    </div>
-                                )
-                            }}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </Table>
                     ) : (
                         !isError && (
