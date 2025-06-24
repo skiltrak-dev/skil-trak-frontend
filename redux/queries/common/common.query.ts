@@ -591,7 +591,7 @@ const {
     useUpdateEsignTemplateDetailMutation,
     useGetUserTemplateDocumentForSignQuery,
     useGetUserSignatureTabForTemplateQuery,
-    useGetSubadminEsignDocumentsCountQuery,
+    useGetEsignDocumentsCountQuery,
 
     // ---- Traineeship ---- //
     useGetTraineeshipProgramQuery,
@@ -868,6 +868,7 @@ export const CommonApi = {
         useSaveTemplate: useSaveEsignTemplateMutation,
         useChangeStatus: useChangeEsignStatusMutation,
         pendingDocsCount: usePendingDocumentsCountQuery,
+        useEsignCounts: useGetEsignDocumentsCountQuery,
         useGetESignStudent: useGetESignStudentDetailQuery,
         addCustomFieldData: useAddCustomFieldDataMutation,
         useResendEmailToUser: useResendEmailToUserMutation,
@@ -879,7 +880,6 @@ export const CommonApi = {
         useToggleReminderEmail: useToggleReminderEmailMutation,
         useEsignTemplateDetail: useGetEsignTemplateDetailQuery,
         useESignTemplateDetail: useGetESignTemplateDetailQuery,
-        useEsignCounts: useGetSubadminEsignDocumentsCountQuery,
         requestResignForESign: useRequestResignForESignMutation,
         useDownloadTemplateTabs: useDownloadTemplateTabsQuery,
         useDownloadEsignDocument: useDownloadEsignDocumentQuery,

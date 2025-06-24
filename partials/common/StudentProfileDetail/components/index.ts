@@ -10,5 +10,7 @@ export * from './MailsCommunication'
 export * from './StudentMessageCard'
 export * from './AssessmentsSubmission'
 export * from './RestrictSendMessageForm'
-
-
+export * from './ProfileContent'
+export * from './QuickSearchToggle'
+export * from './StudentProfileHeader'
+export * from './StudentProfileContent'
