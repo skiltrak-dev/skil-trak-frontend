@@ -1,13 +1,18 @@
-import { Typography } from '@components'
+import { TableAction } from '@components'
 import { UserRoles } from '@constants'
-import { useActionModal } from '@hooks'
+import { useActionModal, useModal } from '@hooks'
 import { Rto } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
-import { AllowUpdationModal } from '../../modals'
+import {
+    AdminRtoModalType,
+    AllowUpdationModal,
+    getAdminRtoModal,
+} from '../../modals'
 
-import { BsUnlockFill } from 'react-icons/bs'
+import { BsThreeDotsVertical, BsUnlockFill } from 'react-icons/bs'
+import { FaEdit } from 'react-icons/fa'
 import { IoMdEyeOff } from 'react-icons/io'
 import { MdOutlineUpdate } from 'react-icons/md'
 import { RiEditFill } from 'react-icons/ri'
@@ -17,6 +22,12 @@ export const ProfileLinks = ({ rto }: { rto: Rto }) => {
     const router = useRouter()
     const { passwordModal, onViewPassword, onUpdatePassword } = useActionModal()
     const [modal, setModal] = useState<ReactNode | null>(null)
+
+    const { modal: newModal, openModal, closeModal } = useModal()
+
+    const handleOpenModal = (type: AdminRtoModalType, rto: Rto) => {
+        openModal(getAdminRtoModal(type, rto, closeModal))
+    }
 
     const role = getUserCredentials()?.role
 
@@ -77,30 +88,30 @@ export const ProfileLinks = ({ rto }: { rto: Rto }) => {
                   }
                 : {}),
         },
+        {
+            ...(role === UserRoles.ADMIN
+                ? {
+                      text: 'Permissions',
+                      onClick: (rto: Rto) =>
+                          handleOpenModal(AdminRtoModalType.PERMISSION, rto),
+                      Icon: FaEdit,
+                  }
+                : {}),
+        },
     ]
 
     return (
         <div className="flex flex-col items-end gap-y-2.5">
             {modal}
+            {newModal}
             {passwordModal}
-            <div className="flex flex-col gap-1.5">
-                {profileLinks.map(
-                    ({ text, Icon, onClick }: any, index: number) =>
-                        text ? (
-                            <div
-                                className={`flex items-center justify-end gap-x-2 cursor-pointer`}
-                                key={index}
-                                onClick={() => {
-                                    onClick()
-                                }}
-                            >
-                                <Typography variant="xxs">{text}</Typography>
-                                <div className="w-5 h-5 rounded-full bg-primaryNew flex justify-center items-center">
-                                    <Icon className="text-white" size={12} />
-                                </div>
-                            </div>
-                        ) : null
-                )}
+
+            <div className="flex gap-x-1 items-center">
+                <TableAction options={profileLinks} rowItem={rto}>
+                    <button className="text-xs rounded px-4 py-2 uppercase font-medium text-gray-800 flex gap-x-2 items-center">
+                        <BsThreeDotsVertical size={19} />
+                    </button>
+                </TableAction>
             </div>
         </div>
     )

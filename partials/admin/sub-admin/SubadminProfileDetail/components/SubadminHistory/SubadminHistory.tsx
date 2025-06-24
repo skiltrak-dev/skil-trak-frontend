@@ -191,7 +191,7 @@ export const SubadminHistory = ({
                                 setPage={setPage}
                             />
                         </div>
-                        <div className="h-64 overflow-auto custom-scrollbar">
+                        <div className="h-80 overflow-auto custom-scrollbar">
                             {isError && (
                                 <NoData
                                     text="There is some technical issue!"

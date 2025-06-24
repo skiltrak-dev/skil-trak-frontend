@@ -8,6 +8,7 @@ import {
     StudentExpiryDaysLeft,
     Table,
     TableAction,
+    TableChildrenProps,
     TechnicalError,
     Typography,
     UserCreatedAt,
@@ -146,18 +147,6 @@ export const ApprovedStudent = () => {
                     onAssignCoordinatorClicked(student),
                 Icon: FaUserPlus,
             },
-            // {
-            //     ...(student?.rtoCoordinator
-            //         ? {
-            //               text: 'Remove Coordinator',
-            //               onClick: (student: Student) =>
-            //                   onRemoveCoordinatorClicked(student),
-            //               Icon: IoPersonRemoveSharp,
-            //               color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            //           }
-            //         : {}),
-            // },
-
             {
                 text: 'Block',
                 onClick: (student: Student) => onBlockClicked(student),
@@ -362,21 +351,23 @@ export const ApprovedStudent = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
+                            }: TableChildrenProps) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
+                                            {pageSize &&
+                                                pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    data?.data?.length
+                                                )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination &&
+                                                    pagination(
+                                                        data?.pagination,
+                                                        setPage
+                                                    )}
                                             </div>
                                         </div>
                                         <div className="px-6 overflow-auto custom-scrollbar">
@@ -384,17 +375,19 @@ export const ApprovedStudent = () => {
                                         </div>
                                         {data?.data?.length > 10 && (
                                             <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage,
-                                                    data?.data?.length
-                                                )}
+                                                {pageSize &&
+                                                    pageSize(
+                                                        itemPerPage,
+                                                        setItemPerPage,
+                                                        data?.data?.length
+                                                    )}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
-                                                    {pagination(
-                                                        data?.pagination,
-                                                        setPage
-                                                    )}
+                                                    {pagination &&
+                                                        pagination(
+                                                            data?.pagination,
+                                                            setPage
+                                                        )}
                                                 </div>
                                             </div>
                                         )}

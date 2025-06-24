@@ -364,7 +364,6 @@ const StudentList: NextPageWithLayout = () => {
                             itemPerPage={itemPerPage}
                             student={filteredStudents}
                             setItemPerPage={setItemPerPage}
-                            setStatusSuccessResult={setStatusSuccessResult}
                         />
                     )
                 )

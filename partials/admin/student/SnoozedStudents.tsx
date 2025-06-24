@@ -5,6 +5,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TechnicalError,
     Typography,
 } from '@components'
@@ -62,7 +63,7 @@ export const SnoozedStudents = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption<any>[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
             onClick: (student: any) => {
@@ -72,21 +73,21 @@ export const SnoozedStudents = () => {
         },
         {
             text: 'Edit',
-            onClick: (row: any) => {
+            onClick: (row) => {
                 router.push(`/portals/admin/student/edit-student/${row.id}`)
             },
             Icon: FaEdit,
         },
         {
             text: 'Un-Snooze',
-            onClick: (student: any) => {
+            onClick: (student) => {
                 UnSnoozeModal(student)
             },
             Icon: FaEdit,
         },
         {
             text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
+            onClick: (student) => onViewPassword(student),
             Icon: RiLockPasswordFill,
         },
     ]
@@ -94,53 +95,45 @@ export const SnoozedStudents = () => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
-            },
+            cell: (info) => <StudentCellInfo student={info.row.original} />,
             header: () => <span>Student</span>,
         },
         {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original.rto} short />
-            },
+            cell: (info) => <RtoCellInfo rto={info.row.original.rto} short />,
         },
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: (info) => {
-                return (
-                    <>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'Do MMM YYYY'
-                                )}
-                            </span>
-                        </Typography>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'hh:mm:ss a'
-                                )}
-                            </span>
-                        </Typography>
-                    </>
-                )
-            },
+            cell: (info) => (
+                <>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(info?.row?.original?.createdAt).format(
+                                'Do MMM YYYY'
+                            )}
+                        </span>
+                    </Typography>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(info?.row?.original?.createdAt).format(
+                                'hh:mm:ss a'
+                            )}
+                        </span>
+                    </Typography>
+                </>
+            ),
         },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info: any) => (
+            cell: (info) => (
                 <TableAction
                     options={tableActionOptions}
                     rowItem={info.row.original}
@@ -171,51 +164,57 @@ export const SnoozedStudents = () => {
                             columns={columns}
                             data={snoozedStudents?.data?.data}
                         >
-                            {({ table, pagination, pageSize }: any) => {
-                                return (
-                                    <div>
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
+                            {({
+                                table,
+                                pagination,
+                                pageSize,
+                            }: TableChildrenProps) => (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize &&
+                                            pageSize(
                                                 itemPerPage,
                                                 setItemPerPage,
                                                 snoozedStudents?.data?.data
                                                     ?.length
                                             )}
-                                            <div className="flex gap-x-2">
-                                                {pagination(
+                                        <div className="flex gap-x-2">
+                                            {pagination &&
+                                                pagination(
                                                     snoozedStudents?.data
                                                         ?.pagination,
                                                     setPage
                                                 )}
-                                            </div>
                                         </div>
-                                        <div
-                                            className="px-6"
-                                            id={'studentScrollId'}
-                                        >
-                                            {table}
-                                        </div>
-                                        {snoozedStudents?.data?.data?.length >
-                                            10 && (
-                                            <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize(
+                                    </div>
+                                    <div
+                                        className="px-6"
+                                        id={'studentScrollId'}
+                                    >
+                                        {table}
+                                    </div>
+                                    {snoozedStudents?.data?.data?.length >
+                                        10 && (
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize &&
+                                                pageSize(
                                                     itemPerPage,
                                                     setItemPerPage,
                                                     snoozedStudents?.data?.data
                                                         ?.length
                                                 )}
-                                                <div className="flex gap-x-2">
-                                                    {pagination(
+                                            <div className="flex gap-x-2">
+                                                {pagination &&
+                                                    pagination(
                                                         snoozedStudents?.data
                                                             ?.pagination,
                                                         setPage
                                                     )}
-                                                </div>
                                             </div>
-                                        )}
-                                    </div>
-                                )
-                            }}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </Table>
                     ) : (
                         snoozedStudents?.isSuccess && (

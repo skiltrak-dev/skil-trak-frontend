@@ -1,32 +1,25 @@
 import {
-    Card,
-    Table,
-    Button,
-    EmptyData,
-    Typography,
-    TableAction,
     ActionButton,
-    UserCreatedAt,
-    TechnicalError,
-    LoadingAnimation,
-    StudentExpiryDaysLeft,
+    Button,
+    Card,
     CaseOfficerAssignedStudent,
+    EmptyData,
+    LoadingAnimation,
     NoData,
+    Table,
+    TableAction,
+    TableActionOption,
+    TableChildrenProps,
+    TechnicalError,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import {
-    FaComment,
-    FaEdit,
-    FaEye,
-    FaFileExport,
-    FaUserPlus,
-} from 'react-icons/fa'
+import { FaComment, FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
-import { RtoApi, useGetRtoStudentsQuery } from '@queries'
-import { Student, UserStatus } from '@types'
+import Modal from '@modals/Modal'
+import { RtoApi } from '@queries'
+import { Student } from '@types'
 import { getUserCredentials, isBrowser, studentsListWorkplace } from '@utils'
 import { saveAs } from 'file-saver'
 import { useRouter } from 'next/router'
@@ -35,14 +28,11 @@ import { MdBlock, MdChangeCircle } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
 import { IndustryCell } from './components/IndustryCell'
 import {
-    ArchiveModal,
     AssignCoordinatorModal,
     BlockModal,
-    RemoveCoordinator,
     ReportedStudentModal,
 } from './modals'
 import { AssignMultipleCoordinatorModal } from './modals/AssignMultipleCoordinatorModal'
-import Modal from '@modals/Modal'
 export const ReportedStudentsList = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -61,7 +51,6 @@ export const ReportedStudentsList = () => {
     const [page, setPage] = useState(1)
     const { isLoading, data, isError, refetch } =
         RtoApi.Students.useRtoReportedStudentsList({
-            // search: `status:${UserStatus.Approved}`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
@@ -124,40 +113,37 @@ export const ReportedStudentsList = () => {
         )
     }
 
-    const tableActionOptions = (student: Student) => {
-        return [
-            {
-                text: 'View',
-                onClick: (student: Student) =>
-                    router.push(
-                        `/portals/rto/students/${student.id}?tab=overview`
-                    ),
-                Icon: FaEye,
-            },
+    const tableActionOptions = (
+        student: Student
+    ): TableActionOption<Student>[] => [
+        {
+            text: 'View',
+            onClick: (student) =>
+                router.push(`/portals/rto/students/${student.id}?tab=overview`),
+            Icon: FaEye,
+        },
 
-            {
-                text: student.statusHistory?.[0]?.response
-                    ? 'Edit Comment'
-                    : 'Add Comment',
-                onClick: (student: Student) => onAddOrEditComment(student),
-                Icon: FaComment,
-            },
-        ]
-    }
+        {
+            text: student.statusHistory?.[0]?.response
+                ? 'Edit Comment'
+                : 'Add Comment',
+            onClick: (student) => onAddOrEditComment(student),
+            Icon: FaComment,
+        },
+    ]
 
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} call />
-            },
-
+            cell: (info) => (
+                <StudentCellInfo student={info.row.original} call />
+            ),
             header: () => <span>Student</span>,
         },
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info: any) => {
+            cell: (info) => {
                 const industry = info.row.original?.industries
 
                 const appliedIndustry = studentsListWorkplace(
@@ -178,95 +164,76 @@ export const ReportedStudentsList = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
             accessorKey: 'statusHistory',
             header: () => <span>Reported Comment</span>,
-            cell: (info) => {
-                return (
-                    <Modal>
-                        <Modal.Open>
-                            <Button variant={'info'} text="View" outline />
-                        </Modal.Open>
-                        <Modal.Window>
-                            <div className="p-5 flex flex-col justify-center items-center gap-y-4">
-                                <Typography variant="title">
-                                    Reported Comment
-                                </Typography>
-                                {info.row?.original?.statusHistory &&
-                                info.row?.original?.statusHistory?.length >
-                                    0 ? (
-                                    <div className="flex gap-x-4 w-full h-full">
-                                        <div
-                                            className={`flex flex-col gap-y-1 ${
+            cell: (info) => (
+                <Modal>
+                    <Modal.Open>
+                        <Button variant={'info'} text="View" outline />
+                    </Modal.Open>
+                    <Modal.Window>
+                        <div className="p-5 flex flex-col justify-center items-center gap-y-4">
+                            <Typography variant="title">
+                                Reported Comment
+                            </Typography>
+                            {info.row?.original?.statusHistory &&
+                            info.row?.original?.statusHistory?.length > 0 ? (
+                                <div className="flex gap-x-4 w-full h-full">
+                                    <div
+                                        className={`flex flex-col gap-y-1 ${
+                                            info.row?.original?.statusHistory?.[
                                                 info.row?.original
-                                                    ?.statusHistory?.[
-                                                    info.row?.original
-                                                        ?.statusHistory
-                                                        ?.length - 1
-                                                ]?.response
-                                                    ? 'w-1/2'
-                                                    : 'w-full'
-                                            }`}
-                                        >
-                                            <Typography
-                                                variant="label"
-                                                semibold
-                                            >
-                                                Coordinator Comment
-                                            </Typography>
-                                            <Typography variant="body">
-                                                {info.row?.original
-                                                    ?.statusHistory?.[0]
-                                                    ?.comment ?? 'NA'}
-                                            </Typography>
-                                        </div>
-                                        {info.row?.original?.statusHistory?.[
-                                            info.row?.original?.statusHistory
-                                                ?.length - 1
-                                        ]?.response && (
-                                            <>
-                                                <div className="w-[2px] bg-gray-200 h-auto min-h-full mx-4"></div>
-                                                <div className="flex flex-col gap-y-1 w-1/2">
-                                                    <Typography
-                                                        variant="label"
-                                                        semibold
-                                                    >
-                                                        RTO Comment
-                                                    </Typography>
-                                                    <Typography variant="body">
-                                                        {info.row?.original
-                                                            ?.statusHistory?.[
-                                                            info.row?.original
-                                                                ?.statusHistory
-                                                                ?.length - 1
-                                                        ]?.response ?? 'NA'}
-                                                    </Typography>
-                                                </div>
-                                            </>
-                                        )}
+                                                    ?.statusHistory?.length - 1
+                                            ]?.response
+                                                ? 'w-1/2'
+                                                : 'w-full'
+                                        }`}
+                                    >
+                                        <Typography variant="label" semibold>
+                                            Coordinator Comment
+                                        </Typography>
+                                        <Typography variant="body">
+                                            {info.row?.original
+                                                ?.statusHistory?.[0]?.comment ??
+                                                'NA'}
+                                        </Typography>
                                     </div>
-                                ) : (
-                                    <NoData text="No Data found" />
-                                )}
-                            </div>
-                        </Modal.Window>
-                    </Modal>
-                )
-            },
+                                    {info.row?.original?.statusHistory?.[
+                                        info.row?.original?.statusHistory
+                                            ?.length - 1
+                                    ]?.response && (
+                                        <>
+                                            <div className="w-[2px] bg-gray-200 h-auto min-h-full mx-4"></div>
+                                            <div className="flex flex-col gap-y-1 w-1/2">
+                                                <Typography
+                                                    variant="label"
+                                                    semibold
+                                                >
+                                                    RTO Comment
+                                                </Typography>
+                                                <Typography variant="body">
+                                                    {info.row?.original
+                                                        ?.statusHistory?.[
+                                                        info.row?.original
+                                                            ?.statusHistory
+                                                            ?.length - 1
+                                                    ]?.response ?? 'NA'}
+                                                </Typography>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            ) : (
+                                <NoData text="No Data found" />
+                            )}
+                        </div>
+                    </Modal.Window>
+                </Modal>
+            ),
         },
-        // {
-        //     accessorKey: 'expiry',
-        //     header: () => <span>Expiry Countdown</span>,
-        //     cell: (info) => (
-        //         <StudentExpiryDaysLeft
-        //             expiryDate={info.row.original?.expiryDate}
-        //         />
-        //     ),
-        // },
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
@@ -277,7 +244,7 @@ export const ReportedStudentsList = () => {
         {
             accessorKey: 'assigned',
             header: () => <span>Assigned Coordinator</span>,
-            cell: ({ row }: any) =>
+            cell: ({ row }) =>
                 row.original?.rtoCoordinator ? (
                     <div>
                         <Typography variant="label">
@@ -294,13 +261,6 @@ export const ReportedStudentsList = () => {
                     '----'
                 ),
         },
-        // {
-        //     accessorKey: 'createdAt',
-        //     header: () => <span>Created At</span>,
-        //     cell: ({ row }: any) => (
-        //         <UserCreatedAt createdAt={row.original?.createdAt} />
-        //     ),
-        // },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
@@ -371,7 +331,7 @@ export const ReportedStudentsList = () => {
 
     return (
         <>
-            {modal && modal}
+            {modal}
             <div className="flex flex-col gap-y-3 mb-32">
                 <PageHeading
                     title={'Reported Students'}
@@ -409,45 +369,47 @@ export const ReportedStudentsList = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
-                                return (
-                                    <div>
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
+                            }: TableChildrenProps) => (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize &&
+                                            pageSize(
                                                 itemPerPage,
                                                 setItemPerPage,
                                                 data?.data?.length
                                             )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination &&
+                                                pagination(
                                                     data?.pagination,
                                                     setPage
                                                 )}
-                                            </div>
                                         </div>
-                                        <div className="px-6 overflow-auto custom-scrollbar">
-                                            {table}
-                                        </div>
-                                        {data?.data?.length > 10 && (
-                                            <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize(
+                                    </div>
+                                    <div className="px-6 overflow-auto custom-scrollbar">
+                                        {table}
+                                    </div>
+                                    {data?.data?.length > 10 && (
+                                        <div className="p-6 mb-2 flex justify-between">
+                                            {pageSize &&
+                                                pageSize(
                                                     itemPerPage,
                                                     setItemPerPage,
                                                     data?.data?.length
                                                 )}
-                                                <div className="flex gap-x-2">
-                                                    {quickActions}
-                                                    {pagination(
+                                            <div className="flex gap-x-2">
+                                                {quickActions}
+                                                {pagination &&
+                                                    pagination(
                                                         data?.pagination,
                                                         setPage
                                                     )}
-                                                </div>
                                             </div>
-                                        )}
-                                    </div>
-                                )
-                            }}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </Table>
                     ) : (
                         !isError && (

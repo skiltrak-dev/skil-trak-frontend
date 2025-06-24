@@ -171,25 +171,6 @@ export const ProfileLinks = ({
                     </button>
                 </TableAction>
             </div>
-            {/* <div className="flex flex-col gap-1.5">
-                {profileLinks.map(
-                    ({ text, Icon, onClick }: any, index: number) =>
-                        text ? (
-                            <div
-                                className={`flex items-center justify-end gap-x-2 cursor-pointer`}
-                                key={index}
-                                onClick={() => {
-                                    onClick()
-                                }}
-                            >
-                                <Typography variant="xxs">{text}</Typography>
-                                <div className="w-5 h-5 rounded-full bg-primaryNew flex justify-center items-center">
-                                    <Icon className="text-white" size={12} />
-                                </div>
-                            </div>
-                        ) : null
-                )}
-            </div> */}
         </div>
     )
 }

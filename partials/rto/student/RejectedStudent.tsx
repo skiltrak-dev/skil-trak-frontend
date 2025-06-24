@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TechnicalError,
     Typography,
 } from '@components'
@@ -19,13 +20,11 @@ import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 import { useGetRtoStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
 import { studentsListWorkplace } from '@utils'
-import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { IndustryCell, SectorCell, StudentCellInfo } from './components'
 import { AcceptModal, DeleteModal } from './modals'
 
 export const RejectedStudent = () => {
-    const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -51,7 +50,7 @@ export const RejectedStudent = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption<any>[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
             onClick: () => {},
@@ -59,7 +58,7 @@ export const RejectedStudent = () => {
         },
         {
             text: 'Accept',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 onAcceptClicked(student)
             },
             color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
@@ -67,7 +66,7 @@ export const RejectedStudent = () => {
 
         {
             text: 'Delete',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 onDeleteClicked(student)
             },
             Icon: FaTrash,
@@ -78,9 +77,7 @@ export const RejectedStudent = () => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
-            },
+            cell: (info) => <StudentCellInfo student={info.row.original} />,
             header: () => <span>Student</span>,
         },
         {
@@ -112,9 +109,7 @@ export const RejectedStudent = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
             accessorKey: 'expiry',
@@ -135,16 +130,14 @@ export const RejectedStudent = () => {
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 
@@ -171,7 +164,7 @@ export const RejectedStudent = () => {
 
     return (
         <>
-            {modal && modal}
+            {modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Rejected Students'}
@@ -202,28 +195,28 @@ export const RejectedStudent = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
-                                return (
-                                    <div>
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
+                            }: TableChildrenProps) => (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize &&
+                                            pageSize(
                                                 itemPerPage,
                                                 setItemPerPage
                                             )}
-                                            <div className="flex gap-x-2">
-                                                {quickActions}
-                                                {pagination(
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination &&
+                                                pagination(
                                                     data?.pagination,
                                                     setPage
                                                 )}
-                                            </div>
-                                        </div>
-                                        <div className="px-6 overflow-auto">
-                                            {table}
                                         </div>
                                     </div>
-                                )
-                            }}
+                                    <div className="px-6 overflow-auto">
+                                        {table}
+                                    </div>
+                                </div>
+                            )}
                         </Table>
                     ) : (
                         !isError && (

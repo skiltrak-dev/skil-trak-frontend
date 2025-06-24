@@ -8,6 +8,7 @@ import {
     StudentExpiryDaysLeft,
     Table,
     TableAction,
+    TableActionOption,
     TableChildrenProps,
     TechnicalError,
     Typography,
@@ -71,10 +72,6 @@ export const PlacementStartedStudents = () => {
             { refetchOnMountOrArgChange: 30 }
         )
 
-    // ================= Blinking/Flashing rows of students ================
-
-    // ============================= END ====================================
-
     const onModalCancelClicked = useCallback(() => {
         setModal(null)
     }, [])
@@ -125,84 +122,62 @@ export const PlacementStartedStudents = () => {
         )
     }
 
-    const numberOfWeeks = 20
-    const endDate = new Date() // Starting from the current date
-
-    const dateObjects = []
-
-    for (let i = numberOfWeeks - 1; i >= 0; i--) {
-        const currentDate = new Date(endDate)
-        currentDate.setDate(currentDate.getDate() - i * 7) // Decrement by a week
-
-        const lastWeekDate = new Date(currentDate)
-        lastWeekDate.setDate(lastWeekDate.getDate() + 6) // End of the week
-
-        const dateObject = {
-            startDate: currentDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
-            endDate: lastWeekDate.toISOString().slice(0, 10),
-        }
-
-        dateObjects.push(dateObject)
-    }
-
-    const tableActionOptions = (student: any) => {
-        return [
-            {
-                text: 'View',
-                onClick: (student: any) => {
-                    router.push(`/portals/admin/student/${student?.id}/detail`)
-                    setLink('student', router)
-                },
-                Icon: FaEye,
+    const tableActionOptions = (
+        student: Student
+    ): TableActionOption<Student>[] => [
+        {
+            text: 'View',
+            onClick: (student) => {
+                router.push(`/portals/admin/student/${student?.id}/detail`)
+                setLink('student', router)
             },
-            {
-                text: 'Edit',
-                onClick: (student: Student) => {
-                    router.push(
-                        `/portals/admin/student/edit-student/${student?.id}`
-                    )
-                },
-                Icon: FaEdit,
+            Icon: FaEye,
+        },
+        {
+            text: 'Edit',
+            onClick: (student) => {
+                router.push(
+                    `/portals/admin/student/edit-student/${student?.id}`
+                )
             },
-            {
-                text: 'Change Status',
-                onClick: (student: Student) => onChangeStatus(student),
-                Icon: FaEdit,
-            },
-            {
-                text: 'Change Expiry',
-                onClick: (student: Student) => onDateClick(student),
-                Icon: FaEdit,
-            },
-            {
-                text: 'View Password',
-                onClick: (student: Student) =>
-                    onViewPassword({ user: student?.user }),
-                Icon: RiLockPasswordFill,
-            },
-            {
-                text: 'Block',
-                onClick: (student: Student) => onBlockClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: student?.isHighPriority
-                    ? 'Remove Mark High Priority'
-                    : 'Mark High Priority',
-                onClick: (student: Student) =>
-                    onMarkAsHighPriorityClicked(student),
-                Icon: MdPriorityHigh,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Archive',
-                onClick: (student: Student) => onArchiveClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
-            },
-        ]
-    }
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Status',
+            onClick: (student) => onChangeStatus(student),
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Expiry',
+            onClick: (student) => onDateClick(student),
+            Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (student) => onViewPassword({ user: student?.user }),
+            Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Block',
+            onClick: (student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: student?.isHighPriority
+                ? 'Remove Mark High Priority'
+                : 'Mark High Priority',
+            onClick: (student) => onMarkAsHighPriorityClicked(student),
+            Icon: MdPriorityHigh,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Archive',
+            onClick: (student) => onArchiveClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
+        },
+    ]
 
     const columns: ColumnDef<Student>[] = [
         {
@@ -389,9 +364,33 @@ export const PlacementStartedStudents = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: TableChildrenProps) => {
-                                return (
-                                    <div>
+                            }: TableChildrenProps) => (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize
+                                            ? pageSize(
+                                                  itemPerPage,
+                                                  setItemPerPage,
+                                                  data?.data?.length
+                                              )
+                                            : null}
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination
+                                                ? pagination(
+                                                      data?.pagination,
+                                                      setPage
+                                                  )
+                                                : null}
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="px-6 overflow-auto remove-scrollbar"
+                                        id={'studentScrollId'}
+                                    >
+                                        {table}
+                                    </div>
+                                    {data?.data?.length > 10 && (
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize
                                                 ? pageSize(
@@ -410,35 +409,9 @@ export const PlacementStartedStudents = () => {
                                                     : null}
                                             </div>
                                         </div>
-                                        <div
-                                            className="px-6 overflow-auto remove-scrollbar"
-                                            id={'studentScrollId'}
-                                        >
-                                            {table}
-                                        </div>
-                                        {data?.data?.length > 10 && (
-                                            <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize
-                                                    ? pageSize(
-                                                          itemPerPage,
-                                                          setItemPerPage,
-                                                          data?.data?.length
-                                                      )
-                                                    : null}
-                                                <div className="flex gap-x-2">
-                                                    {quickActions}
-                                                    {pagination
-                                                        ? pagination(
-                                                              data?.pagination,
-                                                              setPage
-                                                          )
-                                                        : null}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                )
-                            }}
+                                    )}
+                                </div>
+                            )}
                         </Table>
                     ) : (
                         !isError && (

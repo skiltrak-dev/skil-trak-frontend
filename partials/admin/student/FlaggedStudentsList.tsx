@@ -6,7 +6,6 @@ import {
     EmptyData,
     LoadingAnimation,
     NoData,
-    StudentExpiryDaysLeft,
     Table,
     TableAction,
     TableChildrenProps,
@@ -20,11 +19,18 @@ import { FaEdit, FaEye, FaFileExport, FaFlag } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { checkListLength, isBrowser, setLink } from '@utils'
+import {
+    activeAndCompleted,
+    checkListLength,
+    filterAwaitingAgreementBeyondSevenDays,
+    findCallLogsUnanswered,
+    findExpiringInNext45Days,
+    isBrowser,
+    setLink,
+} from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
-import { MdBlock, MdPriorityHigh } from 'react-icons/md'
-import { RiLockPasswordFill } from 'react-icons/ri'
+import { MdBlock } from 'react-icons/md'
 import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
 import {
     ArchiveModal,
@@ -37,14 +43,14 @@ import {
 // hooks
 import { useActionModal } from '@hooks'
 
-import moment from 'moment'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 import Modal from '@modals/Modal'
 import {
     FlagStudentModal,
     SwitchOffFlagModal,
 } from '@partials/common/StudentProfileDetail/modals'
+import moment from 'moment'
+import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 
 export const FlaggedStudentsList = () => {
     const router = useRouter()
@@ -69,20 +75,6 @@ export const FlaggedStudentsList = () => {
         }
     }
 
-    // Attach the scroll event listener when the component mounts
-    // useEffect(() => {
-    //     if (listingRef.current) {
-    //         listingRef.current.addEventListener('scroll', handleScroll)
-    //     }
-
-    //     // Remove the event listener when the component unmounts
-    //     return () => {
-    //         if (listingRef.current) {
-    //             listingRef.current.removeEventListener('scroll', handleScroll)
-    //         }
-    //     }
-    // }, [listingRef])
-
     useEffect(() => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 50))
@@ -101,104 +93,6 @@ export const FlaggedStudentsList = () => {
             },
             { refetchOnMountOrArgChange: 30 }
         )
-
-    // ================= Blinking/Flashing rows of students ================
-    const activeAndCompleted = data?.data?.filter((student: any) => {
-        if (
-            student?.user?.status !== UserStatus.Approved &&
-            !student?.workplace?.length
-        ) {
-            // Skip if status is not Approved or no workplace
-
-            return false
-        }
-
-        const workplaceCount = student?.workplace?.length
-
-        if (
-            workplaceCount === 1 &&
-            student?.user?.status === UserStatus.Approved
-        ) {
-            // If only one workplace, check its status
-            return student?.workplace[0]?.currentStatus === 'completed'
-        } else if (
-            workplaceCount > 1 &&
-            student?.user?.status === UserStatus.Approved
-        ) {
-            // If multiple workplaces, all must have 'completed' status
-            // student.workplace.some(
-            //     (placement: any) => placement?.currentStatus === 'completed'
-            // )
-            return student?.workplace?.every(
-                (placement: any) => placement?.currentStatus === 'completed'
-            )
-        }
-
-        return false
-    })
-
-    const findCallLogsUnanswered = data?.data?.filter((student: any) => {
-        const unansweredCalls = student?.callLog?.filter((call: any) => {
-            if (call?.isAnswered === null) {
-                const isMoreThanSevenDays =
-                    moment().diff(moment(call?.createdAt), 'days') >= 7
-                return isMoreThanSevenDays
-            }
-            return false
-        })
-
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            unansweredCalls?.length > 0
-        )
-    })
-    const findExpiringInNext45Days = data?.data?.filter((student: any) => {
-        const expiryDate = new Date(student?.expiryDate)
-        const currentDate = new Date()
-        const timeDiff = expiryDate.getTime() - currentDate.getTime()
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
-        const checkPlacementStarted =
-            student?.workplace?.length &&
-            student?.workplace?.some(
-                (placement: any) =>
-                    placement?.currentStatus === 'completed' ||
-                    placement?.currentStatus === 'placementStarted'
-            )
-        return (
-            !student?.hasIssue &&
-            !student?.isSnoozed &&
-            !student?.nonContactable &&
-            !checkPlacementStarted &&
-            // student?.workplace?.length === 0 &&
-            daysDiff <= 45 &&
-            daysDiff >= 0
-        )
-    })
-
-    const filterAwaitingAgreementBeyondSevenDays = data?.data?.filter(
-        (student: any) => {
-            return (
-                !student?.hasIssue &&
-                !student?.isSnoozed &&
-                !student?.nonContactable &&
-                student?.workplace?.some((workplace: any) =>
-                    isWorkplaceValid(workplace)
-                )
-            )
-        }
-    )
-    // ============================= END ====================================
 
     const onModalCancelClicked = useCallback(() => {
         setModal(null)
@@ -314,52 +208,6 @@ export const FlaggedStudentsList = () => {
                 },
                 Icon: FaFlag,
             },
-            // {
-            //     text: 'Edit',
-            //     onClick: (student: Student) => {
-            //         router.push(
-            //             `/portals/admin/student/edit-student/${student?.id}`
-            //         )
-            //     },
-            //     Icon: FaEdit,
-            // },
-            // {
-            //     text: 'Change Status',
-            //     onClick: (student: Student) => onChangeStatus(student),
-            //     Icon: FaEdit,
-            // },
-            // {
-            //     text: 'Change Expiry',
-            //     onClick: (student: Student) => onDateClick(student),
-            //     Icon: FaEdit,
-            // },
-            // {
-            //     text: 'View Password',
-            //     onClick: (student: Student) =>
-            //         onViewPassword({ user: student?.user }),
-            //     Icon: RiLockPasswordFill,
-            // },
-            // {
-            //     text: 'Block',
-            //     onClick: (student: Student) => onBlockClicked(student),
-            //     Icon: MdBlock,
-            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            // },
-            // {
-            //     text: student?.isHighPriority
-            //         ? 'Remove Mark High Priority'
-            //         : 'Mark High Priority',
-            //     onClick: (student: Student) =>
-            //         onMarkAsHighPriorityClicked(student),
-            //     Icon: MdPriorityHigh,
-            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            // },
-            // {
-            //     text: 'Archive',
-            //     onClick: (student: Student) => onArchiveClicked(student),
-            //     Icon: MdBlock,
-            //     color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
-            // },
         ]
     }
 
@@ -472,15 +320,6 @@ export const FlaggedStudentsList = () => {
                 )
             },
         },
-        // {
-        //     accessorKey: 'expiry',
-        //     header: () => <span>Expiry Countdown</span>,
-        //     cell: (info) => (
-        //         <StudentExpiryDaysLeft
-        //             expiryDate={info.row.original?.expiryDate}
-        //         />
-        //     ),
-        // },
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
@@ -488,30 +327,6 @@ export const FlaggedStudentsList = () => {
                 <CaseOfficerAssignedStudent student={row.original} />
             ),
         },
-        // {
-        //     accessorKey: 'createdAt',
-        //     header: () => <span>Created At</span>,
-        //     cell: (info) => {
-        //         return (
-        //             <>
-        //                 <Typography variant={'small'} color={'text-gray-600'}>
-        //                     <span className="font-semibold whitespace-pre">
-        //                         {moment(info?.row?.original?.createdAt).format(
-        //                             'Do MMM YYYY'
-        //                         )}
-        //                     </span>
-        //                 </Typography>
-        //                 <Typography variant={'small'} color={'text-gray-600'}>
-        //                     <span className="font-semibold whitespace-pre">
-        //                         {moment(info?.row?.original?.createdAt).format(
-        //                             'hh:mm:ss a'
-        //                         )}
-        //                     </span>
-        //                 </Typography>
-        //             </>
-        //         )
-        //     },
-        // },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
@@ -621,26 +436,56 @@ export const FlaggedStudentsList = () => {
                             data={data.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
-                            awaitingAgreementBeyondSevenDays={
-                                filterAwaitingAgreementBeyondSevenDays
-                            }
-                            findCallLogsUnanswered={findCallLogsUnanswered}
-                            findExpiringInNext45Days={findExpiringInNext45Days}
-                            activeAndCompleted={activeAndCompleted}
+                            awaitingAgreementBeyondSevenDays={filterAwaitingAgreementBeyondSevenDays(
+                                data?.data
+                            )}
+                            findCallLogsUnanswered={findCallLogsUnanswered(
+                                data?.data
+                            )}
+                            findExpiringInNext45Days={findExpiringInNext45Days(
+                                data?.data
+                            )}
+                            activeAndCompleted={activeAndCompleted(data?.data)}
                         >
                             {({
                                 table,
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: TableChildrenProps) => {
-                                return (
-                                    <div>
+                            }: TableChildrenProps) => (
+                                <div>
+                                    <div
+                                        ref={listingRef}
+                                        onScroll={handleScroll}
+                                        className="p-6 mb-2 flex justify-between"
+                                    >
+                                        {pageSize
+                                            ? pageSize(
+                                                  itemPerPage,
+                                                  setItemPerPage,
+                                                  data?.data?.length
+                                              )
+                                            : null}
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination
+                                                ? pagination(
+                                                      data?.pagination,
+                                                      setPage
+                                                  )
+                                                : null}
+                                        </div>
+                                    </div>
+                                    <div className="overflow-x-auto remove-scrollbar">
                                         <div
-                                            ref={listingRef}
-                                            onScroll={handleScroll}
-                                            className="p-6 mb-2 flex justify-between"
+                                            className="px-6 w-full"
+                                            id={'studentScrollId'}
                                         >
+                                            {table}
+                                        </div>
+                                    </div>
+                                    {data?.data?.length > 10 && (
+                                        <div className="p-6 mb-2 flex justify-between">
                                             {pageSize
                                                 ? pageSize(
                                                       itemPerPage,
@@ -658,37 +503,9 @@ export const FlaggedStudentsList = () => {
                                                     : null}
                                             </div>
                                         </div>
-                                        <div className="overflow-x-auto remove-scrollbar">
-                                            <div
-                                                className="px-6 w-full"
-                                                id={'studentScrollId'}
-                                            >
-                                                {table}
-                                            </div>
-                                        </div>
-                                        {data?.data?.length > 10 && (
-                                            <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize
-                                                    ? pageSize(
-                                                          itemPerPage,
-                                                          setItemPerPage,
-                                                          data?.data?.length
-                                                      )
-                                                    : null}
-                                                <div className="flex gap-x-2">
-                                                    {quickActions}
-                                                    {pagination
-                                                        ? pagination(
-                                                              data?.pagination,
-                                                              setPage
-                                                          )
-                                                        : null}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                )
-                            }}
+                                    )}
+                                </div>
+                            )}
                         </Table>
                     ) : (
                         !isError && (

@@ -1,25 +1,24 @@
-import { TableAction, Typography } from '@components'
+import { TableAction } from '@components'
 import { UserRoles } from '@constants'
-import { useActionModal, useNotification } from '@hooks'
-import { SubAdminApi } from '@queries'
+import { useActionModal, useNotification, useSubadminProfile } from '@hooks'
+import { ViewProfileVisitorsModal } from '@partials/common/modal'
+import { IndustryRequestsActions } from '@partials/sub-admin/ManagerApprovalList/enum'
 import { Student } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, ReactNode, useState } from 'react'
+import { ReactNode, useState } from 'react'
+import { BsThreeDotsVertical } from 'react-icons/bs'
+import { CiUnlock } from 'react-icons/ci'
 import { IoMdEyeOff } from 'react-icons/io'
+import { MdSnooze } from 'react-icons/md'
 import { RiEditFill, RiFootprintFill } from 'react-icons/ri'
+import { TbMessage2Up } from 'react-icons/tb'
 import {
     MailPasswordModal,
     SnoozeStudentModal,
     StudentMessageModal,
     UnSnoozeStudentModal,
 } from '../modals'
-import { CiUnlock } from 'react-icons/ci'
-import { MdSnooze } from 'react-icons/md'
-import { TbMessage2Up } from 'react-icons/tb'
-import { BsThreeDotsVertical } from 'react-icons/bs'
-import { ViewProfileVisitorsModal } from '@partials/common/modal'
-import { IndustryRequestsActions } from '@partials/sub-admin/ManagerApprovalList/enum'
 
 export const ProfileLinks = ({ profile }: { profile: Student }) => {
     const router = useRouter()
@@ -30,10 +29,7 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
 
     const { notification } = useNotification()
 
-    const subadmin = SubAdminApi.SubAdmin.useProfile(undefined, {
-        skip: role !== UserRoles.SUBADMIN,
-        refetchOnMountOrArgChange: true,
-    })
+    const subadmin = useSubadminProfile()
 
     const studentUpdateRequest = profile?.studentUpdateRequests?.find(
         (r) => r?.action === IndustryRequestsActions.Snoozed
@@ -89,84 +85,6 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
         )
     }
 
-    // const profileLinks = [
-    //     {
-    //         ...(role === UserRoles.ADMIN || role === UserRoles.RTO
-    //             ? {
-    //                   text: 'Edit Password',
-    //                   Icon: IoMdEyeOff,
-    //                   onClick: () => {
-    //                       onUpdatePassword({ user: profile?.user })
-    //                   },
-    //               }
-    //             : {}),
-    //     },
-    //     {
-    //         ...(role === UserRoles.ADMIN || role === UserRoles.RTO
-    //             ? {
-    //                   text: 'View Password',
-    //                   Icon: IoMdEyeOff,
-    //                   onClick: () => {
-    //                       onViewPassword(profile)
-    //                   },
-    //               }
-    //             : {}),
-    //     },
-    //     {
-    //         text: 'Send Password',
-    //         Icon: CiUnlock,
-    //         onClick: () => {
-    //             onMailPasswordToStudent(profile)
-    //         },
-    //     },
-    //     {
-    //         ...(!subadmin?.data?.isAdmin
-    //             ? {
-    //                   text: 'Edit Profile',
-    //                   Icon: RiEditFill,
-    //                   onClick: () => {
-    //                       router.push(
-    //                           role === UserRoles.ADMIN ||
-    //                               subadmin?.data?.isAdmin
-    //                               ? `/portals/admin/student/edit-student/${profile?.id}`
-    //                               : role === UserRoles.SUBADMIN
-    //                               ? `/portals/sub-admin/students/${profile?.id}/edit-student`
-    //                               : role === UserRoles.RTO
-    //                               ? `/portals/rto/students/${profile?.id}/edit-student`
-    //                               : '#'
-    //                       )
-    //                   },
-    //               }
-    //             : {}),
-    //     },
-
-    //     {
-    //         text: 'Send Message',
-    //         Icon: TbMessage2Up,
-    //         onClick: () => {
-    //             onMessageSendClicked()
-    //         },
-    //     },
-    //     {
-    //         text: profile?.isSnoozed ? 'Un-Snooze' : 'Snooze',
-    //         Icon: MdSnooze,
-    //         onClick: () => {
-    //             profile?.isSnoozed ? UnSnoozeModal() : onSnooze()
-    //         },
-    //     },
-    //     {
-    //         ...(role === UserRoles.ADMIN || role === UserRoles.SUBADMIN
-    //             ? {
-    //                   text: 'View Visitors',
-    //                   Icon: RiFootprintFill,
-    //                   onClick: () => {
-    //                       onViewProfileVisitorsClicked()
-    //                   },
-    //               }
-    //             : {}),
-    //     },
-    // ]
-
     const getProfileLinks = () => {
         const links = []
 
@@ -193,13 +111,13 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
         })
 
         // Edit Profile action (conditional on subadmin status)
-        if (!subadmin?.data?.isAdmin) {
+        if (!subadmin?.isAdmin) {
             links.push({
                 text: 'Edit Profile',
                 Icon: RiEditFill,
                 onClick: () => {
                     const editPath =
-                        role === UserRoles.ADMIN || subadmin?.data?.isAdmin
+                        role === UserRoles.ADMIN || subadmin?.isAdmin
                             ? `/portals/admin/student/edit-student/${profile?.id}`
                             : role === UserRoles.SUBADMIN
                             ? `/portals/sub-admin/students/${profile?.id}/edit-student`
@@ -250,29 +168,6 @@ export const ProfileLinks = ({ profile }: { profile: Student }) => {
                     </button>
                 </TableAction>
             </div>
-            {/* <div className="flex flex-col gap-1.5">
-                {profileLinks.map(
-                    ({ text, Icon, onClick }: any, index: number) =>
-                        text ? (
-                            <div
-                                className={`flex items-center justify-end gap-x-2 cursor-pointer ${
-                                    !profile?.rto?.allowUpdate && index === 2
-                                        ? 'col-span-2 ml-auto'
-                                        : ''
-                                }`}
-                                key={index}
-                                onClick={() => {
-                                    onClick()
-                                }}
-                            >
-                                <Typography variant="xxs">{text}</Typography>
-                                <div className="w-5 h-5 rounded-full bg-primaryNew flex justify-center items-center">
-                                    <Icon className="text-white" size={12} />
-                                </div>
-                            </div>
-                        ) : null
-                )}
-            </div> */}
         </div>
     )
 }

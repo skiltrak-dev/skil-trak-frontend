@@ -218,84 +218,43 @@ export const ArchivedStudent = () => {
         {
             accessorKey: 'progress',
             header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                const workplace = row.original.workplace?.reduce(
-                    (a: any, b: any) => (a?.createdAt < b?.createdAt ? a : b),
-                    {
-                        currentStatus: WorkplaceCurrentStatus.NotRequested,
-                    }
-                )
-                const industries = row.original?.industries
-                const steps = checkWorkplaceStatus(workplace?.currentStatus)
-                const studentStatus = checkStudentStatus(
-                    row.original?.studentStatus
-                )
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    workplace?.industries
-                )
-
-                return <CaseOfficerAssignedStudent student={row?.original} />
-
-                return (
-                    <StudentStatusProgressCell
-                        assigned={
-                            workplace?.assignedTo || row?.original?.subadmin
-                        }
-                        step={studentStatus}
-                        appliedIndustry={appliedIndustry}
-                    />
-                )
-                // return industries?.length > 0 ? (
-                //     <StudentStatusProgressCell step={studentStatus} />
-                // ) : (
-                //     <StudentStatusProgressCell step={3} />
-                // )
-                // return industries?.length > 0 ? (
-                //     <StudentStatusProgressCell step={studentStatus} />
-                // ) : (
-                //     <ProgressCell
-                //         step={steps > 14 ? 14 : steps < 1 ? 1 : steps}
-                //     />
-                // )
-            },
+            cell: ({ row }) => (
+                <CaseOfficerAssignedStudent student={row?.original} />
+            ),
         },
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: (info) => {
-                return (
-                    <>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'Do MMM YYYY'
-                                )}
-                            </span>
-                        </Typography>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'hh:mm:ss a'
-                                )}
-                            </span>
-                        </Typography>
-                    </>
-                )
-            },
+            cell: (info) => (
+                <>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(info?.row?.original?.createdAt).format(
+                                'Do MMM YYYY'
+                            )}
+                        </span>
+                    </Typography>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(info?.row?.original?.createdAt).format(
+                                'hh:mm:ss a'
+                            )}
+                        </span>
+                    </Typography>
+                </>
+            ),
         },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info: any) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 

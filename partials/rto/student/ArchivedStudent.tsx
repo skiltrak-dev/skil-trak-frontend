@@ -84,27 +84,27 @@ export const ArchivedStudent = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption<any>[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(`/portals/rto/students/${student.id}`)
             },
             Icon: FaEye,
         },
         {
             text: 'Change Status',
-            onClick: (student: Student) => onChangeStatus(student),
+            onClick: (student) => onChangeStatus(student),
             Icon: FaEdit,
         },
         {
             text: 'Change Expiry',
-            onClick: (student: Student) => onDateClick(student),
+            onClick: (student) => onDateClick(student),
             Icon: FaEdit,
         },
         {
             text: 'Delete',
-            onClick: (student: Student) => onDeleteClicked(student),
+            onClick: (student) => onDeleteClicked(student),
             Icon: FaTrash,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },

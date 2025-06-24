@@ -8,6 +8,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TechnicalError,
     Typography,
 } from '@components'
@@ -18,12 +19,10 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { useActionModal } from '@hooks'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { studentsListWorkplace } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCell } from '../industry/components'
 import { RtoCellInfo } from '../rto/components'
 import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
 import { AcceptModal, DeleteModal } from './modals'
@@ -69,36 +68,36 @@ export const RejectedStudent = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption<any>[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: any) => {
+            onClick: (student) => {
                 router.push(`/portals/admin/student/${student?.id}/detail`)
             },
             Icon: FaEye,
         },
         {
             text: 'Edit',
-            onClick: (row: any) => {
+            onClick: (row) => {
                 router.push(`/portals/admin/student/edit-student/${row.id}`)
             },
             Icon: FaEdit,
         },
         {
             text: 'Accept',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 onAcceptClicked(student)
             },
             color: 'text-green-500 hover:bg-green-100 hover:border-green-200',
         },
         {
             text: 'View Password',
-            onClick: (student: Student) => onViewPassword(student),
+            onClick: (student) => onViewPassword(student),
             Icon: RiLockPasswordFill,
         },
         {
             text: 'Delete',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 onDeleteClicked(student)
             },
             Icon: FaTrash,
@@ -109,17 +108,13 @@ export const RejectedStudent = () => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} />
-            },
+            cell: (info) => <StudentCellInfo student={info.row.original} />,
             header: () => <span>Student</span>,
         },
         {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
-            cell: (info) => {
-                return <RtoCellInfo rto={info.row.original.rto} short />
-            },
+            cell: (info) => <RtoCellInfo rto={info.row.original.rto} short />,
         },
         {
             accessorKey: 'industry',
@@ -134,9 +129,7 @@ export const RejectedStudent = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
             accessorKey: 'expiry',
@@ -157,40 +150,36 @@ export const RejectedStudent = () => {
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: (info) => {
-                return (
-                    <>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'Do MMM YYYY'
-                                )}
-                            </span>
-                        </Typography>
-                        <Typography variant={'small'} color={'text-gray-600'}>
-                            <span className="font-semibold whitespace-pre">
-                                {moment(info?.row?.original?.createdAt).format(
-                                    'hh:mm:ss a'
-                                )}
-                            </span>
-                        </Typography>
-                    </>
-                )
-            },
+            cell: (info) => (
+                <>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(info?.row?.original?.createdAt).format(
+                                'Do MMM YYYY'
+                            )}
+                        </span>
+                    </Typography>
+                    <Typography variant={'small'} color={'text-gray-600'}>
+                        <span className="font-semibold whitespace-pre">
+                            {moment(info?.row?.original?.createdAt).format(
+                                'hh:mm:ss a'
+                            )}
+                        </span>
+                    </Typography>
+                </>
+            ),
         },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 
@@ -241,21 +230,23 @@ export const RejectedStudent = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
+                            }: TableChildrenProps) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
+                                            {pageSize &&
+                                                pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    data?.data?.length
+                                                )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination &&
+                                                    pagination(
+                                                        data?.pagination,
+                                                        setPage
+                                                    )}
                                             </div>
                                         </div>
                                         <div

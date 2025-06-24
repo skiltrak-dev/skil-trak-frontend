@@ -6,6 +6,7 @@ import {
     StudentExpiryDaysLeft,
     Table,
     TableAction,
+    TableActionOption,
     TechnicalError,
     UserCreatedAt,
 } from '@components'
@@ -24,7 +25,6 @@ import { SectorCell, StudentCellInfo } from './components'
 export const ProblematicStudent = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [changeExpiryData, setChangeExpiryData] = useState(false)
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -33,14 +33,6 @@ export const ProblematicStudent = () => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-
-    useEffect(() => {
-        if (changeExpiryData) {
-            refetch()
-        }
-    }, [changeExpiryData])
-
-    // Download excel
 
     const onModalCancelClicked = () => setModal(null)
 
@@ -63,21 +55,21 @@ export const ProblematicStudent = () => {
         )
     }
 
-    const tableActionOptions = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: Student) =>
+            onClick: (student) =>
                 router.push(`/portals/rto/students/${student.id}?tab=overview`),
             Icon: FaEye,
         },
         {
             text: 'Change Status',
-            onClick: (student: Student) => onChangeStatus(student),
+            onClick: (student) => onChangeStatus(student),
             Icon: FaEdit,
         },
         {
             text: 'Change Expiry',
-            onClick: (student: Student) => onDateClick(student),
+            onClick: (student) => onDateClick(student),
             Icon: FaEdit,
         },
     ]
@@ -85,17 +77,15 @@ export const ProblematicStudent = () => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} call />
-            },
+            cell: (info) => (
+                <StudentCellInfo student={info.row.original} call />
+            ),
             header: () => <span>Student</span>,
         },
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
             accessorKey: 'expiry',
@@ -109,7 +99,7 @@ export const ProblematicStudent = () => {
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },

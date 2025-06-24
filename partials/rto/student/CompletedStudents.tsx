@@ -9,6 +9,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TechnicalError,
     Typography,
     UserCreatedAt,
@@ -33,12 +34,11 @@ import { ReactElement, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
 import { IndustryCell } from './components/IndustryCell'
-import { ArchiveModal, BlockModal } from './modals'
+import { BlockModal } from './modals'
 export const CompletedStudents = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [changeExpiryData, setChangeExpiryData] = useState(false)
-    const [isExcelDownload, setIsExcelDownload] = useState<boolean>(false)
+
     const userId = getUserCredentials()?.id
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -80,28 +80,28 @@ export const CompletedStudents = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption<any>[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(`/portals/rto/students/${student.id}?tab=overview`)
             },
             Icon: FaEye,
         },
         {
             text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
+            onClick: (student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
         {
             text: 'Change Status',
-            onClick: (student: Student) => onChangeStatus(student),
+            onClick: (student) => onChangeStatus(student),
             Icon: FaEdit,
         },
         {
             text: 'Change Expiry',
-            onClick: (student: Student) => onDateClick(student),
+            onClick: (student) => onDateClick(student),
             Icon: FaEdit,
         },
     ]
@@ -109,15 +109,15 @@ export const CompletedStudents = () => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <StudentCellInfo student={info.row.original} call />
-            },
+            cell: (info) => (
+                <StudentCellInfo student={info.row.original} call />
+            ),
             header: () => <span>Student</span>,
         },
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info: any) => {
+            cell: (info) => {
                 const industry = info.row.original?.industries
 
                 const appliedIndustry = studentsListWorkplace(
@@ -138,9 +138,7 @@ export const CompletedStudents = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
             accessorKey: 'expiry',
@@ -188,23 +186,21 @@ export const CompletedStudents = () => {
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
+            cell: ({ row }) => (
                 <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
-            cell: (info) => {
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOptions}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={info.row.original}
+                    />
+                </div>
+            ),
         },
     ]
 
@@ -228,7 +224,7 @@ export const CompletedStudents = () => {
 
     return (
         <>
-            {modal && modal}
+            {modal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Completed Students'}
@@ -236,14 +232,6 @@ export const CompletedStudents = () => {
                 >
                     {data && data?.data.length ? (
                         <>
-                            {/* <Button
-                                text="Export"
-                                variant="action"
-                                Icon={FaFileExport}
-                                onClick={handleDownloadExcel}
-                                loading={exportList?.isLoading}
-                                disabled={exportList?.isLoading}
-                            /> */}
                             <a
                                 href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/students-list/download/${userId}?status=active
                         `}
@@ -277,21 +265,23 @@ export const CompletedStudents = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
+                            }: TableChildrenProps) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
+                                            {pageSize &&
+                                                pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    data?.data?.length
+                                                )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination &&
+                                                    pagination(
+                                                        data?.pagination,
+                                                        setPage
+                                                    )}
                                             </div>
                                         </div>
                                         <div className="px-6 overflow-auto">
@@ -299,17 +289,19 @@ export const CompletedStudents = () => {
                                         </div>
                                         {data?.data?.length > 10 && (
                                             <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage,
-                                                    data?.data?.length
-                                                )}
+                                                {pageSize &&
+                                                    pageSize(
+                                                        itemPerPage,
+                                                        setItemPerPage,
+                                                        data?.data?.length
+                                                    )}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
-                                                    {pagination(
-                                                        data?.pagination,
-                                                        setPage
-                                                    )}
+                                                    {pagination &&
+                                                        pagination(
+                                                            data?.pagination,
+                                                            setPage
+                                                        )}
                                                 </div>
                                             </div>
                                         )}

@@ -8,6 +8,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
@@ -50,17 +51,17 @@ export const FilteredStudents = ({
         )
     }
 
-    const tableActionOptions: TableActionOption<any>[] = [
+    const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(`/portals/admin/student/${student?.id}/detail`)
             },
             Icon: FaEye,
         },
         {
             text: 'Edit',
-            onClick: (student: Student) => {
+            onClick: (student) => {
                 router.push(
                     `/portals/admin/student/edit-student/${student?.id}`
                 )
@@ -69,7 +70,7 @@ export const FilteredStudents = ({
         },
         {
             text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
+            onClick: (student) => onBlockClicked(student),
             Icon: MdBlock,
             color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
@@ -78,19 +79,18 @@ export const FilteredStudents = ({
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return info.row.original?.user ? (
+            cell: (info) =>
+                info.row.original?.user ? (
                     <StudentCellInfo student={info.row.original} />
                 ) : (
                     ''
-                )
-            },
+                ),
             header: () => <span>Student</span>,
         },
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
-            cell: (info: any) => {
+            cell: (info) => {
                 const industry = info.row.original?.industries
 
                 const appliedIndustry = studentsListWorkplace(
@@ -111,9 +111,7 @@ export const FilteredStudents = ({
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => {
-                return <SectorCell student={info.row.original} />
-            },
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
             accessorKey: 'user.status',
@@ -189,7 +187,7 @@ export const FilteredStudents = ({
 
     return (
         <>
-            {modal && modal}
+            {modal}
             <div className="flex flex-col gap-y-4 p-4">
                 <PageHeading
                     title={'Filtered Students'}
@@ -211,21 +209,24 @@ export const FilteredStudents = ({
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
+                            }: TableChildrenProps) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                student?.data?.data?.length
-                                            )}
+                                            {pageSize &&
+                                                pageSize(
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    student?.data?.data?.length
+                                                )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    student?.data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination &&
+                                                    pagination(
+                                                        student?.data
+                                                            ?.pagination,
+                                                        setPage
+                                                    )}
                                             </div>
                                         </div>
                                         <div className="px-6 overflow-auto">
@@ -233,18 +234,21 @@ export const FilteredStudents = ({
                                         </div>
                                         {student?.data?.data?.length > 10 && (
                                             <div className="p-6 mb-2 flex justify-between">
-                                                {pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage,
-                                                    student?.data?.data?.length
-                                                )}
+                                                {pageSize &&
+                                                    pageSize(
+                                                        itemPerPage,
+                                                        setItemPerPage,
+                                                        student?.data?.data
+                                                            ?.length
+                                                    )}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
-                                                    {pagination(
-                                                        student?.data
-                                                            ?.pagination,
-                                                        setPage
-                                                    )}
+                                                    {pagination &&
+                                                        pagination(
+                                                            student?.data
+                                                                ?.pagination,
+                                                            setPage
+                                                        )}
                                                 </div>
                                             </div>
                                         )}
