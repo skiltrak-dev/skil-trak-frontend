@@ -1,0 +1,128 @@
+// hooks/useAssessmentLogic.ts
+import { useMemo } from 'react'
+import { getCourseResult } from '@utils'
+import { Result } from '@constants'
+import { AssessmentEvidenceDetailType, Course } from '@types'
+
+export const useAssessmentLogic = (
+    selectedCourse: Course | null,
+    getFolders: any,
+    getAssessmentResponse: any
+) => {
+    const result = useMemo(
+        () => getCourseResult(selectedCourse?.results),
+        [selectedCourse?.results]
+    )
+
+    const isFilesUploaded = useMemo(
+        () =>
+            !getFolders.isLoading &&
+            !getFolders.isFetching &&
+            getFolders.isSuccess &&
+            getFolders?.data?.assessmentEvidence?.every(
+                (f: any) => f?.studentResponse[0]?.files?.length > 0
+            ),
+        [getFolders]
+    )
+
+    const files = useMemo(
+        () =>
+            getFolders?.data?.assessmentEvidence
+                ?.map((f: any) => f?.studentResponse?.[0]?.files?.length > 0)
+                ?.filter((f: any) => f)?.length,
+        [getFolders?.data?.assessmentEvidence]
+    )
+
+    const rejectedFolders = useMemo(
+        () =>
+            getFolders?.data?.assessmentEvidence?.filter(
+                (f: any) =>
+                    f?.studentResponse?.[0]?.status === 'rejected' &&
+                    f?.studentResponse?.[0]?.files?.length > 0
+            )?.length,
+        [getFolders?.data?.assessmentEvidence]
+    )
+
+    const allFiles = useMemo(
+        () =>
+            getFolders?.data?.assessmentEvidence
+                ?.filter(
+                    (f: any) => f?.studentResponse?.[0]?.status === 'rejected'
+                )
+                ?.every((f: any) => f?.studentResponse?.[0]?.files?.length > 0),
+        [getFolders?.data?.assessmentEvidence]
+    )
+
+    const resubmitFiles = useMemo(
+        () =>
+            getFolders?.data?.assessmentEvidence?.filter(
+                (f: any) =>
+                    f?.studentResponse?.[0]?.reSubmitted &&
+                    f?.studentResponse?.[0]?.files?.length > 0
+            )?.length,
+        [getFolders?.data?.assessmentEvidence]
+    )
+
+    const isResubmittedFiles = useMemo(
+        () =>
+            (!getFolders.isLoading &&
+                !getFolders.isFetching &&
+                getFolders.isSuccess &&
+                rejectedFolders &&
+                allFiles &&
+                resubmitFiles &&
+                rejectedFolders === resubmitFiles &&
+                Number(files) > 0) as boolean,
+        [getFolders, rejectedFolders, allFiles, resubmitFiles, files]
+    )
+
+    const all = useMemo(
+        () =>
+            getFolders?.data?.assessmentEvidence ||
+            (getFolders?.data as AssessmentEvidenceDetailType[] | undefined),
+        [getFolders?.data]
+    )
+
+    const allCommentsAdded = useMemo(
+        () =>
+            all
+                ?.filter((folder: any) => !folder?.isIndustryCheck)
+                ?.every((f: any) => f?.studentResponse[0]?.comment),
+        [all]
+    )
+
+    const shouldShowSubmitButton = useMemo(() => {
+        if (!getAssessmentResponse.isSuccess || !selectedCourse) return false
+
+        if (selectedCourse?.results?.length > 0) {
+            if (result?.totalSubmission < 3) {
+                return (
+                    result?.result === Result.ReOpened ||
+                    result?.result === Result.NotCompetent
+                )
+            } else {
+                return (
+                    !getAssessmentResponse.isLoading &&
+                    !getAssessmentResponse.isFetching &&
+                    getAssessmentResponse.isSuccess &&
+                    result?.isManualSubmission
+                )
+            }
+        } else {
+            return (
+                !getAssessmentResponse.isLoading &&
+                !getAssessmentResponse.isFetching &&
+                getAssessmentResponse.isSuccess
+            )
+        }
+    }, [getAssessmentResponse, selectedCourse, result])
+
+    return {
+        result,
+        isFilesUploaded,
+        isResubmittedFiles,
+        allCommentsAdded,
+        shouldShowSubmitButton,
+        all,
+    }
+}

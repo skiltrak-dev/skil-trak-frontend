@@ -101,10 +101,11 @@ export const ProfileCounts = ({
             },
         },
         {
-            title: 'Agreement Pending',
-            count: Number(statisticsCount?.data?.workplaceRequest),
+            title: 'Esign Pending',
+            count: Number(statisticsCount?.data?.pendingDocuments),
             Icon: SiHomeassistantcommunitystore,
             loading: statisticsCount?.isLoading,
+            link: { pathname: '/portals/rto/tasks/e-sign' },
             background: {
                 from: '#63B967',
                 to: '#4BA64F',

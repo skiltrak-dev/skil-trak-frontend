@@ -20,8 +20,8 @@ import { StudentSchedule } from './components/StudentSchedule'
 import { IndustryProfileCB } from './IndustryProfileCB'
 
 export const IndustryProfileDetail = ({
-    industry,
     isHod,
+    industry,
 }: {
     isHod?: boolean
     industry: Industry

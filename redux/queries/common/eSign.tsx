@@ -21,7 +21,7 @@ export const eSignEndpoints = (
         providesTags: ['E-Sign'],
     }),
 
-    getSubadminEsignDocumentsCount: builder.query<any, void>({
+    getEsignDocumentsCount: builder.query<any, void>({
         query: () => `${PREFIX}/documents/count`,
         providesTags: ['E-Sign'],
     }),
