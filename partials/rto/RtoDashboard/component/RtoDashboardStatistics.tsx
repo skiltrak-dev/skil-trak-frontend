@@ -1,11 +1,25 @@
-import { Rto } from '@types'
-import { RtoApi } from '@queries'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Card } from '@components'
+import { AdminApi, RtoApi } from '@queries'
 import { ProfileCounts } from './ProfileCounts'
-import { useEffect, useMemo, useState } from 'react'
+import { UserRoles } from '@constants'
+import { getUserCredentials, removeEmptyValues } from '@utils'
 import { RtoProfileProgress } from '@partials/admin'
+import Modal from '@modals/Modal'
+import { ViewProgressByCourseChart } from '@partials/common'
 
-export const RtoDashboardStatistics = ({ rto }: { rto?: Rto }) => {
+interface MetricData {
+    name: string
+    value: number
+    // timeline?: number
+}
+export const RtoDashboardStatistics = ({
+    rtoUserId,
+    rto,
+}: {
+    rtoUserId: number
+    rto?: any
+}) => {
     const rtoCourses = rto?.courses
     const rtoCourseOptions: any = useMemo(
         () =>
@@ -21,9 +35,15 @@ export const RtoDashboardStatistics = ({ rto }: { rto?: Rto }) => {
     }, [rtoCourseOptions])
     const count = RtoApi.Rto.useDashboard()
 
-    const { data } = RtoApi.Rto.useRtoProgressByCourse({
-        courseId: selectedCourse?.value ?? selectedCourse,
-    })
+    const { data, isLoading, isError, isSuccess } =
+        RtoApi.Rto.useRtoProgressByCourse(
+            {
+                courseId: selectedCourse?.value ?? selectedCourse,
+            }
+            // {
+            //     refetchOnMountOrArgChange: true,
+            // }
+        )
 
     const initialData = [
         { name: 'Total Students', value: data?.totalStudent ?? 0 },
@@ -34,6 +54,7 @@ export const RtoDashboardStatistics = ({ rto }: { rto?: Rto }) => {
             name: 'Workplace Requests',
             value: data?.workplaceRequestCreated ?? 0,
         },
+        // { name: 'Searching for Workplace', value: 30 },
         {
             name: 'Placed (Options Available)',
             value: data?.placedStudents ?? 0,
@@ -57,7 +78,7 @@ export const RtoDashboardStatistics = ({ rto }: { rto?: Rto }) => {
                 </div>
             </div>
             <div className="flex flex-col">
-                {/* <div className="flex justify-end">
+                <div className="flex justify-end">
                     <Modal>
                         <Modal.Open opens="viewProgressByCourse">
                             <span className="text-sm text-link mb-1 underline cursor-pointer">
@@ -76,7 +97,7 @@ export const RtoDashboardStatistics = ({ rto }: { rto?: Rto }) => {
                             />
                         </Modal.Window>
                     </Modal>
-                </div> */}
+                </div>
                 <div className="flex-grow">
                     <Card shadowType="profile" fullHeight>
                         <RtoProfileProgress statisticsCount={count} />
