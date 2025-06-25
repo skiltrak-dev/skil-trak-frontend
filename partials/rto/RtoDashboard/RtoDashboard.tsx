@@ -27,7 +27,10 @@ export const RtoDashboard = ({ rto }: { rto: Rto }) => {
     return (
         <div className="flex flex-col gap-y-8 mb-12">
             <div>
-                <RtoDashboardStatistics rto={rto} />
+                <RtoDashboardStatistics
+                    rto={rto}
+                    rtoUserId={getUserCredentials()?.id}
+                />
             </div>
             <div>
                 <RtoDashboardStudents />
