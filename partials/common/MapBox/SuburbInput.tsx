@@ -24,11 +24,7 @@ export const SuburbInput = () => {
                 //                     outer: true,
                 //                 })
                 //                 if (map) {
-                //                     console.log({
-                //                         map,
-                //                         lat,
-                //                         lng,
-                //                     })
+                //
                 //                     map.setCenter({ lat, lng })
                 //                     map.setZoom(8)
                 //                 }
