@@ -26,7 +26,6 @@ import {
 // queries
 import { useGetSubAdminRtosQuery } from '@queries'
 // icons
-import { useActionModal } from '@hooks'
 
 import { RTOCellInfo, SectorCell } from '@partials/sub-admin/rto/components'
 import { ColumnDef } from '@tanstack/react-table'
@@ -34,9 +33,6 @@ import { checkFilteredDataLength, getFilterQuery, setLink } from '@utils'
 
 const RTOs: NextPageWithLayout = () => {
     const router = useRouter()
-
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
 
     //filters
     const filterKeys = ['name', 'email', 'phone', 'code', 'courseId']
@@ -47,7 +43,6 @@ const RTOs: NextPageWithLayout = () => {
         {} as SubAdminRtoFilterType
     )
 
-    const filteredDataLength = checkFilteredDataLength(filter)
     //filters
     useEffect(() => {
         const query = getFilterQuery<SubAdminRtoFilterType>({
@@ -166,25 +161,8 @@ const RTOs: NextPageWithLayout = () => {
         },
     ]
 
-    // if (true) {
-    //     return (
-    //         <>
-    //             <div className="flex justify-between items-center">
-    //                 <PageTitle title={'RTOs'} backTitle={'Users'} />
-    //                 <div className="flex justify-end mb-2">{filterAction}</div>
-    //             </div>
-    //             <EmptyData
-    //                 title={'No RTO were found!'}
-    //                 description={'You have not any rto yet'}
-    //                 height={'50vh'}
-    //             />
-    //         </>
-    //     )
-    // }
-
     return (
         <>
-            {passwordModal}
             <div className="mb-6">
                 <div className="px-4 mb-12">
                     <div className="flex justify-between items-center">

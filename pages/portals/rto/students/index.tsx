@@ -46,6 +46,7 @@ const filterKeys = [
     'state',
     'industryId',
     'courseId',
+    'isReported',
     'currentStatus',
 ]
 

@@ -1,10 +1,23 @@
+<<<<<<< pnpm-install-project
+import { Rto } from '@types'
+import { RtoApi } from '@queries'
+import { Button, Card } from '@components'
+=======
 import React, { useEffect, useMemo, useState } from 'react'
 import { Card } from '@components'
 import { AdminApi, RtoApi } from '@queries'
+>>>>>>> develop
 import { ProfileCounts } from './ProfileCounts'
 import { UserRoles } from '@constants'
 import { getUserCredentials, removeEmptyValues } from '@utils'
 import { RtoProfileProgress } from '@partials/admin'
+<<<<<<< pnpm-install-project
+import { useRouter } from 'next/router'
+
+export const RtoDashboardStatistics = ({ rto }: { rto?: Rto }) => {
+    const router = useRouter()
+
+=======
 import Modal from '@modals/Modal'
 import { ViewProgressByCourseChart } from '@partials/common'
 
@@ -20,6 +33,7 @@ export const RtoDashboardStatistics = ({
     rtoUserId: number
     rto?: any
 }) => {
+>>>>>>> develop
     const rtoCourses = rto?.courses
     const rtoCourseOptions: any = useMemo(
         () =>
@@ -68,6 +82,21 @@ export const RtoDashboardStatistics = ({
         },
     ]
 
+    const links = [
+        {
+            text: 'Assessment Tools',
+            link: '/portals/rto/tasks/assessment-tools',
+        },
+        {
+            text: 'Appointments',
+            link: '/portals/rto/tasks/appointments',
+        },
+        {
+            text: 'E-Sign',
+            link: '/portals/rto/tasks/e-sign',
+        },
+    ]
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5 mt-[18px]">
             <div className="flex flex-col">
@@ -100,6 +129,16 @@ export const RtoDashboardStatistics = ({
                 </div>
                 <div className="flex-grow">
                     <Card shadowType="profile" fullHeight>
+                        <div className="mb-2 flex items-center gap-x-2">
+                            {links?.map((link) => (
+                                <Button
+                                    fullWidth
+                                    variant="info"
+                                    text={link?.text}
+                                    onClick={() => router?.push(link?.link)}
+                                />
+                            ))}
+                        </div>
                         <RtoProfileProgress statisticsCount={count} />
                     </Card>
                 </div>

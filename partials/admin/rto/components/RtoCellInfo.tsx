@@ -33,6 +33,7 @@ export const RtoCellInfo = ({ rto, short }: { rto: Rto; short?: boolean }) => {
                         <InitialAvatar
                             name={rto?.user?.name}
                             imageUrl={rto?.user?.avatar}
+                            socketId={rto?.user?.socketId}
                         />
                     )}
                 </div>

@@ -7,43 +7,35 @@ import {
     Portal,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
-    TruncatedTextWithTooltip,
     Typography,
     UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
+import { FaFileExport } from 'react-icons/fa'
 
-import { UserRoles } from '@constants'
-import { useActionModal, useNotification, useSubadminProfile } from '@hooks'
-import { AdminApi, SubAdminApi } from '@queries'
-import { Industry, PendingIndustry, SubAdmin, UserStatus } from '@types'
-import { getUserCredentials } from '@utils'
-import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { CourseDot, SectorCell } from '@partials/admin/industry/components'
+import { useActionModal, useSubadminProfile } from '@hooks'
+import Modal from '@modals/Modal'
+import { CourseDot } from '@partials/admin/industry/components'
+import { useChangeStatus } from '@partials/admin/industry/hooks'
 import {
-    ApproveIndustryWithQuestionsModal,
     MultiAcceptModal,
     MultiRejectModal,
 } from '@partials/admin/industry/modals'
-import { useChangeStatus } from '@partials/admin/industry/hooks'
-import { AcceptModal, RejectModal, ViewIndustryReviewAnswers } from '../modal'
-import { CoursesCell } from '@partials/rto/coordinators'
-import Modal from '@modals/Modal'
 import { IndustryCellInfo } from '@partials/sub-admin/Industries'
-import { FavoriteModal } from '../FavoriteModal'
-import { MdFavorite, MdFavoriteBorder, MdOutlineFavorite } from 'react-icons/md'
 import { AddToFavoriteModal } from '@partials/sub-admin/rto/modals'
+import { SubAdminApi } from '@queries'
+import { Industry, PendingIndustry, SubAdmin } from '@types'
+import { getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
+import { AcceptModal, RejectModal, ViewIndustryReviewAnswers } from '../modal'
 
 export const PendingIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-    const role = getUserCredentials()?.role
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -169,60 +161,41 @@ export const PendingIndustries = () => {
         {
             accessorKey: 'contactPerson',
             header: () => <span>Contact Person</span>,
-            cell: (info) => {
-                return (
-                    <div>
-                        <p>{info.row.original?.industry?.contactPerson}</p>
-                        <p className="text-xs text-gray-500">
-                            {info.row.original.industry?.contactPersonNumber}
-                        </p>
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div>
+                    <p>{info.row.original?.industry?.contactPerson}</p>
+                    <p className="text-xs text-gray-500">
+                        {info.row.original.industry?.contactPersonNumber}
+                    </p>
+                </div>
+            ),
         },
-
         {
             accessorKey: 'courses',
             header: () => <span>Courses</span>,
-            cell: (info) => {
-                return (
-                    <div className="flex gap-x-1">
-                        {info?.row?.original?.courses?.map((c: any) => (
-                            <CourseDot key={c?.id} course={c} />
-                        ))}
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex gap-x-1">
+                    {info?.row?.original?.courses?.map((c: any) => (
+                        <CourseDot key={c?.id} course={c} />
+                    ))}
+                </div>
+            ),
         },
         {
             accessorKey: 'sector',
             header: () => <span>Sector</span>,
-            cell: (info) => {
-                return (
-                    <div className="flex items-center gap-x-1">
-                        <Typography variant={'muted'}>
-                            {info?.row?.original?.sector?.name ?? 'NA'}
-                        </Typography>{' '}
-                        -{' '}
-                        <Typography variant={'muted'}>
-                            {info?.row?.original?.sector?.code}
-                        </Typography>
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div className="flex items-center gap-x-1">
+                    <Typography variant={'muted'}>
+                        {info?.row?.original?.sector?.name ?? 'NA'}
+                    </Typography>{' '}
+                    -{' '}
+                    <Typography variant={'muted'}>
+                        {info?.row?.original?.sector?.code}
+                    </Typography>
+                </div>
+            ),
         },
-        // {
-        //     accessorKey: 'addressLine1',
-        //     header: () => <span>Address</span>,
-        //     cell: (info) => (
-        //         <TruncatedTextWithTooltip
-        //             text={`${
-        //                 info?.row?.original?.industry?.addressLine1
-        //             },${' '}
-        //     ${info?.row?.original?.industry?.suburb}`}
-        //         />
-        //     ),
-        // },
         {
             accessorKey: 'channel',
             header: () => <span>Created By</span>,
@@ -239,35 +212,24 @@ export const PendingIndustries = () => {
                 </div>
             ),
         },
-        // {
-        //     accessorKey: 'createdAt',
-        //     header: () => <span>Created At</span>,
-        //     cell: (info) => (
-        //         <UserCreatedAt
-        //             createdAt={info.row.original?.industry?.createdAt}
-        //         />
-        //     ),
-        // },
         {
             accessorKey: 'industry.approvalReviewQuestions',
             header: () => <span>Industry Answer</span>,
-            cell: (info) => {
-                return (
-                    <Modal>
-                        <Modal.Open opens="viewIndustryAnswers">
-                            <Button variant="info" text="VIEW" outline />
-                        </Modal.Open>
-                        <Modal.Window name="viewIndustryAnswers">
-                            <ViewIndustryReviewAnswers
-                                industryQuestions={
-                                    info?.row?.original?.industry
-                                        ?.approvalReviewQuestion
-                                }
-                            />
-                        </Modal.Window>
-                    </Modal>
-                )
-            },
+            cell: (info) => (
+                <Modal>
+                    <Modal.Open opens="viewIndustryAnswers">
+                        <Button variant="info" text="VIEW" outline />
+                    </Modal.Open>
+                    <Modal.Window name="viewIndustryAnswers">
+                        <ViewIndustryReviewAnswers
+                            industryQuestions={
+                                info?.row?.original?.industry
+                                    ?.approvalReviewQuestion
+                            }
+                        />
+                    </Modal.Window>
+                </Modal>
+            ),
         },
         {
             accessorKey: 'action',
@@ -352,7 +314,6 @@ export const PendingIndustries = () => {
     return (
         <>
             {modal && modal}
-            {passwordModal && passwordModal}
 
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading

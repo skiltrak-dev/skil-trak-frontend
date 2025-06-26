@@ -109,9 +109,6 @@ export const SubadminStudents = () => {
                 ...(flagged === true && { flagged }),
                 ...(snoozed === true && { snoozed }),
                 ...(nonContactable === true && { nonContactable }),
-                ...(!isManager &&
-                    !isHod &&
-                    !isAssociatedWithRto && { myStudent: true }),
             })
                 .replaceAll('{', '')
                 .replaceAll('}', '')

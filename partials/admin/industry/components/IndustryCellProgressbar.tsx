@@ -69,6 +69,7 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
                             <InitialAvatar
                                 name={industry?.user?.name}
                                 imageUrl={industry?.user?.avatar}
+                                socketId={industry?.user?.socketId}
                             />
                         )}
                         {industry?.isPartner ? (

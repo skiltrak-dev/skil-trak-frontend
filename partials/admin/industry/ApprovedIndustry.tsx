@@ -7,10 +7,8 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
-    TruncatedTextWithTooltip,
     UserCreatedAt,
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye } from 'react-icons/fa'
 
@@ -32,7 +30,6 @@ import { useActionModal } from '@hooks'
 import { ellipsisText, getUserCredentials } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useActionModals } from './hooks'
-
 
 export const ApprovedIndustry = () => {
     const router = useRouter()

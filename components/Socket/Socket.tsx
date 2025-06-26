@@ -70,7 +70,7 @@ export const Socket = ({ children }: any) => {
 
             socket?.on('joined', () => {})
 
-            socket?.on('off', () => {})
+            socket?.off('off', () => {})
 
             Object.values(SocketNotificationsEvents)?.forEach(
                 (eventName: SocketNotificationsEvents) => {

@@ -26,6 +26,7 @@ export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                         <InitialAvatar
                             name={subAdmin?.user.name}
                             imageUrl={subAdmin?.user?.avatar}
+                            socketId={subAdmin?.user?.socketId}
                         />
                     )}
                 </div>
