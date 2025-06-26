@@ -1,39 +1,16 @@
-<<<<<<< pnpm-install-project
-import { Rto } from '@types'
-import { RtoApi } from '@queries'
 import { Button, Card } from '@components'
-=======
-import React, { useEffect, useMemo, useState } from 'react'
-import { Card } from '@components'
-import { AdminApi, RtoApi } from '@queries'
->>>>>>> develop
-import { ProfileCounts } from './ProfileCounts'
-import { UserRoles } from '@constants'
-import { getUserCredentials, removeEmptyValues } from '@utils'
+import Modal from '@modals/Modal'
 import { RtoProfileProgress } from '@partials/admin'
-<<<<<<< pnpm-install-project
+import { ViewProgressByCourseChart } from '@partials/common'
+import { RtoApi } from '@queries'
 import { useRouter } from 'next/router'
+import { useEffect, useMemo, useState } from 'react'
+import { ProfileCounts } from './ProfileCounts'
+import { Rto } from '@types'
 
 export const RtoDashboardStatistics = ({ rto }: { rto?: Rto }) => {
     const router = useRouter()
 
-=======
-import Modal from '@modals/Modal'
-import { ViewProgressByCourseChart } from '@partials/common'
-
-interface MetricData {
-    name: string
-    value: number
-    // timeline?: number
-}
-export const RtoDashboardStatistics = ({
-    rtoUserId,
-    rto,
-}: {
-    rtoUserId: number
-    rto?: any
-}) => {
->>>>>>> develop
     const rtoCourses = rto?.courses
     const rtoCourseOptions: any = useMemo(
         () =>
