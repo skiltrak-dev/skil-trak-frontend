@@ -65,16 +65,21 @@ export const Socket = ({ children }: any) => {
     }
 
     useEffect(() => {
-        if (AuthUtils.isAuthenticated()) {
-            socket?.emit('join', AuthUtils.getUserCredentials()?.id)
+        if (AuthUtils.isAuthenticated() && socket) {
+            const userId = AuthUtils.getUserCredentials()?.id
+            socket.emit('join', userId)
+            socket.off('joined') // cleanup before rebind
+            socket.on('joined', () => {})
 
-            socket?.on('joined', () => {})
+            // 🚨 FIRST: Remove all previous listeners
+            Object.values(SocketNotificationsEvents).forEach((event) => {
+                socket.off(event) // this is crucial
+            })
 
-            socket?.off('off', () => {})
-
-            Object.values(SocketNotificationsEvents)?.forEach(
+            // ✅ THEN register fresh listeners
+            Object.values(SocketNotificationsEvents).forEach(
                 (eventName: SocketNotificationsEvents) => {
-                    socket?.on(eventName, (notify: any) => {
+                    socket.on(eventName, (notify: any) => {
                         setEventListener({
                             eventName,
                             eventListener: notify,
@@ -89,7 +94,7 @@ export const Socket = ({ children }: any) => {
                         notification.success({
                             title: notify?.type,
                             description: notify?.message,
-                            dissmissTimer: 6000,
+                            dissmissTimer: 10000,
                             primaryAction: {
                                 text: 'View',
                                 onClick: (e: any) => {
@@ -101,17 +106,16 @@ export const Socket = ({ children }: any) => {
                     })
                 }
             )
-        }
 
-        // return () => {
-        //     if (socket) {
-        //         Object.values(SocketNotificationsEvents).forEach((event) => {
-        //             socket.off(event)
-        //         })
-        //         socket.off('joined')
-        //         disconnectSocket()
-        //     }
-        // }
+            // ✅ Optional cleanup when component unmounts
+            // return () => {
+            //     Object.values(SocketNotificationsEvents).forEach((event) => {
+            //         socket.off(event)
+            //     })
+            //     socket.off('joined')
+            //     disconnectSocket()
+            // }
+        }
     }, [socket, router])
 
     return children
