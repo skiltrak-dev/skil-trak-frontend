@@ -37,6 +37,7 @@ export const RTOCellInfo = ({
                         <InitialAvatar
                             name={rto?.user?.name}
                             imageUrl={rto?.user?.avatar}
+                            socketId={rto?.user?.socketId}
                         />
                     )}
                 </div>

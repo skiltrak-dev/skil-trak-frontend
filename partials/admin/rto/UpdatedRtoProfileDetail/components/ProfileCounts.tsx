@@ -21,7 +21,7 @@ export interface RtoProfileCountDataType {
     link?: {
         pathname: string
         query?: {
-            [key: string]: string | number
+            [key: string]: string | number | boolean
         }
     }
     customDetail?: {
@@ -49,6 +49,38 @@ export const ProfileCounts = ({
     })
 
     const countsData: RtoProfileCountDataType[] = [
+        {
+            title: 'Pending Student',
+            count: Number(statisticsCount?.data?.pendingStudent),
+            Icon: HiUserCircle,
+            loading: statisticsCount?.isLoading,
+            link: {
+                pathname: '/portals/rto/students',
+                query: {
+                    tab: 'pending',
+                },
+            },
+            background: {
+                from: '#3E3D45',
+                to: '#202020',
+            },
+        },
+        {
+            title: 'Total Students Received',
+            count: Number(statisticsCount?.data?.allStudents),
+            Icon: HiUserCircle,
+            loading: statisticsCount?.isLoading,
+            link: {
+                pathname: '/portals/rto/students',
+                query: {
+                    tab: 'archived',
+                },
+            },
+            background: {
+                from: '#3E3D45',
+                to: '#202020',
+            },
+        },
         {
             title: 'Completed Student',
             count: Number(statisticsCount?.data?.completedStudent),

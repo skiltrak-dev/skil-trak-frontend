@@ -17,6 +17,7 @@ export interface StudentsFilterType {
     courseId: number
     nowp: string
     batch: string
+    isReported: boolean
     currentStatus: WorkplaceCurrentStatus
 }
 

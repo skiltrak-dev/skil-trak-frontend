@@ -1,4 +1,4 @@
-import { Select, TextInput } from '@components/inputs'
+import { Checkbox, Select, TextInput } from '@components/inputs'
 
 // query
 import { AdminApi, AuthApi, CommonApi } from '@queries'
@@ -25,6 +25,7 @@ import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
 import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
 import { UserRoles } from '@constants'
+import { Typography } from '@components/Typography'
 
 interface ItemFilterProps {
     onFilterChange: (values: StudentsFilterType) => void
@@ -220,16 +221,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     }}
                     showError={false}
                 />
-                {/* <TextInput
-                    name="state"
-                    label={'State'}
-                    value={filter?.suburb}
-                    placeholder={'Search by Student State ...'}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, state: e.target.value })
-                    }}
-                    showError={false}
-                /> */}
+
                 <Select
                     label={'Status'}
                     name={'status'}
@@ -383,6 +375,20 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     }}
                     showError={false}
                 />
+                <div className="mt-2">
+                    <Typography variant="label">Reported</Typography>
+                    <Checkbox
+                        onChange={(e: any) => {
+                            onFilterChange({
+                                ...filter,
+                                isReported: e?.target?.checked,
+                            })
+                        }}
+                        name={'isReported'}
+                        value={filter?.isReported}
+                        defaultChecked={filter?.isReported}
+                    />
+                </div>
             </div>
         </>
     )

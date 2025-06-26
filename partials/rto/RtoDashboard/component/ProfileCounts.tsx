@@ -6,6 +6,7 @@ import {
     SiSimpleanalytics,
 } from 'react-icons/si'
 import { RTODashboardStudentCountCard } from '../card'
+import { WorkplaceCurrentStatus } from '@utils'
 
 export interface RtoProfileCountDataType {
     title: string
@@ -16,7 +17,7 @@ export interface RtoProfileCountDataType {
     link?: {
         pathname: string
         query?: {
-            [key: string]: string | number
+            [key: string]: string | number | boolean
         }
     }
     customDetail?: {
@@ -36,6 +37,38 @@ export const ProfileCounts = ({
     statisticsCount: any
 }) => {
     const countsData: RtoProfileCountDataType[] = [
+        {
+            title: 'Pending Student',
+            count: Number(statisticsCount?.data?.pendingStudent),
+            Icon: HiUserCircle,
+            loading: statisticsCount?.isLoading,
+            link: {
+                pathname: '/portals/rto/students',
+                query: {
+                    tab: 'pending',
+                },
+            },
+            background: {
+                from: '#3E3D45',
+                to: '#202020',
+            },
+        },
+        {
+            title: 'Total Students Received',
+            count: Number(statisticsCount?.data?.allStudents),
+            Icon: HiUserCircle,
+            loading: statisticsCount?.isLoading,
+            link: {
+                pathname: '/portals/rto/students',
+                query: {
+                    tab: 'archived',
+                },
+            },
+            background: {
+                from: '#3E3D45',
+                to: '#202020',
+            },
+        },
         {
             title: 'Completed Student',
             count: Number(statisticsCount?.data?.completedStudent),
@@ -85,14 +118,15 @@ export const ProfileCounts = ({
             },
         },
         {
-            title: 'Pending Students',
-            count: Number(statisticsCount?.data?.pendingStudent),
+            title: 'Reported Students',
+            count: Number(statisticsCount?.data?.flaggedStudents),
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
             link: {
                 pathname: '/portals/rto/students',
                 query: {
-                    tab: 'pending',
+                    tab: 'active',
+                    isReported: true,
                 },
             },
             background: {
@@ -112,10 +146,17 @@ export const ProfileCounts = ({
             },
         },
         {
-            title: 'Pending Result',
-            count: Number(statisticsCount?.data?.pendingResult),
+            title: 'Placement Started',
+            count: Number(statisticsCount?.data?.placementStarted),
             Icon: SiSimpleanalytics,
             loading: statisticsCount?.isLoading,
+            link: {
+                pathname: '/portals/rto/students',
+                query: {
+                    tab: 'active',
+                    currentStatus: WorkplaceCurrentStatus.PlacementStarted,
+                },
+            },
             background: {
                 from: '#439DEE',
                 to: '#1E78E9',
@@ -124,9 +165,11 @@ export const ProfileCounts = ({
     ]
     return (
         <div className="mt-[18px] h-[calc(100%-18px)] flex flex-col justify-between">
-            <RTODashboardStudentCountCard
-                newAddedStudents={statisticsCount?.data?.newAddedStudents}
-            />
+            <div className="grid grid-cols-1">
+                <RTODashboardStudentCountCard
+                    newAddedStudents={statisticsCount?.data?.newAddedStudents}
+                />
+            </div>
             <div className="mt-[18px] grid grid-cols-2 gap-x-3.5 gap-y-[18px]">
                 {countsData.map((data, i) => (
                     <div key={i} className="mt-[18px]">

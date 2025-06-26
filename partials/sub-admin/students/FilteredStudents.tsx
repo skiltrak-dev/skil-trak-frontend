@@ -37,7 +37,6 @@ import {
     BlockModal,
     ChangeStudentStatusModal,
 } from './modals'
-import { SubAdminApi } from '@queries'
 import { useSubadminProfile } from '@hooks'
 
 export const FilteredStudents = ({

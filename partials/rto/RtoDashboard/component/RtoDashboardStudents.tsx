@@ -8,7 +8,7 @@ import {
     Table,
     TechnicalError,
     Typography,
-    UserCreatedAt
+    UserCreatedAt,
 } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
 
@@ -137,21 +137,6 @@ export const RtoDashboardStudents = () => {
         },
     ]
 
-    const links = [
-        {
-            text: 'Assessment Tools',
-            link: '/portals/rto/tasks/assessment-tools',
-        },
-        {
-            text: 'Appointments',
-            link: '/portals/rto/tasks/appointments',
-        },
-        {
-            text: 'E-Sign',
-            link: '/portals/rto/tasks/e-sign',
-        },
-    ]
-
     return (
         <>
             <Card fullHeight shadowType="profile" noPadding>
@@ -159,15 +144,6 @@ export const RtoDashboardStudents = () => {
                     <Typography semibold>
                         <span className="text-[15px]">Active Students</span>
                     </Typography>
-                    <div className="flex items-center gap-x-14">
-                        {links?.map((link) => (
-                            <Link href={link?.link} key={link?.link}>
-                                <span className="text-[15px] font-medium underline text-[#007AFF]">
-                                    {link?.text}
-                                </span>
-                            </Link>
-                        ))}
-                    </div>
                 </div>
                 <div className="relative">
                     <div
