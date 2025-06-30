@@ -24,6 +24,8 @@ const Routes = {
 
 export const RtoNavbar = () => {
     const count = RtoApi.Workplace.wpApprovalRequestCount()
+    const profile = RtoApi.Rto.useProfile()
+    const workplaceApprovalRequired = profile?.data?.workplaceApprovalRequired
 
     const rtoPortalData = [
         {
@@ -89,15 +91,19 @@ export const RtoNavbar = () => {
             inActiveClasses: 'text-slate-700',
             id: 'insuranceDocuments',
         },
-        {
-            link: Routes.WpApprovalRequest,
-            text: 'Workplace Approval',
-            Icon: FaIndustry,
-            activeClasses: 'bg-blue-100 text-blue-700',
-            inActiveClasses: 'text-slate-700',
-            id: 'insuranceDocuments',
-            count: count?.data?.pendingRequests,
-        },
+        ...(workplaceApprovalRequired
+            ? [
+                  {
+                      link: Routes.WpApprovalRequest,
+                      text: 'Workplace Approval',
+                      Icon: FaIndustry,
+                      activeClasses: 'bg-blue-100 text-blue-700',
+                      inActiveClasses: 'text-slate-700',
+                      id: 'workplaceApproval',
+                      count: count?.data?.pendingRequests,
+                  },
+              ]
+            : []),
     ]
 
     const otherLinks = [

@@ -14,6 +14,7 @@ import { RejectModal } from './RejectModal'
 import { UnblockModal } from './UnblockModal'
 import { ReleaseLogbookPermissionModal } from './ReleaseLogbookPermissionModal'
 import { AllowPermissionModal } from './AllowPermissionModal'
+import { AllowSelfPaymentModal } from './AllowSelfPaymentModal'
 
 export enum AdminRtoModalType {
     PERMISSION = 'permission',
@@ -31,6 +32,7 @@ export enum AdminRtoModalType {
     ACCEPT = 'accept',
     REJECT = 'reject',
     ALLOW_INVOICING = 'allowInvoicing',
+    ALLOW_SELF_PAYMENT = 'allowSelfPayment',
 }
 export const getAdminRtoModal = (
     type: AdminRtoModalType,
@@ -81,7 +83,10 @@ export const getAdminRtoModal = (
         [AdminRtoModalType.ALLOW_INVOICING]: (
             <AllowInvoicingModal rto={rto} onCancel={onCancel} />
         ),
+         [AdminRtoModalType.ALLOW_SELF_PAYMENT]: (
+            <AllowSelfPaymentModal rto={rto} onCancel={onCancel} />
+        ),
     }
 
-    return modals[type]
+    return modals[type] 
 }

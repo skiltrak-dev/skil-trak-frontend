@@ -22,9 +22,10 @@ export interface StudentFormType {
     agreedWithPrivacyPolicy: boolean
     role: string
     isAddressUpdated: boolean
+    courseInfo?: string
 }
 
 export type StudentFormQueryType = StudentFormType & {
-    sectors: number[]
-    courses: number[]
+    sectors: OptionType[] | string
+    courses: OptionType[] | string
 }

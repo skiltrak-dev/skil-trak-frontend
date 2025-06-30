@@ -97,6 +97,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     const profile = useGetStudentProfileDetailQuery(undefined, {
         refetchOnMountOrArgChange: true,
     })
+    const isRtoSelfPayment = profile?.data?.rto?.allowStudentSelfPayment
     const industryChecks = StudentApi.Workplace.getWpIndustryChecks()
 
     const values = { ...profile?.data, ...profile?.data?.user }
@@ -214,8 +215,11 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                                 <StudentNavbar />
                                 <div className="flex items-center gap-x-5 mt-3">
                                     <div className="">
-                                        {userData?.status ===
-                                            UserStatus.Archived && (
+                                        {(userData?.status ===
+                                            UserStatus.Archived ||
+                                            (userData?.status ===
+                                                UserStatus.Pending &&
+                                                isRtoSelfPayment)) && (
                                             <Button
                                                 text="make payment to reactivate"
                                                 // variant="success"

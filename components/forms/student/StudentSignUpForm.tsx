@@ -13,6 +13,10 @@ import { Button, Checkbox, Select, TextInput, Typography } from '@components'
 import { FormProvider, useForm } from 'react-hook-form'
 import { OptionType } from '@types'
 
+// TODO: Remove check from RTO if not exists in the list and student can type any RTO name just signup the student with the given RTO name
+// TODO: If student added their own RTO name, then show stripe link to pay for the RTO registration fee
+
+
 export const StudentSignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const router = useRouter()
     // const [signUpStudent] = useUpdateStudentSignUpMutation()

@@ -386,4 +386,11 @@ export const rtoEndpoints = (
         }),
         invalidatesTags: ['RTOS'],
     }),
+    allowSelfPayment: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto/${id}/student-self-paymanet/toggle`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
 })
