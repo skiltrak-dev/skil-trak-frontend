@@ -30,6 +30,7 @@ import { SectorCell, StudentCellInfo } from './components'
 import { IndustryCell } from './components/IndustryCell'
 import { AssignCoordinatorModal, BlockModal } from './modals'
 import { AssignMultipleCoordinatorModal } from './modals/AssignMultipleCoordinatorModal'
+import { SubadminStudentIndustries } from '@partials/sub-admin/students'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
@@ -147,6 +148,26 @@ export const ApprovedStudent = () => {
                     onAssignCoordinatorClicked(student),
                 Icon: FaUserPlus,
             },
+            // {
+            //     text: student?.rtoCoordinator
+            //         ? 'Change Coordinator'
+            //         : 'Assign Coordinator',
+            //     onClick: (student: Student) =>
+            //         onAssignCoordinatorClicked(student),
+            //     Icon: FaUserPlus,
+            // },
+            // {
+            //     ...(student?.rtoCoordinator
+            //         ? {
+            //               text: 'Remove Coordinator',
+            //               onClick: (student: Student) =>
+            //                   onRemoveCoordinatorClicked(student),
+            //               Icon: IoPersonRemoveSharp,
+            //               color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            //           }
+            //         : {}),
+            // },
+
             {
                 text: 'Block',
                 onClick: (student: Student) => onBlockClicked(student),
@@ -185,13 +206,19 @@ export const ApprovedStudent = () => {
                 )
 
                 return industry && industry?.length > 0 ? (
-                    <IndustryCell industry={industry[0]} />
+                    <SubadminStudentIndustries
+                        workplace={info.row.original?.workplace}
+                        industries={info.row.original?.industries}
+                    />
                 ) : info.row.original?.workplace &&
                   info.row.original?.workplace?.length > 0 &&
                   appliedIndustry ? (
-                    <IndustryCell industry={appliedIndustry} />
+                    <SubadminStudentIndustries
+                        workplace={info.row.original?.workplace}
+                        industries={info.row.original?.industries}
+                    />
                 ) : (
-                    <Typography center>N/A</Typography>
+                    <Typography center>---</Typography>
                 )
             },
         },
@@ -202,7 +229,7 @@ export const ApprovedStudent = () => {
         },
         {
             accessorKey: 'expiry',
-            header: () => <span>Expiry Countdown</span>,
+            header: () => <span>Day Left</span>,
             cell: (info) => (
                 <StudentExpiryDaysLeft
                     expiryDate={info.row.original?.expiryDate}

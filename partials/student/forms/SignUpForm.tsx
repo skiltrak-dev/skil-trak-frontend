@@ -59,6 +59,7 @@ export const StudentSignUpForm = ({
             skip: !searchRto,
         }
     )
+    console.log('rtoResponse', rtoResponse?.data)
 
     const sectorResponse = AuthApi.useSectorsByRto(Number(selectedRto), {
         skip: !selectedRto,
@@ -204,7 +205,6 @@ export const StudentSignUpForm = ({
         // Sector Information
         // sectors: yup.array().min(1, 'Must select at least 1 sector'),
         // courses: yup.array().min(1, 'Must select at least 1 course'),
-        // sectors: yup.string().required('Must provide a sector name'),
         courseInfo: yup.string().required('Must list at least one course'),
 
         // Contact Person Information
@@ -259,7 +259,7 @@ export const StudentSignUpForm = ({
         defaultValues: SignUpUtils.getEditingMode()
             ? SignUpUtils.getValuesFromStorage()
             : {},
-        resolver: yupResolver(validationSchema),
+        // resolver: yupResolver(validationSchema),
     })
 
     // useEffect(() => {
@@ -353,6 +353,8 @@ export const StudentSignUpForm = ({
         }
     }
 
+    console.log('selectedRto', selectedRto)
+
     return (
         <FormProvider {...formMethods}>
             <form
@@ -380,13 +382,13 @@ export const StudentSignUpForm = ({
                         />
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                            <TextInput
+                            {/* <TextInput
                                 label={'Family Name'}
                                 name={'familyName'}
                                 placeholder={'Family Name...'}
                                 validationIcons
                                 required
-                            />
+                            /> */}
 
                             <PhoneInputWithCountry
                                 label={'Phone'}
@@ -440,77 +442,83 @@ export const StudentSignUpForm = ({
                 </div>
 
                 {/* Sector Information */}
-                <div className="w-full">
-                    <Typography variant={'subtitle'} color={'text-gray-500'}>
-                        Sector Information
-                    </Typography>
-                    <p className="text-gray-400 text-sm leading-6">
-                        Select your eligible sectors, and related courses.
-                    </p>
-                </div>
+                {selectedRto !== null && selectedRto !== undefined && (
+                    <div className="w-full">
+                        <Typography
+                            variant={'subtitle'}
+                            color={'text-gray-500'}
+                        >
+                            Sector Information
+                        </Typography>
+                        <p className="text-gray-400 text-sm leading-6">
+                            Select your eligible sectors, and related courses.
+                        </p>
+                    </div>
+                )}
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t py-4">
                     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
                         <div>
-                            {/* <Select
-                                label={'Sector'}
-                                {...(storedData
-                                    ? {
-                                          defaultValue: storedData.sectors,
-                                      }
-                                    : {})}
-                                name={'sectors'}
-                                options={sectorOptions}
-                                placeholder={'Select Sectors...'}
-                                multi
-                                loading={sectorResponse?.isLoading}
-                                onChange={onSectorChanged}
-                                validationIcons
-                            /> */}
-                            {/* <TextInput
-                                label="Sector Name"
-                                name="sectors"
-                                placeholder="Enter your sector name..."
-                                required
-                                validationIcons
-                            /> */}
-                        </div>
-                        <div>
-                            {/* <Select
-                                label={'Courses'}
-                                name={'courses'}
-                                defaultValue={courseOptions}
-                                // value={courseOptions?.filter(
-                                //     (course: OptionType) =>
-                                //         courseValues?.includes(
-                                //             course?.value as number
-                                //         )
-                                // )}
-                                value={courseValues}
-                                options={courseOptions}
-                                loading={courseLoading}
-                                disabled={
-                                    storedData
-                                        ? storedData?.courses?.length === 0
-                                        : courseOptions?.length === 0
-                                }
-                                onChange={(e: any) => {
-                                    onCourseChange(e)
-                                }}
-                                multi
-                                validationIcons
-                                components={{
-                                    Option: CourseSelectOption,
-                                }}
-                                formatOptionLabel={formatOptionLabel}
-                            />
-                             */}
-                            <TextInput
-                                label="Course Info"
-                                name="courseInfo"
-                                placeholder="Enter course information..."
-                                required
-                                validationIcons
-                            />
+                            {selectedRto !== null &&
+                            selectedRto !== undefined ? (
+                                <>
+                                    <Select
+                                        label={'Sector'}
+                                        {...(storedData
+                                            ? {
+                                                  defaultValue:
+                                                      storedData.sectors,
+                                              }
+                                            : {})}
+                                        name={'sectors'}
+                                        options={sectorOptions}
+                                        placeholder={'Select Sectors...'}
+                                        multi
+                                        loading={sectorResponse?.isLoading}
+                                        onChange={onSectorChanged}
+                                        validationIcons
+                                    />
+
+                                    <Select
+                                        label={'Courses'}
+                                        name={'courses'}
+                                        defaultValue={courseOptions}
+                                        // value={courseOptions?.filter(
+                                        //     (course: OptionType) =>
+                                        //         courseValues?.includes(
+                                        //             course?.value as number
+                                        //         )
+                                        // )}
+                                        value={courseValues}
+                                        options={courseOptions}
+                                        loading={courseLoading}
+                                        disabled={
+                                            storedData
+                                                ? storedData?.courses
+                                                      ?.length === 0
+                                                : courseOptions?.length === 0
+                                        }
+                                        onChange={(e: any) => {
+                                            onCourseChange(e)
+                                        }}
+                                        multi
+                                        validationIcons
+                                        components={{
+                                            Option: CourseSelectOption,
+                                        }}
+                                        formatOptionLabel={formatOptionLabel}
+                                    />
+                                </>
+                            ) : (
+                                selectedRto === null && (
+                                    <TextInput
+                                        label="Course Info"
+                                        name="courseInfo"
+                                        placeholder="Enter course information..."
+                                        required
+                                        validationIcons
+                                    />
+                                )
+                            )}
                         </div>
                     </div>
                 </div>

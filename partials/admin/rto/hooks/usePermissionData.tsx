@@ -108,6 +108,13 @@ export const usePermissionData = (rto: Rto) => {
             Icon: MdIncompleteCircle,
             isButton: true,
         },
+        {
+            text: 'Self Payment',
+            onClick: () =>
+                handleOpenModal(AdminRtoModalType.ALLOW_SELF_PAYMENT, rto),
+            Icon: MdIncompleteCircle,
+            toggle: rto?.allowStudentSelfPayment,
+        },
     ]
 
     // const responses = Object.values(results)

@@ -19,16 +19,68 @@ export const StepCreate = () => {
     const [login, loginResult] = AuthApi.useLogin()
     const { notification } = useNotification()
 
+    // Helper function to prepare payload based on RTO selection
+    const preparePayload = (formData: StudentFormType) => {
+        const basePayload = {
+            addressLine1: formData.addressLine1,
+            agreedWithPrivacyPolicy: formData.agreedWithPrivacyPolicy,
+            confirmPassword: formData.confirmPassword,
+            email: formData.email,
+            name: formData.name,
+            password: formData.password,
+            phone: formData.phone,
+            state: formData.state,
+            suburb: formData.suburb,
+            zipCode: formData.zipCode,
+            role: UserRoles.STUDENT,
+            isAddressUpdated: true,
+        }
+
+        // Check if RTO is selected as "other" or if it's a string value (but not a numeric string)
+        const isRtoOther =
+            typeof formData.rto === 'string' && isNaN(Number(formData.rto))
+
+        if (isRtoOther) {
+            // RTO is "other" - use string format and include courseInfo
+            return {
+                ...basePayload,
+                rto: formData.rto, // This will be the string value
+                courseInfo: formData?.courseInfo || '',
+            }
+        } else {
+            // RTO is selected from dropdown - use number format and include courses/sectors
+            // Extract only IDs from courses and sectors arrays
+            const courseIds =
+                formData.courses?.map((course) =>
+                    typeof course === 'object' && course.value
+                        ? course.value
+                        : course
+                ) || []
+
+            const sectorIds =
+                formData.sectors?.map((sector) =>
+                    typeof sector === 'object' && sector.value
+                        ? sector.value
+                        : sector
+                ) || []
+
+            return {
+                ...basePayload,
+                rto:
+                    typeof formData.rto === 'string'
+                        ? parseInt(formData.rto)
+                        : formData.rto,
+                courses: courseIds,
+                sectors: sectorIds,
+            }
+        }
+    }
+
     useEffect(() => {
         const createAccount = async () => {
             if (formData) {
-                const values = {
-                    ...formData,
-                    role: UserRoles.STUDENT,
-                    isAddressUpdated: true,
-                }
-
-                await register(values as any)
+                const payload = preparePayload(formData)
+                await register(payload as any)
             }
         }
 

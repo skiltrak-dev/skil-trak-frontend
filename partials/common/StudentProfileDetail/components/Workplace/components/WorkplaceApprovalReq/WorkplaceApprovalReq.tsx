@@ -141,7 +141,7 @@ export const WorkplaceApprovalReq = ({
                                             ','
                                         )}
                                         workplaceName={
-                                            wpReqApproval?.industry?.user?.name
+                                            wpReqApproval?.industry
                                         }
                                         showMap
                                     />
@@ -251,7 +251,7 @@ export const WorkplaceApprovalReq = ({
                                             ','
                                         )}
                                         workplaceName={
-                                            wpReqApproval?.industry?.user?.name
+                                            wpReqApproval?.industry
                                         }
                                         showMap
                                     />

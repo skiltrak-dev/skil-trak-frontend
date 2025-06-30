@@ -210,6 +210,7 @@ const {
     useRtoProfileDetailQuery,
     useAutoReleaseLogbookMutation,
     useRtoAssessmentToolsQuery,
+    useAllowSelfPaymentMutation,
 
     // ------ STUDENT ------ //
     useStudentCountQuery,
@@ -541,6 +542,7 @@ export const AdminApi = {
 
         useRtoAssessmentTools: useRtoAssessmentToolsQuery,
         autoReleaseLogbook: useAutoReleaseLogbookMutation,
+        useAllowSelfPayment: useAllowSelfPaymentMutation,
     },
 
     Students: {

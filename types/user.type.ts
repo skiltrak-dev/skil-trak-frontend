@@ -116,6 +116,7 @@ export interface Rto extends BaseResponse {
     allowInvoicing: boolean
     allowAutoReport: boolean
     allowPartialSubmission: boolean
+    allowStudentSelfPayment: boolean
     canViewPaymentStatus: boolean
     reportType: ReportingType
     user: User

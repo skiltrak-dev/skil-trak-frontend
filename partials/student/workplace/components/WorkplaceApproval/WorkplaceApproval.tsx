@@ -52,7 +52,7 @@ export const WorkplaceApproval = ({
                             studentLocation={wpApprovalData?.student?.location?.split(
                                 ','
                             )}
-                            workplaceName={wpApprovalData?.industry?.user?.name}
+                            workplaceName={wpApprovalData?.industry}
                             showMap
                         />
                     </div>

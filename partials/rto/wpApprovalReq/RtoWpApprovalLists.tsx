@@ -21,7 +21,7 @@ export const RtoWpApprovalLists = () => {
             element: <RtoWpApproval />,
         },
         {
-            label: 'Black List Industries',
+            label: 'Blacklist Industries',
             href: {
                 pathname: 'wp-approval-request',
                 query: { tab: 'black-list', page: 1, pageSize: 50 },
