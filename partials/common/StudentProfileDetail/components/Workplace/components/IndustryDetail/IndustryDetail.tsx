@@ -639,7 +639,8 @@ export const IndustryDetail = ({
                                                     )}
                                                     workplaceName={
                                                         appliedIndustry
-                                                            ?.industry
+                                                            ?.industry?.user
+                                                            ?.name
                                                     }
                                                     showMap={
                                                         !!appliedIndustry
