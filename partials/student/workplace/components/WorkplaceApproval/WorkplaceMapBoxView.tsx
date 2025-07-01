@@ -29,7 +29,7 @@ export const WorkplaceMapBoxView = ({
     workplaceName,
     showMap,
 }: {
-    workplaceName: string
+    workplaceName: any
     studentLocation: string[]
     industryLocation: string[]
     showMap: boolean
@@ -199,7 +199,7 @@ export const WorkplaceMapBoxView = ({
                                 >
                                     <div className="mb-2">
                                         <Typography variant="xs" semibold>
-                                            {workplaceName}
+                                            {workplaceName?.user?.name}
                                         </Typography>
                                         <Typography variant="xxs" bold>
                                             Distance From Student Location

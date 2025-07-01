@@ -68,13 +68,6 @@ export const EmployeeTableColumns = ({
 
     const metricsConfigurations: MetricsConfig[] = [
         {
-            accessorKey: 'appointmentMetrics',
-            label: 'Appointment',
-            targetKey: 'appointments',
-            dbKey: 'appointment',
-            achievementKey: 'appointments',
-        },
-        {
             accessorKey: 'workplaceMetrics',
             label: 'Workplace request',
             targetKey: 'workplaceRequests',
@@ -82,11 +75,11 @@ export const EmployeeTableColumns = ({
             achievementKey: 'workplaceRequests',
         },
         {
-            accessorKey: 'completedMetrics',
-            label: 'Completed',
-            targetKey: 'completed',
-            dbKey: 'completed',
-            achievementKey: 'completed',
+            accessorKey: 'appointmentMetrics',
+            label: 'Appointment',
+            targetKey: 'appointments',
+            dbKey: 'appointment',
+            achievementKey: 'appointments',
         },
         {
             accessorKey: 'studentAgreementMetrics',
@@ -101,6 +94,13 @@ export const EmployeeTableColumns = ({
             targetKey: 'AgreementByWorkplace',
             dbKey: 'AgreementByWorkplace',
             achievementKey: 'agreementByWorkplace',
+        },
+        {
+            accessorKey: 'completedMetrics',
+            label: 'Completed',
+            targetKey: 'completed',
+            dbKey: 'completed',
+            achievementKey: 'completed',
         },
     ]
 
@@ -189,7 +189,6 @@ export const EmployeeTableColumns = ({
             accessorKey: 'departmentMember.subadmin.assignStudents',
             header: 'Assigned Students',
             cell: ({ row }) => (
-
                 <div className="flex items-center justify-center">
                     <Typography variant="label" medium color="text-gray-500">
                         {
