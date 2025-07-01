@@ -15,6 +15,7 @@ import {
     NoteViewModal,
     RejectPartnerIndustryApprovalList,
 } from '../modal'
+import { RequestedByCellInfo } from '../components'
 
 export const useIndustryColumns = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -54,6 +55,15 @@ export const useIndustryColumns = () => {
         {
             accessorKey: 'industry.abn',
             header: () => <span>ABN</span>,
+        },
+        {
+            accessorKey: 'requestedBy',
+            header: () => <span>Requested By</span>,
+            cell: (info) => (
+                <RequestedByCellInfo
+                    requestedBy={info?.row?.original?.requestedBy}
+                />
+            ),
         },
         {
             header: () => 'Contact Person',

@@ -69,19 +69,16 @@ export const DepartmentCounts = () => {
                 {/* 4 */}
                 <FigureCardVII
                     imageUrl="/images/figure-card/fig-card-3.svg"
-                    count={departmentCounts?.data?.workplaceCount}
-                    title={'All Workplace Request'}
+                    count={departmentCounts?.data?.favoriteIndustries}
+                    title={'Favorite Industries'}
                     link={'#'}
                 />
                 <FigureCardVII
                     imageUrl="/images/figure-card/fig-card-6.svg"
-                    count={
-                        departmentCounts?.data?.expiredStudentsWithoutWorkplace
-                    }
-                    title={'Expired Student without workplace'}
+                    count={departmentCounts?.data?.unfavoriteIndustries}
+                    title={'Unfavorite Industries'}
                     link={'#'}
                 />
-                
             </div>
         </>
     )

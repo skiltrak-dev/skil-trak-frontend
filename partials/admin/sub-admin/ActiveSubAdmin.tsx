@@ -8,7 +8,7 @@ import {
     TableSkeleton,
     TechnicalError,
     TruncatedTextWithTooltip,
-    Typography
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -176,14 +176,6 @@ export const ActiveSubAdmin = () => {
         {
             accessorKey: 'studentCount',
             header: () => <span>Assigned Students</span>,
-        },
-        {
-            accessorKey: 'user.appointmentsCount',
-            header: () => <span>Appointments</span>,
-        },
-        {
-            accessorKey: 'user.workplaceVisitCount',
-            header: () => <span>Workplace Visit</span>,
         },
         {
             accessorKey: 'addressLine1',

@@ -16,6 +16,7 @@ import {
     StudentApprovalActionsModal,
     StudentRejectActionsModal,
 } from '../modal'
+import { RequestedByCellInfo } from '../components'
 
 export const useStudentColumns = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -49,25 +50,29 @@ export const useStudentColumns = () => {
             ),
             header: () => <span>Student</span>,
         },
-
         {
             accessorKey: 'requestedBy',
             header: () => <span>Requested By</span>,
             cell: (info) => (
-                <div>
-                    <Typography variant="label">
-                        {info?.row?.original?.requestedBy?.name}
-                    </Typography>
-                    <div className="flex items-center gap-x-1">
-                        <span className="text-gray-400">
-                            <FaEnvelope />
-                        </span>
-                        <Typography variant="small" color="text-gray-500">
-                            {info?.row?.original?.requestedBy?.email}
-                        </Typography>
-                    </div>
-                </div>
+                <RequestedByCellInfo
+                    requestedBy={info?.row?.original?.requestedBy}
+                />
             ),
+            // cell: (info) => (
+            //     <div>
+            //         <Typography variant="label">
+            //             {info?.row?.original?.requestedBy?.name}
+            //         </Typography>
+            //         <div className="flex items-center gap-x-1">
+            //             <span className="text-gray-400">
+            //                 <FaEnvelope />
+            //             </span>
+            //             <Typography variant="small" color="text-gray-500">
+            //                 {info?.row?.original?.requestedBy?.email}
+            //             </Typography>
+            //         </div>
+            //     </div>
+            // ),
         },
         {
             accessorKey: 'createdBy',
