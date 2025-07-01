@@ -11,6 +11,7 @@ import {
     TechnicalError,
     useIsRestricted,
 } from '@components'
+import { UserRoles } from '@constants'
 import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import {
@@ -23,13 +24,7 @@ import {
 } from '@partials'
 import { AdminApi, SubAdminApi } from '@queries'
 import { NextPageWithLayout, RTOFilterType, UserStatus } from '@types'
-import {
-    checkFilteredDataLength,
-    getFilterQuery,
-    getUserCredentials,
-} from '@utils'
-import { useRouter } from 'next/router'
-import { UserRoles } from '@constants'
+import { checkFilteredDataLength, getUserCredentials } from '@utils'
 
 const filterKeys = ['name', 'email', 'code', 'status', 'courseId']
 

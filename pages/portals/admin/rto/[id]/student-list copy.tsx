@@ -1,20 +1,18 @@
 import { useAlert, useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { Course, NextPageWithLayout } from '@types'
+import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
-import { AdminApi } from '@queries'
 import {
     BackButton,
     Card,
-    PageTitle,
     ShowErrorNotifications,
     Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ImportStudentForm, SpecifyColumns } from '@partials/admin/rto/students'
-import { RtoApi } from '@queries'
+import { AdminApi } from '@queries'
 
 const RtoStudentLists: NextPageWithLayout = () => {
     const { alert } = useAlert()

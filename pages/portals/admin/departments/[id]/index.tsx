@@ -23,7 +23,6 @@ import {
     useDepartmentDetailContext,
 } from '@partials/admin/departments'
 import { DepartmentMap } from '@partials/admin/departments/map'
-import { AdminApi } from '@queries'
 
 const filterKeys = ['name', 'email', 'status', 'courseId']
 

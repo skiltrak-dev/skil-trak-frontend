@@ -17,14 +17,13 @@ import {
     ApprovedIndustry,
     ArchivedIndustry,
     BlockedIndustry,
-    EmailVerifiedIndustries,
     FilteredIndustry,
     PendingIndustry,
     RejectedIndustry,
     SnoozedIndustry,
 } from '@partials/admin/industry'
 import { AdminApi } from '@queries'
-import { QueryType, checkFilteredDataLength, getFilterQuery } from '@utils'
+import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
 
 const filterKeys = [

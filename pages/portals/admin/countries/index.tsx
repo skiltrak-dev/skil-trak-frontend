@@ -1,10 +1,9 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement } from 'react'
 
 import { TabNavigation, TabProps } from '@components'
-import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
 import { Countries, States } from '@partials/admin/countries'
+import { NextPageWithLayout } from '@types'
 
 const CountriesList: NextPageWithLayout = () => {
     const tabs: TabProps[] = [

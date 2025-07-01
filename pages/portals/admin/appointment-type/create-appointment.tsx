@@ -2,9 +2,8 @@ import { ReactElement, useEffect } from 'react'
 
 import { useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { Button, Card, Typography } from '@components'
 import { CreateAppointmentContainer } from '@partials'
+import { NextPageWithLayout } from '@types'
 
 const CreateAppointment: NextPageWithLayout = () => {
     const navBar = useNavbar()

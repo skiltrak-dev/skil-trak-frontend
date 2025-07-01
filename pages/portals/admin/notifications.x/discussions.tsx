@@ -4,7 +4,7 @@ import { AdminLayout } from '@layouts'
 // Types
 import { Button, TabNavigation, TabProps } from '@components'
 import { useContextBar } from '@hooks'
-import { AllMails, ReadMail, SendMail, UnReadMail } from '@partials/common'
+import { AllMails, SendMail } from '@partials/common'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 
