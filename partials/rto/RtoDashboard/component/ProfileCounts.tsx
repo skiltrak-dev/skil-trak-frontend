@@ -86,8 +86,8 @@ export const ProfileCounts = ({
             },
         },
         {
-            title: 'Archive Students',
-            count: Number(statisticsCount?.data?.archivedStudents),
+            title: 'Archive/Block Students',
+            count: Number(statisticsCount?.data?.combined),
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
             link: {
@@ -135,8 +135,8 @@ export const ProfileCounts = ({
             },
         },
         {
-            title: 'Esign Pending',
-            count: Number(statisticsCount?.data?.pendingDocuments),
+            title: 'Schedule Completed',
+            count: Number(statisticsCount?.data?.scheduleCompleted),
             Icon: SiHomeassistantcommunitystore,
             loading: statisticsCount?.isLoading,
             link: { pathname: '/portals/rto/tasks/e-sign' },

@@ -21,6 +21,11 @@ export const IndustryProfileChecklist = ({
         trading_hours_and_shifts,
         hasInsuranceDocuments,
         hasIndustryChecks,
+        hasBookmarked,
+        hasCourseApproved,
+        hasEmailVerified,
+        hasSupervisor,
+        hasWorkplaceType,
     } = industry
 
     const profileChecks = {
@@ -30,6 +35,11 @@ export const IndustryProfileChecklist = ({
         trading_hours_and_shifts,
         hasInsuranceDocuments,
         hasIndustryChecks,
+        hasBookmarked,
+        hasCourseApproved,
+        hasEmailVerified,
+        hasSupervisor,
+        hasWorkplaceType,
     }
     // Find the completed and incomplete items
     const completedItems = profileFields

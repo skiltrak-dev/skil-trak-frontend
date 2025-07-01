@@ -25,7 +25,7 @@ export const RtoDashboardStatistics = ({ rto }: { rto?: Rto }) => {
         setSelectedCourse(rtoCourseOptions?.[0])
     }, [rtoCourseOptions])
     const count = RtoApi.Rto.useDashboard()
-
+    console.log('count', count?.data)
     const { data, isLoading, isError, isSuccess } =
         RtoApi.Rto.useRtoProgressByCourse(
             {
@@ -68,10 +68,10 @@ export const RtoDashboardStatistics = ({ rto }: { rto?: Rto }) => {
             text: 'Appointments',
             link: '/portals/rto/tasks/appointments',
         },
-        {
-            text: 'E-Sign',
-            link: '/portals/rto/tasks/e-sign',
-        },
+        // {
+        //     text: 'E-Sign',
+        //     link: '/portals/rto/tasks/e-sign',
+        // },
     ]
 
     return (
@@ -109,12 +109,28 @@ export const RtoDashboardStatistics = ({ rto }: { rto?: Rto }) => {
                         <div className="mb-2 flex items-center gap-x-2">
                             {links?.map((link) => (
                                 <Button
+                                    key={link?.text}
                                     fullWidth
                                     variant="info"
                                     text={link?.text}
                                     onClick={() => router?.push(link?.link)}
                                 />
                             ))}
+                            <div className="relative whitespace-nowrap">
+                                <Button
+                                    fullWidth
+                                    variant="info"
+                                    text={'E-Sign Documents'}
+                                    onClick={() =>
+                                        router?.push(
+                                            '/portals/rto/tasks/e-sign'
+                                        )
+                                    }
+                                />
+                                <span className="absolute -top-2 -right-3 text-xs font-bold text-white bg-error px-1.5 py-0.5 rounded-full animate-blink shadow-md">
+                                    {count?.data?.pendingDocuments ?? 0}
+                                </span>
+                            </div>
                         </div>
                         <RtoProfileProgress statisticsCount={count} />
                     </Card>

@@ -1,4 +1,4 @@
-import { Card, NoData } from '@components'
+import { Card, NoData, PageSize, Pagination } from '@components'
 import { UserRoles } from '@constants'
 import { CommonApi } from '@queries'
 import { getUserCredentials } from '@utils'
@@ -9,9 +9,14 @@ import { SignersStatus } from './components'
 
 export const ESignatures = () => {
     const [selectedFolder, setSelectedFolder] = useState<any>(null)
-
+    const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(20)
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
-        {},
+        {
+            search: '',
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
         {
             refetchOnMountOrArgChange: true,
         }
@@ -21,24 +26,24 @@ export const ESignatures = () => {
 
     const otherAllUserSigned = useMemo(
         () =>
-            pendingDocuments?.data?.filter((agreement: any) =>
+            pendingDocuments?.data?.data?.filter((agreement: any) =>
                 agreement.signers
                     ?.filter((signer: any) => signer?.user?.role !== 'rto')
                     ?.every((signer: any) => signer.status === 'signed')
             ),
-        [pendingDocuments?.data]
+        [pendingDocuments?.data?.data]
     )
 
     useEffect(() => {
         if (
             pendingDocuments.isSuccess &&
-            pendingDocuments?.data &&
-            pendingDocuments?.data?.length > 0
+            pendingDocuments?.data?.data &&
+            pendingDocuments?.data?.data?.length > 0
         ) {
             if (role === UserRoles.RTO) {
                 setSelectedFolder(otherAllUserSigned?.[0])
             } else {
-                setSelectedFolder(pendingDocuments?.data?.[0])
+                setSelectedFolder(pendingDocuments?.data?.data?.[0])
             }
         }
     }, [pendingDocuments, otherAllUserSigned])
@@ -48,6 +53,17 @@ export const ESignatures = () => {
             {/* <AssessmentCourseCard /> */}
             <div className="flex flex-col gap-y-3 lg:flex-row gap-x-2">
                 <div className="w-full lg:w-[33%]">
+                    <div className="flex items-center justify-between">
+                        <PageSize
+                            itemPerPage={itemPerPage}
+                            setItemPerPage={setItemPerPage}
+                            records={pendingDocuments?.data?.data?.length}
+                        />
+                        <Pagination
+                            pagination={pendingDocuments.data?.pagination}
+                            setPage={setPage}
+                        />
+                    </div>
                     <Card noPadding>
                         <div className="lg:min-h-[370px]">
                             {pendingDocuments.isError && (
@@ -61,11 +77,11 @@ export const ESignatures = () => {
                                     <PuffLoader />
                                 </div>
                             ) : pendingDocuments?.isSuccess &&
-                              pendingDocuments.data &&
-                              pendingDocuments?.data?.length > 0 ? (
+                              pendingDocuments.data?.data &&
+                              pendingDocuments?.data?.data?.length > 0 ? (
                                 <ESignTitleCards
                                     selectedFolder={selectedFolder}
-                                    pendingDocuments={pendingDocuments?.data}
+                                    pendingDocuments={pendingDocuments?.data?.data}
                                     setSelectedFolder={(e: any) => {
                                         setSelectedFolder(e)
                                     }}
