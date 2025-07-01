@@ -3,7 +3,8 @@ import { NextPageWithLayout } from '@types'
 
 // layouts
 import { SubAdminLayout } from '@layouts'
-import { TodoTabs } from '@partials/common'
+import { TodoTabs } from '@partials/common/todoList'
+// import { TodoTabs } from '@partials/common'
 
 const TodoListDetails: NextPageWithLayout = () => {
     return (
