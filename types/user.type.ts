@@ -143,6 +143,8 @@ export interface RemovePartnerRequest extends BaseResponse {
     comment: string
     status: string
     industry: Industry
+    requestedBy: User
+    snoozedDate: Date
 }
 
 export interface Student extends BaseResponse {

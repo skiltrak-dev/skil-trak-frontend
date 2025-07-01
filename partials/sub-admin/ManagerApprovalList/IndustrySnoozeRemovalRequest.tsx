@@ -4,6 +4,8 @@ import {
     LoadingAnimation,
     Table,
     TechnicalError,
+    Typography,
+    UserCreatedAt,
 } from '@components'
 
 import { SubAdminApi } from '@queries'
@@ -11,6 +13,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { IndustryRequestsActions } from './enum'
 import { useIndustryColumns } from './hooks'
+import moment from 'moment'
 
 export const IndustrySnoozeRemovalRequest = () => {
     const router = useRouter()
@@ -36,6 +39,18 @@ export const IndustrySnoozeRemovalRequest = () => {
                 refetchOnMountOrArgChange: 30,
             }
         )
+
+    columns.splice(3, 0, {
+        accessorKey: 'snoozedDate',
+        header: () => <span>Snoozed Date</span>,
+        cell: ({ row }) => (
+            <Typography variant={'xxs'} color={'text-gray-700'} medium>
+                <span className="whitespace-pre">
+                    {moment(row?.original?.snoozedDate).format('Do MMM YYYY')}
+                </span>
+            </Typography>
+        ),
+    })
 
     return (
         <>
