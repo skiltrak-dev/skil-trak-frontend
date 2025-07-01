@@ -56,7 +56,7 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
         }
     )
 
-    const otherAllUserSigned = pendingDocuments?.data?.filter(
+    const otherAllUserSigned = pendingDocuments?.data?.data?.filter(
         (agreement: any) => {
             const allSigned = agreement.signers
                 ?.filter((signer: any) => signer?.user?.role !== 'rto')
@@ -86,7 +86,7 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
             ) {
                 setModal(
                     <UsersPendingEsignModal
-                        documents={pendingDocuments?.data}
+                        documents={pendingDocuments?.data?.data}
                         onClick={() => router.push(route)}
                         route="/portals/rto/tasks/e-sign"
                         onCancel={() => {

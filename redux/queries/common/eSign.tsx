@@ -183,10 +183,7 @@ export const eSignEndpoints = (
         }),
         invalidatesTags: ['E-Sign'],
     }),
-    usersPendingDocumentsList: builder.query<
-        any,
-        { status?: EsignDocumentStatus[] }
-    >({
+    usersPendingDocumentsList: builder.query<any, any>({
         query: (params) => ({
             url: `${PREFIX}/documents/pending/retrieve-for-user`,
             params,
