@@ -64,17 +64,17 @@ const Notifications: NextPageWithLayout = () => {
             //     loading: statistics.isLoading,
             // },
         },
-        {
-            title: 'Placement Notifications',
-            description: 'Placement Notifications',
-            link: 'notifications/placement-notifications',
-            animation: Animations.Student.Appointments.AssessmentEvidence,
-            // id: 'assessment-evidence',
-            // badge: {
-            //     text: statistics?.data?.assessmentEvidence,
-            //     loading: statistics.isLoading,
-            // },
-        },
+        // {
+        //     title: 'Placement Notifications',
+        //     description: 'Placement Notifications',
+        //     link: 'notifications/placement-notifications',
+        //     animation: Animations.Student.Appointments.AssessmentEvidence,
+        //     // id: 'assessment-evidence',
+        //     // badge: {
+        //     //     text: statistics?.data?.assessmentEvidence,
+        //     //     loading: statistics.isLoading,
+        //     // },
+        // },
     ]
 
     // WORKPLACE JOY RIDE - END

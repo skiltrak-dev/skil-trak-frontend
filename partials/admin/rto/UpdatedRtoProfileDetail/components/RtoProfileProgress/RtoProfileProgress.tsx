@@ -24,6 +24,9 @@ export const RtoProfileProgress = ({
         notContactableStudent:
             statisticsCount?.data?.notContactableStudent || 0,
         flaggedStudents: statisticsCount?.data?.flaggedStudents || 0,
+        terminated: statisticsCount?.data?.terminated || 0,
+        rejected: statisticsCount?.data?.rejected || 0,
+
     }
 
     const addedData = Object.values(countsArr)?.reduce(
@@ -36,7 +39,7 @@ export const RtoProfileProgress = ({
 
     const progressData: RtoProfileProgressTypes[] = [
         {
-            title: 'Workplace Started',
+            title: 'Placement Started',
             color: '#34B53A',
             percent: percentData(countsArr?.placementStarted),
         },
@@ -74,6 +77,16 @@ export const RtoProfileProgress = ({
             title: 'Flagged Students',
             color: '#FF7979',
             percent: percentData(countsArr?.flaggedStudents),
+        },
+         {
+            title: 'Terminated Workplaces',
+            color: '#991B1B',
+            percent: percentData(countsArr?.terminated),
+        },
+         {
+            title: 'Rejected Workplace',
+            color: '#DC2626',
+            percent: percentData(countsArr?.rejected),
         },
     ]
 
