@@ -19,7 +19,6 @@ export const Socket = ({ children }: any) => {
     const disconnectSocket = () => {
         if (socket) {
             socket.disconnect()
-            console.log('Socket disconnected!')
         }
     }
 
