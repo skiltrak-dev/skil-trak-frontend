@@ -10,9 +10,9 @@ import {
 import { PageHeading } from '@components/headings'
 import { useAlert, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { CourseForm, SectorForm } from '@partials/admin/sector/form'
+import { CourseForm } from '@partials/admin/sector/form'
 import { AdminApi } from '@queries'
-import { Course, NextPageWithLayout } from '@types'
+import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 
 const StateEditPage: NextPageWithLayout = () => {

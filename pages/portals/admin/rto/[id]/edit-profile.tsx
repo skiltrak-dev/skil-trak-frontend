@@ -1,8 +1,8 @@
-import { useContextBar, useNotification } from '@hooks'
+import { useContextBar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { RTOProfileEditForm } from '@partials/common'
 import { AdminApi, RtoApi } from '@queries'
-import { Course, NextPageWithLayout } from '@types'
+import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 

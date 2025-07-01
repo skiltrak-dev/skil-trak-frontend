@@ -1,19 +1,16 @@
 import {
     ActionButton,
     BackButton,
-    Button,
     DescriptiveInfo,
     InitialAvatar,
     InitialAvatarContainer,
-    TabNavigation,
-    TabProps,
     Typography,
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useState, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import {
     AiOutlineBarcode,
     AiOutlineLogin,
@@ -22,13 +19,13 @@ import {
 import { BsPatchCheckFill } from 'react-icons/bs'
 import { FaArchive, FaBan, FaEdit } from 'react-icons/fa'
 
+import { PinnedNotes } from '@partials'
+import { ArchiveModal, BlockModal } from '@partials/admin/industry/modals'
+import { DetailTabs } from '@partials/admin/industry/tabs'
 import { AdminApi } from '@queries'
+import { Industry } from '@types'
 import Image from 'next/image'
 import { MdPlace } from 'react-icons/md'
-import { DetailTabs } from '@partials/admin/industry/tabs'
-import { PinnedNotes } from '@partials'
-import { Industry } from '@types'
-import { ArchiveModal, BlockModal } from '@partials/admin/industry/modals'
 
 const Detail: NextPageWithLayout = () => {
     const router = useRouter()

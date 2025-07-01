@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement } from 'react'
 // Layouts
 import { AdminLayout } from '@layouts'
 // Types
@@ -6,10 +6,9 @@ import { NextPageWithLayout } from '@types'
 
 import { PageHeading } from '@components/headings'
 
-import { useRouter } from 'next/router'
 import { Button } from '@components'
 import { EmailDraftList } from '@partials/common/AdminEmails/emailDraft'
-
+import { useRouter } from 'next/router'
 
 const EmailDraft: NextPageWithLayout = () => {
     const router = useRouter()

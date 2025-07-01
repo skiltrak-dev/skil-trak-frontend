@@ -1,20 +1,13 @@
 import { ReactElement, useEffect, useState } from 'react'
 
-import {
-    BackButton,
-    Card,
-    LoadingAnimation,
-    TabNavigation,
-    TabProps,
-} from '@components'
+import { BackButton, Card, LoadingAnimation } from '@components'
+import { PageHeading } from '@components/headings'
 import { useAlert, useNavbar, useNotification } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { AppointmentType, NextPageWithLayout, Sector } from '@types'
-import { SectorForm } from '@partials/admin/sector/form'
-import { PageHeading } from '@components/headings'
-import { AdminApi } from '@queries'
-import { useRouter } from 'next/router'
 import { AppointmentTypeForm } from '@partials/admin/appointment-type/form'
+import { AdminApi } from '@queries'
+import { AppointmentType, NextPageWithLayout } from '@types'
+import { useRouter } from 'next/router'
 
 const AppointmentTypeEditPage: NextPageWithLayout = () => {
     const router = useRouter()

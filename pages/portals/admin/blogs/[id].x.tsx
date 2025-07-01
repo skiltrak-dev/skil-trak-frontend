@@ -10,7 +10,7 @@ import { adminApi } from '@queries'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import 'react-quill/dist/quill.snow.css'
-// import { TextEditor } from '@partials'
+
 const EditBlog: NextPageWithLayout = () => {
     const contextBar = useContextBar()
     const router = useRouter()
