@@ -375,6 +375,7 @@ export const {
     useGetIncompleteSubmissionsForWorkplaceQuery,
     useGetSubAdminIncompleteSubmissionStudentsQuery,
     useGetSubAdminDepartmentCoordinatorsQuery,
+    useSubAdminStudentCancelledWorkplacesQuery,
 
     // ---- LOGBOOK ---- //
     useSaveLogbookMutation,
@@ -632,6 +633,8 @@ export const SubAdminApi = {
         useIncompleteSubmissionStudents:
             useGetSubAdminIncompleteSubmissionStudentsQuery,
         useDepartmentCoordinators: useGetSubAdminDepartmentCoordinatorsQuery,
+        useSubAdminStudentCancelledWorkplaces:
+            useSubAdminStudentCancelledWorkplacesQuery,
     },
     LogBook: {
         useSaveLogbook: useSaveLogbookMutation,
