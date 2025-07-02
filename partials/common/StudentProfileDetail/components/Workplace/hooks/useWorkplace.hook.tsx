@@ -61,6 +61,18 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             refetchOnMountOrArgChange: true,
         }
     )
+
+    const rejectedWorkplaces =
+        SubAdminApi.Student.useSubAdminStudentCancelledWorkplaces(
+            {
+                params: { courseId: selectedWorkplace?.courses?.[0]?.id },
+                id: student?.id,
+            },
+            {
+                skip: !student?.id || !student?.user?.id || !selectedWorkplace,
+            }
+        )
+
     const courses = SubAdminApi.Student.useCourses(Number(router?.query?.id), {
         skip: !router?.query?.id,
         refetchOnMountOrArgChange: true,
@@ -387,8 +399,9 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
     const onAddAnotherWp = () => {
         if (
             [
-                WorkplaceCurrentStatus.PlacementStarted,
                 WorkplaceCurrentStatus.Completed,
+                WorkplaceCurrentStatus.Terminated,
+                WorkplaceCurrentStatus.PlacementStarted,
             ].includes(firstWorkplaceCurrentStatus)
         ) {
             return false
@@ -406,30 +419,31 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
 
     return {
         modal,
-        selectedWorkplace,
-        showPreviousWorkplace,
-        setShowPreviousWorkplace,
-        onAddAnotherWp,
-        studentWorkplace,
-        ignoreCompletedWP,
-        workplaceIndustryDetail,
-        workplaceStudentDetail,
+        course,
+        folders,
         courses,
+        onAddAnotherWp,
         getCancelledWP,
         appliedIndustry,
-        course,
         workplaceFolders,
-        folders,
         sortedWorkplace,
+        studentWorkplace,
+        onCancelWPClicked,
+        ignoreCompletedWP,
+        selectedWorkplace,
+        rejectedWorkplaces,
+        setSelectedWorkplace,
+        showPreviousWorkplace,
+        onStatusChangeClicked,
+        workplaceStudentDetail,
+        workplaceIndustryDetail,
+        setShowPreviousWorkplace,
+        onCancelWPRequestClicked,
+        onViewWorkplaceQuestions,
+        onShowRejectedRequestModal,
+        onViewPlacementStartedAnswers,
+        onUpdateWorkplaceCourseClicked,
         latestWorkplaceApprovaleRequest,
         latestWorkplaceApprovaleRequestRto,
-        onCancelWPClicked,
-        onCancelWPRequestClicked,
-        onUpdateWorkplaceCourseClicked,
-        onViewWorkplaceQuestions,
-        onViewPlacementStartedAnswers,
-        onShowRejectedRequestModal,
-        onStatusChangeClicked,
-        setSelectedWorkplace,
     }
 }

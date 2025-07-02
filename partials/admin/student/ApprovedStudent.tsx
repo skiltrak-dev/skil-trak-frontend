@@ -19,25 +19,26 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import { checkListLength, isBrowser, setLink } from '@utils'
+import {
+    activeAndCompleted,
+    checkListLength,
+    filterAwaitingAgreementBeyondSevenDays,
+    findCallLogsUnanswered,
+    findExpiringInNext45Days,
+    isBrowser,
+    setLink,
+} from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
 import { AdminStudentModalType, getAdminStudentsModal } from './modals'
-import {
-    activeAndCompleted,
-    filterAwaitingAgreementBeyondSevenDays,
-    findCallLogsUnanswered,
-    findExpiringInNext45Days,
-} from '@utils'
 
 // hooks
 import { useActionModal, useModal } from '@hooks'
 
 import moment from 'moment'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 
 export const ApprovedStudent = () => {
     const router = useRouter()

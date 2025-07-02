@@ -12,6 +12,7 @@ export const ESignTitleCards = ({
     pendingDocuments,
     setSelectedFolder,
 }: Props) => {
+    console.log({ pendingDocuments })
     return (
         <>
             <div className="p-2">

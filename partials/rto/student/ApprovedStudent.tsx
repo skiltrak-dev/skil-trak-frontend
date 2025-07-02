@@ -1,6 +1,5 @@
 import {
     ActionButton,
-    Button,
     Card,
     CaseOfficerAssignedStudent,
     EmptyData,
@@ -15,22 +14,21 @@ import {
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaUserPlus } from 'react-icons/fa'
+import { FaEdit, FaEye, FaUserPlus } from 'react-icons/fa'
 
 import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { SubadminStudentIndustries } from '@partials/sub-admin/students'
 import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
 import { RtoApi, useGetRtoStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
-import { getUserCredentials, isBrowser, studentsListWorkplace } from '@utils'
+import { getUserCredentials, studentsListWorkplace } from '@utils'
 import { saveAs } from 'file-saver'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock, MdChangeCircle } from 'react-icons/md'
 import { SectorCell, StudentCellInfo } from './components'
-import { IndustryCell } from './components/IndustryCell'
 import { AssignCoordinatorModal, BlockModal } from './modals'
 import { AssignMultipleCoordinatorModal } from './modals/AssignMultipleCoordinatorModal'
-import { SubadminStudentIndustries } from '@partials/sub-admin/students'
 
 export const ApprovedStudent = () => {
     const router = useRouter()
