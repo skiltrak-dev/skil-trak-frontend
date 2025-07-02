@@ -13,8 +13,8 @@ import { RtoApi } from '@queries'
 
 const PrimaryLinks = [
     {
-        title: 'Workplaces',
-        description: 'View Workplaces Of Your Students',
+        title: 'Industries',
+        description: 'View Industries Of Your Students',
         link: 'industries/workplaces',
         animation: Animations.Student.Workplace.MyWorkplace,
     },

@@ -138,20 +138,20 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
             <div className="mb-5">
                 <div className="flex justify-between items-center">
                     <PageTitle
-                        title={'Workplaces'}
+                        title={'Industries'}
                         navigateBack
                         backTitle={'Dashboard'}
                     />
-                    {filterAction}
+                    {/* {filterAction} */}
                 </div>
 
-                <Filter<RTOWorkplaceFormFilter>
+                {/* <Filter<RTOWorkplaceFormFilter>
                     component={RTOWorkplaceFilters}
                     initialValues={filter}
                     filterKeys={filterKeys}
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
-                />
+                /> */}
                 <div className="flex justify-end">
                     {data && data?.data.length ? (
                         <>

@@ -100,7 +100,7 @@ export const FavoriteIndustries = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }) => (
-                <IndustryCellInfoProgressbar
+                <IndustryCellInfo
                     industry={row.original}
                     isFavorite={row.original?.favoriteBy}
                     call

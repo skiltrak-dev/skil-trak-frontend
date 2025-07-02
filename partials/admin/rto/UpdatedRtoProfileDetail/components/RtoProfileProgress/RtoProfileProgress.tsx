@@ -26,7 +26,6 @@ export const RtoProfileProgress = ({
         flaggedStudents: statisticsCount?.data?.flaggedStudents || 0,
         terminated: statisticsCount?.data?.terminated || 0,
         rejected: statisticsCount?.data?.rejected || 0,
-
     }
 
     const addedData = Object.values(countsArr)?.reduce(
@@ -78,12 +77,12 @@ export const RtoProfileProgress = ({
             color: '#FF7979',
             percent: percentData(countsArr?.flaggedStudents),
         },
-         {
+        {
             title: 'Terminated Workplaces',
             color: '#991B1B',
             percent: percentData(countsArr?.terminated),
         },
-         {
+        {
             title: 'Rejected Workplace',
             color: '#DC2626',
             percent: percentData(countsArr?.rejected),
@@ -94,7 +93,9 @@ export const RtoProfileProgress = ({
         <div>
             <div>
                 <Typography semibold center>
-                    <span className="text-[15px]">Progress</span>
+                    <span className="text-[15px]">
+                        Progress of Active Students
+                    </span>
                 </Typography>
                 <div className="flex justify-center items-center">
                     {/* <div>

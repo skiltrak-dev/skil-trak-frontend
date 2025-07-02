@@ -25,7 +25,6 @@ export const RtoDashboardStatistics = ({ rto }: { rto?: Rto }) => {
         setSelectedCourse(rtoCourseOptions?.[0])
     }, [rtoCourseOptions])
     const count = RtoApi.Rto.useDashboard()
-    console.log('count', count?.data)
     const { data, isLoading, isError, isSuccess } =
         RtoApi.Rto.useRtoProgressByCourse(
             {

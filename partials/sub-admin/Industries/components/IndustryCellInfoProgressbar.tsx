@@ -78,7 +78,7 @@ export const IndustryCellInfoProgressbar = ({
         { key: 'trading_hours_and_shifts', label: 'Trading Hours & Shifts' },
         { key: 'hasInsuranceDocuments', label: 'Insurance Documents' },
         { key: 'hasIndustryChecks', label: 'Industry Checks' },
-        { key: 'hasBookmarked', label: 'Bookmarked' },
+        { key: 'hasBookmarked', label: 'Favorite' },
         { key: 'hasCourseApproved', label: 'Course Approved' },
         { key: 'hasEmailVerified', label: 'Email Verified' },
         { key: 'hasSupervisor', label: 'Supervisor' },

@@ -29,6 +29,11 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
         trading_hours_and_shifts,
         hasInsuranceDocuments,
         hasIndustryChecks,
+        hasBookmarked,
+        hasCourseApproved,
+        hasEmailVerified,
+        hasSupervisor,
+        hasWorkplaceType,
     } = industry
     const completedCount = [
         courseAdded,
@@ -37,6 +42,11 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
         trading_hours_and_shifts,
         hasInsuranceDocuments,
         hasIndustryChecks,
+        hasBookmarked,
+        hasCourseApproved,
+        hasEmailVerified,
+        hasSupervisor,
+        hasWorkplaceType,
     ].filter(Boolean).length
 
     const profileFields = [
@@ -46,6 +56,11 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
         { key: 'trading_hours_and_shifts', label: 'Trading Hours & Shifts' },
         { key: 'hasInsuranceDocuments', label: 'Insurance Documents' },
         { key: 'hasIndustryChecks', label: 'Industry Checks' },
+        { key: 'hasBookmarked', label: 'Favorite' },
+        { key: 'hasCourseApproved', label: 'Course Approved' },
+        { key: 'hasEmailVerified', label: 'Email Verified' },
+        { key: 'hasSupervisor', label: 'Supervisor' },
+        { key: 'hasWorkplaceType', label: 'Workplace Type' },
     ]
 
     // Find the missing items
@@ -100,7 +115,7 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
                                 <div className="relative group">
                                     <ProfileCompletionProgress
                                         completedItems={completedCount}
-                                        totalItems={6}
+                                        totalItems={11}
                                     />
                                     <div className="absolute !z-50 top-4 left-0 group-hover:block hidden w-full">
                                         <IndustryProfileChecklist

@@ -18,22 +18,19 @@ export const ProgressChart = ({
         is3D: false,
         legend: { position: 'none' },
         chartArea: { width: '60%', height: '90%' },
-        colors: data?.map((d: RtoProfileProgressTypes) => d?.color),
+        colors: data.map((d) => d.color),
         pieSliceText: pieSliceText || 'percentage',
-        // tooltip: false,
-        // tooltip: {
-        //     trigger: 'selection',
-        //     isHtml: true,
-        //     text: '<b>Slice Label</b>',
-        // },
-        // pieSliceTextStyle: {
-        //     fontSize: 30, // Set font size to 30px
-        // },
+        tooltip: {
+            isHtml: false,
+        },
     }
 
     const updatedData = [
         ['Task', 'Hours per Day'],
-        ...data?.map((d: RtoProfileProgressTypes, i: number) => [
+        ...data.map((d) => [
+            // d.title,
+            // d.percent,
+            // `${d?.title} (${d.percent}%)`,
             `${d?.title}`,
             +d?.percent,
         ]),
