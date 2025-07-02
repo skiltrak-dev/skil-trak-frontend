@@ -84,6 +84,7 @@ export interface RtoStatsCount {
     pendingResult: number | string
     pendingStudent: number | string
     workplaceRequest: number | string
+    pendingDocuments: number | string
 }
 
 export interface InvoiceSetting extends BaseResponse {

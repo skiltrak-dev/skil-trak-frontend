@@ -11,7 +11,7 @@ export const StepAccountInfo = () => {
         SignUpUtils.setValuesToStorage({
             ...values,
         })
-
+        console.log('values', values)
         router.push({ query: { step: 'review-info' } })
     }
 

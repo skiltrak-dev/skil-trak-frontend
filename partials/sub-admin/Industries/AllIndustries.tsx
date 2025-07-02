@@ -203,7 +203,7 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
         },
         {
             accessorKey: 'favouriteBy',
-            header: () => <span>Bookmarked By</span>,
+            header: () => <span>Favorite By</span>,
             cell: ({ row }) => {
                 const userName = row?.original?.favoriteBy?.user?.name
 

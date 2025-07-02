@@ -58,6 +58,7 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
     const role = AuthUtils.getUserCredentials().role
     const { data, isSuccess, isLoading } = useGetStudentProfileDetailQuery()
     const isRtoSelfPayment = data?.rto?.allowStudentSelfPayment
+    const isSelfRegistered = data?.isSelfRegistered
     const [checkoutSession, checkoutSessionResult] =
         useCreateCheckoutSessionMutation()
 
@@ -80,7 +81,7 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
 
     switch (status) {
         case UserStatus.Pending:
-            if (isRtoSelfPayment) {
+            if (isRtoSelfPayment || isSelfRegistered) {
                 return (
                     <div>
                         <ShowErrorNotifications

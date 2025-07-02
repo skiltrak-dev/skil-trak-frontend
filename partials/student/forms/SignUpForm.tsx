@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import 'react-phone-number-input/style.css'
 
 import _debounce from 'lodash/debounce'
@@ -33,6 +33,115 @@ import { StudentFormType } from '@types'
 import debounce from 'lodash/debounce'
 import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
 import { FormProvider, useForm } from 'react-hook-form'
+
+interface RtoOption {
+    label: string
+    value: number
+}
+type CustomRtoSelectType = RtoOption | { value: null; customText: string }
+interface CustomRtoSearchProps {
+    label: string
+    onSearch: (query: string) => void
+    options: { label: string; value: number }[]
+    loading?: boolean
+    onSelect: (option: CustomRtoSelectType) => void
+}
+
+export const CustomRtoSearch = ({
+    label,
+    onSearch,
+    options,
+    loading,
+    onSelect,
+}: CustomRtoSearchProps) => {
+    const [input, setInput] = useState('')
+    console.log('input', input)
+    const [isOpen, setIsOpen] = useState(false)
+    const dropdownRef = useRef<any>(null)
+
+    useEffect(() => {
+        const handleClickOutside = (event: any) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current?.contains(event.target)
+            ) {
+                setIsOpen(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
+
+    const handleInputChange = (e: any) => {
+        const value = e.target.value
+        setInput(value)
+        setIsOpen(true)
+        onSearch(value)
+    }
+
+    const handleSelect = (option: any) => {
+        if (option === 'other') {
+            onSelect({ value: null, customText: input })
+        } else {
+            setInput(option.label)
+            onSelect({ value: option.value, label: option.label })
+        }
+        setIsOpen(false)
+    }
+
+    const hasMatch = options?.some(
+        (opt) => opt.label.toLowerCase() === input.toLowerCase()
+    )
+
+    return (
+        <div ref={dropdownRef} className="relative w-full">
+            <label className="block mb-1 text-sm text-gray-700">{label}</label>
+            <input
+                type="text"
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                value={input}
+                onChange={handleInputChange}
+                onFocus={() => setIsOpen(true)}
+                placeholder="Search or type RTO..."
+            />
+
+            {isOpen && (
+                <ul className="absolute z-10 bg-white border w-full shadow mt-1 max-h-60 overflow-auto rounded">
+                    {loading ? (
+                        <li className="px-4 py-2 text-sm text-gray-500">
+                            Loading...
+                        </li>
+                    ) : options.length ? (
+                        options.map((option) => (
+                            <li
+                                key={option.value}
+                                onClick={() => handleSelect(option)}
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                            >
+                                {option.label}
+                            </li>
+                        ))
+                    ) : (
+                        <li className="px-4 py-2 text-sm text-gray-500">
+                            No RTO found.
+                        </li>
+                    )}
+                    {!hasMatch && input?.length > 2 && (
+                        <li
+                            onClick={() => handleSelect('other')}
+                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-blue-600"
+                        >
+                            Add Custom RTO: "{input}"
+                        </li>
+                    )}
+                </ul>
+            )}
+        </div>
+    )
+}
 
 export const StudentSignUpForm = ({
     onSubmit,
@@ -400,7 +509,7 @@ export const StudentSignUpForm = ({
                                 placeholder={'Enter your number'}
                             />
 
-                            <Select
+                            {/* <Select
                                 label={'Search Training Organization'}
                                 {...(storedData
                                     ? {
@@ -432,6 +541,40 @@ export const StudentSignUpForm = ({
                                 <TextInput
                                     label="RTO Info"
                                     name="rto"
+                                    placeholder="Enter custom RTO name"
+                                    required
+                                    validationIcons
+                                />
+                            )} */}
+                            <CustomRtoSearch
+                                label="Search Training Organization"
+                                onSearch={(val) => debounceValue(val)}
+                                options={rtoOptions}
+                                loading={rtoResponse.isLoading}
+                                onSelect={(selected: any) => {
+                                    if (selected.value === null) {
+                                        // It's a custom RTO
+                                        setSelectedRto(null)
+                                        formMethods.setValue('rto', null)
+                                        formMethods.setValue(
+                                            'rtoInfo',
+                                            selected.customText
+                                        ) // ✅ Set rtoInfo
+                                    } else {
+                                        setSelectedRto(selected.value)
+                                        formMethods.setValue(
+                                            'rto',
+                                            selected.value
+                                        )
+                                        formMethods.setValue('rtoInfo', '') // Clear custom RTO field
+                                    }
+                                }}
+                            />
+
+                            {selectedRto === null && (
+                                <TextInput
+                                    label="RTO Info"
+                                    name="rtoInfo"
                                     placeholder="Enter custom RTO name"
                                     required
                                     validationIcons

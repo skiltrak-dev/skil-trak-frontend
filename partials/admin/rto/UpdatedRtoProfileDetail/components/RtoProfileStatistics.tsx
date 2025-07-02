@@ -1,11 +1,13 @@
 import { Rto } from '@types'
-import { Card } from '@components'
+import { Button, Card } from '@components'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 import { ProfileCounts } from './ProfileCounts'
 import { useEffect, useMemo, useState } from 'react'
 import { AdminApi, RtoApi, SubAdminApi } from '@queries'
 import { RtoProfileProgress } from './RtoProfileProgress'
+import Modal from '@modals/Modal'
+import { ViewProgressByCourseChart } from '@partials/common'
 
 export const RtoProfileStatistics = ({
     rto,
@@ -29,7 +31,7 @@ export const RtoProfileStatistics = ({
     useEffect(() => {
         setSelectedCourse(rtoCourseOptions?.[0])
     }, [rtoCourseOptions])
-    const { data } = RtoApi.Rto.useRtoProgressByCourse({
+    const { data, isLoading, isError, isSuccess } = RtoApi.Rto.useRtoProgressByCourse({
         courseId: selectedCourse?.value ?? selectedCourse,
         userId: rtoUserId,
     })
@@ -67,6 +69,7 @@ export const RtoProfileStatistics = ({
         },
     ]
 
+    console.log('statisticsCount::::', statisticsCount?.data)
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5 mt-[18px]">
             <div className="flex flex-col">
@@ -84,7 +87,7 @@ export const RtoProfileStatistics = ({
                 </div>
             </div>
             <div className="flex flex-col">
-                {/* <div className="flex justify-end">
+                <div className="flex justify-end">
                     <Modal>
                         <Modal.Open opens="viewProgressByCourse">
                             <span className="text-sm text-link mb-1 underline cursor-pointer">
@@ -103,9 +106,15 @@ export const RtoProfileStatistics = ({
                             />
                         </Modal.Window>
                     </Modal>
-                </div> */}
+                </div>
                 <div className="flex-grow">
                     <Card shadowType="profile" fullHeight>
+                        <div className="relative whitespace-nowrap inline-block">
+                            <Button variant="info" text={'E-Sign Documents'} />
+                            <span className="absolute -top-2 -right-3 text-xs font-bold text-white bg-error px-1.5 py-0.5 rounded-full animate-blink shadow-md">
+                                {statisticsCount?.data?.pendingDocuments ?? 0}
+                            </span>
+                        </div>
                         <RtoProfileProgress
                             statisticsCount={
                                 role === UserRoles.SUBADMIN &&

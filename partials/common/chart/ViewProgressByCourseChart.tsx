@@ -93,7 +93,7 @@ export const ViewProgressByCourseChart = ({
                                 }}
                             /> */}
                             <Tooltip />
-                            <Legend />
+                            {/* <Legend /> */}
 
                             {/* Bars for the main metrics */}
                             <Bar
@@ -107,28 +107,6 @@ export const ViewProgressByCourseChart = ({
                                     fontSize: 12,
                                 }}
                             />
-                            {/* <Bar
-                                yAxisId="right"
-                                dataKey="value"
-                                name="Average Time (Weeks)"
-                                fill="red"
-                                label={{
-                                    position: 'top',
-                                    fill: 'red',
-                                    fontSize: 12,
-                                }}
-                                data={avgTimelineD}
-                            /> */}
-
-                            {/* Scatter marker for the avg timeline */}
-                            {/* <Scatter
-                                yAxisId="right"
-                                data={initialData}
-                                dataKey="timeline"
-                                name="Avg. Timeline (Weeks)"
-                                fill="red"
-                                shape="circle"
-                            /> */}
                         </BarChart>
                     </ResponsiveContainer>
                 ) : (

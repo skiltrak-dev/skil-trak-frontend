@@ -107,8 +107,8 @@ export const ProfileCounts = ({
             },
         },
         {
-            title: 'Archive Students',
-            count: Number(statisticsCount?.data?.archivedStudents),
+            title: 'Archive/Block Students',
+            count: Number(statisticsCount?.data?.combined),
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
             link: {
@@ -157,8 +157,8 @@ export const ProfileCounts = ({
             },
         },
         {
-            title: 'Pending Students',
-            count: Number(statisticsCount?.data?.pendingStudent),
+            title: 'Reported Students',
+            count: Number(statisticsCount?.data?.flaggedStudents),
             Icon: HiUserCircle,
             loading: statisticsCount?.isLoading,
             link: {
@@ -182,8 +182,8 @@ export const ProfileCounts = ({
             },
         },
         {
-            title: 'Workplace Request',
-            count: Number(statisticsCount?.data?.workplaceRequest),
+            title: 'Schedule Completed',
+            count: Number(statisticsCount?.data?.scheduleCompleted),
             Icon: SiHomeassistantcommunitystore,
             loading: statisticsCount?.isLoading,
             background: {
@@ -192,8 +192,8 @@ export const ProfileCounts = ({
             },
         },
         {
-            title: 'Pending Result',
-            count: Number(statisticsCount?.data?.pendingResult),
+            title: 'Placement Started',
+            count: Number(statisticsCount?.data?.placementStarted),
             Icon: SiSimpleanalytics,
             loading: statisticsCount?.isLoading,
             link:

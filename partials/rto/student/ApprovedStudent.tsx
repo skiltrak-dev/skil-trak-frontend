@@ -345,8 +345,8 @@ export const ApprovedStudent = () => {
                 <PageHeading
                     title={'Approved Students'}
                     subtitle={'List of Approved Students'}
-                >
-                    {data?.data && data?.data.length ? (
+                />
+                {/* {data?.data && data?.data.length ? (
                         <Button
                             text={'Export'}
                             variant={'action'}
@@ -359,8 +359,8 @@ export const ApprovedStudent = () => {
                                 }
                             }}
                         />
-                    ) : null}
-                </PageHeading>
+                    ) : null} */}
+                {/* </PageHeading> */}
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

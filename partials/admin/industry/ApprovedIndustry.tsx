@@ -137,6 +137,25 @@ export const ApprovedIndustry = () => {
             },
         },
         {
+            accessorKey: 'favouriteBy',
+            header: () => <span>Favorite By</span>,
+            cell: (info) => {
+                const userName = info?.row?.original?.favoriteBy?.user?.name
+
+                return (
+                    <div className="flex items-center">
+                        {userName ? (
+                            <div className="relative px-3 py-1 bg-orange-100 text-orange-600  rounded-tl-lg rounded-br-lg clip-path-bookmark">
+                                {userName}
+                            </div>
+                        ) : (
+                            <span className="text-gray-400">—</span>
+                        )}
+                    </div>
+                )
+            },
+        },
+        {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: (info) => <SectorCell industry={info?.row?.original} />,

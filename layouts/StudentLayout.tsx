@@ -98,6 +98,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
         refetchOnMountOrArgChange: true,
     })
     const isRtoSelfPayment = profile?.data?.rto?.allowStudentSelfPayment
+    const isSelfRegistered = profile?.data?.isSelfRegistered
     const industryChecks = StudentApi.Workplace.getWpIndustryChecks()
 
     const values = { ...profile?.data, ...profile?.data?.user }
@@ -219,7 +220,8 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                                             UserStatus.Archived ||
                                             (userData?.status ===
                                                 UserStatus.Pending &&
-                                                isRtoSelfPayment)) && (
+                                                (isRtoSelfPayment ||
+                                                    isSelfRegistered))) && (
                                             <Button
                                                 text="make payment to reactivate"
                                                 // variant="success"
