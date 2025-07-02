@@ -437,18 +437,6 @@ export const useRequestType = ({
             date: appliedIndustry?.caseOfficerAssignedDate,
         },
         {
-            primaryText: 'Interview',
-            secondaryText: 'with Case Officer',
-            color: 'text-primary-light',
-            onClick: (isCleared: any) => {
-                isCleared(true)
-                // interView(appliedIndustry?.id)
-                onInterviewClicked()
-            },
-            status: WorkplaceCurrentStatus.Interview,
-            date: appliedIndustry?.interviewDate || workplace?.interviewDate,
-        },
-        {
             primaryText: 'Agreement & Eligibility (Pending)',
             secondaryText: 'Checklist Pending',
             color: 'text-info',

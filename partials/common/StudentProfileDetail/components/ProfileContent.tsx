@@ -19,11 +19,7 @@ export const WorkplaceNotesSection: React.FC<any> = ({
 }) => (
     <div
         className={`grid grid-cols-1 h-auto ${
-            isAdminRole
-                ? 'xl:grid-cols-1 gap-3'
-                : `xl:grid-cols-5 ${
-                      workplaceLength > 1 ? 'xl:h-[570px]' : 'xl:h-[500px]'
-                  }`
+            isAdminRole ? 'xl:grid-cols-1 gap-3' : `xl:grid-cols-5 `
         } px-2 gap-x-3`}
     >
         <div

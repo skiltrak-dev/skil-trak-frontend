@@ -7,11 +7,9 @@ import {
     Button,
     Card,
     EmptyData,
-    Filter,
     InitialAvatar,
     LoadingAnimation,
     PageTitle,
-    RTOWorkplaceFilters,
     SetDetaultQueryFilteres,
     Table,
     TableAction,
@@ -26,7 +24,6 @@ import { ColumnDef } from '@tanstack/react-table'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { FaFileExport } from 'react-icons/fa'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 type Props = {}
 
@@ -152,7 +149,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                     setFilterAction={setFilterAction}
                     setFilter={setFilter}
                 /> */}
-                <div className="flex justify-end">
+                {/* <div className="flex justify-end">
                     {data && data?.data.length ? (
                         <>
                             <a
@@ -168,7 +165,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                             </a>
                         </>
                     ) : null}
-                </div>
+                </div> */}
             </div>
             <Card noPadding>
                 {isError && <TechnicalError />}
