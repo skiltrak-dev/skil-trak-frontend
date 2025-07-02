@@ -35,6 +35,7 @@ import {
 import { IndustryDetail } from './components/IndustryDetail'
 import { WPStatusForCancelButon } from './data'
 import { useWorkplaceHook } from './hooks'
+import { SubAdminApi } from '@queries'
 
 export const Workplace = ({
     student,
@@ -72,6 +73,17 @@ export const Workplace = ({
         onViewPlacementStartedAnswers,
         onShowRejectedRequestModal,
     } = useWorkplaceHook({ student })
+    console.log('selectedWorkplace', selectedWorkplace?.courses?.[0]?.id)
+    const rejectedWorkplaces =
+        SubAdminApi.Student.useSubAdminStudentCancelledWorkplaces(
+            {
+                params: { courseId: selectedWorkplace?.courses?.[0]?.id },
+                id: student?.id,
+            },
+            {
+                skip: !student?.id || !student?.user?.id,
+            }
+        )
 
     const values = {
         ...student,
@@ -95,6 +107,8 @@ export const Workplace = ({
     const togglePreviousWorkplace = () => {
         setShowPreviousWorkplace(!showPreviousWorkplace)
     }
+
+    console.log('selectedWorkplace', selectedWorkplace?.id)
 
     return (
         <>

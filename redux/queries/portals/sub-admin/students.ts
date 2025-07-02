@@ -767,4 +767,11 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['SubAdminStudents'],
     }),
+    subAdminStudentCancelledWorkplaces: builder.query<any, any>({
+        query: ({ params, id }) => ({
+            url: `students/workplace-requests/std/${id}/list/workplace/rejected`,
+            params,
+        }),
+        providesTags: ['SubAdminStudents'],
+    }),
 })
