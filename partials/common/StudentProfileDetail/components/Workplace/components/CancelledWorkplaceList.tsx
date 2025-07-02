@@ -1,11 +1,9 @@
-import { SubAdminApi } from '@queries'
-import { useRouter } from 'next/router'
 import { Typography } from '@components'
-import { CancelledWPCard } from '../Cards'
-import { ReactElement, useState } from 'react'
-import { AllCancelleWorkplaceModal } from '../modals'
-import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
+import { ReactElement, useState } from 'react'
+import { CancelledWPCard } from '../Cards'
+import { AllCancelleWorkplaceModal } from '../modals'
 
 export const CancelledWorkplaceList = ({
     rejectedWorkplaces,

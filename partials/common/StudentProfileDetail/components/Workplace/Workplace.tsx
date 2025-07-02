@@ -19,6 +19,7 @@ import { useEffect } from 'react'
 import {
     AddWorkplaceAction,
     CancelledWorkplaceCard,
+    CancelledWorkplaceList,
     CancelWpRequest,
     ContactPersonDetail,
     IndustryStatus,
@@ -36,6 +37,7 @@ import { IndustryDetail } from './components/IndustryDetail'
 import { WPStatusForCancelButon } from './data'
 import { useWorkplaceHook } from './hooks'
 import { SubAdminApi } from '@queries'
+import { PulseLoader } from 'react-spinners'
 
 export const Workplace = ({
     student,
@@ -49,41 +51,31 @@ export const Workplace = ({
     const { workplaceRto, setWorkplaceRes } = useWorkplace()
     const {
         modal,
-        selectedWorkplace,
-        setSelectedWorkplace,
-        showPreviousWorkplace,
-        setShowPreviousWorkplace,
-        studentWorkplace,
-        workplaceIndustryDetail,
-        workplaceStudentDetail,
-        courses,
-        getCancelledWP,
-        appliedIndustry,
         course,
         folders,
+        courses,
         onAddAnotherWp,
-        ignoreCompletedWP,
+        getCancelledWP,
+        appliedIndustry,
         sortedWorkplace,
+        studentWorkplace,
+        onCancelWPClicked,
+        ignoreCompletedWP,
+        selectedWorkplace,
+        rejectedWorkplaces,
+        setSelectedWorkplace,
+        showPreviousWorkplace,
+        workplaceStudentDetail,
+        workplaceIndustryDetail,
+        setShowPreviousWorkplace,
+        onCancelWPRequestClicked,
+        onViewWorkplaceQuestions,
+        onShowRejectedRequestModal,
+        onViewPlacementStartedAnswers,
+        onUpdateWorkplaceCourseClicked,
         latestWorkplaceApprovaleRequest,
         latestWorkplaceApprovaleRequestRto,
-        onCancelWPClicked,
-        onCancelWPRequestClicked,
-        onUpdateWorkplaceCourseClicked,
-        onViewWorkplaceQuestions,
-        onViewPlacementStartedAnswers,
-        onShowRejectedRequestModal,
     } = useWorkplaceHook({ student })
-    console.log('selectedWorkplace', selectedWorkplace?.courses?.[0]?.id)
-    const rejectedWorkplaces =
-        SubAdminApi.Student.useSubAdminStudentCancelledWorkplaces(
-            {
-                params: { courseId: selectedWorkplace?.courses?.[0]?.id },
-                id: student?.id,
-            },
-            {
-                skip: !student?.id || !student?.user?.id,
-            }
-        )
 
     const values = {
         ...student,
@@ -107,8 +99,6 @@ export const Workplace = ({
     const togglePreviousWorkplace = () => {
         setShowPreviousWorkplace(!showPreviousWorkplace)
     }
-
-    console.log('selectedWorkplace', selectedWorkplace?.id)
 
     return (
         <>
@@ -451,6 +441,14 @@ export const Workplace = ({
                             height="40vh"
                         />
                     )
+                )}
+
+                {!showPreviousWorkplace && (
+                    <div className="p-2">
+                        <CancelledWorkplaceList
+                            rejectedWorkplaces={rejectedWorkplaces}
+                        />
+                    </div>
                 )}
 
                 {showPreviousWorkplace ? (
