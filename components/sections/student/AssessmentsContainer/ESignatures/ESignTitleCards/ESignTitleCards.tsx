@@ -23,14 +23,16 @@ export const ESignTitleCards = ({
                     {selectedFolder?.template?.name}
                 </Typography>
             </div>
-            {pendingDocuments?.map((doc: any, index: number) => (
-                <ESignTitleCard
-                    key={index}
-                    doc={doc}
-                    onClick={() => setSelectedFolder(doc)}
-                    selectedFolder={selectedFolder}
-                />
-            ))}
+            <div className="h-96 overflow-auto">
+                {pendingDocuments?.map((doc: any, index: number) => (
+                    <ESignTitleCard
+                        doc={doc}
+                        key={index}
+                        selectedFolder={selectedFolder}
+                        onClick={() => setSelectedFolder(doc)}
+                    />
+                ))}
+            </div>
         </>
     )
 }

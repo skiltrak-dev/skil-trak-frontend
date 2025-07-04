@@ -1,16 +1,17 @@
-import { Card, NoData, PageSize, Pagination } from '@components'
-import { UserRoles } from '@constants'
 import { CommonApi } from '@queries'
+import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
-import { useEffect, useMemo, useState } from 'react'
 import { PuffLoader } from 'react-spinners'
-import { ESignTitleCards } from './ESignTitleCards'
 import { SignersStatus } from './components'
+import { ESignTitleCards } from './ESignTitleCards'
+import { useEffect, useMemo, useState } from 'react'
+import { Card, NoData, PageSize, Pagination } from '@components'
 
 export const ESignatures = () => {
-    const [selectedFolder, setSelectedFolder] = useState<any>(null)
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(20)
+    const [itemPerPage, setItemPerPage] = useState(10)
+    const [selectedFolder, setSelectedFolder] = useState<any>(null)
+
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
         {
             search: '',
@@ -72,7 +73,8 @@ export const ESignatures = () => {
                                     isError
                                 />
                             )}
-                            {pendingDocuments.isLoading ? (
+                            {pendingDocuments.isLoading ||
+                            pendingDocuments.isFetching ? (
                                 <div className="min-h-[inherit] flex justify-center items-center">
                                     <PuffLoader />
                                 </div>
@@ -81,7 +83,9 @@ export const ESignatures = () => {
                               pendingDocuments?.data?.data?.length > 0 ? (
                                 <ESignTitleCards
                                     selectedFolder={selectedFolder}
-                                    pendingDocuments={pendingDocuments?.data?.data}
+                                    pendingDocuments={
+                                        pendingDocuments?.data?.data
+                                    }
                                     setSelectedFolder={(e: any) => {
                                         setSelectedFolder(e)
                                     }}

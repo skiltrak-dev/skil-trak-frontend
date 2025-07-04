@@ -6,6 +6,7 @@ export interface RtoProfileProgressTypes {
     title: string
     color: string
     percent: number
+    value: number
 }
 
 export const RtoProfileProgress = ({
@@ -41,51 +42,61 @@ export const RtoProfileProgress = ({
             title: 'Placement Started',
             color: '#34B53A',
             percent: percentData(countsArr?.placementStarted),
+            value: countsArr?.placementStarted,
         },
         {
             title: 'In Progress',
             color: '#4339F2',
             percent: percentData(countsArr?.inProgress),
+            value: countsArr?.inProgress,
         },
         {
             title: 'Agreement Pending',
             color: '#FF3A29',
             percent: percentData(countsArr?.awaitingAgreementSigned),
+            value: countsArr?.awaitingAgreementSigned,
         },
         {
             title: 'Appointments',
             color: '#02A0FC',
             percent: percentData(countsArr?.appointmentBooked),
+            value: countsArr?.appointmentBooked,
         },
         {
             title: 'Students with no workplaces',
             color: '#21516A',
             percent: percentData(countsArr?.noWorkPlace),
+            value: countsArr?.noWorkPlace,
         },
         {
             title: 'Snoozed Students',
             color: '#64748b',
             percent: percentData(countsArr?.snoozedStudents),
+            value: countsArr?.snoozedStudents,
         },
         {
             title: 'Not Contactable Students',
             color: '#EB4D4B',
             percent: percentData(countsArr?.notContactableStudent),
+            value: countsArr?.notContactableStudent,
         },
         {
             title: 'Flagged Students',
             color: '#FF7979',
             percent: percentData(countsArr?.flaggedStudents),
+            value: countsArr?.flaggedStudents,
         },
         {
             title: 'Terminated Workplaces',
             color: '#991B1B',
             percent: percentData(countsArr?.terminated),
+            value: countsArr?.terminated,
         },
         {
             title: 'Rejected Workplace',
             color: '#DC2626',
             percent: percentData(countsArr?.rejected),
+            value: countsArr?.rejected,
         },
     ]
 

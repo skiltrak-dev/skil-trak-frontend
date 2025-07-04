@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import { TableColumn, TodoTable } from '../components/TodoTable'
-import { PaginationData } from '../components/TodoPagination'
+import React from 'react'
 import { FaCheck } from 'react-icons/fa'
 import { IoCloseSharp } from 'react-icons/io5'
+import { PaginationData } from '../components/TodoPagination'
+import { TableColumn, TodoTable } from '../components/TodoTable'
+import { TodoHighpriority } from '../tabsData'
 
 export const DailyRecurringTasks = () => {
     const [currentPage, setCurrentPage] = React.useState(1)
@@ -129,21 +130,7 @@ export const DailyRecurringTasks = () => {
 
     return (
         <div className="p-6 flex flex-col gap-y-6">
-            <TodoTable
-                data={studentData}
-                columns={columns}
-                title="High Priority Items:"
-                totalCount={148}
-                statusCounts={{
-                    done: 120,
-                    remaining: 28,
-                }}
-                onClose={() => console.log('Close clicked')}
-                pagination={paginationData}
-                onPageChange={handlePageChange}
-                onItemsPerPageChange={handleItemsPerPageChange}
-                loading={loading}
-            />
+            <TodoHighpriority />
 
             <TodoTable
                 data={studentData}

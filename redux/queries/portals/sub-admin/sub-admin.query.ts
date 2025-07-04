@@ -244,6 +244,7 @@ export const {
 
     // ---- TODO ---- //
     useTodoListCountQuery,
+    useHighPriorityTodoListQuery,
 
     // ------ NOTES ------ //
     useSubadminNotesQuery,
@@ -561,6 +562,7 @@ export const SubAdminApi = {
     },
     Todo: {
         todoListCount: useTodoListCountQuery,
+        highPriorityTodoList: useHighPriorityTodoListQuery,
     },
     Notes: {
         useList: useSubadminNotesQuery,

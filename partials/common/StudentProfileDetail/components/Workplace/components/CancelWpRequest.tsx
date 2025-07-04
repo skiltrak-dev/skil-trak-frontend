@@ -1,6 +1,6 @@
-import { ActionButton, AuthorizedUserComponent } from '@components'
-import { UserRoles } from '@constants'
 import React from 'react'
+import { UserRoles } from '@constants'
+import { ActionButton, AuthorizedUserComponent } from '@components'
 
 export const CancelWpRequest = ({
     onCancelWPClicked,

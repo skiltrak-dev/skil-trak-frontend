@@ -1,3 +1,5 @@
 export * from './CardTable'
 export * from './TodoTabs'
+export * from './TodoTable'
+export * from './TodoPagination'
 export * from './TodoListDetails'
