@@ -34,7 +34,7 @@ export const groupDirectCoursesBySector = (courses: Course[]) => {
 export const groupCoursesBySector = (data: any) => {
     const sectorMap = new Map()
     data.forEach((item: any) => {
-        const sectorCode = item?.course?.sector?.code
+        const sectorCode = item?.course?.sector?.id
         const sectorInfo = item?.course?.sector
         // Create course object with all relevant data
         const courseData = {

@@ -27,13 +27,7 @@ export const ProgressChart = ({
 
     const updatedData = [
         ['Task', 'Hours per Day'],
-        ...data.map((d) => [
-            // d.title,
-            // d.percent,
-            // `${d?.title} (${d.percent}%)`,
-            `${d?.title}`,
-            +d?.percent,
-        ]),
+        ...data.map((d) => [`${d?.title}`, +d?.value]),
     ]
 
     return (

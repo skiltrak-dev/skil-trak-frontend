@@ -10,15 +10,17 @@ import {
 } from '@partials/sub-admin/workplace/modals'
 import { isClearedFunctionType } from '@partials/sub-admin/workplace/studentProvidedComponents/RequestTypeAbn'
 import { Student, UserStatus } from '@types'
-import { WorkplaceCurrentStatus } from '@utils'
+import { getUserCredentials, WorkplaceCurrentStatus } from '@utils'
 import { ReactElement, useState } from 'react'
 import {
     AddFeedbackModal,
-    AddScheduleStatus,
     AgreementSignedModal,
     CancelWorkplaceModal,
+    CancelWorkplaceRequestModal,
     ShowScheduleInfoModal,
 } from '../components'
+import { UserRoles } from '@constants'
+import { WPStatusForCancelButon } from '../components/Workplace/data'
 
 export const useRequestType = ({
     appliedIndustry,
@@ -31,7 +33,11 @@ export const useRequestType = ({
     folders: any
     student: Student
 }) => {
+    // onCancelWPRequestClicked
+
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const role = getUserCredentials()?.role
 
     const { notification } = useNotification()
 
@@ -131,6 +137,15 @@ export const useRequestType = ({
             <CancelWorkplaceModal
                 onCancel={onModalCancelClicked}
                 workplaceId={workplace?.id}
+            />
+        )
+    }
+
+    const onCancelWPRequestClicked = () => {
+        setModal(
+            <CancelWorkplaceRequestModal
+                workplaceId={workplace?.id}
+                onCancel={onModalCancelClicked}
             />
         )
     }
@@ -378,7 +393,19 @@ export const useRequestType = ({
             secondaryText: 'Cancelled',
             color: 'text-error',
             onClick: () => {
-                onCancelRequestClicked()
+                if (WPStatusForCancelButon.includes(workplace?.currentStatus)) {
+                    if (role === UserRoles.SUBADMIN) {
+                        onCancelWPRequestClicked()
+                    } else {
+                        onCancelRequestClicked()
+                    }
+                } else {
+                    notification.warning({
+                        title: 'Cannot Cancel Workplace',
+                        description:
+                            'Cannot Cancel the workplace on current status',
+                    })
+                }
             },
             status: WorkplaceCurrentStatus.Cancelled,
             date: appliedIndustry?.cancelledDate,

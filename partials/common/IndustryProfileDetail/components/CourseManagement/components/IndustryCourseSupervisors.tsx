@@ -28,7 +28,6 @@ export const IndustryCourseSupervisors = ({
     const userRole = getUserCredentials()?.role
     return (
         <div>
-            {' '}
             <AuthorizedUserComponent
                 roles={[UserRoles.ADMIN, UserRoles.SUBADMIN, UserRoles.RTO]}
             >
