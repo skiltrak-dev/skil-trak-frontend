@@ -56,31 +56,37 @@ export const SubadminProgress = ({
             title: 'Workplace Started',
             color: '#34B53A',
             percent: percentData(countsUpdatedArr?.placementStarted),
+            value: countsUpdatedArr?.placementStarted,
         },
         {
             title: 'In Progress',
             color: '#4339F2',
             percent: percentData(countsUpdatedArr?.inProcess),
+            value: countsUpdatedArr?.inProcess,
         },
         {
             title: 'Don’t Have Workplace',
             color: '#21516A',
             percent: percentData(countsUpdatedArr?.dontHaveWorkplace),
+            value: countsUpdatedArr?.dontHaveWorkplace,
         },
         {
             title: 'Agreement Pending',
             color: '#FF3A29',
             percent: percentData(countsUpdatedArr?.awaitingAgreementSigned),
+            value: countsUpdatedArr?.awaitingAgreementSigned,
         },
         {
             title: 'Appointments',
             color: '#02A0FC',
             percent: percentData(countsUpdatedArr?.appointmentBooked),
+            value: countsUpdatedArr?.appointmentBooked,
         },
         {
             title: 'Expired Student Workplace',
             color: '#BF0000',
             percent: percentData(countsUpdatedArr?.expiredStudentWorkplace),
+            value: countsUpdatedArr?.expiredStudentWorkplace,
         },
     ]
 
@@ -107,6 +113,7 @@ export const SubadminProgress = ({
                                           title: '...',
                                           color: '#BF0000',
                                           percent: 100,
+                                          value: 100,
                                       },
                                   ]
                         }
