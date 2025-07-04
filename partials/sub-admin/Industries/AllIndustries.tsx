@@ -50,6 +50,13 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
             refetchOnMountOrArgChange: true,
         }
     )
+
+    const hasCourseApproved =
+        data?.data &&
+        data?.data?.length > 0 &&
+        data?.data?.filter((item: any) => !item?.hasCourseApproved)
+    console.log('hasCourseApproved', hasCourseApproved)
+
     // 1- get api to retrieve the remaining industry courses on sector base
     // 2- If the coordinator already/approved sent the request to HOD for course approval, remove it from the above get api
     // 3-
@@ -269,6 +276,7 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
                         data={data.data}
                         // quickActions={quickActionsElements}
                         enableRowSelection
+                        hasCourseApproved={hasCourseApproved}
                     >
                         {({
                             table,

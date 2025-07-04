@@ -53,6 +53,12 @@ export const ApprovedIndustry = () => {
         limit: itemPerPage,
     })
 
+    const hasCourseApproved =
+        data?.data &&
+        data?.data?.length > 0 &&
+        data?.data?.filter((item: any) => !item?.hasCourseApproved)
+    console.log('hasCourseApproved', hasCourseApproved)
+
     const tableActionOptions: TableActionOption<Industry>[] = [
         {
             text: 'View',
@@ -259,6 +265,7 @@ export const ApprovedIndustry = () => {
                             columns={columns}
                             data={data.data}
                             quickActions={quickActionsElements}
+                            hasCourseApproved={hasCourseApproved}
                             enableRowSelection
                         >
                             {({

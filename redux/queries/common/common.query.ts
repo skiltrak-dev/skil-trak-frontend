@@ -383,6 +383,8 @@ const {
     useRemoveIndustryWPTypeMutation,
     useGetIndustryWPTypeQuery,
     useGetIndustriesWPTypeListQuery,
+    useGetIndustryEligibilityCriteriaQuery,
+    useUpdateIndustryEligibilityCriteriaMutation,
 
     useGetAllRtosQuery,
     useGetRtosListQuery,
@@ -685,6 +687,9 @@ export const CommonApi = {
         useRegisterByFutureIndustry: useRegisterByFutureIndustryMutation,
         useRemoveIndustryBranch: useRemoveIndustryBranchAddressMutation,
         bulkEmailSubadminIndustries: useGetBulkEmailSubadminIndustriesQuery,
+        useIndustryEligibilityCriteria: useGetIndustryEligibilityCriteriaQuery,
+        useUpdateIndustryEligibilityCriteria:
+            useUpdateIndustryEligibilityCriteriaMutation,
     },
     Courses: {
         useCoursesList: useGetCoursesListQuery,
