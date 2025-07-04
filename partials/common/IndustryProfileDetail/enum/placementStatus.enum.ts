@@ -2,3 +2,4 @@ export enum IndustryPlacementStatus {
     ACCEPTING_STUDENTS = 'ACCEPTING_STUDENTS',
     NOT_ACCEPTING_STUDENTS = 'NOT_ACCEPTING_STUDENTS',
 }
+

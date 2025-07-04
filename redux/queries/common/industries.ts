@@ -192,4 +192,22 @@ export const industriesEndpoints = (
         },
         invalidatesTags: ['Industry'],
     }),
+    // Industry Eligibility Criteria
+    getIndustryEligibilityCriteria: builder.query<any, any>({
+        query: (id) => ({
+            url: `shared/industry/${id}/get/placement/eligibility-criteria`,
+        }),
+
+        providesTags: ['Industry'],
+    }),
+    updateIndustryEligibilityCriteria: builder.mutation<any, any>({
+        query: ({ id, body }) => {
+            return {
+                url: `shared/industry/${id}/placement/eligibility-criteria`,
+                method: 'PATCH',
+                body,
+            }
+        },
+        invalidatesTags: ['Industry'],
+    }),
 })

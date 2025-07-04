@@ -12,6 +12,7 @@ import {
     AcceptingStudentModal,
     AddIndustryQuestionsModal,
     ViewIndustryAnswersModal,
+    PlacementEligibilityCriteriaModal
 } from '../../modal'
 import { SubAdminApi } from '@queries'
 import { CiUnlock } from 'react-icons/ci'
@@ -128,6 +129,18 @@ export const ProfileLinks = ({
             onClick: () => {
                 setModal(
                     <AcceptingStudentModal
+                        industry={industry}
+                        onCancel={onCancelModal}
+                    />
+                )
+            },
+        },
+        {
+            text: 'Eligibility Criteria',
+            Icon: RiEditFill,
+            onClick: () => {
+                setModal(
+                    <PlacementEligibilityCriteriaModal
                         industry={industry}
                         onCancel={onCancelModal}
                     />

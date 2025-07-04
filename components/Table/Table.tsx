@@ -64,6 +64,7 @@ interface TableProps<Type> {
     findExpiringInNext45Days?: Student[]
     activeAndCompleted?: Student[]
     supersededCourse?: any
+    hasCourseApproved?: any
 }
 
 export const Table = <Type,>({
@@ -78,6 +79,7 @@ export const Table = <Type,>({
     findCallLogsUnanswered,
     findExpiringInNext45Days,
     activeAndCompleted,
+    hasCourseApproved,
 }: // supersededCourse,
 TableProps<Type>) => {
     const rtoSubAdmin = useSubadminProfile()?.isAssociatedWithRto
@@ -96,6 +98,10 @@ TableProps<Type>) => {
             ?.map((student) => student?.id)
             ?.includes(row?.original?.id)
 
+        const courseApproved = hasCourseApproved
+            .map((industry: any) => industry?.id)
+            ?.includes(row?.original?.id)
+
         const status = row?.original?.user?.status
 
         return [
@@ -103,6 +109,7 @@ TableProps<Type>) => {
             completeAndActive && !rtoSubAdmin ? 'blink-green' : '',
             awaitingAgreements && !rtoSubAdmin ? 'blink' : '',
             expiringInNext45Days && !rtoSubAdmin ? 'blink' : '',
+            courseApproved ? 'blink' : '',
             // isCourseSuperseded ? 'course-superseded' : '',
             // getActiveTickets ? 'blink-green' : '',
             status === UserStatus.Blocked || status === UserStatus.Rejected
