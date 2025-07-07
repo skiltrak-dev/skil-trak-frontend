@@ -99,7 +99,7 @@ TableProps<Type>) => {
             ?.includes(row?.original?.id)
 
         const courseApproved = hasCourseApproved
-            .map((industry: any) => industry?.id)
+            ?.map((industry: any) => industry?.id)
             ?.includes(row?.original?.id)
 
         const status = row?.original?.user?.status

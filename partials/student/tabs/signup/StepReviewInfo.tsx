@@ -59,7 +59,7 @@ export const StepReviewInfo = () => {
                                             Name
                                         </Typography>
                                         <Typography variant={'label'}>
-                                            {formData.name || ''}
+                                            {formData?.name || ''}
                                         </Typography>
                                     </InfoboxCard>
 
@@ -74,19 +74,8 @@ export const StepReviewInfo = () => {
                                             {formData.phone || ''}
                                         </Typography>
                                     </InfoboxCard>
-                                    <InfoboxCard>
-                                        <Typography
-                                            variant={'xs'}
-                                            color={'text-gray-500'}
-                                        >
-                                            Faimly Name
-                                        </Typography>
-                                        <Typography variant={'label'}>
-                                            {formData.familyName || ''}
-                                        </Typography>
-                                    </InfoboxCard>
 
-                                    <InfoboxCard>
+                                    {/* <InfoboxCard>
                                         <Typography
                                             variant={'xs'}
                                             color={'text-gray-500'}
@@ -98,7 +87,7 @@ export const StepReviewInfo = () => {
                                                 'MMM, Do YYYY'
                                             ) || ''}
                                         </Typography>
-                                    </InfoboxCard>
+                                    </InfoboxCard> */}
                                 </div>
                             </Card>
                         </div>
@@ -124,7 +113,7 @@ export const StepReviewInfo = () => {
                                             E-Mail
                                         </Typography>
                                         <Typography variant={'label'}>
-                                            {formData.email || ''}
+                                            {formData?.email || ''}
                                         </Typography>
                                     </InfoboxCard>
                                 </div>
@@ -145,30 +134,105 @@ export const StepReviewInfo = () => {
 
                     {/* Sector Info */}
                     <div>
-                        <div className="border-b  border-secondary-dark mt-8">
-                            <Typography variant={'xs'} color={'text-gray-400'}>
-                                Sector Information
-                            </Typography>
-                        </div>
-                        <div className="w-full mt-4 flex flex-col gap-y-5">
-                            <Card>
-                                <div className="mb-2">
+                        {formData?.sectors && formData?.sectors?.length > 0 ? (
+                            <>
+                                <div className="border-b  border-secondary-dark mt-8">
                                     <Typography
                                         variant={'xs'}
-                                        color={'text-gray-500'}
+                                        color={'text-gray-400'}
                                     >
-                                        Course(s)
+                                        Sector Information
                                     </Typography>
                                 </div>
-                                <div className="flex flex-col gap-y-1">
-                                    <InfoboxCard>
-                                        <Typography variant="label">
-                                            {formData?.courseInfo || 'NA'}
-                                        </Typography>
-                                    </InfoboxCard>
+                                <div className="w-full mt-4 flex flex-col gap-y-5">
+                                    <Card>
+                                        <div className="mb-1">
+                                            <Typography
+                                                variant={'xs'}
+                                                color={'text-gray-500'}
+                                            >
+                                                Sector(s)
+                                            </Typography>
+                                        </div>
+
+                                        <div className="flex flex-col gap-y-1">
+                                            {formData.sectors?.map(
+                                                (sector: OptionType) => (
+                                                    <InfoboxCard>
+                                                        <div
+                                                            className=""
+                                                            key={Number(
+                                                                sector.value
+                                                            )}
+                                                        >
+                                                            <Typography
+                                                                variant={
+                                                                    'label'
+                                                                }
+                                                            >
+                                                                {sector.label}
+                                                            </Typography>
+                                                        </div>
+                                                    </InfoboxCard>
+                                                )
+                                            )}
+                                        </div>
+                                    </Card>
+                                    <Card>
+                                        <div className="mb-2">
+                                            <Typography
+                                                variant={'xs'}
+                                                color={'text-gray-500'}
+                                            >
+                                                Course(s)
+                                            </Typography>
+                                        </div>
+                                        <div className="flex flex-col gap-y-1">
+                                            {formData?.courses?.map(
+                                                (course: OptionType) => (
+                                                    <InfoboxCard>
+                                                        <div
+                                                            className=""
+                                                            key={Number(
+                                                                course.value
+                                                            )}
+                                                        >
+                                                            <Typography
+                                                                variant={
+                                                                    'label'
+                                                                }
+                                                            >
+                                                                {course.label}
+                                                            </Typography>
+                                                        </div>
+                                                    </InfoboxCard>
+                                                )
+                                            )}
+                                        </div>
+                                    </Card>
                                 </div>
-                            </Card>
-                        </div>
+                            </>
+                        ) : (
+                            <div className="w-full mt-4 flex flex-col gap-y-5">
+                                <Card>
+                                    <div className="mb-2">
+                                        <Typography
+                                            variant={'xs'}
+                                            color={'text-gray-500'}
+                                        >
+                                            Course Info
+                                        </Typography>
+                                    </div>
+                                    <div className="flex flex-col gap-y-1">
+                                        <InfoboxCard>
+                                            <Typography variant="label">
+                                                {formData?.courseInfo || 'NA'}
+                                            </Typography>
+                                        </InfoboxCard>
+                                    </div>
+                                </Card>
+                            </div>
+                        )}
                     </div>
 
                     {/* Address */}

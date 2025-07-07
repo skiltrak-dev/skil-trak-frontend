@@ -35,7 +35,6 @@ export const PlacementEligibilityCriteriaModal = ({
         })
     const [updateEligibilityCriteria, resultUpdateEligibilityCriteria] =
         CommonApi.Industries.useUpdateIndustryEligibilityCriteria()
-    console.log('data:::::', data)
 
     useEffect(() => {
         if (resultUpdateEligibilityCriteria.isSuccess) {
