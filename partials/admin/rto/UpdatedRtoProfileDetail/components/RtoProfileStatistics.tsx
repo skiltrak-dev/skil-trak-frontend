@@ -69,7 +69,6 @@ export const RtoProfileStatistics = ({
         },
     ]
 
-    console.log('statisticsCount::::', statisticsCount?.data)
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5 mt-[18px]">
             <div className="flex flex-col">
