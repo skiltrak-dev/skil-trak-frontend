@@ -168,6 +168,7 @@ export interface Student extends BaseResponse {
     industries: Industry[]
     expiryDate: Date
     addressLine1: string
+    rtoInfo: any
     addressLine2: string
     courseDescription: string
     suburb: string

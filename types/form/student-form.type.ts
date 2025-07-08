@@ -23,6 +23,7 @@ export interface StudentFormType {
     role: string
     isAddressUpdated: boolean
     courseInfo?: string
+    rtoInfo?: any
 }
 
 export type StudentFormQueryType = StudentFormType & {

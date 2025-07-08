@@ -81,13 +81,13 @@ export const StepReviewInfo = () => {
 
         // Check if RTO is selected as "other" or if it's a string value (but not a numeric string)
         const isRtoOther =
-            typeof formData.rto === 'string' && isNaN(Number(formData.rto))
-
+            formData?.rtoInfo && formData?.rtoInfo !== '' && !formData?.rto
+        console.log('isRtoOther', isRtoOther)
         if (isRtoOther) {
             // RTO is "other" - use string format and include courseInfo
             return {
                 ...basePayload,
-                rto: formData.rto, // This will be the string value
+                rtoInfo: formData?.rtoInfo, // This will be the string value
                 courseInfo: formData?.courseInfo || '',
             }
         } else {
@@ -109,10 +109,7 @@ export const StepReviewInfo = () => {
 
             return {
                 ...basePayload,
-                rto:
-                    typeof formData.rto === 'string'
-                        ? parseInt(formData.rto)
-                        : formData.rto,
+                rto: formData?.rto,
                 courses: courseIds,
                 sectors: sectorIds,
             }
