@@ -18,7 +18,8 @@ export const StepCreate = () => {
     const [register, registerResult] = AuthApi.useRegisterStudent()
     const [login, loginResult] = AuthApi.useLogin()
     const { notification } = useNotification()
-
+    const hader = router?.pathname?.split('/')?.[4]
+    
     // Helper function to prepare payload based on RTO selection
     const preparePayload = (formData: StudentFormType) => {
         const basePayload = {

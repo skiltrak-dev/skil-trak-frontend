@@ -45,6 +45,8 @@ interface CustomRtoSearchProps {
     options: { label: string; value: number }[]
     loading?: boolean
     onSelect: (option: CustomRtoSelectType) => void
+    value?: any
+    formMethods?: any
 }
 
 export const CustomRtoSearch = ({
@@ -53,11 +55,13 @@ export const CustomRtoSearch = ({
     options,
     loading,
     onSelect,
+    value,
+    formMethods,
 }: CustomRtoSearchProps) => {
     const [input, setInput] = useState('')
-    console.log('input', input)
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef<any>(null)
+
 
     useEffect(() => {
         const handleClickOutside = (event: any) => {
@@ -75,8 +79,16 @@ export const CustomRtoSearch = ({
         }
     }, [])
 
+    useEffect(() => {
+        if (value?.value) {
+            setInput(value?.label)
+            formMethods.setValue('rto', value?.value)
+            formMethods.setValue('rtoInfo', '')
+        }
+    }, [value])
+
     const handleInputChange = (e: any) => {
-        const value = e.target.value
+        const value = e?.target?.value
         setInput(value)
         setIsOpen(true)
         onSearch(value)
@@ -93,12 +105,14 @@ export const CustomRtoSearch = ({
     }
 
     const hasMatch = options?.some(
-        (opt) => opt.label.toLowerCase() === input.toLowerCase()
+        (opt) => opt?.label?.toLowerCase() === input?.toLowerCase()
     )
 
     return (
         <div ref={dropdownRef} className="relative w-full">
             <label className="block mb-1 text-sm text-gray-700">{label}</label>
+            <input {...formMethods.register('rto')} type="hidden" />
+            <input {...formMethods.register('rtoInfo')} type="hidden" />
             <input
                 type="text"
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -168,7 +182,6 @@ export const StudentSignUpForm = ({
             skip: !searchRto,
         }
     )
-    console.log('rtoResponse', rtoResponse?.data)
 
     const sectorResponse = AuthApi.useSectorsByRto(Number(selectedRto), {
         skip: !selectedRto,
@@ -462,7 +475,7 @@ export const StudentSignUpForm = ({
         }
     }
 
-    console.log('selectedRto', selectedRto)
+    console.log('selectedRto:::::::', selectedRto)
 
     return (
         <FormProvider {...formMethods}>
@@ -569,6 +582,20 @@ export const StudentSignUpForm = ({
                                         formMethods.setValue('rtoInfo', '') // Clear custom RTO field
                                     }
                                 }}
+                                formMethods={formMethods}
+                                value={
+                                    hader && selectedRto
+                                        ? {
+                                              value: selectedRto,
+                                              label:
+                                                  rtoOptions.find(
+                                                      (opt: any) =>
+                                                          opt?.value ===
+                                                          selectedRto
+                                                  )?.label || '',
+                                          }
+                                        : undefined
+                                }
                             />
 
                             {selectedRto === null && (
