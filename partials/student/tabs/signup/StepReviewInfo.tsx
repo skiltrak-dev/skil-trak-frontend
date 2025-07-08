@@ -156,7 +156,7 @@ export const StepReviewInfo = () => {
 
     const fetchPaymentIntent = async () => {
         const res = await newUserPayment({
-            amount: 1000,
+            amount: 390,
             email: formData?.email,
             currency: 'aud',
             payment_method_types: ['card'],
