@@ -34,6 +34,7 @@ export const StepReviewInfo = () => {
     const [register, registerResult] = AuthApi.useRegisterStudent()
     const [login, loginResult] = AuthApi.useLogin()
     const formData: any = SignUpUtils.getValuesFromStorage()
+    console.log('formData', formData)
     const id = formData?.rto
     const { data } = RtoApi.Rto.useRtoSelfPayment(id, {
         skip: !id,
