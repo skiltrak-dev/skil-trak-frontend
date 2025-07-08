@@ -1,4 +1,4 @@
-import { AuthUtils } from '@utils'
+import { AuthUtils, isBrowser } from '@utils'
 import { io } from 'socket.io-client'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
@@ -19,6 +19,17 @@ export const Socket = ({ children }: any) => {
     const disconnectSocket = () => {
         if (socket) {
             socket.disconnect()
+        }
+    }
+
+    // utils/audioNotification.js
+    const playNotificationSound = (audioPath = '/audio/notification.wav') => {
+        if (isBrowser()) {
+            const audio = new Audio(audioPath)
+            console.log({ audio })
+            audio.play().catch((error) => {
+                console.log('Audio playback failed:', error)
+            })
         }
     }
 
@@ -79,6 +90,7 @@ export const Socket = ({ children }: any) => {
             Object.values(SocketNotificationsEvents).forEach(
                 (eventName: SocketNotificationsEvents) => {
                     socket.on(eventName, (notify: any) => {
+                        playNotificationSound()
                         setEventListener({
                             eventName,
                             eventListener: notify,
