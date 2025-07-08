@@ -10,6 +10,10 @@ export const profileEndpoints = (
         query: () => `rtos/profile/view`,
         providesTags: ['RTO'],
     }),
+    getRtoSelfPayment: builder.query<any, any>({
+        query: (id) => `${PREFIX}${id}/self-payment-status/view`,
+        providesTags: ['RTO'],
+    }),
     updateRTOProfile: builder.mutation<any, any>({
         query: ({ id, body }) => ({
             url: 'rtos/profile/update',

@@ -1,5 +1,11 @@
+// import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import { Animations } from '@animations'
-import { Button, LottieAnimation, ShowErrorNotifications } from '@components'
+import {
+    Button,
+    LottieAnimation,
+    ShowErrorNotifications,
+    GlobalModal,
+} from '@components'
 import {
     useCreateCheckoutSessionMutation,
     useGetStudentProfileDetailQuery,
@@ -54,6 +60,8 @@ const getStatusComponent = ({
     )
 }
 export const AccountStatus = ({ status }: AccountStatusProps) => {
+    // const [modal, setModal] = useState<ReactElement | null>(null)
+
     const router = useRouter()
     const role = AuthUtils.getUserCredentials().role
     const { data, isSuccess, isLoading } = useGetStudentProfileDetailQuery()
@@ -78,99 +86,48 @@ export const AccountStatus = ({ status }: AccountStatusProps) => {
             })
             .catch((err) => {})
     }
+    // useEffect(() => {
+    //     if (
+    //         status === UserStatus.Pending &&
+    //         (isRtoSelfPayment || isSelfRegistered)
+    //     )
+    //         setModal(
+    //             <GlobalModal>
+    //                 <div className="w-96 h-96">Hello make payment</div>
+    //             </GlobalModal>
+    //         )
+    // }, [status, data])
 
     switch (status) {
         case UserStatus.Pending:
-            if (isRtoSelfPayment || isSelfRegistered) {
-                return (
-                    <div>
-                        <ShowErrorNotifications
-                            result={checkoutSessionResult}
-                        />
-                        {getStatusComponent({
-                            animation: Animations.Auth.SignUp.Waiting,
-                            title: ` To access your account, payment is required`,
-                            description: `To activate your account, Please follow the prompt below.`,
-                        })}
-                        <div className="border rounded-md border-dashed px-8 py-4 mt-4">
-                            <p className="font-semibold mb-2">
-                                Terms &amp; Conditions
-                            </p>
-                            <ul className="list-disc text-sm">
-                                <li>
-                                    I understand that my Skiltrak account will
-                                    be reactivated for one month from the date
-                                    of payment. Please note there will be no
-                                    reimbursement if WBT is completed prior to
-                                    this new timeline end date.
-                                </li>
-                                <li>
-                                    I understand that this timeline extension
-                                    request is applicable to my Skiltrak account
-                                    (only) and not applicable to any course
-                                    extension.
-                                </li>
-                                <li>
-                                    I understand that if I am an international
-                                    student, I will need to contact my school to
-                                    ensure that I am in accordance with my COE
-                                    end date prior to proceeding with th WBT
-                                    course extension timeline.
-                                </li>
-                            </ul>
-
-                            <div>
-                                <div className="my-2">
-                                    <Button
-                                        disabled={
-                                            checkoutSessionResult.isLoading ||
-                                            checkoutSessionResult.isSuccess
-                                        }
-                                        loading={
-                                            checkoutSessionResult.isLoading ||
-                                            checkoutSessionResult.isSuccess
-                                        }
-                                        text={'Agree & Continue'}
-                                        onClick={() =>
-                                            onAgreeAndContinueClicked()
-                                        }
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )
-            } else {
-                return getStatusComponent({
-                    animation: Animations.Auth.SignUp.Waiting,
-                    title: `Your Account Request Is Under Review`,
-                    description: `You will be redirected to page, once your
+            return getStatusComponent({
+                animation: Animations.Auth.SignUp.Waiting,
+                title: `Your Account Request Is Under Review`,
+                description: `You will be redirected to page, once your
                     request got approved by one of our Admin.`,
-                    action: {
-                        text: 'My Account',
-                        onClick: () => {
-                            switch (role) {
-                                case 'admin':
-                                    router.push('/portals/admin')
-                                    break
-                                case 'industry':
-                                    router.push('/portals/industry')
-                                    break
-                                case 'rto':
-                                    router.push('/portals/rto')
-                                    break
-                                case 'student':
-                                    router.push('/portals/student')
-                                    break
-                                case 'subadmin':
-                                    router.push('/portals/sub-admin')
-                                    break
-                            }
-                        },
+                action: {
+                    text: 'My Account',
+                    onClick: () => {
+                        switch (role) {
+                            case 'admin':
+                                router.push('/portals/admin')
+                                break
+                            case 'industry':
+                                router.push('/portals/industry')
+                                break
+                            case 'rto':
+                                router.push('/portals/rto')
+                                break
+                            case 'student':
+                                router.push('/portals/student')
+                                break
+                            case 'subadmin':
+                                router.push('/portals/sub-admin')
+                                break
+                        }
                     },
-                })
-            }
-
+                },
+            })
         case UserStatus.Archived:
             return (
                 <div>
