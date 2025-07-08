@@ -57,7 +57,7 @@ export const StepReviewInfo = () => {
         SignUpUtils.setEditingMode(false)
 
         // set-up account type from here
-        if (!data?.allowStudentSelfPayment) {
+        if (!data?.allowStudentSelfPayment || !(formData?.rtoInfo !== '')) {
             router.push({ query: { step: 'requested' } })
         }
     }
@@ -481,8 +481,8 @@ export const StepReviewInfo = () => {
 
                             {/* Actions */}
                             <div className="mt-8 flex items-center gap-x-8">
-                                {data?.allowStudentSelfPayment  ||
-                                (!formData?.rtoInfo && !formData?.rto) ? (
+                                {data?.allowStudentSelfPayment ||
+                                formData?.rtoInfo !== '' ? (
                                     paymentConfirmed ? (
                                         <Button
                                             variant={'primary'}
