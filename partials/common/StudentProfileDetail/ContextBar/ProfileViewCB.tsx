@@ -72,7 +72,11 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                     <AssignToMeStudent student={profile} />
                 </AuthorizedUserComponent>
             </div>
-
+            <div className="">
+                {profile?.rtoInfo && (
+                    <Typography variant="small">{profile?.rtoInfo}</Typography>
+                )}
+            </div>
             <WPInvoiceStatus />
 
             {/* Expiry Date */}
