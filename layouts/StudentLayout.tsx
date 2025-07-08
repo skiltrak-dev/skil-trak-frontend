@@ -1,5 +1,6 @@
 import {
     Button,
+    CustomPaymentModal,
     DisplayAlerts,
     GlobalModal,
     PageTitle,
@@ -22,6 +23,7 @@ import {
     CommonApi,
     StudentApi,
     useGetStudentProfileDetailQuery,
+    usePayAsNewUserMutation,
 } from '@queries'
 import { UserStatus } from '@types'
 import { EsignDocumentStatus, getUserCredentials } from '@utils'
@@ -29,6 +31,13 @@ import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+import { uuid } from 'uuidv4'
+
+const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+)
 
 interface StudentLayoutProps {
     pageTitle?: PageTitleProps
@@ -65,6 +74,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
         setModal(null)
     }
     const userData = getUserCredentials()
+    const [newUserPayment, resultNewUserPayment] = usePayAsNewUserMutation()
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
         {
             status: [EsignDocumentStatus.PENDING, EsignDocumentStatus.ReSign],
@@ -129,6 +139,45 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
             </GlobalModal>
         )
     }
+
+    // useEffect(() => {
+    //     if (
+    //         userData?.status === UserStatus.Pending &&
+    //         (isRtoSelfPayment || isSelfRegistered)
+    //     )
+    //         setModal(
+    //             <GlobalModal>
+    //                 <Elements stripe={stripePromise}>
+    //                     <CustomPaymentModal onCancel={onCancel} />
+    //                 </Elements>
+    //             </GlobalModal>
+    //         )
+    // }, [ profile])
+
+    //     useEffect(() => {
+    //     if (
+    //         userData?.status === UserStatus.Pending && !profile?.data?.isPaymentCompleted &&
+    //         (isRtoSelfPayment || isSelfRegistered)
+    //     ) {
+    //         const fetchPaymentIntent = async () => {
+    //             const res = await newUserPayment({
+    //                 amount: 1000,
+    //                 currency: 'aud',
+    //                 idempotencyKey: uuid(),
+    //             }).unwrap();
+
+    //             setModal(
+    //                 <GlobalModal>
+    //                     <Elements stripe={stripePromise} options={{clientSecret: res?.clientSecret} }>
+    //                         <CustomPaymentModal onCancel={onCancel} />
+    //                     </Elements>
+    //                 </GlobalModal>
+    //             );
+    //         };
+
+    //         fetchPaymentIntent();
+    //     }
+    // }, [profile]);
 
     useEffect(() => {
         if (profile.isSuccess) {
@@ -216,18 +265,18 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                                 <StudentNavbar />
                                 <div className="flex items-center gap-x-5 mt-3">
                                     <div className="">
-                                        {(userData?.status ===
-                                            UserStatus.Archived ||
-                                            (userData?.status ===
-                                                UserStatus.Pending &&
-                                                (isRtoSelfPayment ||
-                                                    isSelfRegistered))) && (
+                                        {userData?.status ===
+                                            UserStatus.Archived && (
                                             <Button
                                                 text="make payment to reactivate"
                                                 // variant="success"
                                                 onClick={onPaymentClick}
                                             />
                                         )}
+                                        {/* userData?.status ===
+                                                UserStatus.Pending &&
+                                                (isRtoSelfPayment ||
+                                                    isSelfRegistered) */}
                                     </div>
                                     {profile?.data?.expiryDate && (
                                         <StudentTimer

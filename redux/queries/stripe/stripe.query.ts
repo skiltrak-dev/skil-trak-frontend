@@ -32,6 +32,15 @@ export const stripeApi = createApi({
                 }
             },
         }),
+        payAsNewUser: builder.mutation<any, any>({
+            query: (body: any) => {
+                return {
+                    url: 'create-payment/intent',
+                    method: 'POST',
+                    body,
+                }
+            },
+        }),
 
         activateUser: builder.mutation<any, any>({
             query: (body: any) => {
@@ -45,5 +54,5 @@ export const stripeApi = createApi({
     }),
 })
 
-export const { useCreateCheckoutSessionMutation, useActivateUserMutation } =
+export const { useCreateCheckoutSessionMutation, useActivateUserMutation, usePayAsNewUserMutation } =
     stripeApi
