@@ -443,13 +443,13 @@ export const Workplace = ({
                     )
                 )}
 
-                {!showPreviousWorkplace && (
+                {/* {!showPreviousWorkplace && (
                     <div className="p-2">
                         <CancelledWorkplaceList
                             rejectedWorkplaces={rejectedWorkplaces}
                         />
                     </div>
-                )}
+                )} */}
 
                 {showPreviousWorkplace ? (
                     getCancelledWP?.data && getCancelledWP?.data?.length > 0 ? (

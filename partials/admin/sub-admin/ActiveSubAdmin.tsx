@@ -296,7 +296,7 @@ export const ActiveSubAdmin = () => {
 
     return (
         <>
-            {modal && modal}
+            {modal}
             {passwordModal && passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
@@ -317,10 +317,10 @@ export const ActiveSubAdmin = () => {
                     {isLoading || isFetching ? (
                         // <LoadingAnimation height="h-[60vh]" />
                         <TableSkeleton arrayLength={data?.data?.length || 1} />
-                    ) : data && data?.data.length ? (
+                    ) : data?.data && data?.data?.length ? (
                         <Table
                             columns={columns}
-                            data={data.data}
+                            data={data?.data}
                             quickActions={quickActionsElements}
                             enableRowSelection
                         >
@@ -336,7 +336,7 @@ export const ActiveSubAdmin = () => {
                                             {pageSize(
                                                 itemPerPage,
                                                 setItemPerPage,
-                                                data?.data.length
+                                                data?.data?.length
                                             )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}

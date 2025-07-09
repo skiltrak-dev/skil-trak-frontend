@@ -1,13 +1,13 @@
-import { AuthUtils, isBrowser } from '@utils'
-import { io } from 'socket.io-client'
+import { useNotification, useSocketListener } from '@hooks'
+import { CommonApi } from '@queries'
+import { emptySplitApi } from '@queries/portals/empty.query'
+import { AuthUtils, playAudioSound } from '@utils'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { io } from 'socket.io-client'
 import { socketEventToTagMapping } from './data'
 import { SocketNotificationsEvents } from './enum'
-import { useNotification, useSocketListener } from '@hooks'
-import { emptySplitApi } from '@queries/portals/empty.query'
-import { CommonApi } from '@queries'
 
 export const Socket = ({ children }: any) => {
     const router = useRouter()
@@ -23,15 +23,6 @@ export const Socket = ({ children }: any) => {
     }
 
     // utils/audioNotification.js
-    const playNotificationSound = (audioPath = '/audio/notification.wav') => {
-        if (isBrowser()) {
-            const audio = new Audio(audioPath)
-            console.log({ audio })
-            audio.play().catch((error) => {
-                console.log('Audio playback failed:', error)
-            })
-        }
-    }
 
     useEffect(() => {
         setSocket(
@@ -90,7 +81,7 @@ export const Socket = ({ children }: any) => {
             Object.values(SocketNotificationsEvents).forEach(
                 (eventName: SocketNotificationsEvents) => {
                     socket.on(eventName, (notify: any) => {
-                        playNotificationSound()
+                        playAudioSound('/audio/notification.wav')
                         setEventListener({
                             eventName,
                             eventListener: notify,
