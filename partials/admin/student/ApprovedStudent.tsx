@@ -200,10 +200,10 @@ export const ApprovedStudent = () => {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: (info) => {
-                return info.row.original?.courseDescription ? (
-                    <span>{info.row.original?.courseDescription}</span>
-                ) : (
+                return info.row.original?.courses?.length > 0 ? (
                     <SectorCell student={info.row.original} />
+                ) : (
+                    <span>{info.row.original?.courseDescription ?? '—'}</span>
                 )
             },
         },
