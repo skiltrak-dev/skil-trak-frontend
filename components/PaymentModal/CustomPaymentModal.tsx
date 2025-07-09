@@ -15,6 +15,7 @@ export const CustomPaymentModal = ({
     setPaymentConfirmed,
     paymentConfirmed,
     onSuccess,
+    formData,
 }: any) => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
@@ -63,26 +64,38 @@ export const CustomPaymentModal = ({
     }, [error, paymentConfirmed])
 
     return (
-        <div className="p-4 w-[500px] max-h-[400px] overflow-y-auto remove-scrollbar">
-            <h2 className="text-xl font-semibold text-center mb-2">
-                Activate Your Account
-            </h2>
-            <p className="text-sm text-gray-600 text-center mb-4">
-                To complete your registration and gain full access to your
-                student account, please make the one-time activation payment.
-                Once the payment is successful, you will be granted access
-                immediately.
-            </p>
+        <div className="w-full max-w-md mx-auto p-6 bg-white rounded-2xl shadow-lg max-h-[500px] overflow-y-auto remove-scrollbar">
+            <div className="text-center mb-6">
+                <h2 className="text-2xl font-semibold text-gray-800">
+                    Activate Your Account
+                </h2>
+                <p className="text-sm text-gray-600 mt-1">
+                    Make a payment to access your student portal.
+                </p>
+            </div>
 
-            <PaymentElement
-                className="mb-4"
-                options={{
-                    layout: 'tabs',
-                    paymentMethodOrder: ['card'], // ✅
-                }}
-            />
+            <div className="text-center mb-6">
+                <div className="text-3xl font-bold text-gray-900">
+                    {new Intl.NumberFormat('en-AU', {
+                        style: 'currency',
+                        currency: 'AUD',
+                    }).format(formData?.rto ? 250 : 390)}
+                </div>
+                <p className="text-xs text-gray-400 mt-1">
+                    🔒 Your payment is secure and encrypted via Stripe.
+                </p>
+            </div>
 
-            <div className="flex gap-3 mt-4">
+            <div className="mb-6">
+                <PaymentElement
+                    options={{
+                        layout: 'tabs',
+                        paymentMethodOrder: ['card'],
+                    }}
+                />
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3">
                 <Button
                     text="Pay Now"
                     onClick={handlePay}

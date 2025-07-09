@@ -62,7 +62,6 @@ export const CustomRtoSearch = ({
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef<any>(null)
 
-
     useEffect(() => {
         const handleClickOutside = (event: any) => {
             if (
@@ -327,7 +326,9 @@ export const StudentSignUpForm = ({
         // Sector Information
         // sectors: yup.array().min(1, 'Must select at least 1 sector'),
         // courses: yup.array().min(1, 'Must select at least 1 course'),
-        courseInfo: yup.string().required('Must list at least one course'),
+        courseDescription: yup
+            .string()
+            .required('Must list at least one course'),
 
         // Contact Person Information
         contactPersonName: yup
@@ -390,15 +391,34 @@ export const StudentSignUpForm = ({
     //     }
     // }, [courseOptions])
 
+    // const onHandleSubmit = (values: any) => {
+    //     if (!onSuburbClicked) {
+    //         notification.error({
+    //             title: 'You must select on Address Dropdown',
+    //             description: 'You must select on Address Dropdown',
+    //         })
+    //     } else if (onSuburbClicked) {
+    //         onSubmit({ ...values, suburb: 'N/A' })
+    //     }
+    // }
     const onHandleSubmit = (values: any) => {
-        if (!onSuburbClicked) {
+        if (!values.addressLine1 || values.addressLine1.trim().length < 5) {
             notification.error({
-                title: 'You must select on Address Dropdown',
-                description: 'You must select on Address Dropdown',
+                title: 'Invalid Address',
+                description: 'Please enter a valid address',
             })
-        } else if (onSuburbClicked) {
-            onSubmit({ ...values, suburb: 'N/A' })
+            return
         }
+        if (values?.courseDescription?.trim().length < 5) {
+            notification.error({
+                title: 'Enter Course Description',
+                description: 'Please enter a course description',
+            })
+            return
+        }
+
+        // Continue with the submission
+        onSubmit({ ...values, suburb: 'N/A' })
     }
 
     const debounceValue = useCallback(
@@ -407,35 +427,46 @@ export const StudentSignUpForm = ({
     )
 
     const addressValue = formMethods.watch('addressLine1')
+    // useEffect(() => {
+    //     if (addressValue) {
+    //         formMethods.setValue('addressLine1', addressValue, {
+    //             shouldValidate: true,
+    //             shouldDirty: true,
+    //         })
+    //         if (!onSuburbClicked) {
+    //             formMethods.setError('addressLine1', {
+    //                 type: 'manual',
+    //                 message: 'Please select an address from the dropdown',
+    //             })
+    //         } else {
+    //             formMethods.clearErrors('addressLine1')
+    //         }
+    //     }
+    // }, [onSuburbClicked, addressValue])
     useEffect(() => {
-        if (addressValue) {
+        if (addressValue !== undefined) {
             formMethods.setValue('addressLine1', addressValue, {
                 shouldValidate: true,
                 shouldDirty: true,
             })
-            if (!onSuburbClicked) {
+
+            if (!addressValue || addressValue.trim().length < 5) {
                 formMethods.setError('addressLine1', {
                     type: 'manual',
-                    message: 'Please select an address from the dropdown',
+                    message: 'Please enter a valid address',
                 })
             } else {
                 formMethods.clearErrors('addressLine1')
             }
         }
-    }, [onSuburbClicked, addressValue])
+    }, [addressValue])
 
     const handleAddressChange = (e: any) => {
-        setOnSuburbClicked(false)
-        // formMethods.setValue('addressLine1', e?.target?.value)
+        setOnSuburbClicked(false) // optional, you can remove this entirely
+        const value = e?.target?.value
 
-        // if (!onSuburbClicked) {
-        //     formMethods.setError('addressLine1', {
-        //         type: 'manual',
-        //         message: 'Please select an address from the dropdown',
-        //     })
-        // }
-        if (e?.target?.value?.length > 4) {
-            fromAddress(e?.target?.value)
+        if (value?.length > 4) {
+            fromAddress(value)
                 .then(({ results }: any) => {
                     const { lat, lng } = results[0].geometry.location
                     geocode('latlng', `${lat},${lng}`, {
@@ -443,39 +474,75 @@ export const StudentSignUpForm = ({
                     } as GeocodeOptions)
                         .then((response) => {
                             const addressComponents =
-                                response.results[0].address_components
+                                response.results[0]?.address_components || []
 
-                            const state = addressComponents.find(
-                                (component: any) =>
-                                    component.types.includes(
-                                        'administrative_area_level_1'
-                                    )
+                            const state = addressComponents.find((c: any) =>
+                                c.types.includes('administrative_area_level_1')
+                            )?.long_name
+
+                            const zipCode = addressComponents.find((c: any) =>
+                                c.types.includes('postal_code')
                             )?.long_name
 
                             formMethods.setValue('state', state || 'N/A')
-
-                            for (let component of addressComponents) {
-                                if (component.types.includes('postal_code')) {
-                                    formMethods.setValue(
-                                        'zipCode',
-                                        component.long_name
-                                    )
-
-                                    break
-                                }
-                            }
+                            formMethods.setValue('zipCode', zipCode || '')
                         })
-                        .catch((error) => {
-                            console.error({
-                                error,
-                            })
-                        })
+                        .catch(console.error)
                 })
                 .catch(console.error)
         }
     }
 
-    console.log('selectedRto:::::::', selectedRto)
+    // const handleAddressChange = (e: any) => {
+    //     setOnSuburbClicked(false)
+    //     // formMethods.setValue('addressLine1', e?.target?.value)
+
+    //     // if (!onSuburbClicked) {
+    //     //     formMethods.setError('addressLine1', {
+    //     //         type: 'manual',
+    //     //         message: 'Please select an address from the dropdown',
+    //     //     })
+    //     // }
+    //     if (e?.target?.value?.length > 4) {
+    //         fromAddress(e?.target?.value)
+    //             .then(({ results }: any) => {
+    //                 const { lat, lng } = results[0].geometry.location
+    //                 geocode('latlng', `${lat},${lng}`, {
+    //                     key: process.env.NEXT_PUBLIC_MAP_KEY,
+    //                 } as GeocodeOptions)
+    //                     .then((response) => {
+    //                         const addressComponents =
+    //                             response.results[0].address_components
+
+    //                         const state = addressComponents.find(
+    //                             (component: any) =>
+    //                                 component.types.includes(
+    //                                     'administrative_area_level_1'
+    //                                 )
+    //                         )?.long_name
+
+    //                         formMethods.setValue('state', state || 'N/A')
+
+    //                         for (let component of addressComponents) {
+    //                             if (component.types.includes('postal_code')) {
+    //                                 formMethods.setValue(
+    //                                     'zipCode',
+    //                                     component.long_name
+    //                                 )
+
+    //                                 break
+    //                             }
+    //                         }
+    //                     })
+    //                     .catch((error) => {
+    //                         console.error({
+    //                             error,
+    //                         })
+    //                     })
+    //             })
+    //             .catch(console.error)
+    //     }
+    // }
 
     return (
         <FormProvider {...formMethods}>
@@ -682,7 +749,7 @@ export const StudentSignUpForm = ({
                                 selectedRto === null && (
                                     <TextInput
                                         label="Course Info"
-                                        name="courseInfo"
+                                        name="courseDescription"
                                         placeholder="Enter course information..."
                                         required
                                         validationIcons
