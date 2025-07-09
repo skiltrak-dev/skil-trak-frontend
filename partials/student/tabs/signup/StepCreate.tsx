@@ -46,7 +46,7 @@ export const StepCreate = () => {
             return {
                 ...basePayload,
                 rto: formData.rto, // This will be the string value
-                courseInfo: formData?.courseInfo || '',
+                courseDescription: formData?.courseDescription || '',
             }
         } else {
             // RTO is selected from dropdown - use number format and include courses/sectors

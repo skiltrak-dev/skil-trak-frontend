@@ -22,7 +22,7 @@ export interface StudentFormType {
     agreedWithPrivacyPolicy: boolean
     role: string
     isAddressUpdated: boolean
-    courseInfo?: string
+    courseDescription?: string
     rtoInfo?: any
 }
 

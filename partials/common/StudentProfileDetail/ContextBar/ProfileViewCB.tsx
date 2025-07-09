@@ -74,7 +74,24 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             </div>
             <div className="">
                 {profile?.rtoInfo && (
-                    <Typography variant="small">{profile?.rtoInfo}</Typography>
+                    <div className="flex items-center gap-x-2 my-2">
+                        <Typography variant="small" semibold>
+                            RTO Info:
+                        </Typography>
+                        <Typography variant="small">
+                            {profile?.rtoInfo}
+                        </Typography>
+                    </div>
+                )}
+                {profile?.courseDescription && (
+                    <div className="flex items-center gap-x-2 my-2">
+                        <Typography variant="small" semibold>
+                            Course Info:
+                        </Typography>
+                        <Typography variant="small">
+                            {profile?.courseDescription}
+                        </Typography>
+                    </div>
                 )}
             </div>
             <WPInvoiceStatus />

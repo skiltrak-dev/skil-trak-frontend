@@ -3,6 +3,7 @@ import {
     Card,
     CustomPaymentModal,
     GlobalModal,
+    LoadingAnimation,
     Popup,
     ShowErrorNotifications,
     Typography,
@@ -34,9 +35,9 @@ export const StepReviewInfo = () => {
     const [register, registerResult] = AuthApi.useRegisterStudent()
     const [login, loginResult] = AuthApi.useLogin()
     const formData: any = SignUpUtils.getValuesFromStorage()
-    console.log('formData', formData)
+
     const id = formData?.rto
-    const { data } = RtoApi.Rto.useRtoSelfPayment(id, {
+    const { data, isLoading, isError } = RtoApi.Rto.useRtoSelfPayment(id, {
         skip: !id,
         refetchOnMountOrArgChange: true,
     })
@@ -84,11 +85,11 @@ export const StepReviewInfo = () => {
             formData?.rtoInfo && formData?.rtoInfo !== '' && !formData?.rto
         console.log('isRtoOther', isRtoOther)
         if (isRtoOther) {
-            // RTO is "other" - use string format and include courseInfo
+            // RTO is "other" - use string format and include courseDescription
             return {
                 ...basePayload,
                 rtoInfo: formData?.rtoInfo, // This will be the string value
-                courseInfo: formData?.courseInfo || '',
+                courseDescription: formData?.courseDescription || '',
             }
         } else {
             // RTO is selected from dropdown - use number format and include courses/sectors
@@ -156,7 +157,7 @@ export const StepReviewInfo = () => {
 
     const fetchPaymentIntent = async () => {
         const res = await newUserPayment({
-            amount: 390,
+            amount: formData?.rto ? 250 : 390,
             email: formData?.email,
             currency: 'aud',
             payment_method_types: ['card'],
@@ -173,10 +174,9 @@ export const StepReviewInfo = () => {
                         onCancel={onCancel}
                         setPaymentConfirmed={setPaymentConfirmed}
                         paymentConfirmed={paymentConfirmed}
+                        formData={formData}
                         onSuccess={async () => {
                             setModal(null)
-                            // setPaymentConfirmed(true)
-
                             const payload = preparePayload(formData)
                             await register(payload as any)
                         }}
@@ -200,6 +200,8 @@ export const StepReviewInfo = () => {
                         'You will be redirected to dashboard once your account is created'
                     }
                 />
+            ) : isLoading ? (
+                <LoadingAnimation />
             ) : (
                 <div className="max-w-screen-xl mx-auto mt-4 px-2 xl:px-0">
                     <div>
@@ -412,7 +414,7 @@ export const StepReviewInfo = () => {
                                             <div className="flex flex-col gap-y-1">
                                                 <InfoboxCard>
                                                     <Typography variant="label">
-                                                        {formData?.courseInfo ||
+                                                        {formData?.courseDescription ||
                                                             'NA'}
                                                     </Typography>
                                                 </InfoboxCard>
