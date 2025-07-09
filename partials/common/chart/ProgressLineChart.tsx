@@ -61,6 +61,7 @@ export const ProgressLineChart = () => {
               workplaceRequests: value?.workplaceRequests,
               studentsPlaced: value?.studentsPlaced,
               studentsExpired: value?.studentsExpired,
+              automatedWorkplaceRequest: value?.automatedWorkplaceRequest,
           }))
         : []
     initialData?.sort(
@@ -188,6 +189,12 @@ export const ProgressLineChart = () => {
                         dataKey="studentsExpired"
                         strokeWidth={4}
                         stroke="#FF6F61"
+                    />
+                    <Line
+                        type="monotone"
+                        dataKey="automatedWorkplaceRequest"
+                        strokeWidth={4}
+                        stroke="#7ccf00"
                     />
                 </LineChart>
             </ResponsiveContainer>
