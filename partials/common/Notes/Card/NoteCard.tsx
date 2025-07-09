@@ -91,7 +91,6 @@ export const NoteCard = ({ note }: { note: NoteType | any }) => {
 
             const blob: Blob = await response.blob()
             const url: string = URL.createObjectURL(blob)
-            console.log({ url })
             setAudioUrl(url)
 
             const audio = playAudioSound(url)
