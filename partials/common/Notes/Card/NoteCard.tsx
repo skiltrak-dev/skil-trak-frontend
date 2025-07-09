@@ -8,7 +8,12 @@ import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { Note as NoteType } from '@types'
-import { getUserCredentials } from '@utils'
+import {
+    getUserCredentials,
+    HtmlToPlainText,
+    playAudioSound,
+    stopAudioSound,
+} from '@utils'
 import format from 'date-fns/format'
 import { useEffect, useState } from 'react'
 
@@ -19,9 +24,15 @@ import { PuffLoader } from 'react-spinners'
 import { NotesTemplateStatus } from '../forms'
 import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
 import moment from 'moment'
+import { TextToSpeech } from '@pages/api/openai/textToSpeech'
+import { HiMiniSpeakerWave, HiMiniSpeakerXMark } from 'react-icons/hi2'
 
 export const NoteCard = ({ note }: { note: NoteType | any }) => {
     const { notification } = useNotification()
+
+    const [audioLoading, setAudioLoading] = useState<boolean>(false)
+    const [audioUrl, setAudioUrl] = useState<string>('')
+    const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
     const [statusChange, statusChangeResult] = CommonApi.Notes.useStatusChange()
     const togglePin = async () => {
@@ -51,6 +62,65 @@ export const NoteCard = ({ note }: { note: NoteType | any }) => {
             })
         }
     }, [removeResult])
+
+    const handleSubmit = async () => {
+        if (audioUrl && isPlaying) {
+            setIsPlaying(false)
+            stopAudioSound(audioUrl)
+            return
+        } else if (audioUrl && !isPlaying) {
+            playAudioSound(audioUrl)
+            setIsPlaying(true)
+            return
+        }
+        const text = HtmlToPlainText(note?.body ?? note?.message)
+        setAudioLoading(true)
+
+        try {
+            const response = await TextToSpeech({
+                text,
+            })
+            setAudioLoading(false)
+
+            console.log({ response })
+
+            if (!response.ok) {
+                const { error }: { error: string } = await response.json()
+                throw new Error(error)
+            }
+
+            const blob: Blob = await response.blob()
+            const url: string = URL.createObjectURL(blob)
+            console.log({ url })
+            setAudioUrl(url)
+
+            const audio = playAudioSound(url)
+            if (audio) {
+                setIsPlaying(true)
+
+                // Listen for audio end to update state
+                audio.addEventListener('ended', () => {
+                    setIsPlaying(false)
+                })
+
+                // Listen for audio pause to update state
+                audio.addEventListener('pause', () => {
+                    setIsPlaying(false)
+                })
+            }
+        } catch (err: any) {
+            console.log({ err })
+        } finally {
+            setAudioLoading(false)
+        }
+    }
+
+    const stopAudio = () => {
+        if (audioUrl) {
+            stopAudioSound(audioUrl)
+            setIsPlaying(false)
+        }
+    }
 
     return (
         <>
@@ -107,6 +177,19 @@ export const NoteCard = ({ note }: { note: NoteType | any }) => {
                             excludeRoles={[UserRoles.OBSERVER]}
                         >
                             <div className="flex items-center gap-x-1">
+                                <div className="bg-white text-[#BF0000] w-6 h-6 flex justify-center items-center rounded-[5px] cursor-pointer">
+                                    {audioLoading ? (
+                                        <PuffLoader size={20} />
+                                    ) : audioUrl && isPlaying ? (
+                                        <HiMiniSpeakerXMark
+                                            onClick={() => stopAudio()}
+                                        />
+                                    ) : (
+                                        <HiMiniSpeakerWave
+                                            onClick={() => handleSubmit()}
+                                        />
+                                    )}
+                                </div>
                                 <div
                                     onClick={togglePin}
                                     className={`${

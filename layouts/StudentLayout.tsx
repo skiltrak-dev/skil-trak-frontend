@@ -1,6 +1,5 @@
 import {
     Button,
-    CustomPaymentModal,
     DisplayAlerts,
     GlobalModal,
     PageTitle,
@@ -25,15 +24,13 @@ import {
     useGetStudentProfileDetailQuery,
     usePayAsNewUserMutation,
 } from '@queries'
+import { loadStripe } from '@stripe/stripe-js'
 import { UserStatus } from '@types'
 import { EsignDocumentStatus, getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
-import { uuid } from 'uuidv4'
 
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
