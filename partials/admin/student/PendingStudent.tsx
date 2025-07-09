@@ -26,6 +26,7 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 import { SectorCell, StudentCellInfo } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, RejectModal } from './modals'
+import { Span } from 'next/dist/trace'
 
 export const PendingStudent = () => {
     const router = useRouter()
@@ -102,7 +103,11 @@ export const PendingStudent = () => {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
             cell: (info) => {
-                return <RtoCellInfo rto={info.row.original.rto} short />
+                return info.row.original.rto ? (
+                    <RtoCellInfo rto={info.row.original.rto} short />
+                ) : (
+                    <span>{info.row?.original?.rtoInfo}</span>
+                )
             },
         },
         {

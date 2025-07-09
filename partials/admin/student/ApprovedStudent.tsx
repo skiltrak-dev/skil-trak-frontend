@@ -178,9 +178,13 @@ export const ApprovedStudent = () => {
         {
             accessorKey: 'rto',
             header: () => <span>RTO</span>,
-            cell: (info) => (
-                <RtoCellInfo rto={info?.row?.original?.rto} short />
-            ),
+            cell: (info) => {
+                return info.row?.original?.rto ? (
+                    <RtoCellInfo rto={info.row?.original?.rto} short />
+                ) : (
+                    <span>{info.row?.original?.rtoInfo}</span>
+                )
+            },
         },
         {
             accessorKey: 'industry',
@@ -195,7 +199,13 @@ export const ApprovedStudent = () => {
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
-            cell: (info) => <SectorCell student={info.row.original} />,
+            cell: (info) => {
+                return info.row.original?.courseDescription ? (
+                    <span>{info.row.original?.courseDescription}</span>
+                ) : (
+                    <SectorCell student={info.row.original} />
+                )
+            },
         },
         {
             accessorKey: 'expiry',
