@@ -83,7 +83,6 @@ export const StepReviewInfo = () => {
         // Check if RTO is selected as "other" or if it's a string value (but not a numeric string)
         const isRtoOther =
             formData?.rtoInfo && formData?.rtoInfo !== '' && !formData?.rto
-        console.log('isRtoOther', isRtoOther)
         if (isRtoOther) {
             // RTO is "other" - use string format and include courseDescription
             return {
