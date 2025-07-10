@@ -1,6 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form'
 import dynamic from 'next/dynamic'
 import { EditorProps } from 'react-draft-wysiwyg'
+import { Modifier, SelectionState } from 'draft-js'
 const Editor = dynamic<EditorProps>(
     () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
     {
@@ -90,6 +91,29 @@ export const InputContentEditor = ({
     const error = methods?.formState?.errors?.[name]?.message
 
     // Handle paste to clean background colors
+    // const handlePastedText = (
+    //     text: string,
+    //     html: string,
+    //     editorState: EditorState,
+    //     onChange: (editorState: EditorState) => void
+    // ) => {
+    //     if (html) {
+    //         const cleanedHtml = stripBackgroundColors(html)
+    //         const blocksFromHTML = convertFromHTML(cleanedHtml)
+    //         const contentState = ContentState.createFromBlockArray(
+    //             blocksFromHTML.contentBlocks,
+    //             blocksFromHTML.entityMap
+    //         )
+    //         const newEditorState = EditorState.push(
+    //             editorState,
+    //             contentState,
+    //             'insert-fragment'
+    //         )
+    //         onChange(newEditorState)
+    //         return true // Indicate that we handled the paste
+    //     }
+    //     return false // Let the editor handle the paste normally
+    // }
     const handlePastedText = (
         text: string,
         html: string,
@@ -99,19 +123,36 @@ export const InputContentEditor = ({
         if (html) {
             const cleanedHtml = stripBackgroundColors(html)
             const blocksFromHTML = convertFromHTML(cleanedHtml)
-            const contentState = ContentState.createFromBlockArray(
+            const contentState = editorState.getCurrentContent()
+
+            const fragment = ContentState.createFromBlockArray(
                 blocksFromHTML.contentBlocks,
                 blocksFromHTML.entityMap
             )
+
+            const newContent = Modifier.replaceWithFragment(
+                contentState,
+                editorState.getSelection(),
+                fragment.getBlockMap()
+            )
+
             const newEditorState = EditorState.push(
                 editorState,
-                contentState,
+                newContent,
                 'insert-fragment'
             )
-            onChange(newEditorState)
-            return true // Indicate that we handled the paste
+
+            onChange(
+                EditorState.forceSelection(
+                    newEditorState,
+                    newContent.getSelectionAfter()
+                )
+            )
+
+            return true
         }
-        return false // Let the editor handle the paste normally
+
+        return false
     }
 
     return (

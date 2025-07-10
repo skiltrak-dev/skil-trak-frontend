@@ -27,7 +27,6 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
         CapacityUpdated,
         ProfileUpdated,
         trading_hours_and_shifts,
-        hasInsuranceDocuments,
         hasIndustryChecks,
         hasBookmarked,
         hasCourseApproved,
@@ -40,7 +39,6 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
         CapacityUpdated,
         ProfileUpdated,
         trading_hours_and_shifts,
-        hasInsuranceDocuments,
         hasIndustryChecks,
         hasBookmarked,
         hasCourseApproved,
@@ -54,7 +52,6 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
         { key: 'CapacityUpdated', label: 'Capacity' },
         { key: 'ProfileUpdated', label: 'Profile' },
         { key: 'trading_hours_and_shifts', label: 'Trading Hours & Shifts' },
-        { key: 'hasInsuranceDocuments', label: 'Insurance Documents' },
         { key: 'hasIndustryChecks', label: 'Industry Checks' },
         { key: 'hasBookmarked', label: 'Favorite' },
         { key: 'hasCourseApproved', label: 'Course Approved' },
@@ -115,7 +112,7 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
                                 <div className="relative group">
                                     <ProfileCompletionProgress
                                         completedItems={completedCount}
-                                        totalItems={11}
+                                        totalItems={10}
                                     />
                                     <div className="absolute !z-50 top-4 left-0 group-hover:block hidden w-full">
                                         <IndustryProfileChecklist
