@@ -267,6 +267,7 @@ export interface SubAdmin extends BaseResponse {
     canBookAppointments: boolean
     canAccessSubadmin: boolean
     canAddStudents: boolean
+    isTodoEnabled: boolean
     canViewAllStudents: boolean
     canCreateInternalTicket: boolean
     canViewRtoList: boolean

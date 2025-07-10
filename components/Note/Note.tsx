@@ -4,9 +4,8 @@ import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { Note as NoteType } from '@types'
 import classNames from 'classnames'
-import format from 'date-fns/format'
+import moment from 'moment'
 import { useEffect, useState } from 'react'
-import { AiFillEdit } from 'react-icons/ai'
 
 import { BsPinAngleFill, BsPinFill } from 'react-icons/bs'
 import { FaTrash } from 'react-icons/fa'
@@ -129,19 +128,13 @@ export const Note = ({ note }: { note: NoteType }) => {
                                         : 'text-[#BFBF80]'
                                 } `}
                             >
-                                {format(
-                                    new Date(
-                                        note?.isEnabled || note?.createdAt!!
-                                    ),
-                                    'EEE dd, LLL, yyyy'
-                                )}{' '}
-                                at{' '}
-                                {format(
-                                    new Date(
-                                        note?.isEnabled || note?.createdAt!!
-                                    ),
-                                    'hh:mm aa'
-                                )}
+                                {moment(
+                                    note?.isEnabled || note?.createdAt
+                                ).format('ddd DD, MMM, YYYY')}{' '}
+                                at $
+                                {moment(
+                                    note?.isEnabled || note?.createdAt
+                                ).format('hh:mm A')}
                             </p>
                         </div>
                     </div>

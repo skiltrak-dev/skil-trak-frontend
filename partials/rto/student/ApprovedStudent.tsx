@@ -46,7 +46,7 @@ export const ApprovedStudent = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const { isLoading, data, isError, refetch } = useGetRtoStudentsQuery({
+    const { isLoading, data, isError } = useGetRtoStudentsQuery({
         search: `status:${UserStatus.Approved}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
@@ -120,70 +120,43 @@ export const ApprovedStudent = () => {
         )
     }
 
-    const tableActionOptions = (student: Student) => {
-        return [
-            {
-                text: 'View',
-                onClick: (student: Student) =>
-                    router.push(
-                        `/portals/rto/students/${student.id}?tab=overview`
-                    ),
-                Icon: FaEye,
-            },
-            {
-                text: 'Edit',
-                onClick: (student: Student) =>
-                    router.push(
-                        `/portals/rto/students/${student.id}/edit-student`
-                    ),
-                Icon: FaEye,
-            },
-            {
-                text: student?.rtoCoordinator
-                    ? 'Change Coordinator'
-                    : 'Assign Coordinator',
-                onClick: (student: Student) =>
-                    onAssignCoordinatorClicked(student),
-                Icon: FaUserPlus,
-            },
-            // {
-            //     text: student?.rtoCoordinator
-            //         ? 'Change Coordinator'
-            //         : 'Assign Coordinator',
-            //     onClick: (student: Student) =>
-            //         onAssignCoordinatorClicked(student),
-            //     Icon: FaUserPlus,
-            // },
-            // {
-            //     ...(student?.rtoCoordinator
-            //         ? {
-            //               text: 'Remove Coordinator',
-            //               onClick: (student: Student) =>
-            //                   onRemoveCoordinatorClicked(student),
-            //               Icon: IoPersonRemoveSharp,
-            //               color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            //           }
-            //         : {}),
-            // },
-
-            {
-                text: 'Block',
-                onClick: (student: Student) => onBlockClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Change Status',
-                onClick: (student: Student) => onChangeStatus(student),
-                Icon: FaEdit,
-            },
-            {
-                text: 'Change Expiry',
-                onClick: (student: Student) => onDateClick(student),
-                Icon: FaEdit,
-            },
-        ]
-    }
+    const tableActionOptions = (student: Student) => [
+        {
+            text: 'View',
+            onClick: (student: Student) =>
+                router.push(`/portals/rto/students/${student.id}?tab=overview`),
+            Icon: FaEye,
+        },
+        {
+            text: 'Edit',
+            onClick: (student: Student) =>
+                router.push(`/portals/rto/students/${student.id}/edit-student`),
+            Icon: FaEye,
+        },
+        {
+            text: student?.rtoCoordinator
+                ? 'Change Coordinator'
+                : 'Assign Coordinator',
+            onClick: (student: Student) => onAssignCoordinatorClicked(student),
+            Icon: FaUserPlus,
+        },
+        {
+            text: 'Block',
+            onClick: (student: Student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Change Status',
+            onClick: (student: Student) => onChangeStatus(student),
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Expiry',
+            onClick: (student: Student) => onDateClick(student),
+            Icon: FaEdit,
+        },
+    ]
 
     const columns: ColumnDef<Student>[] = [
         {

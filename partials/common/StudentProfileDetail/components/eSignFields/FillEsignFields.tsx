@@ -571,7 +571,7 @@ export const FillEsignFields = ({
                             <div className="hidden lg:block sticky top-0 bg-white h-[85vh]">
                                 <div className="p-3 flex justify-end">
                                     <FaRegTimesCircle
-                                        size={23}
+                                         size={25}
                                         onClick={() => {
                                             setShowSignersField(
                                                 !showSignersField

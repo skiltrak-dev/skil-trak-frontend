@@ -1,19 +1,18 @@
-import { Card, Select, Typography } from '@components'
-import React, { useMemo, useState } from 'react'
+import { Card, Typography } from '@components'
+import { AdminApi, AuthApi, CommonApi } from '@queries'
+import { Rto } from '@types'
+import { useRouter } from 'next/router'
+import { useMemo, useState } from 'react'
 import {
-    LineChart,
+    CartesianGrid,
+    Legend,
     Line,
+    LineChart,
+    ResponsiveContainer,
+    Tooltip,
     XAxis,
     YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend,
-    ResponsiveContainer,
 } from 'recharts'
-import { AdminApi, AuthApi, CommonApi } from '@queries'
-import { Rto, SubAdmin } from '@types'
-import { removeEmptyValues } from '@utils'
-import { useRouter } from 'next/router'
 export const DepartmentLineChart = () => {
     const [rtoId, setRtoId] = useState(undefined)
     const [sectorId, setSectorId] = useState(undefined)

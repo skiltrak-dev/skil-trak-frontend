@@ -8,24 +8,17 @@ import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { Note as NoteType } from '@types'
-import {
-    getUserCredentials,
-    HtmlToPlainText,
-    playAudioSound,
-    stopAudioSound,
-} from '@utils'
-import format from 'date-fns/format'
+import { HtmlToPlainText, playAudioSound, stopAudioSound } from '@utils'
 import { useEffect, useState } from 'react'
 
+import { TextToSpeech } from '@pages/api/openai/textToSpeech'
+import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
+import moment from 'moment'
 import { FaTrash } from 'react-icons/fa'
+import { HiMiniSpeakerWave, HiMiniSpeakerXMark } from 'react-icons/hi2'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { TiPin } from 'react-icons/ti'
 import { PuffLoader } from 'react-spinners'
-import { NotesTemplateStatus } from '../forms'
-import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
-import moment from 'moment'
-import { TextToSpeech } from '@pages/api/openai/textToSpeech'
-import { HiMiniSpeakerWave, HiMiniSpeakerXMark } from 'react-icons/hi2'
 
 export const NoteCard = ({ note }: { note: NoteType | any }) => {
     const { notification } = useNotification()

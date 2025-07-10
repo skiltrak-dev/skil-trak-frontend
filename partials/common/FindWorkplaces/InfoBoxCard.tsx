@@ -1,8 +1,6 @@
 import { Card, Typography } from '@components'
-import Image from 'next/image'
-import { AiFillStar } from 'react-icons/ai'
 import { FaTimes } from 'react-icons/fa'
-import StarRatings from 'react-star-ratings'
+import ReactStars from 'react-stars'
 
 export const InfoBoxCard = ({ item, selectedBox, setSelectedBox }: any) => {
     const url =
@@ -53,13 +51,13 @@ export const InfoBoxCard = ({ item, selectedBox, setSelectedBox }: any) => {
                                         {selectedBox?.rating || 'N/A'}
                                     </Typography>
                                 </div>
-                                <StarRatings
-                                    rating={selectedBox?.rating}
-                                    starRatedColor="orange"
-                                    numberOfStars={5}
-                                    name="rating"
-                                    starDimension="15px"
-                                    starSpacing="1px"
+
+                                <ReactStars
+                                    count={5}
+                                    value={selectedBox?.rating}
+                                    edit={false}
+                                    size={25}
+                                    color2={'orange'}
                                 />
                                 <Typography
                                     variant="muted"

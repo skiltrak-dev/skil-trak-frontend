@@ -1,19 +1,18 @@
 import { Typography } from '@components'
 import { FcGoogle } from 'react-icons/fc'
-import StarRatings from 'react-star-ratings'
+import ReactStars from 'react-stars'
 export const GoogleReviewCard = ({ review, name, rating, link }: any) => {
     return (
         <div className="bg-white shadow-xl rounded-lg flex flex-col max-h-72 overflow-auto custom-scrollbar gap-y-6 justify-center m-2 items-center p-8">
             <div className="flex flex-col justify-center items-center gap-y-2">
                 <FcGoogle size={35} />
                 <div className="flex items-center justify-center gap-x-1">
-                    <StarRatings
-                        rating={rating}
-                        starRatedColor="orange"
-                        numberOfStars={5}
-                        name="rating"
-                        starDimension="20px"
-                        starSpacing="1px"
+                    <ReactStars
+                        count={5}
+                        value={rating}
+                        edit={false}
+                        size={25}
+                        color2={'#ffd700'}
                     />
                 </div>
             </div>

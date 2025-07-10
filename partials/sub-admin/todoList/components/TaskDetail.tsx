@@ -1,8 +1,8 @@
-import { Calendar, Clock, User, FileText } from 'lucide-react'
-import { format } from 'date-fns'
+import { Button, Card } from '@components'
+import { Calendar, Clock, FileText, User } from 'lucide-react'
+import moment from 'moment'
 import { useState } from 'react'
 import { Task } from '../types'
-import { Button, Card } from '@components'
 
 interface TaskDetailProps {
     task: Task | null
@@ -112,7 +112,7 @@ export function TaskDetail({ task, onClose, onMarkComplete }: TaskDetailProps) {
                             <div className="flex items-center gap-2">
                                 <Calendar className="h-4 w-4 text-muted-foreground" />
                                 <p className="text-sm">
-                                    {format(task.dueDate, 'MMM dd, yyyy')}
+                                    {moment(task.dueDate).format('MMM dd yyyy')}
                                 </p>
                             </div>
                         </div>

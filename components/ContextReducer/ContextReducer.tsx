@@ -27,7 +27,6 @@ import { store } from 'redux/store'
 
 // styles
 import 'aos/dist/aos.css'
-import 'react-datepicker/dist/react-datepicker.css'
 import 'swiper/css'
 import 'swiper/css/bundle'
 import 'swiper/css/free-mode'
