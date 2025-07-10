@@ -11,15 +11,12 @@ export const playAudioSound = (audioPath: string): HTMLAudioElement | null => {
         const audio = new Audio(audioPath)
         audioInstances.set(audioPath, audio)
 
-        console.log({ audio })
-
         // Remove from instances when ended
         audio.addEventListener('ended', () => {
             audioInstances.delete(audioPath)
         })
 
         audio.play().catch((error) => {
-            console.log('Audio playback failed:', error)
             audioInstances.delete(audioPath)
         })
 
