@@ -1,4 +1,4 @@
-import ReactTimeAgo from 'react-time-ago'
+import moment from 'moment'
 
 export const JobSlide = ({ job }: any) => {
     return (
@@ -29,7 +29,7 @@ export const JobSlide = ({ job }: any) => {
                     `- AUD ${job.salary.from ? job.salary.from : 0}`}
             </p>
             <p className="job-posted mt-3.5 text-xs text-amber-500">
-                <ReactTimeAgo date={new Date(job.posted_date)} locale="en-US" />
+                {moment(new Date(job.posted_date)).fromNow()}
             </p>
         </a>
     )

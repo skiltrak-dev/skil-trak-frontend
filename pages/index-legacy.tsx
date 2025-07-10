@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Image from 'next/image'
 
 import { SiteLayout } from '@layouts'
-import { Wrapper } from '../components/site/wrapper'
-import { Button } from '../components/site/Button'
-import { HomeSlider } from '../components/site/slider/HomeSlider'
-import { PackageCard } from '../components/site/PackageCard'
-import { FigureCard } from '../components/site/FigureCard'
-import { JobSlider } from '../components/site/slider/JobSlider'
-import { ReviewSlider } from '../components/site/slider/ReviewSlider'
-import { NewsSlider } from '../components/site/slider/NewsSlider'
 import axios from 'axios'
-import Marquee from 'react-fast-marquee'
-import { NewsCard } from '../components/site/NewsCard'
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en.json'
 import { NextPage } from 'next'
+import Marquee from 'react-fast-marquee'
+import ReactStars from 'react-stars'
+import { Button } from '../components/site/Button'
+import { FigureCard } from '../components/site/FigureCard'
+import { NewsCard } from '../components/site/NewsCard'
+import { PackageCard } from '../components/site/PackageCard'
+import { HomeSlider } from '../components/site/slider/HomeSlider'
+import { JobSlider } from '../components/site/slider/JobSlider'
+import { NewsSlider } from '../components/site/slider/NewsSlider'
+import { ReviewSlider } from '../components/site/slider/ReviewSlider'
+import { Wrapper } from '../components/site/wrapper'
 
 TimeAgo.addDefaultLocale(en)
 TimeAgo.addLocale(en)
@@ -120,6 +121,7 @@ const Page: NextPage = () => {
     return (
         <SiteLayout title="Home">
             <HomeSlider />
+
             <Wrapper sectionName="introduction">
                 <div className="flex flex-col sm:flex-row justify-between items-center">
                     <div className="w-full sm:w-3/5 md:w-2/4">

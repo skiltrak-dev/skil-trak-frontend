@@ -87,9 +87,9 @@ export const ActiveSubAdmin = () => {
     }
 
     const onEditSubAdmin = (subAdmin: SubAdmin) => {
-        contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
-        contextBar.setTitle('Edit SubAdmin')
         contextBar.show()
+        contextBar.setTitle('Edit SubAdmin')
+        contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
     }
 
     const onAssociatedWithRtoClicked = (subadminId: number, rtos: Rto[]) => {
@@ -297,25 +297,16 @@ export const ActiveSubAdmin = () => {
     return (
         <>
             {modal}
-            {passwordModal && passwordModal}
+            {passwordModal}
             <div className="flex flex-col gap-y-4 mb-32">
                 <PageHeading
                     title={'Active Sub Admin'}
                     subtitle={'List of Active Sub Admin'}
-                >
-                    {/* {data && data?.data.length ? (
-                        <Button
-                            text="Export"
-                            variant="action"
-                            Icon={FaFileExport}
-                        />
-                    ) : null} */}
-                </PageHeading>
+                />
 
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading || isFetching ? (
-                        // <LoadingAnimation height="h-[60vh]" />
                         <TableSkeleton arrayLength={data?.data?.length || 1} />
                     ) : data?.data && data?.data?.length ? (
                         <Table

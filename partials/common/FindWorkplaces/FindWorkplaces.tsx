@@ -1,9 +1,8 @@
-import { Card, Typography } from '@components'
+import { Typography } from '@components'
 import Image from 'next/image'
-import StarRatings from 'react-star-ratings'
+import ReactStars from 'react-stars'
 
 export const FindWorkplaces = ({ item, onClick }: any) => {
-
     const photoUrl = item?.photos && item?.photos[0]?.getUrl()
     return (
         <>
@@ -34,13 +33,13 @@ export const FindWorkplaces = ({ item, onClick }: any) => {
                                 {item?.rating || 'N/A'}
                             </Typography>
                         </div>
-                        <StarRatings
-                            rating={item?.rating}
-                            starRatedColor="orange"
-                            numberOfStars={5}
-                            name="rating"
-                            starDimension="15px"
-                            starSpacing="1px"
+
+                        <ReactStars
+                            count={5}
+                            value={item?.rating}
+                            edit={false}
+                            size={25}
+                            color2={'orange'}
                         />
                         <Typography variant="muted" color="text-gray-600">
                             ({item.user_ratings_total || 'N/A'})

@@ -13,10 +13,9 @@ import { ProgressLineChart } from '@partials/common'
 import { AdminApi, CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { AuthUtils } from '@utils'
-import { format } from 'date-fns'
+import moment from 'moment'
 import { useMediaQuery } from 'react-responsive'
 import StackGrid, { transitions } from 'react-stack-grid'
-import { ViewProgressByCourseAdmin } from '@partials/admin/components'
 
 const { scaleDown } = transitions
 
@@ -71,7 +70,7 @@ const AdminDashboard: NextPageWithLayout = () => {
                         <p>
                             You are all set to go. It&apos;s{' '}
                             <span className="text-gray-500">
-                                {format(new Date(), 'do MMMM')}
+                                {moment(new Date()).format('do MMMM')}
                             </span>{' '}
                             today
                         </p>

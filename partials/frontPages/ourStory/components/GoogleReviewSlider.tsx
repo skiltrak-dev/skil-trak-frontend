@@ -1,8 +1,6 @@
 import { Autoplay, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { GoogleReviewCard } from './GoogleReviewCard'
-import axios from 'axios'
-import { useEffect } from 'react'
 
 const googleReviews = [
     {

@@ -1,9 +1,8 @@
-import React from 'react'
 import { AuthorizedUserComponent, Typography } from '@components'
-import { commonApi } from '@queries'
-import { format } from 'date-fns'
-import { FaArrowRightLong } from 'react-icons/fa6'
 import { UserRoles } from '@constants'
+import { commonApi } from '@queries'
+import moment from 'moment'
+import { FaArrowRightLong } from 'react-icons/fa6'
 
 export const VerifiedEmailHistoryModal = ({ userId }: { userId: number }) => {
     const { data, isLoading, error } = commonApi.useGetVerifyEmailHistoryQuery(
@@ -15,7 +14,7 @@ export const VerifiedEmailHistoryModal = ({ userId }: { userId: number }) => {
 
     const formatDate = (dateString: any) => {
         try {
-            return format(new Date(dateString), 'MMM dd, yyyy • h:mm a')
+            return moment(new Date(dateString)).format('MMM dd, yyyy • h:mm a')
         } catch (e) {
             return dateString
         }

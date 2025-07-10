@@ -1,6 +1,5 @@
-import React from 'react'
+import moment from 'moment'
 import Link from 'next/link'
-import ReactTimeAgo from 'react-time-ago'
 import ContentLoader from 'react-content-loader'
 
 export const NewsCard = ({ news, large, small, loader }: any) => {
@@ -138,7 +137,7 @@ export const NewsCard = ({ news, large, small, loader }: any) => {
             ></div>
             <div className={cardStyle.description.container}>
                 <p className={cardStyle.description.dated}>
-                    <ReactTimeAgo date={news?.posted_at} locale="en-US" />
+                    {moment(news?.posted_at).fromNow()}
                 </p>
                 <p className={cardStyle.description.news}>{news?.title}</p>
             </div>

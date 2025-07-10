@@ -3,12 +3,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { Course, OptionType, Sector } from '@types'
+import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 import { useDepartmentDetailContext } from '../hooks'
-import { useRouter } from 'next/router'
-import roundToNearestMinutes from 'date-fns/roundToNearestMinutes'
 
 export const AddDepartmentEmailModal = ({
     onCancel,
