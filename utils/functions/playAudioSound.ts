@@ -50,7 +50,7 @@ export const resumeAudioSound = (audioPath: string): void => {
         const audio = audioInstances.get(audioPath)
         if (audio) {
             audio.play().catch((error) => {
-                console.log('Audio playback failed:', error)
+                console.log('Audio playback failed', error)
             })
         }
     }
