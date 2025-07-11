@@ -49,9 +49,7 @@ export const resumeAudioSound = (audioPath: string): void => {
     if (isBrowser()) {
         const audio = audioInstances.get(audioPath)
         if (audio) {
-            audio.play().catch((error) => {
-                console.log('Audio playback failed', error)
-            })
+            audio.play().catch((error) => {})
         }
     }
 }
