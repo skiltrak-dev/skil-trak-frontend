@@ -61,11 +61,6 @@ const nextConfig = {
     // },
     //     // reactStrictMode: true,
     //     instrumentationHook: true,
-    output: "standalone",
-    experimental: {
-        workerThreads: false,
-        cpus: 1
-    }
 }
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.ANALYZE === 'true',
