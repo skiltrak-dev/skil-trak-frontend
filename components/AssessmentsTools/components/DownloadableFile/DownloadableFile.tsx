@@ -1,7 +1,6 @@
 // components
 import { Typography } from '@components'
 // react icons
-import { FaEdit } from 'react-icons/fa'
 
 type DownloadableFileProps = {
     name: string

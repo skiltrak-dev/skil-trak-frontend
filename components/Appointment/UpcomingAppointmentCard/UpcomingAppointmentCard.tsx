@@ -1,7 +1,6 @@
 import {
     ActionButton,
     AuthorizedUserComponent,
-    Button,
     Portal,
     Typography,
 } from '@components'
@@ -9,18 +8,18 @@ import { Appointment, User, appointmentWithUser } from '@types'
 import { getUserCredentials, isLessThan24HoursDifference } from '@utils'
 import moment from 'moment'
 import { MouseEvent, ReactElement, useEffect, useState } from 'react'
-import { FaTimes } from 'react-icons/fa'
 import { BiLogoZoom } from 'react-icons/bi'
+import { FaTimes } from 'react-icons/fa'
 
 // query
-import { CommonApi } from '@queries'
-import { useNotification } from '@hooks'
-import { TbCalendarTime } from 'react-icons/tb'
-import { RescheduleAppointmentModal } from './RescheduleAppointmentModal'
 import { UserRoles } from '@constants'
+import { useNotification } from '@hooks'
+import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
-import { ApproveAppointmentModal } from '../AppointmentModal'
 import { FaCircleCheck } from 'react-icons/fa6'
+import { TbCalendarTime } from 'react-icons/tb'
+import { ApproveAppointmentModal } from '../AppointmentModal'
+import { RescheduleAppointmentModal } from './RescheduleAppointmentModal'
 
 type AppointmentCardProps = {
     totalMinutes?: string
