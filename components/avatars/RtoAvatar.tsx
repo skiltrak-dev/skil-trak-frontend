@@ -1,13 +1,12 @@
 import { useNotification } from '@hooks'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { FaSchool } from 'react-icons/fa'
 import { HiPencil } from 'react-icons/hi'
 import { PulseLoader } from 'react-spinners'
 
 // query
-import { CommonApi } from '@queries'
 import { ShowErrorNotifications } from '@components/ShowErrorNotifications'
+import { CommonApi } from '@queries'
 
 export const RtoAvatar = ({
     user,

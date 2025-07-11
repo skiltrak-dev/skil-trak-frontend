@@ -5,12 +5,11 @@ import { useEffect, useState } from 'react'
 import { AiFillEye } from 'react-icons/ai'
 
 // components
-import { BackButton, Button, ReactTable, Typography } from '@components'
+import { BackButton, Button, Typography } from '@components'
 import { RightSidebarData } from '../../components'
 
 // query
 
-import { useGetFutureCandidatesQuery } from '@queries'
 // Context
 import { useContextBar } from '@hooks'
 
@@ -144,14 +143,14 @@ export const FutureCandidatesContainer = () => {
             </div>
             {/*  filters */}
             <div className="flex flex-col gap-y-4">
-                <ReactTable
+                {/* <ReactTable
                     pagesize
                     pagination
                     Columns={Columns}
                     querySort={'name'}
                     queryFilters={queryFilters}
                     action={useGetFutureCandidatesQuery}
-                />
+                /> */}
             </div>
         </div>
     )
