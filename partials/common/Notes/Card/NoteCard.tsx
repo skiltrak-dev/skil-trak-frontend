@@ -11,7 +11,6 @@ import { Note as NoteType } from '@types'
 import { HtmlToPlainText, playAudioSound, stopAudioSound } from '@utils'
 import { useEffect, useState } from 'react'
 
-import { TextToSpeech } from '@pages/api/openai/textToSpeech'
 import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
 import moment from 'moment'
 import { FaTrash } from 'react-icons/fa'
@@ -55,57 +54,6 @@ export const NoteCard = ({ note }: { note: NoteType | any }) => {
             })
         }
     }, [removeResult])
-
-    const handleSubmit = async () => {
-        if (audioUrl && isPlaying) {
-            setIsPlaying(false)
-            stopAudioSound(audioUrl)
-            return
-        } else if (audioUrl && !isPlaying) {
-            playAudioSound(audioUrl)
-            setIsPlaying(true)
-            return
-        }
-        const text = HtmlToPlainText(note?.body ?? note?.message)
-        setAudioLoading(true)
-
-        try {
-            const response = await TextToSpeech({
-                text,
-            })
-            setAudioLoading(false)
-
-            console.log({ response })
-
-            if (!response.ok) {
-                const { error }: { error: string } = await response.json()
-                throw new Error(error)
-            }
-
-            const blob: Blob = await response.blob()
-            const url: string = URL.createObjectURL(blob)
-            setAudioUrl(url)
-
-            const audio = playAudioSound(url)
-            if (audio) {
-                setIsPlaying(true)
-
-                // Listen for audio end to update state
-                audio.addEventListener('ended', () => {
-                    setIsPlaying(false)
-                })
-
-                // Listen for audio pause to update state
-                audio.addEventListener('pause', () => {
-                    setIsPlaying(false)
-                })
-            }
-        } catch (err: any) {
-            console.log({ err })
-        } finally {
-            setAudioLoading(false)
-        }
-    }
 
     const stopAudio = () => {
         if (audioUrl) {
@@ -169,19 +117,6 @@ export const NoteCard = ({ note }: { note: NoteType | any }) => {
                             excludeRoles={[UserRoles.OBSERVER]}
                         >
                             <div className="flex items-center gap-x-1">
-                                <div className="bg-white text-[#BF0000] w-6 h-6 flex justify-center items-center rounded-[5px] cursor-pointer">
-                                    {audioLoading ? (
-                                        <PuffLoader size={20} />
-                                    ) : audioUrl && isPlaying ? (
-                                        <HiMiniSpeakerXMark
-                                            onClick={() => stopAudio()}
-                                        />
-                                    ) : (
-                                        <HiMiniSpeakerWave
-                                            onClick={() => handleSubmit()}
-                                        />
-                                    )}
-                                </div>
                                 <div
                                     onClick={togglePin}
                                     className={`${

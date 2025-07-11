@@ -18,7 +18,6 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 // components
 import {
     AuthorizedUserComponent,
-    Badge,
     Button,
     Checkbox,
     draftToHtmlText,
@@ -36,7 +35,6 @@ import {
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification, useWorkplace } from '@hooks'
-import { ReWritePhrase } from '@pages/api/openai/fixGrammer'
 import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
 import { CommonApi, SubAdminApi } from '@queries'
 import { OptionType } from '@types'
@@ -271,36 +269,6 @@ export const CreateStudentNote = ({
                 title: 'Message is Required',
                 description: 'Message is Required',
             })
-        }
-    }
-
-    const onFixGrammerClick = async () => {
-        if (!noteContent) {
-            // setError('Please enter some text to correct')
-            return
-        }
-
-        setIsLoading(true)
-        // setError('')
-        setNoteContent('')
-
-        try {
-            const response = await ReWritePhrase({ text: noteContent })
-
-            if (!response.ok) {
-                throw new Error('Failed to correct grammar')
-            }
-
-            const data = await response.json()
-            setNoteContent(data?.correctedText)
-            methods.setValue('body', htmlToDraftText(data?.correctedText))
-        } catch (err) {
-            // setError(
-            //     'An error occurred while correcting the text. Please try again.'
-            // )
-            console.error('Error:', err)
-        } finally {
-            setIsLoading(false)
         }
     }
 
@@ -655,14 +623,7 @@ export const CreateStudentNote = ({
                                     <Typography variant="label">
                                         Message
                                     </Typography>
-                                    <Badge
-                                        variant="info"
-                                        text="Fix Grammer"
-                                        onClick={() => {
-                                            onFixGrammerClick()
-                                        }}
-                                        loading={isLoading}
-                                    />
+
                                     {/* <Typography variant="small">
                                         Words Count: {noteBodyWordsCount}
                                     </Typography> */}
