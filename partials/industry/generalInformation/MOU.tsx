@@ -1,19 +1,18 @@
-import React, { createContext, useEffect, ReactElement, useState } from 'react'
 import { useRouter } from 'next/router'
+import { createContext, ReactElement, useState } from 'react'
 
 // components
 import {
-    Card,
-    Button,
-    ReactTable,
-    Typography,
     BackButton,
-    TableAction,
+    Button,
+    Card,
+    EmptyData,
     Filter,
     LoadingAnimation,
-    TechnicalError,
-    EmptyData,
     Table,
+    TableAction,
+    TechnicalError,
+    Typography,
 } from '@components'
 import { MOUCell, MOUFilter } from './components'
 
@@ -26,8 +25,8 @@ const Colors = getThemeColors()
 
 // redux query
 import {
-    useGetIndustryMOUQuery,
     useCancelIndustryMOUMutation,
+    useGetIndustryMOUQuery,
     useRejectIndustryMOUMutation,
 } from '@queries'
 
