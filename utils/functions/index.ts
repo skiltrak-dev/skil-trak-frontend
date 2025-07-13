@@ -1,6 +1,5 @@
 export * from './getAge'
 export * from './getAge'
-export * from './openai'
 export * from './getDate'
 export * from './maskText'
 export * from './filterify'

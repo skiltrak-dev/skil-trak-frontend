@@ -2,7 +2,6 @@ import { InitialAvatar } from '@components/InitialAvatar'
 import { Typography } from '@components/Typography'
 import { useMaskText } from '@hooks'
 import { Rto } from '@types'
-import { maskText } from '@utils'
 import { FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa'
 
 export const StudentRtoCellInfo = ({ rto }: { rto: Rto }) => {

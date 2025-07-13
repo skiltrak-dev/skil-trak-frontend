@@ -2,7 +2,7 @@ import { LottieAnimation } from '@components/LottieAnimation'
 import Link from 'next/link'
 
 // components
-import { Desktop, Typography } from '@components'
+import { Typography } from '@components'
 import { PulseLoader } from 'react-spinners'
 
 export interface PrimaryActionButtonProps {

@@ -1,29 +1,26 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
 
 // Icons
-import { MdEdit } from 'react-icons/md'
 import { AiFillDelete } from 'react-icons/ai'
+import { MdEdit } from 'react-icons/md'
 
 // components
 import {
-    Popup,
-    Button,
-    EmptyData,
-    ReactTable,
-    Typography,
-    BackButton,
-    TableAction,
-    Filter,
-    TechnicalError,
-    Table,
-    Card,
-    LoadingAnimation,
     ActionButton,
-    SetDetaultQueryFilteres,
+    BackButton,
     Badge,
+    Button,
+    Card,
+    EmptyData,
+    Filter,
+    LoadingAnimation,
+    SetDetaultQueryFilteres,
+    Table,
+    TableAction,
+    TechnicalError,
+    Typography,
 } from '@components'
 import { JobsFilter } from './components'
 
@@ -31,17 +28,16 @@ import { JobsFilter } from './components'
 // import { useContextBar } from "@hooks";
 
 // redux
-import { useGetIndustryJobsQuery, useRemoveJobMutation } from '@queries'
+import { useGetIndustryJobsQuery } from '@queries'
 
 // utills
-import { getThemeColors } from '@theme'
 
 // HOC
-import { DeleteModal } from './modals'
-import { Rto } from '@types'
-import { JobCell } from './components'
 import { useJoyRide } from '@hooks'
+import { Rto } from '@types'
 import { IoMdEye } from 'react-icons/io'
+import { JobCell } from './components'
+import { DeleteModal } from './modals'
 
 const filterKeys = ['title', 'type']
 
