@@ -5,16 +5,16 @@ import { FaCheck } from 'react-icons/fa'
 import { TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
 
-export const TodoHighpriority = () => {
+export const TodoWeeklyFollowup = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
-    const { modal, onTodoCompleteClicked } = useTodoHooks()
-
-    const data = SubAdminApi.Todo.highPriorityTodoList({
+    const data = SubAdminApi.Todo.weeklyFollowUp({
         skip: itemsPerPage * currentPage - itemsPerPage,
         limit: itemsPerPage,
     })
+
+    const { modal, onTodoCompleteClicked } = useTodoHooks()
 
     const columns: TableColumn<any>[] = [
         {
@@ -50,7 +50,7 @@ export const TodoHighpriority = () => {
                 >
                     <div className="relative group">
                         <FaCheck className="text-green-600" size={20} />
-                        <Tooltip> Complete High Priority Task </Tooltip>
+                        <Tooltip> Complete Ticket Task </Tooltip>
                     </div>
                 </div>
             ),
@@ -63,7 +63,7 @@ export const TodoHighpriority = () => {
             <TodoTable
                 data={data}
                 columns={columns}
-                title="High Priority Items:"
+                title="Weekly Student Follow up:"
                 statusCounts={{
                     done: data?.data?.completed,
                     remaining: data?.data?.remaining,

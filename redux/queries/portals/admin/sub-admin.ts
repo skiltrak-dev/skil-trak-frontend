@@ -332,4 +332,12 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
+
+    isTodoEnabled: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/subadmin/${id}/todo-enable`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdmins'],
+    }),
 })

@@ -244,7 +244,15 @@ export const {
 
     // ---- TODO ---- //
     useTodoListCountQuery,
+    useTicketTodoListQuery,
+    useWeeklyFollowUpQuery,
+    useWorkplaceTodoListQuery,
+    useAppointmentTodoListQuery,
+    useUpdateTodoStatusMutation,
     useHighPriorityTodoListQuery,
+    useQuarterlyListedIndustriesQuery,
+    useBiMonthlyNonPartnerIndustriesQuery,
+    useMonthlyPartnerIndustriesFollowUpQuery,
 
     // ------ NOTES ------ //
     useSubadminNotesQuery,
@@ -562,7 +570,16 @@ export const SubAdminApi = {
     },
     Todo: {
         todoListCount: useTodoListCountQuery,
+        ticketTodoList: useTicketTodoListQuery,
+        weeklyFollowUp: useWeeklyFollowUpQuery,
+        workplaceTodoList: useWorkplaceTodoListQuery,
+        updateTodoStatus: useUpdateTodoStatusMutation,
+        monthlyPartnerIndustriesFollowUp:
+            useMonthlyPartnerIndustriesFollowUpQuery,
+        appointmentTodoList: useAppointmentTodoListQuery,
         highPriorityTodoList: useHighPriorityTodoListQuery,
+        quarterlyListedIndustries: useQuarterlyListedIndustriesQuery,
+        biMonthlyNonPartnerIndustries: useBiMonthlyNonPartnerIndustriesQuery,
     },
     Notes: {
         useList: useSubadminNotesQuery,

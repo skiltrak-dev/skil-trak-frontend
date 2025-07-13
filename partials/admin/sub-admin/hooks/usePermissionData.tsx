@@ -5,6 +5,7 @@ import { getUserCredentials } from '@utils'
 import { FaSchool } from 'react-icons/fa'
 import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import { usePermission } from '../hooks'
+import { FaArrowsToDot } from 'react-icons/fa6'
 
 export const usePermissionData = (subadmin: SubAdmin) => {
     const { Actions, results } = usePermission()
@@ -49,6 +50,14 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             toggle: subadmin?.allowIndustryListing,
             isLoading: results?.allowIndustryListingResult.isLoading,
             Icon: FaSchool,
+        },
+        {
+            text: 'Enable Todo',
+            key: 'isTodoEnabled',
+            Icon: FaArrowsToDot,
+            toggle: subadmin?.isTodoEnabled,
+            isLoading: results?.resultTodoEnabled.isLoading,
+            onClick: () => Actions?.onTodoEnabled(subadmin),
         },
         {
             key: 'canAdmin',

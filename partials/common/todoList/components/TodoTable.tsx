@@ -23,17 +23,14 @@ export interface TableProps<T> {
     data: any
     columns: TableColumn<T>[]
     title?: string
-    totalCount?: number
     statusCounts?: {
         done: number
         remaining: number
     }
     onClose?: () => void
     className?: string
-    pagination?: PaginationData
     onPageChange?: (page: number) => void
     onItemsPerPageChange?: (itemsPerPage: number) => void
-    loading?: boolean
 }
 
 // Status badge component
@@ -64,14 +61,11 @@ export function TodoTable<T extends Record<string, any>>({
     data,
     columns,
     title,
-    totalCount,
     statusCounts,
     onClose,
     className = '',
-    pagination,
     onPageChange,
     onItemsPerPageChange,
-    loading = false,
 }: TableProps<T>) {
     return (
         <Card noPadding>
