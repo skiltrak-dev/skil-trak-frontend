@@ -74,7 +74,6 @@ export const PlacementEligibilityCriteriaModal = ({
         },
     })
     const onSubmit = async (values: any) => {
-        console.log(values)
         updateEligibilityCriteria({ id: data?.id, body: values })
     }
     return (
