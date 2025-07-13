@@ -43,6 +43,7 @@ export const SubAdminNavbar = () => {
         Report: `${PREFIX}/report`,
         History: `${PREFIX}/history`,
         ESign: `${PREFIX}/e-sign?tab=all`,
+        Todo: `${PREFIX}/todo-list-details?tab=daily-recurring-tasks`,
         VolunteerRequest: `${PREFIX}/volunteer-requests?tab=pending`,
         TalentPool: `${PREFIX}/talent-pool`,
         DeptSectionsList: `${PREFIX}/department`,
@@ -119,6 +120,14 @@ export const SubAdminNavbar = () => {
         {
             link: Routes.ESign,
             text: 'E-Sign',
+            Icon: FaFileSignature,
+            activeClasses: 'bg-green-100 text-green-700',
+            inActiveClasses: 'text-slate-700',
+            count: pendingDocsCount?.data,
+        },
+        {
+            link: Routes.Todo,
+            text: 'Todo List',
             Icon: FaFileSignature,
             activeClasses: 'bg-green-100 text-green-700',
             inActiveClasses: 'text-slate-700',

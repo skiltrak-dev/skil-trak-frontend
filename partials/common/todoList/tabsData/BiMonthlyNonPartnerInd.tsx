@@ -5,26 +5,26 @@ import { FaCheck } from 'react-icons/fa'
 import { TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
 
-export const TodoHighpriority = () => {
+export const BiMonthlyNonPartnerInd = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
-    const { modal, onTodoCompleteClicked } = useTodoHooks()
-
-    const data = SubAdminApi.Todo.highPriorityTodoList({
+    const data = SubAdminApi.Todo.biMonthlyNonPartnerIndustries({
         skip: itemsPerPage * currentPage - itemsPerPage,
         limit: itemsPerPage,
     })
 
+    const { modal, onTodoCompleteClicked } = useTodoHooks()
+
     const columns: TableColumn<any>[] = [
         {
-            key: 'student.studentId',
-            header: 'Student ID',
+            key: 'industry.user.name',
+            header: 'Industry Name',
             width: '140px',
             className: 'font-medium',
         },
         {
-            key: 'student.user.name',
+            key: 'industry.user.email',
             header: 'Name',
             width: '200px',
         },
@@ -35,7 +35,7 @@ export const TodoHighpriority = () => {
             render: (value) => <UserCreatedAt createdAt={value} />,
         },
         {
-            key: 'student.addressLine1',
+            key: 'industry.addressLine1',
             header: 'Address',
             width: '120px',
         },
@@ -50,7 +50,7 @@ export const TodoHighpriority = () => {
                 >
                     <div className="relative group">
                         <FaCheck className="text-green-600" size={20} />
-                        <Tooltip> Complete High Priority Task </Tooltip>
+                        <Tooltip> Complete Ticket Task </Tooltip>
                     </div>
                 </div>
             ),
@@ -63,7 +63,7 @@ export const TodoHighpriority = () => {
             <TodoTable
                 data={data}
                 columns={columns}
-                title="High Priority Items:"
+                title="Bi Monthly Non Partner Industries:"
                 statusCounts={{
                     done: data?.data?.completed,
                     remaining: data?.data?.remaining,

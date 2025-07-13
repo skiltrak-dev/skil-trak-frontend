@@ -1,30 +1,31 @@
-import { Tooltip, UserCreatedAt } from '@components'
-import { SubAdminApi } from '@queries'
 import { useState } from 'react'
+import { SubAdminApi } from '@queries'
 import { FaCheck } from 'react-icons/fa'
+import { Tooltip, UserCreatedAt } from '@components'
+import { IoCloseSharp } from 'react-icons/io5'
 import { TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
 
-export const TodoHighpriority = () => {
+export const TodoWorkplace = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
-    const { modal, onTodoCompleteClicked } = useTodoHooks()
-
-    const data = SubAdminApi.Todo.highPriorityTodoList({
+    const data = SubAdminApi.Todo.workplaceTodoList({
         skip: itemsPerPage * currentPage - itemsPerPage,
         limit: itemsPerPage,
     })
 
+    const { modal, onTodoCompleteClicked } = useTodoHooks()
+
     const columns: TableColumn<any>[] = [
         {
-            key: 'student.studentId',
+            key: 'studentId',
             header: 'Student ID',
             width: '140px',
             className: 'font-medium',
         },
         {
-            key: 'student.user.name',
+            key: 'studentUserName',
             header: 'Name',
             width: '200px',
         },
@@ -35,9 +36,19 @@ export const TodoHighpriority = () => {
             render: (value) => <UserCreatedAt createdAt={value} />,
         },
         {
-            key: 'student.addressLine1',
+            key: 'addressLine1',
             header: 'Address',
             width: '120px',
+        },
+        {
+            key: 'overDue',
+            header: 'IsOverDue',
+            width: '120px',
+            render: (value: string) => (
+                <div className="cursor-pointer">
+                    {value ? 'Over Due' : null}
+                </div>
+            ),
         },
         {
             key: 'status',
@@ -50,7 +61,7 @@ export const TodoHighpriority = () => {
                 >
                     <div className="relative group">
                         <FaCheck className="text-green-600" size={20} />
-                        <Tooltip> Complete High Priority Task </Tooltip>
+                        <Tooltip> Complete Workplace Task </Tooltip>
                     </div>
                 </div>
             ),
@@ -63,7 +74,7 @@ export const TodoHighpriority = () => {
             <TodoTable
                 data={data}
                 columns={columns}
-                title="High Priority Items:"
+                title="Workplace Request:"
                 statusCounts={{
                     done: data?.data?.completed,
                     remaining: data?.data?.remaining,

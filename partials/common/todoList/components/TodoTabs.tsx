@@ -1,8 +1,14 @@
 'use client'
 
 import React, { useEffect } from 'react'
+import {
+    DailyRecurringTasks,
+    WeeklyRecurringTasks,
+    MonthlyRecurringTasks,
+    QuarterlyRecurringTasks,
+    BiMonthlyRecurringTasks,
+} from '../tabs'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { DailyRecurringTasks } from '../tabs'
 
 type TabProps = {
     label: string
@@ -19,22 +25,22 @@ const tabs: TabProps[] = [
     {
         label: 'Weekly Recurring Tasks',
         slug: 'weekly-recurring-tasks',
-        element: <div>2</div>,
+        element: <WeeklyRecurringTasks />,
     },
     {
         label: 'Monthly Recurring Tasks',
         slug: 'monthly-recurring-tasks',
-        element: <div>3</div>,
+        element: <MonthlyRecurringTasks />,
     },
     {
         label: 'Bi-Monthly Recurring Tasks',
         slug: 'student-move-to-flashing',
-        element: <div>4</div>,
+        element: <BiMonthlyRecurringTasks />,
     },
     {
         label: 'Quarterly Recurring Tasks',
         slug: 'quarterly-recurring-tasks',
-        element: <div>5</div>,
+        element: <QuarterlyRecurringTasks />,
     },
 ]
 // Weekly Recurring Tasks
