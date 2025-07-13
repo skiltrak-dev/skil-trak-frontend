@@ -17,12 +17,6 @@ export const SuburbInput = () => {
                 //             .then(({ results }) => {
                 //                 const { lat, lng } =
                 //                     results[0].geometry.location
-                //                 console.log({
-                //                     map,
-                //                     lat,
-                //                     lng,
-                //                     outer: true,
-                //                 })
                 //                 if (map) {
                 //
                 //                     map.setCenter({ lat, lng })
