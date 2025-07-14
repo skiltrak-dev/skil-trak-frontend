@@ -47,6 +47,7 @@ interface CustomRtoSearchProps {
     onSelect: (option: CustomRtoSelectType) => void
     value?: any
     formMethods?: any
+    selectedRto: any
 }
 
 export const CustomRtoSearch = ({
@@ -57,6 +58,7 @@ export const CustomRtoSearch = ({
     onSelect,
     value,
     formMethods,
+    selectedRto,
 }: CustomRtoSearchProps) => {
     const [input, setInput] = useState('')
     const [isOpen, setIsOpen] = useState(false)
@@ -93,6 +95,16 @@ export const CustomRtoSearch = ({
         onSearch(value)
     }
 
+    console.log('selectedRto', selectedRto)
+    const handleBlur = () => {
+        setTimeout(() => {
+            if (!hasMatch && input.trim().length > 2) {
+                onSelect({ value: null, customText: input })
+            }
+            setIsOpen(false)
+        }, 200)
+    }
+
     const handleSelect = (option: any) => {
         if (option === 'other') {
             onSelect({ value: null, customText: input })
@@ -118,6 +130,7 @@ export const CustomRtoSearch = ({
                 value={input}
                 onChange={handleInputChange}
                 onFocus={() => setIsOpen(true)}
+                onBlur={selectedRto !== null || undefined ? handleBlur : undefined}
                 placeholder="Search or type RTO..."
             />
 
@@ -409,7 +422,7 @@ export const StudentSignUpForm = ({
             })
             return
         }
-        if (values?.courseDescription?.trim().length < 5) {
+        if (!values?.sectors && values?.courseDescription?.trim().length < 5) {
             notification.error({
                 title: 'Enter Course Description',
                 description: 'Please enter a course description',
@@ -684,6 +697,7 @@ export const StudentSignUpForm = ({
                                           }
                                         : undefined
                                 }
+                                selectedRto={selectedRto}
                             />
 
                             {selectedRto === null && (
