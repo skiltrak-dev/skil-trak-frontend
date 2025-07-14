@@ -42,6 +42,7 @@ export const PlacementEligibilityCriteriaModal = ({
                 title: 'Eligibility Criteria',
                 description: 'Updated Successfully',
             })
+            onCancel()
         }
     }, [resultUpdateEligibilityCriteria.isSuccess])
 
@@ -80,10 +81,11 @@ export const PlacementEligibilityCriteriaModal = ({
         <>
             <ShowErrorNotifications result={resultUpdateEligibilityCriteria} />
             <Modal
-                title="Placement Eligibility Criteria"
+                title="Placement Preferences"
                 onCancelClick={onCancel}
                 onConfirmClick={methods.handleSubmit(onSubmit)}
                 subtitle=""
+                loading={resultUpdateEligibilityCriteria.isLoading}
             >
                 {isLoading ? (
                     <LoadingAnimation />
