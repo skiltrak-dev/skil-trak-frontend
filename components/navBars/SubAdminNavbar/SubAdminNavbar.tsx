@@ -1,29 +1,30 @@
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
-import { CommonApi, SubAdminApi } from '@queries'
+import { useSubadminProfile } from '@hooks'
+import { CommonApi } from '@queries'
 import {
     FaClipboardList,
     FaFileSignature,
     FaIndustry,
     FaUserGraduate,
 } from 'react-icons/fa'
+import { GrUserAdmin } from 'react-icons/gr'
 import { HiUsers } from 'react-icons/hi'
 import { IoMdSettings } from 'react-icons/io'
+import { IoCheckmarkCircleSharp } from 'react-icons/io5'
 import { MdEmail, MdSpaceDashboard } from 'react-icons/md'
 import { NavLinkItem } from '../NavLinkItem'
-import { GrUserAdmin } from 'react-icons/gr'
-import { IoCheckmarkCircleSharp } from 'react-icons/io5'
 
 const PREFIX = '/portals/sub-admin'
 
 export const SubAdminNavbar = () => {
     const router = useRouter()
-    const subadmin = SubAdminApi.SubAdmin.useProfile()
-    const checkIsHod = subadmin?.data?.departmentMember?.isHod
-    const isManager = subadmin?.data?.isManager
-    const isAssociatedWithRto = subadmin?.data?.isAssociatedWithRto
-    const hasAllowAllStudents = subadmin?.data?.hasAllStudentAccess
+    const subadmin = useSubadminProfile()
+    const checkIsHod = subadmin?.departmentMember?.isHod
+    const isManager = subadmin?.isManager
+    const isAssociatedWithRto = subadmin?.isAssociatedWithRto
+    const hasAllowAllStudents = subadmin?.hasAllStudentAccess
 
     const Routes = {
         Dashboard: `${PREFIX}`,
@@ -125,14 +126,17 @@ export const SubAdminNavbar = () => {
             inActiveClasses: 'text-slate-700',
             count: pendingDocsCount?.data,
         },
-        {
-            link: Routes.Todo,
-            text: 'Todo List',
-            Icon: FaFileSignature,
-            activeClasses: 'bg-green-100 text-green-700',
-            inActiveClasses: 'text-slate-700',
-            count: pendingDocsCount?.data,
-        },
+        ...(subadmin?.isTodoEnabled
+            ? [
+                  {
+                      link: Routes.Todo,
+                      text: 'Todo List',
+                      Icon: FaFileSignature,
+                      activeClasses: 'bg-green-100 text-green-700',
+                      inActiveClasses: 'text-slate-700',
+                  },
+              ]
+            : []),
         ...(checkIsHod
             ? [
                   {
