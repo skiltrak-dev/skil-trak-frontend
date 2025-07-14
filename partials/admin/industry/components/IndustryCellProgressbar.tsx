@@ -76,7 +76,7 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
                 }}
             >
                 <div className="flex items-center gap-x-2">
-                    <div className="shadow-inner-image rounded-full relative">
+                    <div className="shadow-inner-image rounded-full relative z-40">
                         {industry?.user?.name && (
                             <InitialAvatar
                                 name={industry?.user?.name}
@@ -97,7 +97,7 @@ export const IndustryCellProgressbar = ({ industry }: any) => {
                         ) : null}
                         <div className="flex gap-x-2">
                             <div className="flex flex-col gap-y-1">
-                                <div className="group flex items-center gap-x-1">
+                                <div className="group flex items-center gap-x-1 relative z-40">
                                     <p
                                         className="font-semibold"
                                         title={industry?.user?.name}
