@@ -135,18 +135,18 @@ export const ProfileLinks = ({
                 )
             },
         },
-        {
-            text: 'Eligibility Criteria',
-            Icon: RiEditFill,
-            onClick: () => {
-                setModal(
-                    <PlacementEligibilityCriteriaModal
-                        industry={industry}
-                        onCancel={onCancelModal}
-                    />
-                )
-            },
-        },
+        // {
+        //     text: 'Eligibility Criteria',
+        //     Icon: RiEditFill,
+        //     onClick: () => {
+        //         setModal(
+        //             <PlacementEligibilityCriteriaModal
+        //                 industry={industry}
+        //                 onCancel={onCancelModal}
+        //             />
+        //         )
+        //     },
+        // },
         {
             ...(role === UserRoles.ADMIN || role === UserRoles.SUBADMIN
                 ? {
