@@ -103,7 +103,7 @@ export const IndustryCellInfoProgressbar = ({
                     setLink('subadmin-industries', router)
                 }}
             >
-                <div className="shadow-inner-image rounded-full relative">
+                <div className="shadow-inner-image rounded-full relative z-50">
                     {industry?.user?.name && (
                         <InitialAvatar
                             name={industry?.user?.name}
@@ -126,7 +126,7 @@ export const IndustryCellInfoProgressbar = ({
                         <div className="flex items-center gap-x-2">
                             <div className="flex gap-x-1">
                                 <div className="flex flex-col gap-y-1">
-                                    <div className="group flex items-center gap-x-1">
+                                    <div className="group flex items-center gap-x-1 relative z-40">
                                         <p
                                             className="text-gray-800 font-medium"
                                             title={industry?.user?.name}

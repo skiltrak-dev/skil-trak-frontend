@@ -416,6 +416,27 @@ export const StudentSignUpForm = ({
             })
             return
         }
+        if (!values?.phone) {
+            notification.error({
+                title: 'Invalid Phone Number',
+                description: 'Please enter a valid phone number',
+            })
+            return
+        }
+        if (values?.rto && !values?.sectors) {
+            notification.error({
+                title: 'Select Sector',
+                description: 'Please select at least one sector for the RTO',
+            })
+            return
+        }
+        if (!values?.rto && !values?.rtoInfo?.trim()) {
+            notification.error({
+                title: 'RTO Required',
+                description: 'Please select or enter a valid RTO',
+            })
+            return
+        }
 
         // Continue with the submission
         onSubmit({ ...values, suburb: 'N/A' })
