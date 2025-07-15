@@ -52,7 +52,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             Icon: FaSchool,
         },
         {
-            text: 'Enable Todo',
+            text: 'Todo List',
             key: 'isTodoEnabled',
             Icon: FaArrowsToDot,
             toggle: subadmin?.isTodoEnabled,

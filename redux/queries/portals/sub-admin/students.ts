@@ -774,4 +774,12 @@ export const studentsEndpoints = (
         }),
         providesTags: ['SubAdminStudents'],
     }),
+
+    skipWorkplace: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `students/workplace-requests/${id}/skip`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['SubAdminStudents'],
+    }),
 })
