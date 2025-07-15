@@ -111,6 +111,7 @@ export const IndustryProfileCB = ({
                                     {industry?.user?.name}
                                 </span>
                             </Typography>
+
                             <AuthorizedUserComponent
                                 roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                             >
@@ -125,11 +126,6 @@ export const IndustryProfileCB = ({
                                 />
                             </AuthorizedUserComponent>
                         </div>
-                        <button onClick={onClickIndPreferences}>
-                            <Typography variant="xs" color="text-link">
-                                Placement Preferences
-                            </Typography>
-                        </button>
                         <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                             <HideRestrictedData type={UserRoles.INDUSTRY}>
                                 <Typography variant="xs" color="text-[#6B7280]">
@@ -139,6 +135,11 @@ export const IndustryProfileCB = ({
                                 </Typography>
                             </HideRestrictedData>
                         </AuthorizedUserComponent>
+                        <button onClick={onClickIndPreferences}>
+                            <Typography variant="xs" color="text-link">
+                                Placement Preferences
+                            </Typography>
+                        </button>
                     </div>
                 </div>
 

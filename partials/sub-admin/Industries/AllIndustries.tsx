@@ -12,7 +12,6 @@ import {
     Table,
     TableAction,
     TechnicalError,
-    TruncatedTextWithTooltip,
     Typography,
     UserCreatedAt,
 } from '@components'
@@ -23,9 +22,8 @@ import { Industry, SubAdmin, UserStatus } from '@types'
 import { ellipsisText, getUserCredentials, setLink } from '@utils'
 import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { RiInboxArchiveFill } from 'react-icons/ri'
-import { IndustryCellInfo, IndustryCellInfoProgressbar } from './components'
+import { IndustryCellInfoProgressbar } from './components'
 import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
-import { FaArrowUp } from 'react-icons/fa'
 
 export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -40,16 +38,17 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = useGetSubAdminIndustriesQuery(
-        {
-            search: `status:${UserStatus.Approved}`,
-            skip: itemPerPage * page - itemPerPage,
-            limit: itemPerPage,
-        },
-        {
-            refetchOnMountOrArgChange: true,
-        }
-    )
+    const { isLoading, isFetching, data, isError } =
+        useGetSubAdminIndustriesQuery(
+            {
+                search: `status:${UserStatus.Approved}`,
+                skip: itemPerPage * page - itemPerPage,
+                limit: itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: true,
+            }
+        )
 
     const hasCourseApproved =
         data?.data &&
@@ -267,7 +266,7 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
             {modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table
