@@ -14,11 +14,13 @@ export const AddDepartmentEmailModal = ({
     departmentId,
     deptName,
     deptEmail,
+    canViewCourseRequests,
 }: {
     deptName: string
     deptEmail: string
     departmentId: number
     onCancel: () => void
+    canViewCourseRequests?: any
 }) => {
     const { deptCourses } = useDepartmentDetailContext()
 
@@ -35,6 +37,24 @@ export const AddDepartmentEmailModal = ({
             skip: !router?.query?.id,
         }
     )
+    const accessOptions = [
+        {
+            label: 'Partial',
+            value: 'partial',
+        },
+        {
+            label: 'Full',
+            value: 'full',
+        },
+    ]
+    const findOptionByValue = (options: any[], value: any) => {
+        if (Array.isArray(value)) {
+            return (
+                options?.filter((option) => value.includes(option?.value)) || []
+            )
+        }
+        return options?.find((option) => option?.value === value) || null
+    }
 
     const uniqueSectors2 = useMemo(
         () =>
@@ -147,6 +167,16 @@ export const AddDepartmentEmailModal = ({
                                     onlyValue
                                     loading={sectors.isLoading}
                                     multi
+                                />
+                                <Select
+                                    options={accessOptions}
+                                    label="Access Permission"
+                                    name="canViewCourseRequests"
+                                    onlyValue
+                                    defaultValue={findOptionByValue(
+                                        accessOptions,
+                                        canViewCourseRequests
+                                    )}
                                 />
                             </div>
                         </form>
