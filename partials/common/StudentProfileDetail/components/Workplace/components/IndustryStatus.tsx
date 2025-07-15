@@ -16,9 +16,9 @@ export const IndustryStatus = ({
     workplace,
     appliedIndustry,
 }: {
-    student: Student
     folders: any
     workplace: any
+    student: Student
     appliedIndustry?: any
 }) => {
     const [isOpened, setIsOpened] = useState<boolean>(false)
@@ -64,8 +64,6 @@ export const IndustryStatus = ({
             setSelectedRequestType(findStatusIndex)
         }
     }, [findStatusIndex, workplace?.currentStatus])
-
-   
 
     const excludedRoles = [UserRoles.RTO, UserRoles.OBSERVER]
 

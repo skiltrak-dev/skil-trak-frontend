@@ -9,7 +9,6 @@ import * as yup from 'yup'
 import { useNotification } from '@hooks'
 import { AuthApi } from '@queries'
 import {
-    ageOptions,
     courseOptionsWhenSectorChange,
     CourseSelectOption,
     formatOptionLabel,
@@ -28,8 +27,7 @@ import {
     TextInput,
     Typography,
 } from '@components'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { StudentFormType } from '@types'
+import { Course, OptionType, StudentFormType } from '@types'
 import debounce from 'lodash/debounce'
 import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -95,7 +93,6 @@ export const CustomRtoSearch = ({
         onSearch(value)
     }
 
-    console.log('selectedRto', selectedRto)
     const handleBlur = () => {
         setTimeout(() => {
             if (!hasMatch && input.trim().length > 2) {
@@ -130,7 +127,9 @@ export const CustomRtoSearch = ({
                 value={input}
                 onChange={handleInputChange}
                 onFocus={() => setIsOpen(true)}
-                onBlur={selectedRto !== null || undefined ? handleBlur : undefined}
+                onBlur={
+                    selectedRto !== null || undefined ? handleBlur : undefined
+                }
                 placeholder="Search or type RTO..."
             />
 
@@ -262,10 +261,12 @@ export const StudentSignUpForm = ({
         setCourseLoading(true)
 
         const newCourseOptions = sectorResponse?.data
-            ?.filter((course: any) =>
-                sectors?.map((s: any) => s?.value)?.includes(course?.sector?.id)
+            ?.filter((course: Course) =>
+                sectors
+                    ?.map((s: OptionType) => s?.value)
+                    ?.includes(course?.sector?.id)
             )
-            ?.map((course: any) => ({
+            ?.map((course: Course) => ({
                 label: course?.title,
                 value: course?.id,
                 item: course,
