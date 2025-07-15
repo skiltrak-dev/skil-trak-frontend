@@ -47,11 +47,12 @@ export const ApprovedIndustry = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = AdminApi.Industries.useListQuery({
-        search: `status:${UserStatus.Approved}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError } =
+        AdminApi.Industries.useListQuery({
+            search: `status:${UserStatus.Approved}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const hasCourseApproved =
         data?.data &&
@@ -257,7 +258,7 @@ export const ApprovedIndustry = () => {
             <div className="flex flex-col gap-y-4 mb-32">
                 <Card noPadding>
                     {isError && <TechnicalError />}
-                    {isLoading ? (
+                    {isLoading || isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data?.length ? (
                         <Table

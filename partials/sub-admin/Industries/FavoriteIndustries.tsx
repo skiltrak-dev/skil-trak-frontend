@@ -40,10 +40,11 @@ export const FavoriteIndustries = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const { isLoading, data, isError } = useGetFavouriteIndustriesQuery({
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const { isLoading, isFetching, data, isError } =
+        useGetFavouriteIndustriesQuery({
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        })
 
     const onCancelClicked = () => {
         setModal(null)
@@ -179,7 +180,7 @@ export const FavoriteIndustries = () => {
             {modal}
             <Card noPadding>
                 {isError && <TechnicalError />}
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : data && data?.data.length ? (
                     <Table

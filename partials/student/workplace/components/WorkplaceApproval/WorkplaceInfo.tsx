@@ -1,6 +1,4 @@
 import { Typography } from '@components'
-import { Industry } from '@types'
-import React from 'react'
 
 export const WorkplaceInfo = ({
     industry,
@@ -33,7 +31,7 @@ export const WorkplaceInfo = ({
                     </Typography>
                     <Typography variant="small" semibold color="text-[#24556D]">
                         {!industry?.location
-                            ? industry?.industry.addressLine1
+                            ? industry?.industry?.addressLine1
                             : industry?.location?.address}
                     </Typography>
                 </div>
@@ -42,8 +40,8 @@ export const WorkplaceInfo = ({
                         Website
                     </Typography>
                     <Typography variant="xs" color="text-[#24556D]">
-                        {industry.location
-                            ? industry.industry?.website || '---'
+                        {industry?.location
+                            ? industry?.industry?.website || '---'
                             : industry?.website || '---'}
                     </Typography>
                 </div>

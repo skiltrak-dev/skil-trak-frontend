@@ -158,12 +158,12 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             Icon: FaUserGraduate,
         },
         {
-            text: 'Industry',
+            text: 'Industries',
             path: getRoutePath('/industry?tab=approved&page=1&pageSize=50'),
             Icon: IoMdBriefcase,
         },
         {
-            text: 'Sub-Admin',
+            text: 'Coordinators',
             path: getRoutePath('/sub-admin?tab=active&page=1&pageSize=50'),
             Icon: RiShieldUserFill,
             visible: subadmin?.data?.canAccessSubadmin,

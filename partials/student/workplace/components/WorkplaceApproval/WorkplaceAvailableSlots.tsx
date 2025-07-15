@@ -74,7 +74,7 @@ export const WorkplaceAvailableSlots = ({
     workingHours: any
 }) => {
     const mergeScheduleData = initialSchedule.map((schedule) => {
-        const updated = workingHours.find(
+        const updated = workingHours?.find(
             (upd: any) => upd?.day === schedule?.day
         )
         return updated ? updated : schedule
