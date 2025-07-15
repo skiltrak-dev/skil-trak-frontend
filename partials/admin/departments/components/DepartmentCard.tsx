@@ -109,12 +109,12 @@ export const DepartmentCard = ({ department }: DepartmentCardProps) => {
             onClick: handleViewDetails,
             className: 'text-blue-600',
         },
-        {
-            text: 'Update Department Detail',
-            Icon: FaEye,
-            onClick: handleAddDepartmentMail,
-            className: 'text-blue-600',
-        },
+        // {
+        //     text: 'Update Department Detail',
+        //     Icon: FaEye,
+        //     onClick: handleAddDepartmentMail,
+        //     className: 'text-blue-600',
+        // },
         ...(role === UserRoles.ADMIN
             ? [
                   {

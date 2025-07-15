@@ -19,10 +19,12 @@ export const HodProfileDetail = ({
     subadmin,
     deptEmail,
     deptName,
+    canViewCourseRequests,
 }: {
     deptName: string
     deptEmail: string
     subadmin: SubAdmin
+    canViewCourseRequests: any
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
@@ -104,11 +106,10 @@ export const HodProfileDetail = ({
             <AddDepartmentEmailModal
                 onCancel={onModalCancelClicked}
                 departmentId={Number(id)}
-                {...{ deptName, deptEmail }}
+                {...{ deptName, deptEmail, canViewCourseRequests }}
             />
         )
     }
-
     const role = getUserCredentials()?.role
     const checkIsAdmin = role === UserRoles.ADMIN
 
