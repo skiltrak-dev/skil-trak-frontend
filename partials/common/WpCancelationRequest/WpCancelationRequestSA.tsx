@@ -16,20 +16,20 @@ import {
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 
-import { AdminApi, SubAdminApi } from '@queries'
+import { SubAdminApi } from '@queries'
+import { WpCancelationReqFilter } from '@types'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
-import { StudentCellInfo } from '../../admin/student/components'
 import { CancelationRequestEnum } from './enum'
 import {
     ApproveRequestModal,
     RejectRequestModal,
     ViewWpRequestNoteModal,
 } from './modals'
-import { WpCancelationReqFilter } from '@types'
+import { StudentCellInfo } from '@partials/sub-admin/students'
 
 const filterKeys = [
     'name',
@@ -95,9 +95,11 @@ export const WpCancelationRequestSA = () => {
             accessorKey: 'student',
             header: () => <span>Student</span>,
             cell: (info) => (
-                <StudentCellInfo
-                    student={info.row.original?.workplaceRequest?.student}
-                />
+                <>
+                    <StudentCellInfo
+                        student={info.row.original?.workplaceRequest?.student}
+                    />
+                </>
             ),
         },
         {

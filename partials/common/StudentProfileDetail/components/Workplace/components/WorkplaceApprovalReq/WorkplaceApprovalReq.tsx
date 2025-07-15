@@ -5,11 +5,14 @@ import { WorkplaceAvailableSlots } from '@partials/student/workplace/components/
 import { WorkplaceInfo } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceInfo'
 import { SubAdminApi } from '@queries'
 import { SubAdmin } from '@types'
-import { getUserCredentials } from '@utils'
+import { getUserCredentials, is72HoursOlder } from '@utils'
 import { ReactElement, useEffect, useState } from 'react'
 import { AssignedCoordinator } from './AssignedCoordinator'
 import { useRouter } from 'next/router'
-import { UpdateIndustryEligibilityModal } from '../../modals'
+import {
+    SkipWorkplaceModal,
+    UpdateIndustryEligibilityModal,
+} from '../../modals'
 
 export const WorkplaceApprovalReq = ({
     wpReqApproval,
@@ -42,6 +45,15 @@ export const WorkplaceApprovalReq = ({
     const onUpdateIndustryEligibility = () => {
         setModal(
             <UpdateIndustryEligibilityModal
+                onCancel={onCancel}
+                wpReqApproval={wpReqApproval}
+            />
+        )
+    }
+
+    const onWorkplaceSkippedClicked = () => {
+        setModal(
+            <SkipWorkplaceModal
                 onCancel={onCancel}
                 wpReqApproval={wpReqApproval}
             />
@@ -101,6 +113,15 @@ export const WorkplaceApprovalReq = ({
                                 disabled={role === UserRoles.RTO}
                                 onClick={onUpdateIndustryEligibility}
                             />
+                            {is72HoursOlder(wpReqApproval?.createdAt) ||
+                                (true && (
+                                    <Button
+                                        text="Skip"
+                                        variant="primary"
+                                        disabled={role === UserRoles.RTO}
+                                        onClick={onWorkplaceSkippedClicked}
+                                    />
+                                ))}
                         </div>
                     </div>
                 </Card>
@@ -140,9 +161,7 @@ export const WorkplaceApprovalReq = ({
                                         studentLocation={wpReqApproval?.student?.location?.split(
                                             ','
                                         )}
-                                        workplaceName={
-                                            wpReqApproval?.industry
-                                        }
+                                        workplaceName={wpReqApproval?.industry}
                                         showMap
                                     />
                                 ) : null}
@@ -250,9 +269,7 @@ export const WorkplaceApprovalReq = ({
                                         studentLocation={wpReqApproval?.student?.location?.split(
                                             ','
                                         )}
-                                        workplaceName={
-                                            wpReqApproval?.industry
-                                        }
+                                        workplaceName={wpReqApproval?.industry}
                                         showMap
                                     />
                                 ) : null}
