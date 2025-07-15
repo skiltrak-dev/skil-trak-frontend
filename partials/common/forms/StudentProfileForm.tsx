@@ -192,6 +192,7 @@ export const StudentProfileForm = ({
 
         // dob: yup.date().required('Must provide Date of Birth'),
         age: yup.string().nullable().required('Must Select age'),
+        gender: yup.string().nullable().required('Gender is Required!'),
 
         phone: yup.string().required('Must provide phone number'),
         // rto: yup.number().required('RTO is required'),

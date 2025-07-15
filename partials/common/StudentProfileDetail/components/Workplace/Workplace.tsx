@@ -19,7 +19,6 @@ import { useEffect } from 'react'
 import {
     AddWorkplaceAction,
     CancelledWorkplaceCard,
-    CancelledWorkplaceList,
     CancelWpRequest,
     ContactPersonDetail,
     IndustryStatus,
@@ -36,8 +35,6 @@ import {
 import { IndustryDetail } from './components/IndustryDetail'
 import { WPStatusForCancelButon } from './data'
 import { useWorkplaceHook } from './hooks'
-import { SubAdminApi } from '@queries'
-import { PulseLoader } from 'react-spinners'
 
 export const Workplace = ({
     student,

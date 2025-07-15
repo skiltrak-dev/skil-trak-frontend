@@ -12,6 +12,13 @@ export const IndustryDetail = ({ industries }: { industries: any }) => {
         <>
             {appliedIndustry ? (
                 <>
+                    {appliedIndustry?.isAutomated && (
+                        <div className="bg-success rounded px-1 py-0.5 w-fit mb-0.5">
+                            <Typography variant="xs" color="text-white">
+                                Auto
+                            </Typography>
+                        </div>
+                    )}
                     <div
                         title={appliedIndustry?.industry?.user?.name}
                         className="bg-white px-3 py-1.5 rounded-md border border-[#128C7E]"
