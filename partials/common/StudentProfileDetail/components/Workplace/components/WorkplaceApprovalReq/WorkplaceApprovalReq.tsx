@@ -113,15 +113,14 @@ export const WorkplaceApprovalReq = ({
                                 disabled={role === UserRoles.RTO}
                                 onClick={onUpdateIndustryEligibility}
                             />
-                            {is72HoursOlder(wpReqApproval?.createdAt) ||
-                                (true && (
-                                    <Button
-                                        text="Skip"
-                                        variant="primary"
-                                        disabled={role === UserRoles.RTO}
-                                        onClick={onWorkplaceSkippedClicked}
-                                    />
-                                ))}
+                            {is72HoursOlder(wpReqApproval?.createdAt) && (
+                                <Button
+                                    text="Skip"
+                                    variant="primary"
+                                    disabled={role === UserRoles.RTO}
+                                    onClick={onWorkplaceSkippedClicked}
+                                />
+                            )}
                         </div>
                     </div>
                 </Card>
