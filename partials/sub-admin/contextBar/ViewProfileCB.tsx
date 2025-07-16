@@ -4,14 +4,13 @@ import Image from 'next/image'
 import { MdAdminPanelSettings } from 'react-icons/md'
 
 // hooks
+import { UserRoles } from '@constants'
 import { UserProfileDetailCard } from '@partials/common'
 import { SubAdmin, UserStatus } from '@types'
 import { getUserCredentials } from '@utils'
 import Link from 'next/link'
-import { PulseLoader } from 'react-spinners'
-import { ProfileLinks } from '../components'
-import { UserRoles } from '@constants'
 import { IoCheckmarkDoneOutline } from 'react-icons/io5'
+import { ProfileLinks } from '../components'
 export const ViewProfileCB = ({
     subadmin,
     statistics,
@@ -309,10 +308,10 @@ export const ViewProfileCB = ({
                                     <div className="flex flex-col gap-y-1">
                                         {todo?.lists?.map((todoList, inner) => (
                                             <Link
-                                                href={todoList?.link || '#'}
                                                 key={inner}
+                                                href={todoList?.link || '#'}
                                             >
-                                                <div className="flex items-center justify-between border border-[#6B728050] rounded-md py-3.5 px-2.5">
+                                                <div className="flex items-center justify-between border border-[#6B728050] rounded-md py-3.5 px-2.5 hover:bg-gray-100">
                                                     <div>
                                                         <Typography
                                                             variant="xxs"
@@ -341,7 +340,7 @@ export const ViewProfileCB = ({
                                                                 variant="xxs"
                                                                 color="text-[#797979]"
                                                             >
-                                                                Remaining :
+                                                                Pending :
                                                             </Typography>
                                                             <Typography
                                                                 variant="xxs"

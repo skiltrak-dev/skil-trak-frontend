@@ -6,9 +6,11 @@ import { HiCheckBadge } from 'react-icons/hi2'
 
 export const CompleteTodoModal = ({
     todo,
+    text,
     onCancel,
 }: {
     todo: any
+    text: string
     onCancel: () => void
 }) => {
     const { notification } = useNotification()
@@ -23,7 +25,7 @@ export const CompleteTodoModal = ({
         if (res?.data) {
             notification.success({
                 title: `Status Changed`,
-                description: `Status for "${todo?.student?.user?.name}" Changed Successfully.`,
+                description: `Status for "${text}" Changed Successfully.`,
             })
             onCancel()
         }
@@ -36,7 +38,7 @@ export const CompleteTodoModal = ({
                 Icon={HiCheckBadge}
                 variant="success"
                 title="Are you sure!"
-                description={`You are about to complete "${todo?.student?.user?.name}". Do you wish to continue?`}
+                description={`You are about to complete "${text}". Do you wish to continue?`}
                 onConfirm={onConfirmUClicked}
                 onCancel={onCancel}
                 input

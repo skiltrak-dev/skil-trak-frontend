@@ -14,8 +14,10 @@ export const useTodoHooks = () => {
 
     const onCancel = () => setModal(null)
 
-    const onTodoCompleteClicked = (todo: any) => {
-        setModal(<CompleteTodoModal todo={todo} onCancel={onCancel} />)
+    const onTodoCompleteClicked = (todo: any, text: string) => {
+        setModal(
+            <CompleteTodoModal text={text} todo={todo} onCancel={onCancel} />
+        )
     }
 
     const role = getUserCredentials()?.role
@@ -62,7 +64,9 @@ export const useTodoHooks = () => {
             render: (value: string, row) => (
                 <div
                     className="cursor-pointer"
-                    onClick={() => onTodoCompleteClicked(row)}
+                    onClick={() =>
+                        onTodoCompleteClicked(row, 'Complete Workplace Task')
+                    }
                 >
                     <div className="relative group">
                         <FaCheck className="text-green-600" size={20} />
