@@ -126,17 +126,6 @@ export const SubAdminNavbar = () => {
             inActiveClasses: 'text-slate-700',
             count: pendingDocsCount?.data,
         },
-        ...(subadmin?.isTodoEnabled
-            ? [
-                  {
-                      link: Routes.Todo,
-                      text: 'Todo List',
-                      Icon: FaFileSignature,
-                      activeClasses: 'bg-green-100 text-green-700',
-                      inActiveClasses: 'text-slate-700',
-                  },
-              ]
-            : []),
         ...(checkIsHod
             ? [
                   {

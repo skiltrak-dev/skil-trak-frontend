@@ -45,7 +45,7 @@ const tabs: TabProps[] = [
     },
 ]
 
-export const TodoTabs = ({ baseUrl }: { baseUrl: string }) => {
+export const TodoTabs = ({ baseUrl }: { baseUrl?: string }) => {
     const router = useRouter()
     const searchParams = useSearchParams()
 
