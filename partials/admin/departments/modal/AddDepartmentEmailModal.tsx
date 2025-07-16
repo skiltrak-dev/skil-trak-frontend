@@ -46,6 +46,10 @@ export const AddDepartmentEmailModal = ({
             label: 'Full',
             value: 'full',
         },
+        {
+            label: 'None',
+            value: null,
+        },
     ]
     const findOptionByValue = (options: any[], value: any) => {
         if (Array.isArray(value)) {
@@ -177,6 +181,7 @@ export const AddDepartmentEmailModal = ({
                                         accessOptions,
                                         canViewCourseRequests
                                     )}
+                                    menuPlacement="top"
                                 />
                             </div>
                         </form>
