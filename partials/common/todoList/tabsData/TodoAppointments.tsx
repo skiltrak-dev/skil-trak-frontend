@@ -1,16 +1,11 @@
 import { useState } from 'react'
 import { SubAdminApi } from '@queries'
-import { FaCheck } from 'react-icons/fa'
-import { Tooltip, UserCreatedAt } from '@components'
-import { IoCloseSharp } from 'react-icons/io5'
-import { TableColumn, TodoTable } from '../components'
-import { useTodoHooks } from '../hooks'
+import { UserCreatedAt } from '@components'
+import { CompleteTask, TableColumn, TodoTable } from '../components'
 
 export const TodoAppointments = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
-
-    const { modal, onTodoCompleteClicked } = useTodoHooks()
 
     const data = SubAdminApi.Todo.appointmentTodoList({
         skip: itemsPerPage * currentPage - itemsPerPage,
@@ -41,26 +36,27 @@ export const TodoAppointments = () => {
             width: '120px',
         },
         {
+            key: 'overDue',
+            header: 'Over Due',
+            width: '120px',
+            render: (value: string) => (
+                <div className="cursor-pointer">
+                    {value ? 'Over Due' : '---'}
+                </div>
+            ),
+        },
+        {
             key: 'status',
             header: 'Action',
             width: '100px',
             render: (value: string, row) => (
-                <div
-                    className="cursor-pointer"
-                    onClick={() => onTodoCompleteClicked(row)}
-                >
-                    <div className="relative group">
-                        <FaCheck className="text-green-600" size={20} />
-                        <Tooltip> Complete Appointment Task </Tooltip>
-                    </div>
-                </div>
+                <CompleteTask data={row} text={'Complete Appointment Task'} />
             ),
         },
     ]
 
     return (
         <>
-            {modal}
             <TodoTable
                 data={data}
                 columns={columns}

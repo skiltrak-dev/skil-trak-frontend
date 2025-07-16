@@ -5,6 +5,7 @@ import {
     SubadminProfileCounts,
     SubadminProgress,
     SubadminReports,
+    SubadminTodoList,
 } from './components'
 import { AdminApi } from '@queries'
 import { MailsCommunication } from '@partials/common/StudentProfileDetail/components'
@@ -92,6 +93,8 @@ export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
 
             {/*  */}
             <SubadminProgress subAdminProfileCount={subAdminProfileCount} />
+
+            {/* <SubadminTodoList /> */}
 
             {/*  */}
             <div className=" grid grid-cols-3 gap-x-[18px] h-[580px]">

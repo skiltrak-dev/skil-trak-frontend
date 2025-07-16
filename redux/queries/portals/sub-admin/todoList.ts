@@ -7,7 +7,7 @@ export const todoListEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     todoListCount: builder.query<any, void>({
-        query: () => `subadmin/todo-list/count`,
+        query: () => `${PREFIX}/count/all`,
         providesTags: ['TODO'],
     }),
 

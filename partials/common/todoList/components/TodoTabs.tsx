@@ -62,8 +62,10 @@ export const TodoTabs = () => {
             : tabs.findIndex((tab) => tab.slug === tabSlug)
 
     const handleTabChange = (index: number) => {
+        console.log({ index })
         const slug = tabs[index].slug
         const params = new URLSearchParams(searchParams.toString())
+        console.log({ params: params.toString() })
         params.set('tab', slug)
         router.replace(`?${params.toString()}`, { scroll: false })
     }
@@ -78,17 +80,15 @@ export const TodoTabs = () => {
 
     return (
         <div className="p-4">
-            {/* Tabs */}
             <div className="flex gap-x-0.5 justify-between mb-4  bg-[#F6F8FA] border border-[#EDEDED] rounded-lg p-0.5 ">
                 {tabs.map((tab, index) => (
                     <button
                         key={tab.slug}
                         onClick={() => handleTabChange(index)}
-                        className={`px-14 py-1.5 rounded-lg text-sm ${
-                            index === activeTabIndex
-                                ? 'bg-white shadow-sm text-link border border-[#1436B033]/20'
-                                : ' text-gray-600'
-                        }`}
+                        className={`px-14 py-1.5 rounded-lg text-sm ${index === activeTabIndex
+                            ? 'bg-white shadow-sm text-link border border-[#1436B033]/20'
+                            : ' text-gray-600'
+                            }`}
                     >
                         {tab.label}
                     </button>

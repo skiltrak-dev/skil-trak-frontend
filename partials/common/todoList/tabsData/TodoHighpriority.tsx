@@ -1,15 +1,13 @@
-import { Tooltip, UserCreatedAt } from '@components'
+import { UserCreatedAt } from '@components'
 import { SubAdminApi } from '@queries'
 import { useState } from 'react'
-import { FaCheck } from 'react-icons/fa'
-import { TableColumn, TodoTable } from '../components'
+import { CompleteTask, TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
 
 export const TodoHighpriority = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
-    const { modal, onTodoCompleteClicked } = useTodoHooks()
 
     const data = SubAdminApi.Todo.highPriorityTodoList({
         skip: itemsPerPage * currentPage - itemsPerPage,
@@ -40,26 +38,28 @@ export const TodoHighpriority = () => {
             width: '120px',
         },
         {
+            key: 'overDue',
+            header: 'Over Due',
+            width: '120px',
+            render: (value: string) => (
+                <div className="cursor-pointer">
+                    {value ? 'Over Due' : '---'}
+                </div>
+            ),
+        },
+        {
             key: 'status',
             header: 'Action',
             width: '100px',
             render: (value: string, row) => (
-                <div
-                    className="cursor-pointer"
-                    onClick={() => onTodoCompleteClicked(row)}
-                >
-                    <div className="relative group">
-                        <FaCheck className="text-green-600" size={20} />
-                        <Tooltip> Complete High Priority Task </Tooltip>
-                    </div>
-                </div>
+                <CompleteTask data={row} text={'Complete High Priority Tas ask'} />
             ),
         },
     ]
 
     return (
         <>
-            {modal}
+
             <TodoTable
                 data={data}
                 columns={columns}

@@ -11,6 +11,7 @@ import Link from 'next/link'
 import { PulseLoader } from 'react-spinners'
 import { ProfileLinks } from '../components'
 import { UserRoles } from '@constants'
+import { IoCheckmarkDoneOutline } from 'react-icons/io5'
 export const ViewProfileCB = ({
     subadmin,
     statistics,
@@ -23,6 +24,140 @@ export const ViewProfileCB = ({
     const todoListCount = SubAdminApi.Todo.todoListCount(undefined, {
         skip: status !== UserStatus.Approved,
     })
+
+    const pathname = '/portals/sub-admin/todo-list-details'
+
+    const todoListData = [
+        {
+            text: 'Daily Tasks',
+            lists: [
+                {
+                    text: 'High Priority Items',
+                    count: todoListCount?.data?.highPriority?.total,
+                    completed: todoListCount?.data?.highPriority?.completed,
+                    remaining: todoListCount?.data?.highPriority?.pending,
+                    link: {
+                        pathname: pathname,
+                        query: {
+                            tab: 'daily-recurring-tasks',
+                            id: 'highPriority',
+                        },
+                    },
+                },
+                {
+                    text: 'Up coming appointments',
+                    count: todoListCount?.data?.appointments?.total,
+                    completed: todoListCount?.data?.appointments?.completed,
+                    remaining: todoListCount?.data?.appointments?.pending,
+                    link: {
+                        pathname: pathname,
+                        query: {
+                            tab: 'daily-recurring-tasks',
+                            id: 'appointment',
+                        },
+                    },
+                },
+                {
+                    text: 'Open Tickets',
+                    count: todoListCount?.data?.openTickets?.total,
+                    completed: todoListCount?.data?.openTickets?.completed,
+                    remaining: todoListCount?.data?.openTickets?.pending,
+                    link: {
+                        pathname: pathname,
+                        query: {
+                            tab: 'daily-recurring-tasks',
+                            id: 'openTickets',
+                        },
+                    },
+                },
+                {
+                    text: 'Workplace Request',
+                    count: todoListCount?.data?.workplaceRequests?.total,
+                    completed:
+                        todoListCount?.data?.workplaceRequests?.completed,
+                    remaining: todoListCount?.data?.workplaceRequests?.pending,
+                    link: {
+                        pathname: pathname,
+                        query: {
+                            tab: 'daily-recurring-tasks',
+                            id: 'workplaceRequest',
+                        },
+                    },
+                },
+            ],
+        },
+        {
+            text: 'Weekly Recurring Tasks',
+            lists: [
+                {
+                    text: 'Weekly Student Follow up',
+                    count: todoListCount?.data?.studentFollowUp?.total,
+                    completed: todoListCount?.data?.studentFollowUp?.completed,
+                    remaining: todoListCount?.data?.studentFollowUp?.pending,
+                    link: {
+                        pathname: pathname,
+                        query: {
+                            tab: 'weekly-recurring-tasks',
+                        },
+                    },
+                },
+            ],
+        },
+        {
+            text: 'Monthly Recurring Tasks',
+            lists: [
+                {
+                    text: 'Monthly Partner Industry Follow up',
+                    count: todoListCount?.data?.partnerIndustries?.total,
+                    completed:
+                        todoListCount?.data?.partnerIndustries?.completed,
+                    remaining: todoListCount?.data?.partnerIndustries?.pending,
+                    link: {
+                        pathname: pathname,
+                        query: {
+                            tab: 'monthly-recurring-tasks',
+                        },
+                    },
+                },
+            ],
+        },
+        {
+            text: 'Bi-Monthly Recurring Tasks',
+            lists: [
+                {
+                    text: 'Bi Monthly Non Partner Industries',
+                    count: todoListCount?.data?.nonPartnerIndustries?.total,
+                    completed:
+                        todoListCount?.data?.nonPartnerIndustries?.completed,
+                    remaining:
+                        todoListCount?.data?.nonPartnerIndustries?.pending,
+                    link: {
+                        pathname: pathname,
+                        query: {
+                            tab: 'student-move-to-flashing',
+                        },
+                    },
+                },
+            ],
+        },
+        {
+            text: 'Quarterly Recurring Tasks',
+            lists: [
+                {
+                    text: 'Quarterly Listed Industries',
+                    count: todoListCount?.data?.listedIndustries?.total,
+                    completed: todoListCount?.data?.listedIndustries?.completed,
+                    remaining: todoListCount?.data?.listedIndustries?.pending,
+                    link: {
+                        pathname: pathname,
+                        query: {
+                            tab: 'quarterly-recurring-tasks',
+                        },
+                    },
+                },
+            ],
+        },
+    ]
 
     const sectionsData = [
         {
@@ -165,31 +300,82 @@ export const ViewProfileCB = ({
 
                         {/* TODO: New requirements for todo   */}
                         <div className="flex flex-col gap-y-2 mt-2">
-                            {sectionsData.map((secData, i) => (
-                                <Link href={secData?.link || '#'} key={i}>
-                                    <div className="flex items-center justify-between border border-[#6B728050] rounded-md py-3.5 px-2.5">
-                                        <div>
-                                            <Typography variant="xxs" medium>
-                                                {secData.text}
-                                            </Typography>
-                                            {secData?.subText ? (
-                                                <Typography
-                                                    variant="xxs"
-                                                    color="text-[#797979]"
-                                                >
-                                                    {secData.text}
-                                                </Typography>
-                                            ) : null}
-                                        </div>
-                                        <Typography variant="small">
-                                            {todoListCount.isLoading ? (
-                                                <PulseLoader size={3} />
-                                            ) : (
-                                                secData.count
-                                            )}
-                                        </Typography>
+                            {todoListData?.map((todo) => (
+                                <div>
+                                    <Typography variant="label" medium>
+                                        {todo?.text}
+                                    </Typography>
+
+                                    <div className="flex flex-col gap-y-1">
+                                        {todo?.lists?.map((todoList, inner) => (
+                                            <Link
+                                                href={todoList?.link || '#'}
+                                                key={inner}
+                                            >
+                                                <div className="flex items-center justify-between border border-[#6B728050] rounded-md py-3.5 px-2.5">
+                                                    <div>
+                                                        <Typography
+                                                            variant="xxs"
+                                                            medium
+                                                        >
+                                                            {todoList?.text}
+                                                        </Typography>
+                                                        <div className="flex items-center gap-x-2">
+                                                            <Typography
+                                                                variant="xxs"
+                                                                color="text-[#797979]"
+                                                            >
+                                                                Completed :
+                                                            </Typography>
+                                                            <Typography
+                                                                variant="xxs"
+                                                                color="text-[#797979]"
+                                                            >
+                                                                {
+                                                                    todoList?.completed
+                                                                }
+                                                            </Typography>
+                                                        </div>
+                                                        <div className="flex items-center gap-x-2">
+                                                            <Typography
+                                                                variant="xxs"
+                                                                color="text-[#797979]"
+                                                            >
+                                                                Remaining :
+                                                            </Typography>
+                                                            <Typography
+                                                                variant="xxs"
+                                                                color="text-[#797979]"
+                                                            >
+                                                                {
+                                                                    todoList?.remaining
+                                                                }
+                                                            </Typography>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div>
+                                                            <Typography
+                                                                variant="small"
+                                                                color="text-black"
+                                                            >
+                                                                {
+                                                                    todoList?.count
+                                                                }
+                                                            </Typography>
+                                                        </div>
+                                                        {todoList?.count ===
+                                                            todoList?.completed &&
+                                                            todoList?.completed >
+                                                                0 && (
+                                                                <IoCheckmarkDoneOutline />
+                                                            )}
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        ))}
                                     </div>
-                                </Link>
+                                </div>
                             ))}
                         </div>
 
