@@ -94,8 +94,6 @@ export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
             {/*  */}
             <SubadminProgress subAdminProfileCount={subAdminProfileCount} />
 
-            {/* <SubadminTodoList /> */}
-
             {/*  */}
             <div className=" grid grid-cols-3 gap-x-[18px] h-[580px]">
                 <div className="col-span-2 h-full">
@@ -109,6 +107,9 @@ export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
                     <Notes userId={subadmin?.user?.id} />
                 </div>
             </div>
+
+            {/*  */}
+            <SubadminTodoList />
 
             {/*  */}
             <div>

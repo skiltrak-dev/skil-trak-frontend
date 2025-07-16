@@ -1,16 +1,25 @@
-import { UserCreatedAt } from '@components'
-import { SubAdminApi } from '@queries'
 import { useState } from 'react'
+import { SubAdminApi } from '@queries'
+import { useTodoHooks } from '../hooks'
+import { UserCreatedAt } from '@components'
 import { CompleteTask, TableColumn, TodoTable } from '../components'
 
 export const TodoWorkplace = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
-    const data = SubAdminApi.Todo.workplaceTodoList({
-        skip: itemsPerPage * currentPage - itemsPerPage,
-        limit: itemsPerPage,
-    })
+    const { id, skip } = useTodoHooks()
+
+    const data = SubAdminApi.Todo.workplaceTodoList(
+        {
+            ...(id ? { id } : {}),
+            limit: itemsPerPage,
+            skip: itemsPerPage * currentPage - itemsPerPage,
+        },
+        {
+            skip,
+        }
+    )
 
     const columns: TableColumn<any>[] = [
         {

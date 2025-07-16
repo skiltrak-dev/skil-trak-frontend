@@ -2,15 +2,24 @@ import { UserCreatedAt } from '@components'
 import { SubAdminApi } from '@queries'
 import { useState } from 'react'
 import { CompleteTask, TableColumn, TodoTable } from '../components'
+import { useTodoHooks } from '../hooks'
 
 export const BiMonthlyNonPartnerInd = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
-    const data = SubAdminApi.Todo.biMonthlyNonPartnerIndustries({
-        skip: itemsPerPage * currentPage - itemsPerPage,
-        limit: itemsPerPage,
-    })
+    const { id, skip } = useTodoHooks()
+
+    const data = SubAdminApi.Todo.biMonthlyNonPartnerIndustries(
+        {
+            ...(id ? { id } : {}),
+            limit: itemsPerPage,
+            skip: itemsPerPage * currentPage - itemsPerPage,
+        },
+        {
+            skip,
+        }
+    )
 
     const columns: TableColumn<any>[] = [
         {

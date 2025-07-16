@@ -8,11 +8,18 @@ export const TodoHighpriority = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
+    const { id, skip } = useTodoHooks()
 
-    const data = SubAdminApi.Todo.highPriorityTodoList({
-        skip: itemsPerPage * currentPage - itemsPerPage,
-        limit: itemsPerPage,
-    })
+    const data = SubAdminApi.Todo.highPriorityTodoList(
+        {
+            ...(id ? { id } : {}),
+            limit: itemsPerPage,
+            skip: itemsPerPage * currentPage - itemsPerPage,
+        },
+        {
+            skip,
+        }
+    )
 
     const columns: TableColumn<any>[] = [
         {
@@ -52,14 +59,16 @@ export const TodoHighpriority = () => {
             header: 'Action',
             width: '100px',
             render: (value: string, row) => (
-                <CompleteTask data={row} text={'Complete High Priority Tas ask'} />
+                <CompleteTask
+                    data={row}
+                    text={'Complete High Priority Tas ask'}
+                />
             ),
         },
     ]
 
     return (
         <>
-
             <TodoTable
                 data={data}
                 columns={columns}

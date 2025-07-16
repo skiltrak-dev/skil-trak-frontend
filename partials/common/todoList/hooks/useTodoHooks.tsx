@@ -3,15 +3,24 @@ import { CompleteTodoModal } from '../modal'
 import { FaCheck } from 'react-icons/fa'
 import { Tooltip, UserCreatedAt } from '@components'
 import { TableColumn } from '../components'
+import { getUserCredentials } from '@utils'
+import { useRouter } from 'next/router'
+import { UserRoles } from '@constants'
 
 export const useTodoHooks = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const router = useRouter()
 
     const onCancel = () => setModal(null)
 
     const onTodoCompleteClicked = (todo: any) => {
         setModal(<CompleteTodoModal todo={todo} onCancel={onCancel} />)
     }
+
+    const role = getUserCredentials()?.role
+    const id = Number(router?.query?.id)
+    const skip = role === UserRoles.ADMIN && !id
 
     const columns: TableColumn<any>[] = [
         {
@@ -65,6 +74,8 @@ export const useTodoHooks = () => {
     ]
 
     return {
+        id,
+        skip,
         modal,
         columns,
         onTodoCompleteClicked,

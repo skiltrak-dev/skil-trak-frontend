@@ -8,12 +8,18 @@ export const TodoMonthlyPartnerIndustriesFollowUp = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
-    const data = SubAdminApi.Todo.monthlyPartnerIndustriesFollowUp({
-        skip: itemsPerPage * currentPage - itemsPerPage,
-        limit: itemsPerPage,
-    })
+    const { id, skip } = useTodoHooks()
 
-    const { modal, onTodoCompleteClicked } = useTodoHooks()
+    const data = SubAdminApi.Todo.monthlyPartnerIndustriesFollowUp(
+        {
+            ...(id ? { id } : {}),
+            limit: itemsPerPage,
+            skip: itemsPerPage * currentPage - itemsPerPage,
+        },
+        {
+            skip,
+        }
+    )
 
     const columns: TableColumn<any>[] = [
         {
@@ -63,7 +69,6 @@ export const TodoMonthlyPartnerIndustriesFollowUp = () => {
 
     return (
         <>
-
             <TodoTable
                 data={data}
                 columns={columns}

@@ -113,8 +113,13 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
         }
         return updatedUrl
     }
+
     useEffect(() => {
         const handleRouteChange = () => {
+            if (router.pathname.includes('/portals/admin/sub-admin/[id]')) {
+                return
+            }
+
             if (childrenRef.current) {
                 childrenRef.current.scrollTo({
                     top: 0,
