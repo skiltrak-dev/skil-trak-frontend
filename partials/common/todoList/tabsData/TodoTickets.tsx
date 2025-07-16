@@ -1,10 +1,7 @@
 import { useState } from 'react'
 import { SubAdminApi } from '@queries'
-import { FaCheck } from 'react-icons/fa'
-import { Tooltip, UserCreatedAt } from '@components'
-import { IoCloseSharp } from 'react-icons/io5'
-import { TableColumn, TodoTable } from '../components'
-import { useTodoHooks } from '../hooks'
+import { UserCreatedAt } from '@components'
+import { CompleteTask, TableColumn, TodoTable } from '../components'
 
 export const TodoTickets = () => {
     const [currentPage, setCurrentPage] = useState(1)
@@ -14,8 +11,6 @@ export const TodoTickets = () => {
         skip: itemsPerPage * currentPage - itemsPerPage,
         limit: itemsPerPage,
     })
-
-    const { modal, onTodoCompleteClicked } = useTodoHooks()
 
     const columns: TableColumn<any>[] = [
         {
@@ -36,26 +31,27 @@ export const TodoTickets = () => {
             render: (value) => <UserCreatedAt createdAt={value} />,
         },
         {
+            key: 'overDue',
+            header: 'Over Due',
+            width: '120px',
+            render: (value: string) => (
+                <div className="cursor-pointer">
+                    {value ? 'Over Due' : '---'}
+                </div>
+            ),
+        },
+        {
             key: 'status',
             header: 'Action',
             width: '100px',
             render: (value: string, row) => (
-                <div
-                    className="cursor-pointer"
-                    onClick={() => onTodoCompleteClicked(row)}
-                >
-                    <div className="relative group">
-                        <FaCheck className="text-green-600" size={20} />
-                        <Tooltip> Complete Ticket Task </Tooltip>
-                    </div>
-                </div>
+                <CompleteTask data={row} text={'Complete Ticket Task'} />
             ),
         },
     ]
 
     return (
         <>
-            {modal}
             <TodoTable
                 data={data}
                 columns={columns}

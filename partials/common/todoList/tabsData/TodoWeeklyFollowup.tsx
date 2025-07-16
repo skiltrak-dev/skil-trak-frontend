@@ -1,9 +1,7 @@
-import { Tooltip, UserCreatedAt } from '@components'
+import { UserCreatedAt } from '@components'
 import { SubAdminApi } from '@queries'
 import { useState } from 'react'
-import { FaCheck } from 'react-icons/fa'
-import { TableColumn, TodoTable } from '../components'
-import { useTodoHooks } from '../hooks'
+import { CompleteTask, TableColumn, TodoTable } from '../components'
 
 export const TodoWeeklyFollowup = () => {
     const [currentPage, setCurrentPage] = useState(1)
@@ -13,8 +11,6 @@ export const TodoWeeklyFollowup = () => {
         skip: itemsPerPage * currentPage - itemsPerPage,
         limit: itemsPerPage,
     })
-
-    const { modal, onTodoCompleteClicked } = useTodoHooks()
 
     const columns: TableColumn<any>[] = [
         {
@@ -40,26 +36,31 @@ export const TodoWeeklyFollowup = () => {
             width: '120px',
         },
         {
+            key: 'overDue',
+            header: 'Over Due',
+            width: '120px',
+            render: (value: string) => (
+                <div className="cursor-pointer">
+                    {value ? 'Over Due' : '---'}
+                </div>
+            ),
+        },
+        {
             key: 'status',
             header: 'Action',
             width: '100px',
             render: (value: string, row) => (
-                <div
-                    className="cursor-pointer"
-                    onClick={() => onTodoCompleteClicked(row)}
-                >
-                    <div className="relative group">
-                        <FaCheck className="text-green-600" size={20} />
-                        <Tooltip> Complete Ticket Task </Tooltip>
-                    </div>
-                </div>
+                <CompleteTask
+                    data={row}
+                    text={'Complete Weekly Follow up Task'}
+                />
             ),
         },
     ]
 
     return (
         <>
-            {modal}
+
             <TodoTable
                 data={data}
                 columns={columns}
