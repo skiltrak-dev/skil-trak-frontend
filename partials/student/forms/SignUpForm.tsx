@@ -61,6 +61,7 @@ export const CustomRtoSearch = ({
     const [input, setInput] = useState('')
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef<any>(null)
+    const justSelectedRef = useRef(false)
 
     useEffect(() => {
         const handleClickOutside = (event: any) => {
@@ -91,18 +92,27 @@ export const CustomRtoSearch = ({
         setInput(value)
         setIsOpen(true)
         onSearch(value)
+        onSelect({ value: null, customText: e.target.value })
     }
 
     const handleBlur = () => {
         setTimeout(() => {
-            if (!hasMatch && input.trim().length > 2) {
-                onSelect({ value: null, customText: input })
+            if (justSelectedRef.current) {
+                justSelectedRef.current = false
+                return
             }
+
+            const trimmedInput = input.trim()
+            if (!hasMatch && trimmedInput.length > 2) {
+                onSelect({ value: null, customText: trimmedInput }) // latest input
+            }
+
             setIsOpen(false)
         }, 200)
     }
 
     const handleSelect = (option: any) => {
+        justSelectedRef.current = true
         if (option === 'other') {
             onSelect({ value: null, customText: input })
         } else {
@@ -673,7 +683,7 @@ export const StudentSignUpForm = ({
                                         formMethods.setValue('rto', null)
                                         formMethods.setValue(
                                             'rtoInfo',
-                                            selected.customText
+                                            selected.customText ?? ''
                                         ) // ✅ Set rtoInfo
                                     } else {
                                         setSelectedRto(selected.value)
