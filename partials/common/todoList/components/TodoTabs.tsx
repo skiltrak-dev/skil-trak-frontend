@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useEffect } from 'react'
 import {
     DailyRecurringTasks,
@@ -8,7 +6,10 @@ import {
     QuarterlyRecurringTasks,
     BiMonthlyRecurringTasks,
 } from '../tabs'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 type TabProps = {
     label: string
@@ -43,17 +44,12 @@ const tabs: TabProps[] = [
         element: <QuarterlyRecurringTasks />,
     },
 ]
-// Weekly Recurring Tasks
-1
-// Monthly Recurring Tasks
-// 1
-// Bi-Monthly Recurring Tasks
-// 1
-// Quarterly Recurring Tasks
 
-export const TodoTabs = () => {
+export const TodoTabs = ({ baseUrl }: { baseUrl: string }) => {
     const router = useRouter()
     const searchParams = useSearchParams()
+
+    const role = getUserCredentials()?.role
 
     const tabSlug = searchParams.get('tab')
     const activeTabIndex =
@@ -63,20 +59,27 @@ export const TodoTabs = () => {
 
     const handleTabChange = (index: number) => {
         console.log({ index })
-        const slug = tabs[index].slug
-        const params = new URLSearchParams(searchParams.toString())
-        console.log({ params: params.toString() })
-        params.set('tab', slug)
-        router.replace(`?${params.toString()}`, { scroll: false })
+        // const slug = tabs[index].slug
+        // const params = new URLSearchParams(searchParams.toString())
+        // console.log({ params: params.toString() })
+        // params.set('tab', slug)
+        // router.replace(`?${params.toString()}`, { scroll: false })
     }
 
-    useEffect(() => {
-        // Redirect to first tab if query param is missing or invalid
-        if (!tabSlug || tabs.findIndex((tab) => tab.slug === tabSlug) === -1) {
-            const defaultSlug = tabs[0].slug
-            router.replace(`?tab=${defaultSlug}`, { scroll: false })
-        }
-    }, [tabSlug, router])
+    const handleTabChangee = (slug: string) => {
+        router.push({
+            pathname: baseUrl,
+            query: { tab: slug },
+        })
+    }
+
+    // useEffect(() => {
+    //     // Redirect to first tab if query param is missing or invalid
+    //     if (!tabSlug || tabs.findIndex((tab) => tab.slug === tabSlug) === -1) {
+    //         const defaultSlug = tabs[0].slug
+    //         router.replace(`?tab=${defaultSlug}`, { scroll: false })
+    //     }
+    // }, [tabSlug, router])
 
     return (
         <div className="p-4">
@@ -84,11 +87,16 @@ export const TodoTabs = () => {
                 {tabs.map((tab, index) => (
                     <button
                         key={tab.slug}
-                        onClick={() => handleTabChange(index)}
-                        className={`px-14 py-1.5 rounded-lg text-sm ${index === activeTabIndex
-                            ? 'bg-white shadow-sm text-link border border-[#1436B033]/20'
-                            : ' text-gray-600'
-                            }`}
+                        onClick={() => handleTabChangee(tab.slug)}
+                        className={` py-1.5 rounded-lg ${
+                            role === UserRoles.ADMIN
+                                ? 'text-[13px] px-9'
+                                : 'text-sm px-14'
+                        }  ${
+                            index === activeTabIndex
+                                ? 'bg-white shadow-sm text-link border border-[#1436B033]/20'
+                                : ' text-gray-600'
+                        }`}
                     >
                         {tab.label}
                     </button>

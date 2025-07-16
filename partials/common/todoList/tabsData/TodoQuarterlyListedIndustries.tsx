@@ -2,19 +2,28 @@ import { useState } from 'react'
 import { SubAdminApi } from '@queries'
 import { UserCreatedAt } from '@components'
 import { CompleteTask, TableColumn, TodoTable } from '../components'
+import { useTodoHooks } from '../hooks'
 
 export const TodoQuarterlyListedIndustries = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
-    const data = SubAdminApi.Todo.quarterlyListedIndustries({
-        skip: itemsPerPage * currentPage - itemsPerPage,
-        limit: itemsPerPage,
-    })
+    const { id, skip } = useTodoHooks()
+
+    const data = SubAdminApi.Todo.quarterlyListedIndustries(
+        {
+            ...(id ? { id } : {}),
+            limit: itemsPerPage,
+            skip: itemsPerPage * currentPage - itemsPerPage,
+        },
+        {
+            skip,
+        }
+    )
 
     const columns: TableColumn<any>[] = [
         {
-            key: 'futureIndustry.user.name',
+            key: 'futureIndustry.businessName',
             header: 'Industry Name',
             width: '140px',
             className: 'font-medium',
@@ -31,7 +40,7 @@ export const TodoQuarterlyListedIndustries = () => {
             render: (value) => <UserCreatedAt createdAt={value} />,
         },
         {
-            key: 'industry.addressLine1',
+            key: 'futureIndustry.address',
             header: 'Address',
             width: '120px',
         },

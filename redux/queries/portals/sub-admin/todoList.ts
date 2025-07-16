@@ -3,6 +3,11 @@ import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions
 import { PaginationValues } from '@types'
 
 const PREFIX = 'todos'
+
+type ListingType = PaginationValues & {
+    id?: number
+}
+
 export const todoListEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
@@ -11,7 +16,7 @@ export const todoListEndpoints = (
         providesTags: ['TODO'],
     }),
 
-    highPriorityTodoList: builder.query<any, PaginationValues>({
+    highPriorityTodoList: builder.query<any, ListingType>({
         query: (params) => ({
             url: `${PREFIX}/high-priority/data`,
             params,
@@ -19,7 +24,7 @@ export const todoListEndpoints = (
         providesTags: ['TODO'],
     }),
 
-    appointmentTodoList: builder.query<any, PaginationValues>({
+    appointmentTodoList: builder.query<any, ListingType>({
         query: (params) => ({
             url: `${PREFIX}/appointment/data`,
             params,
@@ -27,12 +32,12 @@ export const todoListEndpoints = (
         providesTags: ['TODO'],
     }),
 
-    ticketTodoList: builder.query<any, PaginationValues>({
+    ticketTodoList: builder.query<any, ListingType>({
         query: (params) => ({ url: `${PREFIX}/open-tickets/data`, params }),
         providesTags: ['TODO'],
     }),
 
-    workplaceTodoList: builder.query<any, PaginationValues>({
+    workplaceTodoList: builder.query<any, ListingType>({
         query: (params) => ({
             url: `${PREFIX}/workplace-requests/data`,
             params,
@@ -40,7 +45,7 @@ export const todoListEndpoints = (
         providesTags: ['TODO'],
     }),
 
-    weeklyFollowUp: builder.query<any, PaginationValues>({
+    weeklyFollowUp: builder.query<any, ListingType>({
         query: (params) => ({
             url: `${PREFIX}/student-follow-up/data`,
             params,
@@ -48,14 +53,14 @@ export const todoListEndpoints = (
         providesTags: ['TODO'],
     }),
 
-    monthlyPartnerIndustriesFollowUp: builder.query<any, PaginationValues>({
+    monthlyPartnerIndustriesFollowUp: builder.query<any, ListingType>({
         query: (params) => ({
             url: `${PREFIX}/partner-industries/data`,
             params,
         }),
         providesTags: ['TODO'],
     }),
-    quarterlyListedIndustries: builder.query<any, PaginationValues>({
+    quarterlyListedIndustries: builder.query<any, ListingType>({
         query: (params) => ({
             url: `${PREFIX}/listed-industries/data`,
             params,
@@ -63,7 +68,7 @@ export const todoListEndpoints = (
         providesTags: ['TODO'],
     }),
 
-    biMonthlyNonPartnerIndustries: builder.query<any, PaginationValues>({
+    biMonthlyNonPartnerIndustries: builder.query<any, ListingType>({
         query: (params) => ({
             url: `${PREFIX}/non-partner-industries/data`,
             params,

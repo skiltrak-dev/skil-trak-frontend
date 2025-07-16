@@ -2,15 +2,24 @@ import { useState } from 'react'
 import { SubAdminApi } from '@queries'
 import { UserCreatedAt } from '@components'
 import { CompleteTask, TableColumn, TodoTable } from '../components'
+import { useTodoHooks } from '../hooks'
 
 export const TodoAppointments = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
-    const data = SubAdminApi.Todo.appointmentTodoList({
-        skip: itemsPerPage * currentPage - itemsPerPage,
-        limit: itemsPerPage,
-    })
+    const { id, skip } = useTodoHooks()
+
+    const data = SubAdminApi.Todo.appointmentTodoList(
+        {
+            ...(id ? { id } : {}),
+            limit: itemsPerPage,
+            skip: itemsPerPage * currentPage - itemsPerPage,
+        },
+        {
+            skip,
+        }
+    )
 
     const columns: TableColumn<any>[] = [
         {
