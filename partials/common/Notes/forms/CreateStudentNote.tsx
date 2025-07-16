@@ -662,6 +662,12 @@ export const CreateStudentNote = ({
                                         disabled={isBodyGreaterThen30}
                                         showError={false}
                                     />
+                                    <Checkbox
+                                        name={'isInternal'}
+                                        label={'Internal'}
+                                        // disabled={}
+                                        showError={false}
+                                    />
                                 </div>
 
                                 <div ref={ref} id={'submitButton'}>
