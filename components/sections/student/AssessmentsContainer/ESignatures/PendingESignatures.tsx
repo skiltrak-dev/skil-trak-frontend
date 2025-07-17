@@ -7,14 +7,14 @@ import { ESignTitleCards } from './ESignTitleCards'
 import { useEffect, useMemo, useState } from 'react'
 import { Card, NoData, PageSize, Pagination } from '@components'
 
-export const ESignatures = () => {
+export const PendingESignatures = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(10)
     const [selectedFolder, setSelectedFolder] = useState<any>(null)
 
     const pendingDocuments = CommonApi.ESign.usePendingDocumentsList(
         {
-            status: 'signed',
+            status: 'pending',
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         },
