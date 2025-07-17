@@ -662,12 +662,20 @@ export const CreateStudentNote = ({
                                         disabled={isBodyGreaterThen30}
                                         showError={false}
                                     />
-                                    <Checkbox
-                                        name={'isInternal'}
-                                        label={'Internal'}
-                                        // disabled={}
-                                        showError={false}
-                                    />
+                                    <AuthorizedUserComponent
+                                        roles={[
+                                            UserRoles.SUBADMIN,
+                                            UserRoles.ADMIN,
+                                        ]}
+                                        isAssociatedWithRto={false}
+                                    >
+                                        <Checkbox
+                                            name={'isInternal'}
+                                            label={'Internal'}
+                                            // disabled={}
+                                            showError={false}
+                                        />
+                                    </AuthorizedUserComponent>
                                 </div>
 
                                 <div ref={ref} id={'submitButton'}>
