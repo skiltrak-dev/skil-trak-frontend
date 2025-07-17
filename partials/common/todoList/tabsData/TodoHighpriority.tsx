@@ -1,8 +1,9 @@
-import { UserCreatedAt } from '@components'
+import { Typography, UserCreatedAt } from '@components'
 import { SubAdminApi } from '@queries'
 import { useState } from 'react'
-import { CompleteTask, TableColumn, TodoTable } from '../components'
+import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
+import Link from 'next/link'
 
 export const TodoHighpriority = () => {
     const [currentPage, setCurrentPage] = useState(1)
@@ -27,6 +28,15 @@ export const TodoHighpriority = () => {
             header: 'Student ID',
             width: '140px',
             className: 'font-medium',
+            render: (value, row) => (
+                <Link
+                    href={`/portals/sub-admin/students/${row?.student?.id}/detail`}
+                >
+                    <Typography variant="label" cursorPointer>
+                        {value}
+                    </Typography>
+                </Link>
+            ),
         },
         {
             key: 'student.user.name',
@@ -53,6 +63,13 @@ export const TodoHighpriority = () => {
                     {value ? 'Over Due' : '---'}
                 </div>
             ),
+        },
+        {
+            key: 'approvedBy',
+            header: 'Approved By',
+            width: '100px',
+            render: (value: string, row) =>
+                row?.actionBy ? <ApprovedBy user={row?.actionBy} /> : '---',
         },
         {
             key: 'status',
