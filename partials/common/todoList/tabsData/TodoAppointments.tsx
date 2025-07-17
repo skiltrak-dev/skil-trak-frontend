@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { SubAdminApi } from '@queries'
-import { UserCreatedAt } from '@components'
-import { CompleteTask, TableColumn, TodoTable } from '../components'
+import { Typography, UserCreatedAt } from '@components'
+import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
+import Link from 'next/link'
+import { User } from '@types'
 
 export const TodoAppointments = () => {
     const [currentPage, setCurrentPage] = useState(1)
@@ -27,6 +29,13 @@ export const TodoAppointments = () => {
             header: 'Student ID',
             width: '140px',
             className: 'font-medium',
+            render: (value, row) => (
+                <Link href={`/portals/sub-admin/students/${row?.id}/detail`}>
+                    <Typography variant="label" cursorPointer>
+                        {value}
+                    </Typography>
+                </Link>
+            ),
         },
         {
             key: 'appointmentfor',
@@ -53,6 +62,25 @@ export const TodoAppointments = () => {
                     {value ? 'Over Due' : '---'}
                 </div>
             ),
+        },
+        {
+            key: 'approvedBy',
+            header: 'Approved By',
+            width: '100px',
+            render: (value: string, row) =>
+                row?.actionbyid ? (
+                    <ApprovedBy
+                        user={
+                            {
+                                id: row?.actionbyid,
+                                name: row?.actionbyname,
+                                email: row?.actionbyemail,
+                            } as User
+                        }
+                    />
+                ) : (
+                    '---'
+                ),
         },
         {
             key: 'status',

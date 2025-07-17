@@ -32,9 +32,10 @@ export const ViewProfileCB = ({
             lists: [
                 {
                     text: 'High Priority Items',
-                    count: todoListCount?.data?.highPriority?.total,
-                    completed: todoListCount?.data?.highPriority?.completed,
-                    remaining: todoListCount?.data?.highPriority?.pending,
+                    count: todoListCount?.data?.highPriority?.total || 0 || 0,
+                    completed:
+                        todoListCount?.data?.highPriority?.completed || 0,
+                    remaining: todoListCount?.data?.highPriority?.pending || 0,
                     link: {
                         pathname: pathname,
                         query: {
@@ -45,9 +46,10 @@ export const ViewProfileCB = ({
                 },
                 {
                     text: 'Up coming appointments',
-                    count: todoListCount?.data?.appointments?.total,
-                    completed: todoListCount?.data?.appointments?.completed,
-                    remaining: todoListCount?.data?.appointments?.pending,
+                    count: todoListCount?.data?.appointments?.total || 0,
+                    completed:
+                        todoListCount?.data?.appointments?.completed || 0,
+                    remaining: todoListCount?.data?.appointments?.pending || 0,
                     link: {
                         pathname: pathname,
                         query: {
@@ -58,9 +60,9 @@ export const ViewProfileCB = ({
                 },
                 {
                     text: 'Open Tickets',
-                    count: todoListCount?.data?.openTickets?.total,
-                    completed: todoListCount?.data?.openTickets?.completed,
-                    remaining: todoListCount?.data?.openTickets?.pending,
+                    count: todoListCount?.data?.openTickets?.total || 0,
+                    completed: todoListCount?.data?.openTickets?.completed || 0,
+                    remaining: todoListCount?.data?.openTickets?.pending || 0,
                     link: {
                         pathname: pathname,
                         query: {
@@ -71,10 +73,11 @@ export const ViewProfileCB = ({
                 },
                 {
                     text: 'Workplace Request',
-                    count: todoListCount?.data?.workplaceRequests?.total,
+                    count: todoListCount?.data?.workplaceRequests?.total || 0,
                     completed:
-                        todoListCount?.data?.workplaceRequests?.completed,
-                    remaining: todoListCount?.data?.workplaceRequests?.pending,
+                        todoListCount?.data?.workplaceRequests?.completed || 0,
+                    remaining:
+                        todoListCount?.data?.workplaceRequests?.pending || 0,
                     link: {
                         pathname: pathname,
                         query: {
@@ -90,9 +93,11 @@ export const ViewProfileCB = ({
             lists: [
                 {
                     text: 'Weekly Student Follow up',
-                    count: todoListCount?.data?.studentFollowUp?.total,
-                    completed: todoListCount?.data?.studentFollowUp?.completed,
-                    remaining: todoListCount?.data?.studentFollowUp?.pending,
+                    count: todoListCount?.data?.studentFollowUp?.total || 0,
+                    completed:
+                        todoListCount?.data?.studentFollowUp?.completed || 0,
+                    remaining:
+                        todoListCount?.data?.studentFollowUp?.pending || 0,
                     link: {
                         pathname: pathname,
                         query: {
@@ -107,10 +112,11 @@ export const ViewProfileCB = ({
             lists: [
                 {
                     text: 'Monthly Partner Industry Follow up',
-                    count: todoListCount?.data?.partnerIndustries?.total,
+                    count: todoListCount?.data?.partnerIndustries?.total || 0,
                     completed:
-                        todoListCount?.data?.partnerIndustries?.completed,
-                    remaining: todoListCount?.data?.partnerIndustries?.pending,
+                        todoListCount?.data?.partnerIndustries?.completed || 0,
+                    remaining:
+                        todoListCount?.data?.partnerIndustries?.pending || 0,
                     link: {
                         pathname: pathname,
                         query: {
@@ -125,11 +131,13 @@ export const ViewProfileCB = ({
             lists: [
                 {
                     text: 'Bi Monthly Non Partner Industries',
-                    count: todoListCount?.data?.nonPartnerIndustries?.total,
+                    count:
+                        todoListCount?.data?.nonPartnerIndustries?.total || 0,
                     completed:
-                        todoListCount?.data?.nonPartnerIndustries?.completed,
+                        todoListCount?.data?.nonPartnerIndustries?.completed ||
+                        0,
                     remaining:
-                        todoListCount?.data?.nonPartnerIndustries?.pending,
+                        todoListCount?.data?.nonPartnerIndustries?.pending || 0,
                     link: {
                         pathname: pathname,
                         query: {
@@ -144,9 +152,11 @@ export const ViewProfileCB = ({
             lists: [
                 {
                     text: 'Quarterly Listed Industries',
-                    count: todoListCount?.data?.listedIndustries?.total,
-                    completed: todoListCount?.data?.listedIndustries?.completed,
-                    remaining: todoListCount?.data?.listedIndustries?.pending,
+                    count: todoListCount?.data?.listedIndustries?.total || 0,
+                    completed:
+                        todoListCount?.data?.listedIndustries?.completed || 0,
+                    remaining:
+                        todoListCount?.data?.listedIndustries?.pending || 0,
                     link: {
                         pathname: pathname,
                         query: {

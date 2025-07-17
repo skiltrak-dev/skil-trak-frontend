@@ -1,7 +1,7 @@
 import { UserCreatedAt } from '@components'
 import { SubAdminApi } from '@queries'
 import { useState } from 'react'
-import { CompleteTask, TableColumn, TodoTable } from '../components'
+import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
 
 export const TodoMonthlyPartnerIndustriesFollowUp = () => {
@@ -53,6 +53,13 @@ export const TodoMonthlyPartnerIndustriesFollowUp = () => {
                     {value ? 'Over Due' : '---'}
                 </div>
             ),
+        },
+        {
+            key: 'approvedBy',
+            header: 'Approved By',
+            width: '100px',
+            render: (value: string, row) =>
+                row?.actionBy ? <ApprovedBy user={row?.actionBy} /> : '---',
         },
         {
             key: 'status',

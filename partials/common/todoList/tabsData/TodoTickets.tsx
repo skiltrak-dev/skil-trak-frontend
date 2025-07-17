@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { SubAdminApi } from '@queries'
 import { UserCreatedAt } from '@components'
-import { CompleteTask, TableColumn, TodoTable } from '../components'
+import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
+import { User } from '@types'
 
 export const TodoTickets = () => {
     const [currentPage, setCurrentPage] = useState(1)
@@ -48,6 +49,25 @@ export const TodoTickets = () => {
                     {value ? 'Over Due' : '---'}
                 </div>
             ),
+        },
+        {
+            key: 'approvedBy',
+            header: 'Approved By',
+            width: '100px',
+            render: (value: string, row) =>
+                row?.actionbyid ? (
+                    <ApprovedBy
+                        user={
+                            {
+                                id: row?.actionbyid,
+                                name: row?.actionbyname,
+                                email: row?.actionbyemail,
+                            } as User
+                        }
+                    />
+                ) : (
+                    '---'
+                ),
         },
         {
             key: 'status',
