@@ -31,6 +31,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
+import { DraggableConcernButton } from '@partials/common'
 
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -256,6 +257,7 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                         mailsLink !== '/portals/student/mails') && (
                         <StudentContextBar />
                     )} */}
+                    <DraggableConcernButton />
                     <div className="px-4 mb-32 md:px-8">
                         <div>
                             <div className="flex items-center gap-x-3 justify-between mb-2">
