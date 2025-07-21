@@ -194,6 +194,7 @@ export interface Student extends BaseResponse {
     isAddressUpdated: boolean
     studentUpdateRequests: PartnerRemovalRequests[]
     nonContactableAt: Date
+    hasPaid: boolean
 }
 
 export interface RtoApprovalWorkplaceRequest extends BaseResponse {
