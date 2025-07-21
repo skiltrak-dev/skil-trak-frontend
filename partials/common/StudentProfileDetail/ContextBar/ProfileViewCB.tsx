@@ -58,23 +58,25 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                         </div>
                     </div>
                 </div>
-                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
-                    <Modal>
-                        <Modal.Open opens="viewPaymentDetails">
-                            <div className=" cursor-pointer mx-4 mt-2 flex items-center gap-x-1 p-2">
-                                <div className="">
-                                    <MdOutlinePaid
-                                        size={20}
-                                        className="text-green-300"
-                                    />
+                {profile?.hasPaid && (
+                    <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                        <Modal>
+                            <Modal.Open opens="viewPaymentDetails">
+                                <div className=" cursor-pointer mx-4 mt-2 flex items-center gap-x-1 p-2">
+                                    <div className="">
+                                        <MdOutlinePaid
+                                            size={20}
+                                            className="text-green-300"
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        </Modal.Open>
-                        <Modal.Window name="viewPaymentDetails">
-                            <ViewPaymentDetailsModal />
-                        </Modal.Window>
-                    </Modal>
-                </AuthorizedUserComponent>
+                            </Modal.Open>
+                            <Modal.Window name="viewPaymentDetails">
+                                <ViewPaymentDetailsModal />
+                            </Modal.Window>
+                        </Modal>
+                    </AuthorizedUserComponent>
+                )}
             </div>
 
             <div className="flex justify-between">
