@@ -13,6 +13,10 @@ import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
 import { UsersPendingEsignModal } from '@partials/eSign/modal/UsersPendingEsignModal'
+import Modal from '@modals/Modal'
+import { HiExclamationTriangle, HiHandRaised } from 'react-icons/hi2'
+import { DraggableConcernButton, RaiseConcernModal } from '@partials/common'
+
 interface RtoLayoutProps {
     pageTitle?: PageTitleProps
     children: ReactNode
@@ -113,6 +117,7 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
             <UserLayout>
                 <>
                     {modal}
+                    <DraggableConcernButton />
                     <div className="px-8">
                         <div className="mb-4">
                             <RtoNavbar />

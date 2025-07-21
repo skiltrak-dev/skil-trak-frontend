@@ -9,6 +9,8 @@ import { useMaskText } from '@hooks'
 import { Student } from '@types'
 import { getUserCredentials } from '@utils'
 import { WPInvoiceStatus } from '../components'
+import { MdOutlinePaid } from 'react-icons/md'
+
 import {
     AssignToMeStudent,
     ContactStatus,
@@ -21,6 +23,8 @@ import {
     StudentStatus,
 } from '../ContextBarComponents'
 import { IndustryRequestsActions } from '@partials/sub-admin/ManagerApprovalList/enum'
+import { ViewPaymentDetailsModal } from '../modals'
+import Modal from '@modals/Modal'
 
 export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     const role = getUserCredentials()?.role
@@ -41,17 +45,36 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             </div>
 
             {/* User */}
-            <div className="flex justify-between">
-                <div className="mt-2">
-                    <div className="flex items-center gap-x-2">
-                        <Typography semibold>
-                            <span className="text-[15px]">
-                                {profile?.user?.name}{' '}
-                                {profile?.familyName || ''}
-                            </span>
-                        </Typography>
+            <div className="flex items-center justify-between">
+                <div className="flex justify-between">
+                    <div className="mt-2">
+                        <div className="flex items-center gap-x-2">
+                            <Typography semibold>
+                                <span className="text-[15px]">
+                                    {profile?.user?.name}{' '}
+                                    {profile?.familyName || ''}
+                                </span>
+                            </Typography>
+                        </div>
                     </div>
                 </div>
+                <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
+                    <Modal>
+                        <Modal.Open opens="viewPaymentDetails">
+                            <div className=" cursor-pointer mx-4 mt-2 flex items-center gap-x-1 p-2">
+                                <div className="">
+                                    <MdOutlinePaid
+                                        size={20}
+                                        className="text-green-300"
+                                    />
+                                </div>
+                            </div>
+                        </Modal.Open>
+                        <Modal.Window name="viewPaymentDetails">
+                            <ViewPaymentDetailsModal />
+                        </Modal.Window>
+                    </Modal>
+                </AuthorizedUserComponent>
             </div>
 
             <div className="flex justify-between">

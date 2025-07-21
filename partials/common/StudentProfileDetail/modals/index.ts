@@ -13,3 +13,5 @@ export * from './UnSnoozeStudentModal'
 export * from './FillEsignFieldsModal'
 export * from './RtoInsuranceDocModal'
 export * from './NotContactableStudentModal'
+
+export * from './ViewPaymentDetailsModal'

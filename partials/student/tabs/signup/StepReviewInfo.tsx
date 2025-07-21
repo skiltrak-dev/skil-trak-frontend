@@ -31,7 +31,7 @@ export const StepReviewInfo = () => {
     const [loadingPayment, setLoadingPayment] = useState(false)
     const { notification } = useNotification()
     const router = useRouter()
-
+    const [paymentId, setPaymentId] = useState<string | null>(null)
     const [register, registerResult] = AuthApi.useRegisterStudent()
     const [login, loginResult] = AuthApi.useLogin()
     const formData: any = SignUpUtils.getValuesFromStorage()
@@ -64,7 +64,10 @@ export const StepReviewInfo = () => {
     }
 
     // Helper function to prepare payload based on RTO selection
-    const preparePayload = (formData: StudentFormType) => {
+    const preparePayload = (
+        formData: StudentFormType,
+        currentPaymentId: string | null
+    ) => {
         const basePayload = {
             addressLine1: formData.addressLine1,
             agreedWithPrivacyPolicy: formData.agreedWithPrivacyPolicy,
@@ -78,6 +81,7 @@ export const StepReviewInfo = () => {
             zipCode: formData.zipCode,
             role: UserRoles.STUDENT,
             isAddressUpdated: true,
+            paymentId: currentPaymentId, // Use the passed paymentId
         }
 
         // Check if RTO is selected as "other" or if it's a string value (but not a numeric string)
@@ -174,9 +178,14 @@ export const StepReviewInfo = () => {
                         setPaymentConfirmed={setPaymentConfirmed}
                         paymentConfirmed={paymentConfirmed}
                         formData={formData}
-                        onSuccess={async () => {
+                        onSuccess={async (paymentIntentId: string) => {
+                            // Accept paymentId as parameter
                             setModal(null)
-                            const payload = preparePayload(formData)
+                            setPaymentId(paymentIntentId) // Set the paymentId in state
+                            const payload = preparePayload(
+                                formData,
+                                paymentIntentId
+                            ) // Pass paymentId
                             await register(payload as any)
                         }}
                     />

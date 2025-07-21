@@ -22,7 +22,6 @@ export const CustomPaymentModal = ({
     const { notification } = useNotification()
     const stripe = useStripe()
     const elements = useElements()
-
     const handlePay = async () => {
         if (!stripe || !elements) return
 
@@ -40,9 +39,10 @@ export const CustomPaymentModal = ({
         if (result.error) {
             setError(result.error.message || 'Payment failed')
         } else if (result.paymentIntent?.status === 'succeeded') {
+            const paymentIntentId = result.paymentIntent.id
             // You can show success UI or trigger success logic
             setPaymentConfirmed(true)
-            onSuccess()
+            onSuccess(paymentIntentId)
             onCancel()
         }
 

@@ -70,6 +70,16 @@ export const SubadminUnder3WeeksWP = () => {
                     <>
                         {appliedIndustry ? (
                             <>
+                                {appliedIndustry?.isAutomated && (
+                                    <div className="bg-success rounded px-1 py-0.5 w-fit mb-0.5">
+                                        <Typography
+                                            variant="xs"
+                                            color="text-white"
+                                        >
+                                            Auto
+                                        </Typography>
+                                    </div>
+                                )}
                                 <Typography variant="small" bold>
                                     {ellipsisText(
                                         appliedIndustry?.industry?.user?.name,

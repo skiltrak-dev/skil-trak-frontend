@@ -203,4 +203,11 @@ export const studentEndpoints = (
 
         providesTags: ['Students'],
     }),
+
+    // stripe/student/id/payment/list/view
+    // studentPaymentDetails
+    studentPaymentDetails: builder.query<any, any>({
+        query: (id) => `stripe/student/${id}/payment/list-view`,
+        providesTags: ['Students'],
+    })
 })

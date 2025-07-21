@@ -231,6 +231,7 @@ const {
 
     useStudentsRequiredDocsDetailQuery,
     useStudentCourseDetailQuery,
+    useStudentPaymentDetailsQuery,
     useStudentUpcomingAppointmentsQuery,
 
     // ------ INDUSTRY ------ //
@@ -564,6 +565,7 @@ export const AdminApi = {
         useUnassignCourses: useStudentUnassignCoursesMutation,
         studentsRequiredDocsDetail: useStudentsRequiredDocsDetailQuery,
         studentCourseDetail: useStudentCourseDetailQuery,
+        useStudentPaymentDetails: useStudentPaymentDetailsQuery,
     },
 
     SubAdmins: {
