@@ -30,7 +30,12 @@ export const useColumns = () => {
             accessorKey: 'industry',
             header: () => <span>Workplace Name</span>,
             cell: (info) => (
-                <IndustryDetail industries={info?.row?.original?.industries} />
+                <IndustryDetail
+                    industries={info?.row?.original?.industries}
+                    workplaceApprovaleRequest={
+                        info?.row?.original?.workplaceApprovaleRequest
+                    }
+                />
             ),
         },
         {

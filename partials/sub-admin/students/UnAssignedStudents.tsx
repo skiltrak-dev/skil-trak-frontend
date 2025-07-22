@@ -62,7 +62,7 @@ export const UnAssignedStudents = () => {
 
     const { modal, columns } = useColumns()
 
-    const { isSuccess, isLoading, data, isError, isFetching, refetch } =
+    const { isLoading, data, isError, isFetching } =
         SubAdminApi.Student.useList(
             {
                 search: `unAssigned:unAssigned`,
