@@ -3,14 +3,22 @@ import { ellipsisText } from '@utils'
 import Link from 'next/link'
 import React from 'react'
 
-export const IndustryDetail = ({ industries }: { industries: any }) => {
+export const IndustryDetail = ({
+    industries,
+    workplaceApprovaleRequest,
+}: {
+    workplaceApprovaleRequest: any
+    industries: any
+}) => {
     const appliedIndustry = industries.find(
         (industry: any) => industry?.applied
     )
 
     return (
         <>
-            {appliedIndustry ? (
+            {appliedIndustry ||
+            (workplaceApprovaleRequest &&
+                workplaceApprovaleRequest?.length > 0) ? (
                 <>
                     {appliedIndustry?.isAutomated && (
                         <div className="bg-success rounded px-1 py-0.5 w-fit mb-0.5">
@@ -25,13 +33,18 @@ export const IndustryDetail = ({ industries }: { industries: any }) => {
                     >
                         <Typography variant="small" bold>
                             {ellipsisText(
-                                appliedIndustry?.industry?.user?.name,
+                                appliedIndustry?.industry?.user?.name ||
+                                    workplaceApprovaleRequest?.[0]?.industry
+                                        ?.user?.name,
                                 30
                             )}
                         </Typography>
                     </div>
                     <Link
-                        href={`/portals/admin/industry/${appliedIndustry?.industry?.id}`}
+                        href={`/portals/admin/industry/${
+                            appliedIndustry?.industry?.id ||
+                            workplaceApprovaleRequest?.[0]?.industry?.id
+                        }`}
                         className="text-blue-500 text-xs"
                     >
                         View Details

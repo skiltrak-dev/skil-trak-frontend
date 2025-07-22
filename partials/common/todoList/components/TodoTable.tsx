@@ -70,7 +70,7 @@ export function TodoTable<T extends Record<string, any>>({
     return (
         <Card noPadding>
             {data?.isError ? <TechnicalError /> : null}
-            {data?.isLoading ? (
+            {data?.isFetching || data?.isLoading ? (
                 <LoadingAnimation />
             ) : (
                 <div
