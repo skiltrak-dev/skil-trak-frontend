@@ -10,9 +10,6 @@ export const IndustryDetail = ({
     workplaceApprovaleRequest: any
     industries: any
 }) => {
-    console.log({
-        workplaceApprovaleRequest: workplaceApprovaleRequest?.[0]?.industry,
-    })
     const appliedIndustry = industries.find(
         (industry: any) => industry?.applied
     )
