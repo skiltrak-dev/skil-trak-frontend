@@ -27,12 +27,12 @@ export const ReportListModal = ({
         label: 'Monthly',
         value: 'monthly',
     })
+
     const [isPdfDownload, setIsPdfDownload] = useState<boolean>(false)
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
 
     const userId = user || getUserCredentials()?.id
-    const rtoName = getUserCredentials()?.name
 
     const downloadAsPdf = RtoApi.Students.useReportDownloadLink(
         {
@@ -73,6 +73,7 @@ export const ReportListModal = ({
         const dateValue = e.target.value.trim()
         setEndDate(moment(dateValue).format('YYYY-MM-DD'))
     }
+
     const handleDownloadPDF = () => {
         setIsPdfDownload(true)
     }
@@ -81,7 +82,7 @@ export const ReportListModal = ({
         <>
             <ShowErrorNotifications result={downloadAsPdf} />
             <div className="bg-[#00000050] w-full h-screen flex items-center justify-center fixed top-0 left-0 z-40">
-                <div className="bg-white  h-52 overflow-auto custom-scrollbar rounded-2xl flex flex-col items-center gap-y-2 shadow-xl min-w-[450px] px-4 py-4">
+                <div className="bg-white h-72 overflow-auto custom-scrollbar rounded-2xl flex flex-col items-center gap-y-2 shadow-xl min-w-[450px] px-4 py-4">
                     {downloadAsPdf?.isLoading ? (
                         <DownloadLoader />
                     ) : (
@@ -115,6 +116,7 @@ export const ReportListModal = ({
                                         />
                                     </div>
                                 </div>
+
                                 {/* <div className="w-full">
                                     <Select
                                         name="filter"

@@ -8,23 +8,17 @@ import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { Note as NoteType } from '@types'
-import { HtmlToPlainText, playAudioSound, stopAudioSound } from '@utils'
 import { useEffect, useState } from 'react'
 
 import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
 import moment from 'moment'
 import { FaTrash } from 'react-icons/fa'
-import { HiMiniSpeakerWave, HiMiniSpeakerXMark } from 'react-icons/hi2'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { TiPin } from 'react-icons/ti'
 import { PuffLoader } from 'react-spinners'
 
 export const NoteCard = ({ note }: { note: NoteType | any }) => {
     const { notification } = useNotification()
-
-    const [audioLoading, setAudioLoading] = useState<boolean>(false)
-    const [audioUrl, setAudioUrl] = useState<string>('')
-    const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
     const [statusChange, statusChangeResult] = CommonApi.Notes.useStatusChange()
     const togglePin = async () => {
@@ -55,13 +49,6 @@ export const NoteCard = ({ note }: { note: NoteType | any }) => {
         }
     }, [removeResult])
 
-    const stopAudio = () => {
-        if (audioUrl) {
-            stopAudioSound(audioUrl)
-            setIsPlaying(false)
-        }
-    }
-
     return (
         <>
             <ShowErrorNotifications result={removeResult} />
@@ -72,7 +59,9 @@ export const NoteCard = ({ note }: { note: NoteType | any }) => {
             <div
                 id={`pinned-notes-${note?.id}`}
                 className={`relative w-full ${
-                    note?.author?.role === UserRoles.RTO
+                    note?.isInternal
+                        ? 'bg-[#F5F5F5]'
+                        : note?.author?.role === UserRoles.RTO
                         ? 'bg-[#bfe7f6]'
                         : note?.isPinned
                         ? 'bg-[#FFDCDC]'
@@ -85,7 +74,10 @@ export const NoteCard = ({ note }: { note: NoteType | any }) => {
                     <div className="flex justify-between items-start">
                         <div>
                             <Typography variant="label" semibold>
-                                {note?.title ?? note?.subject}
+                                {note?.title ?? note?.subject}{' '}
+                                <span className="text-xs text-gray-400">
+                                    {note?.isInternal ? '(Internal)' : ''}
+                                </span>
                             </Typography>
                             {note?.studentNote ? (
                                 <div>

@@ -1,10 +1,10 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { PaginationValues } from '@types'
+import { PaginationWithSearch } from '@types'
 
 const PREFIX = 'todos'
 
-type ListingType = PaginationValues & {
+type ListingType = PaginationWithSearch & {
     id?: number
 }
 

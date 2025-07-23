@@ -1,9 +1,14 @@
 import { BiMonthlyNonPartnerInd, TodoWeeklyFollowup } from '../tabsData'
 
-export const BiMonthlyRecurringTasks = () => {
+export const BiMonthlyRecurringTasks = ({
+    filterDate,
+}: {
+    filterDate: Date | null
+}) => {
+    console.log({ filterDate })
     return (
-        <div className="p-6 flex flex-col gap-y-6">
-            <BiMonthlyNonPartnerInd />
+        <div className="flex flex-col gap-y-6">
+            <BiMonthlyNonPartnerInd filterDate={filterDate} />
         </div>
     )
 }

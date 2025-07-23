@@ -4,7 +4,11 @@ import { useState } from 'react'
 import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
 
-export const TodoWeeklyFollowup = () => {
+export const TodoWeeklyFollowup = ({
+    filterDate,
+}: {
+    filterDate: Date | null
+}) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
@@ -14,6 +18,13 @@ export const TodoWeeklyFollowup = () => {
         {
             ...(id ? { id } : {}),
             limit: itemsPerPage,
+            search: `${JSON.stringify({
+                date: filterDate,
+            })
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
             skip: itemsPerPage * currentPage - itemsPerPage,
         },
         {

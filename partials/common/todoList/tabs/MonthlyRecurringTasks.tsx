@@ -1,9 +1,13 @@
 import { TodoMonthlyPartnerIndustriesFollowUp } from '../tabsData'
 
-export const MonthlyRecurringTasks = () => {
+export const MonthlyRecurringTasks = ({
+    filterDate,
+}: {
+    filterDate: Date | null
+}) => {
     return (
-        <div className="p-6 flex flex-col gap-y-6">
-            <TodoMonthlyPartnerIndustriesFollowUp />
+        <div className="flex flex-col gap-y-6">
+            <TodoMonthlyPartnerIndustriesFollowUp filterDate={filterDate} />
         </div>
     )
 }

@@ -3,6 +3,7 @@ import { GlobalModal, TextInput } from '@components'
 import { Button } from '@components/buttons'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AuthUtils } from '@utils'
+import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FaTimes } from 'react-icons/fa'
 import * as Yup from 'yup'
@@ -14,6 +15,8 @@ export const DownloadRtoMyReportModal = ({
     onClose: () => void
     user?: number
 }) => {
+    const [batch, setBatch] = useState<string>('')
+
     const token = AuthUtils.token()
 
     const validationSchema = Yup.object({
@@ -28,8 +31,13 @@ export const DownloadRtoMyReportModal = ({
 
     const onSubmit = (values: { startDate: string; endDate: string }) => {
         window.open(
-            `${process.env.NEXT_PUBLIC_END_POINT}/statistics/rto/data?token=${token}&startDate=${values?.startDate}&endDate=${values?.endDate}`
+            `${process.env.NEXT_PUBLIC_END_POINT}/statistics/rto/data?token=${token}&startDate=${values?.startDate}&endDate=${values?.endDate}&batch=${batch}`
         )
+    }
+
+    const handleBatch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const batch = e.target.value.trim()
+        setBatch(batch)
     }
 
     return (
@@ -69,6 +77,12 @@ export const DownloadRtoMyReportModal = ({
                                     </div>
                                 </div>
                             </div>
+                            <TextInput
+                                placeholder="Select Batch (optional)"
+                                name="batch"
+                                label={'Select Batch (optional)'}
+                                onChange={handleBatch}
+                            />
                             <div className="flex items-center gap-x-2">
                                 <Button
                                     text="Download as CSV"

@@ -1,12 +1,12 @@
+import Link from 'next/link'
+import { User } from '@types'
 import { useState } from 'react'
 import { SubAdminApi } from '@queries'
 import { useTodoHooks } from '../hooks'
 import { Typography, UserCreatedAt } from '@components'
 import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
-import Link from 'next/link'
-import { User } from '@types'
 
-export const TodoWorkplace = () => {
+export const TodoWorkplace = ({ filterDate }: { filterDate: Date | null }) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
@@ -15,6 +15,13 @@ export const TodoWorkplace = () => {
     const data = SubAdminApi.Todo.workplaceTodoList(
         {
             ...(id ? { id } : {}),
+            search: `${JSON.stringify({
+                date: filterDate,
+            })
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
             limit: itemsPerPage,
             skip: itemsPerPage * currentPage - itemsPerPage,
         },
@@ -25,10 +32,9 @@ export const TodoWorkplace = () => {
 
     const columns: TableColumn<any>[] = [
         {
-            key: 'studentId',
-            header: 'Student ID',
-            width: '140px',
-            className: 'font-medium',
+            key: 'studentUserName',
+            header: 'Name',
+            width: '200px',
             render: (value, row) => (
                 <Link href={`/portals/sub-admin/students/${row?.stdId}/detail`}>
                     <Typography variant="label" cursorPointer>
@@ -38,20 +44,10 @@ export const TodoWorkplace = () => {
             ),
         },
         {
-            key: 'studentUserName',
-            header: 'Name',
-            width: '200px',
-        },
-        {
             key: 'dueDate',
             header: 'Due Date',
             width: '120px',
             render: (value) => <UserCreatedAt createdAt={value} />,
-        },
-        {
-            key: 'addressLine1',
-            header: 'Address',
-            width: '120px',
         },
         {
             key: 'overDue',
