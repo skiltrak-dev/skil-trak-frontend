@@ -254,7 +254,7 @@ export const useRequestType = ({
             date: appliedIndustry?.awaitingWorkplaceResponseDate,
         },
         {
-            primaryText: 'Meeting',
+            primaryText: 'Appointment',
             secondaryText: 'with Workplace Supervisor (Orientation)',
             color: 'text-info-dark',
             onClick: (isCleared: (bool: boolean) => void) => {

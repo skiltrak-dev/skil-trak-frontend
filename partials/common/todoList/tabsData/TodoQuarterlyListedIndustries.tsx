@@ -4,7 +4,11 @@ import { UserCreatedAt } from '@components'
 import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
 
-export const TodoQuarterlyListedIndustries = () => {
+export const TodoQuarterlyListedIndustries = ({
+    filterDate,
+}: {
+    filterDate: Date | null
+}) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
@@ -13,6 +17,13 @@ export const TodoQuarterlyListedIndustries = () => {
     const data = SubAdminApi.Todo.quarterlyListedIndustries(
         {
             ...(id ? { id } : {}),
+            search: `${JSON.stringify({
+                date: filterDate,
+            })
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
             limit: itemsPerPage,
             skip: itemsPerPage * currentPage - itemsPerPage,
         },

@@ -1,6 +1,13 @@
-import { Alert, DetailNavbar, ProtectedRoute } from '@components'
+import {
+    Alert,
+    AuthorizedUserComponent,
+    DetailNavbar,
+    ProtectedRoute,
+} from '@components'
 import { ContextBar } from '@components/sideBars'
+import { UserRoles } from '@constants'
 import { useAlert } from '@hooks'
+import { DraggableConcernButton } from '@partials/common'
 import { UserStatus } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
@@ -19,6 +26,12 @@ export const UserLayout = ({ children }: UserLayoutProps) => {
 
     useEffect(() => {
         const handleRouteChange = () => {
+            if (
+                router.pathname.includes('/portals/sub-admin/todo-list-details')
+            ) {
+                return
+            }
+
             if (childrenRef.current) {
                 childrenRef.current.scrollTo({
                     top: 0,
@@ -78,7 +91,9 @@ export const UserLayout = ({ children }: UserLayoutProps) => {
         <ProtectedRoute>
             <div>
                 <DetailNavbar />
-
+                <AuthorizedUserComponent excludeRoles={[UserRoles.SUBADMIN]}>
+                    <DraggableConcernButton />
+                </AuthorizedUserComponent>
                 {/* Viewport & SideBar Container */}
                 <div className="bg-slate-50 h-[90vh] flex justify-between w-full overflow-hidden">
                     {/* Viewport */}

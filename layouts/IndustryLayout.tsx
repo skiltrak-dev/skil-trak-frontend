@@ -20,7 +20,6 @@ import { ProfileModal } from '@partials/industry'
 import { CommonApi, useIndustryProfileQuery } from '@queries'
 import { UserStatus } from '@types'
 import { AuthUtils, EsignDocumentStatus } from '@utils'
-import { DraggableConcernButton } from '@partials/common'
 
 const getRoutePath = `/portals/industry`
 
@@ -233,7 +232,7 @@ export const IndustryLayout = ({
             <UserLayout>
                 <>
                     {modal && modal}
-                    <DraggableConcernButton />
+
                     <div className="md:px-8 px-2 mb-24">
                         <div className="mb-3">
                             <IndustryNavbar

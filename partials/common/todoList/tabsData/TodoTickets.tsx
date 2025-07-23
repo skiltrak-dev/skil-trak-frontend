@@ -5,7 +5,7 @@ import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
 import { User } from '@types'
 
-export const TodoTickets = () => {
+export const TodoTickets = ({ filterDate }: { filterDate: Date | null }) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
@@ -15,6 +15,13 @@ export const TodoTickets = () => {
         {
             ...(id ? { id } : {}),
             limit: itemsPerPage,
+            search: `${JSON.stringify({
+                date: filterDate,
+            })
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
             skip: itemsPerPage * currentPage - itemsPerPage,
         },
         {

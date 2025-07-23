@@ -1,12 +1,16 @@
-import { useState } from 'react'
-import { SubAdminApi } from '@queries'
 import { Typography, UserCreatedAt } from '@components'
+import { SubAdminApi } from '@queries'
+import { User } from '@types'
+import Link from 'next/link'
+import { useState } from 'react'
 import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
-import Link from 'next/link'
-import { User } from '@types'
 
-export const TodoAppointments = () => {
+export const TodoAppointments = ({
+    filterDate,
+}: {
+    filterDate: Date | null
+}) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
@@ -15,6 +19,13 @@ export const TodoAppointments = () => {
     const data = SubAdminApi.Todo.appointmentTodoList(
         {
             ...(id ? { id } : {}),
+            search: `${JSON.stringify({
+                date: filterDate,
+            })
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
             limit: itemsPerPage,
             skip: itemsPerPage * currentPage - itemsPerPage,
         },
@@ -47,11 +58,6 @@ export const TodoAppointments = () => {
             header: 'Due Date',
             width: '120px',
             render: (value) => <UserCreatedAt createdAt={value} />,
-        },
-        {
-            key: 'addressLine1',
-            header: 'Address',
-            width: '120px',
         },
         {
             key: 'overDue',

@@ -5,22 +5,16 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
 import { getUserCredentials } from '@utils'
-import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
-
-
 
 export const RaiseConcernModal = ({ onCloseModal }: any) => {
     const { notification } = useNotification()
     const [sendConcern, sendConcernResult] = CommonApi.Messages.useContactUs()
     const user = getUserCredentials()
-    
 
     const validationSchema = yup.object({
-        name: yup
-            .string()
-            .required('Must provide your name'),
+        name: yup.string().required('Must provide your name'),
         email: yup
             .string()
             .email('Invalid Email')
@@ -39,8 +33,7 @@ export const RaiseConcernModal = ({ onCloseModal }: any) => {
             phone: '',
             subject: '',
             message: '',
-
-        }
+        },
     })
 
     const onSubmit = (data: any) => {

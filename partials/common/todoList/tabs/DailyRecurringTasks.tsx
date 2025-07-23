@@ -1,17 +1,22 @@
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import {
-    TodoTickets,
-    TodoWorkplace,
     TodoAppointments,
     TodoHighpriority,
+    TodoTickets,
+    TodoWorkplace,
 } from '../tabsData'
-import { useEffect } from 'react'
 
-export const DailyRecurringTasks = () => {
+export const DailyRecurringTasks = ({
+    filterDate,
+}: {
+    filterDate: Date | null
+}) => {
     const router = useRouter()
 
     const scrollToPage = () => {
-        if (router?.query?.id) {
+        if (router?.query?.id && !router?.query?.page) {
+            console.log('Danku')
             const detailItem = document.getElementById(router?.query?.id + '')
 
             if (detailItem) {
@@ -30,18 +35,18 @@ export const DailyRecurringTasks = () => {
     }, [router])
 
     return (
-        <div className="p-6 flex flex-col gap-y-6">
+        <div className="flex flex-col gap-y-6">
             <div id={'highPriority'}>
-                <TodoHighpriority />
+                <TodoHighpriority filterDate={filterDate} />
             </div>
             <div id={'appointment'}>
-                <TodoAppointments />
+                <TodoAppointments filterDate={filterDate} />
             </div>
             <div id={'openTickets'}>
-                <TodoTickets />
+                <TodoTickets filterDate={filterDate} />
             </div>
             <div id={'workplaceRequest'}>
-                <TodoWorkplace />
+                <TodoWorkplace filterDate={filterDate} />
             </div>
         </div>
     )

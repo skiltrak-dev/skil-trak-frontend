@@ -4,16 +4,32 @@ import { useState } from 'react'
 import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
 import Link from 'next/link'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
+import { redirectUrls } from '../functions'
 
-export const TodoHighpriority = () => {
+export const TodoHighpriority = ({
+    filterDate,
+}: {
+    filterDate: Date | null
+}) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
+
+    const role = getUserCredentials()?.role
 
     const { id, skip } = useTodoHooks()
 
     const data = SubAdminApi.Todo.highPriorityTodoList(
         {
             ...(id ? { id } : {}),
+            search: `${JSON.stringify({
+                date: filterDate,
+            })
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
             limit: itemsPerPage,
             skip: itemsPerPage * currentPage - itemsPerPage,
         },
@@ -24,14 +40,11 @@ export const TodoHighpriority = () => {
 
     const columns: TableColumn<any>[] = [
         {
-            key: 'student.studentId',
-            header: 'Student ID',
-            width: '140px',
-            className: 'font-medium',
+            key: 'student.user.name',
+            header: 'Name',
+            width: '200px',
             render: (value, row) => (
-                <Link
-                    href={`/portals/sub-admin/students/${row?.student?.id}/detail`}
-                >
+                <Link href={redirectUrls(row?.student?.id)}>
                     <Typography variant="label" cursorPointer>
                         {value}
                     </Typography>
@@ -39,20 +52,10 @@ export const TodoHighpriority = () => {
             ),
         },
         {
-            key: 'student.user.name',
-            header: 'Name',
-            width: '200px',
-        },
-        {
             key: 'dueDate',
             header: 'Due Date',
             width: '120px',
             render: (value) => <UserCreatedAt createdAt={value} />,
-        },
-        {
-            key: 'student.addressLine1',
-            header: 'Address',
-            width: '120px',
         },
         {
             key: 'overDue',
