@@ -38,4 +38,5 @@ export enum SocketNotificationsEvents {
     IndustryApproved = 'IndustryApproved',
     FacilityCheckListAdded = 'facilityCheckListAdded',
     CourseRequestRejected = 'courseRequestRejected',
+    TicketReply = 'ticketReply',
 }
