@@ -35,6 +35,7 @@ interface ActionModalProps {
     Icon?: any
     actionObject: any
     loading?: boolean
+    disable?: boolean
 }
 
 export const ActionModal = ({
@@ -49,6 +50,7 @@ export const ActionModal = ({
     Icon,
     actionObject,
     loading,
+    disable,
 }: ActionModalProps) => {
     const [keyMatched, setKeyMatched] = useState(false)
 
@@ -105,7 +107,7 @@ export const ActionModal = ({
                             onConfirm && onConfirm(actionObject)
                         }}
                         loading={loading}
-                        disabled={loading}
+                        disabled={loading || disable}
                     />
                 </div>
             </div>

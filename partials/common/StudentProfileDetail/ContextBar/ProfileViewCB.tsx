@@ -63,12 +63,12 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                         <Modal>
                             <Modal.Open opens="viewPaymentDetails">
                                 <div className=" cursor-pointer mx-4 mt-2 flex items-center gap-x-1 p-2">
-                                    <div className="">
-                                        <MdOutlinePaid
-                                            size={20}
-                                            className="text-green-300"
-                                        />
-                                    </div>
+                                    <Typography
+                                        color="text-link"
+                                        variant="muted"
+                                    >
+                                        Payment Details
+                                    </Typography>
                                 </div>
                             </Modal.Open>
                             <Modal.Window name="viewPaymentDetails">

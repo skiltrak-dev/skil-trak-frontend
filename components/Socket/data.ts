@@ -42,4 +42,5 @@ export const socketEventToTagMapping = {
     [SocketNotificationsEvents.StudentScheduleAdded]: ['IndustryWorkplace'],
     [SocketNotificationsEvents.IndustryPartnerRemoval]: ['SubAdminIndustries'],
     [SocketNotificationsEvents.NewIndustrySignUp]: ['ListingSignup'],
+    [SocketNotificationsEvents.TicketReply]: ['TicketsReply'],
 }

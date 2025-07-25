@@ -19,7 +19,6 @@ export const AcceptModal = ({
     const { alert } = useAlert()
     const { notification } = useNotification()
     const { onAccept, changeStatusResult } = useChangeStatus()
-
     const onConfirmUClicked = async (item: Student) => {
         await onAccept(item)
     }
@@ -34,14 +33,18 @@ export const AcceptModal = ({
         if (changeStatusResult.isSuccess) {
             alert.success({
                 title: `Request Accepted`,
-                description: `Student "${item.user.name}" has been accepted.`,
+                description: `Student "${item?.user?.name}" has been accepted.`,
             })
             onCancel()
         }
         if (changeStatusResult.isError) {
             notification.error({
                 title: 'Request Failed',
-                description: `Your request for accepting Student was failed`,
+                description: `${
+                    !item?.rto || !item?.courses
+                        ? 'Please update student profile before going to Accept'
+                        : 'Your request for accepting Student was failed'
+                }`,
             })
         }
     }, [changeStatusResult])
@@ -51,13 +54,18 @@ export const AcceptModal = ({
             Icon={HiCheckBadge}
             variant="success"
             title="Are you sure!"
-            description={`You are about to accept <em>"${item.user.name}"<em>. Do you wish to continue?`}
+            description={`${
+                !item?.rto || !item?.courses
+                    ? `Please complete <em>"Student"<em> profile before going to Accept`
+                    : `You are about to accept <em>"${item?.user?.name}"<em>. Do you wish to continue?`
+            } `}
             onConfirm={onConfirmUClicked}
             onCancel={onCancel}
             input
-            inputKey={item.user.email}
+            inputKey={item?.user?.email}
             actionObject={item}
             loading={changeStatusResult.isLoading}
+            disable={!item?.rto || !item?.courses}
         />
     )
 }
