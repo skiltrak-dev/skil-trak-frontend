@@ -1,3 +1,4 @@
+import { subAdminApi } from './../../redux/queries/portals/sub-admin/sub-admin.query'
 export interface SubadminIndustryFilter {
     name: string
     email: string
@@ -9,4 +10,5 @@ export interface SubadminIndustryFilter {
     state?: string
     isHiring: boolean
     isPartner: boolean
+    subAdminId: any
 }

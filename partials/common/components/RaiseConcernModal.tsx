@@ -68,21 +68,23 @@ export const RaiseConcernModal = ({ onCloseModal }: any) => {
             <FormProvider {...formMethods}>
                 <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
                     <div className="flex flex-col w-full space-y-4">
-                        <TextInput
-                            color="bg-[#F1DBC6] bg-opacity-25"
-                            name="name"
-                            placeholder="Your Name"
-                        />
-                        <TextInput
-                            color="bg-[#F1DBC6] bg-opacity-25"
-                            name="email"
-                            placeholder="Your Email"
-                        />
-                        <TextInput
-                            color="bg-[#F1DBC6] bg-opacity-25"
-                            name="phone"
-                            placeholder="Your Phone"
-                        />
+                        <div className="hidden">
+                            <TextInput
+                                color="bg-[#F1DBC6] bg-opacity-25"
+                                name="name"
+                                placeholder="Your Name"
+                            />
+                            <TextInput
+                                color="bg-[#F1DBC6] bg-opacity-25"
+                                name="email"
+                                placeholder="Your Email"
+                            />
+                            <TextInput
+                                color="bg-[#F1DBC6] bg-opacity-25"
+                                name="phone"
+                                placeholder="Your Phone"
+                            />
+                        </div>
                         <TextInput
                             color="bg-[#F1DBC6] bg-opacity-25"
                             name="subject"

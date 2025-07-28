@@ -7,6 +7,8 @@ import {
     StudentFlaggedRequest,
     StudentNotContactableRequest,
     StudentSnoozeRemovalRequest,
+    TodoAppointments,
+    TodoStudents,
 } from '@partials/sub-admin/ManagerApprovalList'
 import { NextPageWithLayout } from '@types'
 import React, { ReactElement } from 'react'
@@ -113,6 +115,38 @@ const ManagerApprovalList: NextPageWithLayout = () => {
                 loading: studentActionsCount?.isLoading,
             },
             element: <RemoveFromFlaggedStudentRequest />,
+        },
+        {
+            label: 'Todo Appointment',
+            href: {
+                pathname: 'manager-approval-list',
+                query: {
+                    page: 1,
+                    pageSize: 50,
+                    tab: 'todo-appointments',
+                },
+            },
+            badge: {
+                text: studentActionsCount?.data?.todoAppointment,
+                loading: studentActionsCount?.isLoading,
+            },
+            element: <TodoAppointments />,
+        },
+        {
+            label: 'Todo Students',
+            href: {
+                pathname: 'manager-approval-list',
+                query: {
+                    page: 1,
+                    pageSize: 50,
+                    tab: 'todo-students',
+                },
+            },
+            badge: {
+                text: studentActionsCount?.data?.todoAppointment,
+                loading: studentActionsCount?.isLoading,
+            },
+            element: <TodoStudents />,
         },
     ]
     return (

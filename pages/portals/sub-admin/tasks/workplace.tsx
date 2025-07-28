@@ -14,7 +14,11 @@ import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout, SubadminWorkplaceFiltersType } from '@types'
 
 // query
-import { SubAdminApi, useGetSubAdminFilteredWorkplacesQuery } from '@queries'
+import {
+    AdminApi,
+    SubAdminApi,
+    useGetSubAdminFilteredWorkplacesQuery,
+} from '@queries'
 
 // components
 import {
@@ -38,6 +42,7 @@ const filterKeys = [
     'rtoId',
     'industryId',
     'courseId',
+    'subAdminId'
 ]
 
 type Props = {}
@@ -64,6 +69,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
     const profile = SubAdminApi.SubAdmin.useProfile(undefined, {
         refetchOnMountOrArgChange: true,
     })
+   
     const filteredWorkplaces = useGetSubAdminFilteredWorkplacesQuery(
         {
             search: `${JSON.stringify(filter)

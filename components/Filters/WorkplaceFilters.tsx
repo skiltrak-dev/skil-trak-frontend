@@ -2,7 +2,7 @@ import { Select, TextInput } from '@components/inputs'
 import { ChangeEvent } from 'react'
 
 // query
-import { CommonApi, useGetSubAdminRtosQuery } from '@queries'
+import { AdminApi, CommonApi, useGetSubAdminRtosQuery } from '@queries'
 
 import {
     Course,
@@ -47,6 +47,11 @@ export const WorkplaceFilters = ({
                   label: rto?.user?.name,
               }))
             : []
+    const coordinators = AdminApi.SubAdmins.useSubAdminsFilterList()
+    const coordinatorsOptions = coordinators.data?.map((coordinator: any) => ({
+        value: coordinator?.id,
+        label: coordinator?.user?.name,
+    }))
 
     const workplaceProgressOptions = [
         {
@@ -209,6 +214,23 @@ export const WorkplaceFilters = ({
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
                 />
+
+                {/* {checkIsHod && ( */}
+                <Select
+                    label={'Filter by Coordinator'}
+                    name={'coordinator'}
+                    options={coordinatorsOptions}
+                    placeholder={'Filter by Coordinator...'}
+                    value={coordinatorsOptions?.find(
+                        (c: OptionType) =>
+                            c?.value === Number(filter?.subAdminId)
+                    )}
+                    // onlyValue
+                    onChange={(e: any) =>
+                        onFilterChange({ ...filter, subAdminId: e?.value })
+                    }
+                />
+                {/* )} */}
 
                 {/* <Select
                     label={'Search by Progress'}

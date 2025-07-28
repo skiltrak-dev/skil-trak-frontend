@@ -9,4 +9,5 @@ export interface SubadminWorkplaceFiltersType {
     industryId: number
     courseId: number
     currentStatus: any
+    subAdminId: any
 }

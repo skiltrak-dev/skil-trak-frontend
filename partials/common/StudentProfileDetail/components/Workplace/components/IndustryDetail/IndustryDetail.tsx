@@ -499,113 +499,133 @@ export const IndustryDetail = ({
                                     </AuthorizedUserComponent>
 
                                     {workplace?.employmentDocument ? (
-                                        <div className="mt-3">
-                                            <Typography variant="small" bold>
-                                                Document Uploaded By Student
-                                            </Typography>
+                                        <AuthorizedUserComponent
+                                            roles={[
+                                                UserRoles.ADMIN,
+                                                UserRoles.SUBADMIN,
+                                            ]}
+                                            isAssociatedWithRto={false}
+                                        >
+                                            <>
+                                                <div className="mt-3">
+                                                    <Typography
+                                                        variant="small"
+                                                        bold
+                                                    >
+                                                        Document Uploaded By
+                                                        Student
+                                                    </Typography>
 
-                                            <div className="cursor-pointer relative w-fit file-view-group ">
-                                                <div
-                                                    className={` basis-1/6 border rounded py-2 px-1.5 bg-blue-100`}
-                                                    onClick={() => {
-                                                        onFileClicked({
-                                                            ...workplace?.employmentDocument,
-                                                            showEdit: false,
-                                                            file: workplace?.employmentDocument?.file
-                                                                .replaceAll(
-                                                                    '{"',
-                                                                    ''
-                                                                )
-                                                                .replaceAll(
-                                                                    '"}',
-                                                                    ''
-                                                                ),
-                                                            extension,
-                                                            type: 'all',
-                                                        })
-                                                    }}
-                                                >
-                                                    {workplace
-                                                        ?.employmentDocument
-                                                        ?.file && (
-                                                        <div className="relative w-full min-h-[40px] flex flex-col gap-y-1.5">
-                                                            {/* Video Preview */}
-                                                            {getDocType(
-                                                                'video'
-                                                            )?.includes(
-                                                                extension + ''
-                                                            ) && (
-                                                                // Preview Video
-                                                                <div className="bg-black w-24 h-24 overflow-hidden">
-                                                                    <div className="w-full h-full">
-                                                                        <VideoPreview
-                                                                            url={
+                                                    <div className="cursor-pointer relative w-fit file-view-group ">
+                                                        <div
+                                                            className={` basis-1/6 border rounded py-2 px-1.5 bg-blue-100`}
+                                                            onClick={() => {
+                                                                onFileClicked({
+                                                                    ...workplace?.employmentDocument,
+                                                                    showEdit:
+                                                                        false,
+                                                                    file: workplace?.employmentDocument?.file
+                                                                        .replaceAll(
+                                                                            '{"',
+                                                                            ''
+                                                                        )
+                                                                        .replaceAll(
+                                                                            '"}',
+                                                                            ''
+                                                                        ),
+                                                                    extension,
+                                                                    type: 'all',
+                                                                })
+                                                            }}
+                                                        >
+                                                            {workplace
+                                                                ?.employmentDocument
+                                                                ?.file && (
+                                                                <div className="relative w-full min-h-[40px] flex flex-col gap-y-1.5">
+                                                                    {/* Video Preview */}
+                                                                    {getDocType(
+                                                                        'video'
+                                                                    )?.includes(
+                                                                        extension +
+                                                                            ''
+                                                                    ) && (
+                                                                        // Preview Video
+                                                                        <div className="bg-black w-24 h-24 overflow-hidden">
+                                                                            <div className="w-full h-full">
+                                                                                <VideoPreview
+                                                                                    url={
+                                                                                        workplace
+                                                                                            ?.employmentDocument
+                                                                                            ?.file
+                                                                                    }
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                    {/* PDF Preview */}
+                                                                    {getDocType(
+                                                                        'docs'
+                                                                    )?.includes(
+                                                                        extension +
+                                                                            ''
+                                                                    ) && (
+                                                                        <div className=" h-full flex justify-center items-center w-full text-gray-500">
+                                                                            <IoMdDocument className="text-3xl text-gray" />
+                                                                        </div>
+                                                                    )}
+                                                                    {/* Image Preview */}
+                                                                    {getDocType(
+                                                                        'images'
+                                                                    )?.includes(
+                                                                        extension +
+                                                                            ''
+                                                                    ) && (
+                                                                        <div className="w-full h-[50px] relative">
+                                                                            <Image
+                                                                                src={
+                                                                                    workplace
+                                                                                        ?.employmentDocument
+                                                                                        ?.file
+                                                                                }
+                                                                                alt={
+                                                                                    ''
+                                                                                }
+                                                                                width={
+                                                                                    50
+                                                                                }
+                                                                                height={
+                                                                                    50
+                                                                                }
+                                                                                // fill
+                                                                                className="object-cover"
+                                                                                blurDataURL={
+                                                                                    '/images/blur_image.png'
+                                                                                }
+                                                                                placeholder="blur"
+                                                                            />
+                                                                        </div>
+                                                                    )}
+
+                                                                    <Typography
+                                                                        variant="xxs"
+                                                                        medium
+                                                                        uppercase
+                                                                    >
+                                                                        {
+                                                                            wpDocKeys[
                                                                                 workplace
                                                                                     ?.employmentDocument
-                                                                                    ?.file
-                                                                            }
-                                                                        />
-                                                                    </div>
+                                                                                    ?.key as keyof typeof wpDocKeys
+                                                                            ]
+                                                                        }
+                                                                    </Typography>
                                                                 </div>
                                                             )}
-                                                            {/* PDF Preview */}
-                                                            {getDocType(
-                                                                'docs'
-                                                            )?.includes(
-                                                                extension + ''
-                                                            ) && (
-                                                                <div className=" h-full flex justify-center items-center w-full text-gray-500">
-                                                                    <IoMdDocument className="text-3xl text-gray" />
-                                                                </div>
-                                                            )}
-                                                            {/* Image Preview */}
-                                                            {getDocType(
-                                                                'images'
-                                                            )?.includes(
-                                                                extension + ''
-                                                            ) && (
-                                                                <div className="w-full h-[50px] relative">
-                                                                    <Image
-                                                                        src={
-                                                                            workplace
-                                                                                ?.employmentDocument
-                                                                                ?.file
-                                                                        }
-                                                                        alt={''}
-                                                                        width={
-                                                                            50
-                                                                        }
-                                                                        height={
-                                                                            50
-                                                                        }
-                                                                        // fill
-                                                                        className="object-cover"
-                                                                        blurDataURL={
-                                                                            '/images/blur_image.png'
-                                                                        }
-                                                                        placeholder="blur"
-                                                                    />
-                                                                </div>
-                                                            )}
-
-                                                            <Typography
-                                                                variant="xxs"
-                                                                medium
-                                                                uppercase
-                                                            >
-                                                                {
-                                                                    wpDocKeys[
-                                                                        workplace
-                                                                            ?.employmentDocument
-                                                                            ?.key as keyof typeof wpDocKeys
-                                                                    ]
-                                                                }
-                                                            </Typography>
                                                         </div>
-                                                    )}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </>
+                                        </AuthorizedUserComponent>
                                     ) : null}
 
                                     {approvalDate ? (
