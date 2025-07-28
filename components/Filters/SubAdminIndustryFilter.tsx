@@ -1,7 +1,7 @@
 import { Select, TextInput } from '@components/inputs'
 
 // queries
-import { CommonApi } from '@queries'
+import { AdminApi, CommonApi } from '@queries'
 import { OptionType, SubadminIndustryFilter } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
 
@@ -26,11 +26,17 @@ export const SubAdminIndustryFilter = ({
             label: 'Is Partner',
             value: true,
         },
-        // {
-        //     label: 'Not Partner',
-        //     value: false,
-        // },
+        {
+            label: 'Non Partner',
+            value: false,
+        },
     ]
+    const coordinators = AdminApi.SubAdmins.useSubAdminsFilterList()
+    const coordinatorsOptions = coordinators.data?.map((coordinator: any) => ({
+        value: coordinator?.id,
+        label: coordinator?.user?.name,
+    }))
+   
     return (
         <>
             <SetQueryFilters<SubadminIndustryFilter> filter={filter} />
@@ -147,6 +153,20 @@ export const SubAdminIndustryFilter = ({
                     loading={getCourses.isLoading}
                     disabled={getCourses.isLoading}
                     showError={false}
+                />
+                <Select
+                    label={'Filter by Coordinator'}
+                    name={'coordinator'}
+                    options={coordinatorsOptions}
+                    placeholder={'Filter by Coordinator...'}
+                    value={coordinatorsOptions?.find(
+                        (c: OptionType) =>
+                            c?.value === Number(filter?.subAdminId)
+                    )}
+                    // onlyValue
+                    onChange={(e: any) =>
+                        onFilterChange({ ...filter, subAdminId: e?.value })
+                    }
                 />
             </div>
         </>

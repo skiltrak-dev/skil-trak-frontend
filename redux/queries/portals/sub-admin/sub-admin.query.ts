@@ -253,6 +253,8 @@ export const {
     useQuarterlyListedIndustriesQuery,
     useBiMonthlyNonPartnerIndustriesQuery,
     useMonthlyPartnerIndustriesFollowUpQuery,
+    useManagerTodoAppointmentsQuery,
+    useManagerTodoStudentsQuery,
 
     // ------ NOTES ------ //
     useSubadminNotesQuery,
@@ -581,6 +583,9 @@ export const SubAdminApi = {
         highPriorityTodoList: useHighPriorityTodoListQuery,
         quarterlyListedIndustries: useQuarterlyListedIndustriesQuery,
         biMonthlyNonPartnerIndustries: useBiMonthlyNonPartnerIndustriesQuery,
+        useManagerTodoAppointments: useManagerTodoAppointmentsQuery,
+        useManagerTodoStudents: useManagerTodoStudentsQuery,
+
     },
     Notes: {
         useList: useSubadminNotesQuery,

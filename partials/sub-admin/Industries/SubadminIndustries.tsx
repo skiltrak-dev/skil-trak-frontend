@@ -46,6 +46,7 @@ const filterKeys = [
     'courseId',
     'isHiring',
     'isPartner',
+    'subAdminId'
 ]
 export const SubadminIndustries = () => {
     const [filterAction, setFilterAction] = useState(null)

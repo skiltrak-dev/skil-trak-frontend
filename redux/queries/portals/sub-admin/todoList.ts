@@ -84,4 +84,19 @@ export const todoListEndpoints = (
         }),
         invalidatesTags: ['TODO'],
     }),
+
+    managerTodoAppointments: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/appointments/for-manager`,
+            params,
+        }),
+        providesTags: ['TODO'],
+    }),
+    managerTodoStudents: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}/students/for-manager`,
+            params,
+        }),
+        providesTags: ['TODO'],
+    }),
 })
