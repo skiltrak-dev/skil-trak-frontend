@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from 'react'
+import Modal from '@modals/Modal'
 import { HiHandRaised } from 'react-icons/hi2'
 import { PiDotsSixBold } from 'react-icons/pi'
-import Modal from '@modals/Modal'
+import { useState, useRef, useEffect } from 'react'
 import { RaiseConcernModal } from './RaiseConcernModal'
 
 export const DraggableConcernButton = () => {
@@ -33,8 +33,6 @@ export const DraggableConcernButton = () => {
             document.removeEventListener('mouseup', handleMouseUp)
         }
     }, [])
-
-    console.log('DraggableConcernButton rendered', position)
 
     const handleDragMouseDown = (e: React.MouseEvent) => {
         e.preventDefault()

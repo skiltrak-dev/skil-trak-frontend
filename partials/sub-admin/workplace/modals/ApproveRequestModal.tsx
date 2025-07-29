@@ -1,28 +1,27 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { ActionModal } from './ActionModal'
 
 // components
 import { ShowErrorNotifications } from '@components'
 
 // query
-import { useUpdateWorkplaceStatusMutation } from '@queries'
+import { SubAdminApi } from '@queries'
 import { HiCheckBadge } from 'react-icons/hi2'
-import { userStatus } from '@utils'
 
 // hooks
 import { useNotification } from '@hooks'
 
 export const ApproveRequestModal = ({
     onCancel,
-    appliedIndustryId,
+    workplaceId,
 }: {
-    appliedIndustryId: number
+    workplaceId: number
     onCancel: () => void
 }) => {
     const { notification } = useNotification()
 
     const [updateStatus, updateStatusResult] =
-        useUpdateWorkplaceStatusMutation()
+        SubAdminApi.Workplace.updateWpIndustryStatus()
 
     useEffect(() => {
         if (updateStatusResult.isSuccess) {
@@ -45,8 +44,8 @@ export const ApproveRequestModal = ({
                 onCancel={onCancel}
                 onConfirm={() => {
                     updateStatus({
-                        id: Number(appliedIndustryId),
-                        response: userStatus.APPROVED,
+                        id: Number(workplaceId),
+                        status: 'accept',
                     })
                 }}
                 loading={updateStatusResult?.isLoading}

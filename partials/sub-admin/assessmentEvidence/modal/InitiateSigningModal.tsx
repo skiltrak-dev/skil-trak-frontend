@@ -20,10 +20,8 @@ interface PdfViewModalProps {
     onCancel: () => void
     courseId: number
     folder: AssessmentEvidenceDetailType | null
-    rto: Rto
 }
 export const InitiateSigningModal = ({
-    rto,
     courseId,
     onCancel,
     folder,

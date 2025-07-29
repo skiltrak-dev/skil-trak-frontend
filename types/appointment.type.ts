@@ -23,6 +23,7 @@ export interface Appointment extends BaseResponse {
     id: number
     isActive: boolean
     isCancelled: boolean
+    isSuccessfull: boolean
     joinUrl: string
     name: string
     note: string

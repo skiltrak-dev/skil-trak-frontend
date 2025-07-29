@@ -3,6 +3,7 @@ import { UserRoles } from '@constants'
 import { RtoWorkplaceTypes } from '@partials/admin/rto/UpdatedRtoProfileDetail/components/RtoSectors/RtoWorkplaceTypes'
 import { Course } from '@types'
 import { Fragment, useEffect } from 'react'
+import { CourseInfo } from './components'
 
 export const CourseList = ({
     setSelectedCourses,
@@ -119,11 +120,18 @@ export const CourseList = ({
                             <AuthorizedUserComponent
                                 roles={[UserRoles.RTO, UserRoles.ADMIN]}
                             >
-                                <RtoWorkplaceTypes
-                                    courseId={c?.id}
-                                    userId={userId}
-                                    workplaceTypes={c?.workplaceTypes}
-                                />
+                                <div>
+                                    <RtoWorkplaceTypes
+                                        courseId={c?.id}
+                                        userId={userId}
+                                        workplaceTypes={c?.workplaceTypes}
+                                    />
+                                    <CourseInfo
+                                        userId={userId}
+                                        courseId={c?.id}
+                                        courseInfo={c?.courseInfo}
+                                    />
+                                </div>
                             </AuthorizedUserComponent>
                         </div>
                     </div>

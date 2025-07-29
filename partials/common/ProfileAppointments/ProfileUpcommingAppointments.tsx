@@ -4,6 +4,8 @@ import React from 'react'
 import { ProfileAppointmentsCard } from './ProfileAppointmentsCard'
 import { Appointment } from '@types'
 import { AppointmentTypeEnum } from './appointment.enum'
+import moment from 'moment'
+import { ProfileUpcomingAppointmentCard } from './ProfileUpcomingAppointmentCard'
 
 export const ProfileUpcommingAppointments = ({
     userId,
@@ -48,15 +50,27 @@ export const ProfileUpcommingAppointments = ({
                         }  gap-2.5`}
                     >
                         {futureAppointments?.data?.map(
-                            (appointment: Appointment) => (
-                                <ProfileAppointmentsCard
-                                    type={AppointmentTypeEnum.Upcoming}
-                                    key={appointment?.id}
-                                    appointment={appointment}
-                                    upcomming
-                                    short={short}
-                                />
-                            )
+                            (appointment: Appointment) =>
+                                moment(appointment?.date).isSame(
+                                    moment(),
+                                    'day'
+                                ) && appointment?.isSuccessfull === null ? (
+                                    <ProfileUpcomingAppointmentCard
+                                        type={AppointmentTypeEnum.Upcoming}
+                                        key={appointment?.id}
+                                        appointment={appointment}
+                                        upcomming
+                                        short={short}
+                                    />
+                                ) : (
+                                    <ProfileAppointmentsCard
+                                        type={AppointmentTypeEnum.Upcoming}
+                                        key={appointment?.id}
+                                        appointment={appointment}
+                                        upcomming
+                                        short={short}
+                                    />
+                                )
                         )}
                     </div>
                 ) : (

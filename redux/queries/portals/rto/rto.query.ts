@@ -17,7 +17,7 @@ export const rtoApi = emptySplitApi.injectEndpoints({
     endpoints: (build) => ({
         rtoMyProfile: build.query<any, void>({
             query: () => `rtos/profile/view`,
-            providesTags: ['RTOCourses', 'RTO', 'Avatar', 'Profile'],
+            providesTags: ['RTOCourses', 'RTO', 'Avatar', 'Profile', 'RTOS'],
         }),
         dashboard: build.query<any, void>({
             query: () => `rtos/dashboard/count`,
@@ -106,7 +106,9 @@ export const {
     useRemoveRTOAssessmentToolsMutation,
 
     //  --- COURSES --- //
+
     useGetRTOCoursesQuery,
+    useAddRtoCourseInfoMutation,
     useUpdateCourseHoursMutation,
     useAddRtoCustomCourseRequirementsMutation,
 
@@ -220,6 +222,7 @@ export const RtoApi = {
     },
     Courses: {
         useRtoCourses: useGetRTOCoursesQuery,
+        addRtoCourseInfo: useAddRtoCourseInfoMutation,
         useUpdateCourseHours: useUpdateCourseHoursMutation,
         useAddRtoCustomCourseRequirements:
             useAddRtoCustomCourseRequirementsMutation,

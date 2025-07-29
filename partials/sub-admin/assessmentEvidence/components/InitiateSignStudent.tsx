@@ -16,6 +16,8 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useMemo, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
+import { useDispatch } from 'react-redux'
+import { emptySplitApi } from '@queries/portals/empty.query'
 import { PuffLoader } from 'react-spinners'
 
 const UserCellInfo = ({
@@ -104,6 +106,8 @@ export const InitiateSignStudent = ({
 }) => {
     const router = useRouter()
     const { workplaceRto } = useWorkplace()
+
+    const dispatch = useDispatch()
 
     const [selectedIndustry, setSelectedIndustry] = useState<Industry | null>(
         null
@@ -284,6 +288,9 @@ export const InitiateSignStudent = ({
                         title: 'Document Initiated',
                         description: 'Document Initiated Successfully',
                     })
+                    dispatch(
+                        emptySplitApi.util.invalidateTags(['SubAdminStudents'])
+                    )
                     onCancel()
                 }
                 setIsLoading(false)

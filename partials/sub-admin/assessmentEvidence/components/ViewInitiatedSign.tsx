@@ -49,7 +49,6 @@ export const ViewInitiatedSign = ({
                     onModalCancel()
                 }}
                 courseId={courseId}
-                rto={rto}
                 folder={folder}
             />
         )

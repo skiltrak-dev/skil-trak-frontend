@@ -125,4 +125,16 @@ export const appointmentsEndpoints = (
         }),
         invalidatesTags: ['Appointments'],
     }),
+
+    updateAppointmentSuccessfullStatus: builder.mutation<
+        Appointment,
+        { id: number; status: boolean; note: string }
+    >({
+        query: ({ id, ...body }) => ({
+            url: `subadmin/appointment/${id}/update-successfull-status`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Appointments', 'SubAdminStudents'],
+    }),
 })

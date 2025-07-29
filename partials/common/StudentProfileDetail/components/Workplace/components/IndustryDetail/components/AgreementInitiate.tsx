@@ -27,7 +27,6 @@ export const AgreementInitiate = ({
                     onCancelModal()
                 }}
                 courseId={courseId}
-                rto={rto}
                 folder={folder}
             />
         )

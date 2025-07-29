@@ -1,11 +1,11 @@
-import { AuthorizedUserComponent, Button, Card, Typography } from '@components'
+import { UserRoles } from '@constants'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { ProfileUpcommingAppointments } from './ProfileUpcommingAppointments'
-import { ProfilePastAppointments } from './ProfilePastAppointments'
-import { ProfileCancelledAppointments } from './ProfileCancelledAppointments'
 import { Waypoint } from 'react-waypoint'
-import { UserRoles } from '@constants'
+import { ProfilePastAppointments } from './ProfilePastAppointments'
+import { ProfileUpcommingAppointments } from './ProfileUpcommingAppointments'
+import { ProfileCancelledAppointments } from './ProfileCancelledAppointments'
+import { AuthorizedUserComponent, Button, Card, Typography } from '@components'
 
 export const ProfileAppointments = ({
     userId,
@@ -56,7 +56,7 @@ export const ProfileAppointments = ({
                     </div>
 
                     {/*  */}
-                    <div className="py-2 flex flex-col h-[405px] overflow-auto custom-scrollbar">
+                    <div className="py-2 flex flex-col h-[500px] overflow-auto custom-scrollbar">
                         <div className="px-3.5 border-b border-secondary-dark pb-3">
                             <ProfileUpcommingAppointments
                                 isEntered={isEntered}

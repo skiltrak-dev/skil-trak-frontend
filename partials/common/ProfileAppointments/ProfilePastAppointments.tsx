@@ -1,9 +1,10 @@
 import { LoadingAnimation, NoData, Typography } from '@components'
 import { CommonApi } from '@queries'
 import { Appointment } from '@types'
-import { ProfileAppointmentsCard } from './ProfileAppointmentsCard'
-import { AppointmentType } from '@partials/appointmentType'
+import moment from 'moment'
 import { AppointmentTypeEnum } from './appointment.enum'
+import { ProfileAppointmentsCard } from './ProfileAppointmentsCard'
+import { ProfileUpcomingAppointmentCard } from './ProfileUpcomingAppointmentCard'
 
 export const ProfilePastAppointments = ({
     userId,
@@ -24,6 +25,11 @@ export const ProfilePastAppointments = ({
         {
             skip: !isEntered,
         }
+    )
+
+    console.log(
+        "moment().isSameOrAfter('2025-07-24', 'day')",
+        moment().isSameOrAfter('2025-07-24', 'day')
     )
     return (
         <div className="h-auto flex flex-col gap-2">
@@ -48,14 +54,27 @@ export const ProfilePastAppointments = ({
                         }  gap-2.5`}
                     >
                         {pastAppointments?.data?.data?.map(
-                            (appointment: Appointment) => (
-                                <ProfileAppointmentsCard
-                                    type={AppointmentTypeEnum.Past}
-                                    key={appointment?.id}
-                                    appointment={appointment}
-                                    short={short}
-                                />
-                            )
+                            (appointment: Appointment) =>
+                                appointment?.isSuccessfull === null &&
+                                moment(appointment?.date).isSameOrAfter(
+                                    '2025-07-24',
+                                    'day'
+                                ) ? (
+                                    <ProfileUpcomingAppointmentCard
+                                        type={AppointmentTypeEnum.Upcoming}
+                                        key={appointment?.id}
+                                        appointment={appointment}
+                                        upcomming
+                                        short={short}
+                                    />
+                                ) : (
+                                    <ProfileAppointmentsCard
+                                        type={AppointmentTypeEnum.Past}
+                                        key={appointment?.id}
+                                        appointment={appointment}
+                                        short={short}
+                                    />
+                                )
                         )}
                     </div>
                 ) : (

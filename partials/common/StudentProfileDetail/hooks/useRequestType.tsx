@@ -126,7 +126,7 @@ export const useRequestType = ({
     const onApproveModal = () => {
         setModal(
             <ApproveRequestModal
-                appliedIndustryId={appliedIndustry?.id}
+                workplaceId={workplace?.id}
                 onCancel={onModalCancelClicked}
             />
         )
