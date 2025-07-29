@@ -1,7 +1,7 @@
-import { Controller, useFormContext } from 'react-hook-form'
+import { Modifier } from 'draft-js'
 import dynamic from 'next/dynamic'
 import { EditorProps } from 'react-draft-wysiwyg'
-import { Modifier, SelectionState } from 'draft-js'
+import { Controller, useFormContext } from 'react-hook-form'
 const Editor = dynamic<EditorProps>(
     () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
     {

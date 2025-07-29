@@ -109,7 +109,7 @@ export const Actions = ({
     const onApproveModal = () => {
         setModal(
             <ApproveRequestModal
-                appliedIndustryId={appliedIndustry?.id}
+                workplaceId={workplaceId}
                 onCancel={onModalCancelClicked}
             />
         )
@@ -308,7 +308,7 @@ export const Actions = ({
                             >
                                 <span className="text-error">Reject</span>
                             </Button>
-                            <Button
+                            {/* <Button
                                 text={'NOT RESPONDED'}
                                 variant={'dark'}
                                 onClick={() => {
@@ -319,7 +319,7 @@ export const Actions = ({
                                 }}
                                 loading={industryResponseResult?.isLoading}
                                 disabled={industryResponseResult?.isLoading}
-                            />
+                            /> */}
                         </div>
                     )}
 

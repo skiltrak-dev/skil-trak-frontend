@@ -3,7 +3,7 @@ import { getUserCredentials } from '@utils'
 import { ReactNode, useState } from 'react'
 import { Appointment, appointmentWithUser } from '@types'
 import { AppointmentViewModal } from '@components/Appointment/AppointmentModal'
-import { TruncatedTextWithTooltip, Typography } from '@components'
+import { Badge, TruncatedTextWithTooltip, Typography } from '@components'
 import { GrLocation } from 'react-icons/gr'
 import moment from 'moment'
 import { LuClock } from 'react-icons/lu'
@@ -154,12 +154,23 @@ export const ProfileAppointmentsCard = ({
                     </div>
 
                     {!short ? (
-                        <div
-                            className={`w-[104px] h-6 rounded ${typeBgClasses} flex justify-center items-center`}
-                        >
-                            <Typography bold variant="xxs" color="text-white">
-                                {type}
-                            </Typography>
+                        <div>
+                            <div
+                                className={`w-[104px] h-6 rounded ${typeBgClasses} flex justify-center items-center`}
+                            >
+                                <Typography
+                                    bold
+                                    variant="xxs"
+                                    color="text-white"
+                                >
+                                    {type}
+                                </Typography>
+                            </div>
+                            {appointment?.isSuccessfull ? (
+                                <Badge text="Successfull" variant="success" />
+                            ) : appointment?.isSuccessfull === false ? (
+                                <Badge text="UnSuccessfull" variant="error" />
+                            ) : null}
                         </div>
                     ) : null}
                 </div>

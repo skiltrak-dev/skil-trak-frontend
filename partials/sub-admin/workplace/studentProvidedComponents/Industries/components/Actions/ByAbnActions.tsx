@@ -95,7 +95,7 @@ export const ByAbnActions = ({
     const onApproveModal = () => {
         setModal(
             <ApproveRequestModal
-                appliedIndustryId={appliedIndustry?.id}
+                workplaceId={workplaceId}
                 onCancel={onModalCancelClicked}
             />
         )

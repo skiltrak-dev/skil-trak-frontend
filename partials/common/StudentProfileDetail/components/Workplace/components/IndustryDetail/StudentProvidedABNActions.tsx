@@ -1,14 +1,13 @@
 import { Button, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
-import { SignAgreement } from '@partials/sub-admin/workplace/components/Industries/components/Actions/components'
 import { ApproveRequestModal } from '@partials/sub-admin/workplace/modals'
 import { CommonApi, useChangeCustomIndustryStatusMutation } from '@queries'
 import { Course, Student, UserStatus } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
-import React, { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
+import { ShowScheduleInfoModal } from '../../modals'
 import { InitiateSign } from './components'
-import { AgreementSignedModal, ShowScheduleInfoModal } from '../../modals'
 
 export const StudentProvidedABNActions = ({
     student,
@@ -55,8 +54,8 @@ export const StudentProvidedABNActions = ({
     const onApproveModal = () => {
         setModal(
             <ApproveRequestModal
-                appliedIndustryId={appliedIndustry?.id}
                 onCancel={onModalCancelClicked}
+                workplaceId={workplace?.id}
             />
         )
     }

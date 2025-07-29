@@ -71,7 +71,7 @@ export const RequestTypeAbn = ({
             />
         )
     }
-   
+
     const onForwardClicked = (industry: any) => {
         setModal(
             <StudentProvidedForwardModal
@@ -85,7 +85,7 @@ export const RequestTypeAbn = ({
     const onApproveModal = () => {
         setModal(
             <ApproveRequestModal
-                appliedIndustryId={appliedIndustry?.id}
+                workplaceId={workplace?.id}
                 onCancel={onModalCancelClicked}
             />
         )

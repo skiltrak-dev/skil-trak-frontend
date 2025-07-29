@@ -1,5 +1,4 @@
-import { CreateNote, GlobalModal, MailForm, Typography } from '@components'
-import React from 'react'
+import { CreateNote, GlobalModal, Typography } from '@components'
 import { MdCancel } from 'react-icons/md'
 
 export const AddNoteModal = ({

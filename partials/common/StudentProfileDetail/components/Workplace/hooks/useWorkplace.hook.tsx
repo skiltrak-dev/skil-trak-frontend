@@ -1,9 +1,11 @@
 import { ReactNode, useEffect, useMemo, useState } from 'react'
 import {
     AddFeedbackModal,
+    AppointmentBookModal,
     BookAppointmentInfoModal,
     CancelWorkplaceModal,
     CancelWorkplaceRequestModal,
+    GenerateEsignModal,
     LogbookNotReleasedModal,
     NoLogbookFoundModal,
     ReleaseLogbookModal,
@@ -14,7 +16,6 @@ import {
     ViewQuestionsModal,
 } from '../modals'
 import {
-    AdminApi,
     SubAdminApi,
     useGetSubAdminStudentWorkplaceDetailQuery,
     useGetWorkplaceFoldersQuery,
@@ -31,9 +32,11 @@ import { GetFolders } from '@partials/sub-admin/workplace/hooks'
 import { ForwardModal } from '@partials/sub-admin/workplace/modals'
 import { ChangeStatusModal } from '@partials/admin/invoices'
 import { Student } from '@types'
+import moment from 'moment'
 
 export const useWorkplaceHook = ({ student }: { student: Student }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
+    const [modelId, setModelId] = useState<string>('')
     const [selectedWorkplace, setSelectedWorkplace] = useState<any>(null)
     const [showPreviousWorkplace, setShowPreviousWorkplace] = useState(false)
 
@@ -95,6 +98,21 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         },
         { skip: !studentWorkplace || !appliedIndustry || !course }
     )
+    const getWorkplaceAppointment = SubAdminApi.Student.getWorkplaceAppointment(
+        selectedWorkplace?.id,
+        {
+            skip: !selectedWorkplace,
+            refetchOnMountOrArgChange: true,
+        }
+    )
+
+    const esignDocumentsFolders = SubAdminApi.Student.esignDocumentsFolders(
+        Number(selectedWorkplace?.id),
+        {
+            skip: !selectedWorkplace,
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
     const folders = GetFolders(workplaceFolders)
 
@@ -143,6 +161,17 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         )
     }, [selectedWorkplace?.workplaceApprovaleRequest])
 
+    const allDocumentsInitiated = esignDocumentsFolders?.data?.every(
+        (folder: any) =>
+            folder?.course?.esignTemplates?.[0]?.documents?.length > 0
+    )
+
+    useEffect(() => {
+        return () => {
+            setModal(null)
+        }
+    }, [])
+
     useEffect(() => {
         if (sortedWorkplace && sortedWorkplace?.length > 0) {
             // setWorkplaceRes(sortedWorkplace)
@@ -159,25 +188,6 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             setSelectedWorkplace(null)
         }
     }, [studentWorkplace?.data])
-
-    const onCancelModal = () => setModal(null)
-
-    const onCancelWPClicked = () => {
-        setModal(
-            <CancelWorkplaceModal
-                onCancel={onCancelModal}
-                workplaceId={selectedWorkplace?.id}
-            />
-        )
-    }
-    const onCancelWPRequestClicked = () => {
-        setModal(
-            <CancelWorkplaceRequestModal
-                onCancel={onCancelModal}
-                workplaceId={selectedWorkplace?.id}
-            />
-        )
-    }
 
     useEffect(() => {
         if (
@@ -200,6 +210,62 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             onForwardClicked()
         }
     }, [selectedWorkplace, appliedIndustry])
+
+    useEffect(() => {
+        if (
+            selectedWorkplace &&
+            selectedWorkplace?.currentStatus ===
+                WorkplaceCurrentStatus.AppointmentBooked &&
+            !getWorkplaceAppointment?.isFetching &&
+            !getWorkplaceAppointment?.isLoading &&
+            getWorkplaceAppointment?.isSuccess &&
+            (!getWorkplaceAppointment?.data ||
+                getWorkplaceAppointment?.data?.isSuccessfull === false) &&
+            moment().isSameOrAfter('2025-07-25', 'day')
+        ) {
+            onAppointmentClicked()
+            setModelId('appointmentClicked')
+        } else if (modelId === 'appointmentClicked') {
+            setModal(null)
+            setModelId('')
+        }
+    }, [selectedWorkplace, getWorkplaceAppointment])
+
+    useEffect(() => {
+        if (
+            getWorkplaceAppointment &&
+            getWorkplaceAppointment?.data &&
+            getWorkplaceAppointment?.data?.isSuccessfull &&
+            moment().isSameOrAfter('2025-07-25', 'day') &&
+            esignDocumentsFolders?.isSuccess &&
+            !allDocumentsInitiated
+        ) {
+            onGenerateEsignClicked()
+            setModelId('generateEsign')
+        } else if (modelId === 'generateEsign') {
+            setModal(null)
+            setModelId('')
+        }
+    }, [getWorkplaceAppointment, allDocumentsInitiated, esignDocumentsFolders])
+
+    const onCancelModal = () => setModal(null)
+
+    const onCancelWPClicked = () => {
+        setModal(
+            <CancelWorkplaceModal
+                onCancel={onCancelModal}
+                workplaceId={selectedWorkplace?.id}
+            />
+        )
+    }
+    const onCancelWPRequestClicked = () => {
+        setModal(
+            <CancelWorkplaceRequestModal
+                onCancel={onCancelModal}
+                workplaceId={selectedWorkplace?.id}
+            />
+        )
+    }
 
     useEffect(() => {
         if (
@@ -267,7 +333,6 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
                             onCancelModal()
                         }}
                         courseId={selectedWorkplace?.courses[0]?.id}
-                        rto={workplaceStudentDetail?.data?.student?.rto}
                         folder={
                             selectedWorkplace?.courses[0]
                                 ?.assessmentEvidence?.[0]
@@ -392,6 +457,30 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         )
     }
 
+    const onAppointmentClicked = () => {
+        setModal(
+            <AppointmentBookModal
+                onCancel={() => {
+                    onCancelModal()
+                }}
+                student={student}
+                courseId={selectedWorkplace?.courses?.[0]?.id}
+                studentUser={student?.user?.id}
+            />
+        )
+    }
+    const onGenerateEsignClicked = () => {
+        setModal(
+            <GenerateEsignModal
+                onCancel={() => {
+                    onCancelModal()
+                }}
+                workplace={selectedWorkplace}
+                courseId={selectedWorkplace?.courses?.[0]?.id}
+            />
+        )
+    }
+
     const onStatusChangeClicked = (id: number) => {
         setModal(<ChangeStatusModal onCancel={onCancelModal} id={id} />)
     }
@@ -433,6 +522,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         selectedWorkplace,
         rejectedWorkplaces,
         setSelectedWorkplace,
+        onAppointmentClicked,
         showPreviousWorkplace,
         onStatusChangeClicked,
         workplaceStudentDetail,

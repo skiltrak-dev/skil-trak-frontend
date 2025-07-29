@@ -155,7 +155,7 @@ export const IndustryProfileDetail = ({
                 <AuthorizedUserComponent
                     roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                 >
-                    <div className=" h-[470px]">
+                    <div className=" h-[570px]">
                         <div className="h-full">
                             <ProfileAppointments
                                 link={

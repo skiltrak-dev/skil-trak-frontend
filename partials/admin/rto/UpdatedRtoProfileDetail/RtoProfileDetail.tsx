@@ -56,7 +56,7 @@ export const RtoProfileDetail = ({ rto }: { rto: Rto }) => {
             </div>
 
             {/* Appointments */}
-            <div className="mt-5 h-[480px]">
+            <div className="mt-5 h-[570px]">
                 <ProfileAppointments
                     link={
                         role === UserRoles.ADMIN

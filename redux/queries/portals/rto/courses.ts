@@ -28,4 +28,17 @@ export const coursesEndpoints = (
         }),
         invalidatesTags: ['RTOCourses', 'RTO'],
     }),
+
+    addRtoCourseInfo: builder.mutation<
+        any,
+        { id: number; courseInfo: string; userId?: number }
+    >({
+        query: ({ id, userId, ...body }) => ({
+            url: `${PREFIX}/course/${id}/add-info`,
+            method: 'POST',
+            params: { userId },
+            body,
+        }),
+        invalidatesTags: ['RTOCourses', 'RTO'],
+    }),
 })

@@ -2,6 +2,7 @@ import { Button, ShowErrorNotifications } from '@components'
 import { ApproveRequestModal } from '@partials/sub-admin/workplace/modals'
 import {
     CommonApi,
+    SubAdminApi,
     useIndustryResponseMutation,
     useUpdateWorkplaceStatusMutation,
 } from '@queries'
@@ -27,7 +28,7 @@ export const Actions = ({
     const [actionStatus, setActionStatus] = useState<string>('')
 
     const [updateStatus, updateStatusResult] =
-        useUpdateWorkplaceStatusMutation()
+        SubAdminApi.Workplace.updateWpIndustryStatus()
     const [industryResponse, industryResponseResult] =
         useIndustryResponseMutation()
 
@@ -50,7 +51,7 @@ export const Actions = ({
         // if (student?.user?.schedules && student?.user?.schedules?.length > 0) {
         setModal(
             <ApproveRequestModal
-                appliedIndustryId={appliedIndustry?.id}
+                workplaceId={workplace?.id}
                 onCancel={onModalCancelClicked}
             />
         )
@@ -70,7 +71,8 @@ export const Actions = ({
             {modal}
             <ShowErrorNotifications result={updateStatusResult} />
             <ShowErrorNotifications result={industryResponseResult} />
-            {currentStatus === WorkplaceCurrentStatus.AppointmentBooked ? (
+            {currentStatus ===
+            WorkplaceCurrentStatus.AwaitingWorkplaceResponse ? (
                 <div className="flex items-center gap-x-2">
                     <Button
                         variant={'secondary'}
@@ -93,8 +95,8 @@ export const Actions = ({
                         onClick={() => {
                             setActionStatus(UserStatus.Rejected)
                             updateStatus({
-                                id: Number(appliedIndustry?.id),
-                                response: UserStatus.Rejected,
+                                id: Number(workplace?.id),
+                                status: 'decline',
                             })
                         }}
                         loading={
@@ -106,9 +108,9 @@ export const Actions = ({
                             actionStatus === UserStatus.Rejected
                         }
                     >
-                        <span className="text-error">Reject</span>
+                        <span className="text-error">Decline</span>
                     </Button>
-                    <Button
+                    {/* <Button
                         text={'NOT RESPONDED'}
                         variant={'dark'}
                         onClick={() => {
@@ -119,7 +121,7 @@ export const Actions = ({
                         }}
                         loading={industryResponseResult?.isLoading}
                         disabled={industryResponseResult?.isLoading}
-                    />
+                    /> */}
                 </div>
             ) : null}
             {currentStatus ===
