@@ -1,8 +1,7 @@
-import { AuthorizedUserComponent } from '@components'
+import { ActionButton, AuthorizedUserComponent } from '@components'
 import { UserRoles } from '@constants'
 import Modal from '@modals/Modal'
-import { Trash2 } from 'lucide-react'
-import React from 'react'
+import { BiTrash } from 'react-icons/bi'
 import { DeleteCourseModal } from '../modal'
 
 export const DeleteIndustryCourse = ({ approval }: any) => {
@@ -14,7 +13,7 @@ export const DeleteIndustryCourse = ({ approval }: any) => {
             >
                 <Modal>
                     <Modal.Open opens="updateCourseDescription">
-                        <Trash2 className="cursor-pointer bg-red-500 text-white rounded-lg p-1" />
+                        <ActionButton Icon={BiTrash} variant="error" rounded />
                     </Modal.Open>
                     <Modal.Window name="updateCourseDescription">
                         <DeleteCourseModal

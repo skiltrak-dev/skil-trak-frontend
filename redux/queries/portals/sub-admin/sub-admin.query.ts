@@ -494,6 +494,7 @@ export const {
     useConfirmCourseDescriptionMutation,
     useGenerateDescriptionMutation,
 
+    useAddHodNoteMutation,
     useAddPrevCourseDescriptionMutation,
     useGetIndustryRequestedCoursesQuery,
     useGetIndustryCoursesOnAcceptanceQuery,
@@ -588,7 +589,6 @@ export const SubAdminApi = {
         biMonthlyNonPartnerIndustries: useBiMonthlyNonPartnerIndustriesQuery,
         useManagerTodoAppointments: useManagerTodoAppointmentsQuery,
         useManagerTodoStudents: useManagerTodoStudentsQuery,
-
     },
     Notes: {
         useList: useSubadminNotesQuery,
@@ -696,6 +696,7 @@ export const SubAdminApi = {
         getMonthlyCallsList: useGetMonthlyCallsListQuery,
         getMonthlyCallsIndustries: useGetMonthlyCallsIndustriesListQuery,
         useAddPrevCourseDescription: useAddPrevCourseDescriptionMutation,
+        addHodNote: useAddHodNoteMutation,
         useIndustryRequestedCourses: useGetIndustryRequestedCoursesQuery,
         useIndustryCoursesOnAcceptance: useGetIndustryCoursesOnAcceptanceQuery,
         useRejectedDepartmentIndustry: useGetRejectedDepartmentIndustryQuery,

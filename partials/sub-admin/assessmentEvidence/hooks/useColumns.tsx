@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // Icons
@@ -6,21 +5,19 @@ import { FaEye } from 'react-icons/fa'
 
 // components
 import {
-    InitialAvatar,
     TableAction,
     Typography,
-    UserCreatedAt,
+    UserCreatedAt
 } from '@components'
 
 // types
 import { Result } from '@constants'
+import { RTOCellInfo } from '@partials/sub-admin/rto/components'
 import { getUserCredentials, setLink } from '@utils'
 import { ReactElement, useState } from 'react'
 import { AiFillDelete } from 'react-icons/ai'
 import { BsArchiveFill } from 'react-icons/bs'
-import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 import { ArchiveModal, AssessmentCellInfo, DeleteModal } from '../components'
-import { RTOCellInfo } from '@partials/sub-admin/rto/components'
 
 export const useColumns = () => {
     const router = useRouter()

@@ -34,6 +34,7 @@ export const UploadCourseFile = ({ approval }: { approval: any }) => {
                     <div className="relative group">
                         <ActionButton
                             Icon={FaEye}
+                            rounded
                             onClick={() => {
                                 onFileClicked({
                                     ...approval,
@@ -46,7 +47,7 @@ export const UploadCourseFile = ({ approval }: { approval: any }) => {
                                     showDownload: false,
                                 })
                             }}
-                            variant="success"
+                            variant="info"
                         />
 
                         <Tooltip>View Checklist</Tooltip>

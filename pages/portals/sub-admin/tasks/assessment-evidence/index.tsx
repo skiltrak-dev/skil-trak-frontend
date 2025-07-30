@@ -40,6 +40,7 @@ import {
 } from '@queries'
 import { checkFilteredDataLength, getCountData, getFilterQuery } from '@utils'
 import { Result } from '@constants'
+import { useSubadminProfile } from '@hooks'
 
 type Props = {}
 
@@ -67,6 +68,8 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     const [studentIdValue, setStudentIdValue] = useState<string>('')
     const [studentName, setStudentName] = useState<any | null>(null)
     const [studentNameValue, setStudentNameValue] = useState<string>('')
+
+    const subadmin = useSubadminProfile()
 
     const query = getFilterQuery<SubAdminAssessmentsFiltersType>({
         router,
@@ -133,30 +136,22 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
     )
 
     const tabs: TabProps[] = [
-        {
-            label: 'Pending',
-            href: {
-                pathname: 'assessment-evidence',
-                query: { tab: Result.Pending },
-            },
-            badge: {
-                text: assessMentCount?.pending,
-                loading: count.isLoading,
-            },
-            element: <PendingAssessment />,
-        },
-        {
-            label: 'Competent',
-            href: {
-                pathname: 'assessment-evidence',
-                query: { tab: Result.Competent },
-            },
-            badge: {
-                text: assessMentCount?.competent,
-                loading: count.isLoading,
-            },
-            element: <CompetentAssessment />,
-        },
+        ...(!subadmin?.isAssociatedWithRto
+            ? [
+                  {
+                      label: 'Pending',
+                      href: {
+                          pathname: 'assessment-evidence',
+                          query: { tab: Result.Pending },
+                      },
+                      badge: {
+                          text: assessMentCount?.pending,
+                          loading: count.isLoading,
+                      },
+                      element: <PendingAssessment />,
+                  },
+              ]
+            : []),
         // AllDocumentsSubmitted
         {
             label: 'All Documents Submitted',
@@ -170,6 +165,19 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
             },
             element: <AllDocumentsSubmitted />,
         },
+        {
+            label: 'Competent',
+            href: {
+                pathname: 'assessment-evidence',
+                query: { tab: Result.Competent },
+            },
+            badge: {
+                text: assessMentCount?.competent,
+                loading: count.isLoading,
+            },
+            element: <CompetentAssessment />,
+        },
+
         {
             label: 'Non-Competent',
             href: {
@@ -227,8 +235,6 @@ const AssessmentEvidence: NextPageWithLayout = (props: Props) => {
         ...(studentId?.studentId ? studentId : {}),
         ...(studentName?.name ? studentName : {}),
     })
-
-    
 
     return (
         <>

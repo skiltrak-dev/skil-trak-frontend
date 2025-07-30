@@ -1,3 +1,4 @@
+export * from './AddHodNote'
 export * from './RenderTabButton'
 export * from './UploadCourseFile'
 export * from './RenderCourseList'

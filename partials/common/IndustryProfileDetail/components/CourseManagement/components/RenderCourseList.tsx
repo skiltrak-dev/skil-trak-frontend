@@ -9,7 +9,7 @@ export const RenderCourseList = ({ industry }: { industry: Industry }) => {
         useCourseManagement()
 
     if (computedData.hasError) {
-        return <NoData text="Something went wrong" />
+        return <NoData text="Something went wrong" isError />
     }
 
     if (computedData.isLoading) {

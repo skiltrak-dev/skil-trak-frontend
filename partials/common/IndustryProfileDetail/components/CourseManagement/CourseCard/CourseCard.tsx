@@ -9,6 +9,7 @@ import { AuthorizedUserComponent, Button, Typography } from '@components'
 
 import {
     AddContentForOldIndustry,
+    AddHodNote,
     DeleteIndustryCourse,
     EditIndustryCourseContent,
     IndustryCourseSupervisors,
@@ -65,14 +66,14 @@ export const CourseCard = ({
     return (
         <div className="flex flex-col gap-y-2">
             {allSectors?.map((sectorData: any) => (
-                <div className="flex flex-col  mt-4 bg-gray-100 p-2 rounded border-2 border-dashed border-gray-400">
+                <div className="flex flex-col shadow mt-4 bg-gray-100 p-2 rounded border-2 border-dashed border-gray-400">
                     <div className="p-4 bg-gray-50 flex items-center gap-x-2 justify-between">
                         <div className="flex items-center gap-x-2">
                             <Typography variant="subtitle">
                                 {sectorData?.sector?.name}
                             </Typography>
                             {!isPreviousCourses && !isPending && (
-                                <span className="p-1 bg-green-100 border border-green-200 text-green-700 rounded-md text-[9px] font-medium">
+                                <span className="px-2 py-0.5 bg-green-100 border border-green-200 text-[#2d5a2d] rounded-full text-[9px] font-medium">
                                     Approved
                                 </span>
                             )}
@@ -80,15 +81,15 @@ export const CourseCard = ({
                                 roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                             >
                                 {!isPreviousCourses && sectorData?.actionBy && (
-                                    <div className="flex gap-x-1">
+                                    <div className="flex gap-x-1 bg-green-100 border border-green-200 rounded-full px-2 py-0.5">
                                         <Typography
                                             variant="xxs"
-                                            color="text-emerald-500"
+                                            color="text-[#2d5a2d]"
                                         >
                                             Approved by:{' '}
                                             {ellipsisText(
                                                 sectorData?.actionBy?.name,
-                                                5
+                                                11
                                             )}
                                         </Typography>
                                     </div>
@@ -110,8 +111,8 @@ export const CourseCard = ({
                                     key={approval.id}
                                     className="overflow-auto custom-scrollbar"
                                 >
-                                    <div className="p-4 border rounded-md bg-[#95C6FB26] bg-opacity-15">
-                                        <div className="flex justify-between gap-x-12 w-full items-center mb-4">
+                                    <div className="border bg-[#95C6FB26] bg-opacity-15">
+                                        <div className="px-4 pt-4 flex justify-between gap-x-12 w-full items-center mb-4">
                                             <div className="flex items-center gap-x-1">
                                                 <Typography
                                                     variant="small"
@@ -234,14 +235,29 @@ export const CourseCard = ({
                                                     </div>
                                                 )}
                                         </div>
+
+                                        {/*  */}
+                                        {approval?.isContentVerified && (
+                                            <div className="bg-green-100 px-6 py-2">
+                                                <Typography
+                                                    medium
+                                                    variant={'small'}
+                                                    color={'text-green-800'}
+                                                >
+                                                    Eligibility checklist
+                                                    attached
+                                                </Typography>
+                                            </div>
+                                        )}
                                         <div
                                             className={`${
-                                                isPreviousCourses
+                                                isPreviousCourses ||
+                                                !approval?.isVerifiedByHod
                                                     ? 'bg-red-500'
                                                     : isPending
                                                     ? 'bg-indigo-500'
                                                     : 'bg-emerald-700'
-                                            } relative text-white p-4 rounded-md w-full mb-4 flex gap-x-5 items-start max-h-56 overflow-auto custom-scrollbar`}
+                                            } relative text-white p-4 w-full mb-4 flex gap-x-5 items-start max-h-56 overflow-auto custom-scrollbar`}
                                         >
                                             <div>
                                                 {/* <Typography variant="label" color="white">
@@ -261,7 +277,15 @@ export const CourseCard = ({
                                             </div>
                                         </div>
 
-                                        <div className="flex justify-between text-[10px]">
+                                        {/* Hod Note */}
+                                        {!isPreviousCourses && (
+                                            <AddHodNote
+                                                comment={approval?.hodComment}
+                                                courseReqId={approval?.id}
+                                            />
+                                        )}
+
+                                        <div className="flex justify-between text-[11px] px-4">
                                             <AuthorizedUserComponent
                                                 roles={[
                                                     UserRoles.SUBADMIN,
@@ -269,11 +293,11 @@ export const CourseCard = ({
                                                 ]}
                                                 isAssociatedWithRto={false}
                                             >
-                                                <div>
-                                                    <span className="text-gray-600">
+                                                <div className="flex flex-col">
+                                                    <span className="text-[#666] font-semibold ">
                                                         Requested by:{' '}
                                                     </span>
-                                                    <span>
+                                                    <span className="text-[#333]">
                                                         {approval?.addedBy
                                                             ?.name || 'N/A'}
                                                     </span>
@@ -285,8 +309,8 @@ export const CourseCard = ({
                                 </span>
                                 <span>{approval?.reference?.[0] || 'N/A'}</span>
                             </div> */}
-                                            <div>
-                                                <span className="text-gray-600">
+                                            <div className="flex flex-col">
+                                                <span className="text-gray-600 font-semibold">
                                                     Reference URL:{' '}
                                                 </span>
 
@@ -315,8 +339,8 @@ export const CourseCard = ({
                                                     </span>
                                                 )}
                                             </div>
-                                            <div>
-                                                <span className="text-gray-600">
+                                            <div className="flex flex-col">
+                                                <span className="text-gray-600 font-semibold">
                                                     DATE:{' '}
                                                 </span>
                                                 <span>

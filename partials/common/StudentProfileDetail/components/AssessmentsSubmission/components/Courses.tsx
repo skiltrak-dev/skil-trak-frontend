@@ -12,6 +12,7 @@ import {
 import { SectorSlider } from './SectorSlider'
 import { CourseSlider } from './CourseSlider'
 import { AssessmentSection } from './AssessmentSection'
+import { useSubadminProfile } from '@hooks'
 
 interface CoursesProps {
     student: Student
@@ -26,6 +27,8 @@ export const Courses: React.FC<CoursesProps> = ({
 }) => {
     const [editAssessment, setEditAssessment] = useState<boolean>(false)
     const [manualReOpen, setManualReOpen] = useState<boolean>(false)
+
+    const subadmin = useSubadminProfile()
 
     // Custom hooks
     const {
@@ -107,7 +110,7 @@ export const Courses: React.FC<CoursesProps> = ({
 
             <div>
                 <AuthorizedUserComponent excludeRoles={[UserRoles.OBSERVER]}>
-                    {result?.isAssessed && (
+                    {result?.isAssessed && !subadmin?.isAssociatedWithRto && (
                         <div className="flex px-4 pt-2">
                             <Button
                                 text={
@@ -124,7 +127,8 @@ export const Courses: React.FC<CoursesProps> = ({
                         ((result?.result !== Result.Competent &&
                             result?.isSubmitted) ||
                             manualReOpen)) ||
-                        editAssessment) && (
+                        editAssessment ||
+                        subadmin?.isAssociatedWithRto) && (
                         <div className="p-4">
                             <SubmitFinalResult
                                 course={selectedCourse as Course}

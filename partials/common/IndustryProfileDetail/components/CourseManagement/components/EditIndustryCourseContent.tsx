@@ -1,9 +1,8 @@
-import { AuthorizedUserComponent } from '@components'
+import { ActionButton, AuthorizedUserComponent } from '@components'
 import { UserRoles } from '@constants'
 import Modal from '@modals/Modal'
-import React from 'react'
+import { BiPencil } from 'react-icons/bi'
 import { EditCourseModal } from '../modal'
-import { Pencil } from 'lucide-react'
 
 export const EditIndustryCourseContent = ({ approval }: any) => {
     return (
@@ -14,7 +13,11 @@ export const EditIndustryCourseContent = ({ approval }: any) => {
             >
                 <Modal>
                     <Modal.Open opens="editCourse">
-                        <Pencil className="cursor-pointer bg-[#047857] text-white rounded-lg p-1" />
+                        <ActionButton
+                            Icon={BiPencil}
+                            variant="success"
+                            rounded
+                        />
                     </Modal.Open>
                     <Modal.Window name="editCourse">
                         <EditCourseModal

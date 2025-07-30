@@ -2,8 +2,11 @@
 import {
     Button,
     Card,
+    CourseApporovalReqFilter,
     EmptyData,
+    Filter,
     LoadingAnimation,
+    SetDetaultQueryFilteres,
     Table,
     TechnicalError,
     Typography,
@@ -17,7 +20,7 @@ import {
 } from '@partials/sub-admin'
 import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import { NextPageWithLayout } from '@types'
+import { CourseApprovalReqTypes, NextPageWithLayout } from '@types'
 import { ellipsisText } from '@utils'
 import { ReactElement, useState } from 'react'
 import { FaRegDotCircle } from 'react-icons/fa'
@@ -29,14 +32,24 @@ export enum Status {
     REJECTED = 'rejected',
 }
 
-const CourseRequest: NextPageWithLayout = () => {
-    const [itemPerPage, setItemPerPage] = useState<any>(50)
-    const [page, setPage] = useState(1)
+const filterKeys = ['name', 'courseId', 'sectorId', 'abn', 'phone', 'email']
 
-    const { data, isError, isLoading } =
+const CourseRequest: NextPageWithLayout = () => {
+    const [itemPerPage, setItemPerPage] = useState<number>(50)
+    const [page, setPage] = useState(1)
+    const [filterAction, setFilterAction] = useState(null)
+    const [filter, setFilter] = useState<CourseApprovalReqTypes>(
+        {} as CourseApprovalReqTypes
+    )
+
+    const { data, isError, isLoading, isFetching } =
         SubAdminApi.SubAdmin.useDepartmentCoursesRequestList(
             {
-                search: ``,
+                search: `${JSON.stringify(filter)
+                    .replaceAll('{', '')
+                    .replaceAll('}', '')
+                    .replaceAll('"', '')
+                    .trim()}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -48,18 +61,16 @@ const CourseRequest: NextPageWithLayout = () => {
     const columns: ColumnDef<DataResponse>[] = [
         {
             accessorKey: 'industry.user',
-            cell: (info) => {
-                return (
-                    <div>
-                        <Typography variant="small">
-                            {ellipsisText(
-                                info?.row?.original?.industry?.user?.name,
-                                15
-                            )}
-                        </Typography>
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <div>
+                    <Typography variant="small">
+                        {ellipsisText(
+                            info?.row?.original?.industry?.user?.name,
+                            15
+                        )}
+                    </Typography>
+                </div>
+            ),
             header: () => <span>Industry</span>,
         },
         {
@@ -216,6 +227,10 @@ const CourseRequest: NextPageWithLayout = () => {
     ]
     return (
         <div className="mb-5 ">
+            <SetDetaultQueryFilteres<CourseApprovalReqTypes>
+                filterKeys={filterKeys}
+                setFilter={setFilter}
+            />
             <div className="pr-14 py-4 flex flex-col gap-y-2">
                 <div className="mb-3">
                     <Typography variant="small" bold>
@@ -256,9 +271,23 @@ const CourseRequest: NextPageWithLayout = () => {
                     </Typography>
                 </div>
             </div>
+
+            <div className="mb-2">
+                <div className="flex justify-end mb-2">{filterAction}</div>
+                <Filter<CourseApprovalReqTypes>
+                    component={CourseApporovalReqFilter}
+                    initialValues={filter}
+                    setFilterAction={setFilterAction}
+                    setFilter={(e: any) => {
+                        setPage(Number(1))
+                        setFilter(e)
+                    }}
+                    filterKeys={filterKeys}
+                />
+            </div>
             {isError && <TechnicalError />}
             <Card>
-                {isLoading ? (
+                {isLoading || isFetching ? (
                     <LoadingAnimation />
                 ) : data?.data && data?.data?.length ? (
                     <Table
