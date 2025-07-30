@@ -27,13 +27,10 @@ export const AssessmentCellInfo = ({ item }: { item: any }) => {
                     href={
                         item?.student?.subadmin?.user?.id === subadminId ||
                         subadmin?.isManager ||
-                        subadmin?.departmentMember?.isHod
+                        subadmin?.departmentMember?.isHod ||
+                        subadmin?.isAssociatedWithRto
                             ? {
                                   pathname: `/portals/sub-admin/students/${item?.student?.id}/detail`,
-                                  query: {
-                                      tab: 'submissions',
-                                      course: item?.course?.id,
-                                  },
                               }
                             : '#'
                     }

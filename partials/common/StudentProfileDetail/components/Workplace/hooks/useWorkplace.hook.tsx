@@ -221,7 +221,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             getWorkplaceAppointment?.isSuccess &&
             (!getWorkplaceAppointment?.data ||
                 getWorkplaceAppointment?.data?.isSuccessfull === false) &&
-            moment().isSameOrAfter('2025-07-25', 'day')
+            moment().isSameOrAfter('2025-07-30', 'day')
         ) {
             onAppointmentClicked()
             setModelId('appointmentClicked')
@@ -236,9 +236,13 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             getWorkplaceAppointment &&
             getWorkplaceAppointment?.data &&
             getWorkplaceAppointment?.data?.isSuccessfull &&
-            moment().isSameOrAfter('2025-07-25', 'day') &&
+            moment().isSameOrAfter('2025-07-30', 'day') &&
             esignDocumentsFolders?.isSuccess &&
-            !allDocumentsInitiated
+            !allDocumentsInitiated &&
+            (selectedWorkplace?.currentStatus ===
+                WorkplaceCurrentStatus.AppointmentBooked ||
+                selectedWorkplace?.currentStatus ===
+                    WorkplaceCurrentStatus.AwaitingAgreementSigned)
         ) {
             onGenerateEsignClicked()
             setModelId('generateEsign')
@@ -246,7 +250,12 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             setModal(null)
             setModelId('')
         }
-    }, [getWorkplaceAppointment, allDocumentsInitiated, esignDocumentsFolders])
+    }, [
+        selectedWorkplace,
+        allDocumentsInitiated,
+        esignDocumentsFolders,
+        getWorkplaceAppointment,
+    ])
 
     const onCancelModal = () => setModal(null)
 

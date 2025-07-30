@@ -32,6 +32,7 @@ export const WpApprovalRequest = ({
                             location: workplaceStudentDetail?.data?.location,
                         },
                     }}
+                    course={selectedWorkplace?.courses?.[0]}
                     coordinator={selectedWorkplace?.assignedTo}
                 />
             </div>

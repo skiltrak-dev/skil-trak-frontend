@@ -4,7 +4,7 @@ import { AvailableMeetingDates, WorkplaceMapBoxView } from '@partials/student'
 import { WorkplaceAvailableSlots } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceAvailableSlots'
 import { WorkplaceInfo } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceInfo'
 import { SubAdminApi } from '@queries'
-import { SubAdmin } from '@types'
+import { Course, SubAdmin } from '@types'
 import { getUserCredentials, is72HoursOlder } from '@utils'
 import { ReactElement, useEffect, useState } from 'react'
 import { AssignedCoordinator } from './AssignedCoordinator'
@@ -17,7 +17,9 @@ import {
 export const WorkplaceApprovalReq = ({
     wpReqApproval,
     coordinator,
+    course,
 }: {
+    course: Course
     coordinator: SubAdmin
     wpReqApproval: any
 }) => {
@@ -182,6 +184,24 @@ export const WorkplaceApprovalReq = ({
                     <div className="col-span-2 flex flex-col gap-y-3 h-full">
                         <div className="flex flex-col gap-y-1.5">
                             <AssignedCoordinator assignedTo={coordinator} />
+                        </div>
+
+                        <div>
+                            <Typography variant="small" medium>
+                                Course
+                            </Typography>
+                            <div className="border border-gray-300 rounded-md p-3">
+                                <Typography variant="xs" color="text-gray-500">
+                                    {course?.code}
+                                </Typography>
+                                <Typography
+                                    variant="small"
+                                    semibold
+                                    color="text-gray-700"
+                                >
+                                    {course?.title}
+                                </Typography>
+                            </div>
                         </div>
 
                         {/*  */}

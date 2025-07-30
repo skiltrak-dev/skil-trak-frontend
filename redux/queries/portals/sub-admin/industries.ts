@@ -336,4 +336,12 @@ export const subAdminIndustriesEndpoints = (
         }),
         invalidatesTags: ['RequestToAddCourse', 'SubAdminCourses'],
     }),
+    addHodNote: builder.mutation<any, { id: number; comment: string }>({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/course-approval-request/${id}/hod-comment/add`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['RequestToAddCourse', 'SubAdminCourses'],
+    }),
 })

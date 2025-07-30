@@ -9,53 +9,15 @@ import { Animations } from '@animations'
 import { DisplayPrimaryActions } from '@components'
 import { RecentAppointment } from '@partials/common'
 // Hooks
-import { useJoyRide } from '@hooks'
+import { useJoyRide, useSubadminProfile } from '@hooks'
 
 // query
 import { SubAdminApi } from '@queries'
 
-// query
-
-const RelatedQuestions = [
-    {
-        text: `I have a workplace. What next?`,
-        link: '#',
-    },
-    {
-        text: `I don't have a workplace. What should I do?`,
-        link: '#',
-    },
-    {
-        text: `I want to book an appointment`,
-        link: '#',
-    },
-    {
-        text: `I want to look for a job`,
-        link: '#',
-    },
-]
-
-const OtherQuestions = [
-    {
-        text: `I have a workplace. What next?`,
-        link: '#',
-    },
-    {
-        text: `I don't have a workplace. What should I do?`,
-        link: '#',
-    },
-    {
-        text: `I want to book an appointment`,
-        link: '#',
-    },
-    {
-        text: `I want to look for a job`,
-        link: '#',
-    },
-]
-
 const SubAdminTasks: NextPageWithLayout = () => {
     const statistics = SubAdminApi.Count.statistics()
+
+    const subadmin = useSubadminProfile()
 
     // WORKPLACE JOY RIDE - Start
     const joyride = useJoyRide()
@@ -90,7 +52,9 @@ const SubAdminTasks: NextPageWithLayout = () => {
         {
             title: 'Assessment Submissions',
             description: ' ',
-            link: 'tasks/assessment-evidence?tab=pending',
+            link: subadmin?.isAssociatedWithRto
+                ? 'tasks/assessment-evidence?tab=allDocumentSubmitted'
+                : 'tasks/assessment-evidence?tab=pending',
             animation: Animations.Student.Appointments.Submissions,
             id: 'assessment-evidence',
             badge: {
