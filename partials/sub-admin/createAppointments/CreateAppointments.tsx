@@ -192,11 +192,13 @@ export const CreateAppointments = () => {
                 )
             )
         )
-        setSelectedPerson((person: SelectedPerson) => ({
-            ...person,
-            selectedAppointmentWith: null,
-        }))
-    }, [selectedPerson.selectedAppointmentFor])
+        if (!query) {
+            setSelectedPerson((person: SelectedPerson) => ({
+                ...person,
+                selectedAppointmentWith: null,
+            }))
+        }
+    }, [query, selectedPerson.selectedAppointmentFor])
 
     useEffect(() => {
         if (timeSlots?.data?.availabilities?.length === 0) {

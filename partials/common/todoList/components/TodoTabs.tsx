@@ -66,10 +66,8 @@ export const TodoTabs = ({ baseUrl }: { baseUrl?: string }) => {
             : tabs.findIndex((tab) => tab.slug === tabSlug)
 
     const handleTabChange = (index: number) => {
-        console.log({ index })
         // const slug = tabs[index].slug
         // const params = new URLSearchParams(searchParams.toString())
-        // console.log({ params: params.toString() })
         // params.set('tab', slug)
         // router.replace(`?${params.toString()}`, { scroll: false })
     }

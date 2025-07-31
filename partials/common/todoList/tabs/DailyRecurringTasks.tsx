@@ -16,7 +16,6 @@ export const DailyRecurringTasks = ({
 
     const scrollToPage = () => {
         if (router?.query?.id && !router?.query?.page) {
-            console.log('Danku')
             const detailItem = document.getElementById(router?.query?.id + '')
 
             if (detailItem) {

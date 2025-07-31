@@ -17,7 +17,6 @@ export const AppointmentBookModal = ({
     studentUser: number
     onCancel: () => void
 }) => {
-    console.log({ studentUser })
     const router = useRouter()
 
     const subadmin = useSubadminProfile()

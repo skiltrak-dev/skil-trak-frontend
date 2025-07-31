@@ -27,10 +27,6 @@ export const ProfilePastAppointments = ({
         }
     )
 
-    console.log(
-        "moment().isSameOrAfter('2025-07-24', 'day')",
-        moment().isSameOrAfter('2025-07-24', 'day')
-    )
     return (
         <div className="h-auto flex flex-col gap-2">
             <Typography variant="label">Past</Typography>
