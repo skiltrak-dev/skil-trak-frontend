@@ -288,9 +288,11 @@ export const InitiateSignStudent = ({
                         title: 'Document Initiated',
                         description: 'Document Initiated Successfully',
                     })
+
                     dispatch(
                         emptySplitApi.util.invalidateTags(['SubAdminStudents'])
                     )
+                    dispatch(emptySplitApi.util.invalidateTags(['E-Sign']))
                     onCancel()
                 }
                 setIsLoading(false)
