@@ -18,7 +18,7 @@ import {
     TextInput,
     Typography,
     draftToHtmlText,
-    htmlToDraftText
+    htmlToDraftText,
 } from '@components'
 import { FileUpload } from '@hoc'
 
@@ -340,7 +340,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     <ActionButton
                                         variant="info"
                                         Icon={RiShining2Fill}
-                                        text="Fix Grammer"
+                                        text="Rewrite with AI"
                                         onClick={() => {
                                             onFixGrammerClick()
                                         }}

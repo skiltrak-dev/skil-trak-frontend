@@ -641,7 +641,7 @@ export const CreateStudentNote = ({
                                     <ActionButton
                                         variant="info"
                                         Icon={RiShining2Fill}
-                                        text="Fix Grammer"
+                                        text="Rewrite with AI"
                                         onClick={() => {
                                             onFixGrammerClick()
                                         }}
