@@ -221,7 +221,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             getWorkplaceAppointment?.isSuccess &&
             (!getWorkplaceAppointment?.data ||
                 getWorkplaceAppointment?.data?.isSuccessfull === false) &&
-            moment().isSameOrAfter('2025-07-30', 'day')
+            moment().isSameOrAfter('2025-07-31', 'day')
         ) {
             onAppointmentClicked()
             setModelId('appointmentClicked')
@@ -236,7 +236,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             getWorkplaceAppointment &&
             getWorkplaceAppointment?.data &&
             getWorkplaceAppointment?.data?.isSuccessfull &&
-            moment().isSameOrAfter('2025-07-30', 'day') &&
+            moment().isSameOrAfter('2025-07-31', 'day') &&
             esignDocumentsFolders?.isSuccess &&
             !allDocumentsInitiated &&
             (selectedWorkplace?.currentStatus ===

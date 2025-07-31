@@ -53,7 +53,7 @@ export const ProfilePastAppointments = ({
                             (appointment: Appointment) =>
                                 appointment?.isSuccessfull === null &&
                                 moment(appointment?.date).isSameOrAfter(
-                                    '2025-07-24',
+                                    '2025-07-31',
                                     'day'
                                 ) ? (
                                     <ProfileUpcomingAppointmentCard
