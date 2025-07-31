@@ -8,7 +8,7 @@ export const AvailableMeetingDates = ({ dates }: { dates: any }) => {
             <div>
                 <Typography variant="label">Meeting Appointments</Typography>
             </div>
-            <div className="h-[calc(100%-25px)] w-full border border-[#D5D5D5] rounded px-3 py-2 flex flex-col gap-y-2 gap-x-5">
+            <div className="h-[calc(100%-98px)] w-full border border-[#D5D5D5] rounded px-3 py-2 flex flex-col gap-y-2 gap-x-5">
                 {dates &&
                 Object.keys(dates)?.length > 0 &&
                 Object.values(dates)?.some((date) => date) ? (
