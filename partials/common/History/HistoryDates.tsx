@@ -1,11 +1,7 @@
-import { getDate, getUserCredentials } from '@utils'
+import { getDate } from '@utils'
 import moment from 'moment'
-import React from 'react'
-import { HistoryCard } from './HistoryCard'
-import { FigureCard } from '@components/sections/subAdmin'
-import { UserRoles } from '@constants'
-import { CommonApi } from '@queries'
 import { FilterType } from 'pages/portals/sub-admin/history'
+import { HistoryCard } from './HistoryCard'
 
 export const HistoryDates = ({
     date,

@@ -138,6 +138,7 @@ export const OverallHistory = ({ industry }: { industry: number }) => {
                         <div>
                             {dates?.map((date: Date, i: number) => (
                                 <HistoryDates
+                                    key={i}
                                     history={data?.data}
                                     date={date}
                                     subadmin={industry}

@@ -17,10 +17,12 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 // components
 import {
+    ActionButton,
     Button,
     Card,
     Checkbox,
     draftToHtmlText,
+    htmlToDraftText,
     InputContentEditor,
     inputEditorErrorMessage,
     Select,
@@ -31,12 +33,13 @@ import {
 
 // query
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNotification } from '@hooks'
+import { useNotification, useRewritePhrase } from '@hooks'
 import { CommonApi } from '@queries'
 import { OptionType } from '@types'
 import { HtmlToPlainText } from '@utils'
 import { useRouter } from 'next/router'
 import ClickAwayListener from 'react-click-away-listener'
+import { RiShining2Fill } from 'react-icons/ri'
 
 interface onSubmitType {
     title: string
@@ -71,6 +74,8 @@ export const CreateNote = ({
 
     const [bodyData, setBodyData] = useState<any>(EditorState.createEmpty())
     const [template, setTemplate] = useState<any | null>(null)
+
+    const { onRewritePhrase, isLoading } = useRewritePhrase()
 
     useEffect(() => {
         if (editValues) {
@@ -171,6 +176,15 @@ export const CreateNote = ({
 
     const isBodyGreaterThen30 = noteBodyWordsCount > 30
 
+    const onFixGrammerClick = async () => {
+        const data = await onRewritePhrase(noteContent)
+
+        if (data?.correctedText) {
+            setNoteContent(data?.correctedText)
+            methods.setValue('body', htmlToDraftText(data?.correctedText))
+        }
+    }
+
     const onSubmit = (values: onSubmitType) => {
         setIsSendDraft(false)
         if (editing) {
@@ -231,9 +245,16 @@ export const CreateNote = ({
                                     <Typography variant="label">
                                         Message
                                     </Typography>
-                                    <Typography variant="small">
-                                        Words Count: {noteBodyWordsCount}
-                                    </Typography>
+                                    <ActionButton
+                                        variant="info"
+                                        Icon={RiShining2Fill}
+                                        text="Fix Grammer"
+                                        onClick={() => {
+                                            onFixGrammerClick()
+                                        }}
+                                        disabled={!noteContent?.trim()}
+                                        loading={isLoading}
+                                    />
                                 </div>
                                 <ClickAwayListener
                                     onClickAway={(e: any) => {

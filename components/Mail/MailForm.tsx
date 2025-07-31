@@ -8,20 +8,21 @@ import { IoMdSend } from 'react-icons/io'
 
 // components
 import {
+    ActionButton,
     Button,
     Card,
     InputContentEditor,
     Select,
     SelectOption,
     ShowErrorNotifications,
-    TagsInput,
     TextInput,
+    Typography,
     draftToHtmlText,
-    htmlToDraftText,
+    htmlToDraftText
 } from '@components'
 import { FileUpload } from '@hoc'
 
-import { useNotification } from '@hooks'
+import { useNotification, useRewritePhrase } from '@hooks'
 
 // import { useMessage } from "@hooks"
 
@@ -29,10 +30,9 @@ import { useNotification } from '@hooks'
 import { Attachment } from '@partials/common'
 import { CommonApi } from '@queries'
 import { AuthUtils } from '@utils'
-import { EditorState, convertToRaw } from 'draft-js'
-import draftToHtml from 'draftjs-to-html'
+import { EditorState } from 'draft-js'
 import ClickAwayListener from 'react-click-away-listener'
-import { SubmitHandler } from 'react-hook-form'
+import { RiShining2Fill } from 'react-icons/ri'
 
 interface onSubmitType {
     to?: string
@@ -55,15 +55,19 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
     const [to, setTo] = useState(false)
     const [cc, setCc] = useState(false)
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
-    const [mailContent, setMailContent] = useState<any>([])
+    const [mailContent, setMailContent] = useState<any>('')
 
     const [sendMessage, sendMessageResult] = CommonApi.Messages.useSendMessage()
     const [emailDraft, emailDraftResult] = CommonApi.Draft.useEmailDraft()
 
     const [templateAttachment, setTemplateAttachment] = useState<any>(null)
+
+    const { onRewritePhrase, isLoading } = useRewritePhrase()
+
     const getEmailDraft = CommonApi.Draft.useGetEmailDraft(receiverId, {
         skip: !receiverId,
     })
+
     const getTemplates = CommonApi.Messages.useAllTemplates()
 
     const validationSchema = yup.object({
@@ -126,6 +130,18 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
               value: template?.id,
           }))
         : []
+
+    const onFixGrammerClick = async () => {
+        const data = await onRewritePhrase(mailContent)
+
+        if (data?.correctedText) {
+            setMailContent(data?.correctedText)
+            methods.setValue(
+                'message',
+                htmlToDraftText(data?.correctedText) as EditorState
+            )
+        }
+    }
 
     const onFileUpload = ({
         name,
@@ -317,6 +333,21 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                         }
                                     }}
                                 />
+                                <div className="flex justify-between items-center">
+                                    <Typography variant="label">
+                                        Message
+                                    </Typography>
+                                    <ActionButton
+                                        variant="info"
+                                        Icon={RiShining2Fill}
+                                        text="Fix Grammer"
+                                        onClick={() => {
+                                            onFixGrammerClick()
+                                        }}
+                                        disabled={!mailContent?.trim()}
+                                        loading={isLoading}
+                                    />
+                                </div>
                                 <ClickAwayListener
                                     onClickAway={(e: any) => {
                                         if (
@@ -333,13 +364,8 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                                     <div className="mb-3">
                                         <InputContentEditor
                                             name={'message'}
-                                            label={'Message'}
                                             onChange={(e: any) => {
-                                                const mail = draftToHtml(
-                                                    convertToRaw(
-                                                        e.getCurrentContent()
-                                                    )
-                                                )
+                                                const mail = draftToHtmlText(e)
                                                 setMailContent(mail)
                                             }}
                                         />

@@ -66,7 +66,10 @@ export const CourseCard = ({
     return (
         <div className="flex flex-col gap-y-2">
             {allSectors?.map((sectorData: any) => (
-                <div className="flex flex-col shadow mt-4 bg-gray-100 p-2 rounded border-2 border-dashed border-gray-400">
+                <div
+                    key={sectorData?.id}
+                    className="flex flex-col shadow mt-4 bg-gray-100 p-2 rounded border-2 border-dashed border-gray-400"
+                >
                     <div className="p-4 bg-gray-50 flex items-center gap-x-2 justify-between">
                         <div className="flex items-center gap-x-2">
                             <Typography variant="subtitle">
