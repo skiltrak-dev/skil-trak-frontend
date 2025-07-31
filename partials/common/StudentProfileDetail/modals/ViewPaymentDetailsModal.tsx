@@ -59,8 +59,6 @@ export const ViewPaymentDetailsModal = () => {
         }
     }
 
-    console.log('amount', data?.amount)
-
     return (
         <div>
             {/* Header */}
