@@ -167,6 +167,7 @@ export const SubAdminHistory = ({ subadmin }: { subadmin: number }) => {
             ) : data?.data && data?.data?.length > 0 ? (
                 dates?.map((date: Date, i: number) => (
                     <HistoryDates
+                        key={i}
                         history={data?.data}
                         date={date}
                         subadmin={subadmin}

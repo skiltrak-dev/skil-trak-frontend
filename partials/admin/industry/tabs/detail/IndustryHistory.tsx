@@ -131,6 +131,7 @@ export const IndustryHistory = ({ industry }: { industry: number }) => {
             ) : data?.data && data?.data?.length > 0 ? (
                 dates?.map((date: Date, i: number) => (
                     <HistoryDates
+                        key={i}
                         history={data?.data}
                         date={date}
                         subadmin={industry}

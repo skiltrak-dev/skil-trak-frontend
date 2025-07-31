@@ -17,6 +17,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 // components
 import {
+    ActionButton,
     AuthorizedUserComponent,
     Badge,
     Button,
@@ -35,7 +36,7 @@ import {
 // query
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNotification, useWorkplace } from '@hooks'
+import { useNotification, useRewritePhrase, useWorkplace } from '@hooks'
 import { NotesTemplateType } from '@partials/admin/noteTemplates/enum'
 import { CommonApi, SubAdminApi } from '@queries'
 import { OptionType } from '@types'
@@ -45,6 +46,7 @@ import { FaTimes } from 'react-icons/fa'
 import { IoCheckmark } from 'react-icons/io5'
 import { StudentNotesDropdown } from '../components'
 import { ReWritePhrase } from '@pages/api/openai/fixGrammer'
+import { RiShining2Fill } from 'react-icons/ri'
 interface onSubmitType {
     title: string
     body: EditorState
@@ -66,7 +68,6 @@ export const CreateStudentNote = ({
 }: any) => {
     const { notification } = useNotification()
     const [noteContent, setNoteContent] = useState<any>(null)
-    const [isLoading, setIsLoading] = useState<any>(null)
     const { workplaceRes } = useWorkplace()
 
     const ref = useRef<HTMLDivElement>(null)
@@ -84,6 +85,8 @@ export const CreateStudentNote = ({
         null
     )
     const [editing, setEditing] = useState(false)
+
+    const { onRewritePhrase, isLoading } = useRewritePhrase()
 
     // query
     const [createNote, createNoteResult] = CommonApi.Notes.useCreate()
@@ -275,32 +278,11 @@ export const CreateStudentNote = ({
     }
 
     const onFixGrammerClick = async () => {
-        if (!noteContent) {
-            // setError('Please enter some text to correct')
-            return
-        }
+        const data = await onRewritePhrase(noteContent)
 
-        setIsLoading(true)
-        // setError('')
-        setNoteContent('')
-
-        try {
-            const response = await ReWritePhrase({ text: noteContent })
-
-            if (!response.ok) {
-                throw new Error('Failed to correct grammar')
-            }
-
-            const data = await response.json()
+        if (data?.correctedText) {
             setNoteContent(data?.correctedText)
             methods.setValue('body', htmlToDraftText(data?.correctedText))
-        } catch (err) {
-            // setError(
-            //     'An error occurred while correcting the text. Please try again.'
-            // )
-            console.error('Error:', err)
-        } finally {
-            setIsLoading(false)
         }
     }
 
@@ -656,12 +638,14 @@ export const CreateStudentNote = ({
                                         Message
                                     </Typography>
 
-                                    <Badge
+                                    <ActionButton
                                         variant="info"
+                                        Icon={RiShining2Fill}
                                         text="Fix Grammer"
                                         onClick={() => {
                                             onFixGrammerClick()
                                         }}
+                                        disabled={!noteContent?.trim()}
                                         loading={isLoading}
                                     />
 

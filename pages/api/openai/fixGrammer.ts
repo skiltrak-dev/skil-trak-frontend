@@ -50,6 +50,7 @@ export async function ReWritePhrase(request: { text: string }) {
 5. Return only the corrected text without explanations
 6. If i send you in points so write in points
 7. If i send you in paragraphs so write in paragraphs
+7. Dont Change the meaning of the text
 
 Keep the tone and style similar to the original text.`,
                         },

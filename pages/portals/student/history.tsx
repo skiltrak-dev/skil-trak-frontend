@@ -6,7 +6,7 @@ import {
     EmptyData,
     LoadingAnimation,
     PageTitle,
-    TechnicalError
+    TechnicalError,
 } from '@components'
 import { StudentLayout } from '@layouts'
 import { HistoryDates, HistoryFilters } from '@partials/common'

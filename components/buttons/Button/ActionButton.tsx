@@ -30,6 +30,7 @@ interface ButtonProps {
     small?: boolean
     fullWidth?: boolean
     noPadding?: boolean
+    text?: string
 }
 
 export const ActionButton = ({
@@ -45,6 +46,7 @@ export const ActionButton = ({
     submit,
     title,
     small,
+    text,
     fullWidth,
     noPadding,
 }: ButtonProps) => {
@@ -106,7 +108,7 @@ export const ActionButton = ({
                 ) : (
                     <>
                         {Icon && <Icon />}
-                        {children}
+                        {text || children}
                     </>
                 )}
             </div>
