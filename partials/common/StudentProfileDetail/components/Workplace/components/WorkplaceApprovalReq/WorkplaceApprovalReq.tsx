@@ -88,8 +88,8 @@ export const WorkplaceApprovalReq = ({
                         <Typography variant="label" block medium center>
                             The workplace course file does not exist or the
                             course content has not yet been approved. Once
-                            approved, you will be able to send the workplace to
-                            the student for approval.
+                            approved by HOD, you will be able to send the
+                            workplace to the student for approval.
                         </Typography>
                         <div className="col-span-2 flex justify-end gap-x-3">
                             <Button
@@ -249,6 +249,26 @@ export const WorkplaceApprovalReq = ({
                         {/*  */}
                         <div className="flex flex-col">
                             <div className="flex-grow ">
+                                <div>
+                                    <Typography variant="small" medium>
+                                        Course
+                                    </Typography>
+                                    <div className="border border-gray-300 rounded-md p-3">
+                                        <Typography
+                                            variant="xs"
+                                            color="text-gray-500"
+                                        >
+                                            {course?.code}
+                                        </Typography>
+                                        <Typography
+                                            variant="small"
+                                            semibold
+                                            color="text-gray-700"
+                                        >
+                                            {course?.title}
+                                        </Typography>
+                                    </div>
+                                </div>
                                 <div className="h-full">
                                     <AvailableMeetingDates
                                         dates={wpReqApproval?.dates}

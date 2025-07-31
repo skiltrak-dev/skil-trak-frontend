@@ -39,4 +39,6 @@ export enum SocketNotificationsEvents {
     FacilityCheckListAdded = 'facilityCheckListAdded',
     CourseRequestRejected = 'courseRequestRejected',
     TicketReply = 'ticketReply',
+    ContentNotVerified = 'contentNotVerified',
+    CourseFileNotFound = 'courseFileNotFound',
 }
