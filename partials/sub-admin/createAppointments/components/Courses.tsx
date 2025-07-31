@@ -48,7 +48,7 @@ export const Courses = ({
                   getAppointmentCourses?.isSuccess ? (
                     <div className="grid grid-cols-6 gap-3">
                         {getAppointmentCourses?.data?.map((c: Course) => (
-                            <Card noPadding>
+                            <Card key={c?.id} noPadding>
                                 <div
                                     className={`h-20 flex flex-col justify-center p-3 rounded-xl border border-gray-400 ${
                                         selectedCourse === c?.id

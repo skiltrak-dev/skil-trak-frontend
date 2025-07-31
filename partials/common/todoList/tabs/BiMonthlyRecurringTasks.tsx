@@ -5,7 +5,6 @@ export const BiMonthlyRecurringTasks = ({
 }: {
     filterDate: Date | null
 }) => {
-    console.log({ filterDate })
     return (
         <div className="flex flex-col gap-y-6">
             <BiMonthlyNonPartnerInd filterDate={filterDate} />

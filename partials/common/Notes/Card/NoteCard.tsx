@@ -75,8 +75,6 @@ export const NoteCard = ({ note }: { note: NoteType | any }) => {
             })
             setAudioLoading(false)
 
-            console.log({ response })
-
             if (!response.ok) {
                 const { error }: { error: string } = await response.json()
                 throw new Error(error)

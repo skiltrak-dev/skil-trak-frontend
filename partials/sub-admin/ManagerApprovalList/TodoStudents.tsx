@@ -18,25 +18,21 @@ export const TodoStudents = () => {
         limit: itemsPerPage,
         skip: itemsPerPage * currentPage - itemsPerPage,
     })
-    console.log('student::::::', data?.data)
     const columns: TableColumn<any>[] = [
         {
             key: 'studentId',
             header: 'Student ID',
             width: '140px',
             className: 'font-medium',
-            render: (value, row) => {
-                console.log('values,', value)
-                return (
-                    <Link
-                        href={`/portals/sub-admin/students/${row?.student?.id}/detail`}
-                    >
-                        <Typography variant="label" cursorPointer>
-                            {row?.student?.studentId}
-                        </Typography>
-                    </Link>
-                )
-            },
+            render: (value, row) => (
+                <Link
+                    href={`/portals/sub-admin/students/${row?.student?.id}/detail`}
+                >
+                    <Typography variant="label" cursorPointer>
+                        {row?.student?.studentId}
+                    </Typography>
+                </Link>
+            ),
         },
         {
             key: 'student.user.name',

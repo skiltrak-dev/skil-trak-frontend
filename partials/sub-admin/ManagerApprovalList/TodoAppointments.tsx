@@ -83,7 +83,6 @@ export const TodoAppointments = () => {
             ),
         },
     ]
-    console.log('app:::::', data?.data)
 
     return (
         <>
