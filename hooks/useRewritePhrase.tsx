@@ -1,5 +1,5 @@
 import { ReWritePhrase } from '@pages/api/openai/fixGrammer'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 export const useRewritePhrase = () => {
     const [isLoading, setIsLoading] = useState<any>(null)
