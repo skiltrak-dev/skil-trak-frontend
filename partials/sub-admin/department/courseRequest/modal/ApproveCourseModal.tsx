@@ -21,6 +21,7 @@ import * as yup from 'yup'
 import { FileUpload } from '@hoc'
 import Image from 'next/image'
 import Link from 'next/link'
+import { AddHodNote } from '@partials/common/IndustryProfileDetail/components/CourseManagement/components'
 
 export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
     const [description, setDescription] = useState('')
@@ -158,7 +159,6 @@ export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
                                         <InputContentEditor name="description" />
                                     </div>
                                 </div>
-
                                 <div className="flex flex-col gap-y-2">
                                     <TagInput
                                         name="reference"
@@ -172,6 +172,10 @@ export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
                                         />
                                     )}
                                 </div>
+                                <AddHodNote
+                                    comment={request?.hodComment}
+                                    courseReqId={request?.id}
+                                />
                                 {request?.file && (
                                     <Typography variant="body">
                                         A file has already been uploaded for
