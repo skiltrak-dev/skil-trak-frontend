@@ -1,5 +1,6 @@
 // useDepartmentCoursesRequestList
 import {
+    Badge,
     Button,
     Card,
     CourseApporovalReqFilter,
@@ -22,6 +23,7 @@ import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { CourseApprovalReqTypes, NextPageWithLayout } from '@types'
 import { ellipsisText } from '@utils'
+import Link from 'next/link'
 import { ReactElement, useState } from 'react'
 import { FaRegDotCircle } from 'react-icons/fa'
 import { DataResponse } from 'redux/queryTypes'
@@ -62,14 +64,16 @@ const CourseRequest: NextPageWithLayout = () => {
         {
             accessorKey: 'industry.user',
             cell: (info) => (
-                <div>
-                    <Typography variant="small">
+                <Link
+                    href={`/portals/sub-admin/users/industries/${info?.row?.original?.industry?.id}`}
+                >
+                    <Typography variant="small" semibold>
                         {ellipsisText(
                             info?.row?.original?.industry?.user?.name,
                             15
                         )}
                     </Typography>
-                </div>
+                </Link>
             ),
             header: () => <span>Industry</span>,
         },
@@ -119,43 +123,14 @@ const CourseRequest: NextPageWithLayout = () => {
         },
         {
             accessorKey: 'description',
-            cell: (info) => {
-                return (
-                    <div>
-                        {info?.row?.original?.description !== null ||
-                        info?.row?.original?.reference !== null ? (
-                            <div className="flex items-center gap-x-2">
-                                <Modal>
-                                    <Modal.Open opens="approveCourseRequest">
-                                        <Button
-                                            variant="info"
-                                            text="View"
-                                            outline
-                                        />
-                                    </Modal.Open>
-                                    <Modal.Window name="approveCourseRequest">
-                                        <ViewCourseRequestDetailsModal
-                                            description={
-                                                info.row?.original?.description
-                                            }
-                                            reference={
-                                                info.row?.original?.reference
-                                            }
-                                        />
-                                    </Modal.Window>
-                                </Modal>
-                            </div>
-                        ) : (
-                            <Typography variant="small" color="text-red-400">
-                                Not added yet
-                            </Typography>
-                        )}
-                    </div>
-                )
-            },
-            header: () => <span>Course Details</span>,
+            cell: (info) => (
+                <Badge
+                    text={info?.row?.original?.file ? 'Yes' : 'No'}
+                    variant={info?.row?.original?.file ? 'success' : 'error'}
+                />
+            ),
+            header: () => <span>File Uploaded</span>,
         },
-
         {
             accessorKey: 'status',
             cell: (info) => {
@@ -179,7 +154,6 @@ const CourseRequest: NextPageWithLayout = () => {
             },
             header: () => <span>Status</span>,
         },
-
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,

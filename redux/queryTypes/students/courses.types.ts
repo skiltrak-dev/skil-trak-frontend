@@ -74,4 +74,5 @@ export interface DataResponse {
     industry: Industry
     reference?: string | null
     status: string
+    file: string
 }

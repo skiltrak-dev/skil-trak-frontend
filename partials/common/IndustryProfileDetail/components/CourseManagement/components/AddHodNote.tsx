@@ -19,6 +19,7 @@ export const AddHodNote = ({
     courseReqId: number
 }) => {
     const [note, setNote] = useState('')
+    const [noteAdded, setNoteAdded] = useState('')
 
     const { notification } = useNotification()
 
@@ -35,6 +36,7 @@ export const AddHodNote = ({
         const res: any = await addNote({ id: courseReqId, comment: note })
 
         if (res?.data) {
+            setNoteAdded(note)
             notification.success({
                 title: 'Note Added',
                 description: 'Note Added Successfully',
