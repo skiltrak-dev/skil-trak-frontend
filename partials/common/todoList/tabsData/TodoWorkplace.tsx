@@ -23,11 +23,16 @@ export const TodoWorkplace = ({ filterDate }: { filterDate: Date | null }) => {
                 .replaceAll('"', '')
                 .trim()}`,
             limit: itemsPerPage,
-            skip: itemsPerPage * currentPage - itemsPerPage,
+            skip: 0,
         },
         {
             skip,
         }
+    )
+
+    const updatedData = data?.data?.data?.slice(
+        itemsPerPage * currentPage - itemsPerPage,
+        itemsPerPage * currentPage - itemsPerPage + Number(itemsPerPage)
     )
 
     const columns: TableColumn<any>[] = [
@@ -91,7 +96,7 @@ export const TodoWorkplace = ({ filterDate }: { filterDate: Date | null }) => {
     return (
         <>
             <TodoTable
-                data={data}
+                data={{ ...data, data: { ...data?.data, data: updatedData } }}
                 columns={columns}
                 title="Workplace Request:"
                 statusCounts={{
@@ -100,7 +105,10 @@ export const TodoWorkplace = ({ filterDate }: { filterDate: Date | null }) => {
                 }}
                 onClose={() => console.log('Close clicked')}
                 onPageChange={setCurrentPage}
-                onItemsPerPageChange={setItemsPerPage}
+                onItemsPerPageChange={(e: any) => {
+                    setItemsPerPage(e)
+                    setCurrentPage(1)
+                }}
             />
         </>
     )

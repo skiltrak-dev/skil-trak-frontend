@@ -1,4 +1,4 @@
-import { Button, SidebarCalendar } from '@components'
+import { Button, SidebarCalendar, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 import moment, { Moment } from 'moment'
@@ -117,7 +117,17 @@ export const TodoTabs = ({ baseUrl }: { baseUrl?: string }) => {
 
             <OutsideClickHandler onOutsideClick={() => setShowFilter(false)}>
                 <div className="relative">
-                    <div className="flex justify-end">
+                    <div className="flex justify-between">
+                        <div>
+                            <Typography variant="label" color="text-gray-600">
+                                Selected Date
+                            </Typography>
+                            <Typography variant="small" color="text-gray-500">
+                                {filterDate
+                                    ? moment(filterDate).format('DD MMMM YYYY')
+                                    : '---'}
+                            </Typography>
+                        </div>
                         <Button
                             onClick={() => {
                                 setShowFilter(!showFilter)

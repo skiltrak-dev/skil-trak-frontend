@@ -20,7 +20,7 @@ export const TodoAppointments = () => {
         skip: itemsPerPage * currentPage - itemsPerPage,
     })
 
-    const columns: TableColumn<any>[] = [
+    const columns: TableColumn<any>[] = [   
         {
             key: 'studentId',
             header: 'Student ID',

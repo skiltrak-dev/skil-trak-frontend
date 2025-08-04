@@ -1,6 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { PaginationWithSearch } from '@types'
+import { PaginationValues, PaginationWithSearch } from '@types'
 
 const PREFIX = 'todos'
 
@@ -11,8 +11,11 @@ type ListingType = PaginationWithSearch & {
 export const todoListEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    todoListCount: builder.query<any, void>({
-        query: () => `${PREFIX}/count/all`,
+    todoListCount: builder.query<any, { date: string }>({
+        query: (params) => ({
+            url: `${PREFIX}/count/all`,
+            params,
+        }),
         providesTags: ['TODO'],
     }),
 

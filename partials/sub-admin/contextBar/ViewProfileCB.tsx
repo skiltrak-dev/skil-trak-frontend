@@ -11,6 +11,7 @@ import { getUserCredentials } from '@utils'
 import Link from 'next/link'
 import { IoCheckmarkDoneOutline } from 'react-icons/io5'
 import { ProfileLinks } from '../components'
+import moment from 'moment'
 export const ViewProfileCB = ({
     subadmin,
     statistics,
@@ -20,9 +21,12 @@ export const ViewProfileCB = ({
 }) => {
     const status = getUserCredentials()?.status
 
-    const todoListCount = SubAdminApi.Todo.todoListCount(undefined, {
-        skip: status !== UserStatus.Approved,
-    })
+    const todoListCount = SubAdminApi.Todo.todoListCount(
+        { date: moment(new Date()).format('YYYY-MM-DD') },
+        {
+            skip: status !== UserStatus.Approved,
+        }
+    )
 
     const pathname = '/portals/sub-admin/todo-list-details'
 
