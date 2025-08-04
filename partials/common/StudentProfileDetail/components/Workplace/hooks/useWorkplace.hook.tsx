@@ -161,10 +161,13 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         )
     }, [selectedWorkplace?.workplaceApprovaleRequest])
 
-    const allDocumentsInitiated = esignDocumentsFolders?.data?.every(
-        (folder: any) =>
-            folder?.course?.esignTemplates?.[0]?.documents?.length > 0
-    )
+    const allDocumentsInitiated =
+        esignDocumentsFolders?.data && esignDocumentsFolders?.isSuccess
+            ? esignDocumentsFolders?.data?.every(
+                  (folder: any) =>
+                      folder?.course?.esignTemplates?.[0]?.documents?.length > 0
+              )
+            : false
 
     useEffect(() => {
         return () => {
@@ -211,42 +214,64 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         }
     }, [selectedWorkplace, appliedIndustry])
 
+    // Handle appointment booking modal for workplaces with booked appointments
     useEffect(() => {
-        if (
-            selectedWorkplace &&
+        const isAppointmentBookedStatus =
             selectedWorkplace?.currentStatus ===
-                WorkplaceCurrentStatus.AppointmentBooked &&
+            WorkplaceCurrentStatus.AppointmentBooked
+        const isAppointmentQueryReady =
             !getWorkplaceAppointment?.isFetching &&
             !getWorkplaceAppointment?.isLoading &&
-            getWorkplaceAppointment?.isSuccess &&
-            (!getWorkplaceAppointment?.data ||
-                getWorkplaceAppointment?.data?.isSuccessfull === false) &&
-            moment().isSameOrAfter('2025-08-01', 'day')
-        ) {
+            getWorkplaceAppointment?.isSuccess
+        const hasNoValidAppointment =
+            !getWorkplaceAppointment?.data ||
+            getWorkplaceAppointment?.data?.isSuccessfull === false
+        const isAfterCutoffDate = moment().isSameOrAfter('2025-08-01', 'day')
+
+        const shouldShowAppointmentModal =
+            selectedWorkplace &&
+            isAppointmentBookedStatus &&
+            isAppointmentQueryReady &&
+            hasNoValidAppointment &&
+            isAfterCutoffDate
+
+        if (shouldShowAppointmentModal && modelId !== 'appointmentClicked') {
             onAppointmentClicked()
             setModelId('appointmentClicked')
-        } else if (modelId === 'appointmentClicked') {
+        } else if (
+            modelId === 'appointmentClicked' &&
+            !shouldShowAppointmentModal
+        ) {
             setModal(null)
             setModelId('')
         }
-    }, [selectedWorkplace, getWorkplaceAppointment])
+    }, [selectedWorkplace, getWorkplaceAppointment, modelId])
 
+    // Handle e-signature document generation modal
     useEffect(() => {
-        if (
-            getWorkplaceAppointment &&
-            getWorkplaceAppointment?.data &&
-            getWorkplaceAppointment?.data?.isSuccessfull &&
-            moment().isSameOrAfter('2025-08-01', 'day') &&
-            esignDocumentsFolders?.isSuccess &&
-            !allDocumentsInitiated &&
-            (selectedWorkplace?.currentStatus ===
+        const hasSuccessfulAppointment =
+            getWorkplaceAppointment?.data?.isSuccessfull === true
+        const isAfterCutoffDate = moment().isSameOrAfter('2025-08-01', 'day')
+        const isEsignQueryReady = esignDocumentsFolders?.isSuccess
+        const needsDocumentInitiation = !allDocumentsInitiated
+        const isValidStatus =
+            selectedWorkplace?.currentStatus ===
                 WorkplaceCurrentStatus.AppointmentBooked ||
-                selectedWorkplace?.currentStatus ===
-                    WorkplaceCurrentStatus.AwaitingAgreementSigned)
-        ) {
+            selectedWorkplace?.currentStatus ===
+                WorkplaceCurrentStatus.AwaitingAgreementSigned
+
+        const shouldShowEsignModal =
+            getWorkplaceAppointment &&
+            hasSuccessfulAppointment &&
+            isAfterCutoffDate &&
+            isEsignQueryReady &&
+            needsDocumentInitiation &&
+            isValidStatus
+
+        if (shouldShowEsignModal && modelId !== 'generateEsign') {
             onGenerateEsignClicked()
             setModelId('generateEsign')
-        } else if (modelId === 'generateEsign') {
+        } else if (modelId === 'generateEsign' && !shouldShowEsignModal) {
             setModal(null)
             setModelId('')
         }
@@ -255,6 +280,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         allDocumentsInitiated,
         esignDocumentsFolders,
         getWorkplaceAppointment,
+        modelId,
     ])
 
     const onCancelModal = () => setModal(null)
