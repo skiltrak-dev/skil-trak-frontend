@@ -1,4 +1,4 @@
-import { Typography, UserCreatedAt } from '@components'
+import { Button, SidebarCalendar, Typography, UserCreatedAt } from '@components'
 import {
     ApprovedBy,
     CompleteTask,
@@ -7,15 +7,25 @@ import {
 } from '@partials/common/todoList'
 import { SubAdminApi } from '@queries'
 import { User } from '@types'
+import moment from 'moment'
 import Link from 'next/link'
 import React, { useState } from 'react'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 export const TodoAppointments = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    const [page, setPage] = useState(1)
+    const [showFilter, setShowFilter] = useState<boolean>(false)
+    const [filterDate, setFilterDate] = useState<Date | null>(null)
+
     const data = SubAdminApi.Todo.useManagerTodoAppointments({
-        search: '',
+        search: `${JSON.stringify({
+            date: moment(filterDate || new Date()).format('yyyy-MM-DD'),
+        })
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`,
         limit: itemsPerPage,
         skip: itemsPerPage * currentPage - itemsPerPage,
     })
@@ -83,13 +93,35 @@ export const TodoAppointments = () => {
             ),
         },
     ]
-
+    const handleDatesChange = (date: Date) => {
+        setFilterDate(date)
+    }
     return (
         <>
+            <OutsideClickHandler onOutsideClick={() => setShowFilter(false)}>
+                <div className="relative">
+                    <div className="flex justify-end">
+                        <Button
+                            onClick={() => {
+                                setShowFilter(!showFilter)
+                            }}
+                            text="Filter"
+                            variant="action"
+                        />
+                    </div>
+                    {showFilter && (
+                        <div className="absolute top-full right-0 bg-white mt-2 w-80">
+                            <SidebarCalendar
+                                setSelectedDate={handleDatesChange}
+                            />
+                        </div>
+                    )}
+                </div>
+            </OutsideClickHandler>
             <TodoTable
                 data={data}
                 columns={columns}
-                title="Appointments:"
+                title="Appointments"
                 statusCounts={{
                     done: data?.data?.completed,
                     remaining: data?.data?.remaining,
