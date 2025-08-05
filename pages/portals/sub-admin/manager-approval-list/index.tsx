@@ -117,13 +117,13 @@ const ManagerApprovalList: NextPageWithLayout = () => {
             element: <RemoveFromFlaggedStudentRequest />,
         },
         {
-            label: 'Todo Appointment',
+            label: 'Appointments Followup',
             href: {
                 pathname: 'manager-approval-list',
                 query: {
                     page: 1,
                     pageSize: 50,
-                    tab: 'todo-appointments',
+                    tab: 'appointments-followup',
                 },
             },
             badge: {
@@ -133,13 +133,13 @@ const ManagerApprovalList: NextPageWithLayout = () => {
             element: <TodoAppointments />,
         },
         {
-            label: 'Todo Students',
+            label: 'Students Followup',
             href: {
                 pathname: 'manager-approval-list',
                 query: {
                     page: 1,
                     pageSize: 50,
-                    tab: 'todo-students',
+                    tab: 'students-followup',
                 },
             },
             badge: {
