@@ -24,6 +24,21 @@ export const SiteLayout = ({ children, title }: any) => {
                 src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
                 async
             />
+            <Script
+                id="sa-dynamic-optimization"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
+            var script = document.createElement("script");
+            script.setAttribute("nowprocket", "");
+            script.setAttribute("nitro-exclude", "");
+            script.src = "https://dashboard.searchatlas.com/scripts/dynamic_optimization.js";
+            script.dataset.uuid = "d8540013-60cb-43d6-aa64-18aa360b7230";
+            script.id = "sa-dynamic-optimization-loader";
+            document.head.appendChild(script);
+          `,
+                }}
+            />
             <Navbar2 />
             {/* <div className="absolute z-[99999] top-0 left-0">
                 <div className="flex items-center gap-x-5">
