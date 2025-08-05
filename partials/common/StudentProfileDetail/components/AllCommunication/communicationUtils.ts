@@ -13,20 +13,19 @@ export const getCommunicationType = (item: CommunicationItem) => {
 }
 
 export const getCommunicationIcon = (item: CommunicationItem) => {
-    const type = getCommunicationType(item)
-    switch (type) {
-        case 'Call':
-            return '📞'
-        case 'Message':
-            return '💬'
-        case 'Ticket':
-            return '🎫'
-        case 'Note':
-            return '📝'
-        default:
-            return '✉️'
-    }
-}
+  const type = getCommunicationType(item);
+
+  const iconMap:any = {
+    Call: { icon: '📞', bg: 'bg-green-100 rounded-md p-1', text: 'text-green-700' },
+    Message: { icon: '💬', bg: 'bg-purple-100 rounded-md p-1', text: 'text-purple-700' },
+    Ticket: { icon: '🎫', bg: 'bg-blue-100 rounded-md p-1', text: 'text-blue-700' },
+    Note: { icon: '📝', bg: 'bg-yellow-100 rounded-md p-1', text: 'text-yellow-700' },
+    Email: { icon: '📧', bg: 'bg-blue-100 rounded-md p-1', text: 'text-blue-700' },
+  };
+
+  return iconMap[type] || iconMap['Email'];
+};
+
 
 export const getCommunicationTitle = (item: CommunicationItem) => {
     if (item.type === 'twilio') return 'Student Message'

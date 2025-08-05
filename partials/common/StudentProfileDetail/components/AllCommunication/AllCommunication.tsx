@@ -1,7 +1,6 @@
 // TODO: save all the workplace status in all communication, including rejection and cancellation. With date stamp and the person who did it?,
 // TODO: modal view snoozed history
-// TODO: default open notes
-// TODO: filter pinned notes, internal notes
+
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { useContextBar } from '@hooks'
 import { CommonApi } from '@queries'
@@ -118,30 +117,19 @@ export const AllCommunication = ({
     const visibleData = filteredData?.slice(0, visibleItems) || []
     const hasMoreItems = (filteredData?.length || 0) > visibleItems
 
-    if (isError) return <TechnicalError />
 
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-full">
-                <LoadingAnimation />
-            </div>
-        )
-    }
-
-    if (!data || data?.length === 0) {
-        return isSuccess ? (
-            <EmptyData
-                imageUrl="/images/icons/common/notes.png"
-                title="No All Communication Attached"
-                description="Attach a note or message to view All Communication here"
-                height="40vh"
-            />
-        ) : null
-    }
     return (
         <div className="h-[40rem] overflow-auto flex flex-col">
             <CommunicationHeader user={user} />
-
+            {isError && <TechnicalError />}
+            {isLoading && <LoadingAnimation />}
+            {!data || data?.length === 0 && isSuccess ?
+                <EmptyData
+                    imageUrl="/images/icons/common/notes.png"
+                    title="No All Communication Attached"
+                    description="Attach a note or message to view All Communication here"
+                    height="40vh"
+                /> : null}
             <CommunicationFilters
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}

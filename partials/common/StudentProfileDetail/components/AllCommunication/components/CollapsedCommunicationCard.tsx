@@ -9,6 +9,7 @@ import {
 } from '../communicationUtils'
 import { CommunicationCardProps } from '../types'
 import { CommunicationDetails } from './CommunicationDetails'
+import { IoIosArrowDown } from 'react-icons/io'
 
 export const CollapsedCommunicationCard: React.FC<CommunicationCardProps> = ({
     item,
@@ -22,12 +23,12 @@ export const CollapsedCommunicationCard: React.FC<CommunicationCardProps> = ({
         >
             <div className="flex items-start justify-between">
                 <div className="flex items-start space-x-3 flex-1">
-                    <div className="text-2xl">{getCommunicationIcon(item)}</div>
+                    <div className={`text-2xl ${getCommunicationIcon(item)?.bg}`}>{getCommunicationIcon(item)?.icon}</div>
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                             <Typography
-                                variant="body"
-                                bold
+                                variant="small"
+                                semibold
                                 color="text-gray-900 truncate"
                             >
                                 {getCommunicationTitle(item)}
@@ -39,13 +40,14 @@ export const CollapsedCommunicationCard: React.FC<CommunicationCardProps> = ({
                                 >
                                     {getCommunicationDate(item)}
                                 </Typography>
-                                <span
+                                <div
                                     className={`transform transition-transform text-gray-400 ${
                                         isExpanded ? 'rotate-180' : ''
                                     }`}
                                 >
-                                    ▼
-                                </span>
+                                    <IoIosArrowDown />
+
+                                </div>
                             </div>
                         </div>
                         <Typography variant="small" color="text-gray-600 mt-1">
