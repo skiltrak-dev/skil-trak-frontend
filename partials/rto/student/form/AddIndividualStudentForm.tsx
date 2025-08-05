@@ -85,7 +85,7 @@ export const AddIndividualStudentForm = () => {
             emergencyPerson: 'N/A',
             emergencyPersonPhone: 'N/A',
             gender: 'N/A',
-            addressLine1: 'Australia',
+            addressLine1: 'N/A',
             state: 'N/A',
             suburb: 'N/A',
             zipCode: 'N/A',

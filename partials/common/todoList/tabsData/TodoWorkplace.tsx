@@ -8,7 +8,7 @@ import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
 
 export const TodoWorkplace = ({ filterDate }: { filterDate: Date | null }) => {
     const [currentPage, setCurrentPage] = useState(1)
-    const [itemsPerPage, setItemsPerPage] = useState(10)
+    const [itemsPerPage, setItemsPerPage] = useState(20)
 
     const { id, skip } = useTodoHooks()
 

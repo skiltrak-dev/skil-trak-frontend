@@ -52,7 +52,6 @@ export const AddIndividualStudentForm = () => {
         studentId: yup.string().required('Must provide your student Id'),
         batch: yup.string().required('Must provide your Batch'),
         phone: yup.string().required('Must provide your phone number'),
-        // gender: yup.string().required('Must provide gender'),
         age: yup.string().nullable().required('Must Select age'),
         email: yup
             .string()
@@ -61,13 +60,6 @@ export const AddIndividualStudentForm = () => {
         expiryDate: yup.date().required('Must provide Expiry Date'),
         // sector and courses
         courses: yup.array().min(1, 'Must select at least 1 course').required(),
-
-        // Address Information
-        // addressLine1: yup.string().required('Must provide address'),
-
-        // state: yup.string().required('Must provide name of state'),
-        // suburb: yup.string().required('Must provide suburb name'),
-        // zipCode: yup.string().required('Must provide zip code for your state'),
     })
 
     const formMethods = useForm({
@@ -99,7 +91,7 @@ export const AddIndividualStudentForm = () => {
                 emergencyPerson: 'N/A',
                 emergencyPersonPhone: 'N/A',
                 gender: 'N/A',
-                addressLine1: 'Australia',
+                addressLine1: 'N/A',
                 state: 'N/A',
                 suburb: 'N/A',
                 zipCode: 'N/A',
