@@ -248,6 +248,8 @@ export const {
     useWeeklyFollowUpQuery,
     useWorkplaceTodoListQuery,
     useAppointmentTodoListQuery,
+    useRemoveAllTodosMutation,
+    useAddAllNewTodosMutation,
     useUpdateTodoStatusMutation,
     useHighPriorityTodoListQuery,
     useQuarterlyListedIndustriesQuery,
@@ -579,6 +581,8 @@ export const SubAdminApi = {
         todoListCount: useTodoListCountQuery,
         ticketTodoList: useTicketTodoListQuery,
         weeklyFollowUp: useWeeklyFollowUpQuery,
+        removeAllTodos: useRemoveAllTodosMutation,
+        addAllNewTodos: useAddAllNewTodosMutation,
         workplaceTodoList: useWorkplaceTodoListQuery,
         updateTodoStatus: useUpdateTodoStatusMutation,
         monthlyPartnerIndustriesFollowUp:

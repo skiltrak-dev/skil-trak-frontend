@@ -1,10 +1,10 @@
-import { Button, SidebarCalendar, Typography } from '@components'
+import { ActionButton, Button, SidebarCalendar, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 import moment, { Moment } from 'moment'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { ReactElement, useState } from 'react'
 import {
     BiMonthlyRecurringTasks,
     DailyRecurringTasks,
@@ -13,6 +13,8 @@ import {
     WeeklyRecurringTasks,
 } from '../tabs'
 import OutsideClickHandler from 'react-outside-click-handler'
+import { RemoveAllTodosModal } from '../modal/RemoveAllTodosModal'
+import { AddAllTodosModal } from '../modal/AddAllTodosModal'
 
 type TabProps = {
     label: string
@@ -56,6 +58,7 @@ export const TodoTabs = ({ baseUrl }: { baseUrl?: string }) => {
     const [endDate, setEndDate] = useState<Moment | null>(null)
     const [showFilter, setShowFilter] = useState<boolean>(false)
     const [filterDate, setFilterDate] = useState<Date | null>(null)
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const role = getUserCredentials()?.role
 
@@ -79,22 +82,40 @@ export const TodoTabs = ({ baseUrl }: { baseUrl?: string }) => {
         })
     }
 
-    // useEffect(() => {
-    //     // Redirect to first tab if query param is missing or invalid
-    //     if (!tabSlug || tabs.findIndex((tab) => tab.slug === tabSlug) === -1) {
-    //         const defaultSlug = tabs[0].slug
-    //         router.replace(`?tab=${defaultSlug}`, { scroll: false })
-    //     }
-    // }, [tabSlug, router])
-
     const handleDatesChange = (date: Date) => {
         setFilterDate(date)
     }
 
     const Component = tabs[activeTabIndex].element
 
+    const onCancel = () => setModal(null)
+
+    const onAddTodos = () => {
+        setModal(<AddAllTodosModal onCancel={onCancel} />)
+    }
+    const onRemoveTodos = () => {
+        setModal(<RemoveAllTodosModal onCancel={onCancel} />)
+    }
+
     return (
         <div className="">
+            {modal}
+            <div className="flex justify-end items-center gap-x-2 mb-2">
+                <Button
+                    variant="success"
+                    onClick={() => {
+                        onAddTodos()
+                    }}
+                    text={'Add All Todos (Testing)'}
+                />
+                <Button
+                    variant="error"
+                    onClick={() => {
+                        onRemoveTodos()
+                    }}
+                    text={'Remove All Todos (Testing)'}
+                />
+            </div>
             <div className="flex gap-x-0.5 justify-between mb-4  bg-[#F6F8FA] border border-[#EDEDED] rounded-lg p-0.5 ">
                 {tabs.map((tab, index) => (
                     <button

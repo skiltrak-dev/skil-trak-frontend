@@ -1,6 +1,7 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
 import { SubAdminApi } from '@queries'
+import moment from 'moment'
 
 import { HiCheckBadge } from 'react-icons/hi2'
 
@@ -21,6 +22,7 @@ export const CompleteTodoModal = ({
         const res: any = await updateStatus({
             id: Number(job.id),
             status: 'completed',
+            date: moment(new Date()).format('YYYY-MM-DD'),
         })
         if (res?.data) {
             notification.success({

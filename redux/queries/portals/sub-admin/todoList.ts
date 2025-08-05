@@ -79,7 +79,10 @@ export const todoListEndpoints = (
         providesTags: ['TODO'],
     }),
 
-    updateTodoStatus: builder.mutation<any, { id: number; status: string }>({
+    updateTodoStatus: builder.mutation<
+        any,
+        { id: number; status: string; date: string }
+    >({
         query: ({ id, ...params }) => ({
             url: `${PREFIX}/${id}`,
             method: 'PATCH',
@@ -101,5 +104,21 @@ export const todoListEndpoints = (
             params,
         }),
         providesTags: ['TODO'],
+    }),
+
+    // beta
+    addAllNewTodos: builder.mutation<any, void>({
+        query: () => ({
+            url: `${PREFIX}/create`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['TODO'],
+    }),
+    removeAllTodos: builder.mutation<any, void>({
+        query: () => ({
+            url: `${PREFIX}/remove-all`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['TODO'],
     }),
 })
