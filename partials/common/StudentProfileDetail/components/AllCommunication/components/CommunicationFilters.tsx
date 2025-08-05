@@ -18,7 +18,7 @@ export const CommunicationFilters: React.FC<CommunicationFiltersProps> = ({
                 placeholder="Search communications..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary text-sm"
             />
         </div>
 
@@ -29,7 +29,7 @@ export const CommunicationFilters: React.FC<CommunicationFiltersProps> = ({
             <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary text-sm"
             >
                 <option value="All">All</option>
                 <option value="Email">Email</option>

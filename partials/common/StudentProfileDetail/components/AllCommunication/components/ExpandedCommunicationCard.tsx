@@ -19,8 +19,8 @@ export const ExpandedCommunicationCard: React.FC<CommunicationCardProps> = ({
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                             <Typography
-                                variant="body"
-                                bold
+                                variant="small"
+                                medium
                                 color="text-gray-900"
                             >
                                 {getCommunicationTitle(item)}
