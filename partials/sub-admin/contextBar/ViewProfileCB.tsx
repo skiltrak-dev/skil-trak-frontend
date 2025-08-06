@@ -21,12 +21,13 @@ export const ViewProfileCB = ({
 }) => {
     const status = getUserCredentials()?.status
 
-    const todoListCount = SubAdminApi.Todo.todoListCount(
-        { date: moment(new Date()).format('YYYY-MM-DD') },
-        {
-            skip: status !== UserStatus.Approved,
-        }
-    )
+    const todoListCount = {} as any
+    // const todoListCount = SubAdminApi.Todo.todoListCount(
+    //     { date: moment(new Date()).format('YYYY-MM-DD') },
+    //     {
+    //         skip: status !== UserStatus.Approved,
+    //     }
+    // )
 
     const pathname = '/portals/sub-admin/todo-list-details'
 
@@ -36,7 +37,7 @@ export const ViewProfileCB = ({
             lists: [
                 {
                     text: 'High Priority Items',
-                    count: todoListCount?.data?.highPriority?.total || 0 || 0,
+                    count: todoListCount?.data?.highPriority?.total || 0,
                     completed:
                         todoListCount?.data?.highPriority?.completed || 0,
                     remaining: todoListCount?.data?.highPriority?.pending || 0,
