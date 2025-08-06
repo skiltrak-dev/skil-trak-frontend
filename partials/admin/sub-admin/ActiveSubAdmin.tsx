@@ -5,6 +5,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TableSkeleton,
     TechnicalError,
     TruncatedTextWithTooltip,
@@ -42,10 +43,18 @@ export const ActiveSubAdmin = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    const [isRouting, setIsRouting] = useState(true)
 
     useEffect(() => {
-        setPage(Number(router.query?.page || 1))
-        setItemPerPage(Number(router.query?.pageSize || 50))
+        if (!isRouting) return
+        const newPage = Number(router.query.page)
+        const newItemPerPage = Number(router.query.pageSize)
+        if (router.query.page) {
+            setPage(newPage)
+        }
+        if (router.query.pageSize) {
+            setItemPerPage(newItemPerPage)
+        }
     }, [router])
 
     // hooks
@@ -320,21 +329,26 @@ export const ActiveSubAdmin = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => {
+                            }: TableChildrenProps) => {
                                 return (
                                     <div>
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
+                                            {pageSize &&
+                                                pageSize(
+                                                    itemPerPage,
+                                                    (e) => {
+                                                        setItemPerPage(e)
+                                                        setIsRouting(false)
+                                                    },
+                                                    data?.data?.length
+                                                )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination &&
+                                                    pagination(
+                                                        data?.pagination,
+                                                        setPage
+                                                    )}
                                             </div>
                                         </div>
                                         <div className="overflow-x-auto remove-scrollbar">
@@ -350,7 +364,12 @@ export const ActiveSubAdmin = () => {
                                                 {pageSize
                                                     ? pageSize(
                                                           itemPerPage,
-                                                          setItemPerPage,
+                                                          (e) => {
+                                                              setItemPerPage(e)
+                                                              setIsRouting(
+                                                                  false
+                                                              )
+                                                          },
                                                           data?.data?.length
                                                       )
                                                     : null}

@@ -11,6 +11,7 @@ import {
     MyStudentQuickFilters,
     MyStudentsFilters,
     Table,
+    TableChildrenProps,
 } from '@components'
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
@@ -57,17 +58,26 @@ export const MyStudents = () => {
     const [flagged, setFlagged] = useState<boolean>(false)
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    const [isRouting, setIsRouting] = useState(true)
     const coordinatorProfile = useSubadminProfile()
 
     useEffect(() => {
-        setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
         const query = getFilterQuery<SubAdminStudentsFilterType>({
             router,
             filterKeys,
         })
         setFilter(query as SubAdminStudentsFilterType)
-    }, [router])
+
+        if (!isRouting) return
+        const newPage = Number(router.query.page)
+        const newItemPerPage = Number(router.query.pageSize)
+        if (router.query.page) {
+            setPage(newPage)
+        }
+        if (router.query.pageSize) {
+            setItemPerPage(newItemPerPage)
+        }
+    }, [router.query.page, router.query.pageSize, isRouting])
 
     const { isLoading, isFetching, data, isError } =
         useGetSubAdminMyStudentsQuery(
@@ -149,21 +159,26 @@ export const MyStudents = () => {
                             pagination,
                             pageSize,
                             quickActions,
-                        }: any) => {
+                        }: TableChildrenProps) => {
                             return (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(
-                                            itemPerPage,
-                                            setItemPerPage,
-                                            data?.data?.length
-                                        )}
+                                        {pageSize &&
+                                            pageSize(
+                                                itemPerPage,
+                                                (e) => {
+                                                    setItemPerPage(e)
+                                                    setIsRouting(false)
+                                                },
+                                                data?.data?.length
+                                            )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
-                                            {pagination(
-                                                data?.pagination,
-                                                setPage
-                                            )}
+                                            {pagination &&
+                                                pagination(
+                                                    data?.pagination,
+                                                    setPage
+                                                )}
                                         </div>
                                     </div>
                                     <div className="overflow-x-auto remove-scrollbar">
@@ -176,17 +191,22 @@ export const MyStudents = () => {
                                     </div>
                                     {data?.data?.length > 10 && (
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
+                                            {pageSize &&
+                                                pageSize(
+                                                    itemPerPage,
+                                                    (e) => {
+                                                        setItemPerPage(e)
+                                                        setIsRouting(false)
+                                                    },
+                                                    data?.data?.length
+                                                )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination &&
+                                                    pagination(
+                                                        data?.pagination,
+                                                        setPage
+                                                    )}
                                             </div>
                                         </div>
                                     )}

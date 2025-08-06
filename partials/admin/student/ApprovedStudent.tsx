@@ -44,7 +44,7 @@ export const ApprovedStudent = () => {
     const router = useRouter()
     // const [modal, setModal] = useState<ReactElement | null>(null)
     const [itemPerPage, setItemPerPage] = useState(50)
-    const [testing, setTesting] = useState(true)
+    const [isRouting, setIsRouting] = useState(true)
     const [page, setPage] = useState(1)
     const listingRef = useRef<any>(null)
 
@@ -73,13 +73,13 @@ export const ApprovedStudent = () => {
     useEffect(() => {
         const newPage = Number(router.query.page)
         const newItemPerPage = Number(router.query.pageSize)
-        if (router.query.page && testing) {
+        if (router.query.page && isRouting) {
             setPage(newPage)
         }
-        if (router.query.pageSize && testing) {
+        if (router.query.pageSize && isRouting) {
             setItemPerPage(newItemPerPage)
         }
-    }, [router.query.page, router.query.pageSize, testing])
+    }, [router.query.page, router.query.pageSize, isRouting])
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
@@ -397,7 +397,7 @@ export const ApprovedStudent = () => {
                                                       itemPerPage,
                                                       (e) => {
                                                           setItemPerPage(e)
-                                                          setTesting(false)
+                                                          setIsRouting(false)
                                                       },
                                                       data?.data?.length
                                                   )
@@ -425,7 +425,12 @@ export const ApprovedStudent = () => {
                                                 {pageSize
                                                     ? pageSize(
                                                           itemPerPage,
-                                                          setItemPerPage,
+                                                          (e) => {
+                                                              setItemPerPage(e)
+                                                              setIsRouting(
+                                                                  false
+                                                              )
+                                                          },
                                                           data?.data?.length
                                                       )
                                                     : null}
