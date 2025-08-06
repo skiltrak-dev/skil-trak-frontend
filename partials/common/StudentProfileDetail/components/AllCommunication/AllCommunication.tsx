@@ -19,10 +19,10 @@ import {
 } from './components'
 import { CommunicationItem } from './types'
 export const AllCommunication = ({
-    user,
+    student,
     isEntered = true,
 }: {
-    user: User
+    student: any
     isEntered?: boolean
 }) => {
     const { isVisible: isContextBarVisible } = useContextBar()
@@ -40,9 +40,11 @@ export const AllCommunication = ({
 
     const ITEMS_PER_LOAD = 20
 
+
+
     const { data, isLoading, isError, isSuccess } =
-        CommonApi.AllCommunication.useCommunications(user?.id, {
-            skip: !user || !isEntered,
+        CommonApi.AllCommunication.useCommunications(student?.user?.id, {
+            skip: !student?.user || !isEntered,
             refetchOnMountOrArgChange: 20,
         })
 
@@ -117,19 +119,19 @@ export const AllCommunication = ({
     const visibleData = filteredData?.slice(0, visibleItems) || []
     const hasMoreItems = (filteredData?.length || 0) > visibleItems
 
-
     return (
         <div className="h-[40rem] overflow-auto flex flex-col">
-            <CommunicationHeader user={user} />
+            <CommunicationHeader student={student} />
             {isError && <TechnicalError />}
             {isLoading && <LoadingAnimation />}
-            {!data || data?.length === 0 && isSuccess ?
+            {isSuccess && (!data || data.length === 0) && (
                 <EmptyData
                     imageUrl="/images/icons/common/notes.png"
                     title="No All Communication Attached"
                     description="Attach a note or message to view All Communication here"
                     height="40vh"
-                /> : null}
+                />
+            )}
             <CommunicationFilters
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}

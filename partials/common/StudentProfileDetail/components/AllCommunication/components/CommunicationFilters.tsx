@@ -24,6 +24,21 @@ export const CommunicationFilters: React.FC<CommunicationFiltersProps> = ({
 
         <div className="flex items-center space-x-2">
             <Typography variant="small" color="text-gray-600">
+                Pinned to All
+            </Typography>
+            <select
+                value={fromFilter}
+                onChange={(e) => setFromFilter(e.target.value)}
+                className="p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+                <option value="All">All</option>
+                <option value="PinnedNotes">Pinned Notes</option>
+                <option value="internalNotes">Internal Notes</option>
+            </select>
+        </div>
+
+        <div className="flex items-center space-x-2">
+            <Typography variant="small" color="text-gray-600">
                 Type:
             </Typography>
             <select
@@ -37,9 +52,8 @@ export const CommunicationFilters: React.FC<CommunicationFiltersProps> = ({
                 <option value="Message">Message</option>
                 <option value="Ticket">Ticket</option>
                 <option value="Note">Note</option>
-                <option value="PinnedNotes">Pinned Notes</option>
-                <option value="internalNotes">Internal Notes</option>
             </select>
+
         </div>
 
         {/* <Button
@@ -49,17 +63,6 @@ export const CommunicationFilters: React.FC<CommunicationFiltersProps> = ({
             {isExpanded ? '📋 Collapse All' : '📋 Expand All'}
         </Button> */}
 
-        {/* <div className="flex items-center space-x-2">
-            <Typography variant="small" color="text-gray-600">
-                From:
-            </Typography>
-            <select
-                value={fromFilter}
-                onChange={(e) => setFromFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-                <option value="All">All</option>
-            </select>
-        </div> */}
+
     </div>
 )

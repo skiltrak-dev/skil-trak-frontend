@@ -3,8 +3,10 @@ import { User } from '@types'
 import { ReactElement, useState } from 'react'
 import { ComposeMailModal } from '../../modals'
 import { AllCommunication } from '../AllCommunication'
+import { useWorkplaceHook } from '../Workplace/hooks'
+import { WorkplaceHistory } from '../Workplace'
 
-export const MailsCommunication = ({ user }: { user: User }) => {
+export const MailsCommunication = ({ student }: { student: any }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const onCancelClicked = () => setModal(null)
@@ -12,8 +14,8 @@ export const MailsCommunication = ({ user }: { user: User }) => {
     const onComposeMail = () => {
         setModal(
             <ComposeMailModal
-                user={user}
-                userId={user?.id}
+                user={student.user}
+                userId={student?.user?.id}
                 onCancel={onCancelClicked}
             />
         )
@@ -30,7 +32,8 @@ export const MailsCommunication = ({ user }: { user: User }) => {
                 >
                     Compose Mail
                 </Button> */}
-                <AllCommunication user={user} />
+                
+                <AllCommunication student={student} />
             </Card>
         </div>
     )
