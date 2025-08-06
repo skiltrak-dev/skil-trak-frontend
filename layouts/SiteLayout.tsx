@@ -18,21 +18,6 @@ export const SiteLayout = ({ children, title }: any) => {
             <Head>
                 <title>{`${title || 'Home'}`}</title>
                 <meta name="description" content="SkilTrak" key="desc" />
-                <Script
-                    id="sa-dynamic-optimization"
-                    strategy="beforeInteractive"
-                    dangerouslySetInnerHTML={{
-                        __html: `
-              var script = document.createElement("script");
-              script.setAttribute("nowprocket", "");
-              script.setAttribute("nitro-exclude", "");
-              script.src = "https://dashboard.searchatlas.com/scripts/dynamic_optimization.js";
-              script.dataset.uuid = "d8540013-60cb-43d6-aa64-18aa360b7230";
-              script.id = "sa-dynamic-optimization-loader";
-              document.head.appendChild(script);
-            `,
-                    }}
-                />
             </Head>
             <Script
                 strategy="afterInteractive"

@@ -1,8 +1,24 @@
 import { Html, Head, Main, NextScript } from 'next/document'
+import Script from 'next/script'
 export default function Document() {
     return (
         <Html lang="en">
             <Head>
+                <Script
+                    id="sa-dynamic-optimization"
+                    strategy="beforeInteractive"
+                    dangerouslySetInnerHTML={{
+                        __html: `
+              var script = document.createElement("script");
+              script.setAttribute("nowprocket", "");
+              script.setAttribute("nitro-exclude", "");
+              script.src = "https://dashboard.searchatlas.com/scripts/dynamic_optimization.js";
+              script.dataset.uuid = "d8540013-60cb-43d6-aa64-18aa360b7230";
+              script.id = "sa-dynamic-optimization-loader";
+              document.head.appendChild(script);
+            `,
+                    }}
+                />
                 <meta
                     name="google-site-verification"
                     content="GTslJTTqv87p3WbfdzlrmIId4pMc1vNepwDTHaOWpbc"

@@ -33,7 +33,7 @@ import { useActionModals } from './hooks'
 
 export const ApprovedIndustry = () => {
     const router = useRouter()
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(30)
     const [page, setPage] = useState(1)
     const role = getUserCredentials()?.role
     // hooks
