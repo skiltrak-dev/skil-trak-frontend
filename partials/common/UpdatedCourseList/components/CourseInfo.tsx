@@ -30,11 +30,7 @@ export const CourseInfo = ({
             {modal}
 
             <Badge
-                text={
-                    courseInfo && courseInfo?.length > 0
-                        ? 'Edit Info'
-                        : 'Add Info'
-                }
+                text={'Highlighted Tasks'}
                 variant={
                     courseInfo && courseInfo?.length > 0 ? 'primary' : 'info'
                 }
