@@ -28,7 +28,7 @@ import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
 export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(30)
     const [page, setPage] = useState(1)
 
     const subadminId = getUserCredentials()?.id

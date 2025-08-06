@@ -44,6 +44,7 @@ export const ApprovedStudent = () => {
     const router = useRouter()
     // const [modal, setModal] = useState<ReactElement | null>(null)
     const [itemPerPage, setItemPerPage] = useState(50)
+    const [testing, setTesting] = useState(true)
     const [page, setPage] = useState(1)
     const listingRef = useRef<any>(null)
 
@@ -70,9 +71,15 @@ export const ApprovedStudent = () => {
     }
 
     useEffect(() => {
-        setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
-    }, [router])
+        const newPage = Number(router.query.page)
+        const newItemPerPage = Number(router.query.pageSize)
+        if (router.query.page && testing) {
+            setPage(newPage)
+        }
+        if (router.query.pageSize && testing) {
+            setItemPerPage(newItemPerPage)
+        }
+    }, [router.query.page, router.query.pageSize, testing])
 
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
@@ -388,7 +395,10 @@ export const ApprovedStudent = () => {
                                             {pageSize
                                                 ? pageSize(
                                                       itemPerPage,
-                                                      setItemPerPage,
+                                                      (e) => {
+                                                          setItemPerPage(e)
+                                                          setTesting(false)
+                                                      },
                                                       data?.data?.length
                                                   )
                                                 : null}
