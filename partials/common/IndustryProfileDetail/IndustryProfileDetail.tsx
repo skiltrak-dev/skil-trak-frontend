@@ -186,7 +186,7 @@ export const IndustryProfileDetail = ({
                     <StudentSchedule />
                     <div className="h-[640px] px-2  grid grid-cols-2 gap-x-3">
                         <div className={`!h-[99%] col-span-2`}>
-                            <MailsCommunication user={industry?.user} />
+                            <MailsCommunication user={industry} />
                         </div>
                     </div>
                 </AuthorizedUserComponent>

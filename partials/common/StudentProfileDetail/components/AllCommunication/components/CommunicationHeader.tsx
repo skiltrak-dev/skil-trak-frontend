@@ -1,23 +1,25 @@
-import { Button, Typography } from '@components'
+import { AuthorizedUserComponent, Button, Typography } from '@components'
 import { ComposeMailModal } from '@partials/common/StudentProfileDetail/modals'
 import { ReactElement, useState } from 'react'
 import { useWorkplaceHook } from '../../Workplace/hooks'
 import { WorkplaceHistory } from '../../Workplace'
+import { UserRoles } from '@constants'
 
 interface CommunicationHeaderProps {
-    student?: any
+    user?: any
 }
 
-export const CommunicationHeader = ({ student }: CommunicationHeaderProps) => {
+export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const student = user
     const { selectedWorkplace } = useWorkplaceHook({ student })
     const onCancelClicked = () => setModal(null)
 
     const onComposeMail = () => {
         setModal(
             <ComposeMailModal
-                user={student?.user}
-                userId={student?.user?.id}
+                user={user?.user}
+                userId={user?.user?.id}
                 onCancel={onCancelClicked}
             />
         )
@@ -31,9 +33,11 @@ export const CommunicationHeader = ({ student }: CommunicationHeaderProps) => {
                 </Typography>
 
                 <div className="flex items-center gap-x-2">
-                    <WorkplaceHistory
-                        wpId={selectedWorkplace?.id}
-                    />
+                    <AuthorizedUserComponent
+                        roles={[UserRoles.SUBADMIN, UserRoles.ADMIN, UserRoles.RTO]}
+                    >
+                        <WorkplaceHistory wpId={selectedWorkplace?.id} />
+                    </AuthorizedUserComponent>
                     <Button
                         variant="info"
                         onClick={() => {
