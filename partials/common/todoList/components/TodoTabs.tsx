@@ -100,7 +100,7 @@ export const TodoTabs = ({ baseUrl }: { baseUrl?: string }) => {
     return (
         <div className="">
             {modal}
-            <div className="flex justify-end items-center gap-x-2 mb-2">
+            {/* <div className="flex justify-end items-center gap-x-2 mb-2">
                 <Button
                     variant="success"
                     onClick={() => {
@@ -115,7 +115,7 @@ export const TodoTabs = ({ baseUrl }: { baseUrl?: string }) => {
                     }}
                     text={'Remove All Todos (Testing)'}
                 />
-            </div>
+            </div> */}
             <div className="flex gap-x-0.5 justify-between mb-4  bg-[#F6F8FA] border border-[#EDEDED] rounded-lg p-0.5 ">
                 {tabs.map((tab, index) => (
                     <button

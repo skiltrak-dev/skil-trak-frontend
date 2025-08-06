@@ -21,12 +21,12 @@ interface ProfileContentProps {
 }
 
 export const StudentProfileContent: React.FC<ProfileContentProps> = ({
-    profile,
     role,
+    profile,
     subadmin,
+    getActiveBorder,
     workplaceLength,
     getWorkplaceLength,
-    getActiveBorder,
 }) => {
     const isAdminRole = role === UserRoles.ADMIN || subadmin?.data?.isAdmin
 
