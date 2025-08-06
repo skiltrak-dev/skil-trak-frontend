@@ -1,5 +1,6 @@
 // TODO: save all the workplace status in all communication, including rejection and cancellation. With date stamp and the person who did it?,
 // TODO: modal view snoozed history
+// TODO: student cancellation note in all communication
 
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { useContextBar } from '@hooks'
@@ -124,43 +125,46 @@ export const AllCommunication = ({
             <CommunicationHeader user={user} />
             {isError && <TechnicalError />}
             {isLoading && <LoadingAnimation />}
-            {isSuccess && (!data || data.length === 0) && (
+            {isSuccess && (!data || data.length === 0) ? (
                 <EmptyData
                     imageUrl="/images/icons/common/notes.png"
                     title="No All Communication Attached"
                     description="Attach a note or message to view All Communication here"
                     height="40vh"
                 />
+            ) : (
+                <>
+                    <CommunicationFilters
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
+                        typeFilter={typeFilter}
+                        setTypeFilter={setTypeFilter}
+                        fromFilter={fromFilter}
+                        setFromFilter={setFromFilter}
+                        isExpanded={isExpanded}
+                        onExpandToggle={handleExpandToggle}
+                    />
+
+                    <CommunicationStats
+                        visibleCount={visibleData.length}
+                        totalCount={filteredData?.length || 0}
+                        hasMoreItems={hasMoreItems}
+                    />
+
+                    <div ref={containerRef} className="flex-1 overflow-auto px-4 pb-4">
+                        <VirtualizedCommunicationList
+                            items={visibleData}
+                            isExpanded={isExpanded}
+                            expandedCardIds={expandedCardIds}
+                            expandedCardId={expandedCardId}
+                            onCardClick={handleCardClick}
+                            onLoadMore={onWaypointEnter}
+                            isLoadingMore={isLoadingMore}
+                            hasMoreItems={hasMoreItems}
+                        />
+                    </div>
+                </>
             )}
-            <CommunicationFilters
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                typeFilter={typeFilter}
-                setTypeFilter={setTypeFilter}
-                fromFilter={fromFilter}
-                setFromFilter={setFromFilter}
-                isExpanded={isExpanded}
-                onExpandToggle={handleExpandToggle}
-            />
-
-            <CommunicationStats
-                visibleCount={visibleData.length}
-                totalCount={filteredData?.length || 0}
-                hasMoreItems={hasMoreItems}
-            />
-
-            <div ref={containerRef} className="flex-1 overflow-auto px-4 pb-4">
-                <VirtualizedCommunicationList
-                    items={visibleData}
-                    isExpanded={isExpanded}
-                    expandedCardIds={expandedCardIds}
-                    expandedCardId={expandedCardId}
-                    onCardClick={handleCardClick}
-                    onLoadMore={onWaypointEnter}
-                    isLoadingMore={isLoadingMore}
-                    hasMoreItems={hasMoreItems}
-                />
-            </div>
         </div>
     )
 }
