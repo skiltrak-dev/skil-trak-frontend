@@ -18,18 +18,19 @@ export const SiteLayout = ({ children, title }: any) => {
             <Head>
                 <title>{`${title || 'Home'}`}</title>
                 <meta name="description" content="SkilTrak" key="desc" />
+                <Script
+                    id="sa-dynamic-optimization"
+                    data-uuid="d8540013-60cb-43d6-aa64-18aa360b7230"
+                    src="data:text/javascript;base64,dmFyIHNjcmlwdCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoInNjcmlwdCIpO3NjcmlwdC5zZXRBdHRyaWJ1dGUoIm5vd3Byb2NrZXQiLCAiIik7c2NyaXB0LnNldEF0dHJpYnV0ZSgibml0cm8tZXhjbHVkZSIsICIiKTtzY3JpcHQuc3JjID0gImh0dHBzOi8vZGFzaGJvYXJkLnNlYXJjaGF0bGFzLmNvbS9zY3JpcHRzL2R5bmFtaWNfb3B0aW1pemF0aW9uLmpzIjtzY3JpcHQuZGF0YXNldC51dWlkID0gImQ4NTQwMDEzLTYwY2ItNDNkNi1hYTY0LTE4YWEzNjBiNzIzMCI7c2NyaXB0LmlkID0gInNhLWR5bmFtaWMtb3B0aW1pemF0aW9uLWxvYWRlciI7ZG9jdW1lbnQuaGVhZC5hcHBlbmRDaGlsZChzY3JpcHQpOw=="
+                    strategy="afterInteractive"
+                />
             </Head>
             <Script
                 strategy="afterInteractive"
                 src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
                 async
             />
-            <Script
-                id="sa-dynamic-optimization"
-                data-uuid="d8540013-60cb-43d6-aa64-18aa360b7230"
-                src="data:text/javascript;base64,dmFyIHNjcmlwdCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoInNjcmlwdCIpO3NjcmlwdC5zZXRBdHRyaWJ1dGUoIm5vd3Byb2NrZXQiLCAiIik7c2NyaXB0LnNldEF0dHJpYnV0ZSgibml0cm8tZXhjbHVkZSIsICIiKTtzY3JpcHQuc3JjID0gImh0dHBzOi8vZGFzaGJvYXJkLnNlYXJjaGF0bGFzLmNvbS9zY3JpcHRzL2R5bmFtaWNfb3B0aW1pemF0aW9uLmpzIjtzY3JpcHQuZGF0YXNldC51dWlkID0gImQ4NTQwMDEzLTYwY2ItNDNkNi1hYTY0LTE4YWEzNjBiNzIzMCI7c2NyaXB0LmlkID0gInNhLWR5bmFtaWMtb3B0aW1pemF0aW9uLWxvYWRlciI7ZG9jdW1lbnQuaGVhZC5hcHBlbmRDaGlsZChzY3JpcHQpOw=="
-                strategy="afterInteractive"
-            />
+
             <Navbar2 />
             {/* <div className="absolute z-[99999] top-0 left-0">
                 <div className="flex items-center gap-x-5">
