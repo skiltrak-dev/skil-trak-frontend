@@ -2,8 +2,8 @@ import { Typography } from '@components'
 import {
     getCommunicationDate,
     getCommunicationIcon,
-    getCommunicationPreview,
     getCommunicationSender,
+    getCommunicationSenderName,
     getCommunicationTitle,
     getCommunicationType,
 } from '../communicationUtils'
@@ -41,9 +41,8 @@ export const CollapsedCommunicationCard: React.FC<CommunicationCardProps> = ({
                                     {getCommunicationDate(item)}
                                 </Typography>
                                 <div
-                                    className={`transform transition-transform text-gray-400 ${
-                                        isExpanded ? 'rotate-180' : ''
-                                    }`}
+                                    className={`transform transition-transform text-gray-400 ${isExpanded ? 'rotate-180' : ''
+                                        }`}
                                 >
                                     <IoIosArrowDown />
 
@@ -51,17 +50,18 @@ export const CollapsedCommunicationCard: React.FC<CommunicationCardProps> = ({
                             </div>
                         </div>
                         <Typography variant="small" color="text-gray-600 mt-1">
-                            From: {getCommunicationSender(item)} (
-                            {getCommunicationType(item)})
+                            From: {getCommunicationSenderName(item)
+                                // getCommunicationSender(item)
+                            }
                         </Typography>
-                        {isExpanded && (
+                        {/* {isExpanded && (
                             <Typography
                                 variant="small"
                                 color="text-gray-500 mt-2 italic"
                             >
                                 {getCommunicationPreview(item)}
                             </Typography>
-                        )}
+                        )} */}
                     </div>
                 </div>
             </div>

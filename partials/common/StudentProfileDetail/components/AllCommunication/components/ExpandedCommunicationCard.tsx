@@ -1,6 +1,6 @@
 import { Typography } from '@components'
 import { CommunicationCardProps } from '../types'
-import { getCommunicationDate, getCommunicationIcon, getCommunicationPreview, getCommunicationSender, getCommunicationTitle, getCommunicationType } from '../communicationUtils'
+import { getCommunicationDate, getCommunicationIcon, getCommunicationSender, getCommunicationSenderName, getCommunicationTitle, getCommunicationType } from '../communicationUtils'
 import { CommunicationDetails } from './CommunicationDetails'
 
 export const ExpandedCommunicationCard: React.FC<CommunicationCardProps> = ({
@@ -33,24 +33,23 @@ export const ExpandedCommunicationCard: React.FC<CommunicationCardProps> = ({
                                     {getCommunicationDate(item)}
                                 </Typography>
                                 <span
-                                    className={`transform transition-transform ${
-                                        isExpanded ? 'rotate-180' : ''
-                                    }`}
+                                    className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''
+                                        }`}
                                 >
                                     ▼
                                 </span>
                             </div>
                         </div>
                         <Typography variant="small" color="text-gray-600 mt-1">
-                            From: {getCommunicationSender(item)} (
+                            From: {getCommunicationSenderName(item)} (
                             {getCommunicationType(item)})
                         </Typography>
-                        <Typography
+                        {/* <Typography
                             variant="small"
                             color="text-gray-500 mt-2 italic"
                         >
                             {getCommunicationPreview(item)}
-                        </Typography>
+                        </Typography> */}
                     </div>
                 </div>
             </div>

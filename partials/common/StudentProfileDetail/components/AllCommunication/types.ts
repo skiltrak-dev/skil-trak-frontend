@@ -10,7 +10,7 @@ export interface CommunicationItem {
     priority?: string
     replies?: number
     title?: string
-    sender?: { role: string }
+    sender?: any
     [key: string]: any
 }
 

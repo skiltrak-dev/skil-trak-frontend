@@ -47,11 +47,12 @@ export const CommunicationFilters: React.FC<CommunicationFiltersProps> = ({
                 className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary text-sm"
             >
                 <option value="All">All</option>
+                <option value="Note">Note</option>
                 <option value="Email">Email</option>
                 <option value="Call">Call</option>
-                <option value="Message">Message</option>
+                <option value="WpStatuses">WP Statuses</option>
                 <option value="Ticket">Ticket</option>
-                <option value="Note">Note</option>
+                <option value="Message">Message</option>
             </select>
 
         </div>
