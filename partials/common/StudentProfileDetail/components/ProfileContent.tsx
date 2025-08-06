@@ -70,7 +70,7 @@ export const CommunicationSection: React.FC<any> = ({
         )}`}
     >
         <div className="!h-[99%] col-span-2">
-            <MailsCommunication user={profile?.user} />
+            <MailsCommunication student={profile} />
         </div>
     </div>
 )

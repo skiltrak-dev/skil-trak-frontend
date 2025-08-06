@@ -2,12 +2,10 @@ import moment from 'moment'
 import { CommunicationItem } from './types'
 
 export const getCommunicationType = (item: CommunicationItem) => {
-    console.log('isPinned', item?.isPinned)
     if (item.type === 'twilio') return 'Message'
     if (item.calledBy) return 'Call'
     if (item.assignedTo) return 'Ticket'
-    if (item.isInternal) return 'internalNotes'
-    if (item.isPinned) return 'PinnedNotes'
+   
     if (item.title) return 'Note'
     return 'Email'
 }
@@ -36,9 +34,8 @@ export const getCommunicationTitle = (item: CommunicationItem) => {
 }
 
 export const getCommunicationSender = (item: CommunicationItem) => {
-    if (item.calledBy) return item.calledBy.name
-    if (item.assignedTo) return 'Support Team'
-    if (item.sender) return item.sender.role
+    if (item.isInternal) return 'internalNotes'
+    if (item.isPinned) return 'PinnedNotes'
     return 'System'
 }
 
