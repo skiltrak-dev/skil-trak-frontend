@@ -6,6 +6,7 @@ import {
     Table,
     TableAction,
     TableActionOption,
+    TableChildrenProps,
     TechnicalError,
     UserCreatedAt,
 } from '@components'
@@ -35,6 +36,8 @@ export const ApprovedIndustry = () => {
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(30)
     const [page, setPage] = useState(1)
+    const [isRouting, setIsRouting] = useState(true)
+
     const role = getUserCredentials()?.role
     // hooks
     const { passwordModal, onViewPassword } = useActionModal()
@@ -43,8 +46,15 @@ export const ApprovedIndustry = () => {
         useActionModals()
 
     useEffect(() => {
-        setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
+        if (!isRouting) return
+        const newPage = Number(router.query.page)
+        const newItemPerPage = Number(router.query.pageSize)
+        if (router.query.page) {
+            setPage(newPage)
+        }
+        if (router.query.pageSize) {
+            setItemPerPage(newItemPerPage)
+        }
     }, [router])
 
     const { isLoading, isFetching, data, isError } =
@@ -273,20 +283,25 @@ export const ApprovedIndustry = () => {
                                 pagination,
                                 pageSize,
                                 quickActions,
-                            }: any) => (
+                            }: TableChildrenProps) => (
                                 <div>
                                     <div className="p-6 mb-2 flex justify-between">
-                                        {pageSize(
-                                            itemPerPage,
-                                            setItemPerPage,
-                                            data?.data?.length
-                                        )}
+                                        {pageSize &&
+                                            pageSize(
+                                                itemPerPage,
+                                                (e) => {
+                                                    setItemPerPage(e)
+                                                    setIsRouting(false)
+                                                },
+                                                data?.data?.length
+                                            )}
                                         <div className="flex gap-x-2">
                                             {quickActions}
-                                            {pagination(
-                                                data?.pagination,
-                                                setPage
-                                            )}
+                                            {pagination &&
+                                                pagination(
+                                                    data?.pagination,
+                                                    setPage
+                                                )}
                                         </div>
                                     </div>
                                     <div className=" overflow-x-scroll remove-scrollbar">
@@ -296,17 +311,22 @@ export const ApprovedIndustry = () => {
                                     </div>
                                     {data?.data?.length > 10 && (
                                         <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )}
+                                            {pageSize &&
+                                                pageSize(
+                                                    itemPerPage,
+                                                    (e) => {
+                                                        setItemPerPage(e)
+                                                        setIsRouting(false)
+                                                    },
+                                                    data?.data?.length
+                                                )}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
-                                                {pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )}
+                                                {pagination &&
+                                                    pagination(
+                                                        data?.pagination,
+                                                        setPage
+                                                    )}
                                             </div>
                                         </div>
                                     )}
