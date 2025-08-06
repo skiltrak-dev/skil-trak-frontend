@@ -6,18 +6,9 @@ export default function Document() {
             <Head>
                 <Script
                     id="sa-dynamic-optimization"
-                    strategy="beforeInteractive"
-                    dangerouslySetInnerHTML={{
-                        __html: `
-              var script = document.createElement("script");
-              script.setAttribute("nowprocket", "");
-              script.setAttribute("nitro-exclude", "");
-              script.src = "https://dashboard.searchatlas.com/scripts/dynamic_optimization.js";
-              script.dataset.uuid = "d8540013-60cb-43d6-aa64-18aa360b7230";
-              script.id = "sa-dynamic-optimization-loader";
-              document.head.appendChild(script);
-            `,
-                    }}
+                    src="data:text/javascript;base64,dmFyIHNjcmlwdCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoInNjcmlwdCIpO3NjcmlwdC5zZXRBdHRyaWJ1dGUoIm5vd3Byb2NrZXQiLCAiIik7c2NyaXB0LnNldEF0dHJpYnV0ZSgibml0cm8tZXhjbHVkZSIsICIiKTtzY3JpcHQuc3JjID0gImh0dHBzOi8vZGFzaGJvYXJkLnNlYXJjaGF0bGFzLmNvbS9zY3JpcHRzL2R5bmFtaWNfb3B0aW1pemF0aW9uLmpzIjtzY3JpcHQuZGF0YXNldC51dWlkID0gImQ4NTQwMDEzLTYwY2ItNDNkNi1hYTY0LTE4YWEzNjBiNzIzMCI7c2NyaXB0LmlkID0gInNhLWR5bmFtaWMtb3B0aW1pemF0aW9uLWxvYWRlciI7ZG9jdW1lbnQuaGVhZC5hcHBlbmRDaGlsZChzY3JpcHQpOw=="
+                    strategy="afterInteractive"
+                    data-uuid="d8540013-60cb-43d6-aa64-18aa360b7230"
                 />
                 <meta
                     name="google-site-verification"
