@@ -126,7 +126,7 @@ export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
             {/*  */}
             <div className="h-[640px] px-2  grid grid-cols-2 gap-x-3">
                 <div className={`!h-[99%] col-span-2`}>
-                    <MailsCommunication user={subadmin?.user} />
+                    <MailsCommunication user={subadmin} />
                 </div>
             </div>
         </div>

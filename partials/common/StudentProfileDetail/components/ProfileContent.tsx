@@ -18,14 +18,12 @@ export const WorkplaceNotesSection: React.FC<any> = ({
     isAdminRole,
 }) => (
     <div
-        className={`grid grid-cols-1 h-auto ${
-            isAdminRole ? 'xl:grid-cols-1 gap-3' : `xl:grid-cols-5 `
-        } px-2 gap-x-3`}
+        className={`grid grid-cols-1 h-auto ${isAdminRole ? 'xl:grid-cols-1 gap-3' : `xl:grid-cols-5 `
+            } px-2 gap-x-3`}
     >
         <div
-            className={`${
-                isAdminRole ? 'xl:col-span-1' : 'xl:col-span-3'
-            } h-[99%] ${getActiveBorder(ProfileIds.Workplace)}`}
+            className={`${isAdminRole ? 'xl:col-span-1' : 'xl:col-span-3'
+                } h-[99%] ${getActiveBorder(ProfileIds.Workplace)}`}
             id={`student-profile-${ProfileIds.Workplace}`}
         >
             <Workplace
@@ -34,9 +32,8 @@ export const WorkplaceNotesSection: React.FC<any> = ({
             />
         </div>
         <div
-            className={`${
-                isAdminRole ? 'xl:col-span-1' : 'xl:col-span-2'
-            } h-[99%] ${getActiveBorder(ProfileIds.Notes)}`}
+            className={`${isAdminRole ? 'xl:col-span-1' : 'xl:col-span-2'
+                } h-[99%] ${getActiveBorder(ProfileIds.Notes)}`}
             id={`student-profile-${ProfileIds.Notes}`}
         >
             <StudentProfileNotes
@@ -70,7 +67,7 @@ export const CommunicationSection: React.FC<any> = ({
         )}`}
     >
         <div className="!h-[99%] col-span-2">
-            <MailsCommunication student={profile} />
+            <MailsCommunication user={profile} />
         </div>
     </div>
 )

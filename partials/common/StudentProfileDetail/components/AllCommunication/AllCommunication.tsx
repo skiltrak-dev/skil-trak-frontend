@@ -19,10 +19,10 @@ import {
 } from './components'
 import { CommunicationItem } from './types'
 export const AllCommunication = ({
-    student,
+    user,
     isEntered = true,
 }: {
-    student: any
+    user: any
     isEntered?: boolean
 }) => {
     const { isVisible: isContextBarVisible } = useContextBar()
@@ -43,8 +43,8 @@ export const AllCommunication = ({
 
 
     const { data, isLoading, isError, isSuccess } =
-        CommonApi.AllCommunication.useCommunications(student?.user?.id, {
-            skip: !student?.user || !isEntered,
+        CommonApi.AllCommunication.useCommunications(user?.user?.id, {
+            skip: !user?.user || !isEntered,
             refetchOnMountOrArgChange: 20,
         })
 
@@ -121,7 +121,7 @@ export const AllCommunication = ({
 
     return (
         <div className="h-[40rem] overflow-auto flex flex-col">
-            <CommunicationHeader student={student} />
+            <CommunicationHeader user={user} />
             {isError && <TechnicalError />}
             {isLoading && <LoadingAnimation />}
             {isSuccess && (!data || data.length === 0) && (
