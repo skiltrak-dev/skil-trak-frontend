@@ -56,7 +56,7 @@ export const MyStudents = () => {
     const [snoozed, setSnoozed] = useState<boolean>(false)
     const [nonContactable, setNonContactable] = useState<boolean>(false)
     const [flagged, setFlagged] = useState<boolean>(false)
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(20)
     const [page, setPage] = useState(1)
     const [isRouting, setIsRouting] = useState(true)
     const coordinatorProfile = useSubadminProfile()

@@ -146,15 +146,6 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
         contextBar.show()
     }
 
-    const onAssociatedWithRtoClicked = (subadminId: number, rtos: Rto[]) => {
-        setModal(
-            <AssociatedWithRTOModal
-                rtos={rtos}
-                subadminId={subadminId}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
     const onAllowPermissionClicked = (subadmin: SubAdmin) => {
         setModal(
             <AllowPermissionModal
@@ -203,18 +194,6 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
                       }
                     : {}),
             },
-            // {
-            //     text: 'Block',
-            //     onClick: (subAdmin: SubAdmin) => onBlockedClicked(subAdmin),
-            //     Icon: BsArchiveFill,
-            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            // },
-            // {
-            //     text: 'Archive',
-            //     onClick: (subAdmin: SubAdmin) => onArchivedClicked(subAdmin),
-            //     Icon: BsArchiveFill,
-            //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            // },
         ]
     }
 
@@ -240,10 +219,6 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
             header: () => <span>RTOs</span>,
             cell: (info) => <RtoCell subAdmin={info.row.original} />,
         },
-        // {
-        //     accessorKey: 'subadmin.studentCount',
-        //     header: () => <span>Assigned Students</span>,
-        // },
         {
             accessorKey: 'addressLine1',
             header: () => <span>Address</span>,
@@ -254,24 +229,6 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
                 />
             ),
         },
-        // {
-        //     accessorKey: 'associated',
-        //     header: () => <span>associated</span>,
-        //     cell: (info: any) => {
-        //         return (
-        //             <ActionButton
-        //                 onClick={() => {
-        //                     onAssociatedWithRtoClicked(
-        //                         info?.row?.original?.id,
-        //                         info?.row?.original?.rtos
-        //                     )
-        //                 }}
-        //             >
-        //                 Associated With Rto
-        //             </ActionButton>
-        //         )
-        //     },
-        // },
         {
             accessorKey: 'createdBy.role',
             header: () => <span>Created By</span>,
@@ -321,7 +278,6 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
                     </Typography>
                 ),
         },
-        // ...(hodColumn ? [hodColumn] : []),
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,
@@ -377,10 +333,8 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
         itemPerPage,
         setItemPerPage,
         setPage,
-
         filter,
         setFilter,
-
         filterAction,
         setFilterAction,
         filteredDataLength,

@@ -12,23 +12,22 @@ import {
     Table,
     TableAction,
     TechnicalError,
-    TruncatedTextWithTooltip,
     Typography,
 } from '@components'
 
 import { useActionModal } from '@hooks'
-import { SubAdminApi, useGetSubAdminIndustriesQuery } from '@queries'
+import { useGetSubAdminIndustriesQuery } from '@queries'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { getUserCredentials, setLink } from '@utils'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { RiInboxUnarchiveFill } from 'react-icons/ri'
-import { IndustryCellInfo, IndustryCellInfoProgressbar } from './components'
+import { IndustryCellInfoProgressbar } from './components'
 import { AddToFavoriteModal, UnArchiveModal } from './modals'
 
 export const ArchivedIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(10)
     const [page, setPage] = useState(1)
 
     // hooks
@@ -36,7 +35,7 @@ export const ArchivedIndustries = () => {
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
+        setItemPerPage(Number(router.query.pageSize || 10))
     }, [router])
 
     const { isLoading, data, isError } = useGetSubAdminIndustriesQuery({

@@ -69,7 +69,7 @@ const StudentList: NextPageWithLayout = () => {
     )
 
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(20)
 
     const { isLoading, data, isSuccess } = AdminApi.Students.useCountQuery(
         undefined,
@@ -118,18 +118,6 @@ const StudentList: NextPageWithLayout = () => {
             })
         }
     }, [])
-
-    // useEffect(() => {
-    //     if (router.query?.scrollId && isSuccess) {
-    //         setTimeout(() => {
-    //             delete router.query.scrollId
-    //             router.push({
-    //                 pathname: router.pathname,
-    //                 query: { ...router.query },
-    //             })
-    //         }, 2000)
-    //     }
-    // }, [router, isSuccess])
 
     const tabs: TabProps[] = [
         {

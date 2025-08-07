@@ -7,16 +7,16 @@ import { AdminApi } from '@queries'
 import * as yup from 'yup'
 
 export const AssociatedWithRTOModal = ({
-    rtos,
     subadminId,
     onCancel,
 }: {
-    rtos: Rto[]
     subadminId: number
     onCancel: () => void
 }) => {
     const [associatedWithRto, associatedWithRtoResult] =
         AdminApi.SubAdmins.useAssociatedWithRto()
+
+    const rtoList = AdminApi.SubAdmins.useRtos(subadminId)
 
     const validationSchema = yup.object({
         rto: yup.number().required('Must select RTO!'),
@@ -27,7 +27,7 @@ export const AssociatedWithRTOModal = ({
         resolver: yupResolver(validationSchema),
     })
 
-    const rtoOptions = rtos?.map((rto: Rto) => ({
+    const rtoOptions = rtoList?.data?.map((rto: Rto) => ({
         label: rto?.user?.name,
         value: rto?.id,
     }))
@@ -61,6 +61,8 @@ export const AssociatedWithRTOModal = ({
                             options={rtoOptions}
                             validationIcons
                             onlyValue
+                            loading={rtoList?.isLoading}
+                            disabled={rtoList?.isLoading}
                         />
                     </form>
                 </FormProvider>

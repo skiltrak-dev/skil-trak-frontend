@@ -9,7 +9,7 @@ import {
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useSectorsAndCoursesOptions } from '@hooks'
-import { AuthApi } from '@queries'
+import { AdminApi, AuthApi } from '@queries'
 import {
     Course,
     OptionType,
@@ -24,7 +24,7 @@ import {
     getSectorsDetail,
     getUserCredentials,
 } from '@utils'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -77,24 +77,7 @@ export const SubAdminForm = ({
     )
     // const sectorResponse = AuthApi.useSectors({})
     const getRtos = AuthApi.useRtos({})
-
-    // const onSectorChanged = (sectors: any) => {
-    //     setSelectedSector(sectors)
-    //     setCourseLoading(true)
-
-    //     const newCourseOptions = sectorsCoursesOptions(
-    //         sectors,
-    //         sectorResponse?.data
-    //     )
-
-    //     setCourseOptions(newCourseOptions)
-    //     const newSelectedCoursesOptions = courseOptionsWhenSectorChange(
-    //         newCourseOptions,
-    //         removedCourses as number[]
-    //     )
-    //     setSelectedCourses(newSelectedCoursesOptions)
-    //     setCourseLoading(false)
-    // }
+    const rtoList = AdminApi.SubAdmins.useRtos(Number(subAdmin?.id))
 
     const formMethods = useForm<SubadminFromType>({
         mode: 'all',
@@ -143,9 +126,13 @@ export const SubAdminForm = ({
         setSelectedCourses,
     } = useSectorsAndCoursesOptions()
 
+    const rtos = useMemo(
+        () => rtoList?.data?.map((rto: Rto) => rto?.id),
+        [rtoList]
+    )
+
     useEffect(() => {
         if (subAdmin) {
-            const rtos = subAdmin?.rtos?.map((rto: Rto) => rto?.id)
             const courses = subAdmin?.courses?.map(
                 (course: Course) => course?.id
             )
@@ -189,7 +176,7 @@ export const SubAdminForm = ({
                 setSelectedCourses(courses)
             }
         }
-    }, [subAdmin, sectorOptions])
+    }, [subAdmin, sectorOptions, rtos])
 
     return (
         <>
@@ -306,7 +293,7 @@ export const SubAdminForm = ({
                             validationIcons
                             onlyValue
                         />
-                        <Select
+                        {/* <Select
                             label={'Sector'}
                             value={selectedSector}
                             name={'sectors'}
@@ -337,7 +324,7 @@ export const SubAdminForm = ({
                             disabled={courseOptions.length === 0}
                             validationIcons
                             onlyValue
-                        />
+                        /> */}
                     </AuthorizedUserComponent>
 
                     <AuthorizedUserComponent roles={[UserRoles.RTO]}>

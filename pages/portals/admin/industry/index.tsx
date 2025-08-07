@@ -53,7 +53,7 @@ const IndustryList: NextPageWithLayout = () => {
     const contextBar = useContextBar()
 
     const [filterAction, setFilterAction] = useState(null)
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(10)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState<AdminIndustryFormFilter>(
         {} as AdminIndustryFormFilter
@@ -81,7 +81,7 @@ const IndustryList: NextPageWithLayout = () => {
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
+        setItemPerPage(Number(router.query.pageSize || 10))
     }, [router])
 
     const tabs: TabProps[] = [

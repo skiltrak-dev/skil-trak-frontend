@@ -1,47 +1,41 @@
-import React, {
+import {
     createContext,
-    useContext,
-    useState,
-    useEffect,
     ReactElement,
+    useContext,
+    useEffect,
+    useState,
 } from 'react'
 
-import { useActionModal, useContextBar } from '@hooks'
-import { AdminApi, commonApi } from '@queries'
 import {
     ActionButton,
     Badge,
     Button,
-    Card,
-    EmptyData,
     TableAction,
-    TableSkeleton,
-    TechnicalError,
     TruncatedTextWithTooltip,
-    Typography,
+    Typography
 } from '@components'
-import { DepartmentListSkeleton } from '../skeletonLoader'
+import { useActionModal, useContextBar } from '@hooks'
+import { AdminApi, commonApi } from '@queries'
 import { Rto, SubAdmin, User } from '@types'
 import { useRouter } from 'next/router'
 
 // Modals
 import {
-    BlockModal,
-    ArchiveModal,
-    AssociatedWithRTOModal,
     AllowPermissionModal,
+    ArchiveModal,
+    BlockModal
 } from '@partials/admin/sub-admin/modals'
 
-import { AddSubAdminCB } from '@partials/admin/sub-admin/contextBar'
-import { checkListLength, getUserCredentials } from '@utils'
-import { FaEdit, FaEye } from 'react-icons/fa'
 import { UserRoles } from '@constants'
+import { RtoCellInfo } from '@partials/admin/rto/components'
+import { RtoCell, SectorCell, SubAdminCell } from '@partials/admin/sub-admin'
+import { AddSubAdminCB } from '@partials/admin/sub-admin/contextBar'
+import { ColumnDef } from '@tanstack/react-table'
+import { checkListLength, getUserCredentials } from '@utils'
+import { BsArchiveFill } from 'react-icons/bs'
+import { FaEdit, FaEye } from 'react-icons/fa'
 import { PiCellSignalLowFill } from 'react-icons/pi'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { BsArchiveFill } from 'react-icons/bs'
-import { ColumnDef } from '@tanstack/react-table'
-import { RtoCell, SectorCell, SubAdminCell } from '@partials/admin/sub-admin'
-import { RtoCellInfo } from '@partials/admin/rto/components'
 import { ChangeHodModal, RemoveCoordinatorModal } from '../modal'
 
 interface CoordinatorsList extends SubAdmin {
@@ -155,15 +149,6 @@ export const DepartmentCoordinatorsListProvider = ({ children }: any) => {
         contextBar.show()
     }
 
-    const onAssociatedWithRtoClicked = (subadminId: number, rtos: Rto[]) => {
-        setModal(
-            <AssociatedWithRTOModal
-                rtos={rtos}
-                subadminId={subadminId}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
     const onAllowPermissionClicked = (subadmin: SubAdmin) => {
         setModal(
             <AllowPermissionModal

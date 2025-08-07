@@ -45,8 +45,6 @@ export const AddSubAdminCB = ({
 
     const onSubmit = (values: any) => {
         if (edit) {
-            // delete values.password
-
             update({
                 id: Number(subAdmin?.id),
                 userId: Number(subAdmin?.user?.id),

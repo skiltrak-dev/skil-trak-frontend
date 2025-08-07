@@ -4,7 +4,6 @@ import {
     CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
-    StudentStatusProgressCell,
     Table,
     TableAction,
     TableActionOption,
@@ -21,12 +20,6 @@ import { useActionModal } from '@hooks'
 import { BulkDeleteModal } from '@modals'
 import { AdminApi } from '@queries'
 import { Student, UserStatus } from '@types'
-import {
-    WorkplaceCurrentStatus,
-    checkStudentStatus,
-    checkWorkplaceStatus,
-    getStudentWorkplaceAppliedIndustry,
-} from '@utils'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -37,7 +30,7 @@ import { ChangeStatusModal, DeleteModal } from './modals'
 
 export const ArchivedStudent = () => {
     const router = useRouter()
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(20)
     const [page, setPage] = useState(1)
     const [modal, setModal] = useState<any | null>(null)
 

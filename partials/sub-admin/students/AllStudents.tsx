@@ -61,7 +61,7 @@ export const AllStudents = () => {
         onDateClick,
     } = useColumns()
 
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(20)
     const [page, setPage] = useState(1)
     const [isRouting, setIsRouting] = useState(true)
 

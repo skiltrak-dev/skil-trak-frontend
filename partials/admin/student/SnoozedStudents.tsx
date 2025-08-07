@@ -28,12 +28,12 @@ export const SnoozedStudents = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(20)
     const [page, setPage] = useState(1)
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
+        setItemPerPage(Number(router.query.pageSize || 20))
     }, [router])
 
     // hooks
