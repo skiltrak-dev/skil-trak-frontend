@@ -30,7 +30,7 @@ import { AddToFavoriteModal } from './modals'
 export const FavoritMonthlyCallsIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(10)
     const [page, setPage] = useState(1)
 
     // hooks
@@ -38,7 +38,7 @@ export const FavoritMonthlyCallsIndustries = () => {
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
+        setItemPerPage(Number(router.query.pageSize || 10))
     }, [router])
 
     const { isLoading, data, isError } =

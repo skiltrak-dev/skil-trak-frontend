@@ -14,11 +14,15 @@ import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
-import { useActionModal, useContextBar } from '@hooks'
+import { UserRoles } from '@constants'
+import { useActionModal } from '@hooks'
 import { Industry, UserStatus } from '@types'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
+import { CgUnblock } from 'react-icons/cg'
 import { MdBlock } from 'react-icons/md'
+import { RiLockPasswordFill } from 'react-icons/ri'
 import { IndustryCellProgressbar, SectorCell } from './components'
 import {
     AcceptModal,
@@ -28,10 +32,6 @@ import {
     RejectModal,
     UnblockModal,
 } from './modals'
-import { RiLockPasswordFill } from 'react-icons/ri'
-import { CgUnblock } from 'react-icons/cg'
-import { ellipsisText, getUserCredentials } from '@utils'
-import { UserRoles } from '@constants'
 
 export interface StatusTableActionOption<T> extends TableActionOption<T> {
     status: string[]

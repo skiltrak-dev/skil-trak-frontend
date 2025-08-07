@@ -101,10 +101,9 @@ export const ActiveSubAdmin = () => {
         contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
     }
 
-    const onAssociatedWithRtoClicked = (subadminId: number, rtos: Rto[]) => {
+    const onAssociatedWithRtoClicked = (subadminId: number) => {
         setModal(
             <AssociatedWithRTOModal
-                rtos={rtos}
                 subadminId={subadminId}
                 onCancel={onModalCancelClicked}
             />
@@ -201,10 +200,7 @@ export const ActiveSubAdmin = () => {
             cell: (info) => (
                 <ActionButton
                     onClick={() => {
-                        onAssociatedWithRtoClicked(
-                            info?.row?.original?.id,
-                            info?.row?.original?.rtos
-                        )
+                        onAssociatedWithRtoClicked(info?.row?.original?.id)
                     }}
                 >
                     Associated With Rto

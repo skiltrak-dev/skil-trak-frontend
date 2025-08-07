@@ -1,42 +1,37 @@
-import { ReactElement, useEffect, useRef, useState } from 'react'
-import { ColumnDef } from '@tanstack/react-table'
 import {
     ActionButton,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
     Table,
     TableAction,
-    TableActionOption,
     TechnicalError,
     TruncatedTextWithTooltip,
     Typography,
-    UserCreatedAt,
 } from '@components'
-import { PageHeading } from '@components/headings'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
+import { ColumnDef } from '@tanstack/react-table'
+import { ReactElement, useEffect, useRef, useState } from 'react'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { AdminApi, commonApi } from '@queries'
-import { Industry, UserStatus } from '@types'
+import { Industry } from '@types'
 import { useRouter } from 'next/router'
-import { MdBlock } from 'react-icons/md'
-import { IndustryCell, SectorCell } from './components'
+import { MdBlock, MdSnooze } from 'react-icons/md'
+import { IndustryCell } from './components'
 import { BlockModal, MultiBlockModal } from './modals'
-import { MdSnooze } from 'react-icons/md'
 // hooks
+import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
-import { RiLockPasswordFill } from 'react-icons/ri'
 import { SnoozeIndustryModal, UnSnoozeIndustryModal } from '@partials/common'
 import { getUserCredentials } from '@utils'
-import { UserRoles } from '@constants'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const SnoozedIndustry = () => {
     const selectInputRef = useRef(null)
 
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(10)
     const [page, setPage] = useState(1)
     const role = getUserCredentials()?.role
     // hooks
@@ -44,7 +39,7 @@ export const SnoozedIndustry = () => {
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
+        setItemPerPage(Number(router.query.pageSize || 10))
     }, [router])
     // useSnoozedIndustry
     // const snoozedIndustryList = AdminApi.Industries.useSnoozedIndustry({

@@ -43,7 +43,7 @@ import moment from 'moment'
 export const ApprovedStudent = () => {
     const router = useRouter()
     // const [modal, setModal] = useState<ReactElement | null>(null)
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(20)
     const [isRouting, setIsRouting] = useState(true)
     const [page, setPage] = useState(1)
     const listingRef = useRef<any>(null)
