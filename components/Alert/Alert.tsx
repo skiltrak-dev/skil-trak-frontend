@@ -105,7 +105,6 @@ export const Alert = ({
                 >
                     {/* {message?.message} */}
                 </span>
-                {/* <p className="text-sm">{description}</p> */}
             </div>
 
             {dismiss && (
