@@ -13,7 +13,7 @@ export const useStudentProfile = () => {
 
     const profile = useGetSubAdminStudentDetailQuery(studentId, {
         skip: !studentId,
-        refetchOnMountOrArgChange: true,
+        refetchOnMountOrArgChange: 30,
     })
 
     // Track profile visitor
