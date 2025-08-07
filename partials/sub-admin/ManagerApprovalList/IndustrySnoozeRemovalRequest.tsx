@@ -5,27 +5,26 @@ import {
     Table,
     TechnicalError,
     Typography,
-    UserCreatedAt,
 } from '@components'
 
 import { SubAdminApi } from '@queries'
+import moment from 'moment'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { IndustryRequestsActions } from './enum'
 import { useIndustryColumns } from './hooks'
-import moment from 'moment'
 
 export const IndustrySnoozeRemovalRequest = () => {
     const router = useRouter()
 
     const { columns, modal } = useIndustryColumns()
 
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(20)
     const [page, setPage] = useState(1)
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
+        setItemPerPage(Number(router.query.pageSize || 20))
     }, [router])
 
     const { isLoading, isFetching, data, isError, isSuccess } =
