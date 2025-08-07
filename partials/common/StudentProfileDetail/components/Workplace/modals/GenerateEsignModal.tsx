@@ -4,6 +4,7 @@ import {
     Typography,
     GlobalModal,
     LoadingAnimation,
+    Tooltip,
 } from '@components'
 import { Folder } from '@types'
 import { SubAdminApi } from '@queries'
@@ -11,6 +12,7 @@ import { MdCancel } from 'react-icons/md'
 import { ReactElement, useState } from 'react'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { InitiateSigningModal } from '@partials/sub-admin/assessmentEvidence/modal'
+import { IoIosSend } from 'react-icons/io'
 
 export const GenerateEsignModal = ({
     workplace,
@@ -93,7 +95,7 @@ export const GenerateEsignModal = ({
                                             key={folder?.id}
                                             className="flex items-center justify-between py-2 px-6 bg-white border border-gray-200 rounded-lg shadow-sm"
                                         >
-                                            <div>
+                                            <div className="flex items-center gap-x-1">
                                                 <Typography
                                                     variant="label"
                                                     semibold
@@ -101,10 +103,17 @@ export const GenerateEsignModal = ({
                                                 >
                                                     {folder?.name}
                                                 </Typography>{' '}
-                                                {folder?.course
-                                                    ?.esignTemplates?.[0]
-                                                    ?.documents?.length > 0 && (
-                                                    <span>initiated</span>
+                                                {folder?.course?.esignTemplates?.find(
+                                                    (temp: any) =>
+                                                        temp?.documents
+                                                            ?.length > 0
+                                                ) && (
+                                                    <div className="relative group">
+                                                        <IoIosSend />
+                                                        <Tooltip>
+                                                            Document Initiated
+                                                        </Tooltip>
+                                                    </div>
                                                 )}
                                             </div>
                                             <Button

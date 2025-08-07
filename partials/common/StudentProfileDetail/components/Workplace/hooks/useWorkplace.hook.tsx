@@ -163,9 +163,11 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
 
     const allDocumentsInitiated =
         esignDocumentsFolders?.data && esignDocumentsFolders?.isSuccess
-            ? esignDocumentsFolders?.data?.every(
-                  (folder: any) =>
-                      folder?.course?.esignTemplates?.[0]?.documents?.length > 0
+            ? esignDocumentsFolders?.data?.every((folder: any) =>
+                  //   folder?.course?.esignTemplates?.[0]?.documents?.length > 0
+                  folder?.course?.esignTemplates?.find(
+                      (temp: any) => temp?.documents?.length > 0
+                  )
               )
             : false
 
