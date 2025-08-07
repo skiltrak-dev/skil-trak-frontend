@@ -155,21 +155,21 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
         {
             text: 'RTOs',
             Icon: FaUniversity,
-            path: getRoutePath('/rto?tab=approved&page=1&pageSize=50'),
+            path: getRoutePath('/rto?tab=approved'),
         },
         {
             text: 'Students',
-            path: getRoutePath('/student?tab=active&page=1&pageSize=50'),
+            path: getRoutePath('/student?tab=active'),
             Icon: FaUserGraduate,
         },
         {
             text: 'Industries',
-            path: getRoutePath('/industry?tab=approved&page=1&pageSize=50'),
+            path: getRoutePath('/industry?tab=approved'),
             Icon: IoMdBriefcase,
         },
         {
             text: 'Coordinators',
-            path: getRoutePath('/sub-admin?tab=active&page=1&pageSize=50'),
+            path: getRoutePath('/sub-admin?tab=active'),
             Icon: RiShieldUserFill,
             visible: subadmin?.data?.canAccessSubadmin,
         },
