@@ -81,7 +81,7 @@ export const AllStudents = () => {
     const checkIsHod = coordinatorProfile?.data?.departmentMember?.isHod
 
     // useSubAdminFlaggedStudents
-    const { isLoading, data, isError, isFetching, refetch } =
+    const { isLoading, data, isError, isFetching } =
         SubAdminApi.Student.useList(
             {
                 search: `status:${UserStatus.Approved}`,

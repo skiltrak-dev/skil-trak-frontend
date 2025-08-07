@@ -118,7 +118,7 @@ export const Socket = ({ children }: any) => {
             //     disconnectSocket()
             // }
         }
-    }, [socket, router])
+    }, [socket])
 
     return children
 }
