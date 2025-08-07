@@ -15,13 +15,13 @@ export const IndustryPartnerRemovalRequest = () => {
     const router = useRouter()
 
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(20)
 
     const { columns, modal } = useIndustryColumns()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
+        setItemPerPage(Number(router.query.pageSize || 20))
     }, [router])
 
     const { isLoading, isFetching, data, isError, isSuccess } =

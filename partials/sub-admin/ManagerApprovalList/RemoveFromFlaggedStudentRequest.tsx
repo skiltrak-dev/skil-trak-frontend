@@ -14,14 +14,14 @@ import { useStudentColumns } from './hooks'
 export const RemoveFromFlaggedStudentRequest = () => {
     const router = useRouter()
 
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(20)
     const [page, setPage] = useState(1)
 
     const { columns, modal } = useStudentColumns()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 50))
+        setItemPerPage(Number(router.query.pageSize || 20))
     }, [router])
 
     const { isLoading, isFetching, data, isError, isSuccess } =
