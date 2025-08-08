@@ -6,7 +6,12 @@ export const allCommunicationEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     communications: builder.query<any, any>({
-        query: (id) => `${PREFIX}/all-communication/${id}`,
+        query: ({id, params}) => {
+            console.log('params::::', params);
+            return ({
+            url: `${PREFIX}/all-communication/${id}`,
+            params
+        }) },
         providesTags: ['Notes', 'AllCommunications','SubAdminStudents'],
     }),
 

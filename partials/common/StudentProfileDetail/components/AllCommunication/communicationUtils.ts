@@ -3,16 +3,16 @@ import { CommunicationItem } from './types'
 
 export const isWorkplaceStatusUpdate = (item: CommunicationItem): boolean => {
     return (
-        item.action === 'custom' &&
-        item.actionName === 'workplaceRequestStatusUpdated'
+        (item?.action === 'custom' || item?.action === 'updated') &&
+        item?.actionName === 'workplaceRequestStatusUpdated'
     )
 }
 
 export const getCommunicationType = (item: CommunicationItem) => {
-    if (isWorkplaceStatusUpdate(item)) return 'WpStatuses'
     if (item.type === 'twilio') return 'Message'
     if (item.calledBy) return 'Call'
     if (item.assignedTo) return 'Ticket'
+    if (isWorkplaceStatusUpdate(item)) return 'WpStatuses'
     if (item.title) return 'Note'
     return 'Email'
 }
