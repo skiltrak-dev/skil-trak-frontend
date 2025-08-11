@@ -53,12 +53,12 @@ export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                             </span>
                             {subAdmin?.user?.email}
                         </p>
-                        <p className="flex items-center gap-x-1">
+                        {/* <p className="flex items-center gap-x-1">
                             <span>
                                 <MdPhoneIphone />
                             </span>
                             {subAdmin?.phone}
-                        </p>
+                        </p> */}
                     </div>
                 </div>
             </a>

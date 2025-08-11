@@ -169,7 +169,7 @@ export const ActiveSubAdmin = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => <SubAdminCell subAdmin={info.row.original} />,
-            header: () => <span>Sub Admin</span>,
+            header: () => <span>Coordinator</span>,
         },
         {
             accessorKey: 'sector',
@@ -183,29 +183,7 @@ export const ActiveSubAdmin = () => {
         },
         {
             accessorKey: 'studentCount',
-            header: () => <span>Assigned Students</span>,
-        },
-        {
-            accessorKey: 'addressLine1',
-            header: () => <span>Address</span>,
-            cell: (info) => (
-                <TruncatedTextWithTooltip
-                    text={info?.row?.original?.addressLine1}
-                />
-            ),
-        },
-        {
-            accessorKey: 'associated',
-            header: () => <span>associated</span>,
-            cell: (info) => (
-                <ActionButton
-                    onClick={() => {
-                        onAssociatedWithRtoClicked(info?.row?.original?.id)
-                    }}
-                >
-                    Associated With Rto
-                </ActionButton>
-            ),
+            header: () => <span>Students</span>,
         },
         {
             accessorKey: 'createdBy.role',

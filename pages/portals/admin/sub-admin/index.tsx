@@ -40,15 +40,20 @@ const SubAdminList: NextPageWithLayout = () => {
 
     const role = AuthUtils.getUserCredentials()?.role
 
-    const filteredSubAdmins = AdminApi.SubAdmins.useListQuery({
-        search: `${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
-        skip: itemPerPage * page - itemPerPage,
-        limit: itemPerPage,
-    })
+    const filteredSubAdmins = AdminApi.SubAdmins.useListQuery(
+        {
+            search: `${JSON.stringify(filter)
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
+            skip: itemPerPage * page - itemPerPage,
+            limit: itemPerPage,
+        },
+        {
+            skip: !Object.values(filter)?.length,
+        }
+    )
 
     const { isLoading, data } = AdminApi.SubAdmins.useCountQuery(undefined, {
         refetchOnFocus: true,

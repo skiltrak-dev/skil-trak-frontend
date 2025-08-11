@@ -6,13 +6,11 @@ export const allCommunicationEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
     communications: builder.query<any, any>({
-        query: ({id, params}) => {
-            console.log('params::::', params);
-            return ({
+        query: ({ id, params }) => ({
             url: `${PREFIX}/all-communication/${id}`,
-            params
-        }) },
-        providesTags: ['Notes', 'AllCommunications','SubAdminStudents'],
+            params,
+        }),
+        providesTags: ['Notes', 'AllCommunications', 'SubAdminStudents'],
     }),
 
     allCommunicationCreate: builder.mutation<any, any>({
