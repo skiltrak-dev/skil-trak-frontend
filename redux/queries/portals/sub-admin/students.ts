@@ -384,6 +384,11 @@ export const studentsEndpoints = (
         providesTags: ['SubAdminStudents'],
     }),
 
+    getSingleStudentCallLog: builder.query<any, number>({
+        query: (id) => `${PREFIX}/student/${id}/view-call/log`,
+        providesTags: ['SubAdminStudents'],
+    }),
+
     studentCallLog: builder.mutation<any, { student: number }>({
         query: (body) => ({
             url: `call-log`,

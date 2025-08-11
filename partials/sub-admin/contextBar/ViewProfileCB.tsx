@@ -322,7 +322,10 @@ export const ViewProfileCB = ({
 
                                     <div className="flex flex-col gap-y-1">
                                         {todo?.lists?.map((todoList, inner) => (
-                                            <Link key={inner} href={'#'}>
+                                            <Link
+                                                key={inner}
+                                                href={todoList?.link || '#'}
+                                            >
                                                 <div className="flex items-center justify-between border border-[#6B728050] rounded-md py-3.5 px-2.5 hover:bg-gray-100">
                                                     <div>
                                                         <Typography

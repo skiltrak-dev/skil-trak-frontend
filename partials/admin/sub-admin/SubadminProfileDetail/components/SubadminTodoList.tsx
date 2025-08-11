@@ -16,7 +16,7 @@ export const SubadminTodoList = () => {
             </div>
 
             {/*  */}
-            <div className="max-h-[500px] overflow-auto">
+            <div className="max-h-[500px] overflow-auto p-4">
                 <TodoTabs
                     baseUrl={`/portals/admin/sub-admin/${router?.query?.id}`}
                 />

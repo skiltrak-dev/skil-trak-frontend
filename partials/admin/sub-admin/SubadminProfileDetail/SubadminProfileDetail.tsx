@@ -109,7 +109,7 @@ export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
             </div>
 
             {/*  */}
-            {/* <SubadminTodoList /> */}
+            <SubadminTodoList />
 
             {/*  */}
             <div>
