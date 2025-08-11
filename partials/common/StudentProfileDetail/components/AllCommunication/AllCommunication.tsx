@@ -39,12 +39,10 @@ export const AllCommunication = ({
     const [fromFilter, setFromFilter] = useState('All')
     const [expandedCardIds, setExpandedCardIds] = useState<string[]>([])
 
-    const [allCommunications, setAllCommunications] = useState<CommunicationItem[]>([]);
     // Virtualization states
     const [visibleItems, setVisibleItems] = useState<number>(20)
     const [isLoadingMore, setIsLoadingMore] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
-
 
 
 
@@ -60,25 +58,9 @@ export const AllCommunication = ({
             {
 
                 skip: !user?.user || !isEntered,
-                refetchOnMountOrArgChange: 20,
             })
 
-    // const handleCardClick = (cardId: string) => {
-    //     setExpandedCardId(expandedCardId === cardId ? null : cardId)
-    // }
-    useEffect(() => {
-        if (data?.data) {
-            if (page === 1) {
-                // Fresh fetch — replace data instead of appending
-                setAllCommunications(data.data);
-            } else {
-                // Append only when loading more
-                setAllCommunications(prev => [...prev, ...data.data]);
-            }
-        }
-    }, [data?.data, page]);
 
-    const visibleData = allCommunications || [];
     const hasMoreItems = data?.data?.length === ITEMS_PER_LOAD;
     const handleCardClick = (cardId: string) => {
         setExpandedCardIds((prev) =>
@@ -146,8 +128,6 @@ export const AllCommunication = ({
         return matchesSearch && matchesType && matchesFrom
     })
 
-    // const visibleData = filteredData?.slice(0, visibleItems) || []
-    // const hasMoreItems = (filteredData?.length || 0) > visibleItems
 
     return (
         <div className="h-[40rem] overflow-auto flex flex-col">
@@ -168,17 +148,14 @@ export const AllCommunication = ({
                         />
 
                         <CommunicationStats
-                            visibleCount={visibleData.length}
+                            itemPerPage={data?.pagination?.itemPerPage || 6}
                             totalCount={data?.pagination?.totalResult || 0}
-                            hasMoreItems={hasMoreItems}
                             currentPage={data?.pagination?.currentPage || 1}
-                            totalPage={data?.pagination?.totalPage || 1}
+                            hasNext={data?.pagination?.hasNext || false}
                         />
-
-
                         <div ref={containerRef} className="flex-1 overflow-auto px-4 pb-4">
                             <VirtualizedCommunicationList
-                                items={visibleData}
+                                items={data?.data}
                                 isExpanded={isExpanded}
                                 expandedCardIds={expandedCardIds}
                                 expandedCardId={expandedCardId}
@@ -188,26 +165,33 @@ export const AllCommunication = ({
                                 hasMoreItems={hasMoreItems}
                             />
                         </div>
-                        {data?.pagination?.hasNext && (
-                            <div className="flex justify-center py-4">
-                                <Button
-                                    text="Load more"
-                                    variant={"secondary"}
-                                    outline
-                                    onClick={() => setPage(prev => prev + 1)}
-                                    loading={isFetching || isLoading}
-                                    disabled={!data?.pagination?.hasNext || isLoading || isFetching}
+                        <div className="flex items-center gap-x-2 justify-center">
+                            {data?.pagination?.hasPrevious && (
+                                <div className="flex justify-center py-4">
+                                    <Button
+                                        text="Load previous"
+                                        variant="info"
+                                        outline
+                                        onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+                                        loading={isFetching || isLoading}
+                                        disabled={!data?.pagination?.hasPrevious || isLoading || isFetching}
+                                    />
+                                </div>
+                            )}
+                            {data?.pagination?.hasNext && (
+                                <div className="flex justify-center py-4">
+                                    <Button
+                                        text="Load more"
+                                        variant={"secondary"}
+                                        outline
+                                        onClick={() => setPage(prev => prev + 1)}
+                                        loading={isFetching || isLoading}
+                                        disabled={!data?.pagination?.hasNext || isLoading || isFetching}
 
-                                />
-                                {/* <button
-                                    onClick={() => setPage(prev => prev + 1)}
-                                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
-                                    disabled={!data?.pagination?.hasNext}
-                                >
-                                    Load More
-                                </button> */}
-                            </div>
-                        )}
+                                    />
+                                </div>
+                            )}
+                        </div>
                     </>
                 ) : !isError && <EmptyData
                     imageUrl="/images/icons/common/notes.png"

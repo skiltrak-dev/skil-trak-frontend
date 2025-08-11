@@ -58,7 +58,7 @@ export const VirtualizedCommunicationList: React.FC<VirtualizedListProps> = ({
                 </div>
             )}
 
-            {!hasMoreItems && items.length > 0 && (
+            {!hasMoreItems && items?.length > 0 && (
                 <div className="flex justify-center items-center py-8">
                     <Typography variant="small" color="text-gray-500">
                         You've reached the end of all communications
