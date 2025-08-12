@@ -45,26 +45,5 @@ export const VirtualizedCommunicationList: React.FC<VirtualizedListProps> = ({
         return content
     }
 
-    return (
-        <>
-            {items.map((item, index) => renderVirtualizedItem(item, index))}
-
-            {isLoadingMore && (
-                <div className="flex justify-center items-center py-4">
-                    <LoadingAnimation />
-                    <Typography variant="small" color="text-gray-600">
-                        Loading more communications...
-                    </Typography>
-                </div>
-            )}
-
-            {!hasMoreItems && (
-                <div className="flex justify-center items-center py-8">
-                    <Typography variant="small" color="text-gray-500">
-                        You've reached the end of all communications
-                    </Typography>
-                </div>
-            )}
-        </>
-    )
+    return <>{items.map((item, index) => renderVirtualizedItem(item, index))}</>
 }

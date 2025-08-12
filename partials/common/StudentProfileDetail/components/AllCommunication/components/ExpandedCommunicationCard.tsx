@@ -1,6 +1,12 @@
 import { Typography } from '@components'
+import {
+    getCommunicationDate,
+    getCommunicationIcon,
+    getCommunicationSenderName,
+    getCommunicationTitle,
+    getCommunicationType,
+} from '../communicationUtils'
 import { CommunicationCardProps } from '../types'
-import { getCommunicationDate, getCommunicationIcon, getCommunicationSender, getCommunicationSenderName, getCommunicationTitle, getCommunicationType } from '../communicationUtils'
 import { CommunicationDetails } from './CommunicationDetails'
 
 export const ExpandedCommunicationCard: React.FC<CommunicationCardProps> = ({
@@ -8,9 +14,9 @@ export const ExpandedCommunicationCard: React.FC<CommunicationCardProps> = ({
     isExpanded,
     onCardClick,
 }) => (
-    <div className="bg-white rounded-lg border border-gray-200 mb-3 overflow-hidden">
+    <div className="bg-white rounded-lg border border-gray-200 mb-2 overflow-hidden">
         <div
-            className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+            className="px-4 py-2.5 hover:bg-gray-50 transition-colors cursor-pointer"
             onClick={() => onCardClick(item.id)}
         >
             <div className="flex items-start justify-between">
@@ -33,8 +39,9 @@ export const ExpandedCommunicationCard: React.FC<CommunicationCardProps> = ({
                                     {getCommunicationDate(item)}
                                 </Typography>
                                 <span
-                                    className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''
-                                        }`}
+                                    className={`transform transition-transform ${
+                                        isExpanded ? 'rotate-180' : ''
+                                    }`}
                                 >
                                     ▼
                                 </span>

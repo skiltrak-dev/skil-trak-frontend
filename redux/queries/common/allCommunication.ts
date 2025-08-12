@@ -17,8 +17,12 @@ export const allCommunicationEndpoints = (
             if (!currentCache) {
                 return newData
             }
+
             return {
-                data: [...currentCache?.data, ...newData?.data],
+                data:
+                    newData?.pagination?.currentPage === 1
+                        ? newData?.data
+                        : [...currentCache?.data, ...newData?.data],
                 pagination: newData?.pagination,
             }
         },

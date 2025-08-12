@@ -1,9 +1,10 @@
-import { AuthorizedUserComponent, Button, Typography } from '@components'
+import { AuthorizedUserComponent, Badge, Button, Typography } from '@components'
+import { UserRoles } from '@constants'
 import { ComposeMailModal } from '@partials/common/StudentProfileDetail/modals'
 import { ReactElement, useState } from 'react'
-import { useWorkplaceHook } from '../../Workplace/hooks'
 import { WorkplaceHistory } from '../../Workplace'
-import { UserRoles } from '@constants'
+import { useWorkplaceHook } from '../../Workplace/hooks'
+import { ShowAllCommunicationModal } from '../modal'
 
 interface CommunicationHeaderProps {
     user?: any
@@ -24,20 +25,37 @@ export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
             />
         )
     }
+
+    const onShowFullCommunication = () => {
+        setModal(
+            <ShowAllCommunicationModal user={user} onCancel={onCancelClicked} />
+        )
+    }
     return (
         <>
             {modal}
-            <div className="flex items-center justify-between mb-4 p-4 bg-white border-b">
+            <div className="flex items-center justify-between px-4 py-1.5 bg-white border-b">
                 <Typography variant="body" semibold color="text-gray-900">
                     Recent Communications
                 </Typography>
 
                 <div className="flex items-center gap-x-2">
-                    <AuthorizedUserComponent
-                        roles={[UserRoles.SUBADMIN, UserRoles.ADMIN, UserRoles.RTO]}
-                    >
-                        <WorkplaceHistory wpId={selectedWorkplace?.id} />
-                    </AuthorizedUserComponent>
+                    <Badge
+                        text="View All"
+                        variant="info"
+                        onClick={onShowFullCommunication}
+                    />
+                    {user?.user?.role === UserRoles.STUDENT && (
+                        <AuthorizedUserComponent
+                            roles={[
+                                UserRoles.SUBADMIN,
+                                UserRoles.ADMIN,
+                                UserRoles.RTO,
+                            ]}
+                        >
+                            <WorkplaceHistory wpId={selectedWorkplace?.id} />
+                        </AuthorizedUserComponent>
+                    )}
                     <Button
                         variant="info"
                         onClick={() => {
