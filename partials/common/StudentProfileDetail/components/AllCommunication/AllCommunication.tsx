@@ -29,7 +29,7 @@ export const AllCommunication = ({
     user: any
     isEntered?: boolean
 }) => {
-    const ITEMS_PER_LOAD = 6
+    const ITEMS_PER_LOAD = 5
     const [itemPerPage, setItemPerPage] = useState(ITEMS_PER_LOAD)
     const [page, setPage] = useState(1)
 
@@ -143,7 +143,7 @@ export const AllCommunication = ({
                     onExpandToggle={handleExpandToggle}
                 />
             )}
-            {isLoading || isFetching ? (
+            {isLoading ? (
                 <LoadingAnimation />
             ) : data?.data && data?.data?.length > 0 ? (
                 <>
@@ -165,11 +165,11 @@ export const AllCommunication = ({
                             onCardClick={handleCardClick}
                             onLoadMore={onWaypointEnter}
                             isLoadingMore={isLoadingMore}
-                            hasMoreItems={hasMoreItems}
+                            hasMoreItems={data?.pagination?.hasNext}
                         />
                     </div>
                     <div className="flex items-center gap-x-2 justify-center">
-                        {data?.pagination?.hasPrevious && (
+                        {/* {data?.pagination?.hasPrevious && (
                             <div className="flex justify-center py-4">
                                 <Button
                                     text="Load previous"
@@ -186,7 +186,7 @@ export const AllCommunication = ({
                                     }
                                 />
                             </div>
-                        )}
+                        )} */}
                         {data?.pagination?.hasNext && (
                             <div className="flex justify-center py-4">
                                 <Button
