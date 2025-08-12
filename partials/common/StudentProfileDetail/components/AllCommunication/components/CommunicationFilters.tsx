@@ -18,11 +18,11 @@ export const CommunicationFilters: React.FC<CommunicationFiltersProps> = ({
         { type: 'emails', name: 'Emails' },
         { type: 'calls', name: 'Calls' },
         { type: 'twilio', name: 'Messages' },
-        { type: 'logger', name: 'Logger' },
+        { type: 'logger', name: 'Workplace Status' },
         { type: 'statusHistory', name: 'Status History' },
     ]
     return (
-        <div className="flex items-center space-x-4 mb-4 p-4 bg-gray-50">
+        <div className="flex items-center space-x-4 mb-2 px-4 py-1.5 bg-gray-50">
             <div className="flex-1">
                 <input
                     type="text"
@@ -33,7 +33,7 @@ export const CommunicationFilters: React.FC<CommunicationFiltersProps> = ({
                 />
             </div>
 
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
                 <Typography variant="small" color="text-gray-600">
                     Pinned to All
                 </Typography>
@@ -46,7 +46,7 @@ export const CommunicationFilters: React.FC<CommunicationFiltersProps> = ({
                     <option value="PinnedNotes">Pinned Notes</option>
                     <option value="internalNotes">Internal Notes</option>
                 </select>
-            </div>
+            </div> */}
 
             <div className="flex items-center space-x-2">
                 <Typography variant="small" color="text-gray-600">

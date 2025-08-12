@@ -16,14 +16,18 @@ export const CollapsedCommunicationCard: React.FC<CommunicationCardProps> = ({
     isExpanded,
     onCardClick,
 }) => (
-    <div className="bg-white rounded-lg border border-gray-200 mb-3 overflow-hidden">
+    <div className="bg-white rounded-lg border border-gray-200 mb-2 overflow-hidden">
         <div
-            className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+            className="px-4 py-2.5 hover:bg-gray-50 transition-colors cursor-pointer"
             onClick={() => onCardClick(item.id)}
         >
             <div className="flex items-start justify-between">
                 <div className="flex items-start space-x-3 flex-1">
-                    <div className={`text-2xl ${getCommunicationIcon(item)?.bg}`}>{getCommunicationIcon(item)?.icon}</div>
+                    <div
+                        className={`text-2xl ${getCommunicationIcon(item)?.bg}`}
+                    >
+                        {getCommunicationIcon(item)?.icon}
+                    </div>
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                             <Typography
@@ -41,16 +45,18 @@ export const CollapsedCommunicationCard: React.FC<CommunicationCardProps> = ({
                                     {getCommunicationDate(item)}
                                 </Typography>
                                 <div
-                                    className={`transform transition-transform text-gray-400 ${isExpanded ? 'rotate-180' : ''
-                                        }`}
+                                    className={`transform transition-transform text-gray-400 ${
+                                        isExpanded ? 'rotate-180' : ''
+                                    }`}
                                 >
                                     <IoIosArrowDown />
-
                                 </div>
                             </div>
                         </div>
                         <Typography variant="small" color="text-gray-600 mt-1">
-                            From: {getCommunicationSenderName(item)
+                            From:{' '}
+                            {
+                                getCommunicationSenderName(item)
                                 // getCommunicationSender(item)
                             }
                         </Typography>
