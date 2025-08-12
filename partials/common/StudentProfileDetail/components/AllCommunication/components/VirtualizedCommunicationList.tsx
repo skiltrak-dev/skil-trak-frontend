@@ -21,6 +21,7 @@ export const VirtualizedCommunicationList: React.FC<VirtualizedListProps> = ({
         const CardComponent = isExpanded
             ? ExpandedCommunicationCard
             : CollapsedCommunicationCard
+
         const content = (
             <CardComponent
                 key={item.id}

@@ -1,6 +1,6 @@
 // Icons
 // components
-import { ActionButton, ShowErrorNotifications } from '@components'
+import { ActionButton } from '@components'
 
 // utils
 import { WorkplaceCurrentStatus } from '@utils'
@@ -8,13 +8,9 @@ import { WorkplaceCurrentStatus } from '@utils'
 // hooks
 
 // query
-import { useContextBar, useNotification } from '@hooks'
 import {
-    SubAdminApi,
-    useCancelWorkplaceStatusMutation,
-    useGetWorkplaceFoldersQuery,
+    useGetWorkplaceFoldersQuery
 } from '@queries'
-import { Course } from '@types'
 import { ReactElement, useEffect, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
 
@@ -50,18 +46,6 @@ export const UpdatedWorkplaceRequest = ({
     const [onEnterWorkplace, setOnEnterWorkplace] = useState<boolean>(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [isOpened, setIsOpened] = useState<boolean>(false)
-    const [isOpen, setIsOpen] = useState<boolean>(false)
-
-    const { setContent, show } = useContextBar()
-    const { notification } = useNotification()
-
-    // query
-    const [cancelWorkplace, cancelWorkplaceResult] =
-        useCancelWorkplaceStatusMutation()
-    const [assignCourse, assignCourseResult] =
-        SubAdminApi.Workplace.assignCourse()
-
     // query
     const workplaceFolders = useGetWorkplaceFoldersQuery(
         {
@@ -78,24 +62,6 @@ export const UpdatedWorkplaceRequest = ({
         setAppliedIndustry(workplace.industries?.find((i: any) => i.applied))
         setCourse(workplace?.courses ? workplace?.courses[0] : {})
     }, [workplace])
-
-    useEffect(() => {
-        if (cancelWorkplaceResult.isSuccess) {
-            notification.error({
-                title: 'Workplace Cancelled',
-                description: 'Workplace Cancelled Successfully',
-            })
-        }
-    }, [cancelWorkplaceResult])
-
-    const courseOptions =
-        workplace?.student?.courses?.length > 0
-            ? workplace?.student?.courses?.map((course: Course) => ({
-                  item: course,
-                  value: course?.id,
-                  label: course?.title,
-              }))
-            : []
 
     const onCancelWorkplaceClicked = () => {
         setModal(
@@ -116,7 +82,6 @@ export const UpdatedWorkplaceRequest = ({
                 onLeave={() => setOnEnterWorkplace(false)}
             >
                 <div>
-                    <ShowErrorNotifications result={cancelWorkplaceResult} />
                     <div>
                         {assignToMe && !cancelRequest ? (
                             <AssignToMe
@@ -134,12 +99,6 @@ export const UpdatedWorkplaceRequest = ({
                                         onClick={async () => {
                                             onCancelWorkplaceClicked()
                                         }}
-                                        loading={
-                                            cancelWorkplaceResult.isLoading
-                                        }
-                                        disabled={
-                                            cancelWorkplaceResult.isLoading
-                                        }
                                     >
                                         Cancel Request
                                     </ActionButton>

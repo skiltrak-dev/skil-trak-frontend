@@ -30,9 +30,10 @@ export const AllCommunicationComponent = ({
     const [isExpanded, setIsExpanded] = useState(false)
     const [expandedCardId, setExpandedCardId] = useState<string | null>(null)
     const [searchTerm, setSearchTerm] = useState('')
-    const [typeFilter, setTypeFilter] = useState('All')
+    const [typeFilter, setTypeFilter] = useState('notes')
     const [fromFilter, setFromFilter] = useState('All')
     const [expandedCardIds, setExpandedCardIds] = useState<string[]>([])
+    const [showLoader, setShowLoader] = useState<boolean>(false)
 
     // Virtualization states
     const [visibleItems, setVisibleItems] = useState<number>(20)
@@ -69,7 +70,7 @@ export const AllCommunicationComponent = ({
     useEffect(() => {
         if (data?.data && data?.data?.length > 0) {
             const defaultExpanded = data?.data
-                .filter((item: any) => !!item.title)
+                .filter((item: any) => !!item.title || item?.type === 'logger')
                 .map((item: any) => item.id)
 
             setExpandedCardIds(defaultExpanded)
@@ -131,8 +132,9 @@ export const AllCommunicationComponent = ({
                     setSearchTerm={setSearchTerm}
                     typeFilter={typeFilter}
                     setTypeFilter={(e: any) => {
-                        setTypeFilter(e)
                         setPage(1)
+                        setTypeFilter(e)
+                        setShowLoader(true)
                     }}
                     fromFilter={fromFilter}
                     setFromFilter={setFromFilter}
@@ -140,9 +142,9 @@ export const AllCommunicationComponent = ({
                     onExpandToggle={handleExpandToggle}
                 />
             )}
-            {isLoading ? (
+            {isLoading || (showLoader ? isFetching : false) ? (
                 <LoadingAnimation />
-            ) : data?.data && data?.data?.length > 0 ? (
+            ) : data?.data && data?.data?.length > 0 && isSuccess ? (
                 <>
                     <CommunicationStats
                         itemPerPage={data?.pagination?.itemPerPage || 6}
@@ -170,7 +172,10 @@ export const AllCommunicationComponent = ({
                             <Badge
                                 variant="info"
                                 text="Load more"
-                                onClick={() => setPage((prev) => prev + 1)}
+                                onClick={() => {
+                                    setPage((prev) => prev + 1)
+                                    setShowLoader(false)
+                                }}
                                 loading={isFetching || isLoading}
                                 disabled={
                                     !data?.pagination?.hasNext ||
@@ -182,7 +187,7 @@ export const AllCommunicationComponent = ({
                     )}
                 </>
             ) : (
-                !isError && (
+                isSuccess && (
                     <EmptyData
                         imageUrl="/images/icons/common/notes.png"
                         title="No All Communication Attached"

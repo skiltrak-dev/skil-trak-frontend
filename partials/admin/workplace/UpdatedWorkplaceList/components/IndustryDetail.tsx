@@ -20,7 +20,8 @@ export const IndustryDetail = ({
             (workplaceApprovaleRequest &&
                 workplaceApprovaleRequest?.length > 0) ? (
                 <>
-                    {appliedIndustry?.isAutomated && (
+                    {(appliedIndustry?.isAutomated ||
+                        workplaceApprovaleRequest?.[0]?.isAutomated) && (
                         <div className="bg-success rounded px-1 py-0.5 w-fit mb-0.5">
                             <Typography variant="xs" color="text-white">
                                 Auto

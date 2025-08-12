@@ -41,7 +41,7 @@ export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
 
                 <div className="flex items-center gap-x-2">
                     <Badge
-                        text="View All"
+                        text="View Full Screen"
                         variant="info"
                         onClick={onShowFullCommunication}
                     />
