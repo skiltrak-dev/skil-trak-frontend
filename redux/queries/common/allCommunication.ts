@@ -11,6 +11,20 @@ export const allCommunicationEndpoints = (
             params,
         }),
         providesTags: ['Notes', 'AllCommunications', 'SubAdminStudents'],
+        serializeQueryArgs: ({ endpointName }) => endpointName,
+        transformResponse: (responseData) => responseData,
+        merge: (currentCache, newData) => {
+            if (!currentCache) {
+                return newData
+            }
+            return {
+                data: [...currentCache?.data, ...newData?.data],
+                pagination: newData?.pagination,
+            }
+        },
+        forceRefetch({ currentArg, previousArg }) {
+            return currentArg !== previousArg
+        },
     }),
 
     allCommunicationCreate: builder.mutation<any, any>({
