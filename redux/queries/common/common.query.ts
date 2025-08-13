@@ -615,6 +615,8 @@ const {
     // ---- FEEDBACK ---- //
     useStudentFeedbackMutation,
     useGetStudentCoordinatorFeedbackQuery,
+    useSubmitCoordinatorFeedbackMutation,
+    useGetUserReviewForCoordinatorQuery,
 
     // ---- ALLOW LOGIN ---- //
     useAllowAsLoginMutation,
@@ -920,6 +922,8 @@ export const CommonApi = {
     Feedback: {
         useStudentFeedback: useStudentFeedbackMutation,
         useStudentFeedbackList: useGetStudentCoordinatorFeedbackQuery,
+        submitCoordinatorFeedback: useSubmitCoordinatorFeedbackMutation,
+        useUserReviewForCoordinator: useGetUserReviewForCoordinatorQuery,
     },
     AllowLogin: {
         useAllowAsLogin: useAllowAsLoginMutation,

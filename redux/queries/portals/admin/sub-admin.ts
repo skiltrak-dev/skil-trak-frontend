@@ -108,6 +108,17 @@ export const subAdminEndpoints = (
         query: (id) => `${PREFIX}/subadmin/${id}/courses`,
         providesTags: ['SubAdmins', 'Rto-Coordinators'],
     }),
+    coordinatorRatingsList: builder.query<any, any>({
+        query: ({ id, params }) => ({
+            url: `rating/for-subadmin/${id}`,
+            params,
+        }),
+        providesTags: ['SubAdmins'],
+    }),
+    coordinatorOverallRating: builder.query<any, any>({
+        query: (id) => `rating/for-subadmin/${id}/over-all`,
+        providesTags: ['SubAdmins'],
+    }),
 
     subAdminAssignCourses: builder.mutation<
         SubAdmin,

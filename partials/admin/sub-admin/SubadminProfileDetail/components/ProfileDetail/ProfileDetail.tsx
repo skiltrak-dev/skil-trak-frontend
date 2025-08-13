@@ -5,8 +5,16 @@ import { ProfileCard } from './ProfileCard'
 import { ProfileActions } from './ProfileActions'
 import { UserRoles } from '@constants'
 import { ProfileLinks } from './ProfileLinks'
+import { CoordinatorReviewsListModal } from '@partials/admin/sub-admin/modals'
+import Modal from '@modals/Modal'
+import { AdminApi } from '@queries'
+import { MapStarRating } from '@partials/common'
 
 export const ProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
+    const { data: averageRating } =
+        AdminApi.SubAdmins.useCoordinatorOverallRating(subadmin?.user?.id, {
+            skip: !subadmin?.user?.id,
+        })
     return (
         <Card shadowType="profile" fullHeight>
             <div className="relative">
@@ -36,6 +44,29 @@ export const ProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
                                 {subadmin?.user?.email}
                             </Typography>
                             <BsPatchCheckFill className="text-link" />
+                        </div>
+                        {/* useCoordinatorOverallRating */}
+                        <div className="flex flex-col justify-center items-center gap-x-2 mt-2">
+                            <div className="flex items-center gap-x-2">
+                                <MapStarRating
+                                    rating={averageRating?.averageRating}
+                                />
+                                <span className="text-sm text-gray-500">
+                                    ({averageRating?.totalReviews ?? 0} reviews)
+                                </span>
+                            </div>
+                            <Modal>
+                                <Modal.Open opens={'coordinator-reviews-list'}>
+                                    <button className="text-link text-sm">
+                                        Reviews
+                                    </button>
+                                </Modal.Open>
+                                <Modal.Window name="coordinator-reviews-list">
+                                    <CoordinatorReviewsListModal
+                                        user={subadmin?.user}
+                                    />
+                                </Modal.Window>
+                            </Modal>
                         </div>
                     </div>
                 </div>

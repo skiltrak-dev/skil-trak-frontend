@@ -118,6 +118,7 @@ const commonTagTypes = [
     'Draft',
     'Notes',
     'Mails',
+    'Rating',
     'E-Sign',
     'Avatar',
     'Course',

@@ -36,4 +36,20 @@ export const studentFeedbackEndpoints = (
         }),
         providesTags: ['Feedback'],
     }),
+    submitCoordinatorFeedback: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `rating`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Rating'],
+    }),
+
+    //rating/by-user
+    getUserReviewForCoordinator: builder.query<any, void>({
+        query: () => ({
+            url: `rating/by-user`,
+        }),
+        providesTags: ['Rating'],
+    }),
 })
