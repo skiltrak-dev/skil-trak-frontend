@@ -1,13 +1,14 @@
 import Image from 'next/image'
-import { ReactElement, useState, useEffect } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 import { StudentLayout } from '@layouts'
 import { Course, NextPageWithLayout, SubAdmin } from '@types'
-
+import CustomModal from '@modals/Modal'
 import {
     Button,
     Card,
     ContextBarLoading,
+    GlobalModal,
     InitialAvatar,
     InitialAvatarContainer,
     Modal,
@@ -27,13 +28,19 @@ import {
     StudentContextBar,
 } from '@partials/student/components'
 
-import { useGetStudentProfileDetailQuery, StudentApi } from '@queries'
+import {
+    AdminApi,
+    CommonApi,
+    StudentApi,
+    useGetStudentProfileDetailQuery,
+} from '@queries'
 
 import { Desktop, Mobile } from '@components/Responsive'
 import { MediaQueries } from '@constants'
 import { getSectors } from '@utils'
-import { useMediaQuery } from 'react-responsive'
 import Link from 'next/link'
+import { useMediaQuery } from 'react-responsive'
+import { MapStarRating, RateCoordinatorModal } from '@partials/common'
 
 const StudentDashboard: NextPageWithLayout = () => {
     const [modal, setModal] = useState<any | null>(null)
@@ -57,6 +64,9 @@ const StudentDashboard: NextPageWithLayout = () => {
     )
 
     const { data, isLoading } = useGetStudentProfileDetailQuery()
+    const { data: averageRating } =
+        CommonApi.Feedback.useUserReviewForCoordinator()
+
     const talentPoolStudentProfileDetail =
         StudentApi.TalentPool.useTalentPoolStudentProfile()
     const sectorsWithCourses = getSectors(data?.courses)
@@ -140,7 +150,17 @@ const StudentDashboard: NextPageWithLayout = () => {
             </div>
         </Modal>
     )
-
+    const onClickFeedbackCoordinator = () => {
+        setModal(
+            <GlobalModal>
+                <RateCoordinatorModal
+                    userId={data?.subadmin?.user?.id}
+                    onCloseModal={onCancel}
+                />
+            </GlobalModal>
+        )
+    }
+    console.log('data?.industries', data)
     return (
         <>
             {modal && modal}
@@ -412,6 +432,43 @@ const StudentDashboard: NextPageWithLayout = () => {
                                 <p className="text-sm font-semibold">
                                     My Workplace
                                 </p>
+                            </div>
+                            <div className="flex gap-x-4">
+                                <div>
+                                    <p className="text-[11px] text-gray-400">
+                                        Coordinators
+                                    </p>
+                                    <p className="font-medium text-xs">
+                                        {data?.subadmin?.user?.name ?? 'NA'}
+                                    </p>
+                                    {/* <p className="text-xs font-medium text-slate-400">
+                                        {data?.subadmin?.user?.email ?? 'NA'}
+                                    </p> */}
+                                </div>
+                                <div className="">
+                                    {data && data?.subadmin && (
+                                        <>
+                                            {averageRating &&
+                                            Object?.keys(averageRating)
+                                                ?.length > 0 ? (
+                                                <MapStarRating
+                                                    rating={
+                                                        averageRating?.rating
+                                                    }
+                                                />
+                                            ) : (
+                                                <button
+                                                    onClick={
+                                                        onClickFeedbackCoordinator
+                                                    }
+                                                    className="text-xs text-link border border-link rounded-md p-1"
+                                                >
+                                                    Rate Coordinator
+                                                </button>
+                                            )}
+                                        </>
+                                    )}
+                                </div>
                             </div>
 
                             {/* Action */}

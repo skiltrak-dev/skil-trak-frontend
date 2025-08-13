@@ -116,7 +116,7 @@ export const workplaceEndpoints = (
 
     getWorkplaceApprovalRequest: builder.query<any, void>({
         query: () => `${PREFIX}/workplace/approval-request/get`,
-        providesTags: ['Workplace'],
+        providesTags: ['Rating'],
     }),
 
     changeStatusWpApprrovalReq: builder.query<

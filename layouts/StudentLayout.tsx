@@ -81,7 +81,6 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
         }
     )
     const wpApprovalRequest = StudentApi.Workplace.wpApprovalRequest()
-
     const joyride = useJoyRide()
 
     // useEffect(() => {
@@ -136,45 +135,6 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
             </GlobalModal>
         )
     }
-
-    // useEffect(() => {
-    //     if (
-    //         userData?.status === UserStatus.Pending &&
-    //         (isRtoSelfPayment || isSelfRegistered)
-    //     )
-    //         setModal(
-    //             <GlobalModal>
-    //                 <Elements stripe={stripePromise}>
-    //                     <CustomPaymentModal onCancel={onCancel} />
-    //                 </Elements>
-    //             </GlobalModal>
-    //         )
-    // }, [ profile])
-
-    //     useEffect(() => {
-    //     if (
-    //         userData?.status === UserStatus.Pending && !profile?.data?.isPaymentCompleted &&
-    //         (isRtoSelfPayment || isSelfRegistered)
-    //     ) {
-    //         const fetchPaymentIntent = async () => {
-    //             const res = await newUserPayment({
-    //                 amount: 1000,
-    //                 currency: 'aud',
-    //                 idempotencyKey: uuid(),
-    //             }).unwrap();
-
-    //             setModal(
-    //                 <GlobalModal>
-    //                     <Elements stripe={stripePromise} options={{clientSecret: res?.clientSecret} }>
-    //                         <CustomPaymentModal onCancel={onCancel} />
-    //                     </Elements>
-    //                 </GlobalModal>
-    //             );
-    //         };
-
-    //         fetchPaymentIntent();
-    //     }
-    // }, [profile]);
 
     useEffect(() => {
         if (profile.isSuccess) {

@@ -1,4 +1,6 @@
 import { InitialAvatar, Tooltip, TooltipPosition } from '@components'
+import { MapStarRating } from '@partials/common'
+import { AdminApi } from '@queries'
 import { SubAdmin } from '@types'
 import { QueryType, queryToUrl } from '@utils'
 import Link from 'next/link'
@@ -10,6 +12,11 @@ import { TbLogin } from 'react-icons/tb'
 export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const router = useRouter()
     const query = queryToUrl(router.query as QueryType)
+    const { data: averageRating } =
+        AdminApi.SubAdmins.useCoordinatorOverallRating(subAdmin?.user?.id, {
+            skip: !subAdmin?.user?.id,
+        })
+
     return (
         <Link legacyBehavior href={`/portals/admin/sub-admin/${subAdmin?.id}`}>
             <a
@@ -47,18 +54,26 @@ export const SubAdminCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                     </div>
 
                     <div className="font-medium text-xs text-gray-500">
-                        <p className="flex items-center gap-x-1">
+                        {/* <p className="flex items-center gap-x-1">
                             <span>
                                 <MdEmail />
                             </span>
                             {subAdmin?.user?.email}
-                        </p>
-                        {/* <p className="flex items-center gap-x-1">
+                        </p> */}
+                        {Number(averageRating?.totalReviews) > 0 &&
+                            Number(averageRating?.averageRating) > 0 && (
+                                <MapStarRating
+                                    rating={averageRating.averageRating}
+                                    size="xs"
+                                />
+                            )}
+
+                        <p className="flex items-center gap-x-1">
                             <span>
                                 <MdPhoneIphone />
                             </span>
                             {subAdmin?.phone}
-                        </p> */}
+                        </p> 
                     </div>
                 </div>
             </a>

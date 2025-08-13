@@ -5,6 +5,7 @@ import React from 'react'
 import {
     AddIndustryType,
     ApplyForRPL,
+    FavByCoordinator,
     IndustryDashboardAppointments,
 } from './components'
 
@@ -14,6 +15,7 @@ export const IndustryDashboardCB = ({ industry }: { industry: Industry }) => {
     return (
         <div className="flex flex-col gap-y-5">
             <AddIndustryType />
+            <FavByCoordinator />
             <div className="shadow-profiles rounded-md border border-[#6B7280] bg-white p-2.5">
                 <UpdatedCourseList sectorsWithCourses={sectorsWithCourses} />
             </div>

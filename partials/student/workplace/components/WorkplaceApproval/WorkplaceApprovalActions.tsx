@@ -8,11 +8,13 @@ export const WorkplaceApprovalActions = ({
     declaration,
     wpApprovalId,
     dates,
+    subAdminUserId,
 }: {
     declaration: string
     onCancel?: () => void
     wpApprovalId: number
     dates: any
+    subAdminUserId?: any
 }) => {
     const onCancelModal = () => setModal(null)
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -33,6 +35,7 @@ export const WorkplaceApprovalActions = ({
                 rData={reqData}
                 declaration={declaration}
                 wpApprovalId={wpApprovalId}
+                subAdminUserId={subAdminUserId}
             />
         )
     }
@@ -89,54 +92,6 @@ export const WorkplaceApprovalActions = ({
                                     variant="success"
                                 />
                             ))}
-                        {/* {dates?.date1 ? (
-                            <Button
-                                fullHeight
-                                fullWidth
-                                onClick={() => {
-                                    setReqData({
-                                        date: dates?.date1,
-                                        status: 'approved',
-                                    })
-                                    // if (isBrowser()) {
-                                    //     window?.open(
-                                    //         `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/workplace/approval-request/${wpApprovalId}/update-status?status=approved&date=${dates?.date1}`
-                                    //     )
-                                    // }
-                                    // if (onCancel) {
-                                    //     onCancel()
-                                    // }
-                                }}
-                                loading={changeWpApprovalReq?.isLoading}
-                                disabled={changeWpApprovalReq?.isLoading}
-                                text="Approve With Option 1"
-                                variant="success"
-                            />
-                        ) : null}
-                        {dates?.date2 ? (
-                            <Button
-                                fullHeight
-                                fullWidth
-                                onClick={() => {
-                                    setReqData({
-                                        date: dates?.date1,
-                                        status: 'approved',
-                                    })
-                                    // if (isBrowser()) {
-                                    //     window?.open(
-                                    //         `${process.env.NEXT_PUBLIC_END_POINT}/subadmin/workplace/approval-request/${wpApprovalId}/update-status?status=approved&date=${dates?.date2}`
-                                    //     )
-                                    // }
-                                    // if (onCancel) {
-                                    //     onCancel()
-                                    // }
-                                }}
-                                loading={changeWpApprovalReq?.isLoading}
-                                disabled={changeWpApprovalReq?.isLoading}
-                                text="Approve With Option 2"
-                                variant="success"
-                            />
-                        ) : null} */}
                     </div>
                 ) : (
                     <div className="h-10 w-full">

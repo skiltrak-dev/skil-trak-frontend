@@ -55,6 +55,10 @@ export const industryApi = emptySplitApi.injectEndpoints({
             query: () => 'industries/profile/get',
             providesTags: ['Industries'],
         }),
+        getIndustryFavByCoordinator: build.query<any, void>({
+            query: () => 'industries/favorite-by',
+            providesTags: ['Industries'],
+        }),
         updateIndustryProfile: build.mutation<any, any>({
             query: ({ id, body }) => ({
                 url: 'industries/profile/update',
@@ -64,6 +68,7 @@ export const industryApi = emptySplitApi.injectEndpoints({
             }),
             invalidatesTags: ['Industries'],
         }),
+        // get industry fav by coordinator
 
         ...mouEndpoints(build),
         ...jobEndpoints(build),
@@ -91,6 +96,7 @@ export const industryApi = emptySplitApi.injectEndpoints({
 export const {
     // ---- PROFILE ---- //
     useIndustryProfileQuery,
+    useGetIndustryFavByCoordinatorQuery,
     useUpdateIndustryProfileMutation,
 
     // ------ AVAILABLE SHIFTS ------ //
@@ -246,6 +252,8 @@ export const IndustryApi = {
     Profile: {
         useIndustryProfileQuery,
         useUpdateIndustryProfileMutation,
+        useIndustryFavByCoordinator:
+            useGetIndustryFavByCoordinatorQuery,
     },
     AvailableShifts: {
         useGetShiftsQuery,

@@ -82,6 +82,7 @@ export const WorkplaceApproval = ({
                 declaration={wpApprovalData?.declaration}
                 wpApprovalId={wpApprovalData?.id}
                 dates={wpApprovalData?.dates}
+                subAdminUserId={wpApprovalData?.student?.subadmin?.user?.id}
             />
         </div>
     )

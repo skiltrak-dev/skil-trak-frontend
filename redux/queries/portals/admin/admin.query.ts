@@ -332,6 +332,9 @@ const {
     useToggleWPCancelationRequestMutation,
     useSubAdminExtendedStudentsListQuery,
     useToggleAutoWorkplaceAssignmentMutation,
+    useCoordinatorRatingsListQuery,
+    useCoordinatorOverallRatingQuery,
+
 
     useSubAdminCoursesQuery,
     useSubAdminAssignCoursesMutation,
@@ -601,6 +604,8 @@ export const AdminApi = {
         toggleWPCancelationReq: useToggleWPCancelationRequestMutation,
         subadminExtendedStudents: useSubAdminExtendedStudentsListQuery,
         useToggleAutoAssignWorkplace: useToggleAutoWorkplaceAssignmentMutation,
+        useCoordinatorRatingsList:useCoordinatorRatingsListQuery,
+        useCoordinatorOverallRating:useCoordinatorOverallRatingQuery,
 
         useCourses: useSubAdminCoursesQuery,
         useAssignCourses: useSubAdminAssignCoursesMutation,
