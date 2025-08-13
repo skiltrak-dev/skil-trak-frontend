@@ -1,14 +1,10 @@
 import { Button, ShowErrorNotifications } from '@components'
 import { ApproveRequestModal } from '@partials/sub-admin/workplace/modals'
-import {
-    CommonApi,
-    SubAdminApi,
-    useIndustryResponseMutation,
-    useUpdateWorkplaceStatusMutation,
-} from '@queries'
+import { CommonApi, SubAdminApi, useIndustryResponseMutation } from '@queries'
 import { Course, Student, UserStatus } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
 import { ReactElement, useState } from 'react'
+import { DeclineStudentByIndustryModal } from '../../modals'
 import { InitiateSign } from './components'
 
 export const Actions = ({
@@ -26,11 +22,6 @@ export const Actions = ({
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [actionStatus, setActionStatus] = useState<string>('')
-
-    const [updateStatus, updateStatusResult] =
-        SubAdminApi.Workplace.updateWpIndustryStatus()
-    const [industryResponse, industryResponseResult] =
-        useIndustryResponseMutation()
 
     const course = courses?.[0]
 
@@ -65,12 +56,19 @@ export const Actions = ({
         //     )
         // }
     }
+    const onRejectModal = () => {
+        setModal(
+            <DeclineStudentByIndustryModal
+                workplaceId={workplace?.id}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
 
     return (
         <div>
             {modal}
-            <ShowErrorNotifications result={updateStatusResult} />
-            <ShowErrorNotifications result={industryResponseResult} />
+
             {currentStatus ===
             WorkplaceCurrentStatus.AwaitingWorkplaceResponse ? (
                 <div className="flex items-center gap-x-2">
@@ -79,34 +77,19 @@ export const Actions = ({
                         onClick={() => {
                             onApproveModal()
                         }}
-                        loading={
-                            updateStatusResult?.isLoading &&
-                            actionStatus === UserStatus.Approved
-                        }
-                        disabled={
-                            updateStatusResult?.isLoading &&
-                            actionStatus === UserStatus.Approved
-                        }
                     >
                         <span className="text-success">Approve</span>
                     </Button>
                     <Button
                         variant={'secondary'}
                         onClick={() => {
-                            setActionStatus(UserStatus.Rejected)
-                            updateStatus({
-                                id: Number(workplace?.id),
-                                status: 'decline',
-                            })
+                            // setActionStatus(UserStatus.Rejected)
+                            // updateStatus({
+                            //     id: Number(workplace?.id),
+                            //     status: 'decline',
+                            // })
+                            onRejectModal()
                         }}
-                        loading={
-                            updateStatusResult?.isLoading &&
-                            actionStatus === UserStatus.Rejected
-                        }
-                        disabled={
-                            updateStatusResult?.isLoading &&
-                            actionStatus === UserStatus.Rejected
-                        }
                     >
                         <span className="text-error">Decline</span>
                     </Button>
@@ -133,11 +116,6 @@ export const Actions = ({
                         courseId={course?.id}
                         eSignDocument={eSignDocument}
                     />
-                    {/* <Button
-                        text="Agreement Signed"
-                        onClick={() => onChangeStatusToSigned()}
-                        variant="info"
-                    /> */}
                 </div>
             ) : null}
         </div>

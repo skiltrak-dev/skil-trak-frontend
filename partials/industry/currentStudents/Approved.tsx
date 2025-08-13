@@ -10,7 +10,7 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { IndustryDetail, StudentCellInfo } from './components'
 
 // query
@@ -32,10 +32,13 @@ import {
 import { useRouter } from 'next/router'
 import { FaEye } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
+import { ApproveRequestModal } from '@partials/sub-admin/workplace/modals'
+import { DeclineStudentByIndustryModal } from '@partials/common/StudentProfileDetail/components'
 
 export const Approved = () => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
+    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const router = useRouter()
 
@@ -77,18 +80,24 @@ export const Approved = () => {
         },
     ]
 
-    const onApproveClicked = (industry: any) => {
-        workplaceActions({
-            id: industry.id,
-            status: UserStatus.Approved,
-        })
+    const onModalCancelClicked = () => setModal(null)
+
+    const onApproveClicked = (wpId: number) => {
+        setModal(
+            <ApproveRequestModal
+                workplaceId={wpId}
+                onCancel={onModalCancelClicked}
+            />
+        )
     }
 
-    const onRejectClicked = (industry: any) => {
-        workplaceActions({
-            id: industry.id,
-            status: UserStatus.Rejected,
-        })
+    const onRejectClicked = (wpId: number) => {
+        setModal(
+            <DeclineStudentByIndustryModal
+                workplaceId={wpId}
+                onCancel={onModalCancelClicked}
+            />
+        )
     }
 
     const columns: ColumnDef<any>[] = [
@@ -247,6 +256,7 @@ export const Approved = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
+                console.log({ info: info.row.original })
                 const appliedIndustry = getStudentWorkplaceAppliedIndustry(
                     info.row.original?.industries
                 )
@@ -262,20 +272,16 @@ export const Approved = () => {
                                 <ActionButton
                                     variant="success"
                                     onClick={() => {
-                                        onApproveClicked(appliedIndustry)
+                                        onApproveClicked(info.row.original?.id)
                                     }}
-                                    loading={workplaceActionsResult?.isLoading}
-                                    disabled={workplaceActionsResult?.isLoading}
                                 >
                                     Accept
                                 </ActionButton>
                                 <ActionButton
                                     variant="error"
                                     onClick={() => {
-                                        onRejectClicked(appliedIndustry)
+                                        onRejectClicked(info.row.original?.id)
                                     }}
-                                    loading={workplaceActionsResult?.isLoading}
-                                    disabled={workplaceActionsResult?.isLoading}
                                 >
                                     Reject
                                 </ActionButton>
@@ -294,6 +300,7 @@ export const Approved = () => {
 
     return (
         <>
+            {modal}
             <div className="flex flex-col gap-y-4">
                 <PageHeading
                     title={'All Students'}

@@ -225,11 +225,12 @@ export const workplaceEndpoints = (
     }),
     updateWorkplaceIndustryStatus: builder.mutation<
         any,
-        { id: number; status: string }
+        { id: number; status: string; comment?: string }
     >({
-        query: ({ id, ...params }) => ({
+        query: ({ id, comment, ...params }) => ({
             url: `students/workplace-requests/${id}/response/add`,
             params,
+            body: { comment },
             method: 'POST',
         }),
         invalidatesTags: ['SubAdminWorkplace', 'SubAdminStudents'],
