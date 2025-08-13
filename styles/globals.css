@@ -390,7 +390,7 @@
         text-align: left;
     }
 
-    td {
+    td:not(.emailTd) {
         /* border-top: 1px solid #e6e6e6; */
         /* border-bottom: 1px solid #e6e6e6; */
         padding: 8px 16px;

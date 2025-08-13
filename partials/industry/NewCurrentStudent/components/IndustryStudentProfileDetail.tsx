@@ -1,23 +1,27 @@
 import {
+    Button,
     Card,
-    NoData,
-    Typography,
-    ActionButton,
     LoadingAnimation,
+    NoData,
     ShowErrorNotifications,
+    Typography,
 } from '@components'
 import { useNotification } from '@hooks'
+import { DeclineStudentByIndustryModal } from '@partials/common/StudentProfileDetail/components'
 import {
     Avatar,
     RtoDetail,
     UpdatedStudentExpiryTime,
 } from '@partials/common/StudentProfileDetail/ContextBarComponents'
+import { ApproveRequestModal } from '@partials/sub-admin/workplace/modals'
 import { useWorkplaceActionsMutation } from '@queries'
 import { UserStatus } from '@types'
 import {
     WorkplaceCurrentStatus,
     getStudentWorkplaceAppliedIndustry,
 } from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
 import {
     EmergencyContact,
     StudentDetail,
@@ -28,6 +32,9 @@ import {
 } from '../ContextBarComponents'
 
 export const IndustryStudentProfileDetail = ({ data }: { data: any }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
+    const router = useRouter()
+
     const profile = data?.data
     const { notification } = useNotification()
 
@@ -36,8 +43,28 @@ export const IndustryStudentProfileDetail = ({ data }: { data: any }) => {
     const [workplaceActions, workplaceActionsResult] =
         useWorkplaceActionsMutation()
 
+    const onModalCancelClicked = () => setModal(null)
+
+    const onApproveModal = () => {
+        setModal(
+            <ApproveRequestModal
+                workplaceId={Number(router.query.id)}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+    const onRejectModal = () => {
+        setModal(
+            <DeclineStudentByIndustryModal
+                workplaceId={Number(router.query.id)}
+                onCancel={onModalCancelClicked}
+            />
+        )
+    }
+
     return (
         <Card noPadding>
+            {modal}
             <ShowErrorNotifications result={workplaceActionsResult} />
             {data.isError && <NoData text={'Someting Went wrong....'} />}
             {data?.isLoading || data.isFetching ? (
@@ -108,49 +135,42 @@ export const IndustryStudentProfileDetail = ({ data }: { data: any }) => {
                             WorkplaceCurrentStatus.AppointmentBooked,
                             WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
                         ]?.includes(profile?.currentStatus) ? (
-                            <div className="py-2 flex items-center gap-x-2">
-                                <ActionButton
-                                    variant={'success'}
+                            <div className="flex items-center gap-x-2">
+                                <Button
+                                    variant={'secondary'}
                                     onClick={() => {
-                                        workplaceActions({
-                                            id: Number(industry?.id),
-                                            status: UserStatus.Approved,
-                                        }).then((res: any) => {
-                                            if (res?.data) {
-                                                notification.success({
-                                                    title: 'Workplace Approved',
-                                                    description:
-                                                        'Workplace Approved Successfully',
-                                                })
-                                            }
-                                        })
+                                        onApproveModal()
                                     }}
-                                    loading={workplaceActionsResult?.isLoading}
-                                    disabled={workplaceActionsResult?.isLoading}
                                 >
-                                    Approve
-                                </ActionButton>
-                                <ActionButton
-                                    variant={'error'}
+                                    <span className="text-success">
+                                        Approve
+                                    </span>
+                                </Button>
+                                <Button
+                                    variant={'secondary'}
                                     onClick={() => {
-                                        workplaceActions({
-                                            id: Number(industry?.id),
-                                            status: UserStatus.Rejected,
-                                        }).then((res: any) => {
-                                            if (res?.data) {
-                                                notification.success({
-                                                    title: 'Workplace Rejected',
-                                                    description:
-                                                        'Workplace Rejected Successfully',
-                                                })
-                                            }
-                                        })
+                                        // setActionStatus(UserStatus.Rejected)
+                                        // updateStatus({
+                                        //     id: Number(workplace?.id),
+                                        //     status: 'decline',
+                                        // })
+                                        onRejectModal()
                                     }}
-                                    loading={workplaceActionsResult?.isLoading}
-                                    disabled={workplaceActionsResult?.isLoading}
                                 >
-                                    Reject
-                                </ActionButton>
+                                    <span className="text-error">Decline</span>
+                                </Button>
+                                {/* <Button
+                                text={'NOT RESPONDED'}
+                                variant={'dark'}
+                                onClick={() => {
+                                    industryResponse({
+                                        industryId: appliedIndustry?.id,
+                                        status: 'noResponse',
+                                    })
+                                }}
+                                loading={industryResponseResult?.isLoading}
+                                disabled={industryResponseResult?.isLoading}
+                            /> */}
                             </div>
                         ) : null}
                     </div>
