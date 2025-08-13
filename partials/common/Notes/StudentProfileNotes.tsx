@@ -10,32 +10,17 @@ export const StudentProfileNotes = ({
     isPinned,
     studentId,
 }: {
-    studentId: number
     userId: number
+    studentId: number
     isPinned?: boolean
 }) => {
-    const [isViewd, setIsViewd] = useState<boolean>(false)
     const [modal, setModal] = useState<ReactNode>(null)
+    const [isViewd, setIsViewd] = useState<boolean>(false)
 
     const onCancel = () => {
         setModal(null)
     }
     const onAddNote = () => {
-        // router.push({
-        //     pathname: router.pathname,
-        //     query: { ...router.query, tab: 'notes' }, // Retain existing query params, including `id`
-        // })
-
-        // // contextBar.setTitle('Add Note')
-        // contextBar.setContent(
-        //     <CreateStudentNote
-        //         studentId={studentId}
-        //         receiverId={Number(userId)}
-        //     />
-        // )
-
-        // contextBar.show(false)
-
         setModal(
             <div
                 className={`bg-[#00000050]  w-[calc(100%-80%)]

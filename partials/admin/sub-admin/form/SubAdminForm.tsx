@@ -75,7 +75,6 @@ export const SubAdminForm = ({
     const validationSchema = yup.object(
         role === UserRoles.ADMIN ? validation : rtoValidation
     )
-    // const sectorResponse = AuthApi.useSectors({})
     const getRtos = AuthApi.useRtos({})
     const rtoList = AdminApi.SubAdmins.useRtos(Number(subAdmin?.id))
 
@@ -90,15 +89,6 @@ export const SubAdminForm = ({
         }
     }, [result])
 
-    // const sectorOptions = useMemo(
-    //     () =>
-    //         sectorResponse.data?.map((sector: any) => ({
-    //             label: sector?.name,
-    //             value: sector?.id,
-    //         })),
-    //     [sectorResponse]
-    // )
-
     const rtosOptions =
         getRtos?.isSuccess && getRtos?.data && getRtos?.data.length > 0
             ? getRtos?.data.map((rto: any) => ({
@@ -106,12 +96,6 @@ export const SubAdminForm = ({
                   value: rto?.id,
               }))
             : []
-
-    // const onCourseChange = (e: number[]) => {
-    //     setSelectedCourses(e)
-    //     const removedValue = getRemovedCoursesFromList(courseOptions, e)
-    //     setRemovedCourses(removedValue)
-    // }
 
     const {
         courseLoading,
@@ -206,16 +190,7 @@ export const SubAdminForm = ({
                         validationIcons
                         required
                     />
-                    {/* {!edit && (
-                        <TextInput
-                            label={'Password'}
-                            name={'password'}
-                            type={'password'}
-                            placeholder={'Password...'}
-                            validationIcons
-                            required
-                        />
-                    )} */}
+
                     <TextInput
                         label={'Email'}
                         type={'email'}
@@ -257,19 +232,11 @@ export const SubAdminForm = ({
                             value={courseValues}
                             defaultValue={courseOptions}
                             options={courseOptions}
-                            // value={courseOptions?.filter((course: OptionType) =>
-                            //     selectedCourses?.includes(
-                            //         course?.value as number
-                            //     )
-                            // )}
                             multi
                             loading={courseLoading}
                             onChange={(e: any) => {
                                 onCourseChange(e)
                             }}
-                            // components={{
-                            //     Option: CourseSelectOption,
-                            // }}
                             disabled={courseOptions.length === 0}
                             validationIcons
                             onlyValue
@@ -293,7 +260,7 @@ export const SubAdminForm = ({
                             validationIcons
                             onlyValue
                         />
-                        {/* <Select
+                        <Select
                             label={'Sector'}
                             value={selectedSector}
                             name={'sectors'}
@@ -311,11 +278,6 @@ export const SubAdminForm = ({
                             value={courseValues}
                             defaultValue={courseOptions}
                             options={courseOptions}
-                            // value={courseOptions?.filter((course: OptionType) =>
-                            //     selectedCourses?.includes(
-                            //         course?.value as number
-                            //     )
-                            // )}
                             onChange={(e: number[]) => {
                                 onCourseChange(e)
                             }}
@@ -324,7 +286,7 @@ export const SubAdminForm = ({
                             disabled={courseOptions.length === 0}
                             validationIcons
                             onlyValue
-                        /> */}
+                        />
                     </AuthorizedUserComponent>
 
                     <AuthorizedUserComponent roles={[UserRoles.RTO]}>
@@ -343,11 +305,6 @@ export const SubAdminForm = ({
                             components={{
                                 Option: CourseSelectOption,
                             }}
-                            // value={courseOptions?.filter((course: OptionType) =>
-                            //     selectedCourses?.includes(
-                            //         course?.value as number
-                            //     )
-                            // )}
                             onChange={(e: number[]) => {
                                 setRtoSelectedCourses(e)
                             }}

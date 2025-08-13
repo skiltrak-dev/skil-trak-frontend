@@ -6,15 +6,11 @@ export const CommunicationFilters: React.FC<CommunicationFiltersProps> = ({
     setSearchTerm,
     typeFilter,
     setTypeFilter,
-    fromFilter,
-    setFromFilter,
-    isExpanded,
-    onExpandToggle,
 }) => {
     const typesOptions = [
         { type: 'all', name: 'All' },
         { type: 'tickets', name: 'Ticket' },
-        { type: 'notes', name: 'Note' },
+        { type: 'notes', name: 'Notes' },
         { type: 'emails', name: 'Emails' },
         { type: 'calls', name: 'Calls' },
         { type: 'twilio', name: 'Messages' },

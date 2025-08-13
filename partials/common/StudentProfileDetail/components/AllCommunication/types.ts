@@ -16,8 +16,6 @@ export interface CommunicationItem {
 
 export interface CommunicationCardProps {
     item: CommunicationItem
-    isExpanded: boolean
-    onCardClick: (id: string) => void
 }
 
 export interface CommunicationDetailsProps {
@@ -26,13 +24,6 @@ export interface CommunicationDetailsProps {
 
 export interface VirtualizedListProps {
     items: CommunicationItem[]
-    isExpanded: boolean
-    expandedCardId?: string | null
-    onCardClick: (id: string) => void
-    onLoadMore: () => void
-    isLoadingMore: boolean
-    hasMoreItems: boolean
-    expandedCardIds: string[]
 }
 
 export interface CommunicationStatsProps {
@@ -46,8 +37,4 @@ export interface CommunicationFiltersProps {
     setSearchTerm: (term: string) => void
     typeFilter: string
     setTypeFilter: (type: string) => void
-    fromFilter: string
-    setFromFilter: (from: string) => void
-    isExpanded: boolean
-    onExpandToggle: () => void
 }

@@ -1,50 +1,9 @@
-import { Waypoint } from 'react-waypoint'
+import { VirtualizedListProps } from '../types'
 import { CollapsedCommunicationCard } from './CollapsedCommunicationCard'
-import { ExpandedCommunicationCard } from './ExpandedCommunicationCard'
-import { LoadingAnimation, Typography } from '@components'
-import { CommunicationItem, VirtualizedListProps } from '../types'
 
 export const VirtualizedCommunicationList: React.FC<VirtualizedListProps> = ({
     items,
-    isExpanded,
-    onCardClick,
-    onLoadMore,
-    isLoadingMore,
-    hasMoreItems,
-    expandedCardIds,
-}) => {
-    const renderVirtualizedItem = (item: CommunicationItem, index: number) => {
-        const isCardExpanded = expandedCardIds?.includes(item?.id)
-        const shouldAddWaypoint =
-            index >= items.length - 5 && index === items.length - 1
-
-        const CardComponent = isExpanded
-            ? ExpandedCommunicationCard
-            : CollapsedCommunicationCard
-
-        const content = (
-            <CardComponent
-                key={item.id}
-                item={item}
-                isExpanded={isCardExpanded}
-                onCardClick={onCardClick}
-            />
-        )
-
-        if (shouldAddWaypoint) {
-            return (
-                <Waypoint
-                    key={`waypoint-${item.id}`}
-                    onEnter={onLoadMore}
-                    bottomOffset="-100px"
-                >
-                    <div>{content}</div>
-                </Waypoint>
-            )
-        }
-
-        return content
-    }
-
-    return <>{items.map((item, index) => renderVirtualizedItem(item, index))}</>
-}
+}) =>
+    items.map((item) => (
+        <CollapsedCommunicationCard key={item.id} item={item} />
+    ))
