@@ -12,7 +12,12 @@ import {
 } from '@components'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminLayout } from '@layouts'
-import { ApprovedEsigns, ArchivedEsigns, FilteredEsigns } from '@partials'
+import {
+    ApprovedEsigns,
+    ArchivedEsigns,
+    FilteredEsigns,
+    IndustryEsignTemp,
+} from '@partials'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout, eSignFilterType } from '@types'
 import { checkFilteredDataLength } from '@utils'
@@ -59,6 +64,14 @@ const ESign: NextPageWithLayout = () => {
                 query: { tab: 'approved', page: 1, pageSize: 50 },
             },
             element: <ApprovedEsigns />,
+        },
+        {
+            label: 'Industry ESign',
+            href: {
+                pathname: 'e-sign',
+                query: { tab: 'industry-e-sign', page: 1, pageSize: 50 },
+            },
+            element: <IndustryEsignTemp />,
         },
         {
             label: 'Archived',
