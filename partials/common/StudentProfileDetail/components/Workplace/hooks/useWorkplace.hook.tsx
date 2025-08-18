@@ -32,7 +32,12 @@ import {
 import { GetFolders } from '@partials/sub-admin/workplace/hooks'
 import { ForwardModal } from '@partials/sub-admin/workplace/modals'
 import { ChangeStatusModal } from '@partials/admin/invoices'
-import { Student } from '@types'
+import {
+    AssessmentEvidenceDetailType,
+    AssessmentEvidenceFolder,
+    Course,
+    Student,
+} from '@types'
 import moment from 'moment'
 import { useAuthorizedUserComponent } from '@components'
 
@@ -356,7 +361,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         setModal(
             <CancelWorkplaceModal
                 onCancel={onCancelModal}
-                workplaceId={selectedWorkplace?.id}
+                workplaceId={Number(selectedWorkplace?.id)}
             />
         )
     }
@@ -364,7 +369,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         setModal(
             <CancelWorkplaceRequestModal
                 onCancel={onCancelModal}
-                workplaceId={selectedWorkplace?.id}
+                workplaceId={Number(selectedWorkplace?.id)}
             />
         )
     }
@@ -385,8 +390,8 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
                     id={appliedIndustry?.id}
                     agreementSigned={appliedIndustry?.AgreementSigned}
                     student={student}
-                    course={selectedWorkplace?.courses?.[0]}
-                    wpId={selectedWorkplace?.id}
+                    course={selectedWorkplace?.courses?.[0] as Course}
+                    wpId={Number(selectedWorkplace?.id)}
                     industryId={appliedIndustry?.industry?.id}
                     isStartPlacement={false}
                 />
@@ -407,7 +412,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             setModal(
                 <BookAppointmentInfoModal
                     onCancel={onCancelModal}
-                    courseId={selectedWorkplace?.courses?.[0]?.id}
+                    courseId={Number(selectedWorkplace?.courses?.[0]?.id)}
                     studentUser={workplaceStudentDetail?.data?.user?.id}
                     approvalDate={latestWorkplaceApprovaleRequest?.approvalDate}
                 />
@@ -434,10 +439,10 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
                         onCancel={() => {
                             onCancelModal()
                         }}
-                        courseId={selectedWorkplace?.courses[0]?.id}
+                        courseId={Number(selectedWorkplace?.courses?.[0]?.id)}
                         folder={
-                            selectedWorkplace?.courses[0]
-                                ?.assessmentEvidence?.[0]
+                            selectedWorkplace?.courses?.[0]
+                                ?.assessmentEvidence?.[0] as AssessmentEvidenceDetailType
                         }
                     />
                 )
@@ -460,7 +465,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
                 <LogbookNotReleasedModal
                     onCancel={onCancelModal}
                     rto={workplaceStudentDetail?.data?.rto}
-                    selectedWorkplaceId={selectedWorkplace?.id}
+                    selectedWorkplaceId={Number(selectedWorkplace?.id)}
                 />
             )
         }
@@ -479,9 +484,9 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             setModal(
                 <ReleaseLogbookModal
                     onCancel={onCancelModal}
-                    selectedWorkplaceId={selectedWorkplace?.id}
+                    selectedWorkplaceId={Number(selectedWorkplace?.id)}
                     rto={workplaceStudentDetail?.data?.rto}
-                    course={selectedWorkplace?.courses?.[0]}
+                    course={selectedWorkplace?.courses?.[0] as Course}
                 />
             )
         }
@@ -501,7 +506,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
                 <NoLogbookFoundModal
                     onCancel={onCancelModal}
                     rto={workplaceStudentDetail?.data?.rto?.user?.name}
-                    course={selectedWorkplace?.courses?.[0]?.title}
+                    course={selectedWorkplace?.courses?.[0]?.title + ''}
                 />
             )
         }
@@ -576,7 +581,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
                     onCancelModal()
                 }}
                 student={student}
-                courseId={selectedWorkplace?.courses?.[0]?.id}
+                courseId={Number(selectedWorkplace?.courses?.[0]?.id)}
                 studentUser={student?.user?.id}
             />
         )

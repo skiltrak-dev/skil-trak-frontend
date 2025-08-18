@@ -108,6 +108,8 @@ export interface IWorkplaceIndustries {
     currentWork?: string
     haveDrivingLicense?: boolean
     haveTransport?: boolean
+    isLogBookReleased?: boolean
+    studentFeedBack?: any
     id?: number
     isActive?: boolean
     isCancelled?: boolean
