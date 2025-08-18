@@ -56,7 +56,7 @@
 //     )
 // }
 
-import { Badge, Button, Card } from '@components'
+import { Typography } from '@components'
 import {
     Building2,
     Calendar,
@@ -84,7 +84,7 @@ function getStatusConfig(status: string, isRejection: boolean) {
         return {
             icon: XCircle,
             color: 'text-red-600',
-            bgColor: 'bg-red-50',
+            bgColor: 'bg-red-100',
             borderColor: 'border-l-red-500',
             badgeColor: 'bg-red-100 text-red-800 border-red-200',
         }
@@ -148,13 +148,13 @@ export function WorkplaceStatusCommunication({
     item,
 }: PlacementStatusProps) {
     const [showComments, setShowComments] = useState(false)
-    const isRejection = item?.description
-        ?.toLowerCase()
-        ?.includes('status decline')
+    const isRejection = item?.title?.toLowerCase()?.includes('rejected')
     const config = getStatusConfig(status, isRejection)
     const IconComponent = config.icon
 
     console.log({ isRejection })
+
+    console.log({ item: item?.title })
 
     return (
         <div
@@ -163,18 +163,28 @@ export function WorkplaceStatusCommunication({
             <div className={`p-4 ${config.bgColor}`}>
                 <div className="pb-2">
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <IconComponent
-                                className={`h-5 w-5 ${config.color}`}
-                            />
-                            <div
-                                className={
-                                    isRejection
-                                        ? 'text-red-600'
-                                        : 'text-green-600'
-                                }
-                            >
-                                {item?.title}
+                        <div className="flex items-center gap-x-3">
+                            <div className="flex items-center gap-2">
+                                <IconComponent
+                                    className={`h-5 w-5 ${config.color}`}
+                                />
+                                <div
+                                    className={
+                                        isRejection
+                                            ? 'text-red-600'
+                                            : 'text-green-600'
+                                    }
+                                >
+                                    {item?.title}
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-x-2">
+                                <Typography variant="xxs">Type: </Typography>
+                                <Typography variant="xs" semibold>
+                                    {item?.isSuccess
+                                        ? 'Successfull'
+                                        : 'Unsuccessfull'}{' '}
+                                </Typography>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
@@ -184,7 +194,7 @@ export function WorkplaceStatusCommunication({
                                 text={status}
                             /> */}
 
-                            {item?.description && (
+                            {item?.body && (
                                 <div
                                     onClick={() =>
                                         setShowComments(!showComments)
@@ -233,7 +243,7 @@ export function WorkplaceStatusCommunication({
                                 <span>Rejected by: {rejectedBy}</span>
                             </div>
                         )} */}
-                        {item?.description && !showComments && (
+                        {item?.body && !showComments && (
                             <div className="flex items-center gap-2">
                                 <MessageSquare className="h-4 w-4" />
                                 <span>Comments available</span>
@@ -241,7 +251,7 @@ export function WorkplaceStatusCommunication({
                         )}
                     </div>
 
-                    {item?.description && showComments && (
+                    {item?.body && showComments && (
                         <div className="border-t pt-3 animate-in slide-in-from-top-2 duration-200">
                             <div className="flex items-start gap-2">
                                 <MessageSquare className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
@@ -249,9 +259,12 @@ export function WorkplaceStatusCommunication({
                                     <span className="text-[13px] font-medium text-muted-foreground">
                                         Comments:
                                     </span>
-                                    <p className="text-[13px] text-foreground leading-relaxed bg-muted/30 p-2 rounded-md border">
-                                        {item?.description}
-                                    </p>
+                                    <p
+                                        dangerouslySetInnerHTML={{
+                                            __html: item?.body,
+                                        }}
+                                        className="text-[13px] text-foreground leading-relaxed bg-muted/30 p-2 rounded-md border"
+                                    />
                                 </div>
                             </div>
                         </div>

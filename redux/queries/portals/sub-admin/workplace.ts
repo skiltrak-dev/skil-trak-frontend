@@ -243,6 +243,16 @@ export const workplaceEndpoints = (
             `students/workplace-requests/${wpId}/awaiting-workplace-request/${wiId}/get`,
         providesTags: ['IndustryResponseAdded'],
     }),
+    approveStudentFromIndustry: builder.query<
+        any,
+        { wpr: number; wiId: number; status: 'accept' }
+    >({
+        query: (params) => ({
+            url: `students/workplace-requests/api/v1/response/action`,
+            params,
+        }),
+        providesTags: ['IndustryResponseAdded'],
+    }),
 
     subAdminApplyStudentWorkplace: builder.mutation<
         any,

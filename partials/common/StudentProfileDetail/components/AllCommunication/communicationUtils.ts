@@ -54,6 +54,7 @@ export const getCommunicationIcon = (item: CommunicationItem) => {
 export const getCommunicationTitle = (item: CommunicationItem) => {
     if (isWorkplaceStatusUpdate(item)) return item?.title
     if (item.type === 'twilio') return 'Student Message'
+    if (item.type === 'statusChangeHistory') return item?.status?.toUpperCase()
     if (item.calledBy) return 'Call'
     if (item.assignedTo) return item.title || 'Support Ticket'
     if (item.title) return item.title

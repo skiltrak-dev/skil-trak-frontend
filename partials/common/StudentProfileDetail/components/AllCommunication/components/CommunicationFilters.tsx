@@ -14,7 +14,7 @@ export const CommunicationFilters: React.FC<CommunicationFiltersProps> = ({
         { type: 'emails', name: 'Emails' },
         { type: 'calls', name: 'Calls' },
         { type: 'twilio', name: 'Messages' },
-        { type: 'logger', name: 'Workplace Status' },
+        { type: 'workplaceHistory', name: 'Workplace Status' },
         { type: 'statusHistory', name: 'Status History' },
     ]
     return (
