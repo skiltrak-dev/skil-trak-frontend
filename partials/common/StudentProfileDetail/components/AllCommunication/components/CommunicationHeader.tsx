@@ -53,7 +53,9 @@ export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
                                 UserRoles.RTO,
                             ]}
                         >
-                            <WorkplaceHistory wpId={selectedWorkplace?.id} />
+                            <WorkplaceHistory
+                                wpId={Number(selectedWorkplace?.id)}
+                            />
                         </AuthorizedUserComponent>
                     )}
                     <Button
