@@ -54,7 +54,9 @@ export const CommunicationFilters: React.FC<CommunicationFiltersProps> = ({
                     className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary text-sm"
                 >
                     {typesOptions?.map((types) => (
-                        <option value={types?.type}>{types?.name}</option>
+                        <option key={types?.type} value={types?.type}>
+                            {types?.name}
+                        </option>
                     ))}
                 </select>
             </div>
