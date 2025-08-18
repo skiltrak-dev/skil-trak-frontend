@@ -152,10 +152,6 @@ export function WorkplaceStatusCommunication({
     const config = getStatusConfig(status, isRejection)
     const IconComponent = config.icon
 
-    console.log({ isRejection })
-
-    console.log({ item: item?.title })
-
     return (
         <div
             className={`w-full mx-auto rounded-xl  border-l-4 ${config.borderColor}`}

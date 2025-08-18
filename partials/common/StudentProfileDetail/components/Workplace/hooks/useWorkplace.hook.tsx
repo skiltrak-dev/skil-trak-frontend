@@ -34,11 +34,13 @@ import { ForwardModal } from '@partials/sub-admin/workplace/modals'
 import { ChangeStatusModal } from '@partials/admin/invoices'
 import { Student } from '@types'
 import moment from 'moment'
+import { useAuthorizedUserComponent } from '@components'
 
 export const useWorkplaceHook = ({ student }: { student: Student }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [modelId, setModelId] = useState<string>('')
-    const [selectedWorkplace, setSelectedWorkplace] = useState<any>(null)
+    const [selectedWorkplace, setSelectedWorkplace] =
+        useState<IWorkplaceIndustries | null>(null)
     const [showPreviousWorkplace, setShowPreviousWorkplace] = useState(false)
 
     const router = useRouter()
@@ -51,7 +53,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         }
     )
     const workplaceIndustryDetail = SubAdminApi.Student.workplaceIndustryDetail(
-        selectedWorkplace?.id,
+        Number(selectedWorkplace?.id),
         {
             skip: !selectedWorkplace,
             refetchOnMountOrArgChange: true,
@@ -59,7 +61,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
     )
 
     const workplaceStudentDetail = SubAdminApi.Student.workplaceStudentDetail(
-        selectedWorkplace?.id,
+        Number(selectedWorkplace?.id),
         {
             skip: !selectedWorkplace,
             refetchOnMountOrArgChange: true,
@@ -100,7 +102,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         { skip: !studentWorkplace || !appliedIndustry || !course }
     )
     const getWorkplaceAppointment = SubAdminApi.Student.getWorkplaceAppointment(
-        selectedWorkplace?.id,
+        Number(selectedWorkplace?.id),
         {
             skip: !selectedWorkplace,
             refetchOnMountOrArgChange: true,
@@ -120,6 +122,11 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
     const role = getUserCredentials()?.role
 
     const excludedRoles = [UserRoles.RTO, UserRoles.OBSERVER]
+
+    const authorizedRoles = (roles: UserRoles[]) =>
+        useAuthorizedUserComponent({
+            roles,
+        })
 
     const sortedWorkplace =
         studentWorkplace?.data && studentWorkplace?.data?.length > 0
@@ -208,7 +215,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
                 setModal(
                     <ForwardModal
                         industry={appliedIndustry}
-                        workplaceId={selectedWorkplace?.id}
+                        workplaceId={Number(selectedWorkplace?.id)}
                         onCancel={() => onCancelModal()}
                     />
                 )
@@ -234,13 +241,21 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             'day'
         )
 
+        const authorized = authorizedRoles([
+            UserRoles.ADMIN,
+            UserRoles.SUBADMIN,
+        ])
+
         const shouldShowAppointmentModal =
+            authorized &&
             selectedWorkplace &&
-            isAppointmentBookedStatus &&
-            isAppointmentQueryReady &&
-            hasNoValidAppointment &&
             isAfterCutoffDate &&
-            isTodayAppointment
+            isTodayAppointment &&
+            hasNoValidAppointment &&
+            isAppointmentQueryReady &&
+            isAppointmentBookedStatus &&
+            !selectedWorkplace?.byExistingAbn &&
+            !selectedWorkplace?.studentProvidedWorkplace
 
         if (shouldShowAppointmentModal) {
             onAppointmentViewWPClicked()
@@ -268,12 +283,18 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             getWorkplaceAppointment?.data?.isSuccessfull === false
         const isAfterCutoffDate = moment().isSameOrAfter('2025-08-01', 'day')
 
+        const authorized = authorizedRoles([
+            UserRoles.ADMIN,
+            UserRoles.SUBADMIN,
+        ])
+
         const shouldShowAppointmentModal =
             selectedWorkplace &&
             isAppointmentBookedStatus &&
             isAppointmentQueryReady &&
             hasNoValidAppointment &&
-            isAfterCutoffDate
+            isAfterCutoffDate &&
+            authorized
 
         if (shouldShowAppointmentModal && modelId !== 'appointmentClicked') {
             onAppointmentClicked()
@@ -300,13 +321,19 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             selectedWorkplace?.currentStatus ===
                 WorkplaceCurrentStatus.AwaitingAgreementSigned
 
+        const authorized = authorizedRoles([
+            UserRoles.ADMIN,
+            UserRoles.SUBADMIN,
+        ])
+
         const shouldShowEsignModal =
             getWorkplaceAppointment &&
             hasSuccessfulAppointment &&
             isAfterCutoffDate &&
             isEsignQueryReady &&
             needsDocumentInitiation &&
-            isValidStatus
+            isValidStatus &&
+            authorized
 
         if (shouldShowEsignModal && modelId !== 'generateEsign') {
             onGenerateEsignClicked()
@@ -561,7 +588,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
                     onCancelModal()
                 }}
                 workplace={selectedWorkplace}
-                courseId={selectedWorkplace?.courses?.[0]?.id}
+                courseId={Number(selectedWorkplace?.courses?.[0]?.id)}
             />
         )
     }

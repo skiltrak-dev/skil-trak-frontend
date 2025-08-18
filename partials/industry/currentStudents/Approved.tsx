@@ -256,7 +256,6 @@ export const Approved = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
-                console.log({ info: info.row.original })
                 const appliedIndustry = getStudentWorkplaceAppliedIndustry(
                     info.row.original?.industries
                 )

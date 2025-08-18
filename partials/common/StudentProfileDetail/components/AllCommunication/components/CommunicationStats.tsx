@@ -7,7 +7,6 @@ export const CommunicationStats = ({
     loading,
 }: any) => {
     const shownCount = Math.min(currentPage * itemPerPage, totalCount)
-    console.log({ itemPerPage })
 
     return (
         <div className="px-4 mb-2">

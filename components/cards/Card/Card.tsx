@@ -10,6 +10,7 @@ interface CardProps {
     fullHeight?: boolean
     border?: boolean
     borderColor?: string
+    fitHeight?: boolean
 }
 
 export const Card = ({
@@ -21,10 +22,12 @@ export const Card = ({
     fullHeight,
     border,
     borderColor,
+    fitHeight,
 }: CardProps) => {
     const classes = classNames({
         'w-full': layout === 'fluid',
         '!h-full': fullHeight,
+        '!h-fit': fitHeight,
         'w-fit': layout === 'wrap',
         'w-[450px]': layout === 'min',
         'bg-white rounded-xl': true,

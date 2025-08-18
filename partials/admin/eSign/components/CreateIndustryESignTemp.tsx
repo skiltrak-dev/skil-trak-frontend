@@ -21,6 +21,11 @@ export const CreateIndustryESignTemp = ({ edit }: { edit?: any }) => {
         name: Yup.string().required('Name is required'),
         sector: Yup.number().required('Sector is required'),
         folder: Yup.number().required('Folder is required'),
+        recipients: Yup.boolean().oneOf(
+            [true],
+            'Must select Industry Recipient'
+        ),
+
         deadline: Yup.number()
             .positive('Deadline Must be positive')
             .max(180, 'Deadline must not exceed 180')
@@ -86,9 +91,7 @@ export const CreateIndustryESignTemp = ({ edit }: { edit?: any }) => {
             />
         )
     }
-    const onSubmit = (data: any) => {
-        console.log('data', data)
-    }
+    const onSubmit = (data: any) => {}
     return (
         <div className="">
             <FormProvider {...methods}>
@@ -96,68 +99,78 @@ export const CreateIndustryESignTemp = ({ edit }: { edit?: any }) => {
                     className="w-full flex flex-col gap-y-2"
                     onSubmit={methods.handleSubmit(onSubmit)}
                 >
-                    <div className="flex gap-x-6">
-                        <Card>
-                            <TextInput
-                                name="name"
-                                placeholder="name"
-                                label={'Name'}
-                                required
-                            />
-                            <Select
-                                label={'Sector'}
-                                options={[
-                                    {
-                                        label: 'Select Industry',
-                                        value: 'Select Industry',
-                                    },
-                                    {
-                                        label: 'Industry 1',
-                                        value: 'Industry 1',
-                                    },
-                                    {
-                                        label: 'Industry 2',
-                                        value: 'Industry 2',
-                                    },
-                                    {
-                                        label: 'Industry 3',
-                                        value: 'Industry 3',
-                                    },
-                                ]}
-                                name="sectors"
-                                placeholder="Select..."
-                            />
-                            <Select
-                                label={'Folder'}
-                                options={[
-                                    {
-                                        label: 'Select Industry',
-                                        value: 'Select Industry',
-                                    },
-                                    {
-                                        label: 'Industry 1',
-                                        value: 'Industry 1',
-                                    },
-                                    {
-                                        label: 'Industry 2',
-                                        value: 'Industry 2',
-                                    },
-                                    {
-                                        label: 'Industry 3',
-                                        value: 'Industry 3',
-                                    },
-                                ]}
-                                name="industryFolder"
-                                placeholder="Select..."
-                            />
-                            <TextInput
-                                name="deadline"
-                                placeholder="deadline"
-                                label={'Deadline (In Days)'}
-                                type="number"
-                            />
-                        </Card>
-                        <Card>
+                    <div className="grid grid-cols-3 gap-x-6">
+                        <div className="col-span-2 flex flex-col gap-y-4">
+                            <Card border>
+                                <TextInput
+                                    name="name"
+                                    placeholder="name"
+                                    label={'Name'}
+                                    required
+                                />
+                                <Select
+                                    label={'Sector'}
+                                    options={[
+                                        {
+                                            label: 'Select Industry',
+                                            value: 'Select Industry',
+                                        },
+                                        {
+                                            label: 'Industry 1',
+                                            value: 'Industry 1',
+                                        },
+                                        {
+                                            label: 'Industry 2',
+                                            value: 'Industry 2',
+                                        },
+                                        {
+                                            label: 'Industry 3',
+                                            value: 'Industry 3',
+                                        },
+                                    ]}
+                                    name="sectors"
+                                    placeholder="Select..."
+                                />
+                                <Select
+                                    label={'Folder'}
+                                    options={[
+                                        {
+                                            label: 'Select Industry',
+                                            value: 'Select Industry',
+                                        },
+                                        {
+                                            label: 'Industry 1',
+                                            value: 'Industry 1',
+                                        },
+                                        {
+                                            label: 'Industry 2',
+                                            value: 'Industry 2',
+                                        },
+                                        {
+                                            label: 'Industry 3',
+                                            value: 'Industry 3',
+                                        },
+                                    ]}
+                                    name="industryFolder"
+                                    placeholder="Select..."
+                                />
+                                <TextInput
+                                    name="deadline"
+                                    placeholder="deadline"
+                                    label={'Deadline (In Days)'}
+                                    type="number"
+                                />
+                            </Card>{' '}
+                            <Card border>
+                                <FileUpload
+                                    required
+                                    name={'file'}
+                                    component={onFileUpload}
+                                    label={'Select Document'}
+                                />
+                            </Card>
+                        </div>
+                        <Card border fitHeight>
                             <div className="flex items-center gap-x-2 mb-4">
                                 <div>
                                     <FiUsers />
@@ -166,21 +179,14 @@ export const CreateIndustryESignTemp = ({ edit }: { edit?: any }) => {
                                     Recipients/Signers
                                 </Typography>
                             </div>
-                            <Checkbox name="industry" label={'Industry'} />
+                            <Checkbox name="recipients" label={'Industry'} />
                             <Typography variant="muted" color="text-gray-400">
                                 Industry professionals will be the primary
                                 signers for this document template.
                             </Typography>
                         </Card>
                     </div>
-                    <Card>
-                        <FileUpload
-                            required
-                            name={'file'}
-                            component={onFileUpload}
-                            label={'Select Document'}
-                        />
-                    </Card>
+
                     <div className="flex justify-end items-center gap-x-2">
                         <Button text="Cancel" outline variant="secondary" />
                         <Button text="Save & Next" submit />
