@@ -12,8 +12,8 @@ import {
 import { UserRoles } from '@constants'
 
 import { useWorkplace } from '@hooks'
-import { Student } from '@types'
-import { checkStudentProfileCompletion } from '@utils'
+import { Course, Student } from '@types'
+import { checkStudentProfileCompletion, WorkplaceCurrentStatus } from '@utils'
 import moment from 'moment'
 import { useEffect } from 'react'
 import {
@@ -35,6 +35,7 @@ import {
 import { IndustryDetail } from './components/IndustryDetail'
 import { WPStatusForCancelButon } from './data'
 import { useWorkplaceHook } from './hooks'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 export const Workplace = ({
     student,
@@ -143,12 +144,15 @@ export const Workplace = ({
                                 {selectedWorkplace
                                     ? !selectedWorkplace?.studentProvidedWorkplace &&
                                       !selectedWorkplace?.byExistingAbn &&
-                                      selectedWorkplace?.questions > 0 && (
+                                      Number(selectedWorkplace?.questions) >
+                                          0 && (
                                           <ActionButton
                                               variant={'link'}
                                               onClick={() => {
                                                   onViewWorkplaceQuestions(
-                                                      selectedWorkplace?.id
+                                                      Number(
+                                                          selectedWorkplace?.id
+                                                      )
                                                   )
                                               }}
                                           >
@@ -279,33 +283,39 @@ export const Workplace = ({
                                                     />
                                                 </AuthorizedUserComponent>
                                                 <WorkplaceHistory
-                                                    wpId={selectedWorkplace?.id}
+                                                    wpId={Number(
+                                                        selectedWorkplace?.id
+                                                    )}
                                                 />
                                                 <div className="">
                                                     <ViewAvailability
-                                                        wpId={
+                                                        wpId={Number(
                                                             selectedWorkplace?.id
-                                                        }
+                                                        )}
                                                     />
                                                 </div>
                                             </div>
                                             <WorkplaceStatusView
                                                 currentStatus={
-                                                    selectedWorkplace?.currentStatus
+                                                    selectedWorkplace?.currentStatus as WorkplaceCurrentStatus
                                                 }
                                             />
                                             <div className="flex items-end justify-between">
                                                 <WpCourse
                                                     wpCourse={
                                                         selectedWorkplace
-                                                            ?.courses?.[0]
+                                                            ?.courses?.[0] as Course
                                                     }
                                                     onClick={() => {
                                                         onUpdateWorkplaceCourseClicked(
-                                                            selectedWorkplace
-                                                                ?.courses?.[0]
-                                                                ?.id,
-                                                            selectedWorkplace?.id
+                                                            Number(
+                                                                selectedWorkplace
+                                                                    ?.courses?.[0]
+                                                                    ?.id
+                                                            ),
+                                                            Number(
+                                                                selectedWorkplace?.id
+                                                            )
                                                         )
                                                     }}
                                                 />
@@ -337,7 +347,9 @@ export const Workplace = ({
                                         </div>
                                         <div className="lg:col-span-7 h-full">
                                             <IndustryDetail
-                                                workplace={selectedWorkplace}
+                                                workplace={
+                                                    selectedWorkplace as IWorkplaceIndustries
+                                                }
                                                 appliedIndustry={
                                                     appliedIndustry
                                                 }
@@ -348,7 +360,7 @@ export const Workplace = ({
                                                 student={
                                                     workplaceStudentDetail?.data
                                                 }
-                                                course={course}
+                                                course={course as Course}
                                                 approvalDate={
                                                     latestWorkplaceApprovaleRequest?.approvalDate
                                                 }
@@ -359,7 +371,7 @@ export const Workplace = ({
                                     <div className="flex justify-between items-center p-4">
                                         <div className="flex items-center gap-x-2.5">
                                             {WPStatusForCancelButon.includes(
-                                                selectedWorkplace?.currentStatus
+                                                selectedWorkplace?.currentStatus as WorkplaceCurrentStatus
                                             ) ? (
                                                 !selectedWorkplace
                                                     ?.cancelledRequests

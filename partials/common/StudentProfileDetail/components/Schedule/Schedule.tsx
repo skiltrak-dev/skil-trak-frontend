@@ -206,7 +206,9 @@ export const Schedule = ({
                                         </AuthorizedUserComponent>
                                         <div className="">
                                             <ViewAvailability
-                                                wpId={selectedWorkplace?.id}
+                                                wpId={Number(
+                                                    selectedWorkplace?.id
+                                                )}
                                             />
                                         </div>
                                     </div>
