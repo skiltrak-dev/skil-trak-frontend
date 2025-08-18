@@ -58,6 +58,7 @@ const subadminTagTypes = [
     'AssessmentEvidence',
     'SubAdminIndustries',
     'RequestToAddCourse',
+    'IndustryResponseAdded',
 ]
 
 const rtoTagTypes = [

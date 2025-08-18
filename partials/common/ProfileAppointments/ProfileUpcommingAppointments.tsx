@@ -1,10 +1,10 @@
-import { LoadingAnimation, NoData, Typography } from '@components'
-import { CommonApi } from '@queries'
 import React from 'react'
-import { ProfileAppointmentsCard } from './ProfileAppointmentsCard'
+import moment from 'moment'
+import { CommonApi } from '@queries'
 import { Appointment } from '@types'
 import { AppointmentTypeEnum } from './appointment.enum'
-import moment from 'moment'
+import { LoadingAnimation, NoData, Typography } from '@components'
+import { ProfileAppointmentsCard } from './ProfileAppointmentsCard'
 import { ProfileUpcomingAppointmentCard } from './ProfileUpcomingAppointmentCard'
 
 export const ProfileUpcommingAppointments = ({

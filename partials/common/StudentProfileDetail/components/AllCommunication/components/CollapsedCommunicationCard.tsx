@@ -72,7 +72,13 @@ export const CollapsedCommunicationCard: React.FC<CommunicationCardProps> = ({
             )}
 
             {isOpened && (
-                <div className="border-t border-gray-100 p-2 bg-gray-50">
+                <div
+                    className={
+                        item?.type !== 'logger'
+                            ? 'border-t border-gray-100 p-2 bg-gray-50'
+                            : ''
+                    }
+                >
                     <CommunicationDetails item={item} />
                 </div>
             )}

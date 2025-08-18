@@ -223,7 +223,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                 />
 
                 <Select
-                    label={'Status'}
+                    label={'User Status'}
                     name={'status'}
                     value={StatusOptions.find(
                         (status) => status.value === filter?.status

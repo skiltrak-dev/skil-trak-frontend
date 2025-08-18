@@ -9,7 +9,7 @@ import {
     TerminateWorkplaceModal,
 } from '@partials/sub-admin/workplace/modals'
 import { isClearedFunctionType } from '@partials/sub-admin/workplace/studentProvidedComponents/RequestTypeAbn'
-import { Student, UserStatus } from '@types'
+import { Appointment, Student, UserStatus } from '@types'
 import { getUserCredentials, WorkplaceCurrentStatus } from '@utils'
 import { ReactElement, useState } from 'react'
 import {
@@ -27,14 +27,14 @@ export const useRequestType = ({
     workplace,
     folders,
     student,
+    appointmentDetail,
 }: {
-    appliedIndustry: any
-    workplace: any
     folders: any
+    workplace: any
     student: Student
+    appliedIndustry: any
+    appointmentDetail?: Appointment
 }) => {
-    // onCancelWPRequestClicked
-
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const role = getUserCredentials()?.role
@@ -256,7 +256,10 @@ export const useRequestType = ({
         {
             primaryText: 'Appointment',
             secondaryText: 'with Workplace Supervisor (Orientation)',
-            color: 'text-info-dark',
+            color:
+                appointmentDetail && appointmentDetail?.isSuccessfull !== false
+                    ? 'text-success'
+                    : 'text-info-dark',
             onClick: (isCleared: (bool: boolean) => void) => {
                 if (
                     workplace?.currentStatus ===

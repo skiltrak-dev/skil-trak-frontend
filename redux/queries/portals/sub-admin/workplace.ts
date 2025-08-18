@@ -235,6 +235,14 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace', 'SubAdminStudents'],
     }),
+    checkIsIndustryPerformedAction: builder.query<
+        any,
+        { wpId: number; wiId: number }
+    >({
+        query: ({ wpId, wiId }) =>
+            `students/workplace-requests/${wpId}/awaiting-workplace-request/${wiId}/get`,
+        providesTags: ['IndustryResponseAdded'],
+    }),
 
     subAdminApplyStudentWorkplace: builder.mutation<
         any,

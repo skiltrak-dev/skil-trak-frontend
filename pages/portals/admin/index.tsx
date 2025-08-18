@@ -119,7 +119,7 @@ const AdminDashboard: NextPageWithLayout = () => {
                     <FigureCard
                         imageUrl="/images/icons/sub-admin.png"
                         count={stats.data?.users.subadmin || 0}
-                        title={'Sub-admins'}
+                        title={'Coordinators'}
                         loading={stats.isLoading}
                         link="admin/sub-admin?tab=active"
                     />
