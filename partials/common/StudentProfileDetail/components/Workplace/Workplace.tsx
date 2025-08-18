@@ -59,7 +59,7 @@ export const Workplace = ({
         onCancelWPClicked,
         ignoreCompletedWP,
         selectedWorkplace,
-        rejectedWorkplaces,
+        appointmentDetail,
         setSelectedWorkplace,
         onAppointmentClicked,
         showPreviousWorkplace,
@@ -259,6 +259,9 @@ export const Workplace = ({
                                             appliedIndustry={appliedIndustry}
                                             student={
                                                 workplaceStudentDetail?.data
+                                            }
+                                            appointmentDetail={
+                                                appointmentDetail
                                             }
                                         />
 

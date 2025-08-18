@@ -56,7 +56,7 @@ export const ContactUs = ({ contactUsRef }: any) => {
         onSubmit({ ...values, captchaToken })
     }
     return (
-        <div ref={contactUsRef} className="md:p-24 px-4 py-8">
+        <div ref={contactUsRef} className="md:p-14 px-4 py-8">
             <ShowErrorNotifications result={sendUsQueryResult} />
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-y-10 md:gap-x-20 md:justify-between">
                 <div className="md:w-2/3 w-full">

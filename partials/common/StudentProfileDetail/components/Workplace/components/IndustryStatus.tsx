@@ -8,18 +8,20 @@ import { IoIosArrowDown } from 'react-icons/io'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { useRequestType } from '@partials/common/StudentProfileDetail/hooks'
 import { UserRoles } from '@constants'
-import { Student } from '@types'
+import { Appointment, Student } from '@types'
 
 export const IndustryStatus = ({
     student,
     folders,
     workplace,
     appliedIndustry,
+    appointmentDetail,
 }: {
     folders: any
     workplace: any
     student: Student
     appliedIndustry?: any
+    appointmentDetail?: Appointment
 }) => {
     const [isOpened, setIsOpened] = useState<boolean>(false)
     const [selectedRequestType, setSelectedRequestType] = useState<
@@ -41,6 +43,7 @@ export const IndustryStatus = ({
         workplace,
         appliedIndustry,
         student,
+        appointmentDetail,
     })
 
     const requestsTypes = () => {

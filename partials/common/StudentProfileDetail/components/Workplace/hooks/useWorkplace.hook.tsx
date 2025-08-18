@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useMemo, useState } from 'react'
 import {
     AddFeedbackModal,
     AppointmentBookModal,
+    AppointmentViewWPModal,
     BookAppointmentInfoModal,
     CancelWorkplaceModal,
     CancelWorkplaceRequestModal,
@@ -215,6 +216,43 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             onForwardClicked()
         }
     }, [selectedWorkplace, appliedIndustry])
+
+    useEffect(() => {
+        const isAppointmentBookedStatus =
+            selectedWorkplace?.currentStatus ===
+            WorkplaceCurrentStatus.AppointmentBooked
+        const isAppointmentQueryReady =
+            !getWorkplaceAppointment?.isFetching &&
+            !getWorkplaceAppointment?.isLoading &&
+            getWorkplaceAppointment?.isSuccess
+        const hasNoValidAppointment =
+            getWorkplaceAppointment?.data &&
+            getWorkplaceAppointment?.data?.isSuccessfull === null
+        const isAfterCutoffDate = moment().isSameOrAfter('2025-08-01', 'day')
+        const isTodayAppointment = moment().isSame(
+            getWorkplaceAppointment?.data?.date,
+            'day'
+        )
+
+        const shouldShowAppointmentModal =
+            selectedWorkplace &&
+            isAppointmentBookedStatus &&
+            isAppointmentQueryReady &&
+            hasNoValidAppointment &&
+            isAfterCutoffDate &&
+            isTodayAppointment
+
+        if (shouldShowAppointmentModal) {
+            onAppointmentViewWPClicked()
+            setModelId('appointmentView')
+        } else if (
+            modelId === 'appointmentView' &&
+            !shouldShowAppointmentModal
+        ) {
+            setModal(null)
+            setModelId('')
+        }
+    }, [selectedWorkplace, getWorkplaceAppointment])
 
     // Handle appointment booking modal for workplaces with booked appointments
     useEffect(() => {
@@ -494,6 +532,16 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         )
     }
 
+    const onAppointmentViewWPClicked = () => {
+        setModal(
+            <AppointmentViewWPModal
+                onCancel={() => {
+                    onCancelModal()
+                }}
+                appointment={getWorkplaceAppointment?.data}
+            />
+        )
+    }
     const onAppointmentClicked = () => {
         setModal(
             <AppointmentBookModal
@@ -572,5 +620,6 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         onUpdateWorkplaceCourseClicked,
         latestWorkplaceApprovaleRequest,
         latestWorkplaceApprovaleRequestRto,
+        appointmentDetail: getWorkplaceAppointment?.data,
     }
 }
