@@ -347,7 +347,9 @@ export const Workplace = ({
                                         </div>
                                         <div className="lg:col-span-7 h-full">
                                             <IndustryDetail
-                                                workplace={selectedWorkplace}
+                                                workplace={
+                                                    selectedWorkplace as IWorkplaceIndustries
+                                                }
                                                 appliedIndustry={
                                                     appliedIndustry
                                                 }
