@@ -160,7 +160,6 @@ const StudentDashboard: NextPageWithLayout = () => {
             </GlobalModal>
         )
     }
-    console.log('data?.industries', data)
     return (
         <>
             {modal && modal}

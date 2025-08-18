@@ -68,7 +68,6 @@ export const WorkplaceApprovalDeclaration = ({
         const res: any = await changeStatus({ id: wpApprovalId, status })
 
         if (res?.data) {
-            console.log('Success condition met, res.data:', res.data)
             notification.success({
                 title: 'Status Changed',
                 description: 'Status Changed Successfully',

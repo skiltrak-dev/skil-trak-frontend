@@ -91,9 +91,7 @@ export const CreateIndustryESignTemp = ({ edit }: { edit?: any }) => {
             />
         )
     }
-    const onSubmit = (data: any) => {
-        console.log('data', data)
-    }
+    const onSubmit = (data: any) => {}
     return (
         <div className="">
             <FormProvider {...methods}>
