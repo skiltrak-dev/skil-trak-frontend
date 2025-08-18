@@ -94,10 +94,19 @@ const ESign: NextPageWithLayout = () => {
             <div className="px-4">
                 <div className="flex justify-end gap-x-2 mb-2">
                     <Button
+                        variant="primaryNew"
                         Icon={FaFileSignature}
-                        text="Create E-Sign Template"
+                        text={
+                            router?.query?.tab === 'industry-e-sign'
+                                ? 'Create Industry E-Sign Template'
+                                : 'Create E-Sign Template'
+                        }
                         onClick={() =>
-                            router.push('/portals/admin/e-sign/add-e-sign')
+                            router.push(
+                                router?.query?.tab === 'industry-e-sign'
+                                    ? '/portals/admin/e-sign/create-industry-temp'
+                                    : '/portals/admin/e-sign/add-e-sign'
+                            )
                         }
                     />
                     <div className="flex-shrink-0">{filterAction}</div>

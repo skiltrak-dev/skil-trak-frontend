@@ -1,18 +1,18 @@
 import {
     NoData,
     Button,
+    Tooltip,
     Typography,
     GlobalModal,
     LoadingAnimation,
-    Tooltip,
 } from '@components'
 import { Folder } from '@types'
 import { SubAdminApi } from '@queries'
 import { MdCancel } from 'react-icons/md'
+import { IoIosSend } from 'react-icons/io'
 import { ReactElement, useState } from 'react'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { InitiateSigningModal } from '@partials/sub-admin/assessmentEvidence/modal'
-import { IoIosSend } from 'react-icons/io'
 
 export const GenerateEsignModal = ({
     workplace,
@@ -21,7 +21,7 @@ export const GenerateEsignModal = ({
 }: {
     courseId: number
     onCancel: () => void
-    workplace: IWorkplaceIndustries
+    workplace: IWorkplaceIndustries | null
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -93,7 +93,7 @@ export const GenerateEsignModal = ({
                                     (folder: Folder) => (
                                         <div
                                             key={folder?.id}
-                                            className="flex items-center justify-between py-2 px-6 bg-white border border-gray-200 rounded-lg shadow-sm"
+                                            className="flex items-center justify-between gap-x-2 py-2 px-6 bg-white border border-gray-200 rounded-lg shadow-sm"
                                         >
                                             <div className="flex items-center gap-x-1">
                                                 <Typography

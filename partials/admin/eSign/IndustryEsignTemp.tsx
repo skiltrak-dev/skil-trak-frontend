@@ -176,44 +176,11 @@ export const IndustryEsignTemp = () => {
 
     return (
         <div className="flex flex-col gap-y-4">
-            <div className="flex justify-between items-center w-full">
-                <PageHeading
-                    title={'E-Sign Templates'}
-                    subtitle={'Manage your industry document templates'}
-                />
-                <Link
-                    href={'/portals/admin/e-sign/create-industry-temp'}
-                    className="whitespace-nowrap"
-                >
-                    <Button text="Create Template" variant="dark" />
-                </Link>
-            </div>
-            <Card>
-                <div className="flex items-center gap-x-4">
-                    <div className="w-2/3">
-                        <TextInput
-                            name="search"
-                            placeholder="search"
-                            showError={false}
-                        />
-                    </div>
-                    <div className="w-1/3">
-                        <Select
-                            options={[
-                                {
-                                    label: 'Select Industry',
-                                    value: 'Select Industry',
-                                },
-                                { label: 'Industry 1', value: 'Industry 1' },
-                                { label: 'Industry 2', value: 'Industry 2' },
-                                { label: 'Industry 3', value: 'Industry 3' },
-                            ]}
-                            name="sectors"
-                            showError={false}
-                        />
-                    </div>
-                </div>
-            </Card>
+            <PageHeading
+                title={'E-Sign Templates'}
+                subtitle={'Manage your industry document templates'}
+            />
+
             <Card>
                 <Table
                     columns={columns as any}
