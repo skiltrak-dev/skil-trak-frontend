@@ -78,15 +78,13 @@ interface PlacementStatusProps {
     status?: string
 }
 
-function getStatusConfig(status: string) {
-    const isRejection = status.toLowerCase().includes('rejected')
-
+function getStatusConfig(status: string, isRejection: boolean) {
     if (isRejection) {
         // Red theming for all rejections
         return {
             icon: XCircle,
             color: 'text-red-600',
-            bgColor: 'bg-red-50/50',
+            bgColor: 'bg-red-50',
             borderColor: 'border-l-red-500',
             badgeColor: 'bg-red-100 text-red-800 border-red-200',
         }
@@ -150,15 +148,17 @@ export function WorkplaceStatusCommunication({
     item,
 }: PlacementStatusProps) {
     const [showComments, setShowComments] = useState(false)
-    const config = getStatusConfig(status)
+    const isRejection = item?.description
+        ?.toLowerCase()
+        ?.includes('status decline')
+    const config = getStatusConfig(status, isRejection)
     const IconComponent = config.icon
-    const isRejection = status.toLowerCase().includes('rejected')
 
-    console.log({ config })
+    console.log({ isRejection })
 
     return (
         <div
-            className={`w-full max-w-5xl mx-auto rounded-xl  border-l-4 ${config.borderColor}`}
+            className={`w-full mx-auto rounded-xl  border-l-4 ${config.borderColor}`}
         >
             <div className={`p-4 ${config.bgColor}`}>
                 <div className="pb-2">
@@ -174,9 +174,7 @@ export function WorkplaceStatusCommunication({
                                         : 'text-green-600'
                                 }
                             >
-                                {isRejection
-                                    ? 'Placement Rejected'
-                                    : 'Placement Status Changed'}
+                                {item?.title}
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
