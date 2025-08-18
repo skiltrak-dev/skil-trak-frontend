@@ -16,7 +16,7 @@ export const CollapsedCommunicationCard: React.FC<CommunicationCardProps> = ({
     const [isOpened, setIsOpened] = useState(item?.title ? true : false)
     return (
         <div className="bg-white rounded-lg border border-gray-200 mb-2 overflow-hidden">
-            {item?.type !== 'logger' && (
+            {item?.type !== 'workplaceHistory' && (
                 <div
                     className="px-4 py-2.5 hover:bg-gray-50 transition-colors cursor-pointer"
                     onClick={() => setIsOpened(!isOpened)}
@@ -74,7 +74,7 @@ export const CollapsedCommunicationCard: React.FC<CommunicationCardProps> = ({
             {isOpened && (
                 <div
                     className={
-                        item?.type !== 'logger'
+                        item?.type !== 'workplaceHistory'
                             ? 'border-t border-gray-100 p-2 bg-gray-50'
                             : ''
                     }

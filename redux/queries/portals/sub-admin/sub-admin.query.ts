@@ -299,6 +299,7 @@ export const {
     useGetWorkplaceFoldersQuery,
     useUpdateWorkplaceStatusMutation,
     useCancelWorkplaceStatusMutation,
+    useApproveStudentFromIndustryQuery,
     useGetAddedByStudentsWorkplacesQuery,
     useCheckIsIndustryPerformedActionQuery,
     useUpdateWorkplaceIndustryStatusMutation,
@@ -762,8 +763,10 @@ export const SubAdminApi = {
         useUpdateWorkplaceStatusMutation,
         useCancelWorkplaceStatusMutation,
         useGetAddedByStudentsWorkplacesQuery,
+        approveStudentFromIndustry: useApproveStudentFromIndustryQuery,
         updateWpIndustryStatus: useUpdateWorkplaceIndustryStatusMutation,
         checkIsIndustryPerformedAction: useCheckIsIndustryPerformedActionQuery,
+
         useSubAdminApplyStudentWorkplaceMutation,
         useAddCustomIndustryMutation,
         useShowExistingIndustriesQuery,

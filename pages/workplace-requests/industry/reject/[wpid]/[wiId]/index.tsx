@@ -70,8 +70,6 @@ export default function DeclinedRequestPage() {
         checkIsIndustryPerformedAction?.data?.industries[0]
             ?.industryResponse === 'rejected'
 
-    const timestamp = '25 minutes ago'
-
     return (
         <div>
             {checkIsIndustryPerformedAction?.isLoading ? (
