@@ -128,10 +128,9 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
 
     const excludedRoles = [UserRoles.RTO, UserRoles.OBSERVER]
 
-    const authorizedRoles = (roles: UserRoles[]) =>
-        useAuthorizedUserComponent({
-            roles,
-        })
+    const authorizedRoles = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN, UserRoles.SUBADMIN],
+    })
 
     const sortedWorkplace =
         studentWorkplace?.data && studentWorkplace?.data?.length > 0
@@ -246,13 +245,8 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             'day'
         )
 
-        const authorized = authorizedRoles([
-            UserRoles.ADMIN,
-            UserRoles.SUBADMIN,
-        ])
-
         const shouldShowAppointmentModal =
-            authorized &&
+            authorizedRoles &&
             selectedWorkplace &&
             isAfterCutoffDate &&
             isTodayAppointment &&
@@ -288,18 +282,13 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             getWorkplaceAppointment?.data?.isSuccessfull === false
         const isAfterCutoffDate = moment().isSameOrAfter('2025-08-01', 'day')
 
-        const authorized = authorizedRoles([
-            UserRoles.ADMIN,
-            UserRoles.SUBADMIN,
-        ])
-
         const shouldShowAppointmentModal =
             selectedWorkplace &&
             isAppointmentBookedStatus &&
             isAppointmentQueryReady &&
             hasNoValidAppointment &&
             isAfterCutoffDate &&
-            authorized
+            authorizedRoles
 
         if (shouldShowAppointmentModal && modelId !== 'appointmentClicked') {
             onAppointmentClicked()
@@ -326,11 +315,6 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             selectedWorkplace?.currentStatus ===
                 WorkplaceCurrentStatus.AwaitingAgreementSigned
 
-        const authorized = authorizedRoles([
-            UserRoles.ADMIN,
-            UserRoles.SUBADMIN,
-        ])
-
         const shouldShowEsignModal =
             getWorkplaceAppointment &&
             hasSuccessfulAppointment &&
@@ -338,7 +322,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             isEsignQueryReady &&
             needsDocumentInitiation &&
             isValidStatus &&
-            authorized
+            authorizedRoles
 
         if (shouldShowEsignModal && modelId !== 'generateEsign') {
             onGenerateEsignClicked()
