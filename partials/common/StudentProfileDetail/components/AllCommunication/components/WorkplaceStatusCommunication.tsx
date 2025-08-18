@@ -178,14 +178,6 @@ export function WorkplaceStatusCommunication({
                                     {item?.title}
                                 </div>
                             </div>
-                            <div className="flex items-center gap-x-2">
-                                <Typography variant="xxs">Type: </Typography>
-                                <Typography variant="xs" semibold>
-                                    {item?.isSuccess
-                                        ? 'Successfull'
-                                        : 'Unsuccessfull'}{' '}
-                                </Typography>
-                            </div>
                         </div>
                         <div className="flex items-center gap-3">
                             {/* <Badge
