@@ -75,11 +75,7 @@ import moment from 'moment'
 import { useState } from 'react'
 interface PlacementStatusProps {
     item: any
-    status: string
-    dateStamp: string
-    timeStamp?: string
-    comments?: string
-    rejectedBy?: string
+    status?: string
 }
 
 function getStatusConfig(status: string) {
@@ -151,10 +147,6 @@ function getStatusConfig(status: string) {
 
 export function WorkplaceStatusCommunication({
     status = 'Agreement Signed',
-    dateStamp,
-    timeStamp,
-    comments,
-    rejectedBy,
     item,
 }: PlacementStatusProps) {
     const [showComments, setShowComments] = useState(false)
@@ -237,13 +229,13 @@ export function WorkplaceStatusCommunication({
                                 {moment(item?.createdAt).format('hh:mm A')}
                             </span>
                         </div>
-                        {rejectedBy && (
+                        {/* {rejectedBy && (
                             <div className="flex items-center gap-2">
                                 <Users className="h-4 w-4" />
                                 <span>Rejected by: {rejectedBy}</span>
                             </div>
-                        )}
-                        {comments && !showComments && (
+                        )} */}
+                        {item?.description && !showComments && (
                             <div className="flex items-center gap-2">
                                 <MessageSquare className="h-4 w-4" />
                                 <span>Comments available</span>
