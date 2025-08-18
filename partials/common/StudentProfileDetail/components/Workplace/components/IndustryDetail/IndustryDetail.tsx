@@ -49,7 +49,7 @@ export const IndustryDetail = ({
     wpIndustriesLength: number
     approvalDate: string
     course: Course
-    workplace: IWorkplaceIndustries
+    workplace: IWorkplaceIndustries | null
     appliedIndustry: WorkplaceWorkIndustriesType
 }) => {
     const contextBar = useContextBar()

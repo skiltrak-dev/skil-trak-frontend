@@ -116,7 +116,7 @@ export interface IWorkplaceIndustries {
     prefferableLocation?: string
     status?: string
     updatedAt?: Date
-
+    cancelledRequests?: any
     interviewDate?: Date
     appointmentDate?: Date
     industries?: WorkplaceWorkIndustriesType[]
