@@ -205,7 +205,6 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                     roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                     isAssociatedWithRto={false}
                 >
-                    {/* TODO: only admin and skiltrak coordinator */}
                     {eligibleCourses && eligibleCourses?.length > 0 && (
                         <FeedbackButton
                             eligibleCourses={eligibleCourses}
