@@ -617,6 +617,9 @@ const {
     useGetStudentCoordinatorFeedbackQuery,
     useSubmitCoordinatorFeedbackMutation,
     useGetUserReviewForCoordinatorQuery,
+    usePlacementFeedbackMutation,
+    useGetCourseSchedulesQuery,
+    useGetPlacementFeedbackQuery,
 
     // ---- ALLOW LOGIN ---- //
     useAllowAsLoginMutation,
@@ -924,6 +927,9 @@ export const CommonApi = {
         useStudentFeedbackList: useGetStudentCoordinatorFeedbackQuery,
         submitCoordinatorFeedback: useSubmitCoordinatorFeedbackMutation,
         useUserReviewForCoordinator: useGetUserReviewForCoordinatorQuery,
+        usePlacementFeedback: usePlacementFeedbackMutation,
+        useGetCourseSchedules: useGetCourseSchedulesQuery,
+        useGetPlacementFeedback: useGetPlacementFeedbackQuery,
     },
     AllowLogin: {
         useAllowAsLogin: useAllowAsLoginMutation,

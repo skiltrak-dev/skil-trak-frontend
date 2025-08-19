@@ -1,0 +1,690 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom form scoped styles - Light mode only as requested */
+.custom-form {
+    /* CSS Custom Properties */
+    --font-size: 14px;
+    --background: #ffffff;
+    --foreground: #1a1a1a; /* oklch(0.145 0 0) equivalent */
+    --card: #ffffff;
+    --card-foreground: #1a1a1a; /* oklch(0.145 0 0) equivalent */
+    --popover: #ffffff; /* oklch(1 0 0) equivalent */
+    --popover-foreground: #1a1a1a; /* oklch(0.145 0 0) equivalent */
+    --primary: #044866;
+    --primary-foreground: #ffffff;
+    --secondary: #0d5468;
+    --secondary-foreground: #ffffff;
+    --muted: #ececf0;
+    --muted-foreground: #717182;
+    --accent: #f7a619;
+    --accent-foreground: #ffffff;
+    --destructive: #d4183d;
+    --destructive-foreground: #ffffff;
+    --border: rgba(0, 0, 0, 0.1);
+    --input: transparent;
+    --input-background: #f3f3f5;
+    --switch-background: #cbced4;
+    --font-weight-medium: 500;
+    --font-weight-normal: 400;
+    --ring: #044866;
+    --chart-1: #044866;
+    --chart-2: #0d5468;
+    --chart-3: #f7a619;
+    --chart-4: #f4d03f; /* oklch(0.828 0.189 84.429) equivalent */
+    --chart-5: #e67e22; /* oklch(0.769 0.188 70.08) equivalent */
+    --radius: 0.625rem;
+    --sidebar: #fcfcfc; /* oklch(0.985 0 0) equivalent */
+    --sidebar-foreground: #1a1a1a; /* oklch(0.145 0 0) equivalent */
+    --sidebar-primary: #044866;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #f8f8f8; /* oklch(0.97 0 0) equivalent */
+    --sidebar-accent-foreground: #2d2d2d; /* oklch(0.205 0 0) equivalent */
+    --sidebar-border: #e5e5e5; /* oklch(0.922 0 0) equivalent */
+    --sidebar-ring: #044866;
+
+    /* Brand colors */
+    --brand-primary: #044866;
+    --brand-secondary: #0d5468;
+    --brand-accent: #f7a619;
+    --brand-primary-light: #066385; /* Fixed typo from original #0663856 */
+    --brand-secondary-light: #1a6b7f;
+    --brand-accent-light: #f9b547;
+
+    /* Typography variables */
+    --text-2xl: 1.5rem;
+    --text-xl: 1.25rem;
+    --text-lg: 1.125rem;
+    --text-base: 1rem;
+
+    /* Apply base styling */
+    background-color: var(--background);
+    color: var(--foreground);
+    font-size: var(--font-size);
+}
+
+/* Base element styling for all elements within custom-form */
+.custom-form * {
+    border-color: var(--border);
+    outline-color: rgba(4, 72, 102, 0.5); /* --ring with 50% opacity */
+}
+
+.custom-form *:focus {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+}
+
+/* Typography styles scoped to custom-form */
+.custom-form h1:not([class*=' text-']):not([class^='text-']) {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--foreground);
+}
+
+.custom-form h2:not([class*=' text-']):not([class^='text-']) {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--foreground);
+}
+
+.custom-form h3:not([class*=' text-']):not([class^='text-']) {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--foreground);
+}
+
+.custom-form h4:not([class*=' text-']):not([class^='text-']) {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--foreground);
+}
+
+.custom-form p:not([class*=' text-']):not([class^='text-']) {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+    color: var(--foreground);
+}
+
+.custom-form label:not([class*=' text-']):not([class^='text-']) {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--foreground);
+}
+
+.custom-form button:not([class*=' text-']):not([class^='text-']) {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+}
+
+.custom-form input:not([class*=' text-']):not([class^='text-']),
+.custom-form textarea:not([class*=' text-']):not([class^='text-']) {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+}
+
+/* Fallback typography for elements with text classes */
+.custom-form h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--foreground);
+}
+
+.custom-form h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--foreground);
+}
+
+.custom-form h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--foreground);
+}
+
+.custom-form h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--foreground);
+}
+
+.custom-form p {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+    color: var(--foreground);
+}
+
+.custom-form label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--foreground);
+}
+
+.custom-form button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+}
+
+.custom-form input,
+.custom-form textarea {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+}
+
+/* Brand color utility classes scoped to custom-form */
+.custom-form .bg-brand-primary {
+    background-color: var(--brand-primary);
+}
+
+.custom-form .bg-brand-secondary {
+    background-color: var(--brand-secondary);
+}
+
+.custom-form .bg-brand-accent {
+    background-color: var(--brand-accent);
+}
+
+.custom-form .bg-brand-primary-light {
+    background-color: var(--brand-primary-light);
+}
+
+.custom-form .bg-brand-secondary-light {
+    background-color: var(--brand-secondary-light);
+}
+
+.custom-form .bg-brand-accent-light {
+    background-color: var(--brand-accent-light);
+}
+
+.custom-form .text-brand-primary {
+    color: var(--brand-primary);
+}
+
+.custom-form .text-brand-secondary {
+    color: var(--brand-secondary);
+}
+
+.custom-form .text-brand-accent {
+    color: var(--brand-accent);
+}
+
+.custom-form .text-brand-primary-light {
+    color: var(--brand-primary-light);
+}
+
+.custom-form .text-brand-secondary-light {
+    color: var(--brand-secondary-light);
+}
+
+.custom-form .text-brand-accent-light {
+    color: var(--brand-accent-light);
+}
+
+.custom-form .border-brand-primary {
+    border-color: var(--brand-primary);
+}
+
+.custom-form .border-brand-secondary {
+    border-color: var(--brand-secondary);
+}
+
+.custom-form .border-brand-accent {
+    border-color: var(--brand-accent);
+}
+
+.custom-form .border-brand-primary-light {
+    border-color: var(--brand-primary-light);
+}
+
+.custom-form .border-brand-secondary-light {
+    border-color: var(--brand-secondary-light);
+}
+
+.custom-form .border-brand-accent-light {
+    border-color: var(--brand-accent-light);
+}
+
+/* Standard color utilities scoped to custom-form */
+.custom-form .bg-background {
+    background-color: var(--background);
+}
+
+.custom-form .bg-foreground {
+    background-color: var(--foreground);
+}
+
+.custom-form .bg-card {
+    background-color: var(--card);
+}
+
+.custom-form .bg-card-foreground {
+    background-color: var(--card-foreground);
+}
+
+.custom-form .bg-popover {
+    background-color: var(--popover);
+}
+
+.custom-form .bg-popover-foreground {
+    background-color: var(--popover-foreground);
+}
+
+.custom-form .bg-primary {
+    background-color: var(--primary);
+}
+
+.custom-form .bg-primary-foreground {
+    background-color: var(--primary-foreground);
+}
+
+.custom-form .bg-secondary {
+    background-color: var(--secondary);
+}
+
+.custom-form .bg-secondary-foreground {
+    background-color: var(--secondary-foreground);
+}
+
+.custom-form .bg-muted {
+    background-color: var(--muted);
+}
+
+.custom-form .bg-muted-foreground {
+    background-color: var(--muted-foreground);
+}
+
+.custom-form .bg-accent {
+    background-color: var(--accent);
+}
+
+.custom-form .bg-accent-foreground {
+    background-color: var(--accent-foreground);
+}
+
+.custom-form .bg-destructive {
+    background-color: var(--destructive);
+}
+
+.custom-form .bg-destructive-foreground {
+    background-color: var(--destructive-foreground);
+}
+
+.custom-form .bg-border {
+    background-color: var(--border);
+}
+
+.custom-form .bg-input {
+    background-color: var(--input);
+}
+
+.custom-form .bg-input-background {
+    background-color: var(--input-background);
+}
+
+.custom-form .bg-ring {
+    background-color: var(--ring);
+}
+
+/* Text color utilities */
+.custom-form .text-background {
+    color: var(--background);
+}
+
+.custom-form .text-foreground {
+    color: var(--foreground);
+}
+
+.custom-form .text-card {
+    color: var(--card);
+}
+
+.custom-form .text-card-foreground {
+    color: var(--card-foreground);
+}
+
+.custom-form .text-popover {
+    color: var(--popover);
+}
+
+.custom-form .text-popover-foreground {
+    color: var(--popover-foreground);
+}
+
+.custom-form .text-primary {
+    color: var(--primary);
+}
+
+.custom-form .text-primary-foreground {
+    color: var(--primary-foreground);
+}
+
+.custom-form .text-secondary {
+    color: var(--secondary);
+}
+
+.custom-form .text-secondary-foreground {
+    color: var(--secondary-foreground);
+}
+
+.custom-form .text-muted {
+    color: var(--muted);
+}
+
+.custom-form .text-muted-foreground {
+    color: var(--muted-foreground);
+}
+
+.custom-form .text-accent {
+    color: var(--accent);
+}
+
+.custom-form .text-accent-foreground {
+    color: var(--accent-foreground);
+}
+
+.custom-form .text-destructive {
+    color: var(--destructive);
+}
+
+.custom-form .text-destructive-foreground {
+    color: var(--destructive-foreground);
+}
+
+.custom-form .text-ring {
+    color: var(--ring);
+}
+
+/* Border color utilities */
+.custom-form .border-background {
+    border-color: var(--background);
+}
+
+.custom-form .border-foreground {
+    border-color: var(--foreground);
+}
+
+.custom-form .border-card {
+    border-color: var(--card);
+}
+
+.custom-form .border-primary {
+    border-color: var(--primary);
+}
+
+.custom-form .border-secondary {
+    border-color: var(--secondary);
+}
+
+.custom-form .border-muted {
+    border-color: var(--muted);
+}
+
+.custom-form .border-accent {
+    border-color: var(--accent);
+}
+
+.custom-form .border-destructive {
+    border-color: var(--destructive);
+}
+
+.custom-form .border-border {
+    border-color: var(--border);
+}
+
+.custom-form .border-input {
+    border-color: var(--input);
+}
+
+.custom-form .border-ring {
+    border-color: var(--ring);
+}
+
+/* Chart color utilities */
+.custom-form .bg-chart-1 {
+    background-color: var(--chart-1);
+}
+
+.custom-form .bg-chart-2 {
+    background-color: var(--chart-2);
+}
+
+.custom-form .bg-chart-3 {
+    background-color: var(--chart-3);
+}
+
+.custom-form .bg-chart-4 {
+    background-color: var(--chart-4);
+}
+
+.custom-form .bg-chart-5 {
+    background-color: var(--chart-5);
+}
+
+.custom-form .text-chart-1 {
+    color: var(--chart-1);
+}
+
+.custom-form .text-chart-2 {
+    color: var(--chart-2);
+}
+
+.custom-form .text-chart-3 {
+    color: var(--chart-3);
+}
+
+.custom-form .text-chart-4 {
+    color: var(--chart-4);
+}
+
+.custom-form .text-chart-5 {
+    color: var(--chart-5);
+}
+
+/* Sidebar color utilities */
+.custom-form .bg-sidebar {
+    background-color: var(--sidebar);
+}
+
+.custom-form .bg-sidebar-foreground {
+    background-color: var(--sidebar-foreground);
+}
+
+.custom-form .bg-sidebar-primary {
+    background-color: var(--sidebar-primary);
+}
+
+.custom-form .bg-sidebar-primary-foreground {
+    background-color: var(--sidebar-primary-foreground);
+}
+
+.custom-form .bg-sidebar-accent {
+    background-color: var(--sidebar-accent);
+}
+
+.custom-form .bg-sidebar-accent-foreground {
+    background-color: var(--sidebar-accent-foreground);
+}
+
+.custom-form .bg-sidebar-border {
+    background-color: var(--sidebar-border);
+}
+
+.custom-form .bg-sidebar-ring {
+    background-color: var(--sidebar-ring);
+}
+
+.custom-form .text-sidebar {
+    color: var(--sidebar);
+}
+
+.custom-form .text-sidebar-foreground {
+    color: var(--sidebar-foreground);
+}
+
+.custom-form .text-sidebar-primary {
+    color: var(--sidebar-primary);
+}
+
+.custom-form .text-sidebar-primary-foreground {
+    color: var(--sidebar-primary-foreground);
+}
+
+.custom-form .text-sidebar-accent {
+    color: var(--sidebar-accent);
+}
+
+.custom-form .text-sidebar-accent-foreground {
+    color: var(--sidebar-accent-foreground);
+}
+
+.custom-form .text-sidebar-border {
+    color: var(--sidebar-border);
+}
+
+.custom-form .text-sidebar-ring {
+    color: var(--sidebar-ring);
+}
+
+.custom-form .border-sidebar {
+    border-color: var(--sidebar);
+}
+
+.custom-form .border-sidebar-foreground {
+    border-color: var(--sidebar-foreground);
+}
+
+.custom-form .border-sidebar-primary {
+    border-color: var(--sidebar-primary);
+}
+
+.custom-form .border-sidebar-accent {
+    border-color: var(--sidebar-accent);
+}
+
+.custom-form .border-sidebar-border {
+    border-color: var(--sidebar-border);
+}
+
+.custom-form .border-sidebar-ring {
+    border-color: var(--sidebar-ring);
+}
+
+/* Ring utilities */
+.custom-form .ring-primary {
+    --tw-ring-color: var(--primary);
+}
+
+.custom-form .ring-secondary {
+    --tw-ring-color: var(--secondary);
+}
+
+.custom-form .ring-accent {
+    --tw-ring-color: var(--accent);
+}
+
+.custom-form .ring-ring {
+    --tw-ring-color: var(--ring);
+}
+
+/* Radius utilities using custom radius variable */
+.custom-form .rounded-radius-sm {
+    border-radius: calc(var(--radius) - 4px);
+}
+
+.custom-form .rounded-radius-md {
+    border-radius: calc(var(--radius) - 2px);
+}
+
+.custom-form .rounded-radius-lg {
+    border-radius: var(--radius);
+}
+
+.custom-form .rounded-radius-xl {
+    border-radius: calc(var(--radius) + 4px);
+}
+
+/* Custom component classes for form elements */
+.custom-form .form-card {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--card-foreground);
+}
+
+.custom-form .form-input {
+    background-color: var(--input-background);
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) - 2px);
+    color: var(--foreground);
+    padding: 0.5rem 0.75rem;
+}
+
+.custom-form .form-input:focus {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-color: var(--ring);
+}
+
+.custom-form .form-button {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.5rem 1rem;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-form .form-button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.custom-form .form-button-secondary {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.5rem 1rem;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-form .form-button-secondary:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.custom-form .form-button-accent {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.5rem 1rem;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-form .form-button-accent:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
