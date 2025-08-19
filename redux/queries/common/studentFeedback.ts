@@ -52,4 +52,31 @@ export const studentFeedbackEndpoints = (
         }),
         providesTags: ['Rating'],
     }),
+
+    getCourseSchedules: builder.query<any, { userId?: number }>({
+        query: ({ userId }) => ({
+            url: `students/schedules/check`,
+            params: userId ? { userId } : undefined,
+        }),
+        providesTags: ['Rating'],
+    }),
+
+    placementFeedback: builder.mutation<any, { stdUserId?: number; body: any }>(
+        {
+            query: ({ stdUserId, body }) => ({
+                url: `rating/placement-feedback`,
+                method: 'POST',
+                params: stdUserId ? { stdUserId } : undefined,
+                body,
+            }),
+            invalidatesTags: ['Rating'],
+        }
+    ),
+    getPlacementFeedback: builder.query<any, { userId?: number }>({
+        query: ({ userId }) => ({
+            url: `rating/placement-feedback`,
+            params: userId ? { userId } : undefined,
+        }),
+        providesTags: ['Rating'],
+    }),
 })
