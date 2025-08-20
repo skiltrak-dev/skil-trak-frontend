@@ -25,9 +25,15 @@ export const ShowNotificationModal = ({ onCancel }: { onCancel: any }) => {
                             text="Go Back"
                             variant="info"
                             onClick={() => {
-                                router.push(
-                                    `/portals/admin/e-sign?tab=approved&page=1&pageSize=50`
-                                )
+                                if (router?.query?.tab === 'industry-esign') {
+                                    router.push(
+                                        `/portals/admin/e-sign?tab=industry-e-sign&page=1&pageSize=50`
+                                    )
+                                } else {
+                                    router.push(
+                                        `/portals/admin/e-sign?tab=approved&page=1&pageSize=50`
+                                    )
+                                }
                             }}
                         />
                         <Button

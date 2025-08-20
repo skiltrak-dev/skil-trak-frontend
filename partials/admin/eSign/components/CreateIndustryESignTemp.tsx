@@ -7,53 +7,82 @@ import {
     Typography,
     UploadFile,
 } from '@components'
+import { UserRoles } from '@constants'
 import { FileUpload } from '@hoc'
 import { yupResolver } from '@hookform/resolvers/yup'
-import React, { useState } from 'react'
+import { AuthApi } from '@queries'
+import { OptionType } from '@types'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FiUsers } from 'react-icons/fi'
 import * as Yup from 'yup'
 
-export const CreateIndustryESignTemp = ({ edit }: { edit?: any }) => {
+export const CreateIndustryESignTemp = ({
+    edit,
+    onSubmit,
+    result,
+    esignData,
+}: {
+    result?: any
+    edit?: any
+    onSubmit: (values: any) => void
+    esignData?: any
+}) => {
     const [fileUrl, setFileUrl] = useState<string | null>(null)
+    const [selectedSector, setSelectedSector] = useState<number | null>(null)
+
+    const sectorResponse = AuthApi.useSectors({})
+
+    const sectorOptions = useMemo(
+        () =>
+            sectorResponse.data?.map((sector: any) => ({
+                label: sector?.name,
+                value: sector?.id,
+            })),
+        [sectorResponse]
+    )
 
     const validationSchema = Yup.object({
         name: Yup.string().required('Name is required'),
         sector: Yup.number().required('Sector is required'),
-        folder: Yup.number().required('Folder is required'),
-        recipients: Yup.boolean().oneOf(
-            [true],
-            'Must select Industry Recipient'
-        ),
-
-        deadline: Yup.number()
-            .positive('Deadline Must be positive')
-            .max(180, 'Deadline must not exceed 180')
-            .required('Deadline is required')
-            .nullable(true),
+        recipients: Yup.array().min(1, 'Must select at least 1 Recipient'),
         file: Yup.mixed()
-            .test(
-                'fileSize',
-                // 'File size is too large',
-                (value: any) => {
-                    return edit
-                        ? fileUrl
-                            ? true
-                            : value && [...value]?.length > 0
-                            ? true
-                            : false
+            .test('fileSize', (value: any) => {
+                return edit
+                    ? fileUrl
+                        ? true
                         : value && [...value]?.length > 0
                         ? true
                         : false
-                }
-            )
+                    : value && [...value]?.length > 0
+                    ? true
+                    : false
+            })
             .required('File is required!'),
     })
-    const methods = useForm<any>({
-        resolver: yupResolver(validationSchema),
 
+    const methods = useForm<any>({
         mode: 'all',
+        resolver: yupResolver(validationSchema),
+        defaultValues: {
+            recipients: [UserRoles.INDUSTRY], // Initialize as empty array
+        },
     })
+
+    useEffect(() => {
+        if (esignData) {
+            methods.setValue('name', esignData?.name)
+            // Ensure recipients is always an array
+            methods.setValue(
+                'recipients',
+                Array.isArray(esignData?.recipients) ? esignData.recipients : []
+            )
+            methods.setValue('file', esignData?.file)
+            setFileUrl(esignData?.file)
+            setSelectedSector(esignData?.sector?.id)
+        }
+    }, [esignData])
+
     const onFileUpload = ({
         name,
         dragging,
@@ -91,7 +120,7 @@ export const CreateIndustryESignTemp = ({ edit }: { edit?: any }) => {
             />
         )
     }
-    const onSubmit = (data: any) => {}
+
     return (
         <div className="">
             <FormProvider {...methods}>
@@ -108,59 +137,25 @@ export const CreateIndustryESignTemp = ({ edit }: { edit?: any }) => {
                                     label={'Name'}
                                     required
                                 />
-                                <Select
-                                    label={'Sector'}
-                                    options={[
-                                        {
-                                            label: 'Select Industry',
-                                            value: 'Select Industry',
-                                        },
-                                        {
-                                            label: 'Industry 1',
-                                            value: 'Industry 1',
-                                        },
-                                        {
-                                            label: 'Industry 2',
-                                            value: 'Industry 2',
-                                        },
-                                        {
-                                            label: 'Industry 3',
-                                            value: 'Industry 3',
-                                        },
-                                    ]}
-                                    name="sectors"
-                                    placeholder="Select..."
-                                />
-                                <Select
-                                    label={'Folder'}
-                                    options={[
-                                        {
-                                            label: 'Select Industry',
-                                            value: 'Select Industry',
-                                        },
-                                        {
-                                            label: 'Industry 1',
-                                            value: 'Industry 1',
-                                        },
-                                        {
-                                            label: 'Industry 2',
-                                            value: 'Industry 2',
-                                        },
-                                        {
-                                            label: 'Industry 3',
-                                            value: 'Industry 3',
-                                        },
-                                    ]}
-                                    name="industryFolder"
-                                    placeholder="Select..."
-                                />
-                                <TextInput
-                                    name="deadline"
-                                    placeholder="deadline"
-                                    label={'Deadline (In Days)'}
-                                    type="number"
-                                />
-                            </Card>{' '}
+                                <div className="relative z-40">
+                                    <Select
+                                        label={'Sector'}
+                                        options={sectorOptions}
+                                        loading={sectorResponse?.isLoading}
+                                        disabled={sectorResponse?.isLoading}
+                                        value={sectorOptions?.find(
+                                            (sector: OptionType) =>
+                                                sector?.value === selectedSector
+                                        )}
+                                        onChange={(e: number) => {
+                                            setSelectedSector(e)
+                                        }}
+                                        name="sector"
+                                        placeholder="Select..."
+                                        onlyValue
+                                    />
+                                </div>
+                            </Card>
                             <Card border>
                                 <FileUpload
                                     required
@@ -179,17 +174,37 @@ export const CreateIndustryESignTemp = ({ edit }: { edit?: any }) => {
                                     Recipients/Signers
                                 </Typography>
                             </div>
-                            <Checkbox name="recipients" label={'Industry'} />
-                            <Typography variant="muted" color="text-gray-400">
-                                Industry professionals will be the primary
-                                signers for this document template.
-                            </Typography>
+
+                            {/* Updated checkbox to handle array properly */}
+                            <div className="space-y-3">
+                                <div>
+                                    <Checkbox
+                                        label={'Industry'}
+                                        name={'recipients'}
+                                        value={UserRoles.INDUSTRY}
+                                    />
+                                    <Typography
+                                        variant="muted"
+                                        color="text-gray-400"
+                                    >
+                                        Industry professionals will be the
+                                        primary signers for this document
+                                        template.
+                                    </Typography>
+                                </div>
+                            </div>
                         </Card>
                     </div>
 
                     <div className="flex justify-end items-center gap-x-2">
                         <Button text="Cancel" outline variant="secondary" />
-                        <Button text="Save & Next" submit />
+                        <Button
+                            text={`${edit ? 'Update' : 'Save'} & Next`}
+                            loading={result?.isLoading}
+                            disabled={result?.isLoading}
+                            submit
+                            variant={edit ? 'info' : 'primary'}
+                        />
                     </div>
                 </form>
             </FormProvider>

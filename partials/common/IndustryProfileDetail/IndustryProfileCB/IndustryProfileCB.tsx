@@ -9,16 +9,16 @@ import {
     VerifiedEmailHistory,
     VerifyUserEmail,
 } from '@partials/common/components'
+import { IndustryRequestsActions } from '@partials/sub-admin/ManagerApprovalList/enum'
 import { Industry } from '@types'
 import { useRouter } from 'next/router'
-import {
-    IndustryInsuranceDoc,
-    IndustryLocations,
-    IndustrySupervisor,
-} from '../components'
+import { ReactNode, useState } from 'react'
+import { IndustryInsuranceDoc, IndustryLocations } from '../components'
+import { PlacementEligibilityCriteriaModal } from '../modal'
 import {
     IndustryContactPerson,
     IndustryDetail,
+    IndustryEsign,
     IndustryJobHiring,
     IndustryProfileAvatar,
     IndustryStatus,
@@ -28,9 +28,6 @@ import {
     SectorBaseCapacityModal,
     SnoozeIndustrySwitch,
 } from './components'
-import { IndustryRequestsActions } from '@partials/sub-admin/ManagerApprovalList/enum'
-import { PlacementEligibilityCriteriaModal } from '../modal'
-import { ReactNode, useState } from 'react'
 
 export const IndustryProfileCB = ({
     isHod,
@@ -103,8 +100,8 @@ export const IndustryProfileCB = ({
                 </div>
 
                 {/*  */}
-                <div className="flex justify-between items-center gap-x-3">
-                    <div className="mt-2">
+                <div className="w-full flex justify-between items-center gap-x-3">
+                    <div className="mt-2 w-full">
                         <div className="flex items-center gap-x-2">
                             <Typography semibold>
                                 <span className="text-[15px]">
@@ -135,11 +132,16 @@ export const IndustryProfileCB = ({
                                 </Typography>
                             </HideRestrictedData>
                         </AuthorizedUserComponent>
-                        <button onClick={onClickIndPreferences}>
-                            <Typography variant="xs" color="text-link">
-                                Placement Preferences
-                            </Typography>
-                        </button>
+                        <div className="flex justify-between items-center w-full">
+                            <button onClick={onClickIndPreferences}>
+                                <Typography variant="xs" color="text-link">
+                                    Placement Preferences
+                                </Typography>
+                            </button>
+                            <IndustryEsign
+                                industryUserId={industry?.user?.id}
+                            />
+                        </div>
                     </div>
                 </div>
 

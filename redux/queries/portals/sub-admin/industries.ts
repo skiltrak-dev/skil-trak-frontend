@@ -291,6 +291,7 @@ export const subAdminIndustriesEndpoints = (
         }),
         providesTags: ['SubAdminIndustries', 'Industries'],
     }),
+
     updateSectorBaseCapacity: builder.mutation<any, any>({
         query: ({ id, body }) => ({
             url: `${PREFIX}/sector-capacity/${id}/update`,
