@@ -2,7 +2,7 @@
 
 "use client";
 import React from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { fadeUp } from "../animations";
 
 export const StepWrapper = ({ children }: { children: React.ReactNode }) => {

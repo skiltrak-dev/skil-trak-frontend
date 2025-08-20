@@ -1,6 +1,6 @@
 'use client'
 import { AlertCircle, HelpCircle, MessageCircle } from 'lucide-react'
-import { motion } from 'motion/react'
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 export const AnimatedTextarea = ({
     label,
