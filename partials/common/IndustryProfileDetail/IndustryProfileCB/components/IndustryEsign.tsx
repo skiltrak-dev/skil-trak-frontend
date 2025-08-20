@@ -24,7 +24,7 @@ export const IndustryEsign = ({
             {modal}
             <ActionButton
                 variant="info"
-                text="Initiate E-Sign"
+                text="My E-Sign"
                 onClick={onInitiateSign}
             />
         </div>
