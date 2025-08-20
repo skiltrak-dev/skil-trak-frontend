@@ -10,4 +10,5 @@ export interface SubadminWorkplaceFiltersType {
     courseId: number
     currentStatus: any
     subAdminId: any
+    nowp: any
 }

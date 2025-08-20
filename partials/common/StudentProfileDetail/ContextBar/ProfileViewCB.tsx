@@ -107,31 +107,33 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                         </div>
                     </div>
 
-                    <AuthorizedUserComponent
-                        roles={[
-                            UserRoles.ADMIN,
-                            UserRoles.RTO,
-                            UserRoles.SUBADMIN,
-                        ]}
-                    >
-                        <Modal>
-                            <Modal.Open opens="viewPlacementFeedback">
-                                <div className=" cursor-pointer mx-4 mt-2 flex items-center gap-x-1 p-2">
-                                    <Typography
-                                        color="text-link"
-                                        variant="muted"
-                                    >
-                                        View Placement Feedback
-                                    </Typography>
-                                </div>
-                            </Modal.Open>
-                            <Modal.Window name="viewPlacementFeedback">
-                                <ViewPlacementFeedbackModal
-                                    feedbackData={processedFeedback}
-                                />
-                            </Modal.Window>
-                        </Modal>
-                    </AuthorizedUserComponent>
+                    {processedFeedback && processedFeedback?.length > 0 && (
+                        <AuthorizedUserComponent
+                            roles={[
+                                UserRoles.ADMIN,
+                                UserRoles.RTO,
+                                UserRoles.SUBADMIN,
+                            ]}
+                        >
+                            <Modal>
+                                <Modal.Open opens="viewPlacementFeedback">
+                                    <div className=" cursor-pointer mx-4 mt-2 flex items-center gap-x-1 p-2">
+                                        <Typography
+                                            color="text-link"
+                                            variant="muted"
+                                        >
+                                            View Placement Feedback
+                                        </Typography>
+                                    </div>
+                                </Modal.Open>
+                                <Modal.Window name="viewPlacementFeedback">
+                                    <ViewPlacementFeedbackModal
+                                        feedbackData={processedFeedback}
+                                    />
+                                </Modal.Window>
+                            </Modal>
+                        </AuthorizedUserComponent>
+                    )}
 
                     {profile?.hasPaid && (
                         <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>

@@ -42,7 +42,9 @@ const filterKeys = [
     'rtoId',
     'industryId',
     'courseId',
-    'subAdminId'
+    'subAdminId',
+    'currentStatus',
+    'nowp',
 ]
 
 type Props = {}
@@ -69,7 +71,7 @@ const Workplace: NextPageWithLayout = (props: Props) => {
     const profile = SubAdminApi.SubAdmin.useProfile(undefined, {
         refetchOnMountOrArgChange: true,
     })
-   
+
     const filteredWorkplaces = useGetSubAdminFilteredWorkplacesQuery(
         {
             search: `${JSON.stringify(filter)

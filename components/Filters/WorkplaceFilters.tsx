@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react'
 
 // query
 import { AdminApi, CommonApi, useGetSubAdminRtosQuery } from '@queries'
-
+import { workplaceProgressOptions } from './StudentFilters'
 import {
     Course,
     Industry,
@@ -53,59 +53,11 @@ export const WorkplaceFilters = ({
         label: coordinator?.user?.name,
     }))
 
-    const workplaceProgressOptions = [
+    const noWorkplaceOption = [
         {
-            label: 'In Progress',
-            value: 'inProgress',
+            label: 'No Workplace',
+            value: 'Na',
         },
-        // {
-        //     label: 'Assigned',
-        //     value: WorkplaceCurrentStatus.CaseOfficerAssigned,
-        // },
-        // {
-        //     label: 'Interview',
-        //     value: WorkplaceCurrentStatus.Interview,
-        // },
-        // {
-        //     label: 'Waiting',
-        //     value: WorkplaceCurrentStatus.AwaitingWorkplaceResponse,
-        // },
-        // {
-        //     label: 'Appointment',
-        //     value: WorkplaceCurrentStatus.AppointmentBooked,
-        // },
-        // {
-        //     label: 'Agreement & Eligibility Pending',
-        //     value: WorkplaceCurrentStatus.AwaitingAgreementSigned,
-        // },
-        // {
-        //     label: 'Agreement & Eligibility Signed',
-        //     value: WorkplaceCurrentStatus.AgreementSigned,
-        // },
-        // {
-        //     label: 'Placement Started',
-        //     value: WorkplaceCurrentStatus.PlacementStarted,
-        // },
-        // {
-        //     label: 'Placement Cancelled',
-        //     value: WorkplaceCurrentStatus.Cancelled,
-        // },
-        // {
-        //     label: 'Placement Completed',
-        //     value: WorkplaceCurrentStatus.Completed,
-        // },
-        // {
-        //     label: 'Rejected',
-        //     value: WorkplaceCurrentStatus.Rejected,
-        // },
-        // {
-        //     label: 'Terminated',
-        //     value: WorkplaceCurrentStatus.Terminated,
-        // },
-        // {
-        //     label: 'Industry NotResponded',
-        //     value: WorkplaceCurrentStatus.NoResponse,
-        // },
     ]
 
     return (
@@ -232,7 +184,7 @@ export const WorkplaceFilters = ({
                 />
                 {/* )} */}
 
-                {/* <Select
+                <Select
                     label={'Search by Progress'}
                     name={'currentStatus'}
                     options={workplaceProgressOptions}
@@ -245,7 +197,20 @@ export const WorkplaceFilters = ({
                         onFilterChange({ ...filter, currentStatus: e?.value })
                     }}
                     showError={false}
-                /> */}
+                />
+                <Select
+                    label={'Student with no workplace'}
+                    name={'nowp'}
+                    options={noWorkplaceOption}
+                    placeholder={'Student with no workplace...'}
+                    value={noWorkplaceOption?.find(
+                        (noWp: SelectOption) => noWp.value === filter?.nowp
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({ ...filter, nowp: e?.value })
+                    }}
+                    showError={false}
+                />
             </div>
         </>
     )
