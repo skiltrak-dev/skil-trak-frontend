@@ -12,6 +12,7 @@ import { getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'
 import { SubAdminApi } from '@queries'
 import { useMemo } from 'react'
+import { MdEmail, MdPhone } from 'react-icons/md'
 
 export const IndustryListingCellInfo = ({
     industryListing,
@@ -77,18 +78,32 @@ export const IndustryListingCellInfo = ({
                         )}
                     </div>
                     <div
-                        className={` relative group ${
+                        className={`font-medium text-xs ${
                             isDuplicated ? 'bg-gray-300' : ''
-                        } px-1.5 rounded-md`}
+                        } text-gray-500`}
                     >
-                        <TruncatedTextWithTooltip
-                            text={industryListing?.email}
-                            maxLength={20}
-                        />
-
-                        {isDuplicated ? (
-                            <Tooltip>Duplicated Found</Tooltip>
-                        ) : null}
+                        <p
+                            className={` relative group flex items-center gap-x-1`}
+                        >
+                            <span>
+                                <MdEmail />
+                            </span>
+                            <TruncatedTextWithTooltip
+                                text={industryListing?.email}
+                                maxLength={20}
+                            />
+                            {isDuplicated ? (
+                                <Tooltip>Duplicated Found</Tooltip>
+                            ) : null}
+                        </p>
+                    </div>
+                    <div className="font-medium text-xs text-gray-500">
+                        <p className="flex items-center gap-x-1">
+                            <span>
+                                <MdPhone />
+                            </span>
+                            {industryListing?.phone}
+                        </p>
                     </div>
                 </div>
             </Link>
