@@ -1,7 +1,8 @@
 'use client'
 import React, { useState } from 'react'
 import { Star } from 'lucide-react'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence } from 'framer-motion'
+
 import { AlertCircle } from 'lucide-react'
 
 export const StarRating = ({

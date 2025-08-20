@@ -2,7 +2,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { CommonApi } from '@queries'
 import { X } from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styles from '../../../../styles/custom-form.module.css'
