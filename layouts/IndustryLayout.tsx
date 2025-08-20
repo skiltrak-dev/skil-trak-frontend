@@ -93,14 +93,14 @@ export const IndustryLayout = ({
             const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
 
             if (
-                pendingDocuments?.data &&
+                pendingDocuments?.data?.data &&
                 viewAgreementModal === 0 &&
-                pendingDocuments?.data?.length > 0 &&
+                pendingDocuments?.data?.data?.length > 0 &&
                 router?.pathname !== `/portals/industry/e-sign/[id]`
             ) {
                 setModal(
                     <UsersPendingEsignModal
-                        documents={pendingDocuments?.data}
+                        documents={pendingDocuments?.data?.data}
                         onClick={() => router.push(route)}
                         route="/portals/industry/e-sign"
                         onCancel={() => {

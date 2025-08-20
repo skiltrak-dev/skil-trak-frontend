@@ -32,10 +32,6 @@ import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
 
-const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-)
-
 interface StudentLayoutProps {
     pageTitle?: PageTitleProps
     children: ReactNode
@@ -82,19 +78,6 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
     )
     const wpApprovalRequest = StudentApi.Workplace.wpApprovalRequest()
     const joyride = useJoyRide()
-
-    // useEffect(() => {
-    //     if (userData?.status === UserStatus.Pending) {
-    //         alert.warning({
-    //             title: `${userData?.name} is Pending`,
-    //             description: 'Please wait for admin approval',
-    //             autoDismiss: false,
-    //         })
-    //     }
-    //     return () => {
-    //         setAlerts([])
-    //     }
-    // }, [])
 
     useEffect(() => {
         setMounted(true)
@@ -172,14 +155,14 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
             } else if (pendingDocuments.isSuccess) {
                 const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
                 if (
-                    pendingDocuments?.data &&
-                    pendingDocuments?.data?.length > 0 &&
+                    pendingDocuments?.data?.data &&
+                    pendingDocuments?.data?.data?.length > 0 &&
                     router?.pathname !==
                         `/portals/student/assessments/e-sign/[id]`
                 ) {
                     setModal(
                         <UsersPendingEsignModal
-                            documents={pendingDocuments?.data}
+                            documents={pendingDocuments?.data?.data}
                             onClick={() => router.push(route)}
                             route="/portals/student/assessments/e-sign"
                         />

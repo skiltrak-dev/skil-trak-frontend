@@ -1,7 +1,6 @@
-import { UserRoles } from '@constants'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { PaginationWithSearch, UserStatus } from '@types'
+import { PaginationValues, PaginationWithSearch, UserStatus } from '@types'
 import { EsignDocumentStatus } from '@utils'
 
 const PREFIX = 'esign'
@@ -34,6 +33,25 @@ export const eSignEndpoints = (
         }),
         invalidatesTags: ['E-Sign'],
     }),
+
+    saveIndustryEsign: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `${PREFIX}/template/facility-checklist/create`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['E-Sign'],
+    }),
+
+    updateIndustryEsign: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}/template/${id}/facility-checklist/update`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['E-Sign'],
+    }),
+
     getTemplatePagesCount: builder.query<any, any>({
         query: (id) => `${PREFIX}/template/${id}/pages/get-count`,
         providesTags: ['E-Sign'],
@@ -62,6 +80,22 @@ export const eSignEndpoints = (
         }),
         providesTags: ['E-Sign'],
     }),
+
+    getIndustryEsignList: builder.query<
+        any,
+        PaginationValues & { search?: string }
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/template/facility-checklist/list`,
+            params,
+        }),
+        providesTags: ['E-Sign'],
+    }),
+    getIndustryEsignDetail: builder.query<any, number>({
+        query: (id) => `${PREFIX}/facility-checklist/template/${id}/view`,
+        providesTags: ['E-Sign'],
+    }),
+
     getEsignTemplateDetail: builder.query<any, number>({
         query: (id) => `${PREFIX}/template/view/${id}`,
         providesTags: ['E-Sign'],
@@ -159,6 +193,48 @@ export const eSignEndpoints = (
             method: 'POST',
         }),
         invalidatesTags: ['E-Sign'],
+    }),
+
+    initiateIndustryESign: builder.mutation<
+        any,
+        {
+            industryUserId: number
+            templateId: number
+        }
+    >({
+        query: ({ industryUserId, templateId }) => ({
+            url: `${PREFIX}/industry/${industryUserId}/check-list-template/${templateId}/document/initiate`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['E-Sign'],
+    }),
+
+    getIndustryPendingDocs: builder.query<
+        any,
+        {
+            userId: number
+            search: string
+        }
+    >({
+        query: (params) => ({
+            url: `${PREFIX}/industry-check-list/document/pending/list`,
+            params,
+        }),
+        providesTags: ['E-Sign'],
+    }),
+
+    getIndustryEsignDocs: builder.query<
+        any,
+        {
+            search: string
+            userId: number
+        }
+    >({
+        query: (params) => ({
+            url: `industries/checklist/documents/list`,
+            params,
+        }),
+        providesTags: ['E-Sign'],
     }),
 
     cancelESign: builder.mutation<

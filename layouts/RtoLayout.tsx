@@ -80,9 +80,9 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
             const route = `/portals/student/assessments/e-sign/${otherAllUserSigned?.[0]?.id}`
 
             if (
-                pendingDocuments?.data &&
+                pendingDocuments?.data?.data &&
                 viewAgreementModal === 0 &&
-                pendingDocuments?.data?.length > 0 &&
+                pendingDocuments?.data?.data?.length > 0 &&
                 router?.pathname !== `/portals/rto/tasks/e-sign/[id]`
             ) {
                 setModal(
