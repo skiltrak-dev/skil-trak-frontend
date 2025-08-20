@@ -1,7 +1,7 @@
 import { IndustryProfileAvatar } from '@partials/common/IndustryProfileDetail'
 import React from 'react'
 import { CBSectorInfoBox } from './components/CBSectorInfoBox'
-import { Typography } from '@components'
+import { Badge, Typography } from '@components'
 import { CBListingIndustryDetail } from './components'
 
 export const CBListingProfile = ({ industry }: any) => {
@@ -17,6 +17,20 @@ export const CBListingProfile = ({ industry }: any) => {
                         {industry?.email ?? 'N/A'}
                     </Typography>
                 </div>
+            </div>
+
+            <div className="w-full bg-gray-50 rounded-md p-3 shadow mt-1.5">
+                <Typography variant="small" color="text-gray-600" medium>
+                    Workplace Type
+                </Typography>
+                {industry?.workplaceType ? (
+                    <Badge
+                        variant="info"
+                        text={industry?.workplaceType?.name}
+                    />
+                ) : (
+                    <Typography>---</Typography>
+                )}
             </div>
             {/* Industry Details */}
             <CBListingIndustryDetail industry={industry} />

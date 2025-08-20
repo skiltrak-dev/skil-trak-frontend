@@ -1,6 +1,7 @@
 import {
     ActionButton,
     AuthorizedUserComponent,
+    Badge,
     CustomDropdown,
     TableAction,
     Typography,
@@ -140,18 +141,20 @@ export const useColumns = ({
             },
         },
         {
-            accessorKey: 'phone',
-            header: () => <span>Phone</span>,
-            cell: (info) => {
-                const listing = info.row.original
-                return (
-                    <PhoneNumberCell
-                        id={listing?.id}
-                        note={listing?.note}
-                        phoneNumber={listing?.phone}
-                    />
-                )
-            },
+            accessorKey: 'workplaceType',
+            header: () => <span>Workplace Type</span>,
+            cell: (info) => (
+                <div className="min-w-32">
+                    {info.row.original?.workplaceType ? (
+                        <Badge
+                            variant="info"
+                            text={info.row.original?.workplaceType?.name}
+                        />
+                    ) : (
+                        <Typography center>---</Typography>
+                    )}
+                </div>
+            ),
         },
         {
             accessorKey: 'address',
