@@ -139,19 +139,6 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                         wpApprovalRequest={wpApprovalRequest?.data}
                     />
                 )
-            } else if (
-                industryChecks?.data &&
-                industryChecks?.isSuccess &&
-                (industryChecks?.data?.assessmentEvidence?.length > 0 ||
-                    industryChecks?.data?.otherDocs?.length > 0)
-            ) {
-                setModal(
-                    <IndustryChecksModal
-                        onCancel={onCancel}
-                        studentId={profile?.data?.id}
-                        industryChecks={industryChecks?.data}
-                    />
-                )
             } else if (pendingDocuments.isSuccess) {
                 const route = `/portals/student/assessments/e-sign/${pendingDocuments?.data?.[0]?.id}`
                 if (
@@ -174,6 +161,19 @@ export const StudentLayout = ({ pageTitle, children }: StudentLayoutProps) => {
                 ) {
                     setModal(null)
                 }
+            } else if (
+                industryChecks?.data &&
+                industryChecks?.isSuccess &&
+                (industryChecks?.data?.assessmentEvidence?.length > 0 ||
+                    industryChecks?.data?.otherDocs?.length > 0)
+            ) {
+                setModal(
+                    <IndustryChecksModal
+                        onCancel={onCancel}
+                        studentId={profile?.data?.id}
+                        industryChecks={industryChecks?.data}
+                    />
+                )
             } else if (profileCompletion && profileCompletion === 100) {
                 setModal(null)
             }
