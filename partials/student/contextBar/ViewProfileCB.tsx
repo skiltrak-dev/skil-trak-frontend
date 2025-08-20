@@ -106,23 +106,25 @@ export const ViewProfileCB = () => {
                                 </div>
                             </div>
                         </div>
-                        <Modal>
-                            <Modal.Open opens="viewPlacementFeedback">
-                                <div className=" cursor-pointer mx-4 mt-2 flex items-center gap-x-1 p-2">
-                                    <Typography
-                                        color="text-link"
-                                        variant="muted"
-                                    >
-                                        View Placement Feedback
-                                    </Typography>
-                                </div>
-                            </Modal.Open>
-                            <Modal.Window name="viewPlacementFeedback">
-                                <ViewPlacementFeedbackModal
-                                    feedbackData={processedFeedback}
-                                />
-                            </Modal.Window>
-                        </Modal>
+                        {processedFeedback && processedFeedback?.length > 0 && (
+                            <Modal>
+                                <Modal.Open opens="viewPlacementFeedback">
+                                    <div className=" cursor-pointer mx-4 mt-2 flex items-center gap-x-1 p-2">
+                                        <Typography
+                                            color="text-link"
+                                            variant="muted"
+                                        >
+                                            View Placement Feedback
+                                        </Typography>
+                                    </div>
+                                </Modal.Open>
+                                <Modal.Window name="viewPlacementFeedback">
+                                    <ViewPlacementFeedbackModal
+                                        feedbackData={processedFeedback}
+                                    />
+                                </Modal.Window>
+                            </Modal>
+                        )}
                         {eligibleCourses && eligibleCourses?.length > 0 && (
                             <FeedbackButton
                                 eligibleCourses={eligibleCourses}
