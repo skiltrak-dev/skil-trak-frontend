@@ -1,13 +1,13 @@
 import { ArrowRight, Clock, GraduationCap } from 'lucide-react'
 import React, { useState } from 'react'
-import '../../../../../styles/custom-form.css'
+import styles from '../../../../../styles/custom-form.module.css'
 import { GlobalModal, Typography } from '@components'
 export const WelcomeModal = () => {
     const [showWelcome, setShowWelcome] = useState(true)
 
     return (
         <GlobalModal>
-            <div className="max-w-lg mx-auto custom-form">
+            <div className={`max-w-lg mx-auto ${styles.customForm}`}>
                 <div className="text-center space-y-4">
                     <div className="mx-auto w-16 h-16 bg-gradient-to-br from-brand-primary to-brand-secondary rounded-full flex items-center justify-center">
                         <GraduationCap className="w-8 h-8 text-white" />
@@ -50,7 +50,7 @@ export const WelcomeModal = () => {
 
                     <button
                         onClick={() => setShowWelcome(false)}
-                        className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary text-white"
+                        className={`w-full bg-gradient-to-r from-brand-primary to-brand-secondary text-white ${styles.customForm}`}
                     >
                         Start Feedback Form{' '}
                         <ArrowRight className="w-4 h-4 ml-2" />

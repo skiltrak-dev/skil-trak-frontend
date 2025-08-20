@@ -44,10 +44,10 @@ export const FormHeader: React.FC<FormHeaderProps> = ({
 
                 <div className="mt-6 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/20">
                     <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm font-medium text-brand-primary">
+                        <span className="text-sm font-medium text-primaryNew">
                             Overall Progress
                         </span>
-                        <span className="text-sm font-medium text-brand-primary">
+                        <span className="text-sm font-medium text-primaryNew">
                             {progressPercentage}%
                         </span>
                     </div>

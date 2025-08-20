@@ -1,22 +1,20 @@
 'use client'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { CommonApi } from '@queries'
+import { X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import '../../../../styles/custom-form.css'
+import styles from '../../../../styles/custom-form.module.css'
 import { stepVariants } from './animations'
 import stepsConfig from './config'
 import { FormFieldRenderer } from './FormFieldRenderer'
 import { FormHeader } from './FormHeader'
 import { FormNavigation } from './FormNavigation'
-import { useAutoSave } from './hooks/useAutoSave'
 import { useStepValidation } from './hooks/useStepValidation'
 import { ThankYouModal } from './modals/ThankYouModal'
-import { WelcomeModal } from './modals/WelcomeModal'
 import { StepCard } from './steps/StepCard'
 import { formSchema, type FormData } from './types'
-import { CommonApi } from '@queries'
-import { X } from 'lucide-react'
 const initialFormData: FormData = {
     overallSatisfaction: '',
     enjoyedMost: '',
@@ -87,13 +85,6 @@ export const FeedbackForm = ({
         stepsConfig
     )
     const totalSteps = stepsConfig.length
-    // Auto-save handler (replace with API call or persistence logic)
-    const autoSaveData = async (data: FormData) => {
-        setIsSaving(true)
-        console.log('Auto-saved form data:', data)
-    }
-
-    useAutoSave(watch, autoSaveData, 2000)
 
     const handleNext = async () => {
         const isValid = await validateCurrentStep(currentStep)
@@ -152,7 +143,6 @@ export const FeedbackForm = ({
                 stdUserId: stdUserId || undefined,
                 body: { ...submissionData, course: courseId },
             })
-            console.log('Form submitted:', submissionData)
         } catch (error) {
             console.error('Submission failed:', error)
         } finally {
@@ -183,7 +173,7 @@ export const FeedbackForm = ({
                 <ThankYouModal
                     setShowThankYou={setShowThankYou}
                     showThankYou={showThankYou}
-					onClose={onClose}
+                    onClose={onClose}
                 />
             )
         }
@@ -195,7 +185,9 @@ export const FeedbackForm = ({
             <div className="flex justify-end p-4" onClick={onClose}>
                 <X className="text-red-400d" size={30} />
             </div>
-            <div className="custom-form overflow-auto remove-scrollbar h-[32rem] rounded-md">
+            <div
+                className={`${styles.customForm} overflow-auto remove-scrollbar h-[32rem] rounded-md`}
+            >
                 <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50  relative overflow-hidden">
                     <div className="max-w-4xl mx-auto p-6 space-y-8 relative">
                         <FormHeader
@@ -264,6 +256,9 @@ export const FeedbackForm = ({
                                 onPrevious={handlePrevious}
                                 onNext={handleNext}
                                 onSubmit={handleFormSubmit}
+                                resultPlacementFeedback={
+                                    resultPlacementFeedback
+                                }
                                 // hasCurrentStepErrors={
                                 // 	getCurrentStepErrors().length > 0
                                 // }

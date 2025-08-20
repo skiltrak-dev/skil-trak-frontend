@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import { CheckCircle2, Trophy } from 'lucide-react'
-import '../../../../../styles/custom-form.css'
+import { CheckCircle2, Trophy, X } from 'lucide-react'
+import styles from '../../../../../styles/custom-form.module.css'
 import { GlobalModal, Typography } from '@components'
 
 export const ThankYouModal = ({
@@ -11,16 +11,27 @@ export const ThankYouModal = ({
 }: any) => {
     return (
         <GlobalModal>
-            <div className="max-w-md mx-auto custom-form">
-                <div className="text-center space-y-4">
-                    <div className="mx-auto w-16 h-16 bg-gradient-to-br from-brand-primary to-brand-accent rounded-full flex items-center justify-center">
+            <div
+                className={`max-w-md mx-auto custom-form py-5 px-6 rounded-md ${styles.customForm}`}
+            >
+                <div className="flex justify-end">
+                    <X
+                        onClick={() => {
+                            setShowThankYou(null)
+                            onClose()
+                        }}
+                        className="cursor-pointer"
+                    />
+                </div>
+                <div className=" space-y-4">
+                    <div className="mx-auto w-16 h-16 bg-gradient-to-br from-primaryNew to-[#f7a619] rounded-full flex items-center justify-center">
                         <CheckCircle2 className="w-8 h-8 text-white" />
                     </div>
 
                     <div className="space-y-2">
                         <Typography
-                            color="text-brand-primary"
-                            variant="h4"
+                            color="text-primaryNew"
+                            variant="h2"
                             semibold
                         >
                             Thank You! 🎉
@@ -34,10 +45,10 @@ export const ThankYouModal = ({
                 </div>
 
                 <div className="space-y-4 pt-4">
-                    <div className="bg-gradient-to-br from-brand-primary/5 to-brand-accent/5 p-4 rounded-xl border border-brand-primary/20">
+                    <div className="bg-gradient-to-br from-primaryNew/5 to-[#f7a619]/5 p-4 rounded-xl border border-primaryNew/20">
                         <div className="flex items-center gap-3 mb-3">
-                            <Trophy className="w-5 h-5 text-brand-accent" />
-                            <span className="font-medium text-brand-primary">
+                            <Trophy className="w-5 h-5 text-[#f7a619]" />
+                            <span className="font-medium text-primaryNew">
                                 What happens next?
                             </span>
                         </div>
@@ -57,7 +68,7 @@ export const ThankYouModal = ({
                             setShowThankYou(null)
                             onClose()
                         }}
-                        className="w-full bg-gradient-to-r from-primaryNew to-[#0d5468] text-white"
+                        className="w-full bg-gradient-to-r from-primaryNew to-[#0d5468] text-white rounded-md py-1"
                     >
                         Close
                     </button>
