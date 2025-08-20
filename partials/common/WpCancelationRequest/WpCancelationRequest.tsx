@@ -205,17 +205,6 @@ export const WpCancelationRequest = () => {
             cell: (info) => (
                 <div className="flex items-center gap-x-2">
                     <Button
-                        disabled={
-                            info.row.original?.status !==
-                            CancelationRequestEnum.Pending
-                        }
-                        text={'Reject'}
-                        variant="error"
-                        onClick={() => {
-                            onRejectRequestClicked(info.row.original)
-                        }}
-                    />
-                    <Button
                         text={'Approve'}
                         variant="success"
                         disabled={
@@ -224,6 +213,17 @@ export const WpCancelationRequest = () => {
                         }
                         onClick={() => {
                             onApproveRequestClicked(info.row.original)
+                        }}
+                    />
+                    <Button
+                        disabled={
+                            info.row.original?.status !==
+                            CancelationRequestEnum.Pending
+                        }
+                        text={'Reject'}
+                        variant="error"
+                        onClick={() => {
+                            onRejectRequestClicked(info.row.original)
                         }}
                     />
                 </div>
