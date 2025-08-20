@@ -9,6 +9,7 @@ interface FormNavigationProps {
     onPrevious: () => void
     onNext: () => void
     onSubmit: any
+    resultPlacementFeedback?: any
 }
 
 export const FormNavigation: React.FC<FormNavigationProps> = ({
@@ -18,6 +19,7 @@ export const FormNavigation: React.FC<FormNavigationProps> = ({
     onPrevious,
     onNext,
     onSubmit,
+    resultPlacementFeedback,
 }) => {
     const isFirstStep = currentStep === 0
     const isLastStep = currentStep >= totalSteps - 1
@@ -41,11 +43,23 @@ export const FormNavigation: React.FC<FormNavigationProps> = ({
                 <button
                     type="button"
                     onClick={onSubmit}
-                    // disabled={isSaving}
-                    className="group bg-gradient-to-r from-[#f7a619] to-primaryNew hover:from-[#f7a619]/90 hover:to-primaryNew/90 text-white px-8 py-3 text-base shadow-lg hover:shadow-2xl transition-all disabled:opacity-70 flex items-center rounded-md"
+                    disabled={resultPlacementFeedback.isLoading}
+                    className="group bg-gradient-to-r from-[#f7a619] to-primaryNew hover:from-[#f7a619]/90 hover:to-primaryNew/90 
+               text-white px-8 py-3 text-base shadow-lg hover:shadow-2xl transition-all 
+               disabled:opacity-70 disabled:cursor-not-allowed 
+               flex items-center justify-center rounded-md"
                 >
-                    <CheckCircle2 className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                    Submit Feedback
+                    {resultPlacementFeedback.isLoading ? (
+                        <>
+                            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                            Submitting...
+                        </>
+                    ) : (
+                        <>
+                            <CheckCircle2 className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                            Submit Feedback
+                        </>
+                    )}
                 </button>
             ) : (
                 <button

@@ -41,12 +41,40 @@ import { getSectors } from '@utils'
 import Link from 'next/link'
 import { useMediaQuery } from 'react-responsive'
 import { MapStarRating, RateCoordinatorModal } from '@partials/common'
+import { processSubmission } from '@partials/common/StudentProfileDetail/feedbackForm/utils/getAnswersWithQuestions'
+import { FeedbackForm } from '@partials/common/StudentProfileDetail/feedbackForm/FeedbackForm'
 
 const StudentDashboard: NextPageWithLayout = () => {
     const [modal, setModal] = useState<any | null>(null)
     const [modalShown, setModalShown] = useState(false)
     const contextBar = useContextBar()
+    const { data: courseSchedules } = CommonApi.Feedback.useGetCourseSchedules(
+        {}
+    )
+    const getPlacementFeedback = CommonApi.Feedback.useGetPlacementFeedback({})
 
+    const processedFeedback = processSubmission(getPlacementFeedback?.data)
+
+    const eligibleCourses =
+        courseSchedules?.courses?.filter(
+            (course: any) => course.message === 'eligible for feedback'
+        ) || []
+
+    const onClose = () => {
+        setModal(null)
+    }
+    const onPlacementFeedback = (courseId: any) => {
+        setModal(
+            <GlobalModal>
+                <FeedbackForm onClose={onClose} courseId={courseId} />
+            </GlobalModal>
+        )
+    }
+    useEffect(() => {
+        if (eligibleCourses && eligibleCourses?.length > 0) {
+            onPlacementFeedback(eligibleCourses[0].courseId)
+        }
+    }, [])
     const talentPoolProfile =
         StudentApi.TalentPool.useAppliedTalentPoolStudentProfile()
     const handleMediaQueryChange = (matches: any) => {

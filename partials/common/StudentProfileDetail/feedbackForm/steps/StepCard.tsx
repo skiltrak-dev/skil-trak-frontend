@@ -25,7 +25,7 @@ export const StepCard = ({
             <Card
             // className={`border-l-4 shadow-xl backdrop-blur-sm bg-white/80 dark:bg-gray-800/80 overflow-hidden`}
             >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-brand-accent/10 to-transparent rounded-bl-full" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#f7a619]/10 to-transparent rounded-bl-full" />
 
                 <div className={`relative`}>
                     <div className="flex items-center justify-between">
