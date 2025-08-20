@@ -21,13 +21,12 @@ export const ViewProfileCB = ({
 }) => {
     const status = getUserCredentials()?.status
 
-    const todoListCount = {} as any
-    // const todoListCount = SubAdminApi.Todo.todoListCount(
-    //     { date: moment(new Date()).format('YYYY-MM-DD') },
-    //     {
-    //         skip: status !== UserStatus.Approved,
-    //     }
-    // )
+    const todoListCount = SubAdminApi.Todo.todoListCount(
+        { date: moment(new Date()).format('YYYY-MM-DD') },
+        {
+            skip: status !== UserStatus.Approved,
+        }
+    )
 
     const pathname = '/portals/sub-admin/todo-list-details'
 
