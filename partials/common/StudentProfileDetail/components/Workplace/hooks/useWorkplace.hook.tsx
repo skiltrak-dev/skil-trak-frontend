@@ -176,7 +176,6 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
     const allDocumentsInitiated =
         esignDocumentsFolders?.data && esignDocumentsFolders?.isSuccess
             ? esignDocumentsFolders?.data?.every((folder: any) =>
-                  //   folder?.course?.esignTemplates?.[0]?.documents?.length > 0
                   folder?.course?.esignTemplates?.find(
                       (temp: any) => temp?.documents?.length > 0
                   )
@@ -327,6 +326,8 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         if (shouldShowEsignModal && modelId !== 'generateEsign') {
             onGenerateEsignClicked()
             setModelId('generateEsign')
+        } else if (isEsignQueryReady && !esignDocumentsFolders?.data?.length) {
+            onGenerateEsignClicked()
         } else if (modelId === 'generateEsign' && !shouldShowEsignModal) {
             setModal(null)
             setModelId('')

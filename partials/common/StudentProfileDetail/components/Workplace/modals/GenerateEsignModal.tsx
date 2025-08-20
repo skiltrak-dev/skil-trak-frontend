@@ -127,7 +127,7 @@ export const GenerateEsignModal = ({
                                 )}
                             </div>
                         ) : esignDocumentsFolders?.isSuccess ? (
-                            <NoData text="No Folders were found!" />
+                            <NoData text="No Folders were found! Please create the esign templete to move forward" />
                         ) : null}
                     </div>
                 </div>
