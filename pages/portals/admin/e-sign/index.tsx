@@ -58,7 +58,7 @@ const ESign: NextPageWithLayout = () => {
 
     const tabs: TabProps[] = [
         {
-            label: 'Approved',
+            label: 'Student E-Sign Templates',
             href: {
                 pathname: 'e-sign',
                 query: { tab: 'approved', page: 1, pageSize: 50 },
@@ -66,7 +66,7 @@ const ESign: NextPageWithLayout = () => {
             element: <ApprovedEsigns />,
         },
         {
-            label: 'Industry ESign',
+            label: 'Industry E-Sign Templates',
             href: {
                 pathname: 'e-sign',
                 query: { tab: 'industry-e-sign', page: 1, pageSize: 50 },
@@ -74,7 +74,7 @@ const ESign: NextPageWithLayout = () => {
             element: <IndustryEsignTemp />,
         },
         {
-            label: 'Archived',
+            label: 'Archived Templates',
             href: {
                 pathname: 'e-sign',
                 query: { tab: 'archived', page: 1, pageSize: 50 },
@@ -106,7 +106,7 @@ const ESign: NextPageWithLayout = () => {
                     <Button
                         variant="primaryNew"
                         Icon={FaFileSignature}
-                        text={'Create E-Sign Template'}
+                        text={'Create Student E-Sign Template'}
                         onClick={() =>
                             router.push('/portals/admin/e-sign/add-e-sign')
                         }
