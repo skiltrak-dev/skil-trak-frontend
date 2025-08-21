@@ -51,7 +51,7 @@ export const CompactRadioGroup = ({
 								{option.icon}
 							</span>
 							<span
-								className={`font-medium ${
+								className={`font-medium !text-sm ${
 									isSelected ? "text-white" : "text-gray-700"
 								}`}
 							>
@@ -64,7 +64,7 @@ export const CompactRadioGroup = ({
 
 			{validation && !validation.isValid && validation.message && (
 				<motion.p
-					className="text-sm text-red-500 flex items-center gap-1"
+					className="text-sm !text-red-500 flex items-center gap-1"
 					initial={{ opacity: 0, x: -10 }}
 					animate={{ opacity: 1, x: 0 }}
 				>

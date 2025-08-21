@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { CommonApi } from '@queries'
 import { X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import styles from '../../../../styles/custom-form.module.css'
 import { stepVariants } from './animations'
@@ -46,6 +46,7 @@ export const FeedbackForm = ({
     const [currentStep, setCurrentStep] = useState(0)
     const [isSaving, setIsSaving] = useState(false)
     const [showThankYou, setShowThankYou] = useState<any>(null)
+    const scrollContainerRef = useRef<HTMLDivElement | null>(null)
     const [placementFeedback, resultPlacementFeedback] =
         CommonApi.Feedback.usePlacementFeedback()
     const defaultValues: FormData = {
@@ -179,6 +180,15 @@ export const FeedbackForm = ({
         }
     }, [resultPlacementFeedback.isSuccess])
 
+    useEffect(() => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            })
+        }
+    }, [currentStep])
+
     return (
         <>
             {showThankYou && showThankYou}
@@ -187,6 +197,7 @@ export const FeedbackForm = ({
             </div>
             <div
                 className={`${styles.customForm} overflow-auto remove-scrollbar h-[32rem] rounded-md`}
+                ref={scrollContainerRef}
             >
                 <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50  relative overflow-hidden">
                     <div className="max-w-4xl mx-auto p-6 space-y-8 relative">

@@ -1,5 +1,6 @@
 import {
     ActionButton,
+    Badge,
     ContextBarLoading,
     GlobalModal,
     StudentAvatar,
@@ -106,31 +107,31 @@ export const ViewProfileCB = () => {
                                 </div>
                             </div>
                         </div>
-                        {processedFeedback && processedFeedback?.length > 0 && (
-                            <Modal>
-                                <Modal.Open opens="viewPlacementFeedback">
-                                    <div className=" cursor-pointer mx-4 mt-2 flex items-center gap-x-1 p-2">
-                                        <Typography
-                                            color="text-link"
-                                            variant="muted"
-                                        >
-                                            View Placement Feedback
-                                        </Typography>
-                                    </div>
-                                </Modal.Open>
-                                <Modal.Window name="viewPlacementFeedback">
-                                    <ViewPlacementFeedbackModal
-                                        feedbackData={processedFeedback}
-                                    />
-                                </Modal.Window>
-                            </Modal>
-                        )}
-                        {eligibleCourses && eligibleCourses?.length > 0 && (
-                            <FeedbackButton
-                                eligibleCourses={eligibleCourses}
-                                onPlacementFeedback={onPlacementFeedback}
-                            />
-                        )}
+                        <div className="inline-flex flex-col gap-y-2">
+                            {processedFeedback &&
+                                processedFeedback?.length > 0 && (
+                                    <Modal>
+                                        <Modal.Open opens="viewPlacementFeedback">
+                                            <Badge
+                                                text="View Placement Feedback"
+                                                variant="info"
+                                            />
+                                        </Modal.Open>
+                                        <Modal.Window name="viewPlacementFeedback">
+                                            <ViewPlacementFeedbackModal
+                                                feedbackData={processedFeedback}
+                                            />
+                                        </Modal.Window>
+                                    </Modal>
+                                )}
+
+                            {eligibleCourses && eligibleCourses?.length > 0 && (
+                                <FeedbackButton
+                                    eligibleCourses={eligibleCourses}
+                                    onPlacementFeedback={onPlacementFeedback}
+                                />
+                            )}
+                        </div>
 
                         {/* Info Row 1 */}
                         <div className="flex justify-between divide-x border-b mt-4">
