@@ -329,7 +329,10 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         } else if (
             isEsignQueryReady &&
             !esignDocumentsFolders?.data?.length &&
-            hasSuccessfulAppointment
+            hasSuccessfulAppointment &&
+            isAfterCutoffDate &&
+            isValidStatus &&
+            authorizedRoles
         ) {
             onGenerateEsignClicked()
             setModelId('')
