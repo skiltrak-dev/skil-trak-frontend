@@ -1,3 +1,4 @@
+import { Badge } from '@components'
 import { ellipsisText } from '@utils'
 import React, { useState, useEffect } from 'react'
 
@@ -18,16 +19,17 @@ export const FeedbackButton = ({
     const [selectedCourse, setSelectedCourse] = useState<string>('')
 
     if (!eligibleCourses || eligibleCourses.length === 0) return null
-   
 
     if (eligibleCourses.length === 1) {
         return (
-            <button
-                className="text-xs text-link"
+            <Badge
+                // className="text-xs text-link"
                 onClick={() => onPlacementFeedback(eligibleCourses[0].courseId)}
-            >
-                Feedback for {ellipsisText(eligibleCourses[0].courseName, 15)}
-            </button>
+                text={`Feedback for ${ellipsisText(
+                    eligibleCourses[0].courseName,
+                    15
+                )}`}
+            />
         )
     }
 

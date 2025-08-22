@@ -1,5 +1,6 @@
 import {
     AuthorizedUserComponent,
+    Badge,
     GlobalModal,
     HideRestrictedData,
     StudentAvatar,
@@ -107,34 +108,6 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                         </div>
                     </div>
 
-                    {processedFeedback && processedFeedback?.length > 0 && (
-                        <AuthorizedUserComponent
-                            roles={[
-                                UserRoles.ADMIN,
-                                UserRoles.RTO,
-                                UserRoles.SUBADMIN,
-                            ]}
-                        >
-                            <Modal>
-                                <Modal.Open opens="viewPlacementFeedback">
-                                    <div className=" cursor-pointer mx-4 mt-2 flex items-center gap-x-1 p-2">
-                                        <Typography
-                                            color="text-link"
-                                            variant="muted"
-                                        >
-                                            View Placement Feedback
-                                        </Typography>
-                                    </div>
-                                </Modal.Open>
-                                <Modal.Window name="viewPlacementFeedback">
-                                    <ViewPlacementFeedbackModal
-                                        feedbackData={processedFeedback}
-                                    />
-                                </Modal.Window>
-                            </Modal>
-                        </AuthorizedUserComponent>
-                    )}
-
                     {profile?.hasPaid && (
                         <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                             <Modal>
@@ -178,6 +151,7 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                         <AssignToMeStudent student={profile} />
                     </AuthorizedUserComponent>
                 </div>
+
                 <div className="">
                     {profile?.rtoInfo && (
                         <div className="flex items-center gap-x-2 my-2">
@@ -203,17 +177,42 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                 <WPInvoiceStatus />
 
                 {/* Expiry Date */}
-                <AuthorizedUserComponent
-                    roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
-                    isAssociatedWithRto={false}
-                >
-                    {eligibleCourses && eligibleCourses?.length > 0 && (
-                        <FeedbackButton
-                            eligibleCourses={eligibleCourses}
-                            onPlacementFeedback={onPlacementFeedback}
-                        />
+                <div className="inline-flex flex-col gap-y-2">
+                    {processedFeedback && processedFeedback?.length > 0 && (
+                        <AuthorizedUserComponent
+                            roles={[
+                                UserRoles.ADMIN,
+                                UserRoles.RTO,
+                                UserRoles.SUBADMIN,
+                            ]}
+                        >
+                            <Modal>
+                                <Modal.Open opens="viewPlacementFeedback">
+                                    <Badge
+                                        text="View Placement Feedback"
+                                        variant="info"
+                                    />
+                                </Modal.Open>
+                                <Modal.Window name="viewPlacementFeedback">
+                                    <ViewPlacementFeedbackModal
+                                        feedbackData={processedFeedback}
+                                    />
+                                </Modal.Window>
+                            </Modal>
+                        </AuthorizedUserComponent>
                     )}
-                </AuthorizedUserComponent>
+                    <AuthorizedUserComponent
+                        roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                        isAssociatedWithRto={false}
+                    >
+                        {eligibleCourses && eligibleCourses?.length > 0 && (
+                            <FeedbackButton
+                                eligibleCourses={eligibleCourses}
+                                onPlacementFeedback={onPlacementFeedback}
+                            />
+                        )}
+                    </AuthorizedUserComponent>
+                </div>
                 <div className="flex items-center gap-x-5 mt-3">
                     <StudentExpireTime
                         studentId={profile?.user?.id}

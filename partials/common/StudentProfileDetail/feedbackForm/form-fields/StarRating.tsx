@@ -80,7 +80,7 @@ export const StarRating = ({
 
             {validation && !validation.isValid && validation.message && (
                 <motion.p
-                    className="text-sm text-red-500 flex items-center gap-1 mt-2"
+                    className="text-sm !text-red-500 flex items-center gap-1 mt-2"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                 >
