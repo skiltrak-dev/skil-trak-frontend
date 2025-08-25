@@ -31,8 +31,6 @@ export const StudentCellInfo = ({
     showHignPriority?: boolean
 }) => {
     const router = useRouter()
-    const subadmin = useSubadminProfile()
-    const isHod = subadmin?.departmentMember?.isHod
 
     // const query = queryToUrl(router?.query as QueryType)
 

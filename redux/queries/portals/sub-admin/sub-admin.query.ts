@@ -473,6 +473,7 @@ export const {
     useGetSubadminIndustriesCountQuery,
     useGetSubAdminIndustriesQuery,
     useGetStdProvidedWpAppReqQuery,
+    useIndustryProgressQuery,
     useGetRtoCoordinatorsIndustryQuery,
     useUpdatePartnerRemovalRequestStatusMutation,
     useGetFavouriteIndustriesQuery,
@@ -691,6 +692,7 @@ export const SubAdminApi = {
         studentActionsRequestCount: useStudentActionsRequestCountQuery,
         changeIndustryAcceptingStatus:
             useChangeIndustryStudentsAcceptingStatusMutation,
+        industryProgress: useIndustryProgressQuery,
         useStatusticsCount: useSubadminIndustryStatisticsCountQuery,
         removePartnerIndustryReq: useRemovePartnerIndustryRequestQuery,
         changeWPProvidedStatus: useChangeWPProvidedStatusMutation,

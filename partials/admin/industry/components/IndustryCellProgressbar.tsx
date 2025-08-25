@@ -1,22 +1,15 @@
-import {
-    AuthorizedUserComponent,
-    HideRestrictedData,
-    InitialAvatar,
-} from '@components'
-import { UserRoles } from '@constants'
+import { InitialAvatar } from '@components'
 import {
     IndustryProfileChecklist,
     ProfileCompletionProgress,
 } from '@partials/common'
 import { CopyData } from '@partials/common/FindWorkplaces/components'
-import { Industry } from '@types'
 import { QueryType, ellipsisText, queryToUrl } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { FaHandshake, FaHireAHelper } from 'react-icons/fa'
-import { HiOutlineSpeakerphone } from 'react-icons/hi'
+import { FaHandshake } from 'react-icons/fa'
 import { HiBriefcase } from 'react-icons/hi2'
-import { MdEmail, MdPhoneIphone, MdSnooze } from 'react-icons/md'
+import { MdSnooze } from 'react-icons/md'
 
 export const IndustryCellProgressbar = ({ industry }: any) => {
     const router = useRouter()

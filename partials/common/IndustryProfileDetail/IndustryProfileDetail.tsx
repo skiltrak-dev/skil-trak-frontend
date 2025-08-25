@@ -6,11 +6,11 @@ import { Industry, UserStatus } from '@types'
 import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
-import { Notes } from '../Notes'
 import { ProfileAppointments } from '../ProfileAppointments'
 import { MailsCommunication } from '../StudentProfileDetail/components'
 import {
     IndustryHistory,
+    IndustryProgress,
     IndustrySectorRequiredDocs,
     IndustryShiftingHours,
     IndustryStudents,
@@ -18,6 +18,7 @@ import {
 import { CourseManagement } from './components/CourseManagement'
 import { StudentSchedule } from './components/StudentSchedule'
 import { IndustryProfileCB } from './IndustryProfileCB'
+import { Notes } from '../Notes'
 
 export const IndustryProfileDetail = ({
     isHod,
@@ -118,25 +119,58 @@ export const IndustryProfileDetail = ({
                         autoDismiss={false}
                     />
                 )}
-                <div className="flex gap-x-4 min-h-[500px] mt-5">
+
+                <div className="flex gap-x-4 h-[490px] mt-5 items-stretch">
                     <div
-                        className={`${
+                        className={`h-full ${
                             role === UserRoles.RTO ? 'w-full' : 'w-2/3 '
                         }`}
                     >
-                        <Card noPadding>
+                        <Card noPadding fullHeight>
                             <CourseManagement industry={industry} />
                         </Card>
                     </div>
 
+                    <div className="w-1/3 h-full">
+                        <IndustryProgress industry={industry} />
+                    </div>
+                </div>
+
+                {/*  */}
+                <div className="grid grid-cols-2 gap-3 h-[570px]">
+                    <div className="h-full">
+                        <ProfileAppointments
+                            link={
+                                role === UserRoles.ADMIN
+                                    ? {
+                                          pathname:
+                                              '/portals/admin/appointment-type/create-appointment',
+                                          query: {
+                                              industry: industry?.user?.id,
+                                          },
+                                      }
+                                    : role === UserRoles.SUBADMIN
+                                    ? {
+                                          pathname:
+                                              '/portals/sub-admin/tasks/appointments/create-appointment',
+                                          query: {
+                                              industry: industry?.user?.id,
+                                          },
+                                      }
+                                    : null
+                            }
+                            userId={industry?.user?.id}
+                        />
+                    </div>{' '}
                     <AuthorizedUserComponent
                         roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                     >
-                        <div className=" w-1/3">
+                        <div className="h-full">
                             <Notes userId={industry?.user?.id} />
                         </div>
                     </AuthorizedUserComponent>
                 </div>
+
                 <div className="grid grid-cols-1 lg:grid-cols-5 md:grid-cols-2 gap-x-4 w-full min-h-[500px]">
                     <div className="w-full lg:col-span-3">
                         <IndustryShiftingHours
@@ -155,33 +189,6 @@ export const IndustryProfileDetail = ({
                 <AuthorizedUserComponent
                     roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                 >
-                    <div className=" h-[570px]">
-                        <div className="h-full">
-                            <ProfileAppointments
-                                link={
-                                    role === UserRoles.ADMIN
-                                        ? {
-                                              pathname:
-                                                  '/portals/admin/appointment-type/create-appointment',
-                                              query: {
-                                                  industry: industry?.user?.id,
-                                              },
-                                          }
-                                        : role === UserRoles.SUBADMIN
-                                        ? {
-                                              pathname:
-                                                  '/portals/sub-admin/tasks/appointments/create-appointment',
-                                              query: {
-                                                  industry: industry?.user?.id,
-                                              },
-                                          }
-                                        : null
-                                }
-                                userId={industry?.user?.id}
-                            />
-                        </div>
-                    </div>
-
                     <IndustryHistory industry={industry} />
                     <StudentSchedule />
                     <div className="h-[640px] px-2  grid grid-cols-2 gap-x-3">

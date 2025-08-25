@@ -13,15 +13,14 @@ import { PageHeading } from '@components/headings'
 import { Industry, SubAdmin, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
-import { IndustryCellInfo, IndustryCellInfoProgressbar } from './components'
+import { SubadminProgressIndustryCell } from './components'
 //icons
+import { ColumnDef } from '@tanstack/react-table'
 import { getUserCredentials } from '@utils'
 import { FaEye, FaPencilAlt } from 'react-icons/fa'
 import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
-import { SubAdminApi } from '@queries'
 import { RiInboxArchiveFill } from 'react-icons/ri'
-import { ColumnDef } from '@tanstack/react-table'
+import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
 
 export const FilteredIndustry = ({
     industry,
@@ -127,15 +126,8 @@ export const FilteredIndustry = ({
         {
             header: () => 'Name',
             accessorKey: 'user',
-            // sort: true,
-            cell: ({ row }: any) => (
-                <div className="flex gap-x-2">
-                    <IndustryCellInfoProgressbar
-                        industry={row.original}
-                        isFavorite={row.original?.favoriteBy}
-                        call
-                    />
-                </div>
+            cell: ({ row }) => (
+                <SubadminProgressIndustryCell industry={row.original} />
             ),
         },
         {

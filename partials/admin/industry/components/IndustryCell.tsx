@@ -1,15 +1,19 @@
-import { InitialAvatar } from '@components'
+import { InitialAvatar, Tooltip } from '@components'
 import { CopyData } from '@partials/common/FindWorkplaces/components'
 import { QueryType, ellipsisText, queryToUrl } from '@utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { FaHandshake } from 'react-icons/fa'
+import { FaFileSignature, FaHandshake } from 'react-icons/fa'
 import { HiOutlineSpeakerphone } from 'react-icons/hi'
 import { MdSnooze } from 'react-icons/md'
 
 export const IndustryCell = ({ industry }: any) => {
     const router = useRouter()
     const query = queryToUrl(router.query as QueryType)
+
+    const initiatedEsign = industry?.user?.signers?.filter(
+        (sign: any) => sign?.document?.template
+    )
 
     return (
         <Link legacyBehavior href={`/portals/admin/industry/${industry?.id}`}>
@@ -43,12 +47,29 @@ export const IndustryCell = ({ industry }: any) => {
                         <div className="flex items-center gap-x-2">
                             <div className="flex flex-col gap-y-1">
                                 <div className="group flex items-center gap-x-1">
-                                    <p
-                                        className="font-semibold"
-                                        title={industry?.user?.name}
-                                    >
-                                        {ellipsisText(industry?.user?.name, 20)}
-                                    </p>
+                                    <div className="flex gap-x-2 w-fit">
+                                        <p
+                                            className="font-semibold w-fit"
+                                            title={industry?.user?.name}
+                                        >
+                                            {ellipsisText(
+                                                industry?.user?.name,
+                                                20
+                                            )}
+                                        </p>
+                                        {initiatedEsign &&
+                                            initiatedEsign?.length > 0 && (
+                                                <div className="group relative w-fit">
+                                                    <FaFileSignature
+                                                        size={18}
+                                                        className="text-success-dark"
+                                                    />
+                                                    <Tooltip>
+                                                        Agreement Initiated
+                                                    </Tooltip>
+                                                </div>
+                                            )}
+                                    </div>
                                     <CopyData
                                         text={industry?.user?.name}
                                         type={'Industry Name'}
