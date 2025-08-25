@@ -69,6 +69,7 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
                 'SubAdminIndustries',
             ],
         }),
+
         importRtosList: build.mutation<any, any>({
             query: (body) => ({
                 url: `rtolisting/bulk/create`,
@@ -488,6 +489,7 @@ export const {
     useRemovePartnerIndustryRequestQuery,
     useRemovalRequestCountQuery,
     useStudentActionsRequestCountQuery,
+    useChangeIndustryStatusChangeMutation,
     useIndustryCallLogMutation,
     useGetIndustryCallLogQuery,
     useIndustryAnsweredCallMutation,
@@ -690,6 +692,7 @@ export const SubAdminApi = {
         useRemoveIndustryBranch: useRemoveIndustryBranchMutation,
         removalRequestCount: useRemovalRequestCountQuery,
         studentActionsRequestCount: useStudentActionsRequestCountQuery,
+        changeIndustryStatusChange: useChangeIndustryStatusChangeMutation,
         changeIndustryAcceptingStatus:
             useChangeIndustryStudentsAcceptingStatusMutation,
         industryProgress: useIndustryProgressQuery,

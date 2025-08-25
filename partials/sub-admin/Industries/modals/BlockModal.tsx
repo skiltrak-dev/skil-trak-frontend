@@ -1,38 +1,69 @@
-import { ActionModal, ShowErrorNotifications } from '@components'
-import { useAlert, useNotification } from '@hooks'
-import { Industry, Rto } from '@types'
-import { useEffect } from 'react'
-import { FaBan } from 'react-icons/fa'
-import { useChangeStatus } from '../hooks'
+import { Modal, ShowErrorNotifications, TextArea } from '@components'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useNotification } from '@hooks'
+import { SubAdminApi } from '@queries'
+import { Industry, UserStatus } from '@types'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as Yup from 'yup'
 
 export const BlockModal = ({
     industry,
     onCancel,
 }: {
-    industry: Industry | undefined | null
     onCancel: () => void
+    industry: Industry | undefined | null
 }) => {
     const { notification } = useNotification()
-    const { onBlock, changeStatusResult } = useChangeStatus()
 
-    const onConfirmUClicked = async (industry: Industry) => {
-        await onBlock(industry)
-    }
+    const [block, blockResult] =
+        SubAdminApi.Industry.changeIndustryStatusChange()
 
-    useEffect(() => {
-        if (changeStatusResult.isSuccess) {
-            notification.error({
-                title: `Request Blocked`,
-                description: `Industry "${industry?.user?.name}" has been Blocked.`,
+    const onConfirmUClicked = async (values: any) => {
+        const res: any = await block({
+            id: Number(industry?.user?.id),
+            status: UserStatus.Blocked,
+            ...values,
+        })
+        if (res?.data) {
+            notification.warning({
+                title: `Request Sent`,
+                description: `Industry block request sent for approval.`,
             })
             onCancel()
         }
-    }, [changeStatusResult])
+    }
+
+    const validationSchema = Yup.object({
+        comment: Yup.string().required('Comment is required'),
+    })
+
+    const methods = useForm({
+        mode: 'all',
+        resolver: yupResolver(validationSchema),
+    })
 
     return (
         <>
-            <ShowErrorNotifications result={changeStatusResult} />
-            <ActionModal
+            <ShowErrorNotifications result={blockResult} />
+            <Modal
+                title="Block Industry"
+                onCancelClick={onCancel}
+                loading={blockResult?.isLoading}
+                onConfirmClick={methods.handleSubmit(onConfirmUClicked)}
+                subtitle={`You are about to block "${industry?.user?.name}". Do you wish to continue?`}
+            >
+                <FormProvider {...methods}>
+                    <form className="w-full">
+                        <TextArea
+                            required
+                            rows={5}
+                            name="comment"
+                            label={'Comment'}
+                        />
+                    </form>
+                </FormProvider>
+            </Modal>
+            {/* <ActionModal
                 Icon={FaBan}
                 variant="error"
                 title="Are you sure!"
@@ -42,8 +73,8 @@ export const BlockModal = ({
                 input
                 inputKey={industry?.user?.email}
                 actionObject={industry}
-                loading={changeStatusResult.isLoading}
-            />
+                loading={blockResult.isLoading}
+            /> */}
         </>
     )
 }

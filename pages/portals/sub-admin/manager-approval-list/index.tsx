@@ -1,6 +1,7 @@
 import { TabNavigation, TabProps } from '@components'
 import { SubAdminLayout } from '@layouts'
 import {
+    IndustryBlockRequest,
     IndustryPartnerRemovalRequest,
     IndustrySnoozeRemovalRequest,
     RemoveFromFlaggedStudentRequest,
@@ -51,6 +52,22 @@ const ManagerApprovalList: NextPageWithLayout = () => {
                 loading: count?.isLoading,
             },
             element: <IndustrySnoozeRemovalRequest />,
+        },
+        {
+            label: 'Industry Block Requests',
+            href: {
+                pathname: 'manager-approval-list',
+                query: {
+                    page: 1,
+                    pageSize: 50,
+                    tab: 'industry-block-requests',
+                },
+            },
+            badge: {
+                loading: count?.isLoading,
+                text: count?.data?.blockedCount,
+            },
+            element: <IndustryBlockRequest />,
         },
         {
             label: 'Student Snooze Requests',

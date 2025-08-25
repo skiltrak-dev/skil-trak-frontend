@@ -2,7 +2,7 @@ import { UserRoles } from '@constants'
 import { IndustryPlacementStatus } from '@partials/common'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { PaginationWithSearch } from '@types'
+import { PaginationWithSearch, UserStatus } from '@types'
 
 const PREFIX = 'subadmin'
 export const subAdminIndustriesEndpoints = (
@@ -113,6 +113,25 @@ export const subAdminIndustriesEndpoints = (
         }),
         invalidatesTags: ['SubAdminIndustries'],
     }),
+
+    changeIndustryStatusChange: builder.mutation<
+        any,
+        { id: number; status: UserStatus; comment: string }
+    >({
+        query: ({ id, ...body }) => ({
+            url: `shared/industry/status/update`,
+            method: 'PATCH',
+            params: { id },
+            body,
+        }),
+        invalidatesTags: [
+            'Notes',
+            'SubAdmin',
+            'SubAdminRtos',
+            'SubAdminIndustries',
+        ],
+    }),
+
     addToPartner: builder.mutation<
         any,
         { industry: number; studentCapacity?: number; note?: string }
