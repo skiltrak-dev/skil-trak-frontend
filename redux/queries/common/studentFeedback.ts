@@ -79,4 +79,19 @@ export const studentFeedbackEndpoints = (
         }),
         providesTags: ['Rating'],
     }),
+
+    // industry feedback from student
+    getOverAllIndustryRatingsFromStudent: builder.query<any, any>({
+        query: ({ id }) => ({
+            url: `rating/for-industry/${id}/over-all`,
+        }),
+        providesTags: ['IndustryFeedback'],
+    }),
+    getIndustryFeedbackListFromStudent: builder.query<any, any>({
+        query: ({ params }) => ({
+            url: `rating/industry/feedbacks`,
+            params,
+        }),
+        providesTags: ['IndustryFeedback'],
+    }),
 })

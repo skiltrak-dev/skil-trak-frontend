@@ -6,7 +6,11 @@ import {
     StudentAvatar,
     Typography,
 } from '@components'
-import { CommonApi, useGetStudentProfileDetailQuery } from '@queries'
+import {
+    CommonApi,
+    StudentApi,
+    useGetStudentProfileDetailQuery,
+} from '@queries'
 import moment from 'moment'
 import { AiFillEdit } from 'react-icons/ai'
 import { BsUnlockFill } from 'react-icons/bs'
@@ -25,12 +29,15 @@ import { FeedbackForm } from '@partials/common/StudentProfileDetail/feedbackForm
 import { FeedbackButton } from '@partials/common/StudentProfileDetail/feedbackForm/components'
 import Modal from '@modals/Modal'
 import { ViewPlacementFeedbackModal } from '@partials/common/StudentProfileDetail/feedbackForm'
+import { IndustryRatingForm } from '../forms'
 export const ViewProfileCB = () => {
     const [modal, setModal] = useState<any | null>(null)
     const router = useRouter()
     const { data: courseSchedules } = CommonApi.Feedback.useGetCourseSchedules(
         {}
     )
+    const studentIndustries = StudentApi.Profile.useIndustriesForFeedback()
+    console.log('studentIndustries::', studentIndustries?.data)
     const getPlacementFeedback = CommonApi.Feedback.useGetPlacementFeedback({})
 
     const processedFeedback = processSubmission(getPlacementFeedback?.data)
@@ -47,6 +54,13 @@ export const ViewProfileCB = () => {
         setModal(
             <GlobalModal>
                 <FeedbackForm onClose={onClose} courseId={courseId} />
+            </GlobalModal>
+        )
+    }
+    const onRatingIndustry = () => {
+        setModal(
+            <GlobalModal>
+                <IndustryRatingForm onClose={onClose} />
             </GlobalModal>
         )
     }
@@ -131,6 +145,15 @@ export const ViewProfileCB = () => {
                                     onPlacementFeedback={onPlacementFeedback}
                                 />
                             )}
+                            {studentIndustries?.data &&
+                                studentIndustries?.data?.length > 0 && (
+                                    <Badge
+                                        text="Rate your Industry"
+                                        variant="success"
+                                        onClick={onRatingIndustry}
+                                    />
+                                )}
+                            {/* onRatingIndustry */}
                         </div>
 
                         {/* Info Row 1 */}

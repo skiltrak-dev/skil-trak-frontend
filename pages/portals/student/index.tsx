@@ -43,6 +43,7 @@ import { useMediaQuery } from 'react-responsive'
 import { MapStarRating, RateCoordinatorModal } from '@partials/common'
 import { processSubmission } from '@partials/common/StudentProfileDetail/feedbackForm/utils/getAnswersWithQuestions'
 import { FeedbackForm } from '@partials/common/StudentProfileDetail/feedbackForm/FeedbackForm'
+import { IndustryRatingForm } from '@partials/student'
 
 const StudentDashboard: NextPageWithLayout = () => {
     const [modal, setModal] = useState<any | null>(null)
@@ -653,6 +654,8 @@ const StudentDashboard: NextPageWithLayout = () => {
                     />
                 </Mobile>
             </div>
+
+            {/* <IndustryRatingForm /> */}
         </>
     )
 }

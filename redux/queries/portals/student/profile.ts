@@ -18,4 +18,17 @@ export const profileEndpoints = (
         }),
         invalidatesTags: ['StudentProfile', 'SubAdminStudents'],
     }),
+
+    getIndustriesForFeedback: builder.query<any, void>({
+        query: () => `${PREFIX}/industries/for-feedback`,
+        providesTags: ['IndustryFeedback'],
+    }),
+    addFeedForIndustry: builder.mutation<any, any>({
+        query: ({ body }) => ({
+            url: `${PREFIX}/industry/feedback-create`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['IndustryFeedback'],
+    }),
 })
