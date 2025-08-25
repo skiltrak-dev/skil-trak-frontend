@@ -105,6 +105,7 @@ const studentTagTypes = [
     'Workplace-Apply',
     'StudentSchedule',
     'StudentDocuments',
+    'IndustryFeedback',
     'StudentAppointments',
     'TalentPoolRequiredDocs',
     'StudentAssessmentEvidence',

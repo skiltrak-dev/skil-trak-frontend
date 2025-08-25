@@ -55,6 +55,5 @@ export const processSubmission = (feedbackData: any[]) => {
         )
     })
 
-    console.log('Question-Answer Pairs:', questionAnswerPairs)
     return questionAnswerPairs
 }

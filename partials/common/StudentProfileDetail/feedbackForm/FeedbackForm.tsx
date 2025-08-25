@@ -119,7 +119,6 @@ export const FeedbackForm = ({
             )
             .filter((item) => item !== null)
 
-        console.log('Question-Answer Pairs:', questionAnswerPairs)
         return questionAnswerPairs
     }
     const onSubmit = async (data: any) => {

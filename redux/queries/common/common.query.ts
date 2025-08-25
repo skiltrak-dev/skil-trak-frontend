@@ -627,6 +627,8 @@ const {
     usePlacementFeedbackMutation,
     useGetCourseSchedulesQuery,
     useGetPlacementFeedbackQuery,
+    useGetOverAllIndustryRatingsFromStudentQuery,
+    useGetIndustryFeedbackListFromStudentQuery,
 
     // ---- ALLOW LOGIN ---- //
     useAllowAsLoginMutation,
@@ -944,6 +946,10 @@ export const CommonApi = {
         usePlacementFeedback: usePlacementFeedbackMutation,
         useGetCourseSchedules: useGetCourseSchedulesQuery,
         useGetPlacementFeedback: useGetPlacementFeedbackQuery,
+        useOverAllIndustryRatingsFromStudent:
+            useGetOverAllIndustryRatingsFromStudentQuery,
+        useIndustryFeedbackListFromStudent:
+            useGetIndustryFeedbackListFromStudentQuery,
     },
     AllowLogin: {
         useAllowAsLogin: useAllowAsLoginMutation,

@@ -1,5 +1,6 @@
 import {
     AuthorizedUserComponent,
+    Badge,
     HideRestrictedData,
     Typography,
 } from '@components'
@@ -28,6 +29,11 @@ import {
     SectorBaseCapacityModal,
     SnoozeIndustrySwitch,
 } from './components'
+import { CommonApi } from '@queries'
+import {
+    DisplayIndustryRating,
+    IndustryRatingList,
+} from '../components/IndustryReviews'
 
 export const IndustryProfileCB = ({
     isHod,
@@ -37,11 +43,29 @@ export const IndustryProfileCB = ({
     industry: Industry
 }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
+    const [itemPerPage] = useState(10)
+    const [page, setPage] = useState(1)
     const router = useRouter()
     const id = router.query.id
+    console.log('id', id)
 
     const isEmailVerified = industry?.user?.isEmailVerified
-
+    const { data, isLoading, isFetching, isError } =
+        CommonApi.Feedback.useIndustryFeedbackListFromStudent(
+            {
+                params: {
+                    userId: industry?.user?.id,
+                    skip: itemPerPage * page - itemPerPage,
+                    limit: itemPerPage,
+                },
+            },
+            { skip: !industry?.user?.id }
+        )
+    const overAllRating =
+        CommonApi.Feedback.useOverAllIndustryRatingsFromStudent(
+            { id: id?.toString() },
+            { skip: !id }
+        )
     const onCancelModal = () => {
         setModal(null)
     }
@@ -50,6 +74,19 @@ export const IndustryProfileCB = ({
             <PlacementEligibilityCriteriaModal
                 industry={industry}
                 onCancel={onCancelModal}
+            />
+        )
+    }
+    const onClickViewAllReviews = () => {
+        setModal(
+            <IndustryRatingList
+                industry={industry}
+                onClose={onCancelModal}
+                setPage={setPage}
+                isFetching={isFetching}
+                isLoading={isLoading}
+                data={data}
+                isError={isError}
             />
         )
     }
@@ -123,6 +160,7 @@ export const IndustryProfileCB = ({
                                 />
                             </AuthorizedUserComponent>
                         </div>
+
                         <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                             <HideRestrictedData type={UserRoles.INDUSTRY}>
                                 <Typography variant="xs" color="text-[#6B7280]">
@@ -132,16 +170,43 @@ export const IndustryProfileCB = ({
                                 </Typography>
                             </HideRestrictedData>
                         </AuthorizedUserComponent>
-                        <div className="flex justify-between items-center w-full">
-                            <button onClick={onClickIndPreferences}>
-                                <Typography variant="xs" color="text-link">
-                                    Placement Preferences
-                                </Typography>
-                            </button>
-                            <IndustryEsign
-                                industryUserId={industry?.user?.id}
-                            />
-                        </div>
+
+                        {/* Reviews from students */}
+                        {data?.data && data?.data?.length > 0 && (
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                                isAssociatedWithRto={false}
+                            >
+                                <div className="flex items-center gap-x-3 border-y my-2 py-4">
+                                    <div className="">
+                                        <DisplayIndustryRating
+                                            rating={
+                                                overAllRating?.data
+                                                    ?.averageRating ?? 0
+                                            }
+                                        />
+                                    </div>
+                                    <Badge
+                                        text="View All Reviews"
+                                        onClick={onClickViewAllReviews}
+                                        variant="info"
+                                    />
+                                </div>
+                                <div className="flex justify-between items-center w-full">
+                                    <button onClick={onClickIndPreferences}>
+                                        <Typography
+                                            variant="xs"
+                                            color="text-link"
+                                        >
+                                            Placement Preferences
+                                        </Typography>
+                                    </button>
+                                    <IndustryEsign
+                                        industryUserId={industry?.user?.id}
+                                    />
+                                </div>
+                            </AuthorizedUserComponent>
+                        )}
                     </div>
                 </div>
 

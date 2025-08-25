@@ -63,6 +63,8 @@ export const {
     // ---- PROFILE ---- //
     useGetStudentProfileDetailQuery,
     useUpdateStudentProfileMutation,
+    useGetIndustriesForFeedbackQuery,
+    useAddFeedForIndustryMutation,
 
     // ----- JOB ----- //
     useSaveJobMutation,
@@ -125,6 +127,8 @@ export const StudentApi = {
     Profile: {
         useGetStudentProfileDetailQuery,
         useUpdateStudentProfileMutation,
+        useIndustriesForFeedback: useGetIndustriesForFeedbackQuery,
+        useAddFeedForIndustry: useAddFeedForIndustryMutation,
     },
     Courses: {
         useList: useGetStudentCoursesQuery,
