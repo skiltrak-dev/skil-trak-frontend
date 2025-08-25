@@ -10,4 +10,5 @@ export enum IndustryRequestsActions {
     NonContactable = 'nonContactable',
     Flagged = 'flagged',
     UnFlagged = 'unFlagged',
+    Blocked = 'Blocked',
 }
