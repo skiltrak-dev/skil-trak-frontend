@@ -29,27 +29,9 @@ export const ProfileCompletionProgress = ({
         if (percentage < 90) return '#FEF9C3' // Light Yellow
         return '#DCFCE7' // Light Green
     }
-    // const BatteryIndicator = ({ percentage }: any) => {
-    //     const color = getColor(percentage)
-    //     return (
-    //         <div className="flex items-center">
-    //             <div className="w-8 h-4 border border-gray-400 rounded-sm relative flex">
-    //                 <div
-    //                     className="h-full rounded-sm"
-    //                     style={{
-    //                         width: `${percentage}%`,
-    //                         backgroundColor: color,
-    //                     }}
-    //                 />
-    //             </div>
-    //             <div className="w-1 h-2 bg-gray-400 rounded-r-sm" />
-    //             <span className="ml-1 text-xs">{`${percentage}%`}</span>
-    //         </div>
-    //     )
-    // }
+
     const ProgressBar = ({ percentage }: any) => {
         const color = getColor(percentage)
-        const lightColor = getLightColor(percentage)
         return (
             <div className="w-32 h-3 bg-gray-200 rounded-full overflow-hidden relative">
                 <div

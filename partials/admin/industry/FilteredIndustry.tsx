@@ -23,7 +23,7 @@ import { ReactElement, useState } from 'react'
 import { CgUnblock } from 'react-icons/cg'
 import { MdBlock } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
-import { IndustryCellProgressbar, SectorCell } from './components'
+import { ProgressIndustryCell, SectorCell } from './components'
 import {
     AcceptModal,
     ArchiveModal,
@@ -209,13 +209,9 @@ export const FilteredIndustry = ({
     const columns: ColumnDef<Industry>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return (
-                    <div className="flex gap-x-2">
-                        <IndustryCellProgressbar industry={info.row.original} />
-                    </div>
-                )
-            },
+            cell: (info) => (
+                <ProgressIndustryCell industry={info?.row?.original} />
+            ),
             header: () => <span>Industry</span>,
         },
         {

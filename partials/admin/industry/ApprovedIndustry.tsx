@@ -18,18 +18,14 @@ import { Industry, UserStatus } from '@types'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import {
-    BranchCell,
-    IndustryCell,
-    IndustryCellProgressbar,
-    SectorCell,
-} from './components'
+import { SectorCell } from './components'
 
 // hooks
 import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
 import { ellipsisText, getUserCredentials } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
+import { ProgressIndustryCell } from './components'
 import { useActionModals } from './hooks'
 
 export const ApprovedIndustry = () => {
@@ -119,9 +115,7 @@ export const ApprovedIndustry = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => (
-                <div className="flex gap-x-2">
-                    <IndustryCellProgressbar industry={info?.row?.original} />
-                </div>
+                <ProgressIndustryCell industry={info?.row?.original} />
             ),
             header: () => <span>Business Name</span>,
         },

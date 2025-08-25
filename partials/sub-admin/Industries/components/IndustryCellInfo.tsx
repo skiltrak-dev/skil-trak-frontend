@@ -1,13 +1,14 @@
-import { SubAdminApi } from '@queries'
-import { SubAdmin } from '@types'
+import { InitialAvatar, Tooltip } from '@components'
+import { useSubadminProfile } from '@hooks'
+import { CopyData } from '@partials/common/FindWorkplaces/components'
+import { Industry, SubAdmin } from '@types'
 import { ellipsisText, setLink } from '@utils'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiFillStar } from 'react-icons/ai'
-import { FaHandshake } from 'react-icons/fa'
+import { FaFileSignature, FaHandshake } from 'react-icons/fa'
 import { HiBriefcase } from 'react-icons/hi2'
-import { CopyData } from '@partials/common/FindWorkplaces/components'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
 import { MdSnooze } from 'react-icons/md'
 export const IndustryCellInfo = ({
@@ -16,14 +17,14 @@ export const IndustryCellInfo = ({
     call,
     onlyName = true,
 }: {
-    industry: any
-    isFavorite?: SubAdmin
     call?: boolean
+    industry: Industry
     onlyName?: boolean
+    isFavorite?: SubAdmin
 }) => {
     const router = useRouter()
 
-    const profile = SubAdminApi.SubAdmin.useProfile()
+    const subadmin = useSubadminProfile()
 
     const callLog = industry?.callLog?.reduce(
         (a: any, b: any) => (a?.createdAt > b?.createdAt ? a : b),
@@ -40,30 +41,32 @@ export const IndustryCellInfo = ({
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
 
+    const initiatedEsign = industry?.user?.signers?.filter(
+        (sign: any) => sign?.document?.template
+    )
+
     return (
         <Link
             legacyBehavior
             href={
-                profile?.data?.isAssociatedWithRto &&
-                profile?.isSuccess &&
-                profile?.data
+                subadmin?.isAssociatedWithRto && subadmin
                     ? '#'
                     : `/portals/sub-admin/users/industries/${industry?.id}?tab=students`
             }
         >
             <a
-                className=""
+                className="flex items-center gap-x-2"
                 onClick={() => {
                     setLink('subadmin-industries', router)
                 }}
             >
-                <div className="shadow-inner-image rounded-full relative">
-                    {/* {industry?.user?.name && (
+                <div className="w-fit shadow-inner-image rounded-full relative">
+                    {industry?.user?.name && (
                         <InitialAvatar
                             name={industry?.user?.name}
                             imageUrl={industry?.user?.avatar}
                         />
-                    )} */}
+                    )}
                     {industry?.isPartner ? (
                         <div className="absolute -bottom-1 -right-1 w-5 h-5 flex items-center justify-center bg-green-500 rounded-full text-white">
                             <FaHandshake size={14} />
@@ -79,12 +82,29 @@ export const IndustryCellInfo = ({
                         <div className="flex items-center gap-x-2">
                             <div className="flex items-center gap-x-1">
                                 <div className="group flex items-center gap-x-1">
-                                    <p
-                                        className="text-gray-800 font-medium"
-                                        title={industry?.user?.name}
-                                    >
-                                        {ellipsisText(industry?.user?.name, 20)}
-                                    </p>
+                                    <div className="flex gap-x-2 w-fit">
+                                        <p
+                                            className="text-gray-800 font-medium"
+                                            title={industry?.user?.name}
+                                        >
+                                            {ellipsisText(
+                                                industry?.user?.name,
+                                                20
+                                            )}
+                                        </p>
+                                        {initiatedEsign &&
+                                            initiatedEsign?.length > 0 && (
+                                                <div className="group relative w-fit">
+                                                    <FaFileSignature
+                                                        size={18}
+                                                        className="text-success-dark"
+                                                    />
+                                                    <Tooltip>
+                                                        Agreement Initiated
+                                                    </Tooltip>
+                                                </div>
+                                            )}
+                                    </div>
                                     <CopyData
                                         text={industry?.user?.name}
                                         type={'Industry Name'}

@@ -102,9 +102,7 @@ export const ArchivedIndustry = () => {
     const columns: ColumnDef<Industry>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => {
-                return <IndustryCell industry={info.row.original} />
-            },
+            cell: (info) => <IndustryCell industry={info.row.original} />,
             header: () => <span>Industry</span>,
         },
         {

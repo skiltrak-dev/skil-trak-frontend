@@ -22,7 +22,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Industry } from '@types'
 import { setLink } from '@utils'
 import { MdFavorite } from 'react-icons/md'
-import { IndustryCellInfo } from './components'
+import { SubadminProgressIndustryCell } from './components'
 import { AddToFavoriteModal } from './modals'
 
 export const FavoriteIndustries = () => {
@@ -99,11 +99,7 @@ export const FavoriteIndustries = () => {
             header: () => 'Name',
             accessorKey: 'user',
             cell: ({ row }) => (
-                <IndustryCellInfo
-                    industry={row.original}
-                    isFavorite={row.original?.favoriteBy}
-                    call
-                />
+                <SubadminProgressIndustryCell industry={row.original} />
             ),
         },
         {

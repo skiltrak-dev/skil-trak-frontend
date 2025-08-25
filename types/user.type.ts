@@ -347,6 +347,7 @@ export interface Industry extends BaseResponse {
     favoriteBy: SubAdmin
     partnerRemovalRequests: PartnerRemovalRequests[]
     industryCourseApprovals: IndustryCourseApprovals[]
+    profileCompletionPercentage: string
 }
 
 export interface PendingIndustry extends Industry {

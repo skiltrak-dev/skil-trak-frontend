@@ -23,7 +23,7 @@ import { Industry, SubAdmin, UserStatus } from '@types'
 import { ellipsisText, getUserCredentials, setLink } from '@utils'
 import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { RiInboxArchiveFill } from 'react-icons/ri'
-import { IndustryCellInfoProgressbar } from './components'
+import { SubadminProgressIndustryCell } from './components'
 import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
 
 export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
@@ -173,18 +173,9 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
         {
             header: () => 'Business Name',
             accessorKey: 'user',
-            // sort: true,
-            cell: ({ row }: any) => {
-                return (
-                    <div className="">
-                        <IndustryCellInfoProgressbar
-                            industry={row.original}
-                            isFavorite={row?.original?.favoriteBy}
-                            call
-                        />
-                    </div>
-                )
-            },
+            cell: ({ row }) => (
+                <SubadminProgressIndustryCell industry={row.original} />
+            ),
         },
         {
             accessorKey: 'abn',
@@ -220,7 +211,6 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
             header: () => <span>Favorite By</span>,
             cell: ({ row }) => {
                 const userName = row?.original?.favoriteBy?.user?.name
-
                 return (
                     <div className="flex items-center">
                         {userName ? (
