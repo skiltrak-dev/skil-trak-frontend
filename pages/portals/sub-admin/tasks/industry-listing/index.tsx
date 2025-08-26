@@ -23,7 +23,6 @@ import { ImportIndustriesListWithOTP } from '@partials/common/FindWorkplaces/con
 import { CommonApi, commonApi, SubAdminApi } from '@queries'
 import { FindWorkplaceFilter, NextPageWithLayout } from '@types'
 import { checkFilteredDataLength, getUserCredentials } from '@utils'
-import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { FaIndustry } from 'react-icons/fa'
 import { IoWarning } from 'react-icons/io5'
@@ -50,8 +49,6 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
         {} as FindWorkplaceFilter
     )
     const [industryData, setIndustryData] = useState<any>(null)
-
-    const router = useRouter()
 
     const profile = SubAdminApi.SubAdmin.useProfile()
 
@@ -221,7 +218,8 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
                         <TechnicalError />
                     )}
                     {filteredDataLength ? (
-                        filteredIndustries.isLoading ? (
+                        filteredIndustries.isLoading ||
+                        filteredIndustries.isFetching ? (
                             <LoadingAnimation />
                         ) : (
                             filteredIndustries.isSuccess && (

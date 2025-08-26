@@ -21,7 +21,6 @@ export const IndustryFilters = ({
     // query
     const getCourses = CommonApi.Filter.useCourses()
     const getSectors = AuthApi.useSectors({})
-    // const wpTypes = CommonApi.Rtos.getRtoWpTypes()
 
     const coursesOptions = getCourses?.data?.map((course: any) => ({
         item: course,
@@ -42,10 +41,6 @@ export const IndustryFilters = ({
         value: sector.id,
     }))
 
-    // const wpTypesOptions = wpTypes?.data?.map((wpType: any) => ({
-    //     value: wpType?.id,
-    //     label: wpType?.name,
-    // }))
     const isPartnerOptions = [
         {
             label: 'Is Partner',
@@ -82,26 +77,7 @@ export const IndustryFilters = ({
                     }}
                     showError={false}
                 />
-                <TextInput
-                    name="suburb"
-                    label={'Suburb'}
-                    placeholder={'Search Industry Suburb ...'}
-                    value={filter?.suburb}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, suburb: e.target.value })
-                    }}
-                    showError={false}
-                />
-                <TextInput
-                    name="state"
-                    label={'State'}
-                    placeholder={'Search Industry by State ...'}
-                    value={filter?.state}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, state: e.target.value })
-                    }}
-                    showError={false}
-                />
+
                 <TextInput
                     name="phone"
                     label={'Phone No'}
