@@ -36,7 +36,7 @@ export const SubAdminIndustryFilter = ({
         value: coordinator?.id,
         label: coordinator?.user?.name,
     }))
-   
+
     return (
         <>
             <SetQueryFilters<SubadminIndustryFilter> filter={filter} />
@@ -62,26 +62,7 @@ export const SubAdminIndustryFilter = ({
                     }}
                     showError={false}
                 />
-                <TextInput
-                    name="suburb"
-                    label={'Suburb'}
-                    placeholder={'Search Industry Suburb ...'}
-                    value={filter?.suburb}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, suburb: e.target.value })
-                    }}
-                    showError={false}
-                />
-                <TextInput
-                    name="state"
-                    label={'State'}
-                    placeholder={'Search Industry by State ...'}
-                    value={filter?.state}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, state: e.target.value })
-                    }}
-                    showError={false}
-                />
+
                 <TextInput
                     label={'Phone Number'}
                     name={'phone'}

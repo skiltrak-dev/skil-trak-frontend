@@ -63,7 +63,11 @@ export const ApprovedIndustry = () => {
     const hasCourseApproved =
         data?.data &&
         data?.data?.length > 0 &&
-        data?.data?.filter((item: any) => !item?.hasCourseApproved)
+        data?.data?.filter(
+            (item: any) =>
+                item.hasOwnProperty(item?.hasCourseApproved) &&
+                !item?.hasCourseApproved
+        )
 
     const tableActionOptions: TableActionOption<Industry>[] = [
         {

@@ -62,7 +62,11 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
     const hasCourseApproved =
         data?.data &&
         data?.data?.length > 0 &&
-        data?.data?.filter((item: any) => !item?.hasCourseApproved)
+        data?.data?.filter(
+            (item: any) =>
+                item.hasOwnProperty(item?.hasCourseApproved) &&
+                !item?.hasCourseApproved
+        )
 
     // 1- get api to retrieve the remaining industry courses on sector base
     // 2- If the coordinator already/approved sent the request to HOD for course approval, remove it from the above get api
