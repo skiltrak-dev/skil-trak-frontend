@@ -3,6 +3,9 @@ import { Checkbox, Select, TextInput } from '@components/inputs'
 // query
 import { AdminApi, AuthApi, CommonApi } from '@queries'
 
+import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
+import { Typography } from '@components/Typography'
+import { UserRoles } from '@constants'
 import {
     Course,
     Industry,
@@ -18,14 +21,10 @@ import {
     WorkplaceCurrentStatus,
     formatOptionLabel,
 } from '@utils'
-import { State } from 'country-state-city'
 import { useMemo } from 'react'
 import { SetQueryFilters } from './SetQueryFilters'
 import { StatusOptions } from './StatusOptions'
 import { SelectOption } from './types'
-import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
-import { UserRoles } from '@constants'
-import { Typography } from '@components/Typography'
 
 interface ItemFilterProps {
     onFilterChange: (values: StudentsFilterType) => void
@@ -105,8 +104,6 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
     const coordinators = AdminApi.SubAdmins.useSubAdminsFilterList()
     const departments = AdminApi.Department.getDepartmentFilterList()
 
-    const states = State.getStatesOfCountry('AU')
-
     const industryOptions = getIndustries?.data?.map((industry: Industry) => ({
         value: industry?.id,
         label: industry?.user?.name,
@@ -122,10 +119,7 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
         value: course?.id,
         label: course?.title,
     }))
-    const stateCodeOptions = states?.map((state: any) => ({
-        value: state?.name,
-        label: state?.name,
-    }))
+
     const coordinatorOptions = coordinators?.data?.map(
         (subadmin: SubAdmin) => ({
             value: subadmin?.id,
@@ -205,19 +199,6 @@ export const StudentFilters = ({ onFilterChange, filter }: ItemFilterProps) => {
                     placeholder={'Search by Student Batch / Provider...'}
                     onChange={(e: any) => {
                         onFilterChange({ ...filter, batch: e.target.value })
-                    }}
-                    showError={false}
-                />
-                <Select
-                    label={'Search by State'}
-                    name={'state'}
-                    options={stateCodeOptions}
-                    placeholder={'Select State...'}
-                    value={stateCodeOptions?.find(
-                        (state: SelectOption) => state.value === filter?.state
-                    )}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, state: e?.value })
                     }}
                     showError={false}
                 />

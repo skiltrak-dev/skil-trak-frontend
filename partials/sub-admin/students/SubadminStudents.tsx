@@ -26,6 +26,7 @@ import {
     PendingStudents,
     PlacementStartedStudents,
     RejectedStudents,
+    ScheduleCompleted,
     StudentScheduleEndedList,
     StudentWeeklyCallList,
     UnAssignedStudents,
@@ -341,6 +342,19 @@ export const SubadminStudents = () => {
                 loading: count.isLoading,
             },
             element: <CompletedStudents />,
+            isAssociatedWithRto: true,
+        },
+        {
+            label: 'Schedule Completed Students',
+            href: {
+                pathname: 'students',
+                query: { tab: 'schedule-students' },
+            },
+            badge: {
+                text: studentCount?.completed,
+                loading: count.isLoading,
+            },
+            element: <ScheduleCompleted />,
             isAssociatedWithRto: true,
         },
     ]
