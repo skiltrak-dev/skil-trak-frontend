@@ -172,11 +172,11 @@ export const IndustryProfileCB = ({
                         </AuthorizedUserComponent>
 
                         {/* Reviews from students */}
-                        {data?.data && data?.data?.length > 0 && (
-                            <AuthorizedUserComponent
-                                roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
-                                isAssociatedWithRto={false}
-                            >
+                        <AuthorizedUserComponent
+                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                            isAssociatedWithRto={false}
+                        >
+                            {data?.data && data?.data?.length > 0 && (
                                 <div className="flex items-center gap-x-3 border-y my-2 py-4">
                                     <div className="">
                                         <DisplayIndustryRating
@@ -192,21 +192,18 @@ export const IndustryProfileCB = ({
                                         variant="info"
                                     />
                                 </div>
-                                <div className="flex justify-between items-center w-full">
-                                    <button onClick={onClickIndPreferences}>
-                                        <Typography
-                                            variant="xs"
-                                            color="text-link"
-                                        >
-                                            Placement Preferences
-                                        </Typography>
-                                    </button>
-                                    <IndustryEsign
-                                        industryUserId={industry?.user?.id}
-                                    />
-                                </div>
-                            </AuthorizedUserComponent>
-                        )}
+                            )}
+                            <div className="flex justify-between items-center w-full">
+                                <button onClick={onClickIndPreferences}>
+                                    <Typography variant="xs" color="text-link">
+                                        Placement Preferences
+                                    </Typography>
+                                </button>
+                                <IndustryEsign
+                                    industryUserId={industry?.user?.id}
+                                />
+                            </div>
+                        </AuthorizedUserComponent>
                     </div>
                 </div>
 

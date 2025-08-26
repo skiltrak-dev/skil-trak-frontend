@@ -44,6 +44,7 @@ export const IndustryRatingForm = ({ onClose }: any) => {
                 title: 'Feedback Added',
                 description: 'Your feedback has been successfully added',
             })
+            onClose()
         }
     }, [resultAddFeedback.isSuccess])
     const onSubmit = (data: any) => {

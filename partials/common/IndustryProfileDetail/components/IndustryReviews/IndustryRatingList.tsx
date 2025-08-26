@@ -135,7 +135,7 @@ export const IndustryRatingList = ({
                                                     <div>
                                                         <div className="flex items-center gap-2">
                                                             <span className="text-gray-900 font-medium">
-                                                                {review.student
+                                                                {review?.student
                                                                     .user
                                                                     ?.name ||
                                                                     'Anonymous'}
