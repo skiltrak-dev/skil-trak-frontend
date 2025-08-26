@@ -302,6 +302,19 @@ export const SubadminStudents = () => {
             element: <HighPriorityStudentsList />,
         },
         {
+            label: 'Schedule Completed Students',
+            href: {
+                pathname: 'students',
+                query: { tab: 'schedule-students' },
+            },
+            badge: {
+                text: studentCount?.completed,
+                loading: count.isLoading,
+            },
+            element: <ScheduleCompleted />,
+            isAssociatedWithRto: true,
+        },
+        {
             label: 'Rejected',
             href: { pathname: 'students', query: { tab: UserStatus.Rejected } },
             badge: {
@@ -342,19 +355,6 @@ export const SubadminStudents = () => {
                 loading: count.isLoading,
             },
             element: <CompletedStudents />,
-            isAssociatedWithRto: true,
-        },
-        {
-            label: 'Schedule Completed Students',
-            href: {
-                pathname: 'students',
-                query: { tab: 'schedule-students' },
-            },
-            badge: {
-                text: studentCount?.completed,
-                loading: count.isLoading,
-            },
-            element: <ScheduleCompleted />,
             isAssociatedWithRto: true,
         },
     ]
