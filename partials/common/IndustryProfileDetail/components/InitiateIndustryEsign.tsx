@@ -13,6 +13,7 @@ import { useNotification } from '@hooks'
 import { DocumentView } from '@partials/sub-admin'
 import { CommonApi, IndustryApi } from '@queries'
 import { useEffect, useMemo, useState } from 'react'
+import { removeEmptyValues } from '@utils'
 
 export const InitiateIndustryEsign = ({
     onCancel,
@@ -33,11 +34,19 @@ export const InitiateIndustryEsign = ({
 
     const getEsign = CommonApi.ESign.getIndustryEsignList(
         {
-            search: `sectorId:${selectedSector}`,
+            search: `${JSON.stringify(
+                removeEmptyValues({
+                    sectorId: selectedSector,
+                })
+            )
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('"', '')
+                .trim()}`,
             skip: 0,
             limit: 25,
         },
-        { skip: !selectedSector, refetchOnMountOrArgChange: true }
+        { refetchOnMountOrArgChange: true }
     )
     const [initiate, initiateResult] = CommonApi.ESign.initiateIndustryESign()
 
@@ -110,6 +119,7 @@ export const InitiateIndustryEsign = ({
                             )}
                             onChange={(e: any) => {
                                 setSelectedSector(e)
+                                setSelectedEsign(null)
                             }}
                             showError={false}
                             onlyValue
@@ -169,7 +179,9 @@ export const InitiateIndustryEsign = ({
                             variant="primaryNew"
                             onClick={onInitiateSign}
                             loading={initiateResult?.isLoading}
-                            disabled={initiateResult?.isLoading}
+                            disabled={
+                                !selectedEsign || initiateResult?.isLoading
+                            }
                         />
                     </div>
                 </div>
