@@ -118,17 +118,6 @@ export const SubAdminStudentFilters = ({
                     showError={false}
                 />
 
-                <TextInput
-                    name="suburb"
-                    label={'Suburb'}
-                    placeholder={'Search by Student Suburb ...'}
-                    value={filter?.suburb}
-                    onChange={(e: any) => {
-                        onFilterChange({ ...filter, suburb: e.target.value })
-                    }}
-                    showError={false}
-                />
-
                 <Select
                     label={'Status'}
                     name={'status'}

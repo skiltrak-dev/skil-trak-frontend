@@ -121,11 +121,11 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             }
 
             if (childrenRef.current) {
-                // childrenRef.current.scrollTo({
-                //     top: 0,
-                //     left: 0,
-                //     behavior: 'smooth',
-                // })
+                childrenRef.current.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'smooth',
+                })
             }
         }
 
