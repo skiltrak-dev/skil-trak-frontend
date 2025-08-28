@@ -41,7 +41,7 @@ export const SectorCourseStudentCount = ({
         'Partner Industries': {
             color: 'text-orange-400',
             bgColor: 'bg-orange-100',
-            count: sector?.PartnerIndustries,
+            count: `${sector?.profileCompleted}/${sector?.PartnerIndustries}`
         },
         'New Students': {
             color: 'text-cyan-500',
