@@ -1,18 +1,19 @@
 import { Card, Select, Typography } from '@components'
-import React, { useMemo, useState } from 'react'
+import { AdminApi, AuthApi, CommonApi } from '@queries'
+import { Rto } from '@types'
+import { removeEmptyValues } from '@utils'
+import { useMemo, useState } from 'react'
 import {
-    LineChart,
+    CartesianGrid,
+    Legend,
     Line,
+    LineChart,
+    ResponsiveContainer,
+    Tooltip,
     XAxis,
     YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend,
-    ResponsiveContainer,
 } from 'recharts'
-import { AdminApi, AuthApi, CommonApi } from '@queries'
-import { Rto, SubAdmin } from '@types'
-import { removeEmptyValues } from '@utils'
+import { CurveType } from 'recharts/types/shape/Curve'
 export const ProgressLineChart = () => {
     const [rtoId, setRtoId] = useState(undefined)
     const [sectorId, setSectorId] = useState(undefined)
@@ -54,20 +55,18 @@ export const ProgressLineChart = () => {
         'November',
         'December',
     ]
+
     const initialData = chartCount?.data
         ? Object.entries(chartCount?.data)?.map(([month, value]: any) => ({
-              name: month,
-              studentsAdded: value?.studentsAdded,
-              workplaceRequests: value?.workplaceRequests,
-              studentsPlaced: value?.studentsPlaced,
-              studentsExpired: value?.studentsExpired,
-              automatedWorkplaceRequest: value?.automatedWorkplaceRequest,
-          }))
+            name: month, ...value
+        }))
         : []
+
     initialData?.sort(
         (a: any, b: any) =>
             monthOrder.indexOf(a.name) - monthOrder.indexOf(b.name)
     )
+
 
     // options
     const sectorOptions = useMemo(
@@ -93,8 +92,63 @@ export const ProgressLineChart = () => {
         return years
     }, [])
 
+    // Chart lines configuration array
+    const chartLinesConfig = [
+        {
+            dataKey: "Student Added",
+            stroke: "#FFC107",
+            strokeWidth: 4,
+            activeDot: { r: 8 },
+            type: "monotone"
+        },
+        {
+            dataKey: "Workplace Requests",
+            stroke: "#6A5ACD",
+            strokeWidth: 4,
+            type: "monotone"
+        },
+        {
+            dataKey: "Manual WPO",
+            stroke: "#6A5ACD",
+            strokeWidth: 4,
+            type: "monotone"
+        },
+        {
+            dataKey: "Student Placed",
+            stroke: "#008080",
+            strokeWidth: 4,
+            type: "monotone"
+        },
+        {
+            dataKey: "Current Month Student",
+            stroke: "#008080",
+            strokeWidth: 4,
+            type: "monotone",
+            strokeDasharray: "5 5"
+        },
+        {
+            dataKey: "Student Expired",
+            stroke: "#FF6F61",
+            strokeWidth: 4,
+            type: "monotone"
+        },
+        {
+            dataKey: "Automated WPO",
+            stroke: "#7ccf00",
+            strokeWidth: 4,
+            type: "monotone"
+        },
+        {
+            dataKey: "Cancelled Workplace Requests",
+            stroke: "#FF7979",
+            strokeWidth: 4,
+            type: "monotone"
+        }
+    ];
+
     return (
         <Card noPadding>
+
             <div className="px-8 py-4 flex justify-between items-center">
                 <div className="text-nowrap">
                     <Typography variant="h3">Statistics</Typography>
@@ -149,6 +203,8 @@ export const ProgressLineChart = () => {
                     </div>
                 </div>
             </div>
+            {/* <div className="w-full h-96 overflow-x-auto overflow-y-hidden">
+            <div style={{ width: `${customData.length * 85}px`, height: '100%' }}> */}
             <ResponsiveContainer width="100%" height={300}>
                 <LineChart
                     data={initialData}
@@ -165,37 +221,17 @@ export const ProgressLineChart = () => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line
-                        type="monotone"
-                        dataKey="studentsAdded"
-                        stroke="#FFC107"
-                        strokeWidth={4}
-                        activeDot={{ r: 8 }}
-                    />
-                    <Line
-                        type="monotone"
-                        dataKey="workplaceRequests"
-                        strokeWidth={4}
-                        stroke="#6A5ACD"
-                    />
-                    <Line
-                        type="monotone"
-                        dataKey="studentsPlaced"
-                        strokeWidth={4}
-                        stroke="#008080"
-                    />
-                    <Line
-                        type="monotone"
-                        dataKey="studentsExpired"
-                        strokeWidth={4}
-                        stroke="#FF6F61"
-                    />
-                    <Line
-                        type="monotone"
-                        dataKey="automatedWorkplaceRequest"
-                        strokeWidth={4}
-                        stroke="#7ccf00"
-                    />
+                    {chartLinesConfig.map((lineConfig) => (
+                        <Line
+                            key={lineConfig.dataKey}
+                            type={lineConfig?.type as CurveType}
+                            dataKey={lineConfig.dataKey}
+                            stroke={lineConfig.stroke}
+                            strokeWidth={lineConfig.strokeWidth}
+                            strokeDasharray={lineConfig?.strokeDasharray}
+                            activeDot={lineConfig.activeDot}
+                        />
+                    ))}
                 </LineChart>
             </ResponsiveContainer>
         </Card>

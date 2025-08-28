@@ -36,7 +36,7 @@ export const IndustryCourseSupervisors = ({
                         {getSupervisorBySector?.isLoading ? (
                             <PuffLoader size={24} />
                         ) : getSupervisorBySector?.isSuccess &&
-                          getSupervisorBySector?.data ? (
+                            getSupervisorBySector?.data ? (
                             <div>
                                 <Modal>
                                     <Modal.Open opens="addDepartmentCourse">
@@ -64,27 +64,30 @@ export const IndustryCourseSupervisors = ({
                                 </Modal>
                             </div>
                         ) : getSupervisorBySector?.isSuccess &&
-                          !getSupervisorBySector?.data &&
-                          userRole !== UserRoles.RTO ? (
-                            <div className="relative group flex ">
-                                <ActionButton
-                                    Icon={MdSupervisorAccount}
-                                    disabled={getSupervisorBySector?.isError}
-                                    variant="dark"
-                                    onClick={() => {
-                                        contextBar.setTitle('Add Supervisor')
-                                        contextBar.show()
-                                        contextBar.setContent(
-                                            <AddSupervisor
-                                                industry={industry}
-                                                sector={sectorData?.sector}
-                                            />
-                                        )
-                                    }}
-                                >
-                                    Add Supervisor
-                                </ActionButton>
-                            </div>
+                            !getSupervisorBySector?.data &&
+                            userRole !== UserRoles.RTO ? (
+                            <Modal>
+                                <Modal.Open opens="addCourseSupervisor">
+                                    <div className="relative group flex ">
+                                        <ActionButton
+                                            Icon={MdSupervisorAccount}
+                                            disabled={getSupervisorBySector?.isError}
+                                            variant="dark"
+                                        >
+                                            Add Supervisor
+                                        </ActionButton>
+                                    </div>
+                                </Modal.Open>
+                                <Modal.Window name="addCourseSupervisor">
+                                    {/* <div className='w-full md:w-[600px]'> */}
+                                    <AddSupervisor
+                                        industry={industry}
+                                        sector={sectorData?.sector}
+                                    />
+                                    {/* </div> */}
+                                </Modal.Window>
+                            </Modal>
+
                         ) : null}
                     </div>
                 ) : null}

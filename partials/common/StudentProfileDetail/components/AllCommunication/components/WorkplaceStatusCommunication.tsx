@@ -148,13 +148,13 @@ export function WorkplaceStatusCommunication({
     item,
 }: PlacementStatusProps) {
     const [showComments, setShowComments] = useState(false)
-    const isRejection = item?.title?.toLowerCase()?.includes('rejected')
+    const isRejection = item?.title?.toLowerCase()?.includes('rejected') || item?.title?.toLowerCase()?.includes('cancelled')
     const config = getStatusConfig(status, isRejection)
     const IconComponent = config.icon
 
     return (
         <div
-            className={`w-full mx-auto rounded-xl  border-l-4 ${config.borderColor}`}
+            className={`w-full mx-auto rounded-xl border-l-4 ${config.borderColor}`}
         >
             <div className={`p-4 ${config.bgColor}`}>
                 <div className="pb-2">

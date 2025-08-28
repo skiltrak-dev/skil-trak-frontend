@@ -1,26 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { Select, ShowErrorNotifications } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
-import { Select, ShowErrorNotifications } from '@components'
 
 // components
-import { Typography, Button, TextInput } from '@components'
+import { Button, TextInput, Typography } from '@components'
 
 // query
-import { IndustryApi, RtoApi } from '@queries'
-import { useContextBar, useNotification } from '@hooks'
-import { SupervisorQualification } from '../data'
+import { useNotification } from '@hooks'
+import { IndustryApi } from '@queries'
 import { OptionType } from '@types'
+import { SupervisorQualification } from '../data'
 
 export const AddSupervisor = ({
     industry,
     initialValues,
     edit,
     sector,
+    onCloseModal
 }: any) => {
     const { notification } = useNotification()
-    const { hide, setContent, setTitle } = useContextBar()
 
     const [selectedQualification, setSelectedQualification] = useState<
         number | null
@@ -43,9 +43,7 @@ export const AddSupervisor = ({
                 title: 'Supervisor Added',
                 description: 'Supervisor Added Successfully',
             })
-            hide()
-            setContent(null)
-            setTitle('')
+            onCloseModal()
         }
     }, [addSupervisorResult])
 
@@ -55,7 +53,7 @@ export const AddSupervisor = ({
                 title: 'Supervisor Updated',
                 description: 'Supervisor Updated Successfully',
             })
-            hide()
+            onCloseModal()
         }
     }, [editSupervisorResult])
 
@@ -75,14 +73,14 @@ export const AddSupervisor = ({
     const onSubmit = async (values: any) => {
         edit
             ? editSupervisor({
-                  ...values,
-                  industry: industry?.id,
-              })
+                ...values,
+                industry: industry?.id,
+            })
             : addSupervisor({
-                  ...values,
-                  industry: industry?.id,
-                  sector: sector?.id,
-              })
+                ...values,
+                industry: industry?.id,
+                sector: sector?.id,
+            })
     }
 
     const isLoading = edit
@@ -90,7 +88,7 @@ export const AddSupervisor = ({
         : addSupervisorResult.isLoading
 
     return (
-        <div>
+        <div className='w-full md:w-[600px]'>
             <ShowErrorNotifications result={addSupervisorResult} />
             <ShowErrorNotifications result={editSupervisorResult} />
             <Typography variant={'small'} color={'text-gray-500'}>
@@ -124,7 +122,7 @@ export const AddSupervisor = ({
                                     (l: OptionType) =>
                                         l.value === selectedQualification
                                 )}
-                                // menuPlacement="top"
+                            // menuPlacement="top"
                             />
                         </div>
 

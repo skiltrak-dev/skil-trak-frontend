@@ -27,11 +27,10 @@ import { getUserCredentials } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const SnoozedIndustry = () => {
-    const selectInputRef = useRef(null)
 
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-    const [itemPerPage, setItemPerPage] = useState(10)
+    const [itemPerPage, setItemPerPage] = useState(20)
     const [page, setPage] = useState(1)
     const role = getUserCredentials()?.role
     // hooks
@@ -39,7 +38,7 @@ export const SnoozedIndustry = () => {
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 10))
+        setItemPerPage(Number(router.query.pageSize || 20))
     }, [router])
     // useSnoozedIndustry
     // const snoozedIndustryList = AdminApi.Industries.useSnoozedIndustry({
@@ -140,11 +139,11 @@ export const SnoozedIndustry = () => {
             {
                 ...(role === UserRoles.ADMIN
                     ? {
-                          text: 'View Password',
-                          onClick: (industry: Industry) =>
-                              onViewPassword(industry),
-                          Icon: RiLockPasswordFill,
-                      }
+                        text: 'View Password',
+                        onClick: (industry: Industry) =>
+                            onViewPassword(industry),
+                        Icon: RiLockPasswordFill,
+                    }
                     : {}),
             },
             {

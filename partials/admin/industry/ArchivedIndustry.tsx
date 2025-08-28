@@ -32,12 +32,12 @@ import { useActionModals } from './hooks'
 
 export const ArchivedIndustry = () => {
     const router = useRouter()
-    const [itemPerPage, setItemPerPage] = useState(10)
+    const [itemPerPage, setItemPerPage] = useState(20)
     const [page, setPage] = useState(1)
     const role = getUserCredentials()?.role
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 10))
+        setItemPerPage(Number(router.query.pageSize || 20))
     }, [router])
 
     const { modal, onUnArchiveClicked, onDeleteClicked } = useActionModals()
@@ -79,10 +79,10 @@ export const ArchivedIndustry = () => {
         {
             ...(role === UserRoles.ADMIN
                 ? {
-                      text: 'View Password',
-                      onClick: (industry: Industry) => onViewPassword(industry),
-                      Icon: RiLockPasswordFill,
-                  }
+                    text: 'View Password',
+                    onClick: (industry: Industry) => onViewPassword(industry),
+                    Icon: RiLockPasswordFill,
+                }
                 : {}),
         },
         {

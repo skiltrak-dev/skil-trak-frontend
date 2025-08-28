@@ -30,7 +30,7 @@ import { useActionModals } from './hooks'
 
 export const ApprovedIndustry = () => {
     const router = useRouter()
-    const [itemPerPage, setItemPerPage] = useState(10)
+    const [itemPerPage, setItemPerPage] = useState(20)
     const [page, setPage] = useState(1)
     const [isRouting, setIsRouting] = useState(true)
 
@@ -95,10 +95,10 @@ export const ApprovedIndustry = () => {
         {
             ...(role === UserRoles.ADMIN
                 ? {
-                      text: 'View Password',
-                      onClick: (industry: Industry) => onViewPassword(industry),
-                      Icon: RiLockPasswordFill,
-                  }
+                    text: 'View Password',
+                    onClick: (industry: Industry) => onViewPassword(industry),
+                    Icon: RiLockPasswordFill,
+                }
                 : {}),
         },
         {
