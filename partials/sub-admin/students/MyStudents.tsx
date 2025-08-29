@@ -16,7 +16,7 @@ import {
 
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useGetSubAdminMyStudentsQuery } from '@queries'
-import { SubAdmin, SubAdminStudentsFilterType } from '@types'
+import { SubAdminStudentsFilterType } from '@types'
 import { useEffect, useState } from 'react'
 
 import { useSubadminProfile } from '@hooks'
@@ -56,7 +56,7 @@ export const MyStudents = () => {
     const [snoozed, setSnoozed] = useState<boolean>(false)
     const [nonContactable, setNonContactable] = useState<boolean>(false)
     const [flagged, setFlagged] = useState<boolean>(false)
-    const [itemPerPage, setItemPerPage] = useState(20)
+    const [itemPerPage, setItemPerPage] = useState(30)
     const [page, setPage] = useState(1)
     const [isRouting, setIsRouting] = useState(true)
     const coordinatorProfile = useSubadminProfile()

@@ -58,15 +58,15 @@ export const ProgressLineChart = () => {
 
     const initialData = chartCount?.data
         ? Object.entries(chartCount?.data)?.map(([month, value]: any) => ({
-            name: month, ...value
-        }))
+              name: month,
+              ...value,
+          }))
         : []
 
     initialData?.sort(
         (a: any, b: any) =>
             monthOrder.indexOf(a.name) - monthOrder.indexOf(b.name)
     )
-
 
     // options
     const sectorOptions = useMemo(
@@ -95,60 +95,60 @@ export const ProgressLineChart = () => {
     // Chart lines configuration array
     const chartLinesConfig = [
         {
-            dataKey: "Student Added",
-            stroke: "#FFC107",
+            dataKey: 'Student Added',
+            stroke: '#FFC107',
             strokeWidth: 4,
             activeDot: { r: 8 },
-            type: "monotone"
+            type: 'monotone',
         },
         {
-            dataKey: "Workplace Requests",
-            stroke: "#6A5ACD",
+            dataKey: 'ALL WPR',
+            stroke: '#6A5ACD',
             strokeWidth: 4,
-            type: "monotone"
+            type: 'monotone',
         },
         {
-            dataKey: "Manual WPO",
-            stroke: "#6A5ACD",
+            dataKey: 'Current Month WPR',
+            stroke: '#008080',
             strokeWidth: 4,
-            type: "monotone"
+            type: 'monotone',
+            strokeDasharray: '5 5',
         },
         {
-            dataKey: "Student Placed",
-            stroke: "#008080",
+            dataKey: 'Manual WPO',
+            stroke: '#6A5ACD',
             strokeWidth: 4,
-            type: "monotone"
+            type: 'monotone',
         },
         {
-            dataKey: "Current Month Student",
-            stroke: "#008080",
+            dataKey: 'Student Placed',
+            stroke: '#008080',
             strokeWidth: 4,
-            type: "monotone",
-            strokeDasharray: "5 5"
+            type: 'monotone',
+        },
+
+        {
+            dataKey: 'Student Expired',
+            stroke: '#FF6F61',
+            strokeWidth: 4,
+            type: 'monotone',
         },
         {
-            dataKey: "Student Expired",
-            stroke: "#FF6F61",
+            dataKey: 'Automated WPO',
+            stroke: '#7ccf00',
             strokeWidth: 4,
-            type: "monotone"
+            type: 'monotone',
         },
         {
-            dataKey: "Automated WPO",
-            stroke: "#7ccf00",
+            dataKey: 'Cancelled Workplace Requests',
+            stroke: '#FF7979',
             strokeWidth: 4,
-            type: "monotone"
+            type: 'monotone',
         },
-        {
-            dataKey: "Cancelled Workplace Requests",
-            stroke: "#FF7979",
-            strokeWidth: 4,
-            type: "monotone"
-        }
-    ];
+    ]
 
     return (
         <Card noPadding>
-
             <div className="px-8 py-4 flex justify-between items-center">
                 <div className="text-nowrap">
                     <Typography variant="h3">Statistics</Typography>

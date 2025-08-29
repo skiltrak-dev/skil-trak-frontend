@@ -14,8 +14,8 @@ import { useColumns } from './hooks'
 export const ScheduleCompleted = () => {
     const router = useRouter()
 
-    const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(50)
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -25,9 +25,8 @@ export const ScheduleCompleted = () => {
     const { isLoading, data, isError, isFetching } =
         useGetSubAdminStudentsQuery(
             {
-                search: `status:${UserStatus.Approved},currentStatus:${
-                    WorkplaceCurrentStatus.Completed
-                },myStudent:${true}`,
+                search: `status:${UserStatus.Approved},currentStatus:${WorkplaceCurrentStatus.Completed
+                    },myStudent:${true}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },

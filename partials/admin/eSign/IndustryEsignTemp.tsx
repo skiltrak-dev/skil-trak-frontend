@@ -103,15 +103,22 @@ export const IndustryEsignTemp = () => {
             accessorKey: 'user.name',
             cell: (info) => {
                 return (
-                    <Link
-                        href={`/portals/admin/e-sign/${info.row.original?.id}/edit`}
-                    >
-                        <Typography variant="label" semibold>
-                            <span className="cursor-pointer">
-                                {info.row.original?.name}
-                            </span>
-                        </Typography>
-                    </Link>
+                    <div className="flex flex-col gap-y-1">
+                        {info.row.original?.status === 'archived' && (
+                            <div>
+                                <Badge text="Archived" />
+                            </div>
+                        )}
+                        <Link
+                            href={`/portals/admin/e-sign/${info.row.original?.id}/edit`}
+                        >
+                            <Typography variant="label" semibold>
+                                <span className="cursor-pointer">
+                                    {info.row.original?.name}
+                                </span>
+                            </Typography>
+                        </Link>
+                    </div>
                 )
             },
             header: () => <span>Title</span>,

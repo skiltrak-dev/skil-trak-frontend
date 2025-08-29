@@ -1,7 +1,5 @@
 import { useRouter } from 'next/router'
 
-// Icons
-
 // components
 import {
     Card,
@@ -14,7 +12,6 @@ import {
 import { TechnicalError } from '@components/ActionAnimations/TechnicalError'
 import { useJoyRide } from '@hooks'
 import { SubAdminApi } from '@queries'
-import { SubAdmin } from '@types'
 import { useEffect, useState } from 'react'
 
 import {
@@ -94,7 +91,7 @@ export const CompletedStudents = () => {
                     studentId={student?.id}
                     step={
                         workplace?.currentStatus ===
-                        WorkplaceCurrentStatus.Cancelled
+                            WorkplaceCurrentStatus.Cancelled
                             ? 4
                             : studentStatus
                     }
