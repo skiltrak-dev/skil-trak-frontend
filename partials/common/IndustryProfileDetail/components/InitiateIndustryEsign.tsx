@@ -37,6 +37,7 @@ export const InitiateIndustryEsign = ({
             search: `${JSON.stringify(
                 removeEmptyValues({
                     sectorId: selectedSector,
+                    status: 'approved',
                 })
             )
                 .replaceAll('{', '')
@@ -46,7 +47,7 @@ export const InitiateIndustryEsign = ({
             skip: 0,
             limit: 25,
         },
-        { refetchOnMountOrArgChange: true }
+        { skip: !selectedSector, refetchOnMountOrArgChange: true }
     )
     const [initiate, initiateResult] = CommonApi.ESign.initiateIndustryESign()
 

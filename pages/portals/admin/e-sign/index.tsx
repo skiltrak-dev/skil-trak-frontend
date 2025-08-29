@@ -66,20 +66,20 @@ const ESign: NextPageWithLayout = () => {
             element: <ApprovedEsigns />,
         },
         {
+            label: 'Archived Student E-sign Templates',
+            href: {
+                pathname: 'e-sign',
+                query: { tab: 'archived', page: 1, pageSize: 50 },
+            },
+            element: <ArchivedEsigns />,
+        },
+        {
             label: 'Industry E-Sign Templates',
             href: {
                 pathname: 'e-sign',
                 query: { tab: 'industry-e-sign', page: 1, pageSize: 50 },
             },
             element: <IndustryEsignTemp />,
-        },
-        {
-            label: 'Archived Templates',
-            href: {
-                pathname: 'e-sign',
-                query: { tab: 'archived', page: 1, pageSize: 50 },
-            },
-            element: <ArchivedEsigns />,
         },
     ]
 
