@@ -23,17 +23,12 @@ import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
 import {
-    ArchiveModal,
     BlockModal,
-    BlockMultiStudentsModal,
-    ChangeStatusModal,
-    HighPriorityModal,
+    BlockMultiStudentsModal
 } from './modals'
 
 // hooks
-import { useActionModal } from '@hooks'
 
-import { EditTimer } from '@components/StudentTimer/EditTimer'
 import moment from 'moment'
 import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 
@@ -406,18 +401,18 @@ export const StudentScheduleEndedList = () => {
                                         >
                                             {pageSize
                                                 ? pageSize(
-                                                      itemPerPage,
-                                                      setItemPerPage,
-                                                      data?.data?.length
-                                                  )
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    data?.data?.length
+                                                )
                                                 : null}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination
                                                     ? pagination(
-                                                          data?.pagination,
-                                                          setPage
-                                                      )
+                                                        data?.pagination,
+                                                        setPage
+                                                    )
                                                     : null}
                                             </div>
                                         </div>
@@ -433,18 +428,18 @@ export const StudentScheduleEndedList = () => {
                                             <div className="p-6 mb-2 flex justify-between">
                                                 {pageSize
                                                     ? pageSize(
-                                                          itemPerPage,
-                                                          setItemPerPage,
-                                                          data?.data?.length
-                                                      )
+                                                        itemPerPage,
+                                                        setItemPerPage,
+                                                        data?.data?.length
+                                                    )
                                                     : null}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
                                                     {pagination
                                                         ? pagination(
-                                                              data?.pagination,
-                                                              setPage
-                                                          )
+                                                            data?.pagination,
+                                                            setPage
+                                                        )
                                                         : null}
                                                 </div>
                                             </div>

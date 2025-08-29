@@ -29,7 +29,7 @@ import { AddToFavoriteModal, ArchiveModal, BlockModal } from './modals'
 export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-    const [itemPerPage, setItemPerPage] = useState(10)
+    const [itemPerPage, setItemPerPage] = useState(30)
     const [page, setPage] = useState(1)
     const [isRouting, setIsRouting] = useState(true)
 
@@ -126,29 +126,27 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
             {
                 ...(isHod
                     ? {
-                          text: 'Edit',
-                          onClick: (industry: Industry) => {
-                              router.push(
-                                  `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
-                              )
-                          },
-                          Icon: FaPencilAlt,
-                      }
+                        text: 'Edit',
+                        onClick: (industry: Industry) => {
+                            router.push(
+                                `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
+                            )
+                        },
+                        Icon: FaPencilAlt,
+                    }
                     : {}),
             },
 
             {
-                text: `${
-                    industry?.favoriteBy &&
-                    industry?.favoriteBy?.user?.id === subadminId
+                text: `${industry?.favoriteBy &&
+                        industry?.favoriteBy?.user?.id === subadminId
                         ? 'Un Favourite'
                         : 'Add Favourite'
-                }`,
-                color: `${
-                    industry?.subAdmin && industry?.subAdmin?.length > 0
+                    }`,
+                color: `${industry?.subAdmin && industry?.subAdmin?.length > 0
                         ? 'text-error'
                         : 'text-primary'
-                }`,
+                    }`,
                 onClick: (industry: Industry) =>
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,

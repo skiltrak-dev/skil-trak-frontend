@@ -50,7 +50,7 @@ const filterKeys = [
 ]
 export const SubadminIndustries = () => {
     const [filterAction, setFilterAction] = useState(null)
-    const [itemPerPage, setItemPerPage] = useState(10)
+    const [itemPerPage, setItemPerPage] = useState(30)
     const [page, setPage] = useState(1)
     const [filter, setFilter] = useState<SubadminIndustryFilter>(
         {} as SubadminIndustryFilter
@@ -60,7 +60,7 @@ export const SubadminIndustries = () => {
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 10))
+        setItemPerPage(Number(router.query.pageSize || 30))
     }, [router])
 
     const filteredIndustries = useGetSubAdminIndustriesQuery({

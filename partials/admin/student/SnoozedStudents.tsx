@@ -28,12 +28,12 @@ export const SnoozedStudents = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
-    const [itemPerPage, setItemPerPage] = useState(20)
+    const [itemPerPage, setItemPerPage] = useState(30)
     const [page, setPage] = useState(1)
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 20))
+        setItemPerPage(Number(router.query.pageSize || 30))
     }, [router])
 
     // hooks
@@ -155,11 +155,11 @@ export const SnoozedStudents = () => {
                 <Card noPadding>
                     {snoozedStudents?.isError && <TechnicalError />}
                     {snoozedStudents?.isLoading ||
-                    snoozedStudents?.isFetching ? (
+                        snoozedStudents?.isFetching ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : snoozedStudents?.data?.data &&
-                      snoozedStudents?.data?.data?.length &&
-                      snoozedStudents?.isSuccess ? (
+                        snoozedStudents?.data?.data?.length &&
+                        snoozedStudents?.isSuccess ? (
                         <Table
                             columns={columns}
                             data={snoozedStudents?.data?.data}
@@ -195,24 +195,24 @@ export const SnoozedStudents = () => {
                                     </div>
                                     {snoozedStudents?.data?.data?.length >
                                         10 && (
-                                        <div className="p-6 mb-2 flex justify-between">
-                                            {pageSize &&
-                                                pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage,
-                                                    snoozedStudents?.data?.data
-                                                        ?.length
-                                                )}
-                                            <div className="flex gap-x-2">
-                                                {pagination &&
-                                                    pagination(
-                                                        snoozedStudents?.data
-                                                            ?.pagination,
-                                                        setPage
+                                            <div className="p-6 mb-2 flex justify-between">
+                                                {pageSize &&
+                                                    pageSize(
+                                                        itemPerPage,
+                                                        setItemPerPage,
+                                                        snoozedStudents?.data?.data
+                                                            ?.length
                                                     )}
+                                                <div className="flex gap-x-2">
+                                                    {pagination &&
+                                                        pagination(
+                                                            snoozedStudents?.data
+                                                                ?.pagination,
+                                                            setPage
+                                                        )}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
+                                        )}
                                 </div>
                             )}
                         </Table>

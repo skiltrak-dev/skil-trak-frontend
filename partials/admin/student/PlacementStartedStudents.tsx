@@ -19,15 +19,14 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
-import { Student, UserStatus } from '@types'
+import { Student } from '@types'
 import {
     checkListLength,
-    isBrowser,
     setLink,
-    WorkplaceCurrentStatus,
+    WorkplaceCurrentStatus
 } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { SectorCell, StudentCellInfo, StudentIndustries } from './components'
@@ -42,21 +41,20 @@ import {
 // hooks
 import { useActionModal } from '@hooks'
 
-import moment from 'moment'
 import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
+import moment from 'moment'
 
 export const PlacementStartedStudents = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [itemPerPage, setItemPerPage] = useState(20)
+    const [itemPerPage, setItemPerPage] = useState(30)
     const [page, setPage] = useState(1)
 
     // Function to handle scrolling
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 20))
+        setItemPerPage(Number(router.query.pageSize || 30))
     }, [router])
 
     // hooks
@@ -98,7 +96,7 @@ export const PlacementStartedStudents = () => {
             <HighPriorityModal
                 item={studetnt}
                 onCancel={onModalCancelClicked}
-                // setRefetchStudents={setRefetchStudents}
+            // setRefetchStudents={setRefetchStudents}
             />
         )
     }
@@ -125,59 +123,59 @@ export const PlacementStartedStudents = () => {
     const tableActionOptions = (
         student: Student
     ): TableActionOption<Student>[] => [
-        {
-            text: 'View',
-            onClick: (student) => {
-                router.push(`/portals/admin/student/${student?.id}/detail`)
-                setLink('student', router)
+            {
+                text: 'View',
+                onClick: (student) => {
+                    router.push(`/portals/admin/student/${student?.id}/detail`)
+                    setLink('student', router)
+                },
+                Icon: FaEye,
             },
-            Icon: FaEye,
-        },
-        {
-            text: 'Edit',
-            onClick: (student) => {
-                router.push(
-                    `/portals/admin/student/edit-student/${student?.id}`
-                )
+            {
+                text: 'Edit',
+                onClick: (student) => {
+                    router.push(
+                        `/portals/admin/student/edit-student/${student?.id}`
+                    )
+                },
+                Icon: FaEdit,
             },
-            Icon: FaEdit,
-        },
-        {
-            text: 'Change Status',
-            onClick: (student) => onChangeStatus(student),
-            Icon: FaEdit,
-        },
-        {
-            text: 'Change Expiry',
-            onClick: (student) => onDateClick(student),
-            Icon: FaEdit,
-        },
-        {
-            text: 'View Password',
-            onClick: (student) => onViewPassword({ user: student?.user }),
-            Icon: RiLockPasswordFill,
-        },
-        {
-            text: 'Block',
-            onClick: (student) => onBlockClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: student?.isHighPriority
-                ? 'Remove Mark High Priority'
-                : 'Mark High Priority',
-            onClick: (student) => onMarkAsHighPriorityClicked(student),
-            Icon: MdPriorityHigh,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Archive',
-            onClick: (student) => onArchiveClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
-        },
-    ]
+            {
+                text: 'Change Status',
+                onClick: (student) => onChangeStatus(student),
+                Icon: FaEdit,
+            },
+            {
+                text: 'Change Expiry',
+                onClick: (student) => onDateClick(student),
+                Icon: FaEdit,
+            },
+            {
+                text: 'View Password',
+                onClick: (student) => onViewPassword({ user: student?.user }),
+                Icon: RiLockPasswordFill,
+            },
+            {
+                text: 'Block',
+                onClick: (student) => onBlockClicked(student),
+                Icon: MdBlock,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: student?.isHighPriority
+                    ? 'Remove Mark High Priority'
+                    : 'Mark High Priority',
+                onClick: (student) => onMarkAsHighPriorityClicked(student),
+                Icon: MdPriorityHigh,
+                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+            },
+            {
+                text: 'Archive',
+                onClick: (student) => onArchiveClicked(student),
+                Icon: MdBlock,
+                color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
+            },
+        ]
 
     const columns: ColumnDef<Student>[] = [
         {
@@ -369,18 +367,18 @@ export const PlacementStartedStudents = () => {
                                     <div className="p-6 mb-2 flex justify-between">
                                         {pageSize
                                             ? pageSize(
-                                                  itemPerPage,
-                                                  setItemPerPage,
-                                                  data?.data?.length
-                                              )
+                                                itemPerPage,
+                                                setItemPerPage,
+                                                data?.data?.length
+                                            )
                                             : null}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination
                                                 ? pagination(
-                                                      data?.pagination,
-                                                      setPage
-                                                  )
+                                                    data?.pagination,
+                                                    setPage
+                                                )
                                                 : null}
                                         </div>
                                     </div>
@@ -394,18 +392,18 @@ export const PlacementStartedStudents = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize
                                                 ? pageSize(
-                                                      itemPerPage,
-                                                      setItemPerPage,
-                                                      data?.data?.length
-                                                  )
+                                                    itemPerPage,
+                                                    setItemPerPage,
+                                                    data?.data?.length
+                                                )
                                                 : null}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination
                                                     ? pagination(
-                                                          data?.pagination,
-                                                          setPage
-                                                      )
+                                                        data?.pagination,
+                                                        setPage
+                                                    )
                                                     : null}
                                             </div>
                                         </div>

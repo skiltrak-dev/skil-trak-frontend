@@ -31,7 +31,7 @@ import { useActionModals } from './hooks'
 export const EmailVerifiedIndustries = () => {
 
     const router = useRouter()
-    const [itemPerPage, setItemPerPage] = useState(20)
+    const [itemPerPage, setItemPerPage] = useState(30)
     const [page, setPage] = useState(1)
     const role = getUserCredentials()?.role
     // hooks
@@ -42,7 +42,7 @@ export const EmailVerifiedIndustries = () => {
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 20))
+        setItemPerPage(Number(router.query.pageSize || 30))
     }, [router])
 
     const { isLoading, data, isError } = AdminApi.Industries.useListQuery({

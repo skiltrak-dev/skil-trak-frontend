@@ -14,10 +14,9 @@ import {
 } from '@components'
 
 import { SubAdminApi } from '@queries'
-import { SubAdmin, UserStatus } from '@types'
+import { SubAdmin } from '@types'
 import { getUserCredentials } from '@utils'
 import { IndustryCellInfo } from './components'
-import { BranchCell } from './components/BranchCell'
 
 export const RtoCoordinatorsIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
