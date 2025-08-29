@@ -25,8 +25,9 @@ export const ScheduleCompleted = () => {
     const { isLoading, data, isError, isFetching } =
         useGetSubAdminStudentsQuery(
             {
-                search: `status:${UserStatus.Approved},currentStatus:${WorkplaceCurrentStatus.Completed
-                    },myStudent:${true}`,
+                search: `status:${UserStatus.Approved},currentStatus:${
+                    WorkplaceCurrentStatus.Completed
+                },myStudent:${true}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
