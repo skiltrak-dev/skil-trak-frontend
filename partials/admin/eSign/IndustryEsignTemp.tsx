@@ -110,7 +110,7 @@ export const IndustryEsignTemp = () => {
                             </div>
                         )}
                         <Link
-                            href={`/portals/admin/e-sign/${info.row.original?.id}/edit`}
+                            href={`/portals/admin/e-sign/${info.row.original?.id}/edit-industry-template`}
                         >
                             <Typography variant="label" semibold>
                                 <span className="cursor-pointer">
