@@ -69,9 +69,9 @@ const StudentList: NextPageWithLayout = () => {
     )
 
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(20)
+    const [itemPerPage, setItemPerPage] = useState(30)
 
-    const { isLoading, data, isSuccess } = AdminApi.Students.useCountQuery(
+    const { isLoading, data } = AdminApi.Students.useCountQuery(
         undefined,
         {
             refetchOnMountOrArgChange: true,

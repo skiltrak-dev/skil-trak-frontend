@@ -28,14 +28,14 @@ import { AddToFavoriteModal } from './modals'
 export const FavoriteIndustries = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-    const [itemPerPage, setItemPerPage] = useState(10)
+    const [itemPerPage, setItemPerPage] = useState(30)
     const [page, setPage] = useState(1)
 
     // hooks
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
-        setItemPerPage(Number(router.query.pageSize || 10))
+        setItemPerPage(Number(router.query.pageSize || 30))
     }, [router])
 
     const { isLoading, isFetching, data, isError } =
