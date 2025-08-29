@@ -5,6 +5,7 @@ import { ReactElement, useState } from 'react'
 import { WorkplaceHistory } from '../../Workplace'
 import { useWorkplaceHook } from '../../Workplace/hooks'
 import { ShowAllCommunicationModal } from '../modal'
+import { CreateStudentNote } from '@partials/common/Notes/forms'
 
 interface CommunicationHeaderProps {
     user?: any
@@ -29,6 +30,21 @@ export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
     const onShowFullCommunication = () => {
         setModal(
             <ShowAllCommunicationModal user={user} onCancel={onCancelClicked} />
+        )
+    }
+
+    const onAddNote = () => {
+        setModal(
+            <div
+                className={`bg-[#00000050]  w-[calc(100%-80%)]
+                 h-full flex items-center justify-center gap-x-2 fixed top-[4.4rem] right-0 z-40`}
+            >
+                <CreateStudentNote
+                    studentId={user?.id}
+                    onCancel={onCancelClicked}
+                    receiverId={Number(user?.user?.id)}
+                />
+            </div>
         )
     }
     return (
@@ -56,6 +72,13 @@ export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
                             <WorkplaceHistory
                                 wpId={Number(selectedWorkplace?.id)}
                             />
+                            <Button
+                                onClick={() => {
+                                    onAddNote()
+                                }}
+                            >
+                                + Add Note
+                            </Button>
                         </AuthorizedUserComponent>
                     )}
                     <Button
@@ -64,7 +87,7 @@ export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
                             onComposeMail()
                         }}
                     >
-                        + Compose New
+                        + Compose Mail
                     </Button>
                 </div>
             </div>

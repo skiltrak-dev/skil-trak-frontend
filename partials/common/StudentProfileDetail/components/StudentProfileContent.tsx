@@ -47,12 +47,12 @@ export const StudentProfileContent: React.FC<ProfileContentProps> = ({
                 isAdminRole={isAdminRole}
             />
 
-            <AssessmentSection
+            <CommunicationSection
                 profile={profile}
                 getActiveBorder={getActiveBorder}
             />
 
-            <CommunicationSection
+            <AssessmentSection
                 profile={profile}
                 getActiveBorder={getActiveBorder}
             />
