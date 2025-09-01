@@ -22,7 +22,7 @@ export const SectorCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                 >
                     <span className="whitespace-pre">View / Edit</span>
                 </ActionButton>
-                {subAdmin?.courses && subAdmin?.courses?.length > 0 && (
+                {/* {subAdmin?.courses && subAdmin?.courses?.length > 0 && (
                     <div className="flex flex-wrap justify-center gap-1">
                         {subAdmin?.courses?.map((c: Course) => (
                             <div className="relative group" key={c?.id}>
@@ -36,7 +36,7 @@ export const SectorCell = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                             </div>
                         ))}
                     </div>
-                )}
+                )} */}
             </div>
         </div>
     )

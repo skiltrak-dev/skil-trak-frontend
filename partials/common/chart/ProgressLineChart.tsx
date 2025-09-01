@@ -14,10 +14,13 @@ import {
     YAxis,
 } from 'recharts'
 import { CurveType } from 'recharts/types/shape/Curve'
+import { CustomTooltip } from './CustomTooltip'
+
 export const ProgressLineChart = () => {
     const [rtoId, setRtoId] = useState(undefined)
     const [sectorId, setSectorId] = useState(undefined)
     const [year, setYear] = useState(new Date().getFullYear())
+
     // query
     const getRtos = CommonApi.Filter.useRtos()
     const sectorResponse = AuthApi.useSectors({})
@@ -95,7 +98,7 @@ export const ProgressLineChart = () => {
     // Chart lines configuration array
     const chartLinesConfig = [
         {
-            dataKey: 'Student Added',
+            dataKey: 'Added',
             stroke: '#FFC107',
             strokeWidth: 4,
             activeDot: { r: 8 },
@@ -121,14 +124,13 @@ export const ProgressLineChart = () => {
             type: 'monotone',
         },
         {
-            dataKey: 'Student Placed',
+            dataKey: 'Placed',
             stroke: '#008080',
             strokeWidth: 4,
             type: 'monotone',
         },
-
         {
-            dataKey: 'Student Expired',
+            dataKey: 'Expired',
             stroke: '#FF6F61',
             strokeWidth: 4,
             type: 'monotone',
@@ -146,6 +148,8 @@ export const ProgressLineChart = () => {
             type: 'monotone',
         },
     ]
+
+    // Custom tooltip component
 
     return (
         <Card noPadding>
@@ -219,7 +223,7 @@ export const ProgressLineChart = () => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <Tooltip />
+                    <Tooltip content={<CustomTooltip />} />
                     <Legend />
                     {chartLinesConfig.map((lineConfig) => (
                         <Line
