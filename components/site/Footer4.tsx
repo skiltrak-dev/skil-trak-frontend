@@ -89,7 +89,7 @@ export const Footer4 = () => {
                 </div>
 
                 {/*  */}
-                <div className="px-2 md:px-0 flex justify-between md:justify-center md:gap-12 gap-y-4 border-y border-[#F6910F] py-4 md:py-5">
+                <div className="px-2 md:px-0 flex flex-wrap justify-between md:justify-center md:gap-12 gap-y-4 border-y border-[#F6910F] py-4 md:py-5">
                     {links.map((link, index) => (
                         <Link href={link.href} key={index}>
                             <Typography

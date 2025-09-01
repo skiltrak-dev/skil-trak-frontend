@@ -70,7 +70,7 @@ const AdminDashboard: NextPageWithLayout = () => {
                         <p>
                             You are all set to go. It&apos;s{' '}
                             <span className="text-gray-500">
-                                {moment(new Date()).format('do MMMM')}
+                                {moment().format('Do MMMM')}
                             </span>{' '}
                             today
                         </p>
