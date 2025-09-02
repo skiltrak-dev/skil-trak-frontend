@@ -277,7 +277,10 @@ export const InvoiceDataListing = ({
                     data={invoice}
                     enableRowSelection
                     quickActions={quickActionsElements}
-                    setItemPerPage={setItemPerPage}
+                    setItemPerPage={(itemPerPage: number) => {
+                        setPage(1)
+                        setItemPerPage(itemPerPage)
+                    }}
                 />
             </Card>
         </>
