@@ -65,7 +65,7 @@ export const IndustryCell = ({ industry }: any) => {
                                                         className="text-success-dark"
                                                     />
                                                     <Tooltip>
-                                                        Agreement Initiated
+                                                        Checklist Initiated
                                                     </Tooltip>
                                                 </div>
                                             )}

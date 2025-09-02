@@ -1,6 +1,8 @@
+import { Typography } from '@components'
+
 const ListData = ({ title, data }: { title: string; data: any }) => {
     return (
-        <div className="mb-4">
+        <div>
             <h4 className="font-semibold text-gray-700 mb-2 text-sm border-b border-gray-200 pb-1">
                 {title}
             </h4>
@@ -37,8 +39,10 @@ export const CustomTooltip = ({ active, payload, label }: any) => {
         const studentData = filterData(['Added', 'Placed', 'Expired'], payload)
 
         return (
-            <div className="bg-white p-4 border border-gray-300 rounded-lg shadow-lg min-w-[250px]">
-                <p className="font-semibold text-gray-800 mb-3">{`${label}`}</p>
+            <div className="bg-white px-4 py-2.5 border border-gray-300 rounded-lg shadow-lg min-w-[250px] flex flex-col gap-y-3.5">
+                <Typography semibold center color="text-gray-800">
+                    {label}
+                </Typography>
 
                 {/* Workplace Section */}
                 {workplaceData.length > 0 && (
