@@ -4,9 +4,35 @@ import { useCourseManagement } from './hooks'
 import { PendingCourses } from './PendingCourses'
 import { SectorCardHeader } from './SectorCardHeader'
 import { RenderCourseList, RenderTabButton } from './components'
+import { ReactElement, useEffect, useState } from 'react'
+import { InitiateIndustryEsignModal } from '../../modal'
 
 export const CourseManagement = ({ industry }: { industry: Industry }) => {
-    const { computedData, toggleTab, toggleTabHandler } = useCourseManagement()
+    const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const { computedData, toggleTab, pendingCourses, toggleTabHandler } =
+        useCourseManagement()
+
+    const onCancel = () => setModal(null)
+
+    const onInitiateSign = () => {
+        setModal(
+            <InitiateIndustryEsignModal
+                onCancel={onCancel}
+                industryUserId={Number(industry?.user?.id)}
+            />
+        )
+    }
+
+    useEffect(() => {
+        if (
+            pendingCourses?.data?.data &&
+            pendingCourses?.data?.data?.length > 0 &&
+            pendingCourses?.isSuccess
+        ) {
+            onInitiateSign()
+        }
+    }, [pendingCourses])
 
     const renderContent = () => {
         if (computedData.showTabs) {
@@ -24,7 +50,7 @@ export const CourseManagement = ({ industry }: { industry: Industry }) => {
                     </div>
 
                     {toggleTab === 'pending' ? (
-                        <PendingCourses />
+                        <PendingCourses industry={industry} />
                     ) : (
                         <div className="max-h-[380px] min-h-[370px] overflow-auto custom-scrollbar">
                             <RenderCourseList industry={industry} />
@@ -43,6 +69,7 @@ export const CourseManagement = ({ industry }: { industry: Industry }) => {
 
     return (
         <div className="p-6">
+            {modal}
             <SectorCardHeader />
             {renderContent()}
         </div>

@@ -26,25 +26,27 @@ export const AcceptModal = ({
     const [changeStatus, changeStatusResult] =
         CommonApi.FindWorkplace.useChangePendingIndustryStatus()
 
-    const onConfirmClicked = async (industry: Industry) => {
-        await changeStatus({
+    const onConfirmClicked = async (industry: any) => {
+        const res: any = await changeStatus({
             params: {
                 id: industry?.id,
                 status: 'approved',
             },
         })
-    }
 
-    useEffect(() => {
-        if (changeStatusResult.isSuccess) {
+        if (res?.data) {
             notification.success({
                 title: `Industry Accept`,
                 description: `Industry "${industry?.industry?.user?.name}" has been accept.`,
             })
-            router.push('/portals/sub-admin/department/course-request')
+            router.push(
+                `/portals/sub-admin/users/industries/${industry?.industry?.id}`
+            )
             onCancel()
         }
-    }, [changeStatusResult])
+    }
+
+    useEffect(() => {}, [changeStatusResult])
 
     return (
         <>

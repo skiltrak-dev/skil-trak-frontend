@@ -5,6 +5,7 @@ import { ShowErrorNotifications } from '@components'
 import { SubAdminApi, useSubAdminRequestWorkplaceMutation } from '@queries'
 import { WorkplaceCreatedModal } from './modal'
 import { useShowErrorNotification } from '@components/ShowErrorNotifications/useShowErrorNotification'
+import { WPProcessMatchingLoader } from '@partials/common/StudentProfileDetail/components/Workplace/components/IndustryDetail'
 
 type AvailabilityProps = {
     setActive: any
@@ -79,15 +80,19 @@ export const Availability = ({
             {modal}
             <ShowErrorNotifications result={createAutoWpResult} />
             <ShowErrorNotifications result={workplaceRequestResult} />
-            <AvailabilityForm
-                onSubmit={onSubmit}
-                setActive={setActive}
-                onSubmitBeta={onSubmitBeta}
-                result={workplaceRequestResult}
-                autoResult={createAutoWpResult}
-                availabilities={availabilities}
-                setAvailabilities={setAvailabilities}
-            />
+            {createAutoWpResult?.isLoading ? (
+                <WPProcessMatchingLoader />
+            ) : (
+                <AvailabilityForm
+                    onSubmit={onSubmit}
+                    setActive={setActive}
+                    onSubmitBeta={onSubmitBeta}
+                    result={workplaceRequestResult}
+                    autoResult={createAutoWpResult}
+                    availabilities={availabilities}
+                    setAvailabilities={setAvailabilities}
+                />
+            )}
         </div>
     )
 }
