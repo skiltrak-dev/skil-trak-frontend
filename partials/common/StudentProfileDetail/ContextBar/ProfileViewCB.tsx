@@ -53,7 +53,6 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     )
 
     const processedFeedback = processSubmission(getPlacementFeedback?.data)
-    console.log('processedFeedback', processedFeedback)
     const eligibleCourses =
         data?.courses?.filter(
             (course: any) => course.message === 'eligible for feedback'

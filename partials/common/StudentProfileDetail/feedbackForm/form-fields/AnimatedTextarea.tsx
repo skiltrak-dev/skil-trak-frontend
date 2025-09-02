@@ -21,7 +21,6 @@ export const AnimatedTextarea = ({
               .split(/\s+/)
               .filter((w: string) => w.length > 0).length
         : 0
-    console.log('colors', color)
     return (
         <motion.div className={`space-y-2 `} whileHover={{ scale: 1.01 }}>
             <div className="flex items-center justify-between">

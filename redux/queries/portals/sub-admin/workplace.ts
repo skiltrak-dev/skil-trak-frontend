@@ -354,14 +354,38 @@ export const workplaceEndpoints = (
         providesTags: ['SubAdminWorkplace'],
     }),
     getSubAdminMapIndustryBranchDetail: builder.query<any, any>({
-        query: (id) => ({
-            url: `industries/location/${id}/find-details`,
-            // params,
+        query: (arg) => {
+            let id: string | number | undefined
+            let params: Record<string, any> | undefined
+
+            if (typeof arg === 'string' || typeof arg === 'number') {
+                // case 1: only id passed
+                id = arg
+            } else if (arg && typeof arg === 'object') {
+                // case 2: object with id + params
+                id = arg.id
+                params = arg.params
+            }
+
+            return {
+                url: `industries/location/${id}/find-details`,
+                params,
+            }
+        },
+        providesTags: ['SubAdminWorkplace', 'SubAdminIndustries'],
+    }),
+
+    getWorkplaceCourseIndustries: builder.query<any, any>({
+        query: ({ id, wpId, params = {} }) => ({
+            url: `subadmin/course/${id}/list/industries/${wpId}`,
+            params,
         }),
         providesTags: ['SubAdminWorkplace', 'SubAdminIndustries'],
     }),
-    getWorkplaceCourseIndustries: builder.query<any, any>({
-        query: (id) => `subadmin/course/${id}/list/industries`,
+
+    getMapIndustriesInRadiusCount: builder.query<any, any>({
+        query: ({ id, wpId }) =>
+            `subadmin/course/${id}/list/industries/${wpId}/count`,
         providesTags: ['SubAdminWorkplace', 'SubAdminIndustries'],
     }),
 
@@ -383,8 +407,9 @@ export const workplaceEndpoints = (
         {
             studentId: number
             wpId: number
-            industryId: number
+            industryId?: number
             isListing?: boolean
+            branchId?: number
         }
     >({
         query: ({ studentId, wpId, ...params }) => ({

@@ -103,6 +103,8 @@ type ViewMoreIndustriesModalProps = {
     workplace: any
     appliedIndustry?: any
     courseId: any
+    setSelectedBox: any
+    selectedBox: any
 }
 export const ViewOnMapIndustriesModal = ({
     suggestedIndustries,
@@ -110,6 +112,8 @@ export const ViewOnMapIndustriesModal = ({
     workplace,
     appliedIndustry,
     courseId,
+    setSelectedBox,
+    selectedBox,
 }: ViewMoreIndustriesModalProps) => {
     const { isLoaded } = useGoogleMaps()
 
@@ -124,8 +128,6 @@ export const ViewOnMapIndustriesModal = ({
 
     const [futureIndustryId, setFutureIndustryId] = useState<any>(null)
     const [map, setMap] = useState<google.maps.Map | null>(null)
-
-    const [selectedBox, setSelectedBox] = useState<any>(null)
 
     const [industryId, setIndustryId] = useState('')
     const [showInfoBox, setShowInfoBox] = useState<any>(false)
@@ -142,39 +144,41 @@ export const ViewOnMapIndustriesModal = ({
                 skip: !industryId,
             }
         )
-    const futureIndustries = CommonApi.FindWorkplace.mapFutureIndustries(
-        {
-            search: `courseId:${courseId}`,
-        },
-        {
-            skip: !courseId || !showFutureIndustries,
-        }
-    )
     const workplaceCourseId = workplace?.courses?.[0]?.id
+    const futureIndustries =
+        CommonApi.FindWorkplace.useMapFutureIndustriesInRadius(
+            { id: workplaceCourseId, wpId: workplace?.id },
+            {
+                skip: !workplaceCourseId && !workplace?.id,
+            }
+        )
     const workplaceCourseIndustries =
-        SubAdminApi.Workplace.useWorkplaceCourseIndustries(workplaceCourseId, {
-            skip: !workplaceCourseId,
-        })
+        SubAdminApi.Workplace.useWorkplaceCourseIndustries(
+            { id: workplaceCourseId, wpId: workplace?.id },
+            {
+                skip: !workplaceCourseId && !workplace?.id,
+            }
+        )
     const studentDetails = SubAdminApi.SubAdmin.useSubAdminMapStudentDetail(
         router?.query?.id,
         { skip: !router?.query?.id }
     )
 
-    const industriesBranches = workplaceCourseIndustries?.data?.flatMap(
+    const industriesBranches = workplaceCourseIndustries?.data?.data?.flatMap(
         (item: any) => item?.locations || []
     )
     useEffect(() => {
         if (
-            workplaceCourseIndustries?.data?.length > 0 ||
+            workplaceCourseIndustries?.data?.data?.length > 0 ||
             workplace?.student?.location ||
-            futureIndustries?.data ||
+            futureIndustries?.data?.data ||
             industriesBranches
         ) {
             const markers = []
 
             if (workplaceCourseIndustries?.data) {
                 const filteredIndustries =
-                    workplaceCourseIndustries?.data?.filter(
+                    workplaceCourseIndustries?.data?.data?.filter(
                         (industry: any) =>
                             industry?.location && industry?.location !== 'NA'
                     )
@@ -203,8 +207,11 @@ export const ViewOnMapIndustriesModal = ({
                 }
                 markers.push(studentMarker)
             }
-            if (futureIndustries?.data && futureIndustries?.data?.length) {
-                const filteredIndustries = futureIndustries?.data?.filter(
+            if (
+                futureIndustries?.data?.data &&
+                futureIndustries?.data?.data?.length
+            ) {
+                const filteredIndustries = futureIndustries?.data?.data?.filter(
                     (industry: any) =>
                         industry.location && industry.location !== 'NA'
                 )
@@ -237,7 +244,7 @@ export const ViewOnMapIndustriesModal = ({
 
             setVisibleMarkers(markers)
         }
-    }, [workplaceCourseIndustries, futureIndustries?.data])
+    }, [workplaceCourseIndustries, futureIndustries?.data?.data])
 
     const onBoundChange = useCallback(() => {
         setFutureIndustryId(null)
@@ -382,7 +389,7 @@ export const ViewOnMapIndustriesModal = ({
         <div className="w-full h-[80vh] lg:h-full overflow-hidden">
             <div className="flex justify-between cursor-pointer border-b py-0.5 px-2 mb-2">
                 <div className="flex items-center gap-x-2">
-                    <Checkbox
+                    {/* <Checkbox
                         name={'futureIndustry'}
                         onChange={() =>
                             setShowFutureIndustries(!showFutureIndustries)
@@ -390,7 +397,7 @@ export const ViewOnMapIndustriesModal = ({
                         defaultChecked={showFutureIndustries}
                         label={'Show Industry Listing'}
                         showError={false}
-                    />
+                    /> */}
                     {workplace?.student?.location2 && (
                         <Checkbox
                             name={'secondaryLocation'}
@@ -501,29 +508,6 @@ export const ViewOnMapIndustriesModal = ({
                                                                 clusterer={
                                                                     clusterer
                                                                 }
-                                                                onMouseOver={(
-                                                                    e: any
-                                                                ) => {
-                                                                    // handleMarkerClick(
-                                                                    //     marker
-                                                                    // )
-                                                                    setIndustryId(
-                                                                        marker?.id
-                                                                    )
-                                                                    setSelectedBox(
-                                                                        {
-                                                                            ...marker,
-                                                                            position:
-                                                                                {
-                                                                                    lat: e.latLng.lat(),
-                                                                                    lng: e.latLng.lng(),
-                                                                                },
-                                                                        }
-                                                                    )
-                                                                    setShowInfoBox(
-                                                                        true
-                                                                    )
-                                                                }}
                                                                 onMouseOut={() =>
                                                                     setSelectedMarker(
                                                                         null
@@ -751,26 +735,6 @@ export const ViewOnMapIndustriesModal = ({
                                                             clusterer={
                                                                 clusterer
                                                             }
-                                                            onMouseOver={(
-                                                                e: any
-                                                            ) => {
-                                                                // handleMarkerClick(
-                                                                //     marker
-                                                                // )
-                                                                setIndustryId(
-                                                                    marker?.id
-                                                                )
-                                                                setSelectedBox({
-                                                                    ...marker,
-                                                                    position: {
-                                                                        lat: e.latLng.lat(),
-                                                                        lng: e.latLng.lng(),
-                                                                    },
-                                                                })
-                                                                setShowInfoBox(
-                                                                    true
-                                                                )
-                                                            }}
                                                             onMouseOut={() =>
                                                                 setSelectedMarker(
                                                                     null
@@ -787,6 +751,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                 )
                                                                 setSelectedBox({
                                                                     ...marker,
+                                                                    type: 'industry',
                                                                     position: {
                                                                         lat: e.latLng.lat(),
                                                                         lng: e.latLng.lng(),
@@ -798,7 +763,7 @@ export const ViewOnMapIndustriesModal = ({
                                                             }}
                                                         />
 
-                                                        {selectedBox &&
+                                                        {/* {selectedBox &&
                                                             showInfoBox &&
                                                             selectedBox.id ===
                                                                 marker.id &&
@@ -880,7 +845,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                         />
                                                                     )}
                                                                 </InfoBox>
-                                                            )}
+                                                            )} */}
                                                     </>
                                                 ))}
                                         </>
@@ -896,7 +861,7 @@ export const ViewOnMapIndustriesModal = ({
                                             {visibleMarkers
                                                 ?.filter(
                                                     (marker: any) =>
-                                                        marker?.address
+                                                        marker?.contactPersonEmail
                                                 )
                                                 ?.map((marker: any) => (
                                                     <div key={marker?.id}>
@@ -917,29 +882,6 @@ export const ViewOnMapIndustriesModal = ({
                                                             clusterer={
                                                                 clusterer
                                                             }
-                                                            onMouseOver={(
-                                                                e: any
-                                                            ) => {
-                                                                // handleMarkerClick(marker)
-                                                                // setStudentId(marker?.id)
-                                                                // setIndustryId(
-                                                                //     marker?.id
-                                                                // )
-                                                                setBranchId(
-                                                                    marker?.id
-                                                                )
-                                                                setSelectedBox({
-                                                                    ...marker,
-                                                                    type: 'branch',
-                                                                    position: {
-                                                                        lat: e.latLng.lat(),
-                                                                        lng: e.latLng.lng(),
-                                                                    },
-                                                                })
-                                                                setShowInfoBox(
-                                                                    true
-                                                                )
-                                                            }}
                                                             onMouseOut={() =>
                                                                 setSelectedMarker(
                                                                     null
@@ -966,74 +908,10 @@ export const ViewOnMapIndustriesModal = ({
                                                                     true
                                                                 )
                                                             }}
+                                                            title={
+                                                                marker?.businessName
+                                                            }
                                                         />
-                                                        {selectedBox &&
-                                                            selectedBox?.type ===
-                                                                'branch' &&
-                                                            showInfoBox &&
-                                                            selectedBox?.id ===
-                                                                marker?.id &&
-                                                            marker?.address &&
-                                                            !marker?.department &&
-                                                            !marker?.courses && (
-                                                                <InfoBox
-                                                                    position={
-                                                                        selectedBox?.position
-                                                                    }
-                                                                    onCloseClick={() => {
-                                                                        setSelectedBox(
-                                                                            null
-                                                                        )
-                                                                        setShowInfoBox(
-                                                                            false
-                                                                        )
-                                                                        // setStudentId('')
-
-                                                                        setFutureIndustryId(
-                                                                            null
-                                                                        )
-                                                                    }}
-                                                                    options={{
-                                                                        closeBoxURL: ``,
-                                                                        enableEventPropagation:
-                                                                            true,
-                                                                    }}
-                                                                >
-                                                                    {marker?.address &&
-                                                                        !marker?.courses && (
-                                                                            <IndustryBranchInfoBoxCard
-                                                                                item={
-                                                                                    industryDetails
-                                                                                }
-                                                                                selectedBox={
-                                                                                    selectedBox
-                                                                                }
-                                                                                industryId={
-                                                                                    branchId
-                                                                                }
-                                                                                setSelectedBox={
-                                                                                    setSelectedBox
-                                                                                }
-                                                                                courseId={
-                                                                                    courseId
-                                                                                }
-                                                                                workplace={
-                                                                                    workplace
-                                                                                }
-                                                                                appliedIndustry={
-                                                                                    appliedIndustry
-                                                                                }
-                                                                                workplaceMapCard={
-                                                                                    true
-                                                                                }
-                                                                                onCancel={
-                                                                                    onCancel
-                                                                                }
-                                                                                industryContacted
-                                                                            />
-                                                                        )}
-                                                                </InfoBox>
-                                                            )}
                                                     </div>
                                                 ))}
                                         </>
@@ -1090,26 +968,6 @@ export const ViewOnMapIndustriesModal = ({
                                                             clusterer={
                                                                 clusterer
                                                             }
-                                                            onMouseOver={(
-                                                                e: any
-                                                            ) => {
-                                                                // handleMarkerClick(
-                                                                //     marker
-                                                                // )
-                                                                setIndustryId(
-                                                                    marker?.id
-                                                                )
-                                                                setSelectedBox({
-                                                                    ...marker,
-                                                                    position: {
-                                                                        lat: e.latLng.lat(),
-                                                                        lng: e.latLng.lng(),
-                                                                    },
-                                                                })
-                                                                setShowInfoBox(
-                                                                    true
-                                                                )
-                                                            }}
                                                             onMouseOut={() =>
                                                                 setSelectedMarker(
                                                                     null
@@ -1126,6 +984,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                 )
                                                                 setSelectedBox({
                                                                     ...marker,
+                                                                    type: 'industry',
                                                                     position: {
                                                                         lat: e.latLng.lat(),
                                                                         lng: e.latLng.lng(),
@@ -1135,8 +994,12 @@ export const ViewOnMapIndustriesModal = ({
                                                                     true
                                                                 )
                                                             }}
+                                                            title={
+                                                                marker?.user
+                                                                    ?.name
+                                                            }
                                                         />
-                                                        {selectedBox &&
+                                                        {/* {selectedBox &&
                                                             showInfoBox &&
                                                             selectedBox.id ===
                                                                 marker.id &&
@@ -1215,7 +1078,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                         />
                                                                     )}
                                                                 </InfoBox>
-                                                            )}
+                                                            )} */}
                                                     </>
                                                 ))}
                                         </>
@@ -1223,160 +1086,84 @@ export const ViewOnMapIndustriesModal = ({
                                 </MarkerClusterer>
 
                                 {/* Future Industries */}
-                                {showFutureIndustries && (
-                                    <MarkerClusterer
-                                        options={futureIndustryClusterOptions}
-                                    >
-                                        {(clusterer) => (
-                                            <>
-                                                {visibleMarkers
-                                                    ?.filter(
-                                                        (marker: any) =>
-                                                            marker?.department &&
-                                                            !marker?.user
-                                                    )
-                                                    .map((marker: any) => (
-                                                        <div key={marker?.id}>
-                                                            <Marker
-                                                                icon={{
-                                                                    url:
-                                                                        marker?.department &&
-                                                                        '/images/icons/future-industry-pin.png',
 
-                                                                    scaledSize:
-                                                                        new google.maps.Size(
-                                                                            29,
-                                                                            38
-                                                                        ),
-                                                                }}
-                                                                position={
-                                                                    marker.location
-                                                                }
-                                                                // label={marker.name}
-                                                                clusterer={
-                                                                    clusterer
-                                                                }
-                                                                onMouseOver={(
-                                                                    e: any
-                                                                ) => {
-                                                                    // handleMarkerClick(marker)
-                                                                    // setStudentId(marker?.id)
-                                                                    // setIndustryId(
-                                                                    //     marker?.id
-                                                                    // )
-                                                                    setFutureIndustryId(
-                                                                        marker?.id
-                                                                    )
+                                <MarkerClusterer
+                                    options={futureIndustryClusterOptions}
+                                >
+                                    {(clusterer) => (
+                                        <>
+                                            {visibleMarkers
+                                                ?.filter(
+                                                    (marker: any) =>
+                                                        marker?.department &&
+                                                        !marker?.user &&
+                                                        !marker?.courses
+                                                )
+                                                .map((marker: any) => (
+                                                    <div key={marker?.id}>
+                                                        <Marker
+                                                            icon={{
+                                                                url:
+                                                                    marker?.department &&
+                                                                    '/images/icons/future-industry-pin.png',
 
-                                                                    setSelectedBox(
-                                                                        {
-                                                                            ...marker,
-                                                                            type: 'futureIndustry',
-                                                                            position:
-                                                                                {
-                                                                                    lat: e.latLng.lat(),
-                                                                                    lng: e.latLng.lng(),
-                                                                                },
-                                                                        }
-                                                                    )
-                                                                    setShowInfoBox(
-                                                                        true
-                                                                    )
-                                                                }}
-                                                                onMouseOut={() =>
-                                                                    setSelectedMarker(
-                                                                        null
-                                                                    )
-                                                                }
-                                                                onClick={(
-                                                                    e: any
-                                                                ) => {
-                                                                    // handleMarkerClick(marker)
-                                                                    // setStudentId(marker?.id)
-                                                                    // setIndustryId(
-                                                                    //     marker?.id
-                                                                    // )
-                                                                    setFutureIndustryId(
-                                                                        marker?.id
-                                                                    )
+                                                                scaledSize:
+                                                                    new google.maps.Size(
+                                                                        29,
+                                                                        38
+                                                                    ),
+                                                            }}
+                                                            position={
+                                                                marker.location
+                                                            }
+                                                            // label={marker.name}
+                                                            clusterer={
+                                                                clusterer
+                                                            }
+                                                            onMouseOver={(
+                                                                e: any
+                                                            ) => {
+                                                                setFutureIndustryId(
+                                                                    marker?.id
+                                                                )
 
-                                                                    setSelectedBox(
-                                                                        {
-                                                                            ...marker,
-                                                                            type: 'futureIndustry',
-                                                                            position:
-                                                                                {
-                                                                                    lat: e.latLng.lat(),
-                                                                                    lng: e.latLng.lng(),
-                                                                                },
-                                                                        }
-                                                                    )
-                                                                    setShowInfoBox(
-                                                                        true
-                                                                    )
-                                                                }}
-                                                            />
-                                                            {selectedBox &&
-                                                                selectedBox?.type ===
-                                                                    'futureIndustry' &&
-                                                                showInfoBox &&
-                                                                selectedBox?.id ===
-                                                                    marker?.id &&
-                                                                marker?.department &&
-                                                                !marker?.user && (
-                                                                    <InfoBox
-                                                                        position={
-                                                                            selectedBox?.position
-                                                                        }
-                                                                        onCloseClick={() => {
-                                                                            setSelectedBox(
-                                                                                null
-                                                                            )
-                                                                            setShowInfoBox(
-                                                                                false
-                                                                            )
-                                                                            // setStudentId('')
-                                                                            setIndustryId(
-                                                                                ''
-                                                                            )
-                                                                            setFutureIndustryId(
-                                                                                null
-                                                                            )
-                                                                        }}
-                                                                        options={{
-                                                                            closeBoxURL: ``,
-                                                                            enableEventPropagation:
-                                                                                true,
-                                                                        }}
-                                                                    >
-                                                                        {marker?.department &&
-                                                                            !marker?.user && (
-                                                                                <FutureIndustryInfoBoxCard
-                                                                                    item={
-                                                                                        industryDetails
-                                                                                    }
-                                                                                    selectedBox={
-                                                                                        selectedBox
-                                                                                    }
-                                                                                    industryId={
-                                                                                        futureIndustryId
-                                                                                    }
-                                                                                    setSelectedBox={
-                                                                                        setSelectedBox
-                                                                                    }
-                                                                                    workplace={
-                                                                                        workplace
-                                                                                    }
-                                                                                />
-                                                                            )}
-                                                                    </InfoBox>
-                                                                )}
-                                                        </div>
-                                                    ))}
-                                            </>
-                                        )}
-                                    </MarkerClusterer>
-                                )}
+                                                                setShowInfoBox(
+                                                                    true
+                                                                )
+                                                            }}
+                                                            onMouseOut={() =>
+                                                                setSelectedMarker(
+                                                                    null
+                                                                )
+                                                            }
+                                                            onClick={(
+                                                                e: any
+                                                            ) => {
+                                                                setFutureIndustryId(
+                                                                    marker?.id
+                                                                )
+
+                                                                setSelectedBox({
+                                                                    ...marker,
+                                                                    type: 'futureIndustry',
+                                                                    position: {
+                                                                        lat: e.latLng.lat(),
+                                                                        lng: e.latLng.lng(),
+                                                                    },
+                                                                })
+                                                                setShowInfoBox(
+                                                                    true
+                                                                )
+                                                            }}
+                                                            title={
+                                                                marker?.businessName
+                                                            }
+                                                        />
+                                                    </div>
+                                                ))}
+                                        </>
+                                    )}
+                                </MarkerClusterer>
 
                                 {/* {directions && renderPolyline()}
         {renderDirections()} */}

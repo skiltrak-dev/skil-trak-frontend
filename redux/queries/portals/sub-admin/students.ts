@@ -398,11 +398,12 @@ export const studentsEndpoints = (
         invalidatesTags: ['SubAdminStudents'],
     }),
 
-    studentAnsweredCall: builder.mutation<any, { id: number; status: string }>({
-        query: ({ id, status }) => ({
+    studentAnsweredCall: builder.mutation<any, any>({
+        query: ({ id, status, isListing, body }) => ({
             url: `call-log/action/answered/${id}`,
             method: 'PATCH',
-            params: { status },
+            params: { status,  ...(isListing !== undefined && { isListing }) },
+            body,
         }),
         invalidatesTags: [
             'SubAdminStudents',

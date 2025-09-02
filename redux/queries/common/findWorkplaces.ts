@@ -1,3 +1,4 @@
+import { UserRoles } from '@constants'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import { Industry, PaginationWithSearch } from '@types'
@@ -69,6 +70,14 @@ export const findWorkplaceEndpoints = (
         }),
         providesTags: ['SubAdmin'],
     }),
+    getMapFutureIndustriesInRadius: builder.query<any, any>({
+        query: ({ id, wpId, params = {} }) => ({
+            url: `${PREFIX}/course/${id}/list/industries/${wpId}`,
+            params,
+        }),
+        providesTags: ['SubAdmin'],
+    }),
+
     industriesStatusChange: builder.mutation<
         Industry,
         { id: number; status: string }
@@ -204,6 +213,14 @@ export const findWorkplaceEndpoints = (
             url: `${PREFIX}/student/${id}/call-log`,
             params,
             method: 'POST',
+        }),
+        invalidatesTags: ['Industries'],
+    }),
+    futureIndustryCallLog: builder.mutation<any, any>({
+        query: ({ params }) => ({
+            url: `${PREFIX}/call-log`,
+            method: 'POST',
+            params,
         }),
         invalidatesTags: ['Industries'],
     }),

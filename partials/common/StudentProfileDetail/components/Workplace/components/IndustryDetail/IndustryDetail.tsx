@@ -33,9 +33,14 @@ import {
 import { Actions } from './Actions'
 import { AgreementView } from '../AgreementView'
 import { StudentProvidedActions } from './StudentProvidedActions'
-import { IndustryCard, StudentInterviewDetail } from './components'
+import {
+    IndustryCard,
+    OnViewMapTabs,
+    StudentInterviewDetail,
+} from './components'
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { useAssessmentDocumentsView } from '../../../AssessmentsSubmission'
+import { MapModal } from './components/MapModal'
 
 export const IndustryDetail = ({
     student,
@@ -52,14 +57,13 @@ export const IndustryDetail = ({
     workplace: IWorkplaceIndustries
     appliedIndustry: WorkplaceWorkIndustriesType
 }) => {
+    const [selectedBox, setSelectedBox] = useState<any>(null)
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const contextBar = useContextBar()
     const { notification } = useNotification()
-    const [modal, setModal] = useState<ReactElement | null>(null)
-
     const { onFileClicked, documentsViewModal } = useAssessmentDocumentsView()
 
     const role = getUserCredentials()?.role
-
     const suggestedIndustries = workplace?.industries?.filter(
         (i: any) => !i.applied
     )
@@ -89,32 +93,46 @@ export const IndustryDetail = ({
 
     const onViewOnMap = () => {
         setModal(
-            <div
-                className={`bg-[#00000050] ${
-                    contextBar.isVisible ? 'w-[calc(100%-321px)]' : 'w-full'
-                } h-screen flex items-center justify-center gap-x-2 fixed top-0 left-0 px-2 z-40`}
-            >
-                <div
-                    className="h-[90vh] lg:h-[450px] xl:h-[530px] bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md w-full md:w-auto md:min-w-[420px]"
-                    style={{ zIndex: 111 }}
-                >
-                    <ViewOnMapIndustriesModal
-                        workplace={{ ...workplace, student }}
-                        courseId={course?.id}
-                        onCancel={onCancelClicked}
-                        appliedIndustry={appliedIndustry}
-                        suggestedIndustries={suggestedIndustries}
-                    />
-                </div>
-                <div
-                    className="h-[90vh] lg:h-[450px] xl:h-[530px] bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md w-full md:w-auto md:max-w-[388px]"
-                    style={{ zIndex: 111 }}
-                >
-                    <StudentInterviewDetail
-                        workplaceId={Number(workplace?.id)}
-                    />
-                </div>
-            </div>
+            // <div
+            //     className={`bg-[#00000050] ${
+            //         contextBar.isVisible ? 'w-[calc(100%-321px)]' : 'w-full'
+            //     } h-screen flex items-center justify-center gap-x-2 fixed top-0 left-0 px-2 z-40`}
+            // >
+            //     <div
+            //         className="h-[90vh] lg:h-[450px] xl:h-[530px] bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md w-full md:w-auto md:max-w-[320px]"
+            //         style={{ zIndex: 111 }}
+            //     >
+            //         <ViewOnMapIndustriesModal
+            //             workplace={{ ...workplace, student }}
+            //             courseId={course?.id}
+            //             onCancel={onCancelClicked}
+            //             appliedIndustry={appliedIndustry}
+            //             suggestedIndustries={suggestedIndustries}
+            //             setSelectedBox={setSelectedBox}
+            //             selectedBox={selectedBox}
+            //         />
+            //     </div>
+            //     <div
+            //         className="h-[90vh] lg:h-[450px] xl:h-[530px] bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md w-[900px]"
+            //         style={{ zIndex: 111 }}
+            //     >
+            //         <OnViewMapTabs
+            //             workplaceId={workplace?.id}
+            //             selectedBox={selectedBox}
+            //         />
+            //     </div>
+            // </div>
+            <MapModal
+                workplace={{ ...workplace, student }}
+                courseId={course?.id}
+                onCancel={onCancelClicked}
+                appliedIndustry={appliedIndustry}
+                suggestedIndustries={suggestedIndustries}
+                setSelectedBox={setSelectedBox}
+                selectedBox={selectedBox}
+                student={student}
+                course={course}
+            />
         )
     }
     // useEffect(() => {

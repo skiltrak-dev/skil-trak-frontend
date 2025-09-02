@@ -6,11 +6,7 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import {
-    useContextBar,
-    useNotification,
-    useSubadminProfile
-} from '@hooks'
+import { useContextBar, useNotification, useSubadminProfile } from '@hooks'
 import { ComposeListingIndustryMail } from '@partials/common/FindWorkplaces'
 import { SubAdminApi, useAddExistingIndustriesMutation } from '@queries'
 import { IndustryStatus } from '@types'
@@ -48,7 +44,6 @@ export const FutureIndustryInfoBoxCard = ({
     industryId = selectedBox?.id
 
     const contextBar = useContextBar()
-    const [isComposeMail, setIsComposeMail] = useState<boolean>(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const subadmin = useSubadminProfile()
@@ -56,15 +51,14 @@ export const FutureIndustryInfoBoxCard = ({
     // apply for industry
     const [addExistingIndustry, addExistingIndustryResult] =
         useAddExistingIndustriesMutation()
-    // const [addToContacted, addToContactedResult] =
-    //     CommonApi.FindWorkplace.useFutureIndustryContacted()
-    const [addToContacted, addToContactedResult] =
-        SubAdminApi.Workplace.contactWorkplaceIndustry()
 
-    const sectors = selectedBox?.sector
-
-    const { notification } = useNotification()
-    const router = useRouter()
+        
+        const sectors = selectedBox?.sector
+        
+        const { notification } = useNotification()
+        const router = useRouter()
+        const [addToContacted, addToContactedResult] =
+            SubAdminApi.Workplace.contactWorkplaceIndustry()
 
     useEffect(() => {
         if (addToContactedResult.isSuccess) {
