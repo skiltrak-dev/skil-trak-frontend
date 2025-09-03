@@ -1,16 +1,13 @@
-import { SubAdminApi, useGetSubAdminIndustryProfileQuery } from '@queries'
-import { useRouter } from 'next/router'
-import React from 'react'
-import { CourseCard } from './CourseCard'
 import { LoadingAnimation } from '@components'
+import { SubAdminApi } from '@queries'
+import { Industry } from '@types'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+import { InitiateIndustryEsignModal } from '../../modal'
+import { CourseCard } from './CourseCard'
 
-export const PendingCourses = () => {
+export const PendingCourses = ({ industry }: { industry: Industry }) => {
     const router = useRouter()
-    const id = router.query.id
-    const industry = useGetSubAdminIndustryProfileQuery(Number(id), {
-        skip: !id,
-        // refetchOnMountOrArgChange: true,
-    })
 
     const pendingCourses = SubAdminApi.Industry.useIndustryRequestedCourses(
         {
@@ -26,6 +23,7 @@ export const PendingCourses = () => {
             refetchOnMountOrArgChange: true,
         }
     )
+
     return (
         <div>
             {pendingCourses.isLoading ? (

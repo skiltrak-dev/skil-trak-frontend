@@ -47,7 +47,6 @@ export const IndustryProfileCB = ({
     const [page, setPage] = useState(1)
     const router = useRouter()
     const id = router.query.id
-    console.log('id', id)
 
     const isEmailVerified = industry?.user?.isEmailVerified
     const { data, isLoading, isFetching, isError } =

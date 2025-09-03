@@ -26,12 +26,14 @@ import {
     IWorkplaceIndustries,
     WorkplaceWorkIndustriesType,
 } from 'redux/queryTypes'
+import { useAssessmentDocumentsView } from '../../../AssessmentsSubmission'
 import {
     ShowPlacementCommentsModal,
     ViewContactedIndustryModal,
+    WPProcessingListModal,
 } from '../../modals'
-import { Actions } from './Actions'
 import { AgreementView } from '../AgreementView'
+
 import { StudentProvidedActions } from './StudentProvidedActions'
 import {
     IndustryCard,
@@ -41,6 +43,12 @@ import {
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { useAssessmentDocumentsView } from '../../../AssessmentsSubmission'
 import { MapModal } from './components/MapModal'
+
+import { Actions } from './Actions'
+import { IndustryCard, StudentInterviewDetail } from './components'
+import { StudentProvidedABNActions } from './StudentProvidedABNActions'
+import { StudentProvidedActions } from './StudentProvidedActions'
+
 
 export const IndustryDetail = ({
     student,
@@ -135,30 +143,10 @@ export const IndustryDetail = ({
             />
         )
     }
-    // useEffect(() => {
-    //     if (appliedIndustry && suggestedIndustries?.length) {
-    //         onCancelClicked()
-    //     }
-    // }, [appliedIndustry, suggestedIndustries])
-
-    let fileName: any = workplace?.employmentDocument?.file
-    // ? workplace?.employmentDocument?.file?.split('\\')
-    // : ''
-    // if (fileName?.length === 1) {
-    //     fileName = workplace?.employmentDocument?.file?.split('/') + ''
-
-    //     if (fileName.length > 1) {
-    //         fileName = fileName[fileName?.length - 1]
-    //     }
-    // }
 
     const extension = workplace?.employmentDocument?.file
         ?.split('.')
         ?.reverse()?.[0]
-    // ?.replaceAll('{"', '')
-    // .replaceAll('"}', '')
-    // ?.split('.')
-    // .reverse()[0]
 
     const wpDocKeys = {
         [WorkplaceEmploymentDocument.PAY_SLIP]: 'Pay Slip',
@@ -167,6 +155,10 @@ export const IndustryDetail = ({
     }
 
     const subadmin = useSubadminProfile()
+
+    const onProcessMatchingLoader = () => {
+        setModal(<WPProcessingListModal onCancel={onCancelClicked} />)
+    }
 
     return (
         <>
@@ -180,6 +172,22 @@ export const IndustryDetail = ({
                         </Typography>
                     </div>
                     <div className="flex items-center gap-x-3">
+                        {/* <div
+                            onClick={() => {
+                                onProcessMatchingLoader()
+                            }}
+                        >
+                            <Typography
+                                semibold
+                                cursorPointer
+                                variant={'small'}
+                                color={'text-info'}
+                            >
+                                <span className="whitespace-pre hover:underline">
+                                    Workplace Process Logs
+                                </span>
+                            </Typography>
+                        </div> */}
                         {appliedIndustry?.workplaceRequest?.warnings &&
                         appliedIndustry?.workplaceRequest?.warnings?.length >
                             0 ? (
@@ -205,7 +213,7 @@ export const IndustryDetail = ({
                         >
                             <Typography variant={'small'} color={'text-info'}>
                                 <span
-                                    className="font-semibold cursor-pointer whitespace-pre"
+                                    className="font-semibold cursor-pointer whitespace-pre hover:underline"
                                     onClick={() => {
                                         if (
                                             role === UserRoles.ADMIN ||

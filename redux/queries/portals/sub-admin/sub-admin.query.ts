@@ -169,7 +169,7 @@ export const subAdminApi = emptySplitApi.injectEndpoints({
                 params,
                 body,
             }),
-            invalidatesTags: ['SubAdminCourses'],
+            invalidatesTags: ['SubAdminCourses', 'RequestToAddCourse'],
         }),
 
         ...notesEndpoints(build),

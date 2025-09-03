@@ -45,14 +45,10 @@ export const PendingIndustries = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    // hooks
-    const { passwordModal, onViewPassword } = useActionModal()
-
     const { isLoading, data, isError } =
         SubAdminApi.SubAdmin.useDepartmentPendingIndustries({
-            // search: `status:${UserStatus.Pending}`,
-            skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
+            skip: itemPerPage * page - itemPerPage,
         })
     const subadmin = useSubadminProfile()
     const isHod = subadmin?.departmentMember?.isHod
@@ -69,12 +65,6 @@ export const PendingIndustries = () => {
                 onCancel={() => onModalCancelClicked()}
             />
         )
-        // setModal(
-        //     <ApproveIndustryWithQuestionsModal
-        //         industry={industry}
-        //         onCancel={() => onModalCancelClicked()}
-        //     />
-        // )
     }
 
     const onRejectClicked = (industry: Industry) => {
