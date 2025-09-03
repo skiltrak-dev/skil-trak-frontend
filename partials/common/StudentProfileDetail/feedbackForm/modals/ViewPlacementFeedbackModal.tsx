@@ -29,7 +29,6 @@ interface ViewPlacementFeedbackModalProps {
 export const ViewPlacementFeedbackModal = ({
     feedbackData,
 }: ViewPlacementFeedbackModalProps) => {
-    console.log('Feedback Data:', feedbackData)
 
     // Group by courseName first, then by step
     const groupedByCourse = feedbackData.reduce((acc: any, item) => {

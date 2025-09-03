@@ -154,16 +154,35 @@ export const subAdminIndustriesEndpoints = (
     }),
     industryCallLog: builder.mutation<
         any,
-        { industry: number; receiver: UserRoles }
+        {
+            industry?: number
+            branch?: number
+            receiver?: any
+            workplaceId?: number
+        }
     >({
-        query: ({ industry, receiver }) => ({
-            url: `call-log`,
-            method: 'POST',
-            params: { receiver },
-            body: { industry },
-        }),
+        query: ({ industry, branch, receiver, workplaceId }) => {
+            let body: Record<string, any> = {}
+            let params: Record<string, any> | undefined
+
+            if (industry !== undefined) {
+                // Industry call
+                body = { industry, workplaceId }
+                params = { receiver }
+            } else if (branch !== undefined) {
+                body = { branch, workplaceId }
+            }
+
+            return {
+                url: `call-log`,
+                method: 'POST',
+                params,
+                body,
+            }
+        },
         invalidatesTags: ['SubAdminIndustries', 'SubAdminWorkplace'],
     }),
+
     getIndustryCallLog: builder.query<any, number>({
         query: (industryId) => ({
             url: `call-log`,

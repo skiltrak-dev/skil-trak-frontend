@@ -44,9 +44,7 @@ export const DoNotDisturbModal = ({
             Icon={FaBan}
             variant="error"
             title="Are you sure!"
-            description={`You are about 'to do not disturb'
-                    
-            }" <em>"${industry?.businessName}"</em>. Do you wish to continue?`}
+            description={`You are about to do not disturb <em>"${industry?.businessName}"</em>. Do you wish to continue?`}
             onConfirm={onConfirmClicked}
             onCancel={onCancel}
             input

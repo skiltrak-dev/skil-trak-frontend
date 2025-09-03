@@ -92,10 +92,7 @@ export const FeedbackForm = ({
         if (isValid) {
             setCurrentStep((s) => Math.min(totalSteps - 1, s + 1))
         }
-        console.log(
-            'stepsConfig[currentStep].title',
-            stepsConfig[currentStep].description
-        )
+        
     }
 
     const handlePrevious = () => {

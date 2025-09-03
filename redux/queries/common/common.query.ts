@@ -528,6 +528,7 @@ const {
     useFindIndustriesCountQuery,
     useGetAllFindWorkplacesQuery,
     useGetMapFutureIndustriesQuery,
+    useGetMapFutureIndustriesInRadiusQuery,
     useGetFindWorkplacesCountQuery,
     useImportIndustriesListMutation,
     useRemoveFutureIndustryMutation,
@@ -547,6 +548,7 @@ const {
     useComposeListingIndustryMailMutation,
     useGetListingIndustryMailsQuery,
     useFutureIndustryContactedMutation,
+    useFutureIndustryCallLogMutation,
     useGetContactedFutureIndustriesListQuery,
     useFutureIndustryInterestMutation,
 
@@ -841,6 +843,7 @@ export const CommonApi = {
         useUpdateIndustry: useUpdateIndustryMutation,
         useFindIndustriesCount: useFindIndustriesCountQuery,
         mapFutureIndustries: useGetMapFutureIndustriesQuery,
+        useMapFutureIndustriesInRadius: useGetMapFutureIndustriesInRadiusQuery,
         importIndustriesList: useImportIndustriesListMutation,
         useGetAllFindWorkplaces: useGetAllFindWorkplacesQuery,
         useGetFindWorkplacesCount: useGetFindWorkplacesCountQuery,
@@ -864,6 +867,7 @@ export const CommonApi = {
         useComposeListingIndustryMail: useComposeListingIndustryMailMutation,
         useListingIndustryMails: useGetListingIndustryMailsQuery,
         useFutureIndustryContacted: useFutureIndustryContactedMutation,
+        useFutureIndustryCallLog: useFutureIndustryCallLogMutation,
         useContactedFutureIndustriesList:
             useGetContactedFutureIndustriesListQuery,
         useFutureIndustryInterest: useFutureIndustryInterestMutation,
