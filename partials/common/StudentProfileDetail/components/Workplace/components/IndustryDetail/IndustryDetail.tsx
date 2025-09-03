@@ -10,7 +10,6 @@ import {
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { UserRoles } from '@constants'
 import { useContextBar, useNotification, useSubadminProfile } from '@hooks'
-import { ViewOnMapIndustriesModal } from '@partials/common/MapBox'
 import {
     WorkplaceEmploymentDocument,
     WorkplaceMapBoxView,
@@ -34,21 +33,12 @@ import {
 } from '../../modals'
 import { AgreementView } from '../AgreementView'
 
-import { StudentProvidedActions } from './StudentProvidedActions'
-import {
-    IndustryCard,
-    OnViewMapTabs,
-    StudentInterviewDetail,
-} from './components'
-import { StudentProvidedABNActions } from './StudentProvidedABNActions'
-import { useAssessmentDocumentsView } from '../../../AssessmentsSubmission'
+import { IndustryCard } from './components'
 import { MapModal } from './components/MapModal'
+import { StudentProvidedABNActions } from './StudentProvidedABNActions'
+import { StudentProvidedActions } from './StudentProvidedActions'
 
 import { Actions } from './Actions'
-import { IndustryCard, StudentInterviewDetail } from './components'
-import { StudentProvidedABNActions } from './StudentProvidedABNActions'
-import { StudentProvidedActions } from './StudentProvidedActions'
-
 
 export const IndustryDetail = ({
     student,
