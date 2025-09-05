@@ -380,7 +380,12 @@ export const workplaceEndpoints = (
             url: `subadmin/course/${id}/list/industries/${wpId}`,
             params,
         }),
-        providesTags: ['SubAdminWorkplace', 'SubAdminIndustries'],
+        providesTags: [
+            'SubAdminWorkplace',
+            'SubAdminIndustries',
+            'Industries',
+            'SubAdminStudents',
+        ],
     }),
 
     getMapIndustriesInRadiusCount: builder.query<any, any>({

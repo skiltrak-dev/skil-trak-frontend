@@ -10,11 +10,13 @@ import { LuPhoneMissed } from 'react-icons/lu'
 export const OnViewMapCallAnswer = ({
     callLog,
     workplaceId,
-    isListing
+    isListing,
+    setShowCall,
 }: {
-    callLog: CallLog
+    callLog: any
     workplaceId: number
-     isListing?: boolean
+    isListing?: boolean
+    setShowCall?: (value: boolean) => void
 }) => {
     const [callType, setCallType] = useState<CallType>(CallType.Answer)
     const [callNotes, setCallNotes] = useState('')
@@ -49,6 +51,8 @@ export const OnViewMapCallAnswer = ({
                 onChange={(e: any) => {
                     onChangeNotes(e)
                 }}
+                value={callLog?.note ?? ''}
+                rows={5}
             />
             <div className="grid grid-cols-2 gap-2">
                 <Button
@@ -60,7 +64,7 @@ export const OnViewMapCallAnswer = ({
                         if (callNotes.trim() !== '') {
                             isAnsweredCall({
                                 id: callLog?.id,
-                                 status: 'true',
+                                status: 'true',
                                 body: {
                                     note: callNotes,
                                     workplaceId: workplaceId,
@@ -69,6 +73,9 @@ export const OnViewMapCallAnswer = ({
                                 if (res?.data) {
                                     ShowNotification(CallType.Answer)
                                     setCallNotes('')
+                                    if (setShowCall) {
+                                        setShowCall(false)
+                                    }
                                 }
                             })
                         }
@@ -92,8 +99,8 @@ export const OnViewMapCallAnswer = ({
                         if (callNotes.trim() !== '') {
                             isAnsweredCall({
                                 id: callLog?.id,
-                                 status: 'false',
-                                 ...(isListing !== undefined && { isListing }),
+                                status: 'false',
+                                ...(isListing !== undefined && { isListing }),
                                 body: {
                                     note: callNotes,
                                     workplaceId: workplaceId,
@@ -102,6 +109,9 @@ export const OnViewMapCallAnswer = ({
                                 if (res?.data) {
                                     ShowNotification(CallType.NotAnswer)
                                     setCallNotes('')
+                                    if (setShowCall) {
+                                        setShowCall(false)
+                                    }
                                 }
                             })
                         }

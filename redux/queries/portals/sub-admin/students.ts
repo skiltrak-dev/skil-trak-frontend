@@ -402,7 +402,7 @@ export const studentsEndpoints = (
         query: ({ id, status, isListing, body }) => ({
             url: `call-log/action/answered/${id}`,
             method: 'PATCH',
-            params: { status,  ...(isListing !== undefined && { isListing }) },
+            params: { status, ...(isListing !== undefined && { isListing }) },
             body,
         }),
         invalidatesTags: [
@@ -796,5 +796,26 @@ export const studentsEndpoints = (
     esignDocumentsFoldersList: builder.query<any, number>({
         query: (id) => `${PREFIX}/workplace-request/${id}/get-agreement/list`,
         providesTags: ['SubAdminStudents'],
+    }),
+
+    // ind/:id/workplace/:wpId/emails
+    getIndustryInRadiusWorkplaceEmails: builder.query<any, any>({
+        query: ({ wpId }) => ({
+            url: `subadmin/workplace/${wpId}/emails`,
+        }),
+        providesTags: ['SubAdminStudents', 'Mails'],
+    }),
+    getIndustryInRadiusWorkplaceCallLogs: builder.query<any, any>({
+        query: ({ wpId }) => ({
+            url: `subadmin/workplace/${wpId}/call-logs`,
+        }),
+        providesTags: ['SubAdminStudents'],
+    }),
+    // subadmin/workplace/:wpId/listing-emails
+    getFutureIndustryInRadiusWorkplaceEmails: builder.query<any, any>({
+        query: ({ wpId }) => ({
+            url: `subadmin/workplace/${wpId}/listing-emails`,
+        }),
+        providesTags: ['SubAdminStudents', 'Industries'],
     }),
 })

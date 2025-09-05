@@ -7,11 +7,14 @@ export const ComposeMailModal = ({
     userId,
     onCancel,
     user,
+    workplaceId,
 }: {
     user: User
     userId: number
     onCancel: () => void
+    workplaceId?: number
 }) => {
+    console.log('workplaceId', workplaceId)
     return (
         <GlobalModal>
             <div className=" w-full md:w-[700px]">
@@ -29,7 +32,11 @@ export const ComposeMailModal = ({
                     />
                 </div>
                 <div className="max-h-[80vh] overflow-auto custom-scrollbar w-[700px]">
-                    <MailForm receiverId={Number(userId)} />
+                    <MailForm
+                        receiverId={Number(userId)}
+                        workplaceId={workplaceId}
+                        onCancel={onCancel}
+                    />
                 </div>
             </div>
         </GlobalModal>

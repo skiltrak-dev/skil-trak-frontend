@@ -5,7 +5,7 @@ import { ShowErrorNotifications } from '@components'
 import { SubAdminApi, useSubAdminRequestWorkplaceMutation } from '@queries'
 import { WorkplaceCreatedModal } from './modal'
 import { useShowErrorNotification } from '@components/ShowErrorNotifications/useShowErrorNotification'
-import { WPProcessMatchingLoader } from '@partials/common/StudentProfileDetail/components/Workplace/components/IndustryDetail'
+import { WPProcessMatchingLoader } from '@partials/common/StudentProfileDetail/components/Workplace/components/IndustryDetail/components/WPProcessMatchingLoader'
 
 type AvailabilityProps = {
     setActive: any

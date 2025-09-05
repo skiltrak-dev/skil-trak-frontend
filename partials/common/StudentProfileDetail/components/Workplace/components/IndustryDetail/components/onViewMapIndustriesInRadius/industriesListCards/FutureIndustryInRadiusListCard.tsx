@@ -1,7 +1,8 @@
 import React from 'react'
 import { MdNoAccounts } from 'react-icons/md'
-import { DistanceIndicator } from '../DistanceIndicator'
 import { MapPin } from 'lucide-react'
+import { ellipsisText } from '@utils'
+import { DistanceIndicator } from './DistanceIndicator'
 
 export const FutureIndustryInRadiusListCard = ({ item, onSelect }: any) => {
     return (
@@ -29,12 +30,13 @@ export const FutureIndustryInRadiusListCard = ({ item, onSelect }: any) => {
                                 })
                             }
                             className="cursor-pointer font-semibold text-sm text-gray-800"
+                            title={item?.businessName}
                         >
-                            {item?.businessName ?? 'NA'}
+                            {ellipsisText(item?.businessName, 20)}
                         </h3>
 
                         {!item?.signedUp && (
-                            <div className="flex items-center gap-x-2">
+                            <div className="flex items-center gap-x-2 whitespace-nowrap">
                                 <MdNoAccounts className="text-blue-700" />
                                 <span className="text-xs text-blue-700 font-bold">
                                     Not Signed Up
@@ -44,9 +46,12 @@ export const FutureIndustryInRadiusListCard = ({ item, onSelect }: any) => {
                     </div>
 
                     <div className="text-sm text-gray-500 flex flex-col">
-                        <span className="flex items-center gap-1">
+                        <span
+                            title={item?.addressLine1}
+                            className="flex items-center gap-1 text-sm cursor-pointer"
+                        >
                             <MapPin className="text-red-500" size={14} />{' '}
-                            {item?.address ?? 'NA'}
+                            {ellipsisText(item?.address, 20)}
                         </span>
 
                         <DistanceIndicator
@@ -58,7 +63,7 @@ export const FutureIndustryInRadiusListCard = ({ item, onSelect }: any) => {
             </div>
 
             {/* Right Section */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 whitespace-nowrap">
                 {item?.alreadyContacted ? (
                     <span className="text-xs bg-green-100 text-green-500 px-3 py-1 rounded-lg">
                         Contacted

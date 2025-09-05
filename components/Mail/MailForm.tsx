@@ -42,7 +42,14 @@ interface onSubmitType {
     template: any
     attachments: FileList | null
 }
-export const MailForm = ({ action, receiverId, sender }: any) => {
+
+export const MailForm = ({
+    action,
+    receiverId,
+    sender,
+    workplaceId,
+    onCancel,
+}: any) => {
     // const { replyMessage, setReplyMessage, setMessage } = useMessage()
     const { notification } = useNotification()
     const [isSendDraft, setIsSendDraft] = useState<boolean>(true)
@@ -112,11 +119,12 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
                 description: 'Email Sent Successfully',
             })
             setTemplateAttachment(null)
+            onCancel()
         }
         if (sendMessageResult.isError) {
             setSendEmailDraft(true)
         }
-    }, [sendMessageResult])
+    }, [sendMessageResult.isSuccess])
 
     const onRemoveFile = (fileId: number) => {
         setAttachmentFiles((preVal: any) => [
@@ -184,7 +192,7 @@ export const MailForm = ({ action, receiverId, sender }: any) => {
             receiver: receiverId,
             ccUsers: ccEmails || undefined,
             oldAttachment: templateAttachment || '',
-
+            ...(workplaceId && { workplaceId }),
             // receiver: receiverId || 64,
         }
 

@@ -398,6 +398,9 @@ export const {
     useGetSubAdminDepartmentCoordinatorsQuery,
     useSubAdminStudentCancelledWorkplacesQuery,
     useSkipWorkplaceMutation,
+    useGetIndustryInRadiusWorkplaceEmailsQuery,
+    useGetIndustryInRadiusWorkplaceCallLogsQuery,
+    useGetFutureIndustryInRadiusWorkplaceEmailsQuery,
 
     // ---- LOGBOOK ---- //
     useSaveLogbookMutation,
@@ -678,6 +681,12 @@ export const SubAdminApi = {
         useSubAdminStudentCancelledWorkplaces:
             useSubAdminStudentCancelledWorkplacesQuery,
         skipWorkplace: useSkipWorkplaceMutation,
+        useIndustryInRadiusWorkplaceEmails:
+            useGetIndustryInRadiusWorkplaceEmailsQuery,
+        useIndustryInRadiusWorkplaceCallLogs:
+            useGetIndustryInRadiusWorkplaceCallLogsQuery,
+        useFutureIndustryInRadiusWorkplaceEmails:
+            useGetFutureIndustryInRadiusWorkplaceEmailsQuery,
     },
     LogBook: {
         useSaveLogbook: useSaveLogbookMutation,
@@ -788,7 +797,7 @@ export const SubAdminApi = {
             useGetSubAdminMapSuggestedIndustryDetailQuery,
         useSubAdminMapIndustryBranchDetail:
             useGetSubAdminMapIndustryBranchDetailQuery,
-            useMapIndustriesInRadiusCount: useGetMapIndustriesInRadiusCountQuery,
+        useMapIndustriesInRadiusCount: useGetMapIndustriesInRadiusCountQuery,
         useWorkplaceCourseIndustries: useGetWorkplaceCourseIndustriesQuery,
         changeWpReqStatus: useChangeWorkplaceApprovalReqStatusMutation,
         placementAndInsuranceDocNote:
