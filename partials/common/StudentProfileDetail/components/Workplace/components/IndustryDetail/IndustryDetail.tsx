@@ -1,6 +1,7 @@
 import {
     AuthorizedUserComponent,
     Card,
+    GlobalModal,
     InitialAvatar,
     NoData,
     Tooltip,
@@ -33,12 +34,13 @@ import {
 } from '../../modals'
 import { AgreementView } from '../AgreementView'
 
-import { IndustryCard } from './components'
+import { ContactHistory, IndustryCard } from './components'
 import { MapModal } from './components/MapModal'
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { StudentProvidedActions } from './StudentProvidedActions'
 
 import { Actions } from './Actions'
+import { MdCancel } from 'react-icons/md'
 
 export const IndustryDetail = ({
     student,
@@ -73,10 +75,22 @@ export const IndustryDetail = ({
     // TODO : When user copy the listing industry phone number track it in contacted history and make a separate tab in modal like From Listing Industries
     const onViewContactedIndustries = () => {
         setModal(
-            <ViewContactedIndustryModal
+            <GlobalModal>
+                {/* <ViewContactedIndustryModal
                 workpaceId={Number(workplace?.id)}
                 onCancel={onCancelClicked}
-            />
+            /> */}
+                <div className="flex justify-end">
+                    <button
+                        onClick={onCancelClicked}
+                        className="p-2 hover:bg-white/50 rounded-lg transition-colors"
+                        title="Close modal"
+                    >
+                        <MdCancel className="w-6 h-6 text-gray-500 hover:text-gray-700" />
+                    </button>
+                </div>
+                <ContactHistory wpId={workplace?.id} />
+            </GlobalModal>
         )
     }
 

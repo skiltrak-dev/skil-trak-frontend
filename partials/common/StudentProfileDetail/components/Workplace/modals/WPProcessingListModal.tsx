@@ -1,7 +1,7 @@
 import { GlobalModal } from '@components'
 import { useEffect, useState } from 'react'
 import { MdCancel } from 'react-icons/md'
-import { WPProcessingList } from '../components/IndustryDetail'
+import { WPProcessingList } from '../components/IndustryDetail/components/WPProcessingList'
 
 export const WPProcessingListModal = ({
     onCancel,

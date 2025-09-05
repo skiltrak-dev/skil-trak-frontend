@@ -1,7 +1,8 @@
 import React from 'react'
-import { DistanceIndicator } from '../DistanceIndicator'
+import { DistanceIndicator } from './DistanceIndicator'
 import { FaHandshakeSimple, FaHandshakeSimpleSlash } from 'react-icons/fa6'
 import { MapPin } from 'lucide-react'
+import { ellipsisText } from '@utils'
 
 type IndustryInRadiusListCardProps = {
     item: any
@@ -66,9 +67,12 @@ export const IndustryInRadiusListCard = ({
                     </h3>
 
                     <div className="text-sm text-gray-500">
-                        <span className="flex items-center gap-1">
+                        <span
+                            title={item?.addressLine1}
+                            className="flex items-center gap-1 text-sm cursor-pointer"
+                        >
                             <MapPin className="text-red-500" size={14} />{' '}
-                            {item?.addressLine1?.split(',')[0] ?? 'Unknown'}
+                            {ellipsisText(item?.addressLine1, 20)}
                         </span>
                         <DistanceIndicator
                             distance={item?.distance ?? 0}

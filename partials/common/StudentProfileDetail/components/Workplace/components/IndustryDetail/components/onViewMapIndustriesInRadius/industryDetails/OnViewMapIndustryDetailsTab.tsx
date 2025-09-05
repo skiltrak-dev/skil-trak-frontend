@@ -33,7 +33,7 @@ import { LuPhoneCall } from 'react-icons/lu'
 import {
     MaxReqLimitReachModal,
     ShowIndustryNotesAndTHModal,
-} from '../../../modals'
+} from '../../../../../modals'
 import { OnViewMapCallAnswer } from './OnViewMapCallAnswer'
 
 export const OnViewMapIndustryDetailsTab = ({
@@ -113,6 +113,7 @@ export const OnViewMapIndustryDetailsTab = ({
                 userId={Number(industryDetails?.data?.user?.id)}
                 user={industryDetails?.data?.user}
                 onCancel={onModalCancelClicked}
+                workplaceId={workplaceId}
             />
         )
     }
@@ -132,6 +133,77 @@ export const OnViewMapIndustryDetailsTab = ({
 
     const role = getUserCredentials()?.role
     const toggleCall = () => setShowCall((prev) => !prev)
+    const industry = industryDetails?.data ?? {}
+    const hasPhone = Boolean(industry?.phoneNumber?.trim())
+    const callLogEntry =
+        industryDetails?.data?.callLog?.length > 0
+            ? industryDetails?.data?.callLog[0]
+            : null
+
+    const wasContacted = callLogEntry !== null
+    
+    const buttonText = hasPhone
+        ? call
+            ? 'Hide'
+            : 'Call'
+        : wasContacted
+        ? callLogEntry.isAnswered === true
+            ? 'Connected'
+            : 'Not Answered'
+        : 'No Phone Number'
+
+    const isDisabled =
+        callLogResult.isLoading ||
+        (!hasPhone && callLogEntry?.isAnswered !== null)
+
+    const handleCall = () => {
+        toggleCall()
+
+        if (!call && hasPhone) {
+            navigator.clipboard.writeText(industry.phoneNumber)
+
+            const commonPayload = {
+                studentId: Number(router?.query?.id),
+                wpId: workplaceId,
+            }
+
+            if (selectedBox?.type === 'branch') {
+                contactWorkplaceIndustry({
+                    ...commonPayload,
+                    branchId: industry.id,
+                })
+
+                callLog({
+                    branch: industry.id,
+                    workplaceId,
+                })
+            } else {
+                contactWorkplaceIndustry({
+                    ...commonPayload,
+                    industryId: industry.id,
+                })
+
+                callLog({
+                    industry: industry.id,
+                    workplaceId,
+                    receiver: UserRoles.INDUSTRY,
+                }).then((res: any) => {
+                    if (res?.data) {
+                        notification.success({
+                            title: 'Called Industry',
+                            description: `Called Industry with Name: ${industry?.user?.name}`,
+                        })
+                    }
+                })
+            }
+
+            notification.success({
+                title: 'Copied',
+                description: 'Phone Number Copied',
+            })
+        }
+    }
+
     return (
         <>
             <ShowErrorNotifications
@@ -175,12 +247,12 @@ export const OnViewMapIndustryDetailsTab = ({
                                 >
                                     {industryDetails?.data?.user?.name ?? 'NA'}
                                 </h3>
-                                <div className="flex items-center gap-1">
+                                {/* <div className="flex items-center gap-1">
                                     <Star className="h-3 w-3 text-[#F7A619] fill-current" />
                                     <span className="text-xs font-medium text-[#F7A619]">
                                         4.5/5
                                     </span>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="flex items-center gap-2 text-xs text-gray-600">
                                 <MapPin className="h-3 w-3" />
@@ -188,13 +260,13 @@ export const OnViewMapIndustryDetailsTab = ({
                                     {industryDetails?.data?.addressLine1 ??
                                         'NA'}
                                 </span>
-                                <span>•</span>
+                                {/* <span>•</span>
                                 <Users className="h-3 w-3" />
                                 <span>
                                     placed{' '}
                                     {industryDetails?.data?.enrolledStudents ??
                                         0}
-                                </span>
+                                </span> */}
                             </div>
                         </div>
                     </div>
@@ -229,53 +301,12 @@ export const OnViewMapIndustryDetailsTab = ({
                     </div>
                     <div className="grid grid-cols-2 gap-1 mt-2 px-2">
                         <Button
-                            text={call ? 'Hide' : 'Call'}
+                            text={buttonText}
                             Icon={LuPhoneCall}
                             variant="primaryNew"
-                            onClick={() => {
-                                toggleCall()
-                                if (!call) {
-                                    if (selectedBox?.type === 'branch') {
-                                        contactWorkplaceIndustry({
-                                            studentId: Number(
-                                                router?.query?.id
-                                            ),
-                                            wpId: workplaceId,
-                                            branchId: industryDetails?.data?.id,
-                                        })
-                                    } else {
-                                        contactWorkplaceIndustry({
-                                            studentId: Number(
-                                                router?.query?.id
-                                            ),
-                                            wpId: workplaceId,
-                                            industryId:
-                                                industryDetails?.data?.id,
-                                        })
-                                    }
-                                    if (selectedBox?.type === 'branch') {
-                                        callLog({
-                                            branch: industryDetails?.data?.id,
-                                            workplaceId,
-                                        })
-                                    } else {
-                                        callLog({
-                                            industry: industryDetails?.data?.id,
-                                            workplaceId,
-                                            receiver: UserRoles.INDUSTRY,
-                                        }).then((res: any) => {
-                                            if (res?.data) {
-                                                notification.success({
-                                                    title: 'Called Industry',
-                                                    description: `Called Industry with Name: ${industryDetails?.data?.user?.name}`,
-                                                })
-                                            }
-                                        })
-                                    }
-                                }
-                            }}
+                            onClick={handleCall}
                             loading={callLogResult.isLoading}
-                            disabled={callLogResult.isLoading}
+                            disabled={isDisabled}
                             outline
                         />
                         <Button
@@ -301,9 +332,46 @@ export const OnViewMapIndustryDetailsTab = ({
                             <OnViewMapCallAnswer
                                 callLog={industryDetails?.data?.callLog?.[0]}
                                 workplaceId={workplaceId}
+                                setShowCall={setShowCall}
                             />
                         </div>
                     )}
+                    {!hasPhone &&
+                    industryDetails?.data?.callLog?.[0]?.isAnswered === true ? (
+                        <div className="cursor-not-allowed">
+                            <div className="h-[1px] mt-4 mb-1 w-full bg-gray-300" />
+                            <div className="bg-gray-50 p-3 rounded-lg">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Phone className="h-3 w-3 text-emerald-600" />
+                                    <span className="text-xs font-medium">
+                                        Call Notes
+                                    </span>
+                                </div>
+                            </div>
+                            <OnViewMapCallAnswer
+                                callLog={industryDetails?.data?.callLog?.[0]}
+                                workplaceId={workplaceId}
+                            />
+                        </div>
+                    ) : !hasPhone &&
+                      industryDetails?.data?.callLog?.[0]?.isAnswered ===
+                          false ? (
+                        <div className="cursor-not-allowed">
+                            <div className="h-[1px] mt-4 mb-1 w-full bg-gray-300" />
+                            <div className="bg-gray-50 p-3 rounded-lg">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Phone className="h-3 w-3 text-emerald-600" />
+                                    <span className="text-xs font-medium">
+                                        Call Notes
+                                    </span>
+                                </div>
+                            </div>
+                            <OnViewMapCallAnswer
+                                callLog={industryDetails?.data?.callLog?.[0]}
+                                workplaceId={workplaceId}
+                            />
+                        </div>
+                    ) : null}
                 </>
             ) : (
                 <NoData text="No data found" />

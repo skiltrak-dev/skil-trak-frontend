@@ -194,7 +194,7 @@ export const findWorkplaceEndpoints = (
     }),
 
     composeListingIndustryMail: builder.mutation({
-        query: ({ body, id }) => ({
+        query: ({ body, id}) => ({
             url: `${PREFIX}/${id}/mail/send`,
             method: 'POST',
             body: body,

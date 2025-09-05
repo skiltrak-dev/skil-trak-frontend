@@ -13,9 +13,11 @@ import { useState } from 'react'
 export const ComposeListingIndustryMail = ({
     onCancelComposeMail,
     industry,
+    workplaceId,
 }: {
     onCancelComposeMail: () => void
     industry: any
+    workplaceId?: any
 }) => {
     const [attachmentFiles, setAttachmentFiles] = useState<any>([])
     const router = useRouter()
@@ -29,6 +31,9 @@ export const ComposeListingIndustryMail = ({
         const formData = new FormData()
 
         const { attachments, ...rest } = values
+        if (workplaceId) {
+            formData.append('workplaceId', workplaceId)
+        }
         Object.entries(rest)?.forEach(([key, value]: any) => {
             if (key === 'body') {
                 const body = draftToHtmlText(value)

@@ -1,7 +1,7 @@
 import { useContextBar } from '@hooks'
 import { ViewOnMapIndustriesModal } from '@partials/common/MapBox'
 import React, { useState } from 'react'
-import { OnViewMapTabs } from './OnViewMapTabs'
+import { OnViewMapTabs } from './onViewMapIndustriesInRadius'
 
 export const MapModal = ({
     workplace,

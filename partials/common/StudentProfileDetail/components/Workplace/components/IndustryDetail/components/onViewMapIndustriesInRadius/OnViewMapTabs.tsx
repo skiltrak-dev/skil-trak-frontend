@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { Building2, History, Users } from 'lucide-react'
-import { StudentInterviewDetail } from './StudentInterviewDetail'
-import { OnViewMapIndustryDetailsTab } from './OnViewMapIndustryDetailsTab'
+import { StudentInterviewDetail } from '../StudentInterviewDetail'
 import { CommonApi, SubAdminApi } from '@queries'
-import { OnViewMapFutureIndustryDetailsTab } from './OnViewMapFutureIndustryDetailsTab'
-import { ListIndustriesInRadius } from './ListIndustriesInRadius'
+import {
+    ContactHistory,
+    ListIndustriesInRadius,
+    OnViewMapFutureIndustryDetailsTab,
+    OnViewMapIndustryDetailsTab,
+} from '.'
 
 // Define tab structure with icon component
 interface Tab {
@@ -15,7 +18,7 @@ interface Tab {
 
 const tabs: Tab[] = [
     { id: 'industries', label: 'Industries', icon: Building2 },
-    // { id: 'contact', label: 'Contact History', icon: History },
+    { id: 'contact', label: 'Contact History', icon: History },
     { id: 'interviews', label: 'Student Interview', icon: Users },
 ]
 interface IndustryType {}
@@ -73,7 +76,7 @@ export const OnViewMapTabs = ({
             {/* Tab Navigation */}
             <div
                 role="tablist"
-                className="grid grid-cols-2 bg-white border-b border-gray-200 w-full shadow-sm rounded-t-md"
+                className="grid grid-cols-3 bg-white border-b border-gray-200 w-full shadow-sm rounded-t-md"
             >
                 {tabs.map((tab) => {
                     const Icon = tab.icon
@@ -138,10 +141,9 @@ export const OnViewMapTabs = ({
                 )}
                 {activeTab === 'contact' && (
                     <div>
-                        <h2 className="text-lg font-semibold">
-                            Contact History
-                        </h2>
-                        <p>Content for contact history goes here.</p>
+                        <ContactHistory
+                            wpId={workplace?.id}
+                        />
                     </div>
                 )}
                 {activeTab === 'interviews' && (

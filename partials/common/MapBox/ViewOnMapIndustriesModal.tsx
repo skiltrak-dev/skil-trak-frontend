@@ -145,13 +145,13 @@ export const ViewOnMapIndustriesModal = ({
             }
         )
     const workplaceCourseId = workplace?.courses?.[0]?.id
-    const futureIndustries =
-        CommonApi.FindWorkplace.useMapFutureIndustriesInRadius(
-            { id: workplaceCourseId, wpId: workplace?.id },
-            {
-                skip: !workplaceCourseId && !workplace?.id,
-            }
-        )
+    // const futureIndustries =
+    //     CommonApi.FindWorkplace.useMapFutureIndustriesInRadius(
+    //         { id: workplaceCourseId, wpId: workplace?.id },
+    //         {
+    //             skip: !workplaceCourseId && !workplace?.id,
+    //         }
+    //     )
     const workplaceCourseIndustries =
         SubAdminApi.Workplace.useWorkplaceCourseIndustries(
             { id: workplaceCourseId, wpId: workplace?.id },
@@ -164,21 +164,22 @@ export const ViewOnMapIndustriesModal = ({
         { skip: !router?.query?.id }
     )
 
-    const industriesBranches = workplaceCourseIndustries?.data?.data?.flatMap(
-        (item: any) => item?.locations || []
-    )
+    const industriesBranches =
+        workplaceCourseIndustries?.data?.inds?.data?.flatMap(
+            (item: any) => item?.locations || []
+        )
+    
     useEffect(() => {
         if (
-            workplaceCourseIndustries?.data?.data?.length > 0 ||
+            workplaceCourseIndustries?.data?.inds?.data?.length > 0 ||
             workplace?.student?.location ||
-            futureIndustries?.data?.data ||
             industriesBranches
         ) {
             const markers = []
 
             if (workplaceCourseIndustries?.data) {
                 const filteredIndustries =
-                    workplaceCourseIndustries?.data?.data?.filter(
+                    workplaceCourseIndustries?.data?.inds?.data?.filter(
                         (industry: any) =>
                             industry?.location && industry?.location !== 'NA'
                     )
@@ -208,13 +209,14 @@ export const ViewOnMapIndustriesModal = ({
                 markers.push(studentMarker)
             }
             if (
-                futureIndustries?.data?.data &&
-                futureIndustries?.data?.data?.length
+                workplaceCourseIndustries?.data?.listing?.data &&
+                workplaceCourseIndustries?.data?.listing?.data?.length
             ) {
-                const filteredIndustries = futureIndustries?.data?.data?.filter(
-                    (industry: any) =>
-                        industry.location && industry.location !== 'NA'
-                )
+                const filteredIndustries =
+                    workplaceCourseIndustries?.data?.listing?.data?.filter(
+                        (industry: any) =>
+                            industry.location && industry.location !== 'NA'
+                    )
                 const transformedFutureIndustries = filteredIndustries?.map(
                     (industry: any) => {
                         const [lat, lng] = industry?.location
@@ -244,7 +246,7 @@ export const ViewOnMapIndustriesModal = ({
 
             setVisibleMarkers(markers)
         }
-    }, [workplaceCourseIndustries, futureIndustries?.data?.data])
+    }, [workplaceCourseIndustries])
 
     const onBoundChange = useCallback(() => {
         setFutureIndustryId(null)

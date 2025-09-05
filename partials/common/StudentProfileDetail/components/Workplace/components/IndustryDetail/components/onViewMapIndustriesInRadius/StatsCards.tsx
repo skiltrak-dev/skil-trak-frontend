@@ -1,4 +1,5 @@
 import React from 'react'
+import { PuffLoader } from 'react-spinners'
 
 export const StatsCards = ({ counts }: any) => {
     const mergedCounts = [
@@ -33,17 +34,21 @@ export const StatsCards = ({ counts }: any) => {
     ]
     return (
         <div className="grid grid-cols-4 gap-4 my-2">
-            {mergedCounts?.map((item) => (
-                <div
-                    key={item?.key}
-                    className={`p-2 rounded-xl flex flex-col gap-y-2 items-center justify-center ${item?.class}`}
-                >
-                    <p className="text-sm">{item?.value ?? 0}</p>
-                    <h3 className="text-xs">
-                        {item?.label ?? 'NA'}
-                    </h3>
-                </div>
-            ))}
+            {counts.isLoading ? (
+                <PuffLoader />
+            ) : (
+                <>
+                    {mergedCounts?.map((item) => (
+                        <div
+                            key={item?.key}
+                            className={`p-2 rounded-xl flex flex-col gap-y-2 items-center justify-center ${item?.class}`}
+                        >
+                            <p className="text-sm">{item?.value ?? 0}</p>
+                            <h3 className="text-xs">{item?.label ?? 'NA'}</h3>
+                        </div>
+                    ))}
+                </>
+            )}
         </div>
     )
 }

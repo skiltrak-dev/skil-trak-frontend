@@ -126,6 +126,7 @@ export const OnViewMapFutureIndustryDetailsTab = ({
                     <ComposeListingIndustryMail
                         industry={selectedBox}
                         onCancelComposeMail={onCancelComposeMail}
+                        workplaceId={workplaceId}
                     />
                 </div>
             </GlobalModal>
@@ -141,7 +142,7 @@ export const OnViewMapFutureIndustryDetailsTab = ({
     const role = getUserCredentials()?.role
 
     const toggleCall = () => setShowCall((prev) => !prev)
-    
+
     return (
         <>
             {modal}
@@ -224,6 +225,17 @@ export const OnViewMapFutureIndustryDetailsTab = ({
                                 Icon={FiUserPlus}
                                 variant="success"
                                 outline
+                                onClick={() => {
+                                    if (role === UserRoles.SUBADMIN) {
+                                        router.push(
+                                            '/portals/sub-admin/tasks/industry-listing/signup-future-industry'
+                                        )
+                                    } else {
+                                        router.push(
+                                            '/portals/admin/future-industries/signup-future-industry'
+                                        )
+                                    }
+                                }}
                             />
                             {/* <Button
                                 text="Apply"
@@ -262,6 +274,9 @@ export const OnViewMapFutureIndustryDetailsTab = ({
                                         wpId: workplaceId,
                                         isListing: true,
                                     })
+                                    navigator.clipboard.writeText(
+                                        industryDetails?.data?.phone
+                                    )
                                 }
                                 callLog({
                                     params: {
@@ -274,6 +289,10 @@ export const OnViewMapFutureIndustryDetailsTab = ({
                                             description: `Called Industry with Name: ${industryDetails?.data?.user?.name}`,
                                         })
                                     }
+                                })
+                                notification.success({
+                                    title: 'Copied',
+                                    description: 'Phone Number Copied',
                                 })
                             }}
                             outline
