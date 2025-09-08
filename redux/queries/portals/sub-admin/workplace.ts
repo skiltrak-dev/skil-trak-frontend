@@ -346,10 +346,13 @@ export const workplaceEndpoints = (
         providesTags: ['SubAdminWorkplace'],
     }),
     // Suggested Industries show on map
-    getSubAdminMapSuggestedIndustryDetail: builder.query<any, any>({
-        query: (id) => ({
-            url: `industries/industry/${id}/detail/for-map`,
-            // params,
+    getSubAdminMapSuggestedIndustryDetail: builder.query<
+        any,
+        { industryId: number; workplaceId?: number }
+    >({
+        query: ({ industryId, ...params }) => ({
+            url: `industries/industry/${industryId}/detail/for-map`,
+            params,
         }),
         providesTags: ['SubAdminWorkplace'],
     }),

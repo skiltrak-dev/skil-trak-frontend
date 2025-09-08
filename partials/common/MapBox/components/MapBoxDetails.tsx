@@ -54,7 +54,7 @@ export const MapBoxDetails = ({
     // API calls using the same hooks as provided
     const industryDetails =
         SubAdminApi.Workplace.useSubAdminMapSuggestedIndustryDetail(
-            industryId,
+            { industryId: Number(industryId) },
             { skip: !industryId }
         )
 

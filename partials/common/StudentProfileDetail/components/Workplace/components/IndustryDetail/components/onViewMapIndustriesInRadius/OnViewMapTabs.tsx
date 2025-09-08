@@ -61,7 +61,7 @@ export const OnViewMapTabs = ({
                   }
               )
             : SubAdminApi.Workplace.useSubAdminMapSuggestedIndustryDetail(
-                  selectedBox?.id,
+                  { industryId: selectedBox?.id, workplaceId },
                   {
                       skip: isStudent || !selectedBox?.id,
                   }
@@ -141,9 +141,7 @@ export const OnViewMapTabs = ({
                 )}
                 {activeTab === 'contact' && (
                     <div>
-                        <ContactHistory
-                            wpId={workplace?.id}
-                        />
+                        <ContactHistory wpId={workplace?.id} />
                     </div>
                 )}
                 {activeTab === 'interviews' && (

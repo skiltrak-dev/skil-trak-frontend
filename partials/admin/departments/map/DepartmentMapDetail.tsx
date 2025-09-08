@@ -127,7 +127,7 @@ const DepartmentMapDetail = ({
     // useSubAdminMapStudents
     const industryDetails =
         SubAdminApi.Workplace.useSubAdminMapSuggestedIndustryDetail(
-            industryId,
+            { industryId: industryId },
             {
                 skip: !industryId,
             }
