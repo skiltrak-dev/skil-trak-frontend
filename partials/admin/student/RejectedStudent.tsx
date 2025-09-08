@@ -127,6 +127,15 @@ export const RejectedStudent = () => {
             ),
         },
         {
+            accessorKey: 'batch',
+            header: () => <span>Batch</span>,
+            cell: ({ row }) => (
+                <Typography whiteSpacePre variant="small" medium>
+                    {row?.original?.batch}
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: (info) => <SectorCell student={info.row.original} />,

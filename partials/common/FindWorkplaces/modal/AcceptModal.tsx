@@ -46,8 +46,6 @@ export const AcceptModal = ({
         }
     }
 
-    useEffect(() => {}, [changeStatusResult])
-
     return (
         <>
             <ShowErrorNotifications result={changeStatusResult} />

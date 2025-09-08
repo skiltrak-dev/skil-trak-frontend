@@ -204,6 +204,15 @@ export const ApprovedStudent = () => {
             ),
         },
         {
+            accessorKey: 'batch',
+            header: () => <span>Batch</span>,
+            cell: ({ row }) => (
+                <Typography whiteSpacePre variant="small" medium>
+                    {row?.original?.batch}
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: (info) => {
@@ -394,21 +403,21 @@ export const ApprovedStudent = () => {
                                         >
                                             {pageSize
                                                 ? pageSize(
-                                                    itemPerPage,
-                                                    (e) => {
-                                                        setItemPerPage(e)
-                                                        setIsRouting(false)
-                                                    },
-                                                    data?.data?.length
-                                                )
+                                                      itemPerPage,
+                                                      (e) => {
+                                                          setItemPerPage(e)
+                                                          setIsRouting(false)
+                                                      },
+                                                      data?.data?.length
+                                                  )
                                                 : null}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination
                                                     ? pagination(
-                                                        data?.pagination,
-                                                        setPage
-                                                    )
+                                                          data?.pagination,
+                                                          setPage
+                                                      )
                                                     : null}
                                             </div>
                                         </div>
@@ -424,23 +433,23 @@ export const ApprovedStudent = () => {
                                             <div className="p-6 mb-2 flex justify-between">
                                                 {pageSize
                                                     ? pageSize(
-                                                        itemPerPage,
-                                                        (e) => {
-                                                            setItemPerPage(e)
-                                                            setIsRouting(
-                                                                false
-                                                            )
-                                                        },
-                                                        data?.data?.length
-                                                    )
+                                                          itemPerPage,
+                                                          (e) => {
+                                                              setItemPerPage(e)
+                                                              setIsRouting(
+                                                                  false
+                                                              )
+                                                          },
+                                                          data?.data?.length
+                                                      )
                                                     : null}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
                                                     {pagination
                                                         ? pagination(
-                                                            data?.pagination,
-                                                            setPage
-                                                        )
+                                                              data?.pagination,
+                                                              setPage
+                                                          )
                                                         : null}
                                                 </div>
                                             </div>

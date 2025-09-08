@@ -1,4 +1,23 @@
+import { useAuthorizedUserComponent } from '@components'
+import { UserRoles } from '@constants'
+import { ChangeStatusModal } from '@partials/admin/invoices'
+import { InitiateSigningModal } from '@partials/sub-admin/assessmentEvidence/modal'
+import { GetFolders } from '@partials/sub-admin/workplace/hooks'
+import { ForwardModal } from '@partials/sub-admin/workplace/modals'
+import {
+    SubAdminApi,
+    useGetSubAdminStudentWorkplaceDetailQuery,
+    useGetWorkplaceFoldersQuery,
+} from '@queries'
+import { AssessmentEvidenceDetailType, Course, Student } from '@types'
+import { getUserCredentials, WorkplaceCurrentStatus } from '@utils'
+import moment from 'moment'
+import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
+import {
+    IWorkplaceIndustries,
+    WorkplaceWorkIndustriesType,
+} from 'redux/queryTypes'
 import {
     AddFeedbackModal,
     AppointmentBookModal,
@@ -16,30 +35,6 @@ import {
     ViewPlacementStartedAnswersModal,
     ViewQuestionsModal,
 } from '../modals'
-import {
-    SubAdminApi,
-    useGetSubAdminStudentWorkplaceDetailQuery,
-    useGetWorkplaceFoldersQuery,
-} from '@queries'
-import { useRouter } from 'next/router'
-import { getUserCredentials, WorkplaceCurrentStatus } from '@utils'
-import { InitiateSigningModal } from '@partials/sub-admin/assessmentEvidence/modal'
-import { UserRoles } from '@constants'
-import {
-    IWorkplaceIndustries,
-    WorkplaceWorkIndustriesType,
-} from 'redux/queryTypes'
-import { GetFolders } from '@partials/sub-admin/workplace/hooks'
-import { ForwardModal } from '@partials/sub-admin/workplace/modals'
-import { ChangeStatusModal } from '@partials/admin/invoices'
-import {
-    AssessmentEvidenceDetailType,
-    AssessmentEvidenceFolder,
-    Course,
-    Student,
-} from '@types'
-import moment from 'moment'
-import { useAuthorizedUserComponent } from '@components'
 
 export const useWorkplaceHook = ({ student }: { student: Student }) => {
     const [modal, setModal] = useState<ReactNode | null>(null)

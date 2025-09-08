@@ -141,7 +141,7 @@ export const OnViewMapIndustryDetailsTab = ({
             : null
 
     const wasContacted = callLogEntry !== null
-    
+
     const buttonText = hasPhone
         ? call
             ? 'Hide'

@@ -316,7 +316,15 @@ export const FilteredStudents = ({
                 />
             ),
         },
-
+        {
+            accessorKey: 'batch',
+            header: () => <span>Batch</span>,
+            cell: ({ row }) => (
+                <Typography whiteSpacePre variant="small" medium>
+                    {row?.original?.batch}
+                </Typography>
+            ),
+        },
         {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,

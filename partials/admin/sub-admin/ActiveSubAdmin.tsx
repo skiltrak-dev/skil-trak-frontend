@@ -134,6 +134,13 @@ export const ActiveSubAdmin = () => {
             Icon: FaEdit,
         },
         {
+            text: 'Associated With Rto',
+            onClick: (subadmin) => {
+                onAssociatedWithRtoClicked(subadmin?.id)
+            },
+            Icon: FaEdit,
+        },
+        {
             ...(role === UserRoles.ADMIN
                 ? {
                       text: 'Permissions',
@@ -185,6 +192,7 @@ export const ActiveSubAdmin = () => {
             accessorKey: 'studentCount',
             header: () => <span>Students</span>,
         },
+
         {
             accessorKey: 'createdBy.role',
             header: () => <span>Created By</span>,

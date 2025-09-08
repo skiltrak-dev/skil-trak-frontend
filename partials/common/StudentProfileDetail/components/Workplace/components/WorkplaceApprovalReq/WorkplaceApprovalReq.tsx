@@ -10,8 +10,10 @@ import { ReactElement, useEffect, useState } from 'react'
 import { AssignedCoordinator } from './AssignedCoordinator'
 import { useRouter } from 'next/router'
 import {
+    SkipCurrentWPApplyAnotherWPModal,
     SkipWorkplaceModal,
     UpdateIndustryEligibilityModal,
+    WpConfirmCapacity,
 } from '../../modals'
 
 export const WorkplaceApprovalReq = ({
@@ -20,8 +22,8 @@ export const WorkplaceApprovalReq = ({
     course,
 }: {
     course: Course
-    coordinator: SubAdmin
     wpReqApproval: any
+    coordinator: SubAdmin
 }) => {
     const [mount, setMount] = useState<boolean>(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -61,28 +63,28 @@ export const WorkplaceApprovalReq = ({
             />
         )
     }
+    const onSkipCurrentWPApplyAnotherWP = () => {
+        setModal(
+            <SkipCurrentWPApplyAnotherWPModal
+                onCancel={onCancel}
+                wpReqApproval={wpReqApproval}
+            />
+        )
+    }
+
+    const onWorkplaceConfirmCapacity = () => {
+        setModal(
+            <WpConfirmCapacity
+                onCancel={onCancel}
+                wpReqApproval={wpReqApproval}
+            />
+        )
+    }
 
     return (
         <div className="h-full">
             {modal}
-            {wpReqApproval?.isEligible ? (
-                <div className="grid grid-cols-3 gap-x-6 items-center border-b border-[#F7910F] px-4 py-2">
-                    <Typography variant="label" semibold block capitalize>
-                        eligible workplace option for placement
-                    </Typography>
-                    <div className="col-span-2">
-                        <Typography
-                            variant="small"
-                            medium
-                            color="text-[#24556D]"
-                        >
-                            Workplace Approval Request has been sent to the
-                            student once the student approves, you will be able
-                            to update the request status.{' '}
-                        </Typography>
-                    </div>
-                </div>
-            ) : (
+            {!wpReqApproval?.isEligible ? (
                 <Card noPadding>
                     <div className="flex flex-col gap-y-2 items-center px-4 py-2 bg-primary-light">
                         <Typography variant="label" block medium center>
@@ -127,6 +129,46 @@ export const WorkplaceApprovalReq = ({
                         </div>
                     </div>
                 </Card>
+            ) : !wpReqApproval?.hasVerifiedCapacity ? (
+                <Card noPadding>
+                    <div className="flex flex-col gap-y-2 items-center px-4 py-2 bg-gray-200">
+                        <Typography variant="label" block medium center>
+                            Please verify the workplace student capacity prior
+                            to student placement confirmation.
+                        </Typography>
+                        <div className="col-span-2 flex justify-end gap-x-3">
+                            <Button
+                                variant="success"
+                                text="Verify Capacity"
+                                disabled={role === UserRoles.RTO}
+                                onClick={onWorkplaceConfirmCapacity}
+                            />
+                            <Button
+                                text="Skip this workplace"
+                                variant="primary"
+                                disabled={role === UserRoles.RTO}
+                                onClick={onSkipCurrentWPApplyAnotherWP}
+                            />
+                        </div>
+                    </div>
+                </Card>
+            ) : (
+                <div className="grid grid-cols-3 gap-x-6 items-center border-b border-[#F7910F] px-4 py-2">
+                    <Typography variant="label" semibold block capitalize>
+                        eligible workplace option for placement
+                    </Typography>
+                    <div className="col-span-2">
+                        <Typography
+                            variant="small"
+                            medium
+                            color="text-[#24556D]"
+                        >
+                            Workplace Approval Request has been sent to the
+                            student once the student approves, you will be able
+                            to update the request status.{' '}
+                        </Typography>
+                    </div>
+                </div>
             )}
 
             <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
