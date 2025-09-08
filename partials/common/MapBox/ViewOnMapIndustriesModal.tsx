@@ -139,7 +139,7 @@ export const ViewOnMapIndustriesModal = ({
     const router = useRouter()
     const industryDetails =
         SubAdminApi.Workplace.useSubAdminMapSuggestedIndustryDetail(
-            industryId,
+            { industryId: Number(industryId), workplaceId: workplace?.id },
             {
                 skip: !industryId,
             }
@@ -168,7 +168,7 @@ export const ViewOnMapIndustriesModal = ({
         workplaceCourseIndustries?.data?.inds?.data?.flatMap(
             (item: any) => item?.locations || []
         )
-    
+
     useEffect(() => {
         if (
             workplaceCourseIndustries?.data?.inds?.data?.length > 0 ||
