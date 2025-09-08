@@ -155,11 +155,19 @@ export const ArchivedStudent = () => {
             ),
         },
         {
+            accessorKey: 'batch',
+            header: () => <span>Batch</span>,
+            cell: ({ row }) => (
+                <Typography whiteSpacePre variant="small" medium>
+                    {row?.original?.batch}
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'sectors',
             header: () => <span>Sectors</span>,
             cell: (info) => <SectorCell student={info.row.original} />,
         },
-
         {
             accessorKey: 'expiry',
             header: () => <span>Expiry Countdown</span>,
@@ -168,7 +176,7 @@ export const ArchivedStudent = () => {
                     <span className="font-semibold whitespace-pre">
                         {moment(
                             info?.row?.original?.oldExpiry ||
-                            info?.row?.original?.expiryDate
+                                info?.row?.original?.expiryDate
                         ).format('Do MMM YYYY')}
                     </span>
                 </Typography>
@@ -180,7 +188,7 @@ export const ArchivedStudent = () => {
             cell: (info) => {
                 var marchFirst = new Date(
                     info?.row?.original?.oldExpiry ||
-                    info?.row?.original?.expiryDate
+                        info?.row?.original?.expiryDate
                 )
 
                 // Get today's date
@@ -322,18 +330,18 @@ export const ArchivedStudent = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize
                                                 ? pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage,
-                                                    data?.data?.length
-                                                )
+                                                      itemPerPage,
+                                                      setItemPerPage,
+                                                      data?.data?.length
+                                                  )
                                                 : null}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination
                                                     ? pagination(
-                                                        data?.pagination,
-                                                        setPage
-                                                    )
+                                                          data?.pagination,
+                                                          setPage
+                                                      )
                                                     : null}
                                             </div>
                                         </div>
@@ -347,18 +355,18 @@ export const ArchivedStudent = () => {
                                             <div className="p-6 mb-2 flex justify-between">
                                                 {pageSize
                                                     ? pageSize(
-                                                        itemPerPage,
-                                                        setItemPerPage,
-                                                        data?.data?.length
-                                                    )
+                                                          itemPerPage,
+                                                          setItemPerPage,
+                                                          data?.data?.length
+                                                      )
                                                     : null}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
                                                     {pagination
                                                         ? pagination(
-                                                            data?.pagination,
-                                                            setPage
-                                                        )
+                                                              data?.pagination,
+                                                              setPage
+                                                          )
                                                         : null}
                                                 </div>
                                             </div>

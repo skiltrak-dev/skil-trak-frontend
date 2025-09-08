@@ -114,6 +114,15 @@ export const FilteredStudents = ({
             cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
+            accessorKey: 'batch',
+            header: () => <span>Batch</span>,
+            cell: ({ row }) => (
+                <Typography whiteSpacePre variant="small" medium>
+                    {row?.original?.batch}
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'user.status',
             header: () => <span>Status</span>,
             cell: (info) => (

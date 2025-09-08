@@ -341,11 +341,14 @@ export const {
     useGetSubAdminStudentWorkplaceQuery,
     useGetStudentCancelledWPQuery,
     useGetSubAdminMyRtoQuery,
+    useRerunAutomationMutation,
+    useConfirmWpCapacityMutation,
     useGetSubAdminStudentCoursesQuery,
     useGetSubAdminStudentDetailQuery,
     useGetSubAdminStudentRtoDetailQuery,
     useGetAllStudentCancelledWorkplacesQuery,
     useUpdateStudentDateMutation,
+    useGetWorkplaceRequestLogsQuery,
     useGetWorkplaceIndustryDetailQuery,
     useUpdateStudentApprovalActionsMutation,
     useGetWorkplaceStudentDetailQuery,
@@ -401,6 +404,7 @@ export const {
     useGetIndustryInRadiusWorkplaceEmailsQuery,
     useGetIndustryInRadiusWorkplaceCallLogsQuery,
     useGetFutureIndustryInRadiusWorkplaceEmailsQuery,
+    useSkipWorkplaceAndApplyAnotherMutation,
 
     // ---- LOGBOOK ---- //
     useSaveLogbookMutation,
@@ -640,6 +644,8 @@ export const SubAdminApi = {
         useNotContactable: useSetNotContactableMutation,
         useCalled: useCalledStudentMutation,
         useCourses: useGetSubAdminStudentCoursesQuery,
+        confirmWpCapacity: useConfirmWpCapacityMutation,
+        rerunAutomation: useRerunAutomationMutation,
         useUpdateStudentDate: useUpdateStudentDateMutation,
         useChangePassword: useChangeStudentPasswordMutation,
         useUpdateDetail: useUpdateStudentDetailMutation,
@@ -666,6 +672,7 @@ export const SubAdminApi = {
         updateWpCourse: useUpdateWorkplaceCourseMutation,
         studentMessagesList: useGetStudentMessagesListQuery,
         workplaceIndustryDetail: useGetWorkplaceIndustryDetailQuery,
+        getWorkplaceIndustryDetail: useGetWorkplaceRequestLogsQuery,
         updateStudentApprovalActions: useUpdateStudentApprovalActionsMutation,
         workplaceStudentDetail: useGetWorkplaceStudentDetailQuery,
         getWorkplaceForSchedule: useGetWorkplaceForScheduleQuery,
@@ -687,6 +694,7 @@ export const SubAdminApi = {
             useGetIndustryInRadiusWorkplaceCallLogsQuery,
         useFutureIndustryInRadiusWorkplaceEmails:
             useGetFutureIndustryInRadiusWorkplaceEmailsQuery,
+        skipWpAndApplyAnother: useSkipWorkplaceAndApplyAnotherMutation,
     },
     LogBook: {
         useSaveLogbook: useSaveLogbookMutation,

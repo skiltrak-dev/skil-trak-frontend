@@ -1,4 +1,5 @@
 import {
+    ActionButton,
     AuthorizedUserComponent,
     Card,
     GlobalModal,
@@ -28,6 +29,7 @@ import {
 } from 'redux/queryTypes'
 import { useAssessmentDocumentsView } from '../../../AssessmentsSubmission'
 import {
+    ReRunWPAutomation,
     ShowPlacementCommentsModal,
     ViewContactedIndustryModal,
     WPProcessingListModal,
@@ -40,7 +42,8 @@ import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { StudentProvidedActions } from './StudentProvidedActions'
 
 import { Actions } from './Actions'
-import { MdCancel } from 'react-icons/md'
+import { FaMapMarkedAlt } from 'react-icons/fa'
+import { MdAutoMode, MdCancel } from 'react-icons/md'
 
 export const IndustryDetail = ({
     student,
@@ -148,6 +151,15 @@ export const IndustryDetail = ({
         )
     }
 
+    const onReRunAutomation = () => {
+        setModal(
+            <ReRunWPAutomation
+                workplace={workplace}
+                onCancel={onCancelClicked}
+            />
+        )
+    }
+
     const extension = workplace?.employmentDocument?.file
         ?.split('.')
         ?.reverse()?.[0]
@@ -161,7 +173,12 @@ export const IndustryDetail = ({
     const subadmin = useSubadminProfile()
 
     const onProcessMatchingLoader = () => {
-        setModal(<WPProcessingListModal onCancel={onCancelClicked} />)
+        setModal(
+            <WPProcessingListModal
+                onCancel={onCancelClicked}
+                workplaceId={Number(workplace?.id)}
+            />
+        )
     }
 
     return (
@@ -176,22 +193,24 @@ export const IndustryDetail = ({
                         </Typography>
                     </div>
                     <div className="flex items-center gap-x-3">
-                        {/* <div
-                            onClick={() => {
-                                onProcessMatchingLoader()
-                            }}
-                        >
-                            <Typography
-                                semibold
-                                cursorPointer
-                                variant={'small'}
-                                color={'text-info'}
+                        {!appliedIndustry && (
+                            <div
+                                onClick={() => {
+                                    onProcessMatchingLoader()
+                                }}
                             >
-                                <span className="whitespace-pre hover:underline">
-                                    Workplace Process Logs
-                                </span>
-                            </Typography>
-                        </div> */}
+                                <Typography
+                                    semibold
+                                    cursorPointer
+                                    variant={'small'}
+                                    color={'text-info'}
+                                >
+                                    <span className="whitespace-pre hover:underline">
+                                        Workplace Process Logs
+                                    </span>
+                                </Typography>
+                            </div>
+                        )}
                         {appliedIndustry?.workplaceRequest?.warnings &&
                         appliedIndustry?.workplaceRequest?.warnings?.length >
                             0 ? (
@@ -452,16 +471,24 @@ export const IndustryDetail = ({
                                             UserRoles.RTO,
                                         ]}
                                     >
-                                        <p
-                                            className={
-                                                'underline text-white text-center text-[15px] cursor-pointer'
-                                            }
-                                            onClick={() => {
-                                                onViewOnMap()
-                                            }}
-                                        >
-                                            VIEW MAP
-                                        </p>
+                                        <div className="flex justify-center items-center gap-x-3">
+                                            <ActionButton
+                                                text="VIEW WORKPLACE FINDER"
+                                                onClick={() => {
+                                                    onViewOnMap()
+                                                }}
+                                                variant="light"
+                                                Icon={FaMapMarkedAlt}
+                                            />
+                                            <ActionButton
+                                                text="RE-RUN THE AUTOMATION"
+                                                onClick={() => {
+                                                    onReRunAutomation()
+                                                }}
+                                                variant="light"
+                                                Icon={MdAutoMode}
+                                            />
+                                        </div>
                                     </AuthorizedUserComponent>
                                 </div>
                             )}

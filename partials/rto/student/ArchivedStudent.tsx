@@ -150,6 +150,15 @@ export const ArchivedStudent = () => {
             },
         },
         {
+            accessorKey: 'batch',
+            header: () => <span>Batch</span>,
+            cell: ({ row }) => (
+                <Typography whiteSpacePre variant="small" medium>
+                    {row?.original?.batch}
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'expiry',
             header: () => <span>Expiry Countdown</span>,
             cell: (info) => (

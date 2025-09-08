@@ -280,6 +280,33 @@ export const studentsEndpoints = (
         ],
     }),
 
+    getWorkplaceRequestLogs: builder.query<any, number>({
+        query: (id) => `students/workplace-requests/${id}/logs-list`,
+        providesTags: [
+            'SubAdminStudents',
+            'Notes',
+            'AllCommunications',
+            'AssessmentEvidence',
+            'SubAdminWorkplace',
+        ],
+    }),
+
+    rerunAutomation: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `students/workplace-requests/${id}/refresh`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
+    }),
+
+    confirmWpCapacity: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/approval-request/${id}/confirm-capacity/workplace`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
+    }),
+
     getWorkplaceStudentDetail: builder.query<any, number>({
         query: (id) => `${PREFIX}/workplace-request/${id}/student-details`,
         providesTags: [
@@ -787,6 +814,20 @@ export const studentsEndpoints = (
             method: 'POST',
         }),
         invalidatesTags: ['SubAdminStudents'],
+    }),
+
+    skipWorkplaceAndApplyAnother: builder.mutation<
+        any,
+        {
+            wpId: number
+            wpAppReqId: number
+        }
+    >({
+        query: ({ wpId, wpAppReqId }) => ({
+            url: `students/workplace-requests/${wpId}/approval-request/${wpAppReqId}/skip-current/workplace`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
 
     getWorkplaceAppointment: builder.query<any, number>({

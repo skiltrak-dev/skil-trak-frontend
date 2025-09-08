@@ -9,6 +9,7 @@ import {
     TableActionOption,
     TableChildrenProps,
     TechnicalError,
+    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -78,7 +79,6 @@ export const PendingStudent = () => {
             header: () => <span>Phone</span>,
             cell: (info) => info.getValue(),
         },
-
         {
             accessorKey: 'suburb',
             header: () => <span>Address</span>,

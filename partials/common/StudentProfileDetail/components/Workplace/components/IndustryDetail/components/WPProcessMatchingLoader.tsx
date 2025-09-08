@@ -13,13 +13,13 @@ import { useEffect, useState } from 'react'
 export const WPProcessMatchingLoader = () => {
     const [progress, setProgress] = useState(0)
     const [currentMessage, setCurrentMessage] = useState(
-        'Initializing AI matching algorithm...'
+        'Initializing Workplace matching algorithm...'
     )
     const [currentPhase, setCurrentPhase] = useState(0)
 
     const phases = [
         {
-            message: 'Initializing AI matching algorithm...',
+            message: 'Initializing Workplace matching algorithm...',
             icon: Brain,
             color: 'primary-teal',
         },
@@ -72,7 +72,7 @@ export const WPProcessMatchingLoader = () => {
 
     useEffect(() => {
         let currentIndex = 0
-        const totalDuration = 14000 // 14 seconds total
+        const totalDuration = 8000 // 8 seconds total
         const phaseInterval = totalDuration / phases.length
 
         const timer = setInterval(() => {
@@ -138,7 +138,7 @@ export const WPProcessMatchingLoader = () => {
                 </div>
 
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-[#044866] via-[#0D5468] to-[#F7A619] bg-clip-text text-transparent mb-2 animate-gradient-x">
-                    AI Matching in Progress
+                    Workplace Matching in Progress
                 </h2>
 
                 <p className="text-[#044866] text-base font-medium animate-fade-in-delayed">
