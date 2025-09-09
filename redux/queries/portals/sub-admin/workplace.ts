@@ -354,7 +354,7 @@ export const workplaceEndpoints = (
             url: `industries/industry/${industryId}/detail/for-map`,
             params,
         }),
-        providesTags: ['SubAdminWorkplace'],
+        providesTags: ['SubAdminWorkplace', 'Mails'],
     }),
     getSubAdminMapIndustryBranchDetail: builder.query<any, any>({
         query: (arg) => {

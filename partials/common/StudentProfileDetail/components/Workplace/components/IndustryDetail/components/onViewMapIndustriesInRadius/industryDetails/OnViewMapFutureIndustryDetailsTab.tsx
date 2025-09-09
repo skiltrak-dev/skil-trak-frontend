@@ -203,7 +203,72 @@ export const OnViewMapFutureIndustryDetailsTab = ({
                         </div>
                     </div>
 
-                    <div className="bg-[#044866]/5 rounded-lg p-2 border border-[#044866]/10 mt-4">
+                    <div className="grid grid-cols-2 gap-1 mt-4 px-2">
+                        <Button
+                            text={call ? 'Hide' : 'Call'}
+                            Icon={LuPhoneCall}
+                            variant="primaryNew"
+                            onClick={() => {
+                                toggleCall()
+                                if (!call) {
+                                    addToContacted({
+                                        studentId: Number(router?.query?.id),
+                                        industryId,
+                                        wpId: workplaceId,
+                                        isListing: true,
+                                    })
+                                    navigator.clipboard.writeText(
+                                        industryDetails?.data?.phone
+                                    )
+                                }
+                                callLog({
+                                    params: {
+                                        receiver: industryDetails?.data?.id,
+                                    },
+                                }).then((res: any) => {
+                                    if (res?.data) {
+                                        notification.success({
+                                            title: 'Called Industry',
+                                            description: `Called Industry with Name: ${industryDetails?.data?.user?.name}`,
+                                        })
+                                    }
+                                })
+                                notification.success({
+                                    title: 'Copied',
+                                    description: 'Phone Number Copied',
+                                })
+                            }}
+                            outline
+                        />
+                        <Button
+                            text="Email"
+                            Icon={IoDocumentTextOutline}
+                            variant="secondary"
+                            onClick={onComposeMail}
+                            outline
+                        />
+                    </div>
+
+                    {call && (
+                        <div className="cursor-not-allowed">
+                            <div className="h-[1px] mt-4 mb-1 w-full bg-gray-300" />
+                            <div className="bg-gray-50 p-3 rounded-lg">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Phone className="h-3 w-3 text-emerald-600" />
+                                    <span className="text-xs font-medium">
+                                        Call Notes
+                                    </span>
+                                </div>
+                            </div>
+                            <OnViewMapCallAnswer
+                                callLog={industryDetails?.data?.callLog?.[0]}
+                                workplaceId={workplaceId}
+                                //  isListing={ true}
+                            />
+                        </div>
+                    )}
+
+                    <div className="bg-[#044866]/5 rounded-lg p-2 border border-[#044866]/10 mt-2">
                         <div className="flex items-center gap-1 mb-2">
                             <Sparkles className="h-3 w-3 text-[#044866]" />
                             <span className="text-xs font-medium text-[#044866]">
@@ -260,70 +325,7 @@ export const OnViewMapFutureIndustryDetailsTab = ({
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-1 mt-2 px-2">
-                        <Button
-                            text={call ? 'Hide' : 'Call'}
-                            Icon={LuPhoneCall}
-                            variant="primaryNew"
-                            onClick={() => {
-                                toggleCall()
-                                if (!call) {
-                                    addToContacted({
-                                        studentId: Number(router?.query?.id),
-                                        industryId,
-                                        wpId: workplaceId,
-                                        isListing: true,
-                                    })
-                                    navigator.clipboard.writeText(
-                                        industryDetails?.data?.phone
-                                    )
-                                }
-                                callLog({
-                                    params: {
-                                        receiver: industryDetails?.data?.id,
-                                    },
-                                }).then((res: any) => {
-                                    if (res?.data) {
-                                        notification.success({
-                                            title: 'Called Industry',
-                                            description: `Called Industry with Name: ${industryDetails?.data?.user?.name}`,
-                                        })
-                                    }
-                                })
-                                notification.success({
-                                    title: 'Copied',
-                                    description: 'Phone Number Copied',
-                                })
-                            }}
-                            outline
-                        />
-                        <Button
-                            text="Email"
-                            Icon={IoDocumentTextOutline}
-                            variant="secondary"
-                            onClick={onComposeMail}
-                            outline
-                        />
-                    </div>
                     {/* Call */}
-                    {call && (
-                        <div className="cursor-not-allowed">
-                            <div className="h-[1px] mt-4 mb-1 w-full bg-gray-300" />
-                            <div className="bg-gray-50 p-3 rounded-lg">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <Phone className="h-3 w-3 text-emerald-600" />
-                                    <span className="text-xs font-medium">
-                                        Call Notes
-                                    </span>
-                                </div>
-                            </div>
-                            <OnViewMapCallAnswer
-                                callLog={industryDetails?.data?.callLog?.[0]}
-                                workplaceId={workplaceId}
-                                //  isListing={ true}
-                            />
-                        </div>
-                    )}
                 </>
             ) : (
                 <NoData text="No data found" />
