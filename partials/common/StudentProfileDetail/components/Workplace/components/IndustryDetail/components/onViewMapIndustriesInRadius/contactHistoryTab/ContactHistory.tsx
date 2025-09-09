@@ -29,7 +29,7 @@ export const ContactHistory = ({ wpId }: any) => {
             }
         )
     return (
-        <div className="overflow-auto h-[28rem] remove-scrollbar  ">
+        <div className="overflow-auto h-[28rem] custom-scrollbar">
             <IndustryCommunications
                 emails={emails}
                 callLogs={callLogs}

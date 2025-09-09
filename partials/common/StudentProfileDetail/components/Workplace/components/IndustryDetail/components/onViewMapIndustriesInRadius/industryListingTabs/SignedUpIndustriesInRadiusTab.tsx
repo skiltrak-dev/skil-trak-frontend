@@ -1,9 +1,9 @@
 import {
-    LoadingAnimation,
     NoData,
     PageSize,
     Pagination,
     Typography,
+    LoadingAnimation,
 } from '@components'
 import { SubAdminApi } from '@queries'
 import React, { useState } from 'react'

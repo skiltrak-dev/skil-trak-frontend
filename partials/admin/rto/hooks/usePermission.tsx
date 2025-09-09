@@ -89,11 +89,23 @@ export const usePermission = () => {
         }
     }
 
+    const onAllowScheduleEmail = async (rto: Rto) => {
+        const res: any = await queries.allowScheduleEmail(rto?.id)
+
+        if (res?.data) {
+            notification.success({
+                title: 'Schedule Email Updated',
+                description: 'Schedule Email Updated Successfully!',
+            })
+        }
+    }
+
     return {
         results,
         Actions: {
             onAllWpRequest,
             onAllowUpdateClicked,
+            onAllowScheduleEmail,
             onAllowCanViewPayment,
             onAllowLogbookClicked,
             onAllowPermissionClicked,
