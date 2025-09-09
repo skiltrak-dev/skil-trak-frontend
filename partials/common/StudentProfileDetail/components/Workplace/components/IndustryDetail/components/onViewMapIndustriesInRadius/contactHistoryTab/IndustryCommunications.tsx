@@ -70,15 +70,6 @@ const LoadingSpinner: React.FC = () => (
     </div>
 )
 
-const formatTime = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-    })
-}
-
 // Main Component
 const IndustryCommunications = ({ emails, callLogs, listingMails }: any) => {
     const isLoading =
@@ -140,7 +131,7 @@ const IndustryCommunications = ({ emails, callLogs, listingMails }: any) => {
     )
 
     return (
-        <div className="max-w-4xl mx-auto p-3 bg-gray-50 min-h-screen">
+        <div className="max-w-4xl mx-auto p-3 bg-gray-50">
             <div className="mb-6">
                 <h1 className="text-xl font-bold text-gray-900 mb-2">
                     Industry Communications

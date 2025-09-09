@@ -77,6 +77,13 @@ export const usePermissionData = (rto: Rto) => {
             Icon: MdOutlinePayment,
         },
         {
+            text: 'Allow Schedule Email',
+            onClick: () => Actions?.onAllowScheduleEmail(rto),
+            toggle: rto?.allowScheduleEmails,
+            isLoading: results?.allowScheduleEmailResult.isLoading,
+            Icon: MdOutlinePayment,
+        },
+        {
             text: 'Archive',
             onClick: async () => {
                 return await onArchive(rto)

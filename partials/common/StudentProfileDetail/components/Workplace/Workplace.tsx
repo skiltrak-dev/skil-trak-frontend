@@ -394,7 +394,8 @@ export const Workplace = ({
                                                 )
                                             ) : null}
                                             {latestWorkplaceApprovaleRequest?.status ===
-                                            'rejected' ? (
+                                                'rejected' &&
+                                            !latestWorkplaceApprovaleRequestRto?.isSkipped ? (
                                                 <WpApprovalReqRejected
                                                     onClick={() => {
                                                         onShowRejectedRequestModal(

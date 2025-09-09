@@ -39,7 +39,7 @@ export const OnViewMapTabs = ({
             ? 'branch'
             : 'industry'
     const isStudent = selectedBox?.user?.role === 'student'
-    console.log('selectedBox', selectedBox)
+
     const industryDetailsData =
         industryType === 'branch'
             ? SubAdminApi.Workplace.useSubAdminMapIndustryBranchDetail(

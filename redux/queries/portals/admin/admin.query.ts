@@ -191,9 +191,9 @@ const {
     useRtoCreateAssessmentToolsMutation,
     useRtoUpdateAssessmentToolsMutation,
     useRtoRemoveAssessmentToolsMutation,
+    useAllowScheduleEmailToggleMutation,
     useRtoAssessmentToolArchiveMutation,
     useRtoCanViewPaymentStatusToggleMutation,
-
     useCheckStudentEmailMutation,
 
     useRtoSectorsQuery,
@@ -334,7 +334,6 @@ const {
     useToggleAutoWorkplaceAssignmentMutation,
     useCoordinatorRatingsListQuery,
     useCoordinatorOverallRatingQuery,
-
 
     useSubAdminCoursesQuery,
     useSubAdminAssignCoursesMutation,
@@ -529,7 +528,7 @@ export const AdminApi = {
         useRemoveAssessmentTools: useRtoRemoveAssessmentToolsMutation,
         useArchiveAssessmentTools: useRtoAssessmentToolArchiveMutation,
         rtoCanViewPaymentStatusToggle: useRtoCanViewPaymentStatusToggleMutation,
-
+        allowScheduleEmailToggle: useAllowScheduleEmailToggleMutation,
         useRtoImportStudents: useRtoImportStudentsMutation,
         useRtoAddStudent: useRtoAddStudentMutation,
         useRtoStudentAccountCheck:
@@ -604,8 +603,8 @@ export const AdminApi = {
         toggleWPCancelationReq: useToggleWPCancelationRequestMutation,
         subadminExtendedStudents: useSubAdminExtendedStudentsListQuery,
         useToggleAutoAssignWorkplace: useToggleAutoWorkplaceAssignmentMutation,
-        useCoordinatorRatingsList:useCoordinatorRatingsListQuery,
-        useCoordinatorOverallRating:useCoordinatorOverallRatingQuery,
+        useCoordinatorRatingsList: useCoordinatorRatingsListQuery,
+        useCoordinatorOverallRating: useCoordinatorOverallRatingQuery,
 
         useCourses: useSubAdminCoursesQuery,
         useAssignCourses: useSubAdminAssignCoursesMutation,

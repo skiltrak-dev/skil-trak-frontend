@@ -72,7 +72,7 @@ export const WPProcessMatchingLoader = () => {
 
     useEffect(() => {
         let currentIndex = 0
-        const totalDuration = 8000 // 8 seconds total
+        const totalDuration = 6000 // 6 seconds total
         const phaseInterval = totalDuration / phases.length
 
         const timer = setInterval(() => {

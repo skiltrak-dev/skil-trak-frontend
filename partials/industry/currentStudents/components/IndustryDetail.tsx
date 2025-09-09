@@ -1,7 +1,5 @@
 import { InitialAvatar, Typography } from '@components'
 import { Industry } from '@types'
-import React from 'react'
-import { FaHandshake } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 export const IndustryDetail = ({ industry }: { industry: Industry }) => {
