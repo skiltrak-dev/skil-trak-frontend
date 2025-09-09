@@ -92,7 +92,7 @@ export const CallItemCard: React.FC<{ call: CallLog }> = ({ call }) => {
                     <p className={!expanded ? 'line-clamp-1' : 'break-all'}>
                         {description}
                     </p>
-                    {description.length > 60 && ( // show toggle only if long text
+                    {description.length > 60 && (
                         <button
                             onClick={() => setExpanded(!expanded)}
                             className="text-blue-600 text-xs font-medium hover:underline mt-1"

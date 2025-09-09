@@ -15,7 +15,7 @@ import {
     Users,
 } from 'lucide-react'
 import { ReactElement, useEffect, useState } from 'react'
-import { IoDocumentTextOutline } from 'react-icons/io5'
+import { IoDocumentTextOutline, IoMailOutline } from 'react-icons/io5'
 
 import { UserRoles } from '@constants'
 import {
@@ -35,6 +35,7 @@ import {
     ShowIndustryNotesAndTHModal,
 } from '../../../../../modals'
 import { OnViewMapCallAnswer } from './OnViewMapCallAnswer'
+import { CallStatus } from './CallStatus'
 
 export const OnViewMapIndustryDetailsTab = ({
     selectedBox,
@@ -140,21 +141,14 @@ export const OnViewMapIndustryDetailsTab = ({
             ? industryDetails?.data?.callLog[0]
             : null
 
-    const wasContacted = callLogEntry !== null
+    const wasContacted = callLogEntry?.isAnswered !== null
+    console.log('callLogEntry', callLogEntry)
 
-    const buttonText = hasPhone
-        ? call
-            ? 'Hide'
-            : 'Call'
-        : wasContacted
-        ? callLogEntry.isAnswered === true
-            ? 'Connected'
-            : 'Not Answered'
-        : 'No Phone Number'
+    const buttonText = call ? 'Hide' : 'Call'
 
-    const isDisabled =
-        callLogResult.isLoading ||
-        (!hasPhone && callLogEntry?.isAnswered !== null)
+    const isDisabled = callLogResult.isLoading
+    // ||
+    // (!hasPhone && callLogEntry?.isAnswered !== null)
 
     const handleCall = () => {
         toggleCall()
@@ -247,6 +241,17 @@ export const OnViewMapIndustryDetailsTab = ({
                                 >
                                     {industryDetails?.data?.user?.name ?? 'NA'}
                                 </h3>
+                                {industryDetails?.data?.user?.emails?.length >
+                                    0 && (
+                                    <div className="flex items-center gap-x-2 text-xs font-medium text-indigo-600 bg-indigo-100 border border-indigo-200 rounded-full px-3 py-1.5 mt-1 w-fit">
+                                        <div className="w-2 h-2 rounded-full bg-indigo-600" />
+                                        <span>Email Sent</span>
+                                    </div>
+                                )}
+                                <CallStatus
+                                    callLogEntry={callLogEntry}
+                                    wasContacted={wasContacted}
+                                />
                                 {/* <div className="flex items-center gap-1">
                                     <Star className="h-3 w-3 text-[#F7A619] fill-current" />
                                     <span className="text-xs font-medium text-[#F7A619]">
@@ -270,53 +275,29 @@ export const OnViewMapIndustryDetailsTab = ({
                             </div>
                         </div>
                     </div>
-
-                    <div className="bg-[#044866]/5 rounded-lg p-2 border border-[#044866]/10 mt-5">
-                        <div className="flex items-center gap-1 mb-2">
-                            <Sparkles className="h-3 w-3 text-[#044866]" />
-                            <span className="text-xs font-medium text-[#044866]">
-                                Quick Actions
-                            </span>
-                        </div>
-                        <div className="grid grid-cols-2 gap-1">
+                    <div className="grid grid-cols-2 gap-1 mt-4 px-2">
+                        <div className="flex flex-col gap-y-2">
                             <Button
-                                text="Apply"
+                                text={buttonText}
+                                Icon={LuPhoneCall}
+                                variant="primaryNew"
+                                onClick={handleCall}
+                                loading={callLogResult.isLoading}
+                                disabled={isDisabled}
+                                outline
+                            />
+                        </div>
+                        <div className="flex flex-col gap-y-2">
+                            <Button
+                                text="Email"
                                 Icon={IoDocumentTextOutline}
-                                variant="info"
-                                outline
-                                onClick={onApplyIndustryModal}
-                                loading={addExistingIndustryResult.isLoading}
-                                disabled={
-                                    appliedIndustry ||
-                                    addExistingIndustryResult.isLoading
-                                }
-                            />
-                            <Button
-                                text="view"
-                                Icon={IoEyeOutline}
-                                onClick={onViewIndustryDetail}
+                                variant="secondary"
+                                onClick={onComposeMail}
                                 outline
                             />
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-1 mt-2 px-2">
-                        <Button
-                            text={buttonText}
-                            Icon={LuPhoneCall}
-                            variant="primaryNew"
-                            onClick={handleCall}
-                            loading={callLogResult.isLoading}
-                            disabled={isDisabled}
-                            outline
-                        />
-                        <Button
-                            text="Email"
-                            Icon={IoDocumentTextOutline}
-                            variant="secondary"
-                            onClick={onComposeMail}
-                            outline
-                        />
-                    </div>
+                    <div className="flex justify-between w-full"></div>
                     {/* Call */}
                     {call && (
                         <div className="cursor-not-allowed">
@@ -332,11 +313,12 @@ export const OnViewMapIndustryDetailsTab = ({
                             <OnViewMapCallAnswer
                                 callLog={industryDetails?.data?.callLog?.[0]}
                                 workplaceId={workplaceId}
-                                setShowCall={setShowCall}
+                                // setShowCall={setShowCall}
                             />
                         </div>
                     )}
-                    {!hasPhone &&
+
+                    {/* {!hasPhone &&
                     industryDetails?.data?.callLog?.[0]?.isAnswered === true ? (
                         <div className="cursor-not-allowed">
                             <div className="h-[1px] mt-4 mb-1 w-full bg-gray-300" />
@@ -371,7 +353,35 @@ export const OnViewMapIndustryDetailsTab = ({
                                 workplaceId={workplaceId}
                             />
                         </div>
-                    ) : null}
+                    ) : null} */}
+                    <div className="bg-[#044866]/5 rounded-lg p-2 border border-[#044866]/10 mt-2">
+                        <div className="flex items-center gap-1 mb-2">
+                            <Sparkles className="h-3 w-3 text-[#044866]" />
+                            <span className="text-xs font-medium text-[#044866]">
+                                Quick Actions
+                            </span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-1">
+                            <Button
+                                text="Apply"
+                                Icon={IoDocumentTextOutline}
+                                variant="info"
+                                outline
+                                onClick={onApplyIndustryModal}
+                                loading={addExistingIndustryResult.isLoading}
+                                disabled={
+                                    appliedIndustry ||
+                                    addExistingIndustryResult.isLoading
+                                }
+                            />
+                            <Button
+                                text="view"
+                                Icon={IoEyeOutline}
+                                onClick={onViewIndustryDetail}
+                                outline
+                            />
+                        </div>
+                    </div>
                 </>
             ) : (
                 <NoData text="No data found" />
