@@ -41,4 +41,6 @@ export enum SocketNotificationsEvents {
     TicketReply = 'ticketReply',
     ContentNotVerified = 'contentNotVerified',
     CourseFileNotFound = 'courseFileNotFound',
+    FacilityCheckListInitiated = 'facilityCheckListInitiated',
+    FacilityCheckListSigned = 'facilityCheckListSigned',
 }

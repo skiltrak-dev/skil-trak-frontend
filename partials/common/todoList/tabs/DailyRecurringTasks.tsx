@@ -35,6 +35,9 @@ export const DailyRecurringTasks = ({
 
     return (
         <div className="flex flex-col gap-y-6">
+            <div id={'workplaceRequest'}>
+                <TodoWorkplace filterDate={filterDate} />
+            </div>
             <div id={'highPriority'}>
                 <TodoHighpriority filterDate={filterDate} />
             </div>
@@ -43,9 +46,6 @@ export const DailyRecurringTasks = ({
             </div>
             <div id={'openTickets'}>
                 <TodoTickets filterDate={filterDate} />
-            </div>
-            <div id={'workplaceRequest'}>
-                <TodoWorkplace filterDate={filterDate} />
             </div>
         </div>
     )

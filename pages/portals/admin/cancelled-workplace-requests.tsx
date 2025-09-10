@@ -2,12 +2,46 @@ import React, { ReactElement } from 'react'
 
 import { NextPageWithLayout } from '@types'
 import { AdminLayout } from '@layouts'
-import { WpCancelationRequest } from '@partials/common'
+import { WpCancelationRequest, WpRejectionList } from '@partials/common'
+import { TabNavigation, TabProps } from '@components'
 
 const CancelledWorkplaceRequests: NextPageWithLayout = () => {
+    const tabs: TabProps[] = [
+        {
+            label: 'Cancelled Workplace Requests',
+            href: {
+                pathname: '/portals/admin/cancelled-workplace-requests',
+                query: {
+                    tab: 'cancelled-workplace-requests',
+                    page: 1,
+                    pageSize: 50,
+                },
+            },
+            element: <WpCancelationRequest />,
+        },
+        {
+            label: 'Declined Workplaces',
+            href: {
+                pathname: '/portals/admin/cancelled-workplace-requests',
+                query: { tab: 'rejected-workplace', page: 1, pageSize: 50 },
+            },
+
+            element: <WpRejectionList />,
+        },
+    ]
     return (
         <div>
-            <WpCancelationRequest />
+            <TabNavigation tabs={tabs}>
+                {({ header, element }: any) => {
+                    return (
+                        <div>
+                            <div>{header}</div>
+                            <div className="p-4">{element}</div>
+                        </div>
+                    )
+                }}
+            </TabNavigation>
+            {/* <WpCancelationRequest /> */}
         </div>
     )
 }

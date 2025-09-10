@@ -133,6 +133,14 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['Workplaces'],
     }),
+
+    wpRejectionList: builder.query<PaginatedResponse<any>, PaginationValues>({
+        query: (params) => ({
+            url: `students/workplace-requests/list/workplace/rejected`,
+            params,
+        }),
+        providesTags: ['Workplaces'],
+    }),
     cancelledWorkplaces: builder.query<
         PaginatedResponse<IWorkplaceIndustries>,
         PaginationValues

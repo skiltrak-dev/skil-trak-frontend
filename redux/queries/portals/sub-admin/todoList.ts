@@ -106,6 +106,18 @@ export const todoListEndpoints = (
         providesTags: ['TODO'],
     }),
 
+    createWorkplaceTodo: builder.mutation<
+        any,
+        { workplaceId: number; userId: number }
+    >({
+        query: ({ workplaceId, ...params }) => ({
+            url: `${PREFIX}/workplace/${workplaceId}/create`,
+            params,
+            method: 'POST',
+        }),
+        invalidatesTags: ['TODO'],
+    }),
+
     // beta
     addAllNewTodos: builder.mutation<any, void>({
         query: () => ({
