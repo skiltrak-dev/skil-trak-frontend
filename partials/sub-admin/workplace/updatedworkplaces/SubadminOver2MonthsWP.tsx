@@ -2,37 +2,20 @@ import { useEffect, useState } from 'react'
 
 // components
 import {
-    PageSize,
-    EmptyData,
-    Pagination,
-    TechnicalError,
-    LoadingAnimation,
-    UserCreatedAt,
-    Typography,
-    Table,
     Card,
-    Tooltip,
-    TooltipPosition,
+    EmptyData,
+    LoadingAnimation,
+    Table,
+    TechnicalError
 } from '@components'
-import {
-    RtoCellInfo,
-    StudentWPCellInfo,
-    UpdatedWorkplaceRequest,
-} from './components'
 
 // query
+import { NeedWorkplaceEnum } from '@partials/admin'
 import {
-    useGetMyStudentsWorkplacesQuery,
-    useGetSubAdminWorkplacesQuery,
+    useGetSubAdminWorkplacesQuery
 } from '@queries'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { ColumnDef } from '@tanstack/react-table'
-import { ellipsisText } from '@utils'
-import { MdSnooze } from 'react-icons/md'
-import { FiPhoneOff } from 'react-icons/fi'
-import { LuFlagTriangleRight } from 'react-icons/lu'
-import { NeedWorkplaceEnum } from '@partials/admin'
+import { useColumns } from '../hooks'
 
 export const SubadminOver2MonthsWP = () => {
     const [page, setPage] = useState(1)
@@ -54,129 +37,8 @@ export const SubadminOver2MonthsWP = () => {
         setItemPerPage(Number(router.query.pageSize || 30))
     }, [router])
 
-    const Columns: ColumnDef<any>[] = [
-        {
-            header: () => 'Student',
-            accessorKey: 'student',
-            cell: (info) => (
-                <StudentWPCellInfo student={info.row.original?.student} />
-            ),
-        },
-        {
-            header: () => 'Industry Status',
-            accessorKey: 'status',
-            cell: ({ row }: any) => (
-                <UpdatedWorkplaceRequest workplace={row?.original} />
-            ),
-        },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Workplace Name</span>,
-            cell: (info) => {
-                const appliedIndustry = info?.row?.original?.industries.find(
-                    (industry: any) => industry?.applied
-                )
-                return (
-                    <>
-                        {appliedIndustry ? (
-                            <>
-                                {appliedIndustry?.isAutomated && (
-                                    <div className="bg-success rounded px-1 py-0.5 w-fit mb-0.5">
-                                        <Typography
-                                            variant="xs"
-                                            color="text-white"
-                                        >
-                                            Auto
-                                        </Typography>
-                                    </div>
-                                )}
-                                <Typography variant="small" bold>
-                                    {ellipsisText(
-                                        appliedIndustry?.industry?.user?.name,
-                                        20
-                                    )}
-                                </Typography>
-                                <Link
-                                    href={`/portals/sub-admin/users/industries/${appliedIndustry?.industry?.id}?tab=students`}
-                                    className="text-blue-500 text-xs"
-                                >
-                                    View Details
-                                </Link>
-                            </>
-                        ) : (
-                            <Typography variant="small" semibold>
-                                N/A
-                            </Typography>
-                        )}
-                    </>
-                )
-            },
-        },
-        {
-            header: () => 'RTO',
-            accessorKey: 'rto',
-            cell: ({ row }: any) => (
-                <RtoCellInfo rto={row?.original?.student?.rto} />
-            ),
-        },
-        {
-            header: () => 'Course',
-            accessorKey: 'course',
-            cell: ({ row }: any) => (
-                <div className="flex items-center gap-x-2">
-                    <Typography variant="small" medium>
-                        {row?.original?.courses[0]?.code ?? 'N/A'}
-                    </Typography>
-                    -
-                    <Typography variant="small" medium>
-                        {ellipsisText(row?.original?.courses[0]?.title, 15) ??
-                            'N/A'}
-                    </Typography>
-                </div>
-            ),
-        },
-        {
-            header: () => 'Coordinator',
-            accessorKey: 'coordinator',
-            cell: ({ row }: any) => (
-                <UpdatedWorkplaceRequest
-                    workplace={row?.original}
-                    assignToMe={true}
-                />
-            ),
-        },
+    const { Columns } = useColumns()
 
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
-                <UserCreatedAt createdAt={row.original?.createdAt} />
-            ),
-        },
-        {
-            accessorKey: 'cancel',
-            header: () => <span>Action</span>,
-            cell: ({ row }: any) => (
-                <UpdatedWorkplaceRequest
-                    workplace={row?.original}
-                    cancelRequest={true}
-                />
-            ),
-        },
-        // {
-        //     header: () => 'Action',
-        //     accessorKey: 'Action',
-        //     cell: ({ row }) => {
-        //         const tableActionOption = tableActionOptions(row.original)
-        //         return (
-        //             <TableAction
-        //                 options={tableActionOption}
-        //                 rowItem={row.original}
-        //             />
-        //         )
-        //     },
-        // },
-    ]
     return (
         <div>
             <Card noPadding>

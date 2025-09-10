@@ -347,6 +347,7 @@ const {
     useNeedWpCountQuery,
     useWorkplacesCountQuery,
     useAssignCourseMutation,
+    useWpRejectionListQuery,
     useFilteredWorkplacesQuery,
     useCancelledWorkplacesQuery,
     useUnAssignedSubAdminsQuery,
@@ -559,9 +560,7 @@ export const AdminApi = {
         useCompletedStudents: useCompletedStudentsQuery,
         useChangeStatusMutation: useStudentStatusChangeMutation,
         useUnAssignedStudentsList: useGetUnassignedStudentsQuery,
-
         useFilteredStudents: useFilteredStudentsQuery,
-
         useSectors: useStudentSectorsQuery,
         useAssignCourses: useStudentAssignCoursesMutation,
         useUnassignCourses: useStudentUnassignCoursesMutation,
@@ -605,11 +604,9 @@ export const AdminApi = {
         useToggleAutoAssignWorkplace: useToggleAutoWorkplaceAssignmentMutation,
         useCoordinatorRatingsList: useCoordinatorRatingsListQuery,
         useCoordinatorOverallRating: useCoordinatorOverallRatingQuery,
-
         useCourses: useSubAdminCoursesQuery,
         useAssignCourses: useSubAdminAssignCoursesMutation,
         useUnassignCourse: useSubAdminUnAssignCoursesMutation,
-
         useRtos: useSubAdminRtosQuery,
         useAssignRto: useSubAdminAssignRtoMutation,
         useUnassignRto: useSubAdminUnassignRtoMutation,
@@ -618,6 +615,7 @@ export const AdminApi = {
     Workplace: {
         needWpCount: useNeedWpCountQuery,
         assignCourse: useAssignCourseMutation,
+        wpRejectionList: useWpRejectionListQuery,
         workplacesCount: useWorkplacesCountQuery,
         useListQuery: useUnAssignedSubAdminsQuery,
         cancelledWorkplaces: useCancelledWorkplacesQuery,

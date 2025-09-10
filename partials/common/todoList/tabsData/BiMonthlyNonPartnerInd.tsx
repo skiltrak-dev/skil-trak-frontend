@@ -3,6 +3,7 @@ import { SubAdminApi } from '@queries'
 import { useState } from 'react'
 import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
+import moment, { Moment } from 'moment'
 
 export const BiMonthlyNonPartnerInd = ({
     filterDate,
@@ -14,11 +15,22 @@ export const BiMonthlyNonPartnerInd = ({
 
     const { id, skip } = useTodoHooks()
 
+    function getCurrentBiMonthlyFirstDate() {
+        const currentMonth = moment(filterDate).month()
+
+        const biMonthlyStartMonth = Math.floor(currentMonth / 2) * 2
+
+        return moment(filterDate)
+            .month(biMonthlyStartMonth)
+            .startOf('month')
+            .format('YYYY-MM-DD')
+    }
+
     const data = SubAdminApi.Todo.biMonthlyNonPartnerIndustries(
         {
             ...(id ? { id } : {}),
             search: `${JSON.stringify({
-                date: filterDate,
+                date: getCurrentBiMonthlyFirstDate(),
             })
                 .replaceAll('{', '')
                 .replaceAll('}', '')

@@ -207,7 +207,9 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
         },
         {
             text: 'WP Cancelation Requests',
-            path: getRoutePath('/cancelled-workplace-requests'),
+            path: getRoutePath(
+                '/cancelled-workplace-requests?tab=cancelled-workplace-requests'
+            ),
             Icon: MdHomeWork,
             visible: subadmin?.data?.canCancelWorkPlaceRequest,
         },

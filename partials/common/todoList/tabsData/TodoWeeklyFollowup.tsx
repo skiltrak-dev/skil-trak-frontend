@@ -3,6 +3,7 @@ import { SubAdminApi } from '@queries'
 import { useState } from 'react'
 import { ApprovedBy, CompleteTask, TableColumn, TodoTable } from '../components'
 import { useTodoHooks } from '../hooks'
+import moment from 'moment'
 
 export const TodoWeeklyFollowup = ({
     filterDate,
@@ -19,7 +20,7 @@ export const TodoWeeklyFollowup = ({
             ...(id ? { id } : {}),
             limit: itemsPerPage,
             search: `${JSON.stringify({
-                date: filterDate,
+                date: moment().startOf('isoWeek').format('YYYY-MM-DD'),
             })
                 .replaceAll('{', '')
                 .replaceAll('}', '')
