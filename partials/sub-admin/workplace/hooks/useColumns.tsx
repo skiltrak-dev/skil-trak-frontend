@@ -2,6 +2,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import React from 'react'
 import {
     AddToTodo,
+    IndustryDetail,
     RtoCellInfo,
     StudentWPCellInfo,
     UpdatedWorkplaceRequest,
@@ -32,6 +33,14 @@ export const useColumns = () => {
             cell: (info) => {
                 const appliedIndustry = info?.row?.original?.industries.find(
                     (industry: any) => industry?.applied
+                )
+                return (
+                    <IndustryDetail
+                        industries={info?.row?.original?.industries}
+                        workplaceApprovaleRequest={
+                            info?.row?.original?.workplaceApprovaleRequest
+                        }
+                    />
                 )
                 return (
                     <>

@@ -29,11 +29,10 @@ export const StudentIndustries = ({
             }
         )
     }
-    const studentsListWorkplace = (workplace: IWorkplaceIndustries[]) => {
-        const activeWP = activeWorkplace(workplace)
+    const activeWP = activeWorkplace(workplace)
+    const latestWP = olderWorkplace(activeWP)
 
-        const latestWP = olderWorkplace(activeWP)
-
+    const studentsListWorkplace = () => {
         const appliedIndustry = getStudentWorkplaceAppliedIndustry(
             latestWP?.industries as WorkplaceWorkIndustriesType[]
         )?.industry
@@ -41,9 +40,14 @@ export const StudentIndustries = ({
         return appliedIndustry
     }
 
-    const appliedIndustry = studentsListWorkplace(workplace)
+    const appliedIndustry = studentsListWorkplace()
+
+    const wpApp = latestWP?.workplaceApprovaleRequest?.[0]?.industry
+
     return workplace && workplace?.length > 0 && appliedIndustry ? (
         <IndustryCell industry={appliedIndustry} />
+    ) : wpApp ? (
+        <IndustryCell industry={wpApp} />
     ) : industries && industries?.length > 0 ? (
         <IndustryCell industry={industries?.[0]} />
     ) : (
