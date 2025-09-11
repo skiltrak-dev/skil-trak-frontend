@@ -8,7 +8,13 @@ export const FutureIndustryInRadiusListCard = ({ item, onSelect }: any) => {
     return (
         <div
             key={`future-${item?.id}`}
-            className="flex items-center justify-between w-full"
+            className="flex items-center justify-between w-full cursor-pointer"
+            onClick={() =>
+                onSelect?.({
+                    ...item,
+                    type: 'futureIndustry',
+                })
+            }
         >
             {/* Left Section */}
             <div className="flex gap-3">
@@ -23,12 +29,6 @@ export const FutureIndustryInRadiusListCard = ({ item, onSelect }: any) => {
                 <div>
                     <div className="flex items-center gap-x-2">
                         <h3
-                            onClick={() =>
-                                onSelect?.({
-                                    ...item,
-                                    type: 'futureIndustry',
-                                })
-                            }
                             className="cursor-pointer font-semibold text-sm text-gray-800"
                             title={item?.businessName}
                         >

@@ -15,8 +15,18 @@ export const IndustryInRadiusListCard = ({
     onSelect,
     branch = false,
 }: IndustryInRadiusListCardProps) => {
+    console.log('item', item)
     return (
-        <div className="flex items-center justify-between bg-white border rounded-2xl shadow-sm p-4 w-full">
+        <div
+            onClick={() => {
+                if (!branch) {
+                    onSelect(item)
+                } else {
+                    onSelect({ ...item, type: 'branch' })
+                }
+            }}
+            className="cursor-pointer flex items-center justify-between bg-white border rounded-2xl shadow-sm p-4 w-full"
+        >
             {/* Left Section: Avatar + Info */}
             <div className="flex gap-3">
                 {/* Avatar */}
@@ -37,18 +47,12 @@ export const IndustryInRadiusListCard = ({
                 {/* Info */}
                 <div>
                     <h3
-                        onClick={() => {
-                            if (!branch) {
-                                onSelect(item)
-                            } else {
-                                onSelect({ ...item, type: 'branch' })
-                            }
-                        }}
                         className="font-semibold cursor-pointer text-sm text-gray-800 inline-flex items-center gap-2"
+                        title={item?.user?.name}
                     >
                         {branch
-                            ? `${item?.user?.name} (branch)`
-                            : item?.user?.name}
+                            ? `${ellipsisText(item?.user?.name, 15)} (branch)`
+                            : ellipsisText(item?.user?.name, 15)}
                         {item?.isPartner ? (
                             <div className="flex items-center gap-x-2">
                                 <FaHandshakeSimple className="text-orange-500" />
@@ -83,15 +87,27 @@ export const IndustryInRadiusListCard = ({
             </div>
 
             {/* Right Section: Contacted Status */}
-            {item?.alreadyContacted ? (
-                <span className="text-xs bg-green-100 text-green-500 px-3 py-1 rounded-lg">
-                    Contacted
-                </span>
-            ) : (
-                <span className="text-xs bg-red-100 text-red-500 px-3 py-1 rounded-lg">
-                    Not Contacted
-                </span>
-            )}
+
+            <div className="flex items-center gap-x-2">
+                {item?.alreadyContacted ? (
+                    <span className="text-[9px] font-medium bg-green-100 text-green-500 px-3 py-1 rounded-lg">
+                        Contacted
+                    </span>
+                ) : (
+                    <span className="text-[9px] font-medium bg-red-100 text-red-500 px-3 py-1 rounded-lg">
+                        Not Contacted
+                    </span>
+                )}
+                {item?.user?.emails?.length ? (
+                    <span className="text-[9px] font-medium bg-indigo-100 text-indigo-500 px-3 py-1 rounded-lg">
+                        Email Sent
+                    </span>
+                ) : (
+                    <span className="text-[9px] font-medium bg-rose-100 text-rose-700 px-3 py-1 rounded-lg">
+                        No Email Sent
+                    </span>
+                )}
+            </div>
         </div>
     )
 }
