@@ -850,7 +850,12 @@ export const studentsEndpoints = (
         query: ({ wpId }) => ({
             url: `subadmin/workplace/${wpId}/call-logs`,
         }),
-        providesTags: ['SubAdminStudents'],
+        providesTags: [
+            'SubAdminStudents',
+            'SubAdmin',
+            'Workplace',
+            'Industries',
+        ],
     }),
     // subadmin/workplace/:wpId/listing-emails
     getFutureIndustryInRadiusWorkplaceEmails: builder.query<any, any>({

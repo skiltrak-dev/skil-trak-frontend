@@ -16,7 +16,6 @@ export const ContactedIndustryCard = ({
     isListing?: boolean
     isBranch?: boolean
 }) => {
-    console.log('industry', industry)
 
     // ✅ handle branch 
     const data = isBranch
