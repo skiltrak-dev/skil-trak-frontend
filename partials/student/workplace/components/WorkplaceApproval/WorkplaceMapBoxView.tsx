@@ -9,6 +9,7 @@ import Map, {
 } from 'react-map-gl'
 import { RxCross2 } from 'react-icons/rx'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { getGoogleDirection } from '@pages/api/google-direction'
 
 const MAPBOX_TOKEN = process.env.mapBoxApi as string
 
@@ -67,50 +68,133 @@ export const WorkplaceMapBoxView = ({
         }
     }, [studentLocationCoordinates, industryLocationCoordinates])
 
+    // const fetchDirections = useCallback(
+    //     async (mode: 'driving' | 'walking' | 'transit') => {
+    //         try {
+    //             const profile = mode === 'transit' ? 'driving' : mode // Mapbox doesn't support transit routing
+    //             const response = await fetch(
+    //                 `https://api.mapbox.com/directions/v5/mapbox/${profile}/` +
+    //                     `${studentLocationCoordinates.longitude},${studentLocationCoordinates.latitude};` +
+    //                     `${industryLocationCoordinates.longitude},${industryLocationCoordinates.latitude}` +
+    //                     `?geometries=geojson&access_token=${MAPBOX_TOKEN}`
+    //             )
+
+    //             const data = await response.json()
+
+    //             if (data.routes && data.routes[0]) {
+    //                 if (mode === 'driving') {
+    //                     setDirections({
+    //                         type: 'Feature',
+    //                         properties: {},
+    //                         geometry: data.routes[0].geometry,
+    //                     })
+    //                 }
+
+    //                 // Convert duration from seconds to readable format
+    //                 const duration = Math.round(data.routes[0].duration / 60)
+    //                 const durationText =
+    //                     duration > 60
+    //                         ? `${Math.floor(duration / 60)} hr ${
+    //                               duration % 60
+    //                           } min`
+    //                         : `${duration} min`
+
+    //                 // Convert distance from meters to kilometers
+    //                 const distance =
+    //                     Math.round(data.routes[0].distance / 100) / 10
+    //                 const distanceText = `${distance} km`
+
+    //                 setTravelInfo((prevInfo) => [
+    //                     ...prevInfo.filter((info) => info.mode !== mode),
+    //                     {
+    //                         mode,
+    //                         duration: durationText,
+    //                         distance: distanceText,
+    //                     },
+    //                 ])
+    //             }
+    //         } catch (error) {
+    //             console.error('Error fetching directions:', error)
+    //         }
+    //     },
+    //     [industryLocationCoordinates, studentLocationCoordinates]
+    // )
+
     const fetchDirections = useCallback(
         async (mode: 'driving' | 'walking' | 'transit') => {
             try {
-                const profile = mode === 'transit' ? 'driving' : mode // Mapbox doesn't support transit routing
-                const response = await fetch(
-                    `https://api.mapbox.com/directions/v5/mapbox/${profile}/` +
-                        `${studentLocationCoordinates.longitude},${studentLocationCoordinates.latitude};` +
-                        `${industryLocationCoordinates.longitude},${industryLocationCoordinates.latitude}` +
-                        `?geometries=geojson&access_token=${MAPBOX_TOKEN}`
-                )
+                if (mode === 'transit') {
+                    // Use Google Maps Directions API for transit
+                    // const response = await fetch(
+                    //     `https://maps.googleapis.com/maps/api/directions/json?origin=${studentLocationCoordinates.latitude},${studentLocationCoordinates.longitude}&destination=${industryLocationCoordinates.latitude},${industryLocationCoordinates.longitude}&mode=transit&key=${process.env.NEXT_PUBLIC_MAP_KEY}`
+                    // )
 
-                const data = await response.json()
+                    // const data = await response.json()
 
-                if (data.routes && data.routes[0]) {
-                    if (mode === 'driving') {
-                        setDirections({
-                            type: 'Feature',
-                            properties: {},
-                            geometry: data.routes[0].geometry,
-                        })
+                    const data = await getGoogleDirection({
+                        industryLocationCoordinates,
+                        studentLocationCoordinates,
+                    })
+
+                    if (data.routes && data.routes[0]) {
+                        const leg = data.routes[0].legs[0]
+
+                        const durationText = leg.duration.text
+                        const distanceText = leg.distance.text
+
+                        setTravelInfo((prevInfo) => [
+                            ...prevInfo.filter((info) => info.mode !== mode),
+                            {
+                                mode,
+                                duration: durationText,
+                                distance: distanceText,
+                            },
+                        ])
                     }
+                } else {
+                    // Use Mapbox for driving and walking
+                    const profile = mode
+                    const response = await fetch(
+                        `https://api.mapbox.com/directions/v5/mapbox/${profile}/` +
+                            `${studentLocationCoordinates.longitude},${studentLocationCoordinates.latitude};` +
+                            `${industryLocationCoordinates.longitude},${industryLocationCoordinates.latitude}` +
+                            `?geometries=geojson&access_token=${MAPBOX_TOKEN}`
+                    )
 
-                    // Convert duration from seconds to readable format
-                    const duration = Math.round(data.routes[0].duration / 60)
-                    const durationText =
-                        duration > 60
-                            ? `${Math.floor(duration / 60)} hr ${
-                                  duration % 60
-                              } min`
-                            : `${duration} min`
+                    const data = await response.json()
 
-                    // Convert distance from meters to kilometers
-                    const distance =
-                        Math.round(data.routes[0].distance / 100) / 10
-                    const distanceText = `${distance} km`
+                    if (data.routes && data.routes[0]) {
+                        if (mode === 'driving') {
+                            setDirections({
+                                type: 'Feature',
+                                properties: {},
+                                geometry: data.routes[0].geometry,
+                            })
+                        }
 
-                    setTravelInfo((prevInfo) => [
-                        ...prevInfo.filter((info) => info.mode !== mode),
-                        {
-                            mode,
-                            duration: durationText,
-                            distance: distanceText,
-                        },
-                    ])
+                        const duration = Math.round(
+                            data.routes[0].duration / 60
+                        )
+                        const durationText =
+                            duration > 60
+                                ? `${Math.floor(duration / 60)} hr ${
+                                      duration % 60
+                                  } min`
+                                : `${duration} min`
+
+                        const distance =
+                            Math.round(data.routes[0].distance / 100) / 10
+                        const distanceText = `${distance} km`
+
+                        setTravelInfo((prevInfo) => [
+                            ...prevInfo.filter((info) => info.mode !== mode),
+                            {
+                                mode,
+                                duration: durationText,
+                                distance: distanceText,
+                            },
+                        ])
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching directions:', error)
