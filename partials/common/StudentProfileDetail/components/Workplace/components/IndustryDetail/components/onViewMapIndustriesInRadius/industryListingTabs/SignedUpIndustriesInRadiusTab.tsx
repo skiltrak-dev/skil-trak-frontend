@@ -27,7 +27,7 @@ export const SignedUpIndustriesInRadiusTab = ({
                     limit: itemPerPage,
                 },
             },
-            { skip: !courseId && !workplaceId }
+            { skip: !courseId && !workplaceId, refetchOnMountOrArgChange: true }
         )
     return (
         <div className="h-[25rem] overflow-auto remove-scrollbar space-y-4">
@@ -53,8 +53,8 @@ export const SignedUpIndustriesInRadiusTab = ({
                                     variant="muted"
                                     color="text-gray-500"
                                 >
-                                    {workplaceCourseIndustries?.data?.inds
-                                        ?.pagination?.totalResult ?? 0}{' '}
+                                    {workplaceCourseIndustries?.data?.inds?.data
+                                        ?.length ?? 0}{' '}
                                 </Typography>
                             </div>
                         </div>

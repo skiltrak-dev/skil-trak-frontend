@@ -51,7 +51,7 @@ export const OnViewMapCallAnswer = ({
                 onChange={(e: any) => {
                     onChangeNotes(e)
                 }}
-                value={callLog?.note ?? ''}
+                // value={callLog?.note ?? ''}
                 rows={5}
             />
             <div className="grid grid-cols-2 gap-2">

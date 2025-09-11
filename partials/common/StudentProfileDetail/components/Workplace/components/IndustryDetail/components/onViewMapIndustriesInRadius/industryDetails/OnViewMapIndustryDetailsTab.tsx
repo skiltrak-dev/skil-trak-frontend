@@ -154,14 +154,15 @@ export const OnViewMapIndustryDetailsTab = ({
         toggleCall()
 
         if (!call && hasPhone) {
-            navigator.clipboard.writeText(industry.phoneNumber)
-
             const commonPayload = {
                 studentId: Number(router?.query?.id),
                 wpId: workplaceId,
             }
 
             if (selectedBox?.type === 'branch') {
+                navigator.clipboard.writeText(
+                    industry.branchContactPersonNumber
+                )
                 contactWorkplaceIndustry({
                     ...commonPayload,
                     branchId: industry.id,
@@ -176,7 +177,7 @@ export const OnViewMapIndustryDetailsTab = ({
                     ...commonPayload,
                     industryId: industry.id,
                 })
-
+                navigator.clipboard.writeText(industry.phoneNumber)
                 callLog({
                     industry: industry.id,
                     workplaceId,

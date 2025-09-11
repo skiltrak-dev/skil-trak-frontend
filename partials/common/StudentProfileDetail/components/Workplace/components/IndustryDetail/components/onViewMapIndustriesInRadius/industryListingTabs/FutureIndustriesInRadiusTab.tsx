@@ -6,8 +6,9 @@ import {
     Typography,
 } from '@components'
 import { SubAdminApi } from '@queries'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FutureIndustryInRadiusListCard } from '../industriesListCards'
+import { useRouter } from 'next/router'
 
 export const FutureIndustriesInRadiusTab = ({
     workplaceId,
@@ -16,7 +17,11 @@ export const FutureIndustriesInRadiusTab = ({
 }: any) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(5)
-
+    const router = useRouter()
+    useEffect(() => {
+            setPage(Number(router.query.page || 1))
+            // setItemPerPage(Number(router.query.pageSize || 5))
+        }, [router])
     const workplaceCourseIndustries =
         SubAdminApi.Workplace.useWorkplaceCourseIndustries(
             {
@@ -27,7 +32,7 @@ export const FutureIndustriesInRadiusTab = ({
                     limit: itemPerPage,
                 },
             },
-            { skip: !courseId && !workplaceId }
+            { skip: !courseId && !workplaceId, refetchOnMountOrArgChange: true }
         )
     return (
         <div className="h-[25rem] overflow-auto remove-scrollbar space-y-4">
@@ -55,7 +60,7 @@ export const FutureIndustriesInRadiusTab = ({
                                     color="text-gray-500"
                                 >
                                     {workplaceCourseIndustries?.data?.listing
-                                        ?.pagination?.totalResult ?? 0}{' '}
+                                        ?.data?.length ?? 0}{' '}
                                 </Typography>
                             </div>
                         </div>
