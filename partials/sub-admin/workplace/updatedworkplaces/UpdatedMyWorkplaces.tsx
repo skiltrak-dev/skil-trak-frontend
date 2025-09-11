@@ -11,6 +11,7 @@ import {
     UserCreatedAt,
 } from '@components'
 import {
+    IndustryDetail,
     RtoCellInfo,
     StudentWPCellInfo,
     UpdatedWorkplaceRequest,
@@ -63,6 +64,15 @@ export const UpdatedMyWorkplaces = () => {
             cell: (info) => {
                 const appliedIndustry = info?.row?.original?.industries.find(
                     (industry: any) => industry?.applied
+                )
+
+                return (
+                    <IndustryDetail
+                        industries={info?.row?.original?.industries}
+                        workplaceApprovaleRequest={
+                            info?.row?.original?.workplaceApprovaleRequest
+                        }
+                    />
                 )
                 return (
                     <>

@@ -1,4 +1,5 @@
 export * from './AddToTodo'
 export * from './RtoCellInfo'
+export * from './IndustryDetail'
 export * from './StudentWPCellInfo'
 export * from './UpdatedWorkplaceRequest'

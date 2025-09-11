@@ -27,20 +27,23 @@ export const SubadminStudentIndustries = ({
             }
         )
     }
-    const studentsListWorkplace = (workplace: IWorkplaceIndustries[]) => {
-        const activeWP = activeWorkplace(workplace)
-
-        const latestWP = olderWorkplace(activeWP)
-
+    const activeWP = activeWorkplace(workplace)
+    const latestWP = olderWorkplace(activeWP)
+    const studentsListWorkplace = () => {
         const appliedIndustry = getStudentWorkplaceAppliedIndustry(
             latestWP?.industries as WorkplaceWorkIndustriesType[]
         )?.industry
 
         return appliedIndustry
     }
-    const appliedIndustry = studentsListWorkplace(workplace)
+    const appliedIndustry = studentsListWorkplace()
+
+    const wpApp = latestWP?.workplaceApprovaleRequest?.[0]?.industry
+
     return workplace && workplace?.length > 0 && appliedIndustry ? (
         <IndustryCellInfo onlyName={false} industry={appliedIndustry} />
+    ) : wpApp ? (
+        <IndustryCellInfo onlyName={false} industry={wpApp} />
     ) : industries && industries?.length > 0 ? (
         <IndustryCellInfo onlyName={false} industry={industries?.[0]} />
     ) : (
