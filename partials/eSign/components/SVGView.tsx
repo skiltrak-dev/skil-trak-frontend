@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useRef, useState, KeyboardEvent } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { Waypoint } from 'react-waypoint'
-import { TabsView } from './TabsView'
+import { TabsView } from './TabsView/TabsView'
 import { DocumentScrollArrow } from './DocumentScrollArrow'
 import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
 import { MdCancel } from 'react-icons/md'
@@ -257,17 +257,15 @@ export const SVGView = ({
                     index === 0 &&
                     showStartDocument ? (
                         <div className="w-full absolute h-full bg-[#00000050]">
-                            <div className="flex flex-col gap-y-2 bg-white w-full lg:w-[500px] p-5 rounded-md top-6 lg:top-24 absolute left-1/2 -translate-x-1/2">
+                            <div className="flex flex-col gap-y-2 bg-white w-full lg:w-[600px] p-5 rounded-md top-6 lg:top-24 absolute left-1/2 -translate-x-1/2">
                                 <Typography
                                     center
                                     variant={isMobile ? 'small' : 'label'}
                                 >
-                                    To begin, please sign the document
-                                    initially. Next, proceed to fill in the
-                                    necessary fields. Finally, conclude the
-                                    e-signature process by clicking the button
-                                    located at the end of the document. Let's
-                                    commence with the document.
+                                    You can start by reading, filling in fields,
+                                    or signing—whatever works best for you. When
+                                    you're done, click the button at the end to
+                                    finish.
                                 </Typography>
                                 <label
                                     htmlFor={`tabs-view-${sortedPositions?.[customFieldsSelectedId]?.id}`}

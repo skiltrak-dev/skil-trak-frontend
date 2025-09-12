@@ -19,8 +19,10 @@ export const EsignSignatureModal = ({
     onCancel,
     allSignAdded,
     customFieldsData,
+    setCustomFieldsData,
     success,
 }: {
+    setCustomFieldsData: any
     allSignAdded: any
     tab: any
     action?: any
@@ -57,7 +59,7 @@ export const EsignSignatureModal = ({
             setTimeout(() => {
                 if (allSignAdded && success) {
                     // onCancel()
-                    onCancel(false, true) // For the time being
+                    onCancel(true, true) // For the time being
                 } else {
                     onCancel(true, true)
                 }
@@ -71,6 +73,14 @@ export const EsignSignatureModal = ({
             ? await jwt(String(router.query?.token))
             : {}
 
+        setCustomFieldsData((prev: any) =>
+            prev?.map((p: any) =>
+                p?.id === tab?.id ? { ...p, fieldValue: dataURL } : p
+            )
+        )
+        // onCancel()
+
+        // return
         if (!ref?.current?.isEmpty()) {
             await signDocument({
                 tabId: tab?.id,
@@ -97,14 +107,14 @@ export const EsignSignatureModal = ({
             <ShowErrorNotifications result={signDocumentResult} />
             <div className="p-3 md:p-8">
                 <div>
-                    {/* <div className="flex justify-end">
+                    <div className="flex justify-end">
                         <MdCancel
                             onClick={() => {
                                 onCancel(true)
                             }}
                             className="transition-all duration-500 text-gray-400 hover:text-black text-2xl cursor-pointer hover:rotate-90"
                         />
-                    </div> */}
+                    </div>
                     <Typography color="text-[#6B7280]" variant="label" medium>
                         Please sign in given here
                     </Typography>

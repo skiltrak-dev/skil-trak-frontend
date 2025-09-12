@@ -1,8 +1,7 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
-import { SubAdminApi, useCancelWorkplaceStatusMutation } from '@queries'
+import { SubAdminApi } from '@queries'
 
-import { useEffect } from 'react'
 import { FaTrash } from 'react-icons/fa'
 
 export const SkipCurrentWPApplyAnotherWPModal = ({
