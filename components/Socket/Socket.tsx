@@ -81,7 +81,7 @@ export const Socket = ({ children }: any) => {
             Object.values(SocketNotificationsEvents).forEach(
                 (eventName: SocketNotificationsEvents) => {
                     socket.on(eventName, (notify: any) => {
-                        playAudioSound('/audio/notification.wav')
+                        playAudioSound('/audio/noti.wav')
                         setEventListener({
                             eventName,
                             eventListener: notify,
