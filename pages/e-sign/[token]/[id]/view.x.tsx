@@ -478,6 +478,12 @@ const ESign = () => {
             {state.modal}
             {state.isSignature && state.isDocumentLoaded?.isSuccess ? (
                 <EsignSignatureModal
+                    setCustomFieldsData={(e: any) => {
+                        dispatch({
+                            type: 'SET_CUSTOM_FIELDS_DATA',
+                            payload: e,
+                        })
+                    }}
                     tab={state.selectedSign}
                     onCancel={(cancel?: boolean, isSigned?: boolean) => {
                         onSignatureCancelClicked(cancel, isSigned)

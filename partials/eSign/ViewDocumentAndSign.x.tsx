@@ -147,6 +147,7 @@ export const ViewDocumentAndSign = () => {
     const onSignatureClicked = (sign: any) => {
         setModal(
             <EsignSignatureModal
+                setCustomFieldsData={setCustomFieldsData}
                 allSignAdded={allSignAdded}
                 success={true}
                 tab={sign}
