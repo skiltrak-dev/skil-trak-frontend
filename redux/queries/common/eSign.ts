@@ -307,7 +307,7 @@ export const eSignEndpoints = (
             params,
             body: { signature },
         }),
-        invalidatesTags: ['E-Sign'],
+        invalidatesTags: ['E-Signssss'],
     }),
 
     cancelEsignDocument: builder.mutation<

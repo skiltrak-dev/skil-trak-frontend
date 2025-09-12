@@ -115,9 +115,14 @@ export const ViewDocumentAndSign = () => {
                         },
                         tab?.responses[0]
                     )
+
+                    const fieldValue =
+                        tab?.columnName === FieldsTypeEnum.Signature
+                            ? response?.signature
+                            : response?.data
                     return {
                         ...tab,
-                        fieldValue: response ? response?.data : '',
+                        fieldValue,
                     }
                 })
             )
@@ -200,7 +205,8 @@ export const ViewDocumentAndSign = () => {
         if (
             customFieldsData
                 ?.filter((s: any) => s?.type === FieldsTypeEnum.Signature)
-                ?.filter((s: any) => !s?.responses?.length)?.length > 0
+                ?.filter((s: any) => !s?.fieldValue)?.length > 0
+            // ?.filter((s: any) => !s?.responses?.length)?.length > 0
         ) {
             notification.warning({
                 title: 'Sign',
@@ -288,18 +294,18 @@ export const ViewDocumentAndSign = () => {
 
     const sortedPositions = processedItems.sort((a: any, b: any) => {
         // First, prioritize 'signature' type
-        if (
-            a.type === FieldsTypeEnum.Signature &&
-            b.type !== FieldsTypeEnum.Signature
-        ) {
-            return -1
-        }
-        if (
-            a.type !== FieldsTypeEnum.Signature &&
-            b.type === FieldsTypeEnum.Signature
-        ) {
-            return 1
-        }
+        // if (
+        //     a.type === FieldsTypeEnum.Signature &&
+        //     b.type !== FieldsTypeEnum.Signature
+        // ) {
+        //     return -1
+        // }
+        // if (
+        //     a.type !== FieldsTypeEnum.Signature &&
+        //     b.type === FieldsTypeEnum.Signature
+        // ) {
+        //     return 1
+        // }
         // Then, sort by number in ascending order
         if (a.number !== b.number) {
             return a.number - b.number
@@ -344,12 +350,12 @@ export const ViewDocumentAndSign = () => {
             const isFieldValue =
                 sortedPositions?.[customFieldsSelectedId]?.fieldValue
 
-            if (isSign) {
-                setTimeout(() => {
-                    setIsSignature(true)
-                    setSelectedSign(fieldData)
-                }, 500)
-            }
+            // if (isSign) {
+            //     setTimeout(() => {
+            //         setIsSignature(true)
+            //         setSelectedSign(fieldData)
+            //     }, 500)
+            // }
 
             if (isFillRequiredFields) {
                 const slicedData = sortedPositions?.slice(
@@ -454,6 +460,7 @@ export const ViewDocumentAndSign = () => {
                     }}
                     allSignAdded={allSignAdded}
                     customFieldsData={customFieldsData}
+                    setCustomFieldsData={setCustomFieldsData}
                     success={
                         !tabs?.isLoading && !tabs?.isFetching && tabs?.isSuccess
                     }
@@ -524,17 +531,6 @@ export const ViewDocumentAndSign = () => {
                                     : 'lg:col-span-6'
                             } max-w- lg:pl-20 mx-auto flex flex-col gap-y-3 relative w-full`}
                         >
-                            {/* <div className="flex justify-end items-center gap-x-2">
-                                <input
-                                    type={'checkbox'}
-                                    onChange={(e: any) => {
-                                        onSelectAll(e)
-                                    }}
-                                    id={'selectAll'}
-                                />
-                                <label htmlFor="selectAll">Select All</label>
-                            </div> */}
-
                             {[
                                 ...Array(
                                     Number(documentsTotalPages?.data?.pageCount)

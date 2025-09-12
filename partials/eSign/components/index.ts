@@ -1,4 +1,5 @@
 export * from './SVGView'
+export * from './TabsView'
 export * from './SignersView'
 export * from './ScrollTabsView'
 export * from './DocumentSignature'

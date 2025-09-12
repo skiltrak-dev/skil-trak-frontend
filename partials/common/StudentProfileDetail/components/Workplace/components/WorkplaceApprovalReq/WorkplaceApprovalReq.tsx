@@ -134,14 +134,20 @@ export const WorkplaceApprovalReq = ({
             ) : !wpReqApproval?.hasVerifiedCapacity ? (
                 <Card noPadding>
                     <div className="flex flex-col gap-y-2 items-center px-4 py-2 bg-gray-200">
-                        <Typography variant="label" block medium center>
+                        <Typography
+                            variant="label"
+                            color="text-red-500"
+                            block
+                            medium
+                            center
+                        >
                             Please verify the workplace student capacity prior
                             to student placement confirmation.
                         </Typography>
                         <div className="col-span-2 flex justify-end gap-x-3">
                             <Button
                                 variant="success"
-                                text="Verify Capacity"
+                                text="Capacity Verified"
                                 disabled={role === UserRoles.RTO}
                                 onClick={onWorkplaceConfirmCapacity}
                             />
