@@ -1,12 +1,23 @@
-import { GlobalModal, LoadingAnimation, NoData } from '@components'
-import { SubAdminApi } from '@queries'
-import { useRouter } from 'next/router'
-import { FaBuilding } from 'react-icons/fa'
-import { MdBusiness, MdCancel } from 'react-icons/md'
 import {
-    ContactedIndustryCard,
-    SectionHeader,
-} from '../components/IndustryDetail/components'
+    GlobalModal,
+    InitialAvatar,
+    LoadingAnimation,
+    NoData,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
+import { UserRoles } from '@constants'
+import { useNotification } from '@hooks'
+import { CommonApi, SubAdminApi } from '@queries'
+import { Industry } from '@types'
+import { ellipsisText, getUserCredentials } from '@utils'
+import moment from 'moment'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { FaCheck } from 'react-icons/fa6'
+import { IoClose } from 'react-icons/io5'
+import { MdCancel } from 'react-icons/md'
+import { PuffLoader } from 'react-spinners'
 
 export const ViewContactedIndustryModal = ({
     onCancel,
@@ -16,10 +27,14 @@ export const ViewContactedIndustryModal = ({
     onCancel: () => void
 }) => {
     const router = useRouter()
+    const { notification } = useNotification()
     const studentDetails = SubAdminApi.SubAdmin.useSubAdminMapStudentDetail(
         router?.query?.id,
         { skip: !router?.query?.id }
     )
+    const [interested, interestedResult] =
+        CommonApi.FindWorkplace.useFutureIndustryInterest()
+
     const contactedIndustries = SubAdminApi.Student.wpContactIndustriesList(
         {
             workpaceId,
@@ -31,188 +46,339 @@ export const ViewContactedIndustryModal = ({
         }
     )
 
+    const industries = studentDetails?.data?.student?.industryContacts
+
+    const role = getUserCredentials()?.role
+
+    const onClickInterested = async (industry: any) => {
+        const response: any = await interested({
+            id: industry?.id,
+            body: {
+                status: true,
+            },
+        })
+        if (response?.data) {
+            // refetch
+            notification.success({
+                title: 'Interested',
+                description: 'Status interested updated successfully',
+            })
+            studentDetails.refetch()
+        }
+    }
+    const onClickNotInterested = async (industry: any) => {
+        const response: any = await interested({
+            id: industry?.id,
+            body: {
+                status: false,
+            },
+        })
+        if (response?.data) {
+            notification.success({
+                title: 'Not Interested',
+                description: 'Status not interested updated successfully',
+            })
+            // refetch
+            contactedIndustries.refetch()
+        }
+    }
+
     const Industries = contactedIndustries?.data?.filter(
         (industry: any) => industry?.industry !== null
     )
     const listingIndustries = contactedIndustries?.data?.filter(
         (industry: any) => industry?.listing !== null
     )
-    const branchIndustries = contactedIndustries?.data?.filter(
-        (industry: any) => industry?.branch !== null
+
+    const Actions = ({ industry }: { industry: any }) => (
+        <>
+            {industry?.intrested === null ? (
+                <div className="flex items-center gap-x-2">
+                    <div
+                        title="Not Interested"
+                        className="bg-red-400 rounded-md p-1 cursor-not-allowed"
+                        onClick={() => onClickNotInterested(industry)}
+                    >
+                        {interestedResult.isLoading ? (
+                            <>
+                                <PuffLoader
+                                    size={12}
+                                    color={'text-gray-300'}
+                                    data-testid="puff-loader"
+                                />
+                            </>
+                        ) : (
+                            <IoClose size={10} className="text-white" />
+                        )}
+                    </div>
+                    <div
+                        title="Interested"
+                        className="bg-green-400 rounded-md p-1 cursor-not-allowed"
+                        onClick={() => onClickInterested(industry)}
+                    >
+                        {interestedResult.isLoading ? (
+                            <>
+                                <PuffLoader
+                                    size={12}
+                                    color={'text-gray-300'}
+                                    data-testid="puff-loader"
+                                />
+                            </>
+                        ) : (
+                            <FaCheck size={10} className="text-white" />
+                        )}
+                    </div>
+                </div>
+            ) : industry?.intrested ? (
+                <Typography variant="muted" color="text-green-400">
+                    Interested
+                </Typography>
+            ) : !industry?.intrested ? (
+                <Typography variant="muted" color="text-red-400">
+                    Not Interested
+                </Typography>
+            ) : null}
+        </>
     )
-    console.log('branchIndustries', branchIndustries)
+
     return (
         <>
-            {/* <ShowErrorNotifications result={interestedResult} /> */}
+            <ShowErrorNotifications result={interestedResult} />
             <GlobalModal>
-                <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden">
-                    {/* Header */}
-                    <div className="flex items-center justify-between p-3 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 bg-blue-100 rounded-lg">
-                                <FaBuilding className="w-5 h-5 text-blue-600" />
-                            </div>
-                            <div>
-                                <h2 className="text-xl font-bold text-gray-900">
-                                    Industry Contacts
-                                </h2>
-                                <p className="text-sm text-gray-600">
-                                    Manage contacted industries for current
-                                    student
-                                </p>
-                            </div>
+                <div className="relative ">
+                    <MdCancel
+                        onClick={onCancel}
+                        className="absolute top-1 right-1 transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
+                    />
+                    <div className="flex pb-3 pt-8 px-6 justify-between items-center">
+                        <div className="w-1/2 ">
+                            <Typography variant={'label'}>
+                                Contacted Signed Up Industries for current
+                                student
+                            </Typography>
                         </div>
-                        <button
-                            onClick={onCancel}
-                            className="p-2 hover:bg-white/50 rounded-lg transition-colors"
-                            title="Close modal"
-                        >
-                            <MdCancel className="w-6 h-6 text-gray-500 hover:text-gray-700" />
-                        </button>
+                        <div className="w-1/2 ml-12">
+                            <Typography variant={'label'}>
+                                Contacted Listed Industries for current student
+                            </Typography>
+                        </div>
                     </div>
+                    <div className="flex justify-between w-full !min-w-[44rem] max-h-[65vh] overflow-y-auto custom-scrollbar">
+                        <div className="w-1/2 pb-3 flex flex-col gap-y-1.5 px-6">
+                            {contactedIndustries.isError && (
+                                <NoData
+                                    text={'There is some technical issue'}
+                                />
+                            )}
+                            {contactedIndustries.isLoading ? (
+                                <LoadingAnimation size={85} />
+                            ) : Industries && Industries?.length > 0 ? (
+                                <>
+                                    {Industries?.map((industry: any) => (
+                                        <div className="bg-secondary py-1 px-4 rounded-lg flex flex-col lg:flex-row justify-between lg:items-center">
+                                            <Link
+                                                href={
+                                                    role === UserRoles.ADMIN
+                                                        ? `/portals/admin/industry/${industry?.industry?.id}?tab=sectors`
+                                                        : role ===
+                                                          UserRoles.SUBADMIN
+                                                        ? `/portals/sub-admin/users/industries/${industry?.industry?.id}?tab=overview`
+                                                        : '#'
+                                                }
+                                                className="flex items-center gap-x-2 cursor-pointer"
+                                            >
+                                                {industry?.industry?.user
+                                                    ?.name && (
+                                                    <InitialAvatar
+                                                        name={
+                                                            industry?.industry
+                                                                ?.user?.name
+                                                        }
+                                                        imageUrl={
+                                                            industry?.industry
+                                                                ?.user?.avatar
+                                                        }
+                                                    />
+                                                )}
 
-                    {/* Content */}
-                    <div className="flex h-full max-h-[calc(90vh-120px)]">
-                        {/* Signed Up Industries */}
-                        <div className="flex-1 p-6 border-r border-gray-200">
-                            <SectionHeader
-                                title="Signed Up Industries"
-                                icon={
-                                    <FaBuilding className="w-4 h-4 text-blue-600" />
-                                }
-                                count={
-                                    Industries?.length +
-                                        branchIndustries?.length || 0
-                                }
-                            />
-
-                            <div className="h-full overflow-y-auto space-y-4 max-h-[calc(100vh-300px)] remove-scrollbar">
-                                {contactedIndustries.isError && (
-                                    <div className="flex items-center justify-center h-32">
-                                        <NoData text="There is some technical issue" />
-                                    </div>
-                                )}
-
-                                {contactedIndustries.isLoading ? (
-                                    <div className="flex items-center justify-center h-32">
-                                        <LoadingAnimation size={85} />
-                                    </div>
-                                ) : (
-                                    <>
-                                        {/* Branch Industries */}
-                                        {branchIndustries &&
-                                            branchIndustries.length > 0 && (
-                                                <div className="space-y-3">
-                                                    {branchIndustries.map(
-                                                        (branch: any) => (
-                                                            <ContactedIndustryCard
-                                                                isBranch
-                                                                industry={
-                                                                    branch
+                                                <div>
+                                                    <div className="flex items-center gap-x-8">
+                                                        <Typography
+                                                            variant={'label'}
+                                                        >
+                                                            <span
+                                                                title={
+                                                                    industry
+                                                                        ?.industry
+                                                                        ?.user
+                                                                        ?.name
                                                                 }
-                                                                key={`branch-${branch?.id}`}
-                                                            />
-                                                        )
-                                                    )}
-                                                </div>
-                                            )}
-
-                                        {/* Regular Industries */}
-                                        {Industries &&
-                                            Industries.length > 0 && (
-                                                <div className="space-y-3">
-                                                    {Industries.map(
-                                                        (industry: any) => (
-                                                            <div
-                                                                key={`industry-${industry?.id}`}
+                                                                className="cursor-pointer"
                                                             >
-                                                                <ContactedIndustryCard
-                                                                    industry={
-                                                                        industry
-                                                                    }
-                                                                    isListing={
-                                                                        false
-                                                                    }
-                                                                />
-
-                                                                {/* branch under industry */}
-                                                                {industry
-                                                                    ?.branch
-                                                                    ?.callLogs
-                                                                    ?.length >
-                                                                    0 && (
-                                                                    <ContactedIndustryCard
-                                                                        isBranch
-                                                                        industry={
-                                                                            industry?.branch
-                                                                        }
-                                                                        key={`branch-inline-${industry?.id}`}
-                                                                    />
+                                                                {ellipsisText(
+                                                                    industry
+                                                                        ?.industry
+                                                                        ?.user
+                                                                        ?.name,
+                                                                    15
                                                                 )}
-                                                            </div>
-                                                        )
-                                                    )}
+                                                            </span>
+                                                        </Typography>
+                                                        <div
+                                                            title={moment(
+                                                                industry?.createdAt
+                                                            )?.format(
+                                                                'ddd, DD.MMM.YYYY [at] hh:mm a'
+                                                            )}
+                                                            className=""
+                                                        >
+                                                            {' '}
+                                                            <Typography
+                                                                variant={'xxs'}
+                                                                color={
+                                                                    'text-link'
+                                                                }
+                                                            >
+                                                                {moment(
+                                                                    industry?.createdAt
+                                                                )?.format(
+                                                                    'DD-MM-YY/hh:mm a'
+                                                                )}
+                                                            </Typography>
+                                                        </div>
+                                                    </div>
+                                                    <Typography
+                                                        variant={'xxs'}
+                                                        color={'gray'}
+                                                    >
+                                                        {
+                                                            industry?.industry
+                                                                ?.addressLine1
+                                                        }
+                                                    </Typography>
                                                 </div>
-                                            )}
-
-                                        {/* Empty state */}
-                                        {contactedIndustries.isSuccess &&
-                                            !Industries?.length &&
-                                            !branchIndustries?.length && (
-                                                <div className="flex flex-col items-center justify-center h-32 text-gray-500">
-                                                    <FaBuilding className="w-8 h-8 mb-2 opacity-30" />
-                                                    <p className="text-sm">
-                                                        No signed up industries
-                                                        or branches found
-                                                    </p>
-                                                </div>
-                                            )}
-                                    </>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Listed Industries */}
-                        <div className="flex-1 p-6">
-                            <SectionHeader
-                                title="Listed Industries"
-                                icon={
-                                    <MdBusiness className="w-4 h-4 text-blue-600" />
-                                }
-                                count={listingIndustries?.length || 0}
-                            />
-
-                            <div className="h-full overflow-y-auto space-y-4 max-h-[calc(100vh-300px)] remove-scrollbar">
-                                {contactedIndustries.isError && (
-                                    <div className="flex items-center justify-center h-32">
-                                        <NoData text="There is some technical issue" />
-                                    </div>
-                                )}
-
-                                {contactedIndustries.isLoading ? (
-                                    <div className="flex items-center justify-center h-32">
-                                        <LoadingAnimation size={85} />
-                                    </div>
-                                ) : listingIndustries &&
-                                  listingIndustries?.length > 0 ? (
-                                    listingIndustries?.map((industry: any) => (
-                                        <ContactedIndustryCard
-                                            key={industry?.id}
-                                            industry={industry}
-                                            isListing={true}
-                                        />
-                                    ))
-                                ) : (
-                                    contactedIndustries.isSuccess && (
-                                        <div className="flex flex-col items-center justify-center h-32 text-gray-500">
-                                            <MdBusiness className="w-8 h-8 mb-2 opacity-30" />
-                                            <p className="text-sm">
-                                                No listed industries found
-                                            </p>
+                                            </Link>
+                                            <Actions industry={industry} />
                                         </div>
-                                    )
-                                )}
-                            </div>
+                                    ))}
+                                </>
+                            ) : (
+                                contactedIndustries.isSuccess && (
+                                    <NoData text={'There is no Industries!'} />
+                                )
+                            )}
+                        </div>
+                        <div className="w-1/2 pb-3 flex flex-col gap-y-1.5 px-6">
+                            {contactedIndustries.isError && (
+                                <NoData
+                                    text={'There is some technical issue'}
+                                />
+                            )}
+                            {contactedIndustries.isLoading ? (
+                                <LoadingAnimation size={85} />
+                            ) : listingIndustries &&
+                              listingIndustries?.length > 0 ? (
+                                <>
+                                    {listingIndustries?.map((industry: any) => (
+                                        <div className="bg-secondary py-1 px-4 rounded-lg w-full">
+                                            <div className="flex items-center gap-x-2 justify-between">
+                                                <div className="flex items-center gap-x-2">
+                                                    <Link
+                                                        href={
+                                                            role ===
+                                                            UserRoles.ADMIN
+                                                                ? `/portals/admin/industry/${industry?.listing?.id}?tab=sectors`
+                                                                : role ===
+                                                                  UserRoles.SUBADMIN
+                                                                ? `portals/sub-admin/tasks/industry-listing/${industry?.listing?.id}`
+                                                                : '#'
+                                                        }
+                                                    >
+                                                        {industry?.listing
+                                                            ?.businessName && (
+                                                            <InitialAvatar
+                                                                name={
+                                                                    industry
+                                                                        ?.listing
+                                                                        ?.businessName
+                                                                }
+                                                                // imageUrl={'/'}
+                                                            />
+                                                        )}
+                                                    </Link>
+
+                                                    <div>
+                                                        <div className="flex items-center gap-x-8">
+                                                            <Typography
+                                                                variant={
+                                                                    'label'
+                                                                }
+                                                            >
+                                                                <span
+                                                                    title={
+                                                                        industry
+                                                                            ?.listing
+                                                                            ?.businessName
+                                                                    }
+                                                                    className="cursor-pointer"
+                                                                >
+                                                                    {ellipsisText(
+                                                                        industry
+                                                                            ?.listing
+                                                                            ?.businessName,
+                                                                        15
+                                                                    )}
+                                                                </span>
+                                                            </Typography>
+                                                            <div
+                                                                title={moment(
+                                                                    industry?.createdAt
+                                                                )?.format(
+                                                                    'ddd, DD.MMM.YYYY [at] hh:mm a'
+                                                                )}
+                                                                className=""
+                                                            >
+                                                                {' '}
+                                                                <Typography
+                                                                    variant={
+                                                                        'xxs'
+                                                                    }
+                                                                    color={
+                                                                        'text-link'
+                                                                    }
+                                                                >
+                                                                    {moment(
+                                                                        industry?.createdAt
+                                                                    )?.format(
+                                                                        'DD-MM-YYYY'
+                                                                    )}
+                                                                </Typography>
+                                                            </div>
+                                                        </div>
+
+                                                        <Typography
+                                                            variant={'xxs'}
+                                                            color={'gray'}
+                                                        >
+                                                            {
+                                                                industry
+                                                                    ?.listing
+                                                                    ?.address
+                                                            }
+                                                        </Typography>
+                                                    </div>
+                                                </div>
+
+                                                <Actions industry={industry} />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </>
+                            ) : (
+                                contactedIndustries.isSuccess && (
+                                    <NoData text={'There is no Industries!'} />
+                                )
+                            )}
                         </div>
                     </div>
                 </div>

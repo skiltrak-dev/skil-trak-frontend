@@ -239,10 +239,13 @@ export const findWorkplaceEndpoints = (
             method: 'PATCH',
         }),
         invalidatesTags: [
+            'SubAdminWorkplace',
+            'SubAdminIndustries',
+            'Industries',
+            'SubAdminStudents',
             'SubAdmin',
             'Workplace',
             'Industries',
-            'SubAdminStudents',
         ],
     }),
 })

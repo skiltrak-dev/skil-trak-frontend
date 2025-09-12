@@ -76,13 +76,19 @@ export const IndustryDetail = ({
     const onCancelClicked = () => setModal(null)
 
     // TODO : When user copy the listing industry phone number track it in contacted history and make a separate tab in modal like From Listing Industries
+    const onViewOldContactedList = () => {
+        setModal(
+            <GlobalModal>
+                <ViewContactedIndustryModal
+                    workpaceId={Number(workplace?.id)}
+                    onCancel={onCancelClicked}
+                />
+            </GlobalModal>
+        )
+    }
     const onViewContactedIndustries = () => {
         setModal(
             <GlobalModal>
-                {/* <ViewContactedIndustryModal
-                workpaceId={Number(workplace?.id)}
-                onCancel={onCancelClicked}
-            /> */}
                 <div className="flex justify-end">
                     <button
                         onClick={onCancelClicked}
@@ -255,6 +261,29 @@ export const IndustryDetail = ({
                                     }}
                                 >
                                     View Contacted Industry
+                                </span>
+                            </Typography>
+                            <Typography variant={'small'} color={'text-info'}>
+                                <span
+                                    className="font-semibold cursor-pointer whitespace-pre hover:underline"
+                                    onClick={() => {
+                                        if (
+                                            role === UserRoles.ADMIN ||
+                                            !appliedIndustry ||
+                                            subadmin?.departmentMember?.isHod ||
+                                            subadmin?.isManager
+                                        ) {
+                                            onViewOldContactedList()
+                                        } else {
+                                            notification.warning({
+                                                title: 'Already Applied',
+                                                description:
+                                                    'Student have already applied to industry',
+                                            })
+                                        }
+                                    }}
+                                >
+                                    View Old Contacted List
                                 </span>
                             </Typography>
                         </AuthorizedUserComponent>

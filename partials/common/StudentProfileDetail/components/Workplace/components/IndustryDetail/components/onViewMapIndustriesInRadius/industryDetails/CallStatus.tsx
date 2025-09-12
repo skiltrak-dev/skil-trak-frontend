@@ -27,7 +27,7 @@ export const CallStatus = ({ callLogEntry, wasContacted }: any) => {
 
     return (
         <div
-            className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium border mt-1 ${statusConfig?.bgColor} ${statusConfig?.textColor} ${statusConfig.borderColor} w-fit`}
+            className={`inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium border mt-1 ${statusConfig?.bgColor} ${statusConfig?.textColor} ${statusConfig.borderColor} w-fit`}
         >
             <div
                 className={`w-2 h-2 rounded-full ${statusConfig?.dotColor} mr-2`}
