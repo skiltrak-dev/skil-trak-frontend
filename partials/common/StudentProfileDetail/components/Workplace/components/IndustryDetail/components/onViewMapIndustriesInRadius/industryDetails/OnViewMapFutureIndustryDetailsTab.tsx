@@ -40,6 +40,7 @@ import {
 } from 'react-icons/io5'
 import { LuPhoneCall, LuPhoneMissed } from 'react-icons/lu'
 import { OnViewMapCallAnswer } from './OnViewMapCallAnswer'
+import { CallStatus } from './CallStatus'
 export const OnViewMapFutureIndustryDetailsTab = ({
     selectedBox,
     workplace,
@@ -64,6 +65,12 @@ export const OnViewMapFutureIndustryDetailsTab = ({
         CommonApi.FindWorkplace.useFutureIndustryCallLog()
 
     const sectors = selectedBox?.sector
+    const callLogEntry =
+        industryDetails?.data?.callLog?.length > 0
+            ? industryDetails?.data?.callLog[0]
+            : null
+
+    const wasContacted = callLogEntry?.isAnswered !== null
 
     const { notification } = useNotification()
     const router = useRouter()
@@ -183,13 +190,17 @@ export const OnViewMapFutureIndustryDetailsTab = ({
                                     {industryDetails?.data?.businessName ??
                                         'NA'}
                                 </h3>
-                                <div className="flex items-center gap-1">
-                                    <Star className="h-3 w-3 text-[#F7A619] fill-current" />
-                                    <span className="text-xs font-medium text-[#F7A619]">
-                                        4.5/5
-                                    </span>
-                                </div>
                                 {statusData()}
+                                {industryDetails?.data?.emails?.length > 0 && (
+                                    <div className="flex items-center gap-x-2 text-xs font-medium text-indigo-600 bg-indigo-100 border border-indigo-200 rounded-full px-3 py-1.5 mt-1 w-fit">
+                                        <div className="w-2 h-2 rounded-full bg-indigo-600" />
+                                        <span>Email Sent</span>
+                                    </div>
+                                )}
+                                <CallStatus
+                                    callLogEntry={callLogEntry}
+                                    wasContacted={wasContacted}
+                                />
                             </div>
                             <div className="flex items-center gap-2 text-xs text-gray-600">
                                 <MapPin className="h-3 w-3" />
@@ -229,7 +240,7 @@ export const OnViewMapFutureIndustryDetailsTab = ({
                                     if (res?.data) {
                                         notification.success({
                                             title: 'Called Industry',
-                                            description: `Called Industry with Name: ${industryDetails?.data?.user?.name}`,
+                                            description: `Called Industry with Name: ${industryDetails?.data?.businessName}`,
                                         })
                                     }
                                 })
