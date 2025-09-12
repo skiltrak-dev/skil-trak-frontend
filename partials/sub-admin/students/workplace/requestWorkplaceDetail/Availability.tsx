@@ -21,6 +21,7 @@ export const Availability = ({
     availabilities,
     setAvailabilities,
 }: AvailabilityProps) => {
+    const [isLoading, setIsLoading] = useState(false)
     // query
     const [workplaceRequest, workplaceRequestResult] =
         useSubAdminRequestWorkplaceMutation()
@@ -55,6 +56,7 @@ export const Availability = ({
     }
 
     const onSubmitBeta = async (daysAvailability: any) => {
+        setIsLoading(true)
         await createAutoWp({
             userId,
             ...personalInfoData,
@@ -63,6 +65,9 @@ export const Availability = ({
             date2: null,
         }).then((res: any) => {
             if (res?.data) {
+                setTimeout(() => {
+                    setIsLoading(false)
+                }, 10000)
                 setModal(<WorkplaceCreatedModal onCancel={onCancelModal} />)
                 // setActive((active: number) => active + 1)
             }
@@ -80,7 +85,7 @@ export const Availability = ({
             {modal}
             <ShowErrorNotifications result={createAutoWpResult} />
             <ShowErrorNotifications result={workplaceRequestResult} />
-            {createAutoWpResult?.isLoading ? (
+            {isLoading ? (
                 <WPProcessMatchingLoader />
             ) : (
                 <AvailabilityForm
