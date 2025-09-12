@@ -20,6 +20,7 @@ export interface Industry {
     state?: string
     phoneNumber?: string
     user: User
+    studentIndustryContact: any
 }
 
 export interface Listing {
@@ -29,6 +30,7 @@ export interface Listing {
     email: string
     phone: string
     status: string
+    studentIndustryContact: any
 }
 
 export interface Branch {
@@ -37,6 +39,7 @@ export interface Branch {
     contactPerson: string
     contactPersonEmail: string
     contactPersonPhone: string
+    studentIndustryContact: any
 }
 
 export interface Email {
@@ -75,7 +78,6 @@ const IndustryCommunications = ({ emails, callLogs, listingMails }: any) => {
     const isLoading =
         emails.isLoading || callLogs.isLoading || listingMails.isLoading
     const hasError = emails.isError || callLogs.isError || listingMails.isError
-
     if (isLoading) {
         return (
             <div className="max-w-4xl mx-auto p-6 bg-gray-50 min-h-screen">

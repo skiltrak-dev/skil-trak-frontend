@@ -3,6 +3,7 @@ import moment from 'moment'
 import React, { useState } from 'react'
 import { CallLog } from '../IndustryCommunications'
 import { ContactStatusBadge } from '../ContactStatusBadge'
+import { ellipsisText } from '@utils'
 
 export const CallItemCard: React.FC<{ call: CallLog }> = ({ call }) => {
     const [expanded, setExpanded] = useState(false)
@@ -70,8 +71,11 @@ export const CallItemCard: React.FC<{ call: CallLog }> = ({ call }) => {
 
             <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
-                    <h3 className="text-sm font-medium text-gray-900 truncate">
-                        {getCompanyName()}
+                    <h3
+                        title={getCompanyName()}
+                        className="text-sm font-medium text-gray-900 truncate"
+                    >
+                        {ellipsisText(getCompanyName(), 10)}
                     </h3>
                     <div className="flex items-center space-x-2 text-xs text-gray-500">
                         <span>
@@ -79,12 +83,6 @@ export const CallItemCard: React.FC<{ call: CallLog }> = ({ call }) => {
                                 'ddd, DD.MMM.YYYY [at] hh:mm a'
                             )}
                         </span>
-                        {duration && (
-                            <>
-                                <span>•</span>
-                                <span>{duration}</span>
-                            </>
-                        )}
                     </div>
                 </div>
 

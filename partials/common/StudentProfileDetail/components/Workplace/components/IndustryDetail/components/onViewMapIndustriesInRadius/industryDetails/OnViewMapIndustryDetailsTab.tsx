@@ -196,6 +196,12 @@ export const OnViewMapIndustryDetailsTab = ({
                 title: 'Copied',
                 description: 'Phone Number Copied',
             })
+        } else if (!call) {
+            notification.error({
+                title: 'Missing Number',
+                description:
+                    'Please update the Industry Phone Number from Edit Profile',
+            })
         }
     }
 
