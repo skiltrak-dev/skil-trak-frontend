@@ -424,6 +424,7 @@ const ESign = () => {
             {modal}
             {isSignature && isDocumentLoaded?.isSuccess ? (
                 <EsignSignatureModal
+                    setCustomFieldsData={setCustomFieldsData}
                     tab={selectedSign}
                     onCancel={(cancel?: boolean, isSigned?: boolean) => {
                         onSignatureCancelClicked(cancel, isSigned)
