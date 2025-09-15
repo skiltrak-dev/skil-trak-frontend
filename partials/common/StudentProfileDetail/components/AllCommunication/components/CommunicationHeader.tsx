@@ -14,7 +14,7 @@ interface CommunicationHeaderProps {
 export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const student = user
-    const { selectedWorkplace } = useWorkplaceHook({ student })
+    const { selectedWorkplace } = useWorkplaceHook()
     const onCancelClicked = () => setModal(null)
 
     const onComposeMail = () => {

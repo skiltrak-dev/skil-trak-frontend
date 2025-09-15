@@ -37,7 +37,7 @@ export const Schedule = ({
         null
     )
     const [addSchedule, setAddSchedule] = useState<boolean>(false)
-    const { selectedWorkplace } = useWorkplaceHook({ student })
+    const { selectedWorkplace } = useWorkplaceHook()
     const router = useRouter()
     const courses = SubAdminApi.Student.useCourses(Number(router.query?.id), {
         skip: !router.query?.id || !isEntered,
