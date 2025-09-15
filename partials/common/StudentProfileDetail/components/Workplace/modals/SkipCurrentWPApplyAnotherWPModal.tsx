@@ -1,8 +1,8 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
-import { SubAdminApi } from '@queries'
 
 import { FaTrash } from 'react-icons/fa'
+import { useWorkplaceHook } from '../hooks'
 
 export const SkipCurrentWPApplyAnotherWPModal = ({
     wpReqApproval,
@@ -13,22 +13,25 @@ export const SkipCurrentWPApplyAnotherWPModal = ({
 }) => {
     console.log({ wpReqApproval })
     const { notification } = useNotification()
-    const [skipWorkplace, skipWorkplaceResult] =
-        SubAdminApi.Student.skipWpAndApplyAnother()
+
+    const { setAutoApplyLoader, skipWorkplace, skipWorkplaceResult } =
+        useWorkplaceHook()
 
     const onConfirmUClicked = async () => {
-        const res: any = await skipWorkplace({
+        setAutoApplyLoader(true)
+        skipWorkplace({
             wpAppReqId: wpReqApproval?.id,
             wpId: wpReqApproval?.workplaceRequest?.id,
         })
+        onCancel()
 
-        if (res?.data) {
-            notification.warning({
-                title: `Workplace Industry Skipped`,
-                description: `Workplace Industry Skipped Successfully!`,
-            })
-            onCancel()
-        }
+        // if (res?.data) {
+        //     notification.warning({
+        //         title: `Workplace Industry Skipped`,
+        //         description: `Workplace Industry Skipped Successfully!`,
+        //     })
+        //     onCancel()
+        // }
     }
 
     return (

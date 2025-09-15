@@ -1,152 +1,125 @@
 import { useAuthorizedUserComponent } from '@components'
 import { UserRoles } from '@constants'
-import { ChangeStatusModal } from '@partials/admin/invoices'
-import { InitiateSigningModal } from '@partials/sub-admin/assessmentEvidence/modal'
+import { useNotification } from '@hooks'
 import { GetFolders } from '@partials/sub-admin/workplace/hooks'
-import { ForwardModal } from '@partials/sub-admin/workplace/modals'
-import {
-    SubAdminApi,
-    useGetSubAdminStudentWorkplaceDetailQuery,
-    useGetWorkplaceFoldersQuery,
-} from '@queries'
-import { AssessmentEvidenceDetailType, Course, Student } from '@types'
+import { Student } from '@types'
 import { getUserCredentials, WorkplaceCurrentStatus } from '@utils'
 import moment from 'moment'
-import { useRouter } from 'next/router'
-import { ReactNode, useEffect, useMemo, useState } from 'react'
 import {
-    IWorkplaceIndustries,
-    WorkplaceWorkIndustriesType,
-} from 'redux/queryTypes'
+    createContext,
+    ReactNode,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from 'react'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
+import { isAllDocumentsInitiated, sortedWP } from '../functions'
 import {
-    AddFeedbackModal,
     AppointmentBookModal,
     AppointmentViewWPModal,
-    BookAppointmentInfoModal,
-    CancelWorkplaceModal,
-    CancelWorkplaceRequestModal,
     GenerateEsignModal,
-    LogbookNotReleasedModal,
-    NoLogbookFoundModal,
-    ReleaseLogbookModal,
-    ShowRejectedRequestModal,
-    UpdatePrvWPStatusModal,
-    UpdateWorkplaceCourseModal,
-    ViewPlacementStartedAnswersModal,
-    ViewQuestionsModal,
 } from '../modals'
+import { useAutoModals } from './useAutoModals'
+import { useWorkplaceActions } from './useWorkplaceActions'
+import { useWorkplaceQueries } from './useWorkplaceQueries.hook'
+import { useWorkplaceStatusModals } from './useWorkplaceStatusModals'
 
-export const useWorkplaceHook = ({ student }: { student: Student }) => {
+// Define the context type
+interface WorkplaceContextType {
+    // Modal state
+    modal: ReactNode | null
+
+    // Data from queries
+    refresh: any
+    refreshResult: any
+    course: any
+    folders: any
+    courses: any
+    getCancelledWP: any
+    appliedIndustry: any
+    workplaceFolders: any
+    skipWorkplace: any
+    skipWorkplaceResult: any
+    sortedWorkplace: any
+    studentWorkplace: any
+    ignoreCompletedWP: any
+    selectedWorkplace: any
+    rejectedWorkplaces: any
+    showPreviousWorkplace: boolean
+    workplaceStudentDetail: any
+    workplaceIndustryDetail: any
+    latestWorkplaceApprovaleRequest: any
+    latestWorkplaceApprovaleRequestRto: any
+    appointmentDetail: any
+    autoApplyLoader: any
+    setAutoApplyLoader: any
+
+    // Actions
+    setSelectedWorkplace: (workplace: any) => void
+    onAppointmentClicked: () => void
+    setShowPreviousWorkplace: (show: boolean) => void
+    onAddAnotherWp: () => boolean
+
+    // Actions from useWorkplaceActions (spread)
+    [key: string]: any
+}
+
+// Create the context
+const WorkplaceContext = createContext<WorkplaceContextType | undefined>(
+    undefined
+)
+
+// Custom hook to use the workplace context
+export const useWorkplaceContext = () => {
+    const context = useContext(WorkplaceContext)
+    if (context === undefined) {
+        throw new Error(
+            'useWorkplaceContext must be used within a WorkplaceProvider'
+        )
+    }
+    return context
+}
+
+// Provider props interface
+interface WorkplaceProviderProps {
+    children: ReactNode
+    student: Student
+}
+
+// The provider component
+export const WorkplaceHookProvider = ({
+    children,
+    student,
+}: WorkplaceProviderProps) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
     const [modelId, setModelId] = useState<string>('')
-    const [selectedWorkplace, setSelectedWorkplace] =
-        useState<IWorkplaceIndustries | null>(null)
-    const [showPreviousWorkplace, setShowPreviousWorkplace] = useState(false)
+    const [autoApplyLoader, setAutoApplyLoader] = useState<boolean>(false)
 
-    const router = useRouter()
-
-    const studentWorkplace = useGetSubAdminStudentWorkplaceDetailQuery(
-        Number(router?.query?.id),
-        {
-            skip: !router?.query?.id,
-            refetchOnMountOrArgChange: true,
-        }
-    )
-    const workplaceIndustryDetail = SubAdminApi.Student.workplaceIndustryDetail(
-        Number(selectedWorkplace?.id),
-        {
-            skip: !selectedWorkplace,
-            refetchOnMountOrArgChange: true,
-        }
-    )
-
-    const workplaceStudentDetail = SubAdminApi.Student.workplaceStudentDetail(
-        Number(selectedWorkplace?.id),
-        {
-            skip: !selectedWorkplace,
-            refetchOnMountOrArgChange: true,
-        }
-    )
-
-    const rejectedWorkplaces =
-        SubAdminApi.Student.useSubAdminStudentCancelledWorkplaces(
-            {
-                params: { courseId: selectedWorkplace?.courses?.[0]?.id },
-                id: student?.id,
-            },
-            {
-                skip: !student?.id || !student?.user?.id || !selectedWorkplace,
-            }
-        )
-
-    const courses = SubAdminApi.Student.useCourses(Number(router?.query?.id), {
-        skip: !router?.query?.id,
-        refetchOnMountOrArgChange: true,
-    })
-
-    const getCancelledWP = SubAdminApi.Student.getCancelledWP(student?.id, {
-        skip: !studentWorkplace?.isSuccess || !showPreviousWorkplace,
-    })
-
-    const appliedIndustry: WorkplaceWorkIndustriesType =
-        workplaceIndustryDetail?.data?.find((i: any) => i.applied)
-
-    const course = selectedWorkplace?.courses?.find((c: any) => c)
-
-    const workplaceFolders = useGetWorkplaceFoldersQuery(
-        {
-            workplaceId: Number(selectedWorkplace?.id),
-            appliedIndustryId: appliedIndustry?.industry?.id,
-            courseId: course?.id,
-        },
-        { skip: !studentWorkplace || !appliedIndustry || !course }
-    )
-    const getWorkplaceAppointment = SubAdminApi.Student.getWorkplaceAppointment(
-        Number(selectedWorkplace?.id),
-        {
-            skip: !selectedWorkplace,
-            refetchOnMountOrArgChange: true,
-        }
-    )
-
-    const esignDocumentsFolders = SubAdminApi.Student.esignDocumentsFolders(
-        Number(selectedWorkplace?.id),
-        {
-            skip: !selectedWorkplace,
-            refetchOnMountOrArgChange: true,
-        }
-    )
-
-    const folders = GetFolders(workplaceFolders)
+    const { notification } = useNotification()
 
     const role = getUserCredentials()?.role
 
-    const excludedRoles = [UserRoles.RTO, UserRoles.OBSERVER]
+    const {
+        selectedWorkplace,
+        setSelectedWorkplace,
+        showPreviousWorkplace,
+        setShowPreviousWorkplace,
+        studentWorkplace,
+        workplaceIndustryDetail,
+        workplaceStudentDetail,
+        rejectedWorkplaces,
+        courses,
+        getCancelledWP,
+        esignDocumentsFolders,
+        getWorkplaceAppointment,
+        workplaceFolders,
+        appliedIndustry,
+        course,
+        ...queriesActions
+    } = useWorkplaceQueries({ student })
 
-    const authorizedRoles = useAuthorizedUserComponent({
-        roles: [UserRoles.ADMIN, UserRoles.SUBADMIN],
-    })
-
-    const sortedWorkplace =
-        studentWorkplace?.data && studentWorkplace?.data?.length > 0
-            ? [...studentWorkplace?.data].sort((a: any, b: any) => {
-                  // Check if either status is "completed"
-                  if (
-                      a.currentStatus === WorkplaceCurrentStatus.Completed &&
-                      b.currentStatus !== WorkplaceCurrentStatus.Completed
-                  ) {
-                      return 1 // a goes after b
-                  }
-                  if (
-                      a.currentStatus !== WorkplaceCurrentStatus.Completed &&
-                      b.currentStatus === WorkplaceCurrentStatus.Completed
-                  ) {
-                      return -1 // a goes before b
-                  }
-                  // If neither or both are "completed", sort by createdAt date
-                  return Date.parse(a.createdAt) - Date.parse(b.createdAt)
-              })
-            : []
+    console.log({ ststststststststs: selectedWorkplace })
 
     const latestWorkplaceApprovaleRequest = useMemo(() => {
         return selectedWorkplace?.workplaceApprovaleRequest?.reduce(
@@ -158,6 +131,39 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         )
     }, [selectedWorkplace?.workplaceApprovaleRequest])
 
+    const actions = useWorkplaceActions({
+        selectedWorkplace,
+        showModal: setModal,
+    })
+
+    useAutoModals({
+        selectedWorkplace,
+        appliedIndustry,
+        student,
+        course,
+        role,
+        showModal: setModal,
+    })
+
+    useWorkplaceStatusModals({
+        selectedWorkplace,
+        appliedIndustry,
+        workplaceStudentDetail,
+        student,
+        role,
+        latestWorkplaceApprovaleRequest,
+        showModal: setModal,
+    })
+
+    const folders = GetFolders(workplaceFolders)
+
+    const allDocumentsInitiated = isAllDocumentsInitiated(esignDocumentsFolders)
+    const sortedWorkplace = sortedWP(studentWorkplace)
+
+    const authorizedRoles = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN, UserRoles.SUBADMIN],
+    })
+
     const latestWorkplaceApprovaleRequestRto = useMemo(() => {
         return selectedWorkplace?.workplaceApprovaleRequest?.reduce(
             (latest: any, current: any) =>
@@ -168,15 +174,6 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         )
     }, [selectedWorkplace?.workplaceApprovaleRequest])
 
-    const allDocumentsInitiated =
-        esignDocumentsFolders?.data && esignDocumentsFolders?.isSuccess
-            ? esignDocumentsFolders?.data?.every((folder: any) =>
-                  folder?.course?.esignTemplates?.find(
-                      (temp: any) => temp?.documents?.length > 0
-                  )
-              )
-            : false
-
     useEffect(() => {
         return () => {
             setModal(null)
@@ -184,9 +181,31 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
     }, [])
 
     useEffect(() => {
+        if (queriesActions?.refreshResult?.isSuccess) {
+            setTimeout(() => {
+                setAutoApplyLoader(false)
+                notification.success({
+                    title: `Automation Refreshed`,
+                    description: `Automation Refreshed.`,
+                })
+            }, 10000)
+        }
+    }, [queriesActions?.refreshResult])
+
+    useEffect(() => {
+        if (queriesActions?.skipWorkplaceResult?.isSuccess) {
+            setTimeout(() => {
+                setAutoApplyLoader(false)
+                notification.warning({
+                    title: `Workplace Industry Skipped`,
+                    description: `Workplace Industry Skipped Successfully!`,
+                })
+            }, 10000)
+        }
+    }, [queriesActions?.skipWorkplaceResult])
+
+    useEffect(() => {
         if (sortedWorkplace && sortedWorkplace?.length > 0) {
-            // setWorkplaceRes(sortedWorkplace)
-            // getWorkplaceLength(sortedWorkplace?.length)
             setSelectedWorkplace(
                 selectedWorkplace
                     ? studentWorkplace?.data?.find(
@@ -199,28 +218,6 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             setSelectedWorkplace(null)
         }
     }, [studentWorkplace?.data])
-
-    useEffect(() => {
-        if (
-            selectedWorkplace &&
-            appliedIndustry &&
-            !appliedIndustry?.awaitingWorkplaceResponseDate &&
-            selectedWorkplace?.assignedTo &&
-            !selectedWorkplace?.studentProvidedWorkplace &&
-            !excludedRoles.includes(role)
-        ) {
-            const onForwardClicked = () => {
-                setModal(
-                    <ForwardModal
-                        industry={appliedIndustry}
-                        workplaceId={Number(selectedWorkplace?.id)}
-                        onCancel={() => onCancelModal()}
-                    />
-                )
-            }
-            onForwardClicked()
-        }
-    }, [selectedWorkplace, appliedIndustry])
 
     useEffect(() => {
         const isAppointmentBookedStatus =
@@ -345,212 +342,12 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
 
     const onCancelModal = () => setModal(null)
 
-    const onCancelWPClicked = () => {
-        setModal(
-            <CancelWorkplaceModal
-                onCancel={onCancelModal}
-                workplaceId={Number(selectedWorkplace?.id)}
-            />
-        )
-    }
-    const onCancelWPRequestClicked = () => {
-        setModal(
-            <CancelWorkplaceRequestModal
-                onCancel={onCancelModal}
-                workplaceId={Number(selectedWorkplace?.id)}
-            />
-        )
-    }
-
-    useEffect(() => {
-        if (
-            selectedWorkplace &&
-            selectedWorkplace?.currentStatus ===
-                WorkplaceCurrentStatus.AgreementSigned &&
-            !selectedWorkplace?.studentFeedBack &&
-            appliedIndustry &&
-            role === UserRoles.ADMIN &&
-            role === UserRoles.SUBADMIN
-        )
-            setModal(
-                <AddFeedbackModal
-                    onCancel={onCancelModal}
-                    id={appliedIndustry?.id}
-                    agreementSigned={appliedIndustry?.AgreementSigned}
-                    student={student}
-                    course={selectedWorkplace?.courses?.[0] as Course}
-                    wpId={Number(selectedWorkplace?.id)}
-                    industryId={appliedIndustry?.industry?.id}
-                    isStartPlacement={false}
-                />
-            )
-    }, [selectedWorkplace, appliedIndustry])
-
-    useEffect(() => {
-        if (
-            selectedWorkplace?.currentStatus ===
-                WorkplaceCurrentStatus.AwaitingWorkplaceResponse &&
-            !workplaceStudentDetail?.data?.appointmentBooked &&
-            workplaceStudentDetail?.isSuccess &&
-            !workplaceStudentDetail?.isLoading &&
-            !workplaceStudentDetail?.isFetching &&
-            role === UserRoles.ADMIN &&
-            role === UserRoles.SUBADMIN
-        ) {
-            setModal(
-                <BookAppointmentInfoModal
-                    onCancel={onCancelModal}
-                    courseId={Number(selectedWorkplace?.courses?.[0]?.id)}
-                    studentUser={workplaceStudentDetail?.data?.user?.id}
-                    approvalDate={latestWorkplaceApprovaleRequest?.approvalDate}
-                />
-            )
-        }
-    }, [
-        selectedWorkplace,
-        workplaceStudentDetail,
-        workplaceStudentDetail?.data?.appointmentBooked,
-    ])
-
-    useEffect(() => {
-        if (
-            workplaceStudentDetail?.isSuccess &&
-            !workplaceStudentDetail?.data?.agreementSigned &&
-            selectedWorkplace?.currentStatus ===
-                WorkplaceCurrentStatus.AwaitingAgreementSigned &&
-            role === UserRoles.ADMIN &&
-            role === UserRoles.SUBADMIN
-        ) {
-            const onInitiateSigning = () => {
-                setModal(
-                    <InitiateSigningModal
-                        onCancel={() => {
-                            onCancelModal()
-                        }}
-                        courseId={Number(selectedWorkplace?.courses?.[0]?.id)}
-                        folder={
-                            selectedWorkplace?.courses?.[0]
-                                ?.assessmentEvidence?.[0] as AssessmentEvidenceDetailType
-                        }
-                    />
-                )
-            }
-            onInitiateSigning()
-        }
-    }, [selectedWorkplace, workplaceStudentDetail])
-
-    useEffect(() => {
-        if (
-            selectedWorkplace &&
-            selectedWorkplace?.currentStatus ===
-                WorkplaceCurrentStatus.PlacementStarted &&
-            !selectedWorkplace?.isLogBookReleased &&
-            workplaceStudentDetail?.data?.rto?.assessmentTools?.length > 0 &&
-            workplaceStudentDetail?.data &&
-            workplaceStudentDetail?.data?.rto?.autoReleaseLogBook
-        ) {
-            setModal(
-                <LogbookNotReleasedModal
-                    onCancel={onCancelModal}
-                    rto={workplaceStudentDetail?.data?.rto}
-                    selectedWorkplaceId={Number(selectedWorkplace?.id)}
-                />
-            )
-        }
-    }, [selectedWorkplace, workplaceStudentDetail?.data])
-
-    useEffect(() => {
-        if (
-            selectedWorkplace &&
-            selectedWorkplace?.currentStatus ===
-                WorkplaceCurrentStatus.AgreementSigned &&
-            !selectedWorkplace?.isLogBookReleased &&
-            workplaceStudentDetail?.data?.rto?.assessmentTools?.length > 0 &&
-            workplaceStudentDetail?.data &&
-            workplaceStudentDetail?.data?.rto?.autoReleaseLogBook
-        ) {
-            setModal(
-                <ReleaseLogbookModal
-                    onCancel={onCancelModal}
-                    selectedWorkplaceId={Number(selectedWorkplace?.id)}
-                    rto={workplaceStudentDetail?.data?.rto}
-                    course={selectedWorkplace?.courses?.[0] as Course}
-                />
-            )
-        }
-    }, [selectedWorkplace, workplaceStudentDetail?.data])
-
-    useEffect(() => {
-        if (
-            selectedWorkplace &&
-            selectedWorkplace?.currentStatus ===
-                WorkplaceCurrentStatus.AgreementSigned &&
-            !selectedWorkplace?.isLogBookReleased &&
-            !workplaceStudentDetail?.data?.rto?.assessmentTools?.length &&
-            workplaceStudentDetail?.data &&
-            workplaceStudentDetail?.data?.rto?.autoReleaseLogBook
-        ) {
-            setModal(
-                <NoLogbookFoundModal
-                    onCancel={onCancelModal}
-                    rto={workplaceStudentDetail?.data?.rto?.user?.name}
-                    course={selectedWorkplace?.courses?.[0]?.title + ''}
-                />
-            )
-        }
-    }, [selectedWorkplace, workplaceStudentDetail?.data])
-
     const ignoreCompletedWP = studentWorkplace?.data?.filter(
         (wp: IWorkplaceIndustries) =>
             wp?.currentStatus !== WorkplaceCurrentStatus.Completed
     )
 
     const firstWorkplaceCurrentStatus = ignoreCompletedWP?.[0]?.currentStatus
-
-    const onUpdateWorkplaceCourseClicked = (
-        courseId: number,
-        workplaceId: number
-    ) => {
-        setModal(
-            <UpdateWorkplaceCourseModal
-                onCancel={onCancelModal}
-                {...{ courseId, workplaceId }}
-            />
-        )
-    }
-
-    const onViewWorkplaceQuestions = (wpId: number) => {
-        setModal(
-            <ViewQuestionsModal
-                onCancel={() => {
-                    onCancelModal()
-                }}
-                wpId={wpId}
-            />
-        )
-    }
-
-    const onViewPlacementStartedAnswers = (wpId: number) => {
-        setModal(
-            <ViewPlacementStartedAnswersModal
-                onCancel={() => {
-                    onCancelModal()
-                }}
-                wpId={wpId}
-            />
-        )
-    }
-
-    const onShowRejectedRequestModal = (content: string) => {
-        setModal(
-            <ShowRejectedRequestModal
-                onCancel={() => {
-                    onCancelModal()
-                }}
-                content={content}
-            />
-        )
-    }
 
     const onAppointmentViewWPClicked = () => {
         setModal(
@@ -562,6 +359,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             />
         )
     }
+
     const onAppointmentClicked = () => {
         setModal(
             <AppointmentBookModal
@@ -574,6 +372,7 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
             />
         )
     }
+
     const onGenerateEsignClicked = () => {
         setModal(
             <GenerateEsignModal
@@ -586,60 +385,48 @@ export const useWorkplaceHook = ({ student }: { student: Student }) => {
         )
     }
 
-    const onStatusChangeClicked = (id: number) => {
-        setModal(<ChangeStatusModal onCancel={onCancelModal} id={id} />)
-    }
+    const onAddAnotherWp = () =>
+        actions.onAddAnotherWp(firstWorkplaceCurrentStatus)
 
-    const onAddAnotherWp = () => {
-        if (
-            [
-                WorkplaceCurrentStatus.Completed,
-                WorkplaceCurrentStatus.Terminated,
-                WorkplaceCurrentStatus.PlacementStarted,
-            ].includes(firstWorkplaceCurrentStatus)
-        ) {
-            return false
-        } else {
-            setModal(
-                <UpdatePrvWPStatusModal
-                    onCancel={() => {
-                        onCancelModal()
-                    }}
-                />
-            )
-            return true
-        }
-    }
-
-    return {
+    // Create the context value
+    const contextValue: WorkplaceContextType = {
+        ...actions,
+        ...queriesActions,
         modal,
         course,
         folders,
         courses,
-        onAddAnotherWp,
+        autoApplyLoader,
+        setAutoApplyLoader,
         getCancelledWP,
         appliedIndustry,
         workplaceFolders,
         sortedWorkplace,
         studentWorkplace,
-        onCancelWPClicked,
         ignoreCompletedWP,
         selectedWorkplace,
         rejectedWorkplaces,
         setSelectedWorkplace,
         onAppointmentClicked,
         showPreviousWorkplace,
-        onStatusChangeClicked,
         workplaceStudentDetail,
         workplaceIndustryDetail,
         setShowPreviousWorkplace,
-        onCancelWPRequestClicked,
-        onViewWorkplaceQuestions,
-        onShowRejectedRequestModal,
-        onViewPlacementStartedAnswers,
-        onUpdateWorkplaceCourseClicked,
         latestWorkplaceApprovaleRequest,
         latestWorkplaceApprovaleRequestRto,
         appointmentDetail: getWorkplaceAppointment?.data,
+        onAddAnotherWp,
     }
+
+    return (
+        <WorkplaceContext.Provider value={contextValue}>
+            {children}
+        </WorkplaceContext.Provider>
+    )
+}
+
+// Optional: Export the original hook for backward compatibility
+export const useWorkplaceHook = () => {
+    // This would now just be a thin wrapper around the context
+    return useWorkplaceContext()
 }

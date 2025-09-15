@@ -67,8 +67,8 @@ export const Availability = ({
             if (res?.data) {
                 setTimeout(() => {
                     setIsLoading(false)
+                    setModal(<WorkplaceCreatedModal onCancel={onCancelModal} />)
                 }, 10000)
-                setModal(<WorkplaceCreatedModal onCancel={onCancelModal} />)
                 // setActive((active: number) => active + 1)
             }
             if (res?.error?.data) {

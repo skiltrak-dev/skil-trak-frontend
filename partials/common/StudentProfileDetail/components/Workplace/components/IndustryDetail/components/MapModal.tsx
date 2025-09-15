@@ -5,10 +5,8 @@ import { OnViewMapTabs } from './onViewMapIndustriesInRadius'
 
 export const MapModal = ({
     workplace,
-    courseId,
     onCancel,
     appliedIndustry,
-    suggestedIndustries,
     student,
     course,
 }: any) => {
@@ -29,7 +27,6 @@ export const MapModal = ({
                     courseId={course?.id}
                     onCancel={onCancel}
                     appliedIndustry={appliedIndustry}
-                    suggestedIndustries={suggestedIndustries}
                     setSelectedBox={setSelectedBox}
                     selectedBox={selectedBox}
                 />

@@ -36,6 +36,7 @@ import { IndustryDetail } from './components/IndustryDetail'
 import { WPStatusForCancelButon } from './data'
 import { useWorkplaceHook } from './hooks'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
+import { WPProcessMatchingLoader } from './components/IndustryDetail/components/WPProcessMatchingLoader'
 
 export const Workplace = ({
     student,
@@ -59,6 +60,7 @@ export const Workplace = ({
         studentWorkplace,
         onCancelWPClicked,
         ignoreCompletedWP,
+        autoApplyLoader,
         selectedWorkplace,
         appointmentDetail,
         setSelectedWorkplace,
@@ -74,7 +76,7 @@ export const Workplace = ({
         onUpdateWorkplaceCourseClicked,
         latestWorkplaceApprovaleRequest,
         latestWorkplaceApprovaleRequestRto,
-    } = useWorkplaceHook({ student })
+    } = useWorkplaceHook()
 
     const values = {
         ...student,
@@ -234,6 +236,8 @@ export const Workplace = ({
                                     Workplace Loading...
                                 </Typography>
                             </div>
+                        ) : autoApplyLoader ? (
+                            <WPProcessMatchingLoader />
                         ) : studentWorkplace?.data &&
                           studentWorkplace?.data?.length > 0 &&
                           studentWorkplace?.isSuccess ? (

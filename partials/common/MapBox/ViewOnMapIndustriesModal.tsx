@@ -1,5 +1,7 @@
 import { Checkbox, NoData } from '@components'
-import { CommonApi, SubAdminApi } from '@queries'
+import { UserRoles } from '@constants'
+import { useGoogleMaps } from '@hooks'
+import { SubAdminApi } from '@queries'
 import {
     Circle,
     GoogleMap,
@@ -7,21 +9,13 @@ import {
     Marker,
     MarkerClusterer,
     Polyline,
-    useJsApiLoader,
 } from '@react-google-maps/api'
+import { getThemeColors } from '@theme'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { MdCancel } from 'react-icons/md'
-import {
-    FutureIndustryInfoBoxCard,
-    IndustryBranchInfoBoxCard,
-    IndustryInfoBoxCard,
-    StudentInfoBoxCard,
-} from './components'
 import { IndustryPlacementStatus } from '../IndustryProfileDetail'
-import { useGoogleMaps } from '@hooks'
-import { UserRoles } from '@constants'
-import { getThemeColors } from '@theme'
+import { IndustryInfoBoxCard, StudentInfoBoxCard } from './components'
 
 // Colors
 const colors = getThemeColors()
@@ -98,7 +92,6 @@ const futureIndustryClusterStyles = [
 ]
 
 type ViewMoreIndustriesModalProps = {
-    suggestedIndustries: any
     onCancel?: any
     workplace: any
     appliedIndustry?: any
@@ -107,7 +100,6 @@ type ViewMoreIndustriesModalProps = {
     selectedBox: any
 }
 export const ViewOnMapIndustriesModal = ({
-    suggestedIndustries,
     onCancel,
     workplace,
     appliedIndustry,

@@ -11,7 +11,12 @@ import {
 } from '@components'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { UserRoles } from '@constants'
-import { useContextBar, useNotification, useSubadminProfile } from '@hooks'
+import {
+    useContextBar,
+    useNotification,
+    useSubadminProfile,
+    useWorkplace,
+} from '@hooks'
 import {
     WorkplaceEmploymentDocument,
     WorkplaceMapBoxView,
@@ -44,6 +49,7 @@ import { StudentProvidedActions } from './StudentProvidedActions'
 import { Actions } from './Actions'
 import { FaMapMarkedAlt } from 'react-icons/fa'
 import { MdAutoMode, MdCancel } from 'react-icons/md'
+import { useWorkplaceHook } from '../../hooks'
 
 export const IndustryDetail = ({
     student,
@@ -145,12 +151,8 @@ export const IndustryDetail = ({
             // </div>
             <MapModal
                 workplace={{ ...workplace, student }}
-                courseId={course?.id}
                 onCancel={onCancelClicked}
                 appliedIndustry={appliedIndustry}
-                suggestedIndustries={suggestedIndustries}
-                setSelectedBox={setSelectedBox}
-                selectedBox={selectedBox}
                 student={student}
                 course={course}
             />
