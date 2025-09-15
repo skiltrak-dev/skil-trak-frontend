@@ -195,18 +195,18 @@ const ESign = () => {
 
     const sortedPositions = processedItems.sort((a: any, b: any) => {
         // First, prioritize 'signature' type
-        if (
-            a.type === FieldsTypeEnum.Signature &&
-            b.type !== FieldsTypeEnum.Signature
-        ) {
-            return -1
-        }
-        if (
-            a.type !== FieldsTypeEnum.Signature &&
-            b.type === FieldsTypeEnum.Signature
-        ) {
-            return 1
-        }
+        // if (
+        //     a.type === FieldsTypeEnum.Signature &&
+        //     b.type !== FieldsTypeEnum.Signature
+        // ) {
+        //     return -1
+        // }
+        // if (
+        //     a.type !== FieldsTypeEnum.Signature &&
+        //     b.type === FieldsTypeEnum.Signature
+        // ) {
+        //     return 1
+        // }
         // Then, sort by number in ascending order
         if (a.number !== b.number) {
             return a.number - b.number
