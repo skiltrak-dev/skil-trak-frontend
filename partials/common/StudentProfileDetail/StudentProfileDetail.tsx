@@ -9,6 +9,7 @@ import {
     useWorkplaceData,
 } from './hooks'
 import { useSubadminProfile } from '@hooks'
+import { WorkplaceHookProvider } from './components/Workplace/hooks'
 
 export const StudentProfileDetail = () => {
     // Main profile data and router logic
@@ -77,14 +78,16 @@ export const StudentProfileDetail = () => {
             />
 
             {profile?.data && profile?.isSuccess && (
-                <StudentProfileContent
-                    profile={profile.data}
-                    role={role}
-                    subadmin={subadmin}
-                    workplaceLength={workplaceLength}
-                    getWorkplaceLength={getWorkplaceLength}
-                    getActiveBorder={getActiveBorder}
-                />
+                <WorkplaceHookProvider student={profile.data}>
+                    <StudentProfileContent
+                        profile={profile.data}
+                        role={role}
+                        subadmin={subadmin}
+                        workplaceLength={workplaceLength}
+                        getWorkplaceLength={getWorkplaceLength}
+                        getActiveBorder={getActiveBorder}
+                    />
+                </WorkplaceHookProvider>
             )}
         </div>
     )

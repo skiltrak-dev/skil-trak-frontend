@@ -1,8 +1,8 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
-import { SubAdminApi } from '@queries'
 
 import { FaCheckCircle } from 'react-icons/fa'
+import { useWorkplaceHook } from '../hooks'
 
 export const ReRunWPAutomation = ({
     workplace,
@@ -12,9 +12,15 @@ export const ReRunWPAutomation = ({
     onCancel: () => void
 }) => {
     const { notification } = useNotification()
-    const [refresh, refreshResult] = SubAdminApi.Student.rerunAutomation()
+    // const [refresh, refreshResult] = SubAdminApi.Student.rerunAutomation()
+
+    const { setAutoApplyLoader, refresh, refreshResult } = useWorkplaceHook()
 
     const onConfirmUClicked = async (workplace: any) => {
+        setAutoApplyLoader(true)
+        refresh(Number(workplace.id))
+        onCancel()
+        return
         const res: any = await refresh(Number(workplace.id))
         if (res?.data) {
             notification.success({

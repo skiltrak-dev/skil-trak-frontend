@@ -4,8 +4,10 @@ import { MdCancel } from 'react-icons/md'
 
 export const NoEligibleWorkplaceFoundModal = ({
     onCancel,
+    onWorkplaceFinderClicked,
 }: {
     onCancel: () => void
+    onWorkplaceFinderClicked: () => void
 }) => {
     return (
         <GlobalModal>
@@ -27,11 +29,17 @@ export const NoEligibleWorkplaceFoundModal = ({
 
                 {/*  */}
                 <div className="flex flex-col gap-y-2">
-                    <Button text={'Open Workplace Finder'} />
                     <Button
-                        text={'Fix Industries & Re-run'}
+                        text={'Open Workplace Finder'}
+                        onClick={() => {
+                            onWorkplaceFinderClicked()
+                        }}
+                    />
+                    <Button
                         outline
+                        onClick={onCancel}
                         variant="primaryNew"
+                        text={'Fix Industries & Re-run'}
                     />
                 </div>
             </div>
