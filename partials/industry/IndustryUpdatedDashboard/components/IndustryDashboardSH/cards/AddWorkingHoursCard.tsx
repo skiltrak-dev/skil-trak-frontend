@@ -161,7 +161,7 @@ export const AddWorkingHoursCard = ({
                     />
                     <Button
                         fullWidth
-                        text={'Add Free Shifts'}
+                        text={'Add Placement Shifts'}
                         onClick={onAddShift}
                         disabled={!isAvailable || !availability?.id}
                     />
