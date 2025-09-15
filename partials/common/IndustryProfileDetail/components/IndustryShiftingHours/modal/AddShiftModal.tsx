@@ -41,7 +41,7 @@ export const AddShiftModal = ({
         <>
             <ShowErrorNotifications result={addShiftModal} />
             <Modal
-                title={'Add Free Shift'}
+                title={'Add Placement Shifts'}
                 subtitle={'Free Shift Time'}
                 onCancelClick={onCancel}
                 showActions={false}

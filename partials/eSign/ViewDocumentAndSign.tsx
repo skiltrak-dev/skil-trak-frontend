@@ -152,12 +152,12 @@ export const ViewDocumentAndSign = () => {
         if (isSigned) {
             const fieldData = sortedPositions?.[customFieldsSelectedId + 1]
             const isSign = fieldData?.type === FieldsTypeEnum.Signature
-            if (isSign) {
-                setTimeout(() => {
-                    setIsSignature(true)
-                    setSelectedSign(fieldData)
-                }, 500)
-            }
+            // if (isSign) {
+            //     setTimeout(() => {
+            //         setIsSignature(true)
+            //         setSelectedSign(fieldData)
+            //     }, 500)
+            // }
         }
         if (cancel) {
             setIsSignature(false)

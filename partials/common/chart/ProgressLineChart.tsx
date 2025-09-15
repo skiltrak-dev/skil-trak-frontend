@@ -13,13 +13,16 @@ import {
 } from 'recharts'
 import { CustomTooltip } from './CustomTooltip'
 import { CurveType } from 'recharts/types/shape/Curve'
-import { Card, Select, Typography } from '@components'
+import { Button, Card, Select, SidebarCalendar, Typography } from '@components'
 import { AdminApi, AuthApi, CommonApi } from '@queries'
+import moment from 'moment'
 
 export const ProgressLineChart = () => {
     const [rtoId, setRtoId] = useState(undefined)
     const [sectorId, setSectorId] = useState(undefined)
     const [year, setYear] = useState(new Date().getFullYear())
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+    const [showDateFilter, setShowDateFilter] = useState<boolean>(false)
 
     // query
     const getRtos = CommonApi.Filter.useRtos()
@@ -32,6 +35,9 @@ export const ProgressLineChart = () => {
                     sectorId: sectorId,
                     rtoId: rtoId,
                     year: year,
+                    date: selectedDate
+                        ? moment(selectedDate).format('YYYY-MM-DD')
+                        : null,
                 })
             )
                 .replaceAll('{', '')
@@ -149,7 +155,8 @@ export const ProgressLineChart = () => {
         },
     ]
 
-    // Custom tooltip component
+    // Check if chart data is loading or refetching
+    const isChartLoading = chartCount.isLoading || chartCount.isFetching
 
     return (
         <Card noPadding>
@@ -205,39 +212,79 @@ export const ProgressLineChart = () => {
                             value={yearOptions.find((y) => y.value === year)}
                         />
                     </div>
+                    <div className="relative z-20">
+                        <Button
+                            text="Date Filter"
+                            variant="action"
+                            onClick={() => {
+                                setShowDateFilter(!showDateFilter)
+                            }}
+                        />
+                        <div
+                            className={`absolute top-full w-72 z-50 right-0 bg-white ${
+                                showDateFilter ? 'block' : 'hidden'
+                            }`}
+                        >
+                            <SidebarCalendar
+                                setSelectedDate={(e) => {
+                                    console.log({ e })
+                                    setShowDateFilter(!showDateFilter)
+                                    setSelectedDate(e)
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
-            {/* <div className="w-full h-96 overflow-x-auto overflow-y-hidden">
-            <div style={{ width: `${customData.length * 85}px`, height: '100%' }}> */}
-            <ResponsiveContainer width="100%" height={300}>
-                <LineChart
-                    data={initialData}
-                    margin={{
-                        top: 15,
-                        right: 0,
-                        left: 0,
-                        bottom: 15,
-                    }}
-                    className="pb-5"
+
+            {/* Chart Container with Loading State */}
+            <div className="relative">
+                {isChartLoading && (
+                    <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-20">
+                        <div className="flex flex-col items-center">
+                            {/* Spinner */}
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-3"></div>
+                            <Typography color="text-gray-600">
+                                Loading chart data...
+                            </Typography>
+                        </div>
+                    </div>
+                )}
+
+                <ResponsiveContainer
+                    width="100%"
+                    height={300}
+                    className={'relative z-10'}
                 >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip content={<CustomTooltip />} />
-                    <Legend />
-                    {chartLinesConfig.map((lineConfig) => (
-                        <Line
-                            key={lineConfig.dataKey}
-                            type={lineConfig?.type as CurveType}
-                            dataKey={lineConfig.dataKey}
-                            stroke={lineConfig.stroke}
-                            strokeWidth={lineConfig.strokeWidth}
-                            strokeDasharray={lineConfig?.strokeDasharray}
-                            activeDot={lineConfig.activeDot}
-                        />
-                    ))}
-                </LineChart>
-            </ResponsiveContainer>
+                    <LineChart
+                        data={initialData}
+                        margin={{
+                            top: 15,
+                            right: 0,
+                            left: 0,
+                            bottom: 15,
+                        }}
+                        className="pb-5"
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip content={<CustomTooltip />} />
+                        <Legend />
+                        {chartLinesConfig.map((lineConfig) => (
+                            <Line
+                                key={lineConfig.dataKey}
+                                type={lineConfig?.type as CurveType}
+                                dataKey={lineConfig.dataKey}
+                                stroke={lineConfig.stroke}
+                                strokeWidth={lineConfig.strokeWidth}
+                                strokeDasharray={lineConfig?.strokeDasharray}
+                                activeDot={lineConfig.activeDot}
+                            />
+                        ))}
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
         </Card>
     )
 }
