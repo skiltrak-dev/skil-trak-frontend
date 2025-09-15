@@ -322,12 +322,12 @@ const ESign = () => {
             const isFieldValue =
                 sortedPositions?.[customFieldsSelectedId]?.fieldValue
 
-            if (isSign) {
-                setTimeout(() => {
-                    setIsSignature(true)
-                    setSelectedSign(fieldData)
-                }, 500)
-            }
+            // if (isSign) {
+            //     setTimeout(() => {
+            //         setIsSignature(true)
+            //         setSelectedSign(fieldData)
+            //     }, 500)
+            // }
 
             if (isFillRequiredFields) {
                 const slicedData = sortedPositions?.slice(
