@@ -56,7 +56,7 @@
 //     )
 // }
 
-import { Typography } from '@components'
+import { Badge } from '@components'
 import {
     Building2,
     Calendar,
@@ -73,6 +73,7 @@ import {
 } from 'lucide-react'
 import moment from 'moment'
 import { useState } from 'react'
+import { FaUser } from 'react-icons/fa'
 interface PlacementStatusProps {
     item: any
     status?: string
@@ -148,7 +149,9 @@ export function WorkplaceStatusCommunication({
     item,
 }: PlacementStatusProps) {
     const [showComments, setShowComments] = useState(false)
-    const isRejection = item?.title?.toLowerCase()?.includes('rejected') || item?.title?.toLowerCase()?.includes('cancelled')
+    const isRejection =
+        item?.title?.toLowerCase()?.includes('rejected') ||
+        item?.title?.toLowerCase()?.includes('cancelled')
     const config = getStatusConfig(status, isRejection)
     const IconComponent = config.icon
 
@@ -235,6 +238,16 @@ export function WorkplaceStatusCommunication({
                             <div className="flex items-center gap-2">
                                 <MessageSquare className="h-4 w-4" />
                                 <span>Comments available</span>
+                            </div>
+                        )}
+                        {item?.author && (
+                            <div className="flex items-center gap-2">
+                                <FaUser className="h-4 w-4" />
+                                <span>Actioned By:</span>
+                                <Badge
+                                    text={item?.author?.name}
+                                    variant="success"
+                                />
                             </div>
                         )}
                     </div>

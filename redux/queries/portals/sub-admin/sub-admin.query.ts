@@ -406,6 +406,7 @@ export const {
     useGetIndustryInRadiusWorkplaceCallLogsQuery,
     useGetFutureIndustryInRadiusWorkplaceEmailsQuery,
     useSkipWorkplaceAndApplyAnotherMutation,
+    useSkippedIndustriesListQuery,
 
     // ---- LOGBOOK ---- //
     useSaveLogbookMutation,
@@ -697,6 +698,7 @@ export const SubAdminApi = {
         useFutureIndustryInRadiusWorkplaceEmails:
             useGetFutureIndustryInRadiusWorkplaceEmailsQuery,
         skipWpAndApplyAnother: useSkipWorkplaceAndApplyAnotherMutation,
+        skippedIndustriesList: useSkippedIndustriesListQuery,
     },
     LogBook: {
         useSaveLogbook: useSaveLogbookMutation,

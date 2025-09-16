@@ -11,12 +11,7 @@ import {
 } from '@components'
 import { getDocType } from '@components/sections/student/AssessmentsContainer'
 import { UserRoles } from '@constants'
-import {
-    useContextBar,
-    useNotification,
-    useSubadminProfile,
-    useWorkplace,
-} from '@hooks'
+import { useContextBar, useNotification, useSubadminProfile } from '@hooks'
 import {
     WorkplaceEmploymentDocument,
     WorkplaceMapBoxView,
@@ -41,15 +36,15 @@ import {
 } from '../../modals'
 import { AgreementView } from '../AgreementView'
 
-import { ContactHistory, IndustryCard } from './components'
+import { ContactedIndustriesList, IndustryCard } from './components'
 import { MapModal } from './components/MapModal'
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { StudentProvidedActions } from './StudentProvidedActions'
 
-import { Actions } from './Actions'
 import { FaMapMarkedAlt } from 'react-icons/fa'
 import { MdAutoMode, MdCancel } from 'react-icons/md'
-import { useWorkplaceHook } from '../../hooks'
+import { WPSkippedIndListModal } from '../../modals/WPSkippedIndListModal'
+import { Actions } from './Actions'
 
 export const IndustryDetail = ({
     student,
@@ -93,17 +88,14 @@ export const IndustryDetail = ({
     }
     const onViewContactedIndustries = () => {
         setModal(
-            <GlobalModal>
-                <div className="flex justify-end">
-                    <button
+            <GlobalModal className="relative ">
+                <div className="relative w-[900px]">
+                    <MdCancel
                         onClick={onCancelClicked}
-                        className="p-2 hover:bg-white/50 rounded-lg transition-colors"
-                        title="Close modal"
-                    >
-                        <MdCancel className="w-6 h-6 text-gray-500 hover:text-gray-700" />
-                    </button>
+                        className="absolute top-1 right-1 transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
+                    />
+                    <ContactedIndustriesList workplace={workplace} />
                 </div>
-                <ContactHistory wpId={workplace?.id} />
             </GlobalModal>
         )
     }
@@ -188,6 +180,15 @@ export const IndustryDetail = ({
         )
     }
 
+    const onWpSkippedIndustries = () => {
+        setModal(
+            <WPSkippedIndListModal
+                onCancel={onCancelClicked}
+                workplaceId={Number(workplace?.id)}
+            />
+        )
+    }
+
     return (
         <>
             {modal}
@@ -200,6 +201,24 @@ export const IndustryDetail = ({
                         </Typography>
                     </div>
                     <div className="flex items-center gap-x-3">
+                        {!appliedIndustry && (
+                            <div
+                                onClick={() => {
+                                    onWpSkippedIndustries()
+                                }}
+                            >
+                                <Typography
+                                    semibold
+                                    cursorPointer
+                                    variant={'small'}
+                                    color={'text-info'}
+                                >
+                                    <span className="whitespace-pre hover:underline">
+                                        Workplace Skipped Industries
+                                    </span>
+                                </Typography>
+                            </div>
+                        )}
                         {!appliedIndustry && (
                             <div
                                 onClick={() => {
@@ -262,29 +281,6 @@ export const IndustryDetail = ({
                                     }}
                                 >
                                     View Contacted Industry
-                                </span>
-                            </Typography>
-                            <Typography variant={'small'} color={'text-info'}>
-                                <span
-                                    className="font-semibold cursor-pointer whitespace-pre hover:underline"
-                                    onClick={() => {
-                                        if (
-                                            role === UserRoles.ADMIN ||
-                                            !appliedIndustry ||
-                                            subadmin?.departmentMember?.isHod ||
-                                            subadmin?.isManager
-                                        ) {
-                                            onViewOldContactedList()
-                                        } else {
-                                            notification.warning({
-                                                title: 'Already Applied',
-                                                description:
-                                                    'Student have already applied to industry',
-                                            })
-                                        }
-                                    }}
-                                >
-                                    View Old Contacted List
                                 </span>
                             </Typography>
                         </AuthorizedUserComponent>

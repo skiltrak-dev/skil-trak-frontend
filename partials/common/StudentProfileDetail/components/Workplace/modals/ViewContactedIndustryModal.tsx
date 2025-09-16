@@ -144,62 +144,154 @@ export const ViewContactedIndustryModal = ({
     return (
         <>
             <ShowErrorNotifications result={interestedResult} />
-            <GlobalModal>
-                <div className="relative ">
-                    <MdCancel
-                        onClick={onCancel}
-                        className="absolute top-1 right-1 transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
-                    />
-                    <div className="flex pb-3 pt-8 px-6 justify-between items-center">
-                        <div className="w-1/2 ">
-                            <Typography variant={'label'}>
-                                Contacted Signed Up Industries for current
-                                student
-                            </Typography>
-                        </div>
-                        <div className="w-1/2 ml-12">
-                            <Typography variant={'label'}>
-                                Contacted Listed Industries for current student
-                            </Typography>
-                        </div>
+            {/* <GlobalModal> */}
+            <div className="relative w-full">
+                <div className="flex pb-3 pt-8 px-6 justify-between items-center">
+                    <div className="w-1/2 ">
+                        <Typography variant={'label'}>
+                            Contacted Signed Up Industries for current student
+                        </Typography>
                     </div>
-                    <div className="flex justify-between w-full !min-w-[44rem] max-h-[65vh] overflow-y-auto custom-scrollbar">
-                        <div className="w-1/2 pb-3 flex flex-col gap-y-1.5 px-6">
-                            {contactedIndustries.isError && (
-                                <NoData
-                                    text={'There is some technical issue'}
-                                />
-                            )}
-                            {contactedIndustries.isLoading ? (
-                                <LoadingAnimation size={85} />
-                            ) : Industries && Industries?.length > 0 ? (
-                                <>
-                                    {Industries?.map((industry: any) => (
-                                        <div className="bg-secondary py-1 px-4 rounded-lg flex flex-col lg:flex-row justify-between lg:items-center">
-                                            <Link
-                                                href={
-                                                    role === UserRoles.ADMIN
-                                                        ? `/portals/admin/industry/${industry?.industry?.id}?tab=sectors`
-                                                        : role ===
-                                                          UserRoles.SUBADMIN
-                                                        ? `/portals/sub-admin/users/industries/${industry?.industry?.id}?tab=overview`
-                                                        : '#'
-                                                }
-                                                className="flex items-center gap-x-2 cursor-pointer"
-                                            >
-                                                {industry?.industry?.user
-                                                    ?.name && (
-                                                    <InitialAvatar
-                                                        name={
-                                                            industry?.industry
-                                                                ?.user?.name
-                                                        }
-                                                        imageUrl={
-                                                            industry?.industry
-                                                                ?.user?.avatar
-                                                        }
-                                                    />
-                                                )}
+                    <div className="w-1/2 ml-12">
+                        <Typography variant={'label'}>
+                            Contacted Listed Industries for current student
+                        </Typography>
+                    </div>
+                </div>
+                <div className="flex justify-between w-full !min-w-[44rem] max-h-[65vh] overflow-y-auto custom-scrollbar">
+                    <div className="w-1/2 pb-3 flex flex-col gap-y-1.5 px-6">
+                        {contactedIndustries.isError && (
+                            <NoData text={'There is some technical issue'} />
+                        )}
+                        {contactedIndustries.isLoading ? (
+                            <LoadingAnimation size={85} />
+                        ) : Industries && Industries?.length > 0 ? (
+                            <>
+                                {Industries?.map((industry: any) => (
+                                    <div className="bg-secondary py-1 px-4 rounded-lg flex flex-col lg:flex-row justify-between lg:items-center">
+                                        <Link
+                                            href={
+                                                role === UserRoles.ADMIN
+                                                    ? `/portals/admin/industry/${industry?.industry?.id}?tab=sectors`
+                                                    : role ===
+                                                      UserRoles.SUBADMIN
+                                                    ? `/portals/sub-admin/users/industries/${industry?.industry?.id}?tab=overview`
+                                                    : '#'
+                                            }
+                                            className="flex items-center gap-x-2 cursor-pointer"
+                                        >
+                                            {industry?.industry?.user?.name && (
+                                                <InitialAvatar
+                                                    name={
+                                                        industry?.industry?.user
+                                                            ?.name
+                                                    }
+                                                    imageUrl={
+                                                        industry?.industry?.user
+                                                            ?.avatar
+                                                    }
+                                                />
+                                            )}
+
+                                            <div>
+                                                <div className="flex items-center gap-x-8">
+                                                    <Typography
+                                                        variant={'label'}
+                                                    >
+                                                        <span
+                                                            title={
+                                                                industry
+                                                                    ?.industry
+                                                                    ?.user?.name
+                                                            }
+                                                            className="cursor-pointer"
+                                                        >
+                                                            {ellipsisText(
+                                                                industry
+                                                                    ?.industry
+                                                                    ?.user
+                                                                    ?.name,
+                                                                15
+                                                            )}
+                                                        </span>
+                                                    </Typography>
+                                                    <div
+                                                        title={moment(
+                                                            industry?.createdAt
+                                                        )?.format(
+                                                            'ddd, DD.MMM.YYYY [at] hh:mm a'
+                                                        )}
+                                                        className=""
+                                                    >
+                                                        {' '}
+                                                        <Typography
+                                                            variant={'xxs'}
+                                                            color={'text-link'}
+                                                        >
+                                                            {moment(
+                                                                industry?.createdAt
+                                                            )?.format(
+                                                                'DD-MM-YY/hh:mm a'
+                                                            )}
+                                                        </Typography>
+                                                    </div>
+                                                </div>
+                                                <Typography
+                                                    variant={'xxs'}
+                                                    color={'gray'}
+                                                >
+                                                    {
+                                                        industry?.industry
+                                                            ?.addressLine1
+                                                    }
+                                                </Typography>
+                                            </div>
+                                        </Link>
+                                        <Actions industry={industry} />
+                                    </div>
+                                ))}
+                            </>
+                        ) : (
+                            contactedIndustries.isSuccess && (
+                                <NoData text={'There is no Industries!'} />
+                            )
+                        )}
+                    </div>
+                    <div className="w-1/2 pb-3 flex flex-col gap-y-1.5 px-6">
+                        {contactedIndustries.isError && (
+                            <NoData text={'There is some technical issue'} />
+                        )}
+                        {contactedIndustries.isLoading ? (
+                            <LoadingAnimation size={85} />
+                        ) : listingIndustries &&
+                          listingIndustries?.length > 0 ? (
+                            <>
+                                {listingIndustries?.map((industry: any) => (
+                                    <div className="bg-secondary py-1 px-4 rounded-lg w-full">
+                                        <div className="flex items-center gap-x-2 justify-between">
+                                            <div className="flex items-center gap-x-2">
+                                                <Link
+                                                    href={
+                                                        role === UserRoles.ADMIN
+                                                            ? `/portals/admin/industry/${industry?.listing?.id}?tab=sectors`
+                                                            : role ===
+                                                              UserRoles.SUBADMIN
+                                                            ? `portals/sub-admin/tasks/industry-listing/${industry?.listing?.id}`
+                                                            : '#'
+                                                    }
+                                                >
+                                                    {industry?.listing
+                                                        ?.businessName && (
+                                                        <InitialAvatar
+                                                            name={
+                                                                industry
+                                                                    ?.listing
+                                                                    ?.businessName
+                                                            }
+                                                            // imageUrl={'/'}
+                                                        />
+                                                    )}
+                                                </Link>
 
                                                 <div>
                                                     <div className="flex items-center gap-x-8">
@@ -209,17 +301,15 @@ export const ViewContactedIndustryModal = ({
                                                             <span
                                                                 title={
                                                                     industry
-                                                                        ?.industry
-                                                                        ?.user
-                                                                        ?.name
+                                                                        ?.listing
+                                                                        ?.businessName
                                                                 }
                                                                 className="cursor-pointer"
                                                             >
                                                                 {ellipsisText(
                                                                     industry
-                                                                        ?.industry
-                                                                        ?.user
-                                                                        ?.name,
+                                                                        ?.listing
+                                                                        ?.businessName,
                                                                     15
                                                                 )}
                                                             </span>
@@ -242,147 +332,38 @@ export const ViewContactedIndustryModal = ({
                                                                 {moment(
                                                                     industry?.createdAt
                                                                 )?.format(
-                                                                    'DD-MM-YY/hh:mm a'
+                                                                    'DD-MM-YYYY'
                                                                 )}
                                                             </Typography>
                                                         </div>
                                                     </div>
+
                                                     <Typography
                                                         variant={'xxs'}
                                                         color={'gray'}
                                                     >
                                                         {
-                                                            industry?.industry
-                                                                ?.addressLine1
+                                                            industry?.listing
+                                                                ?.address
                                                         }
                                                     </Typography>
                                                 </div>
-                                            </Link>
+                                            </div>
+
                                             <Actions industry={industry} />
                                         </div>
-                                    ))}
-                                </>
-                            ) : (
-                                contactedIndustries.isSuccess && (
-                                    <NoData text={'There is no Industries!'} />
-                                )
-                            )}
-                        </div>
-                        <div className="w-1/2 pb-3 flex flex-col gap-y-1.5 px-6">
-                            {contactedIndustries.isError && (
-                                <NoData
-                                    text={'There is some technical issue'}
-                                />
-                            )}
-                            {contactedIndustries.isLoading ? (
-                                <LoadingAnimation size={85} />
-                            ) : listingIndustries &&
-                              listingIndustries?.length > 0 ? (
-                                <>
-                                    {listingIndustries?.map((industry: any) => (
-                                        <div className="bg-secondary py-1 px-4 rounded-lg w-full">
-                                            <div className="flex items-center gap-x-2 justify-between">
-                                                <div className="flex items-center gap-x-2">
-                                                    <Link
-                                                        href={
-                                                            role ===
-                                                            UserRoles.ADMIN
-                                                                ? `/portals/admin/industry/${industry?.listing?.id}?tab=sectors`
-                                                                : role ===
-                                                                  UserRoles.SUBADMIN
-                                                                ? `portals/sub-admin/tasks/industry-listing/${industry?.listing?.id}`
-                                                                : '#'
-                                                        }
-                                                    >
-                                                        {industry?.listing
-                                                            ?.businessName && (
-                                                            <InitialAvatar
-                                                                name={
-                                                                    industry
-                                                                        ?.listing
-                                                                        ?.businessName
-                                                                }
-                                                                // imageUrl={'/'}
-                                                            />
-                                                        )}
-                                                    </Link>
-
-                                                    <div>
-                                                        <div className="flex items-center gap-x-8">
-                                                            <Typography
-                                                                variant={
-                                                                    'label'
-                                                                }
-                                                            >
-                                                                <span
-                                                                    title={
-                                                                        industry
-                                                                            ?.listing
-                                                                            ?.businessName
-                                                                    }
-                                                                    className="cursor-pointer"
-                                                                >
-                                                                    {ellipsisText(
-                                                                        industry
-                                                                            ?.listing
-                                                                            ?.businessName,
-                                                                        15
-                                                                    )}
-                                                                </span>
-                                                            </Typography>
-                                                            <div
-                                                                title={moment(
-                                                                    industry?.createdAt
-                                                                )?.format(
-                                                                    'ddd, DD.MMM.YYYY [at] hh:mm a'
-                                                                )}
-                                                                className=""
-                                                            >
-                                                                {' '}
-                                                                <Typography
-                                                                    variant={
-                                                                        'xxs'
-                                                                    }
-                                                                    color={
-                                                                        'text-link'
-                                                                    }
-                                                                >
-                                                                    {moment(
-                                                                        industry?.createdAt
-                                                                    )?.format(
-                                                                        'DD-MM-YYYY'
-                                                                    )}
-                                                                </Typography>
-                                                            </div>
-                                                        </div>
-
-                                                        <Typography
-                                                            variant={'xxs'}
-                                                            color={'gray'}
-                                                        >
-                                                            {
-                                                                industry
-                                                                    ?.listing
-                                                                    ?.address
-                                                            }
-                                                        </Typography>
-                                                    </div>
-                                                </div>
-
-                                                <Actions industry={industry} />
-                                            </div>
-                                        </div>
-                                    ))}
-                                </>
-                            ) : (
-                                contactedIndustries.isSuccess && (
-                                    <NoData text={'There is no Industries!'} />
-                                )
-                            )}
-                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        ) : (
+                            contactedIndustries.isSuccess && (
+                                <NoData text={'There is no Industries!'} />
+                            )
+                        )}
                     </div>
                 </div>
-            </GlobalModal>
+            </div>
+            {/* </GlobalModal> */}
         </>
     )
 }

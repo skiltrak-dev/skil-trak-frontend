@@ -25,7 +25,7 @@ export const useAutoModals = ({
     useEffect(() => {
         if (
             selectedWorkplace &&
-            moment(selectedWorkplace?.createdAt).isSame(moment(), 'day') &&
+            moment(selectedWorkplace?.createdAt).isSame(moment(), 'minute') &&
             !selectedWorkplace?.workplaceApprovaleRequest?.length
         ) {
             const onWorkplaceFinderClicked = () => {

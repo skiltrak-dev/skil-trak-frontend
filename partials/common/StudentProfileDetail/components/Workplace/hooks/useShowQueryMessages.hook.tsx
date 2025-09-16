@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import { WorkplaceContextType } from './useWorkplace.hook'
+import { useShowErrorNotification } from '@components'
 import { useNotification } from '@hooks'
+import { useEffect } from 'react'
 
 export const useShowQueryMessages = ({
     queriesActions,
@@ -10,6 +10,8 @@ export const useShowQueryMessages = ({
     setAutoApplyLoader: any
 }) => {
     const { notification } = useNotification()
+
+    const showErrorNotifications = useShowErrorNotification()
     useEffect(() => {
         if (queriesActions?.refreshResult?.isSuccess) {
             setTimeout(() => {
@@ -19,6 +21,12 @@ export const useShowQueryMessages = ({
                     description: `Automation Refreshed.`,
                 })
             }, 10000)
+        }
+        if (queriesActions?.refreshResult?.isError) {
+            setAutoApplyLoader(false)
+            showErrorNotifications({
+                result: queriesActions?.refreshResult,
+            })
         }
     }, [queriesActions?.refreshResult])
 
@@ -32,6 +40,12 @@ export const useShowQueryMessages = ({
                 })
             }, 10000)
         }
+        if (queriesActions?.skipWorkplaceResult?.isError) {
+            setAutoApplyLoader(false)
+            showErrorNotifications({
+                result: queriesActions?.skipWorkplaceResult,
+            })
+        }
     }, [queriesActions?.skipWorkplaceResult])
 
     useEffect(() => {
@@ -43,6 +57,12 @@ export const useShowQueryMessages = ({
                     description: `Workplace Industry Skipped Successfully!`,
                 })
             }, 10000)
+        }
+        if (queriesActions?.skipWpResult?.isError) {
+            setAutoApplyLoader(false)
+            showErrorNotifications({
+                result: queriesActions?.skipWpResult,
+            })
         }
     }, [queriesActions?.skipWpResult])
 }
