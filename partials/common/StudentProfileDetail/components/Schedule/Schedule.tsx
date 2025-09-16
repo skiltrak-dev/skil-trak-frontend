@@ -1,4 +1,3 @@
-import moment from 'moment'
 import {
     AuthorizedUserComponent,
     Button,
@@ -11,15 +10,16 @@ import {
     Typography,
 } from '@components'
 import { UserRoles } from '@constants'
-import { useRouter } from 'next/router'
-import { Waypoint } from 'react-waypoint'
-import { Course, Industry, User } from '@types'
-import { ViewAvailability } from '../Workplace'
 import { StudentApi, SubAdminApi } from '@queries'
-import { useWorkplaceHook } from '../Workplace/hooks'
-import { AddSchedule, ScheduleTimetable } from './components'
+import { Course, Industry, User } from '@types'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
+import moment from 'moment'
+import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useMemo, useState } from 'react'
+import { Waypoint } from 'react-waypoint'
+import { ViewAvailability } from '../Workplace'
+import { useWorkplaceQueries } from '../Workplace/hooks/useWorkplaceQueries.hook'
+import { AddSchedule, ScheduleTimetable } from './components'
 
 export const Schedule = ({
     user,
@@ -37,7 +37,7 @@ export const Schedule = ({
         null
     )
     const [addSchedule, setAddSchedule] = useState<boolean>(false)
-    const { selectedWorkplace } = useWorkplaceHook()
+    const { selectedWorkplace } = useWorkplaceQueries({ student })
     const router = useRouter()
     const courses = SubAdminApi.Student.useCourses(Number(router.query?.id), {
         skip: !router.query?.id || !isEntered,

@@ -1,11 +1,11 @@
 import { AuthorizedUserComponent, Badge, Button, Typography } from '@components'
 import { UserRoles } from '@constants'
+import { CreateStudentNote } from '@partials/common/Notes/forms'
 import { ComposeMailModal } from '@partials/common/StudentProfileDetail/modals'
 import { ReactElement, useState } from 'react'
 import { WorkplaceHistory } from '../../Workplace'
-import { useWorkplaceHook } from '../../Workplace/hooks'
+import { useWorkplaceQueries } from '../../Workplace/hooks/useWorkplaceQueries.hook'
 import { ShowAllCommunicationModal } from '../modal'
-import { CreateStudentNote } from '@partials/common/Notes/forms'
 
 interface CommunicationHeaderProps {
     user?: any
@@ -13,8 +13,7 @@ interface CommunicationHeaderProps {
 
 export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const student = user
-    const { selectedWorkplace } = useWorkplaceHook()
+    const { selectedWorkplace } = useWorkplaceQueries({ student: user })
     const onCancelClicked = () => setModal(null)
 
     const onComposeMail = () => {
@@ -47,6 +46,9 @@ export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
             </div>
         )
     }
+
+    console.log({ selectedWorkplace })
+
     return (
         <>
             {modal}

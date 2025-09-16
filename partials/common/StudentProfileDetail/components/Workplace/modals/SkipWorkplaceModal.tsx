@@ -1,9 +1,7 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
-import { useNotification } from '@hooks'
-import { SubAdminApi, useCancelWorkplaceStatusMutation } from '@queries'
 
-import { useEffect } from 'react'
 import { FaTrash } from 'react-icons/fa'
+import { useWorkplaceHook } from '../hooks'
 
 export const SkipWorkplaceModal = ({
     wpReqApproval,
@@ -12,27 +10,17 @@ export const SkipWorkplaceModal = ({
     wpReqApproval: any
     onCancel: () => void
 }) => {
-    const { notification } = useNotification()
-    const [skipWorkplace, skipWorkplaceResult] =
-        SubAdminApi.Student.skipWorkplace()
+    const { setAutoApplyLoader, skipWP, skipWpResult } = useWorkplaceHook()
 
-    const onConfirmUClicked = async (id: number) => {
-        const res: any = await skipWorkplace(
-            wpReqApproval?.workplaceRequest?.id
-        )
-
-        if (res?.data) {
-            notification.warning({
-                title: `Workplace Industry Skipped`,
-                description: `Workplace Industry Skipped Successfully!`,
-            })
-            onCancel()
-        }
+    const onConfirmUClicked = () => {
+        setAutoApplyLoader(true)
+        skipWP(wpReqApproval?.workplaceRequest?.id)
+        onCancel()
     }
 
     return (
         <>
-            <ShowErrorNotifications result={skipWorkplaceResult} />
+            <ShowErrorNotifications result={skipWpResult} />
             <ActionModal
                 Icon={FaTrash}
                 variant="error"
@@ -43,7 +31,7 @@ export const SkipWorkplaceModal = ({
                 input
                 inputKey={String(wpReqApproval?.id)}
                 actionObject={wpReqApproval}
-                loading={skipWorkplaceResult.isLoading}
+                loading={skipWpResult.isLoading}
             />
         </>
     )

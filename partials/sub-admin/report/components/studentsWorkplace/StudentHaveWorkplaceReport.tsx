@@ -79,7 +79,7 @@ export const StudentHaveWorkplaceReport = ({
             header: () => <span>Courses</span>,
             cell: (info) =>
                 info?.row?.original?.courses?.map((course: Course) => (
-                    <CourseDot course={course} />
+                    <CourseDot key={course?.id} course={course} />
                 )),
         },
     ]

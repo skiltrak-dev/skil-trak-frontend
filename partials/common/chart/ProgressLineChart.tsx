@@ -212,7 +212,7 @@ export const ProgressLineChart = () => {
                             value={yearOptions.find((y) => y.value === year)}
                         />
                     </div>
-                    <div className="relative z-20">
+                    <div className="relative space-x-2 z-20">
                         <Button
                             text="Date Filter"
                             variant="action"
@@ -220,6 +220,15 @@ export const ProgressLineChart = () => {
                                 setShowDateFilter(!showDateFilter)
                             }}
                         />
+                        {selectedDate && (
+                            <Button
+                                text="Clear Filter"
+                                variant="dark"
+                                onClick={() => {
+                                    setSelectedDate(null)
+                                }}
+                            />
+                        )}
                         <div
                             className={`absolute top-full w-72 z-50 right-0 bg-white ${
                                 showDateFilter ? 'block' : 'hidden'
@@ -227,7 +236,6 @@ export const ProgressLineChart = () => {
                         >
                             <SidebarCalendar
                                 setSelectedDate={(e) => {
-                                    console.log({ e })
                                     setShowDateFilter(!showDateFilter)
                                     setSelectedDate(e)
                                 }}

@@ -1,5 +1,4 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
-import { useNotification } from '@hooks'
 
 import { FaTrash } from 'react-icons/fa'
 import { useWorkplaceHook } from '../hooks'
@@ -11,9 +10,6 @@ export const SkipCurrentWPApplyAnotherWPModal = ({
     wpReqApproval: any
     onCancel: () => void
 }) => {
-    console.log({ wpReqApproval })
-    const { notification } = useNotification()
-
     const { setAutoApplyLoader, skipWorkplace, skipWorkplaceResult } =
         useWorkplaceHook()
 

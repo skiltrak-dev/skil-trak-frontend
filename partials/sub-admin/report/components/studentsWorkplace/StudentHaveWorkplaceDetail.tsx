@@ -1,19 +1,17 @@
 import {
-    ActionButton,
     EmptyData,
     InitialAvatar,
     LoadingAnimation,
     Table,
     TechnicalError,
-    Typography,
+    Typography
 } from '@components'
 import { CourseDot } from '@partials/rto/student/components'
 import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
-import React, { useState } from 'react'
 
-import { useRouter } from 'next/router'
 import { Course } from '@types'
+import { useRouter } from 'next/router'
 
 export const StudentHaveWorkplaceDetail = () => {
     const router = useRouter()
@@ -54,7 +52,7 @@ export const StudentHaveWorkplaceDetail = () => {
             header: () => <span>Courses</span>,
             cell: (info) =>
                 info?.row?.original?.courses?.map((course: Course) => (
-                    <CourseDot course={course} />
+                    <CourseDot key={course?.id} course={course} />
                 )),
         },
     ]

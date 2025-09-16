@@ -9,6 +9,7 @@ export const ViewHistoryModal = ({
     wpId: number
     onCancel: () => void
 }) => {
+   
     return (
         <Modal
             showActions={false}
