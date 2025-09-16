@@ -148,7 +148,7 @@ export const ProgressLineChart = () => {
             type: 'monotone',
         },
         {
-            dataKey: 'Cancelled Workplace Requests',
+            dataKey: 'Cancelled WPR',
             stroke: '#FF7979',
             strokeWidth: 4,
             type: 'monotone',
