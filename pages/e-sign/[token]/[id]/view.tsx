@@ -277,7 +277,8 @@ const ESign = () => {
         if (
             customFieldsData
                 ?.filter((s: any) => s?.type === FieldsTypeEnum.Signature)
-                ?.filter((s: any) => !s?.responses?.length)?.length > 0
+                ?.filter((s: any) => !s?.fieldValue)?.length > 0
+            // ?.filter((s: any) => !s?.responses?.length)?.length > 0
         ) {
             notification.warning({
                 title: 'Sign',
