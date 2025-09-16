@@ -10,17 +10,29 @@ export const SkipWorkplaceModal = ({
     wpReqApproval: any
     onCancel: () => void
 }) => {
-    const { setAutoApplyLoader, skipWp, skipWpResult } = useWorkplaceHook()
+    const { setAutoApplyLoader, skipWorkplace, skipWorkplaceResult } =
+        useWorkplaceHook()
 
-    const onConfirmUClicked = () => {
+    const onConfirmUClicked = async () => {
         setAutoApplyLoader(true)
-        skipWp(wpReqApproval?.workplaceRequest?.id)
+        skipWorkplace({
+            wpAppReqId: wpReqApproval?.id,
+            wpId: wpReqApproval?.workplaceRequest?.id,
+        })
         onCancel()
+
+        // if (res?.data) {
+        //     notification.warning({
+        //         title: `Workplace Industry Skipped`,
+        //         description: `Workplace Industry Skipped Successfully!`,
+        //     })
+        //     onCancel()
+        // }
     }
 
     return (
         <>
-            <ShowErrorNotifications result={skipWpResult} />
+            <ShowErrorNotifications result={skipWorkplaceResult} />
             <ActionModal
                 Icon={FaTrash}
                 variant="error"
@@ -31,7 +43,7 @@ export const SkipWorkplaceModal = ({
                 input
                 inputKey={String(wpReqApproval?.id)}
                 actionObject={wpReqApproval}
-                loading={skipWpResult.isLoading}
+                loading={skipWorkplaceResult.isLoading}
             />
         </>
     )

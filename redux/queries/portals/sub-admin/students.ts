@@ -834,6 +834,13 @@ export const studentsEndpoints = (
         query: (id) => `${PREFIX}/workplace-request/${id}/get-appointment`,
         providesTags: ['SubAdminStudents'],
     }),
+
+    skippedIndustriesList: builder.query<any, number>({
+        query: (id) =>
+            `students/workplace-requests/${id}/skipped-workplace/list`,
+        providesTags: ['SubAdminStudents'],
+    }),
+
     esignDocumentsFoldersList: builder.query<any, number>({
         query: (id) => `${PREFIX}/workplace-request/${id}/get-agreement/list`,
         providesTags: ['SubAdminStudents'],
