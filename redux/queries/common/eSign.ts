@@ -387,7 +387,7 @@ export const eSignEndpoints = (
             params,
             body: { signature },
         }),
-        invalidatesTags: ['E-Sign'],
+        invalidatesTags: ['E-Signsssssssss'],
     }),
     updateSignDate: builder.mutation<
         any,

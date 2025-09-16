@@ -66,7 +66,6 @@ export const IndustryDetail = ({
     workplace: IWorkplaceIndustries
     appliedIndustry: WorkplaceWorkIndustriesType
 }) => {
-    const [selectedBox, setSelectedBox] = useState<any>(null)
     const [modal, setModal] = useState<ReactElement | null>(null)
     const contextBar = useContextBar()
     const { notification } = useNotification()

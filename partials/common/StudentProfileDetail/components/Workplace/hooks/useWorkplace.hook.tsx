@@ -59,7 +59,6 @@ export interface WorkplaceContextType {
 
     // Actions
     setSelectedWorkplace: (workplace: any) => void
-    onAppointmentClicked: () => void
     setShowPreviousWorkplace: (show: boolean) => void
     onAddAnotherWp: () => boolean
 
@@ -200,19 +199,6 @@ export const WorkplaceHookProvider = ({
         }
     }, [])
 
-    const onAppointmentClicked = () => {
-        setModal(
-            <AppointmentBookModal
-                onCancel={() => {
-                    onCancelModal()
-                }}
-                student={student}
-                courseId={Number(selectedWorkplace?.courses?.[0]?.id)}
-                studentUser={student?.user?.id}
-            />
-        )
-    }
-
     const onAddAnotherWp = () =>
         actions.onAddAnotherWp(firstWorkplaceCurrentStatus)
 
@@ -235,7 +221,6 @@ export const WorkplaceHookProvider = ({
         selectedWorkplace,
         rejectedWorkplaces,
         setSelectedWorkplace,
-        onAppointmentClicked,
         showPreviousWorkplace,
         workplaceStudentDetail,
         workplaceIndustryDetail,

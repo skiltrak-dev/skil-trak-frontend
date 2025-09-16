@@ -64,7 +64,6 @@ export const Workplace = ({
         selectedWorkplace,
         appointmentDetail,
         setSelectedWorkplace,
-        onAppointmentClicked,
         showPreviousWorkplace,
         workplaceStudentDetail,
         workplaceIndustryDetail,
