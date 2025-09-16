@@ -1,6 +1,5 @@
 import { useAuthorizedUserComponent } from '@components'
 import { UserRoles } from '@constants'
-import { useNotification } from '@hooks'
 import { GetFolders } from '@partials/sub-admin/workplace/hooks'
 import { Student } from '@types'
 import { getUserCredentials, WorkplaceCurrentStatus } from '@utils'
@@ -10,21 +9,22 @@ import {
     ReactNode,
     useContext,
     useEffect,
-    useMemo,
     useState,
 } from 'react'
-import { IWorkplaceIndustries } from 'redux/queryTypes'
-import { isAllDocumentsInitiated, sortedWP } from '../functions'
+import { isAllDocumentsInitiated } from '../functions'
 import {
     AppointmentBookModal,
     AppointmentViewWPModal,
     GenerateEsignModal,
 } from '../modals'
 import { useAutoModals } from './useAutoModals'
+import { useShowQueryMessages } from './useShowQueryMessages.hook'
 import { useWorkplaceActions } from './useWorkplaceActions'
 import { useWorkplaceQueries } from './useWorkplaceQueries.hook'
 import { useWorkplaceStatusModals } from './useWorkplaceStatusModals'
-import { useShowQueryMessages } from './useShowQueryMessages.hook'
+import { useWpData } from './useWpData'
+import { useAppointmentModals } from './useAppointmentModal.hook'
+import { useEsignModals } from './useEsignModals.hook'
 
 // Define the context type
 export interface WorkplaceContextType {
@@ -95,10 +95,10 @@ export const WorkplaceHookProvider = ({
     student,
 }: WorkplaceProviderProps) => {
     const [modal, setModal] = useState<ReactNode | null>(null)
-    const [modelId, setModelId] = useState<string>('')
+    const [modalId, setModalId] = useState<string>('')
     const [autoApplyLoader, setAutoApplyLoader] = useState<boolean>(false)
 
-    const { notification } = useNotification()
+    const onCancelModal = () => setModal(null)
 
     const role = getUserCredentials()?.role
 
@@ -122,6 +122,12 @@ export const WorkplaceHookProvider = ({
         ...queriesActions
     } = useWorkplaceQueries({ student })
 
+    const folders = GetFolders(workplaceFolders)
+
+    const authorizedRoles = useAuthorizedUserComponent({
+        roles: [UserRoles.ADMIN, UserRoles.SUBADMIN],
+    })
+
     useAutoModals({
         selectedWorkplace,
         appliedIndustry,
@@ -136,15 +142,15 @@ export const WorkplaceHookProvider = ({
         setAutoApplyLoader,
     })
 
-    const latestWorkplaceApprovaleRequest = useMemo(() => {
-        return selectedWorkplace?.workplaceApprovaleRequest?.reduce(
-            (latest: any, current: any) =>
-                new Date(current?.createdAt) > new Date(latest?.createdAt)
-                    ? current
-                    : latest,
-            selectedWorkplace?.workplaceApprovaleRequest?.[0]
-        )
-    }, [selectedWorkplace?.workplaceApprovaleRequest])
+    const {
+        ignoreCompletedWP,
+        firstWorkplaceCurrentStatus,
+        latestWorkplaceApprovaleRequest,
+        latestWorkplaceApprovaleRequestRto,
+    } = useWpData({
+        selectedWorkplace,
+        studentWorkplace: studentWorkplace?.data,
+    })
 
     const actions = useWorkplaceActions({
         selectedWorkplace,
@@ -161,170 +167,38 @@ export const WorkplaceHookProvider = ({
         showModal: setModal,
     })
 
-    const folders = GetFolders(workplaceFolders)
-
-    const allDocumentsInitiated = isAllDocumentsInitiated(esignDocumentsFolders)
-
-    const authorizedRoles = useAuthorizedUserComponent({
-        roles: [UserRoles.ADMIN, UserRoles.SUBADMIN],
+    useAppointmentModals({
+        selectedWorkplace,
+        getWorkplaceAppointment,
+        authorizedRoles,
+        student,
+        modalId,
+        showModal: (modal: ReactNode, id?: string) => {
+            setModal(modal)
+            setModalId(id + '')
+        },
+        clearModal: onCancelModal,
+        setModalId: () => {},
     })
 
-    const latestWorkplaceApprovaleRequestRto = useMemo(() => {
-        return selectedWorkplace?.workplaceApprovaleRequest?.reduce(
-            (latest: any, current: any) =>
-                new Date(current?.createdAt) > new Date(latest?.createdAt)
-                    ? current
-                    : latest,
-            selectedWorkplace?.workplaceApprovaleRequest?.[0]
-        )
-    }, [selectedWorkplace?.workplaceApprovaleRequest])
+    useEsignModals({
+        selectedWorkplace,
+        getWorkplaceAppointment,
+        esignDocumentsFolders,
+        authorizedRoles,
+        modalId,
+        showModal: (modal: ReactNode, id?: string) => {
+            setModal(modal)
+            setModalId(id + '')
+        },
+        clearModal: onCancelModal,
+    })
 
     useEffect(() => {
         return () => {
             setModal(null)
         }
     }, [])
-
-    useEffect(() => {
-        const isAppointmentBookedStatus =
-            selectedWorkplace?.currentStatus ===
-            WorkplaceCurrentStatus.AppointmentBooked
-        const isAppointmentQueryReady =
-            !getWorkplaceAppointment?.isFetching &&
-            !getWorkplaceAppointment?.isLoading &&
-            getWorkplaceAppointment?.isSuccess
-        const hasNoValidAppointment =
-            getWorkplaceAppointment?.data &&
-            getWorkplaceAppointment?.data?.isSuccessfull === null
-        const isAfterCutoffDate = moment().isSameOrAfter('2025-08-01', 'day')
-        const isTodayAppointment = moment().isSame(
-            getWorkplaceAppointment?.data?.date,
-            'day'
-        )
-
-        const shouldShowAppointmentModal =
-            authorizedRoles &&
-            selectedWorkplace &&
-            isAfterCutoffDate &&
-            isTodayAppointment &&
-            hasNoValidAppointment &&
-            isAppointmentQueryReady &&
-            isAppointmentBookedStatus &&
-            !selectedWorkplace?.byExistingAbn &&
-            !selectedWorkplace?.studentProvidedWorkplace
-
-        if (shouldShowAppointmentModal) {
-            onAppointmentViewWPClicked()
-            setModelId('appointmentView')
-        } else if (
-            modelId === 'appointmentView' &&
-            !shouldShowAppointmentModal
-        ) {
-            setModal(null)
-            setModelId('')
-        }
-    }, [selectedWorkplace, getWorkplaceAppointment])
-
-    // Handle appointment booking modal for workplaces with booked appointments
-    useEffect(() => {
-        const isAppointmentBookedStatus =
-            selectedWorkplace?.currentStatus ===
-            WorkplaceCurrentStatus.AppointmentBooked
-        const isAppointmentQueryReady =
-            !getWorkplaceAppointment?.isFetching &&
-            !getWorkplaceAppointment?.isLoading &&
-            getWorkplaceAppointment?.isSuccess
-        const hasNoValidAppointment =
-            !getWorkplaceAppointment?.data ||
-            getWorkplaceAppointment?.data?.isSuccessfull === false
-        const isAfterCutoffDate = moment().isSameOrAfter('2025-08-01', 'day')
-
-        const shouldShowAppointmentModal =
-            selectedWorkplace &&
-            isAppointmentBookedStatus &&
-            isAppointmentQueryReady &&
-            hasNoValidAppointment &&
-            isAfterCutoffDate &&
-            authorizedRoles
-
-        if (shouldShowAppointmentModal && modelId !== 'appointmentClicked') {
-            onAppointmentClicked()
-            setModelId('appointmentClicked')
-        } else if (
-            modelId === 'appointmentClicked' &&
-            !shouldShowAppointmentModal
-        ) {
-            setModal(null)
-            setModelId('')
-        }
-    }, [selectedWorkplace, getWorkplaceAppointment, modelId])
-
-    // Handle e-signature document generation modal
-    useEffect(() => {
-        const hasSuccessfulAppointment =
-            getWorkplaceAppointment?.data?.isSuccessfull === true
-        const isAfterCutoffDate = moment().isSameOrAfter('2025-08-01', 'day')
-        const isEsignQueryReady = esignDocumentsFolders?.isSuccess
-        const needsDocumentInitiation = !allDocumentsInitiated
-        const isValidStatus =
-            selectedWorkplace?.currentStatus ===
-                WorkplaceCurrentStatus.AppointmentBooked ||
-            selectedWorkplace?.currentStatus ===
-                WorkplaceCurrentStatus.AwaitingAgreementSigned
-
-        const shouldShowEsignModal =
-            getWorkplaceAppointment &&
-            hasSuccessfulAppointment &&
-            isAfterCutoffDate &&
-            isEsignQueryReady &&
-            needsDocumentInitiation &&
-            isValidStatus &&
-            authorizedRoles
-
-        if (shouldShowEsignModal && modelId !== 'generateEsign') {
-            onGenerateEsignClicked()
-            setModelId('generateEsign')
-        } else if (
-            isEsignQueryReady &&
-            !esignDocumentsFolders?.data?.length &&
-            hasSuccessfulAppointment &&
-            isAfterCutoffDate &&
-            isValidStatus &&
-            authorizedRoles
-        ) {
-            onGenerateEsignClicked()
-            setModelId('')
-        } else if (modelId === 'generateEsign' && !shouldShowEsignModal) {
-            setModal(null)
-            setModelId('')
-        }
-    }, [
-        selectedWorkplace,
-        allDocumentsInitiated,
-        esignDocumentsFolders,
-        getWorkplaceAppointment,
-        modelId,
-    ])
-
-    const onCancelModal = () => setModal(null)
-
-    const ignoreCompletedWP = studentWorkplace?.data?.filter(
-        (wp: IWorkplaceIndustries) =>
-            wp?.currentStatus !== WorkplaceCurrentStatus.Completed
-    )
-
-    const firstWorkplaceCurrentStatus = ignoreCompletedWP?.[0]?.currentStatus
-
-    const onAppointmentViewWPClicked = () => {
-        setModal(
-            <AppointmentViewWPModal
-                onCancel={() => {
-                    onCancelModal()
-                }}
-                appointment={getWorkplaceAppointment?.data}
-            />
-        )
-    }
 
     const onAppointmentClicked = () => {
         setModal(
@@ -335,18 +209,6 @@ export const WorkplaceHookProvider = ({
                 student={student}
                 courseId={Number(selectedWorkplace?.courses?.[0]?.id)}
                 studentUser={student?.user?.id}
-            />
-        )
-    }
-
-    const onGenerateEsignClicked = () => {
-        setModal(
-            <GenerateEsignModal
-                onCancel={() => {
-                    onCancelModal()
-                }}
-                workplace={selectedWorkplace}
-                courseId={Number(selectedWorkplace?.courses?.[0]?.id)}
             />
         )
     }
