@@ -1,20 +1,19 @@
 import { ReactElement, useEffect, useState } from 'react'
-
 import {
-    LoadingAnimation,
     NoData,
-    SectorCourseStudentCount,
     Typography,
+    LoadingAnimation,
+    SectorCourseStudentCount,
 } from '@components'
-import { FigureCard } from '@components/sections/subAdmin'
-import { useNavbar } from '@hooks'
-import { AdminLayout } from '@layouts'
-import { ProgressLineChart } from '@partials/common'
-import { AdminApi, CommonApi } from '@queries'
-import { NextPageWithLayout } from '@types'
-import { AuthUtils } from '@utils'
 import moment from 'moment'
+import { useNavbar } from '@hooks'
+import { AuthUtils } from '@utils'
+import { AdminLayout } from '@layouts'
+import { NextPageWithLayout } from '@types'
+import { AdminApi, CommonApi } from '@queries'
 import { useMediaQuery } from 'react-responsive'
+import { ProgressLineChart } from '@partials/common'
+import { FigureCard } from '@components/sections/subAdmin'
 import StackGrid, { transitions } from 'react-stack-grid'
 
 const { scaleDown } = transitions
