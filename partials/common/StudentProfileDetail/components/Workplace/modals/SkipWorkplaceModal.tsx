@@ -10,11 +10,11 @@ export const SkipWorkplaceModal = ({
     wpReqApproval: any
     onCancel: () => void
 }) => {
-    const { setAutoApplyLoader, skipWP, skipWpResult } = useWorkplaceHook()
+    const { setAutoApplyLoader, skipWp, skipWpResult } = useWorkplaceHook()
 
     const onConfirmUClicked = () => {
         setAutoApplyLoader(true)
-        skipWP(wpReqApproval?.workplaceRequest?.id)
+        skipWp(wpReqApproval?.workplaceRequest?.id)
         onCancel()
     }
 
