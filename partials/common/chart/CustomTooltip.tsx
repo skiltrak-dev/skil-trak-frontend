@@ -31,7 +31,7 @@ export const CustomTooltip = ({ active, payload, label }: any) => {
                 'Current Month WPR',
                 'Manual WPO',
                 'Automated WPO',
-                'Cancelled Workplace Requests',
+                'Cancelled WPR',
             ],
             payload
         )
