@@ -24,9 +24,10 @@ import { useAutoModals } from './useAutoModals'
 import { useWorkplaceActions } from './useWorkplaceActions'
 import { useWorkplaceQueries } from './useWorkplaceQueries.hook'
 import { useWorkplaceStatusModals } from './useWorkplaceStatusModals'
+import { useShowQueryMessages } from './useShowQueryMessages.hook'
 
 // Define the context type
-interface WorkplaceContextType {
+export interface WorkplaceContextType {
     // Modal state
     modal: ReactNode | null
 
@@ -53,6 +54,7 @@ interface WorkplaceContextType {
     latestWorkplaceApprovaleRequestRto: any
     appointmentDetail: any
     autoApplyLoader: any
+    skipWpResult: any
     setAutoApplyLoader: any
 
     // Actions
@@ -116,10 +118,23 @@ export const WorkplaceHookProvider = ({
         workplaceFolders,
         appliedIndustry,
         course,
+        sortedWorkplace,
         ...queriesActions
     } = useWorkplaceQueries({ student })
 
-    console.log({ ststststststststs: selectedWorkplace })
+    useAutoModals({
+        selectedWorkplace,
+        appliedIndustry,
+        student,
+        course,
+        role,
+        showModal: setModal,
+    })
+
+    useShowQueryMessages({
+        queriesActions,
+        setAutoApplyLoader,
+    })
 
     const latestWorkplaceApprovaleRequest = useMemo(() => {
         return selectedWorkplace?.workplaceApprovaleRequest?.reduce(
@@ -136,15 +151,6 @@ export const WorkplaceHookProvider = ({
         showModal: setModal,
     })
 
-    useAutoModals({
-        selectedWorkplace,
-        appliedIndustry,
-        student,
-        course,
-        role,
-        showModal: setModal,
-    })
-
     useWorkplaceStatusModals({
         selectedWorkplace,
         appliedIndustry,
@@ -158,7 +164,6 @@ export const WorkplaceHookProvider = ({
     const folders = GetFolders(workplaceFolders)
 
     const allDocumentsInitiated = isAllDocumentsInitiated(esignDocumentsFolders)
-    const sortedWorkplace = sortedWP(studentWorkplace)
 
     const authorizedRoles = useAuthorizedUserComponent({
         roles: [UserRoles.ADMIN, UserRoles.SUBADMIN],
@@ -179,45 +184,6 @@ export const WorkplaceHookProvider = ({
             setModal(null)
         }
     }, [])
-
-    useEffect(() => {
-        if (queriesActions?.refreshResult?.isSuccess) {
-            setTimeout(() => {
-                setAutoApplyLoader(false)
-                notification.success({
-                    title: `Automation Refreshed`,
-                    description: `Automation Refreshed.`,
-                })
-            }, 10000)
-        }
-    }, [queriesActions?.refreshResult])
-
-    useEffect(() => {
-        if (queriesActions?.skipWorkplaceResult?.isSuccess) {
-            setTimeout(() => {
-                setAutoApplyLoader(false)
-                notification.warning({
-                    title: `Workplace Industry Skipped`,
-                    description: `Workplace Industry Skipped Successfully!`,
-                })
-            }, 10000)
-        }
-    }, [queriesActions?.skipWorkplaceResult])
-
-    useEffect(() => {
-        if (sortedWorkplace && sortedWorkplace?.length > 0) {
-            setSelectedWorkplace(
-                selectedWorkplace
-                    ? studentWorkplace?.data?.find(
-                          (w: any) => w?.id === selectedWorkplace?.id
-                      )
-                    : sortedWorkplace?.[0]
-            )
-        }
-        return () => {
-            setSelectedWorkplace(null)
-        }
-    }, [studentWorkplace?.data])
 
     useEffect(() => {
         const isAppointmentBookedStatus =

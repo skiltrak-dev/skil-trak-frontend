@@ -5,11 +5,12 @@ import {
 } from '@queries'
 import { Student } from '@types'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
     IWorkplaceIndustries,
     WorkplaceWorkIndustriesType,
 } from 'redux/queryTypes'
+import { sortedWP } from '../functions'
 
 export const useWorkplaceQueries = ({ student }: { student: Student }) => {
     const [selectedWorkplace, setSelectedWorkplace] =
@@ -95,9 +96,31 @@ export const useWorkplaceQueries = ({ student }: { student: Student }) => {
     const [skipWorkplace, skipWorkplaceResult] =
         SubAdminApi.Student.skipWpAndApplyAnother()
 
+    const [skipWp, skipWpResult] = SubAdminApi.Student.skipWorkplace()
+
+    const sortedWorkplace = sortedWP(studentWorkplace)
+
+    useEffect(() => {
+        if (sortedWorkplace && sortedWorkplace?.length > 0) {
+            setSelectedWorkplace(
+                selectedWorkplace
+                    ? studentWorkplace?.data?.find(
+                          (w: any) => w?.id === selectedWorkplace?.id
+                      )
+                    : sortedWorkplace?.[0]
+            )
+        }
+        return () => {
+            setSelectedWorkplace(null)
+        }
+    }, [studentWorkplace?.data])
+
     return {
+        sortedWorkplace,
         skipWorkplace,
         skipWorkplaceResult,
+        skipWp,
+        skipWpResult,
         refresh,
         refreshResult,
         selectedWorkplace,

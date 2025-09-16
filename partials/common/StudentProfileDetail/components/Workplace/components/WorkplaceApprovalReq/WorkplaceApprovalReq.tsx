@@ -1,20 +1,16 @@
-import { AuthorizedUserComponent, Button, Card, Typography } from '@components'
+import { AuthorizedUserComponent, Typography } from '@components'
 import { UserRoles } from '@constants'
 import { AvailableMeetingDates, WorkplaceMapBoxView } from '@partials/student'
 import { WorkplaceAvailableSlots } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceAvailableSlots'
 import { WorkplaceInfo } from '@partials/student/workplace/components/WorkplaceApproval/WorkplaceInfo'
 import { SubAdminApi } from '@queries'
 import { Course, SubAdmin } from '@types'
-import { getUserCredentials, is72HoursOlder } from '@utils'
-import { ReactElement, useEffect, useState } from 'react'
-import { AssignedCoordinator } from './AssignedCoordinator'
+import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import {
-    SkipCurrentWPApplyAnotherWPModal,
-    SkipWorkplaceModal,
-    UpdateIndustryEligibilityModal,
-    WpConfirmCapacity,
-} from '../../modals'
+import { useEffect, useState } from 'react'
+import { AssignedCoordinator } from './AssignedCoordinator'
+import { EligibleWorkplaceComponent } from './EligibleWorkplaceComponent'
+import { VerifyCapacityComponent } from './VerifyCapacityComponent'
 
 export const WorkplaceApprovalReq = ({
     wpReqApproval,
@@ -26,7 +22,6 @@ export const WorkplaceApprovalReq = ({
     coordinator: SubAdmin
 }) => {
     const [mount, setMount] = useState<boolean>(false)
-    const [modal, setModal] = useState<ReactElement | null>(null)
 
     const role = getUserCredentials()?.role
 
@@ -44,122 +39,12 @@ export const WorkplaceApprovalReq = ({
         }
     }, [])
 
-    const onCancel = () => setModal(null)
-
-    const onUpdateIndustryEligibility = () => {
-        setModal(
-            <UpdateIndustryEligibilityModal
-                onCancel={onCancel}
-                wpReqApproval={wpReqApproval}
-            />
-        )
-    }
-
-    const onWorkplaceSkippedClicked = () => {
-        setModal(
-            <SkipWorkplaceModal
-                onCancel={onCancel}
-                wpReqApproval={wpReqApproval}
-            />
-        )
-    }
-    const onSkipCurrentWPApplyAnotherWP = () => {
-        setModal(
-            <SkipCurrentWPApplyAnotherWPModal
-                onCancel={onCancel}
-                wpReqApproval={wpReqApproval}
-            />
-        )
-    }
-
-    const onWorkplaceConfirmCapacity = () => {
-        setModal(
-            <WpConfirmCapacity
-                onCancel={onCancel}
-                wpReqApproval={wpReqApproval}
-            />
-        )
-    }
-
     return (
         <div className="h-full">
-            {modal}
             {!wpReqApproval?.isEligible ? (
-                <Card noPadding>
-                    <div className="flex flex-col gap-y-2 items-center px-4 py-2 bg-primary-light">
-                        <Typography variant="label" block medium center>
-                            The workplace course file does not exist or the
-                            course content has not yet been approved. Once
-                            approved by HOD, you will be able to send the
-                            workplace to the student for approval.
-                        </Typography>
-                        <div className="col-span-2 flex justify-end gap-x-3">
-                            <Button
-                                outline
-                                text="Update Workplace"
-                                variant="info"
-                                disabled={role === UserRoles.RTO}
-                                onClick={() => {
-                                    role === UserRoles.ADMIN
-                                        ? router.push(
-                                              `/portals/admin/industry/${wpReqApproval?.industry?.id}`
-                                          )
-                                        : role === UserRoles.SUBADMIN
-                                        ? router.push(
-                                              `/portals/sub-admin/users/industries/${wpReqApproval?.industry?.id}?tab=students`
-                                          )
-                                        : ''
-                                }}
-                            />
-                            <Button
-                                variant="success"
-                                text="Submit For Approval"
-                                disabled={role === UserRoles.RTO}
-                                onClick={onUpdateIndustryEligibility}
-                            />
-                            {
-                                // is72HoursOlder(wpReqApproval?.createdAt) &&
-                                !wpReqApproval?.isEligible && (
-                                    <Button
-                                        text="Skip"
-                                        variant="primary"
-                                        disabled={role === UserRoles.RTO}
-                                        onClick={onWorkplaceSkippedClicked}
-                                    />
-                                )
-                            }
-                        </div>
-                    </div>
-                </Card>
+                <EligibleWorkplaceComponent wpReqApproval={wpReqApproval} />
             ) : !wpReqApproval?.hasVerifiedCapacity ? (
-                <Card noPadding>
-                    <div className="flex flex-col gap-y-2 items-center px-4 py-2 bg-gray-200">
-                        <Typography
-                            variant="label"
-                            color="text-red-500"
-                            block
-                            medium
-                            center
-                        >
-                            Please verify the workplace student capacity prior
-                            to student placement confirmation.
-                        </Typography>
-                        <div className="col-span-2 flex justify-end gap-x-3">
-                            <Button
-                                variant="success"
-                                text="Capacity Verified"
-                                disabled={role === UserRoles.RTO}
-                                onClick={onWorkplaceConfirmCapacity}
-                            />
-                            <Button
-                                text="Skip this workplace"
-                                variant="primary"
-                                disabled={role === UserRoles.RTO}
-                                onClick={onSkipCurrentWPApplyAnotherWP}
-                            />
-                        </div>
-                    </div>
-                </Card>
+                <VerifyCapacityComponent wpReqApproval={wpReqApproval} />
             ) : (
                 <div className="grid grid-cols-3 gap-x-6 items-center border-b border-[#F7910F] px-4 py-2">
                     <Typography variant="label" semibold block capitalize>
