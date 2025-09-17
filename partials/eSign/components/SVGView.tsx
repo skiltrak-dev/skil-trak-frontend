@@ -1,16 +1,15 @@
 import { Button, TechnicalError, Typography } from '@components'
-import { CommonApi } from '@queries'
-import { useRouter } from 'next/router'
-import { useEffect, useRef, useState, KeyboardEvent } from 'react'
-import Skeleton from 'react-loading-skeleton'
-import { Waypoint } from 'react-waypoint'
-import { TabsView } from './TabsView/TabsView'
-import { DocumentScrollArrow } from './DocumentScrollArrow'
-import { FieldsTypeEnum } from '@components/Esign/components/SidebarData'
-import { MdCancel } from 'react-icons/md'
-import { isBrowser } from '@utils'
-import { useMediaQuery } from 'react-responsive'
 import { MediaQueries } from '@constants'
+import { CommonApi } from '@queries'
+import { isBrowser } from '@utils'
+import { useRouter } from 'next/router'
+import { KeyboardEvent, useEffect, useRef, useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
+import { useMediaQuery } from 'react-responsive'
+import { Waypoint } from 'react-waypoint'
+import { DocumentScrollArrow } from './DocumentScrollArrow'
+import { FinishDocumentModal } from './FinishDocumentModal'
+import { TabsView } from './TabsView/TabsView'
 
 export const SVGView = ({
     scrollToPage,
@@ -69,21 +68,21 @@ export const SVGView = ({
 
     const doc = documentSvgData?.data?.data
 
-    useEffect(() => {
-        if (customFieldsSelectedId < sortedPositions?.length) {
-            scrollToPage(
-                Number(sortedPositions?.[customFieldsSelectedId]?.id),
-                sortedPositions?.[customFieldsSelectedId]?.number - 1
-            )
-        } else if (customFieldsSelectedId <= 0) {
-            scrollToPage(-1, documentData?.pageCount - 1, 'end')
-        }
-    }, [
-        documentData?.pageCount,
-        isLastSelected,
-        customFieldsSelectedId,
-        customFieldsSelectedId < sortedPositions?.length - 1 ? doc : null,
-    ])
+    // useEffect(() => {
+    //     if (customFieldsSelectedId < sortedPositions?.length) {
+    //         scrollToPage(
+    //             Number(sortedPositions?.[customFieldsSelectedId]?.id),
+    //             sortedPositions?.[customFieldsSelectedId]?.number - 1
+    //         )
+    //     } else if (customFieldsSelectedId <= 0) {
+    //         scrollToPage(-1, documentData?.pageCount - 1, 'end')
+    //     }
+    // }, [
+    //     documentData?.pageCount,
+    //     isLastSelected,
+    //     customFieldsSelectedId,
+    //     customFieldsSelectedId < sortedPositions?.length - 1 ? doc : null,
+    // ])
 
     const handleFocus = () => {
         if (documentSvgData?.isSuccess && doc) {
@@ -105,9 +104,9 @@ export const SVGView = ({
         }
     }
 
-    useEffect(() => {
-        handleFocus()
-    }, [customFieldsSelectedId, documentSvgData])
+    // useEffect(() => {
+    //     handleFocus()
+    // }, [customFieldsSelectedId, documentSvgData])
 
     useEffect(() => {
         const parser = new DOMParser()
@@ -292,97 +291,15 @@ export const SVGView = ({
                         customFieldsSelectedId <= 0) &&
                     showEndDocument &&
                     isLastSelected ? (
-                        <div
-                            id={'finishSign'}
-                            className="w-full absolute h-full bg-[#00000050]"
-                        >
-                            <div className="flex flex-col gap-y-2 bg-white w-full lg:w-[500px] p-5 rounded-md bottom-6 lg:bottom-16 absolute left-1/2 -translate-x-1/2">
-                                <MdCancel
-                                    onClick={onCancelFinishSign}
-                                    className="transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
-                                />
-                                {remainingFields?.length > 0 ? (
-                                    <Typography
-                                        center
-                                        variant={isMobile ? 'small' : 'label'}
-                                    >
-                                        <span className="text-[13px]">
-                                            It appears you did not fill in all
-                                            the required fields. Please ensure
-                                            all fields are completed before
-                                            finalizing your e-signature.
-                                        </span>
-                                    </Typography>
-                                ) : (
-                                    <>
-                                        <Typography center variant="label">
-                                            <span className="text-[13px]">
-                                                Thank you for completing all the
-                                                required fields. To finalize
-                                                your e-signature, please click
-                                                the button below
-                                            </span>
-                                        </Typography>
-                                        <Typography center variant="label">
-                                            <span className="text-[13px]">
-                                                <span className="font-semibold">
-                                                    Important Note:
-                                                </span>{' '}
-                                                Once you click "Finish," your
-                                                e-signature will be legally
-                                                binding, and you will not be
-                                                able to make further changes to
-                                                the document.
-                                            </span>
-                                        </Typography>
-                                    </>
-                                )}
-
-                                <div className="flex items-center gap-x-3">
-                                    <div className="w-full h-11">
-                                        <Button
-                                            variant={
-                                                customFieldsData &&
-                                                customFieldsData?.length > 0
-                                                    ? 'primary'
-                                                    : 'secondary'
-                                            }
-                                            disabled={
-                                                remainingFields?.length > 0
-                                            }
-                                            fullHeight
-                                            fullWidth
-                                            onClick={() => {
-                                                if (
-                                                    customFieldsData &&
-                                                    customFieldsData?.length > 0
-                                                ) {
-                                                    onFinishSignModal()
-                                                }
-                                            }}
-                                            text={'Finish Signing'}
-                                        />
-                                    </div>
-                                    {remainingFields?.length > 0 ? (
-                                        <div className="w-full h-11">
-                                            <Button
-                                                onClick={() => {
-                                                    const r0 =
-                                                        remainingFields?.[0]
-                                                    onGoToSignFieldIfRemaining(
-                                                        r0
-                                                    )
-                                                }}
-                                                fullHeight
-                                                fullWidth
-                                                outline
-                                                text={'Fill Required Fields'}
-                                            />
-                                        </div>
-                                    ) : null}
-                                </div>
-                            </div>
-                        </div>
+                        <FinishDocumentModal
+                            customFieldsData={customFieldsData}
+                            onCancelFinishSign={onCancelFinishSign}
+                            onFinishSignModal={onFinishSignModal}
+                            onGoToSignFieldIfRemaining={
+                                onGoToSignFieldIfRemaining
+                            }
+                            remainingFields={remainingFields}
+                        />
                     ) : null}
                     {documentSvgData.isError && <TechnicalError />}
                     {documentSvgData?.data ? (

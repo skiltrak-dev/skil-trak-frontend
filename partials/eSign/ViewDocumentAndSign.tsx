@@ -1,6 +1,8 @@
 import {
+    Button,
     Card,
     EmptyData,
+    GlobalModal,
     LoadingAnimation,
     TechnicalError,
     Typography,
@@ -11,7 +13,11 @@ import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { IoMdArrowDropleftCircle } from 'react-icons/io'
-import { DownloadEsignDocument, SVGView } from './components'
+import {
+    DownloadEsignDocument,
+    FinishDocumentModal,
+    SVGView,
+} from './components'
 import { EsignSignatureModal, FinishSignModal } from './modal'
 
 export const ViewDocumentAndSign = () => {
@@ -596,8 +602,44 @@ export const ViewDocumentAndSign = () => {
                                 </div>
                             ))}
                         </div>
+                    </div>
+                    <div className="flex justify-center mt-3 mx-auto w-80 h-14">
+                        <Button
+                            fullHeight
+                            fullWidth
+                            text={'Finish Esign'}
+                            onClick={() => {
+                                setModal(
+                                    <GlobalModal>
+                                        <FinishDocumentModal
+                                            customFieldsData={customFieldsData}
+                                            onCancelFinishSign={() => {
+                                                setModal(null)
+                                                onCancelFinishSign()
+                                            }}
+                                            onFinishSignModal={
+                                                onFinishSignModal
+                                            }
+                                            onGoToSignFieldIfRemaining={(
+                                                e: any
+                                            ) => {
+                                                onGoToSignFieldIfRemaining(e)
+                                                setModal(null)
+                                            }}
+                                            remainingFields={sortedPositions?.filter(
+                                                (field: any) =>
+                                                    !field?.fieldValue &&
+                                                    field?.required
+                                            )}
+                                            asModal
+                                        />
+                                    </GlobalModal>
+                                )
+                            }}
+                        />
+                    </div>
 
-                        {/* {showSignersField && (
+                    {/* {showSignersField && (
                             <div className="hidden lg:block sticky top-0 bg-white h-[85vh]">
                                 <div className="p-3 flex justify-end">
                                     <FaRegTimesCircle
@@ -619,7 +661,7 @@ export const ViewDocumentAndSign = () => {
                                 />
                             </div>
                         )} */}
-                    </div>
+
                     {/* <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
                         <button
                             className={`${

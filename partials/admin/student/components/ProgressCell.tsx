@@ -154,6 +154,7 @@ const WorkplaceRequestProgress = (appliedIndustry?: any) => {
 
 export const ProgressCell = ({
     documentInitiates,
+    wpCreatedAt,
     studentId,
     status,
     step,
@@ -161,6 +162,7 @@ export const ProgressCell = ({
     appliedIndustry,
     studentProvidedWorkplace,
 }: {
+    wpCreatedAt?: Date | undefined
     studentId?: number
     status?: WorkplaceRequestStatus
     step:
@@ -268,6 +270,12 @@ export const ProgressCell = ({
                             ? 'Student Provided Workplace'
                             : ''}
                     </p>
+                    {wpCreatedAt && (
+                        <Typography variant="xs">
+                            Wp CreatedAt :{' '}
+                            {moment(wpCreatedAt).format('Do MMM YYYY')}
+                        </Typography>
+                    )}
                     {currentStatus?.date && (
                         <Typography>
                             <span className="text-[10px] font-semibold">
