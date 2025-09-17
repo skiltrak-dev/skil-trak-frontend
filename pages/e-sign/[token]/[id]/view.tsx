@@ -1,6 +1,8 @@
 import {
+    Button,
     Card,
     EmptyData,
+    GlobalModal,
     LoadingAnimation,
     ShowErrorNotifications,
     TechnicalError,
@@ -14,7 +16,7 @@ import {
     EsignSignatureModal,
     FinishEmailSignModal,
 } from '@partials/eSign/modal'
-import { SVGView } from '@partials/eSign/components'
+import { FinishDocumentModal, SVGView } from '@partials/eSign/components'
 import { CommonApi } from '@queries'
 import jwt from 'jwt-decode'
 import { useRouter } from 'next/router'
@@ -594,6 +596,45 @@ const ESign = () => {
                                     }
                                 />
                             </div> */}
+                        </div>{' '}
+                        <div className="flex justify-center mt-3 mx-auto w-80 h-14">
+                            <Button
+                                fullHeight
+                                fullWidth
+                                text={'Finish Esign'}
+                                onClick={() => {
+                                    setModal(
+                                        <GlobalModal>
+                                            <FinishDocumentModal
+                                                customFieldsData={
+                                                    customFieldsData
+                                                }
+                                                onCancelFinishSign={() => {
+                                                    setModal(null)
+                                                    onCancelFinishSign()
+                                                }}
+                                                onFinishSignModal={
+                                                    onSaveCustomFieldsValue
+                                                }
+                                                onGoToSignFieldIfRemaining={(
+                                                    e: any
+                                                ) => {
+                                                    onGoToSignFieldIfRemaining(
+                                                        e
+                                                    )
+                                                    setModal(null)
+                                                }}
+                                                remainingFields={sortedPositions?.filter(
+                                                    (field: any) =>
+                                                        !field?.fieldValue &&
+                                                        field?.required
+                                                )}
+                                                asModal
+                                            />
+                                        </GlobalModal>
+                                    )
+                                }}
+                            />
                         </div>
                         {/* <div className="flex justify-center bg-white px-5 py-2 shadow-md w-full rounded my-2">
                             <button

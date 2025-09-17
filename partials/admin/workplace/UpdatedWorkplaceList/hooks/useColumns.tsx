@@ -31,6 +31,7 @@ export const useColumns = () => {
             header: () => <span>Workplace Name</span>,
             cell: (info) => (
                 <IndustryDetail
+                    createdAt={info?.row?.original?.createdAt}
                     industries={info?.row?.original?.industries}
                     workplaceApprovaleRequest={
                         info?.row?.original?.workplaceApprovaleRequest

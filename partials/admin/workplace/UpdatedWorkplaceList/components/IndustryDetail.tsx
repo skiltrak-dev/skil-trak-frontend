@@ -1,12 +1,15 @@
 import { Typography } from '@components'
 import { ellipsisText } from '@utils'
+import moment from 'moment'
 import Link from 'next/link'
 import React from 'react'
 
 export const IndustryDetail = ({
     industries,
+    createdAt,
     workplaceApprovaleRequest,
 }: {
+    createdAt?: string
     workplaceApprovaleRequest: any
     industries: any
 }) => {
@@ -39,6 +42,10 @@ export const IndustryDetail = ({
                                         ?.user?.name,
                                 30
                             )}
+                        </Typography>
+                        <Typography variant="xxs" semibold whiteSpacePre>
+                            WP Created At :{' '}
+                            {moment(createdAt).format('DD-MMM-YYYY')}
                         </Typography>
                     </div>
                     <Link

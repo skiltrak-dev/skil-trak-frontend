@@ -36,6 +36,7 @@ export const useColumns = () => {
                 )
                 return (
                     <IndustryDetail
+                        createdAt={info?.row?.original?.createdAt}
                         industries={info?.row?.original?.industries}
                         workplaceApprovaleRequest={
                             info?.row?.original?.workplaceApprovaleRequest

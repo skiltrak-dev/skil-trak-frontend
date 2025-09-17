@@ -146,6 +146,7 @@ export const CaseOfficerAssignedStudent = ({
                         updatedWorkplace?.byExistingAbn
                     }
                     documentInitiates={documentInitiates}
+                    wpCreatedAt={updatedWorkplace?.createdAt}
                 />
             ) : student?.workplace && student?.workplace?.length > 0 ? (
                 <ProgressCell
@@ -158,6 +159,7 @@ export const CaseOfficerAssignedStudent = ({
                         updatedWorkplace?.byExistingAbn
                     }
                     documentInitiates={documentInitiates}
+                    wpCreatedAt={updatedWorkplace?.createdAt}
                 />
             ) : industries?.length > 0 ? (
                 <StudentStatusProgressCell
@@ -193,6 +195,7 @@ export const CaseOfficerAssignedStudent = ({
                             updatedWorkplace?.byExistingAbn
                         }
                         documentInitiates={documentInitiates}
+                        wpCreatedAt={updatedWorkplace?.createdAt}
                     />
                 ) : (
                     <ProgressCell
@@ -207,6 +210,7 @@ export const CaseOfficerAssignedStudent = ({
                             updatedWorkplace?.byExistingAbn
                         }
                         documentInitiates={documentInitiates}
+                        wpCreatedAt={updatedWorkplace?.createdAt}
                     />
                 )
             ) : // <StudentStatusProgressCell
@@ -239,6 +243,7 @@ export const CaseOfficerAssignedStudent = ({
                         updatedWorkplace?.byExistingAbn
                     }
                     documentInitiates={documentInitiates}
+                    wpCreatedAt={updatedWorkplace?.createdAt}
                 />
             ) : (
                 <ProgressCell
@@ -251,6 +256,7 @@ export const CaseOfficerAssignedStudent = ({
                         updatedWorkplace?.byExistingAbn
                     }
                     documentInitiates={documentInitiates}
+                    wpCreatedAt={updatedWorkplace?.createdAt}
                 />
             )}
             <div className="flex items-center justify-between gap-x-2 mt-1">
