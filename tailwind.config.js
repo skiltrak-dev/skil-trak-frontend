@@ -175,6 +175,9 @@ module.exports = {
     ],
     theme: {
         extend: {
+            textShadow: {
+                inner: '0 2px 4px #00000040',
+            },
             boxShadow: {
                 ...boxShadow,
             },

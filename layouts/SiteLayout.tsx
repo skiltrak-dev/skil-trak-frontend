@@ -1,5 +1,5 @@
 import { DisplayNotifications } from '@components'
-import { Footer4 } from '@components/site'
+import { Footer4, FooterVIII } from '@components/site'
 import { Navbar2 } from '@components/site/navbar'
 import TawkMessengerReact from '@tawk.to/tawk-messenger-react'
 import Head from 'next/head'
@@ -55,6 +55,7 @@ export const SiteLayout = ({ children, title }: any) => {
             <DisplayNotifications />
             <main>{children}</main>
             <Footer4 />
+            {/* <FooterVIII /> */}
             <div>
                 <TawkMessengerReact
                     propertyId={'61b1f52ec82c976b71c091e2'}

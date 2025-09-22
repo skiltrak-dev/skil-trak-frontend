@@ -786,3 +786,35 @@ img {
         padding: 20px 0;
     }
 }
+
+/* V3 */
+@keyframes moveDot {
+    0% {
+        offset-distance: 0%;
+    }
+    100% {
+        offset-distance: 100%;
+    }
+}
+
+.arc-path {
+    offset-path: path(
+        'M 40 150 C 110 20, 250 20, 320 150 C 390 280, 530 280, 600 150 C 670 20, 810 20, 880 150 C 950 280, 1090 280, 1160 150'
+    );
+    offset-rotate: 0deg;
+    animation: moveDot 10s linear infinite;
+}
+
+.float-light-animate {
+    animation: floatLight 3s ease-in-out infinite;
+}
+
+@keyframes floatLight {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
