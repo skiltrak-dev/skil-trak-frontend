@@ -1,0 +1,6 @@
+export * from './AssuredPlacementTitle'
+export * from './AssuredPlacement'
+export * from './AssuredPlacementJourney'
+export * from './CurveLineDotTopSvg'
+export * from './CurveLineDotBottomSvg'
+export * from './FloatingLogos'

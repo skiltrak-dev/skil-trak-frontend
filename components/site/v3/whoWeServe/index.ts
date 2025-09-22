@@ -1,0 +1,5 @@
+export * from './card'
+export * from './WhoWeServe'
+export * from './WhoWeServeTitle'
+export * from './SubTitleWhoWeServe'
+export * from './WhoWeAreSlider'
