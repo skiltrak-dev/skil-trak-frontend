@@ -14,7 +14,6 @@ export const ComposeMailModal = ({
     onCancel: () => void
     workplaceId?: number
 }) => {
-    console.log('workplaceId', workplaceId)
     return (
         <GlobalModal>
             <div className=" w-full md:w-[700px]">

@@ -95,7 +95,7 @@ export const ViewAcademicDocumentsModal = ({
                     ))}
                 </div>
 
-                <div className="mt-3">
+                <div className="mt-3 h-[85vh] md:h-96 lg:h-[500px] overflow-auto">
                     {selectedDocument ? fileView(selectedDocument) : null}
                 </div>
             </div>

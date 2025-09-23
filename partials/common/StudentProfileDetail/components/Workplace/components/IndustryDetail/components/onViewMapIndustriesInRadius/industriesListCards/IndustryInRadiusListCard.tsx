@@ -16,7 +16,6 @@ export const IndustryInRadiusListCard = ({
     onSelect,
     branch = false,
 }: IndustryInRadiusListCardProps) => {
-    console.log('item', item)
     return (
         <div className=" flex items-center justify-between bg-white border rounded-2xl shadow-sm p-4 w-full">
             {/* Left Section: Avatar + Info */}

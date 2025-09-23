@@ -10,7 +10,6 @@ export const Actions = ({ contactId, alreadyContacted, int }: any) => {
     const { notification } = useNotification()
     const [interested, interestedResult] =
         CommonApi.FindWorkplace.useFutureIndustryInterest()
-    console.log(contactId)
     const onClickInterested = async (cId: any) => {
         const response: any = await interested({
             id: String(cId),

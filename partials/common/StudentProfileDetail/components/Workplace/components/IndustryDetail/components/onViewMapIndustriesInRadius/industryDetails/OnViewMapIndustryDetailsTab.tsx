@@ -142,7 +142,6 @@ export const OnViewMapIndustryDetailsTab = ({
             : null
 
     const wasContacted = callLogEntry?.isAnswered !== null
-    console.log('callLogEntry', callLogEntry)
 
     const buttonText = call ? 'Hide' : 'Call'
 

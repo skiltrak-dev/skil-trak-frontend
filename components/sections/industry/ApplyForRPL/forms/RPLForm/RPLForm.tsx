@@ -31,7 +31,6 @@ export const RPLForm = ({
     onBackClicked?: () => void
     industryUserId?: number
 }) => {
-    console.log({ industryUserId })
     const [addRpl, addRplResult] = useAddRplMutation()
     const [isRPLApplied] = useState(false)
     const [iseRPLSaved, setIseRPLSaved] = useState(false)

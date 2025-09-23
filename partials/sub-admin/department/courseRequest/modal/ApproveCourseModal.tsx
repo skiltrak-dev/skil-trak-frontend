@@ -119,8 +119,6 @@ export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
             showErrorNotifications({ isError: true, ...res })
         }
 
-        console.log('Hello')
-
         for (const [key, value] of formData.entries()) {
             console.log(`${key}:`, value)
         }
