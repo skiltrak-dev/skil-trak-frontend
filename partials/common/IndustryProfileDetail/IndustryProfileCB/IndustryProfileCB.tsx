@@ -199,6 +199,7 @@ export const IndustryProfileCB = ({
                                     </Typography>
                                 </button>
                                 <IndustryEsign
+                                    industryId={industry?.id}
                                     industryUserId={industry?.user?.id}
                                 />
                             </div>

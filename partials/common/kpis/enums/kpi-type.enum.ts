@@ -4,4 +4,7 @@ export enum KpiTypesEnum {
     WorkplaceRequest = 'workplaceRequest',
     'Agreement (Workplace Requested)' = 'AgreementByWorkplace',
     Appointment = 'appointment',
+    CapacityDeclined = 'capacityDeclined',
+    CapacityApproved = 'capacityApproved',
+    FavoriteIndustryStudent = 'favoriteIndustryStudent',
 }

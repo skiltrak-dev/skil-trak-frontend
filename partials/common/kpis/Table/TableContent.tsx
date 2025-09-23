@@ -16,7 +16,7 @@ export const TableContent = <T,>({ table }: TableContentProps<T>) => {
                                 <th
                                     key={header.id}
                                     onClick={header.column.getToggleSortingHandler()}
-                                    className={`px-2 py-3 text-left text-xs font-medium text-gray-700 ${
+                                    className={`px-2 py-3 text-left font-medium text-gray-700 ${
                                         header.column.getCanSort()
                                             ? 'cursor-pointer select-none'
                                             : ''

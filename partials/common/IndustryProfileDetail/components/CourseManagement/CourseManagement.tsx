@@ -20,6 +20,7 @@ export const CourseManagement = ({ industry }: { industry: Industry }) => {
             <InitiateIndustryEsignModal
                 onCancel={onCancel}
                 industryUserId={Number(industry?.user?.id)}
+                industryId={industry?.id}
             />
         )
     }

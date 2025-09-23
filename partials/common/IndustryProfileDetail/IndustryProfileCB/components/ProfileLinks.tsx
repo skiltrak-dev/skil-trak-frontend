@@ -1,24 +1,23 @@
-import { TableAction, Typography } from '@components'
+import { TableAction } from '@components'
 import { UserRoles } from '@constants'
 import { useActionModal } from '@hooks'
-import { Industry } from '@types'
+import { MailPasswordModal } from '@partials/common/StudentProfileDetail/modals'
+import { ViewProfileVisitorsModal } from '@partials/common/modal'
+import { SubAdminApi } from '@queries'
+import { Industry, User } from '@types'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
 import { BsThreeDotsVertical, BsUnlockFill } from 'react-icons/bs'
+import { CiUnlock } from 'react-icons/ci'
 import { IoMdEyeOff } from 'react-icons/io'
 import { RiEditFill, RiFootprintFill } from 'react-icons/ri'
 import {
     AcceptingStudentModal,
     AddIndustryQuestionsModal,
+    AddRplModal,
     ViewIndustryAnswersModal,
-    PlacementEligibilityCriteriaModal
 } from '../../modal'
-import { SubAdminApi } from '@queries'
-import { CiUnlock } from 'react-icons/ci'
-import { User } from '@types'
-import { MailPasswordModal } from '@partials/common/StudentProfileDetail/modals'
-import { ViewProfileVisitorsModal } from '@partials/common/modal'
 
 export const ProfileLinks = ({
     isHod,
@@ -69,6 +68,9 @@ export const ProfileLinks = ({
                 onCancel={onCancelModal}
             />
         )
+
+    const onAddRpl = () =>
+        setModal(<AddRplModal industry={industry} onCancel={onCancelModal} />)
 
     const profileLinks = [
         {
@@ -168,6 +170,13 @@ export const ProfileLinks = ({
                 industry?.approvalReviewQuestionCount > 0
                     ? onViewIndustryAnswersClicked()
                     : onAddIndustryAnswersClicked()
+            },
+        },
+        {
+            text: 'Add Rpl',
+            Icon: RiEditFill,
+            onClick: () => {
+                onAddRpl()
             },
         },
     ]

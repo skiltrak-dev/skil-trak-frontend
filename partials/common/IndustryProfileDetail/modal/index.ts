@@ -1,4 +1,5 @@
 export * from './BlockModal'
+export * from './AddRplModal'
 export * from './RejectModal'
 export * from './AcceptModal'
 export * from './DeleteModal'

@@ -416,6 +416,9 @@ export interface AppointmentAchievments extends User {
     progress: number
     targets: Targets
     kpiData: any
+    favoriteIndustryStudent: number
+    capacityApproved: number
+    capacityDeclined: number
 }
 
 export interface Targets {

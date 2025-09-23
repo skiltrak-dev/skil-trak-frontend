@@ -2,8 +2,6 @@ import { LoadingAnimation } from '@components'
 import { SubAdminApi } from '@queries'
 import { Industry } from '@types'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
-import { InitiateIndustryEsignModal } from '../../modal'
 import { CourseCard } from './CourseCard'
 
 export const PendingCourses = ({ industry }: { industry: Industry }) => {

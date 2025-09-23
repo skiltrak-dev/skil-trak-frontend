@@ -5,6 +5,7 @@ interface BadgeProps {
     text: string
     variant?:
         | 'primary'
+        | 'primaryNew'
         | 'secondary'
         | 'accent'
         | 'success'
@@ -49,6 +50,7 @@ export const Badge = ({
 
         // Colors
         'bg-orange-100 text-orange-500': !disabled && variant === 'primary',
+        'bg-primaryNew text-white': !disabled && variant === 'primaryNew',
         'bg-sky-100 text-sky-500': variant === 'secondary',
         'bg-indigo-100 text-indigo-500': !disabled && variant === 'accent',
         'bg-green-100 text-green-500': !disabled && variant === 'success',

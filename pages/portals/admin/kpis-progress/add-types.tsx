@@ -1,10 +1,10 @@
-import { BackButton, Card, Popup, ShowErrorNotifications } from '@components'
-import { PageHeading } from '@components/headings'
-import { AdminLayout } from '@layouts'
-import { AddTypeForm } from '@partials/common'
-import React, { ReactElement } from 'react'
 import { AdminApi } from '@queries'
+import { ReactElement } from 'react'
+import { AdminLayout } from '@layouts'
 import { useNotification } from '@hooks'
+import { AddTypeForm } from '@partials/common'
+import { PageHeading } from '@components/headings'
+import { BackButton, Card, ShowErrorNotifications } from '@components'
 
 const AddTypes = () => {
     const { notification } = useNotification()
