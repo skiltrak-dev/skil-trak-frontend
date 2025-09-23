@@ -25,13 +25,13 @@ export const CountsSection = () => {
     return (
         <div className="">
             <div
-                className="h-[400px] w-full bg-cover bg-center bg-no-repeat flex items-center"
+                className=" h-[400px] w-full bg-cover bg-center bg-no-repeat flex items-center "
                 style={{
                     backgroundImage:
-                        'url(/images/site/home-page-v3/counts-bg.png)',
+                        'url(/images/site/home-page-v3/counts-bg.webp)',
                 }}
             >
-                <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-4 gap-6 px-6">
+                <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-4 gap-6 px-6">
                     {counts.map((count, index) => (
                         <div
                             key={index}

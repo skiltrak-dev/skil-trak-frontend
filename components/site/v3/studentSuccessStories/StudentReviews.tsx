@@ -22,13 +22,12 @@ const reviews = [
 
 export const StudentReviews = () => {
     return (
-        <div className="flex flex-col gap-y-40 relative">
+        <div className="flex flex-col gap-y-4 md:gap-y-40 relative px-4 md:px-0">
             {reviews?.map((review, index) => (
                 <div
-                    key={index}
                     className={`rounded-xl ${
                         index === 1
-                            ? 'bg-[#F7A619] absolute -left-20 top-36'
+                            ? 'bg-[#F7A619] md:absolute -left-20 top-36 '
                             : 'bg-[#D9D9D9]'
                     } flex items-center p-5 gap-x-5 max-w-[580px]`}
                 >

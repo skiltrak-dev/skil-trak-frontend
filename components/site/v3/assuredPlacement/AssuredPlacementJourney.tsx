@@ -255,6 +255,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { CurveLineDotTopSvg } from './CurveLineDotTopSvg'
 import { CurveLineDotBottomSvg } from './CurveLineDotBottomSvg'
+import { StudentPlacementSteps } from './StudentPlacementSteps'
 
 export const AssuredPlacementJourney = () => {
     // const [progress, setProgress] = useState(0)
@@ -277,9 +278,9 @@ export const AssuredPlacementJourney = () => {
         'T 1050 150' // end (right-center of 4th circle)
 
     return (
-        <div className=" min-h-[500px] max-w-7xl mx-auto mt-20">
-            <div className="relative w-7xl h-[300px] mx-auto">
-                <svg className="absolute top-0 left-0 w-full h-full">
+        <div className="min-h-[500px] md:max-w-7xl md:mx-auto mt-20">
+            <div className="relative md:w-7xl md:h-[300px] md:mx-auto">
+                <svg className="absolute top-0 left-0 w-full h-full hidden md:block">
                     <path
                         d="M 40 150 
              C 110 20, 250 20, 320 150
@@ -296,30 +297,30 @@ export const AssuredPlacementJourney = () => {
                 {/* Curve path Dots top */}
                 <div className="flex flex-col items-center absolute top-6 left-36">
                     <CurveLineDotTopSvg />
-                    <div className="rounded-full flex justify-center items-center border-2 border-black p-0.5 size-4 absolute top-5 left-8">
+                    <div className="hidden  rounded-full md:flex justify-center items-center border-2 border-black p-0.5 size-4 absolute top-5 left-8">
                         <div className="bg-black rounded-full size-2"></div>
                     </div>
                 </div>
                 <div className="flex flex-col items-center absolute top-5 left-[44rem]">
                     <CurveLineDotTopSvg />
-                    <div className="rounded-full flex justify-center items-center border-2 border-black p-0.5 size-4 absolute top-5 left-8">
+                    <div className="hidden  rounded-full md:flex justify-center items-center border-2 border-black p-0.5 size-4 absolute top-5 left-8">
                         <div className="bg-black rounded-full size-2"></div>
                     </div>
                 </div>
                 {/* bottom dots */}
                 <div className="flex flex-col items-center absolute bottom-5 left-[26.5rem]">
                     <CurveLineDotBottomSvg />
-                    <div className="rounded-full flex justify-center items-center border-2 border-black p-0.5 size-4 absolute top-7 left-9">
+                    <div className="hidden rounded-full md:flex justify-center items-center border-2 border-black p-0.5 size-4 absolute top-7 left-9">
                         <div className="bg-black rounded-full size-2"></div>
                     </div>
                 </div>
                 <div className="flex flex-col items-center absolute bottom-5 left-[61.5rem]">
                     <CurveLineDotBottomSvg />
-                    <div className="rounded-full flex justify-center items-center border-2 border-black p-0.5 size-4 absolute top-7 left-9">
+                    <div className="hidden rounded-full md:flex justify-center items-center border-2 border-black p-0.5 size-4 absolute top-7 left-9">
                         <div className="bg-black rounded-full size-2"></div>
                     </div>
                 </div>
-                <div className="flex flex-col items-center absolute top-[5rem] left-[4.5rem]">
+                <div className="hidden md:flex flex-col items-center absolute top-[5rem] left-[4.5rem]">
                     <div
                         className={`bg-[radial-gradient(50%_50%_at_50%_50%,#044866_90.87%,#0D5468_100%)] shadow-[4px_26px_30px_0_rgba(0,0,0,0.52)] w-52 h-52 rounded-full flex items-center justify-center text-white text-center flex-col `}
                     >
@@ -332,14 +333,14 @@ export const AssuredPlacementJourney = () => {
                         Student Added
                     </div>
                 </div>
-                <div className="flex flex-col items-center absolute top-2 left-[22rem]">
+                <div className="hidden md:flex flex-col items-center absolute top-2 left-[22rem]">
                     <div
                         className={`bg-[radial-gradient(50%_50%_at_50%_50%,#9B2000_90.87%,#6E1700_100%)] shadow-[4px_26px_30px_0_rgba(0,0,0,0.52)] w-52 h-52 rounded-full flex items-center justify-center text-white text-center `}
                     >
                         Case Officer Assigned
                     </div>
                 </div>
-                <div className="flex flex-col items-center absolute top-[5rem] left-[40rem]">
+                <div className="hidden md:flex flex-col items-center absolute top-[5rem] left-[40rem]">
                     <div
                         className={`bg-[radial-gradient(50%_50%_at_50%_50%,#044866_90.87%,#0D5468_100%)] shadow-[4px_26px_30px_0_rgba(0,0,0,0.52)] w-52 h-52 rounded-full flex items-center justify-center text-white text-center flex-col`}
                     >
@@ -352,7 +353,7 @@ export const AssuredPlacementJourney = () => {
                         Compliance and Matched via AI
                     </div>
                 </div>
-                <div className="flex flex-col items-center absolute top-2 left-[57rem]">
+                <div className="hidden md:flex flex-col items-center absolute top-2 left-[57rem]">
                     <div
                         className={`bg-[radial-gradient(50%_50%_at_50%_50%,#044866_90.87%,#0D5468_100%)] shadow-[4px_26px_30px_0_rgba(0,0,0,0.52)] w-52 h-52 rounded-full flex items-center justify-center text-white text-center flex-col`}
                     >
@@ -365,12 +366,13 @@ export const AssuredPlacementJourney = () => {
                         All Paperwork & Follow ups
                     </div>
                 </div>
+                <StudentPlacementSteps />
                 <div
-                    className="absolute arc-path"
+                    className="absolute arc-path hidden md:block"
                     // style={{ offsetDistance: `${progress}%` }}
                 >
                     <Image
-                        src="/images/site/home-page-v3/assured-placement/student-character.svg"
+                        src="/images/site/home-page-v3/assured-placement/student-character.webp"
                         alt="Student"
                         width={60}
                         height={60}
