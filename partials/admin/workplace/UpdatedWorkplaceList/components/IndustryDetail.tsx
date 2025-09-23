@@ -43,10 +43,6 @@ export const IndustryDetail = ({
                                 30
                             )}
                         </Typography>
-                        <Typography variant="xxs" semibold whiteSpacePre>
-                            WP Created At :{' '}
-                            {moment(createdAt).format('DD-MMM-YYYY')}
-                        </Typography>
                     </div>
                     <Link
                         href={`/portals/admin/industry/${

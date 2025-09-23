@@ -7,6 +7,17 @@ export const usePermission = () => {
 
     const { queries, results } = usePermissionQueries()
 
+    const onToggleDistributeIndustries = (subAdmin: SubAdmin) => {
+        queries.industriesAssignment(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Changed Status For Subadmin.`,
+                })
+            }
+        })
+    }
+
     const onIsManagerClicked = (subAdmin: SubAdmin) => {
         queries.toggleManager(subAdmin?.id).then((res: any) => {
             if (res?.data) {
@@ -281,6 +292,7 @@ export const usePermission = () => {
         Actions: {
             onTodoEnabled,
             onIsManagerClicked,
+            onToggleDistributeIndustries,
             onCanViewRtoList,
             onCanViewAllStudentsClicked,
             onAllowRtoListingClicked,

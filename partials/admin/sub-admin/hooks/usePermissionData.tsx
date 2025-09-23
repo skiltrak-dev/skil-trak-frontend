@@ -6,6 +6,7 @@ import { FaSchool } from 'react-icons/fa'
 import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import { usePermission } from '../hooks'
 import { FaArrowsToDot } from 'react-icons/fa6'
+import { LiaIndustrySolid } from 'react-icons/lia'
 
 export const usePermissionData = (subadmin: SubAdmin) => {
     const { Actions, results } = usePermission()
@@ -114,6 +115,14 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             toggle: subadmin?.canAccessRtoProfile,
             isLoading: results?.resultCanViewRTODetail.isLoading,
             Icon: MdOutlineAssignmentReturn,
+        },
+        {
+            key: 'allowIndustryAssignment',
+            text: 'Toggle Distribute Industries',
+            onClick: () => Actions?.onToggleDistributeIndustries(subadmin),
+            toggle: subadmin?.allowIndustryAssignment,
+            isLoading: results?.resultIndustriesAssignment.isLoading,
+            Icon: LiaIndustrySolid,
         },
         {
             key: 'canDownloadReport',

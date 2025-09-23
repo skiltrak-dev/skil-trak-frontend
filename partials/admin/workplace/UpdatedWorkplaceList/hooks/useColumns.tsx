@@ -66,9 +66,16 @@ export const useColumns = () => {
 
         {
             accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
+            header: () => <span>WP Created At</span>,
             cell: ({ row }: any) => (
                 <UserCreatedAt createdAt={row.original?.createdAt} />
+            ),
+        },
+        {
+            accessorKey: 'createdAt',
+            header: () => <span>Student Created At</span>,
+            cell: ({ row }: any) => (
+                <UserCreatedAt createdAt={row.original?.student?.createdAt} />
             ),
         },
     ]

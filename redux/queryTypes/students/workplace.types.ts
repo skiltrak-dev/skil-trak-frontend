@@ -125,5 +125,6 @@ export interface IWorkplaceIndustries {
     questions?: WorkplaceQuestionType[]
     employmentDocument?: EmploymentDocument
     workplaceApprovaleRequest?: RtoApprovalWorkplaceRequest[]
+    latestPendingApproval?: RtoApprovalWorkplaceRequest
     studentProvidedWorkplaceRequestApproval?: StudentProvidedWpAppRequest
 }
