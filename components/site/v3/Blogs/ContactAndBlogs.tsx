@@ -6,9 +6,9 @@ import Image from 'next/image'
 
 export const ContactAndBlogs = () => {
     return (
-        <div className="max-w-7xl mx-auto flex gap-4 my-10">
+        <div className="md:max-w-7xl md:mx-auto flex flex-col md:flex-row gap-4 my-10">
             {/* Left Side - Featured Blogs */}
-            <div className="w-[52%]">
+            <div className="md:w-[52%]">
                 <div className="flex flex-col items-center mb-12">
                     <Typography variant="h2" color="text-[#24556D]">
                         Featured Blogs
@@ -25,13 +25,12 @@ export const ContactAndBlogs = () => {
             </div>
 
             {/* Divider */}
-            <div className="relative h-96 bg-red-500">
+            <div className="relative h-96 bg-red-500 hidden md:inline-block">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-96 bg-[#9B2000]" />
             </div>
 
-
             {/* Right Side - Contact Us */}
-            <div className="w-[48%] flex justify-end items-center">
+            <div className="md:w-[48%] flex md:justify-end justify-center items-center">
                 <div className="">
                     <div className="flex flex-col items-center mb-12">
                         <Typography variant="h2" color="text-[#24556D]">

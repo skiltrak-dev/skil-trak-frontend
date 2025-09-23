@@ -128,7 +128,7 @@ const australiaGrid: number[][] = [
 
 export const AustraliaMap = () => {
     return (
-        <div className="inline-block">
+        <div className="w-96 md:w-full overflow-x-auto md:overflow-hidden">
             {australiaGrid.map((row, rowIndex) => (
                 <div key={rowIndex} className="flex">
                     {row.map((cell, colIndex) => {

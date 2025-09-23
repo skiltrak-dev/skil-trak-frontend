@@ -27,7 +27,7 @@ export const ContactUsV3 = () => {
             {/* */}
 
             <div className="relative">
-                <div className="rounded-[21px] w-52 opacity-80 bg-gradient-to-r from-[#9B2000] to-[#FEFEFE] absolute -left-44 top-16 z-10 px-2 py-4">
+                <div className="rounded-[21px] md:inline-block hidden w-52 opacity-80 bg-gradient-to-r from-[#9B2000] to-[#FEFEFE] absolute -left-44 top-16 z-10 px-2 py-4">
                     {/* content */}
                     <div className="space-y-2 mb-6 text-center">
                         <Typography variant="h4" color="text-white" center>
@@ -47,7 +47,7 @@ export const ContactUsV3 = () => {
                 <div className={'absolute -top-10 -left-20 -z-10'}>
                     <Image
                         src={
-                            '/images/site/home-page-v3/blogs-contact-us/contact-us-moon.png'
+                            '/images/site/home-page-v3/blogs-contact-us/contact-us-moon.webp'
                         }
                         alt={''}
                         width={0}

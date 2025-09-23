@@ -12,24 +12,26 @@ export const WhoWeServe = () => {
                 className="relative min-h-[600px] flex flex-col py-16"
                 style={{
                     backgroundImage:
-                        'url(/images/site/home-page-v3/who-we-serve/who-we-serve-bg.png)',
+                        'url(/images/site/home-page-v3/who-we-serve/who-we-serve-bg.webp)',
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    // backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                 }}
             >
-                <div className="max-w-7xl mx-auto">
-                    <WhoWeServeTitle />
-                    <WhoWeServeCard />
-                    <div className="flex items-center justify-between gap-x-14 w-full mt-40">
+                <div className="md:max-w-7xl md:mx-auto ">
+                    <div className="px-4 md:px-0">
+                        <WhoWeServeTitle />
+                        <WhoWeServeCard />
+                    </div>
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-x-14 w-full mt-20 md:mt-40">
                         <div className="flex flex-col gap-y-2 w-3/5">
                             <SubTitleWhoWeServe />
                             <WhoWeAreSlider />
                         </div>
-                        <div className="w-2/5 relative">
+                        <div className="md:w-2/5 relative">
                             <Image
                                 src={
-                                    'images/site/home-page-v3/who-we-serve/icons/icons-image.png'
+                                    'images/site/home-page-v3/who-we-serve/icons/icons-image.webp'
                                 }
                                 alt="Shapes"
                                 width={400}

@@ -4,8 +4,8 @@ import React from 'react'
 
 export const CollabAddOnsTitle = () => {
     return (
-        <div className="mx-auto flex justify-center flex-col max-w-7xl items-center ">
-            <div className="flex flex-col items-center justify-center gap-x-2 ml-16 w-3/5 mt-6">
+        <div className="md:mx-auto flex justify-center flex-col md:max-w-7xl items-center ">
+            <div className="flex flex-col items-center justify-center gap-x-2 md:ml-16 md:w-3/5 mt-6 px-4 md:px-0">
                 {/* <span className="bg-[#9B2000] w-12 h-[2px]"></span> */}
                 <Typography variant="title" semibold color="text-[#9B2000]">
                     Become a Premium Partner with SkilTrak

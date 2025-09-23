@@ -51,7 +51,7 @@ const FlowingRibbon = () => {
     }))
 
     return (
-        <div className="w-full h-96  overflow-hidden relative ">
+        <div className="w-full h-96  overflow-hidden relative hidden md:block">
             <svg
                 width="100%"
                 height="100%"

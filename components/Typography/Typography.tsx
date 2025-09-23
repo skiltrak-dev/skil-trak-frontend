@@ -1,10 +1,10 @@
 import { createElement, ReactNode } from 'react'
 
 const TypographyOptions = {
-    h1: { className: `text-4xl font-bold`, element: 'h1' },
-    h2: { className: `text-3xl font-bold`, element: 'h2' },
+    h1: { className: `text-2xl md:text-4xl font-bold`, element: 'h1' },
+    h2: { className: `text-xl md:text-3xl font-bold`, element: 'h2' },
     h3: { className: `text-xl md:text-2xl font-bold`, element: 'h3' },
-    h4: { className: `text-xl font-bold`, element: 'h4' },
+    h4: { className: `text-base md:text-xl font-bold`, element: 'h4' },
     body: { className: `text-base text-normal`, element: 'p' },
     title: { className: `text-lg font-semibold`, element: 'p' },
     subtitle: { className: `text-base font-medium`, element: 'p' },

@@ -63,15 +63,16 @@ export const WhoWeAreSlider = () => {
                     clickable: true,
                     bulletClass: 'who-we-are-bullet',
                     bulletActiveClass: 'who-we-are-bullet-active',
-                    renderBullet: (index:any, className:any) => {
+                    renderBullet: (index: any, className: any) => {
                         return `<span class="${className} w-3 h-3 rounded-full inline-block mx-1.5 cursor-pointer transition-all duration-300"></span>`
                     },
                 }}
                 spaceBetween={30}
                 slidesPerView={1}
                 breakpoints={{
-                    768: { slidesPerView: 2 },
-                    1024: { slidesPerView: 3 },
+                    640: { slidesPerView: 1, spaceBetween: 20 },
+                    768: { slidesPerView: 2, spaceBetween: 25 },
+                    1024: { slidesPerView: 3, spaceBetween: 30 },
                 }}
                 className="mb-6"
                 onSwiper={(swiper: any) => {
@@ -84,9 +85,9 @@ export const WhoWeAreSlider = () => {
                     }
                 }}
             >
-                {sliderData.map((item:any, index:any) => (
-                    <SwiperSlide key={index}>
-                        <div className="bg-white h-[220px] shadow-[0_10px_20px_rgba(0,0,0,0.1)] rounded-3xl p-4 flex flex-col items-center text-center relative">
+                {sliderData.map((item: any, index: any) => (
+                    <SwiperSlide key={index} className=''>
+                        <div className="bg-white h-[220px] shadow-[0_10px_20px_rgba(0,0,0,0.1)] rounded-3xl p-4 flex flex-col justify-center items-center text-center relative">
                             {/* Icon */}
                             <div className="mb-4">
                                 <Image
@@ -115,7 +116,7 @@ export const WhoWeAreSlider = () => {
             </Swiper>
 
             {/* Custom Pagination positioned at bottom center */}
-            <div className="w-full flex justify-center">
+            <div className="w-full">
                 <div
                     ref={paginationRef}
                     className="flex items-center justify-center gap-1"

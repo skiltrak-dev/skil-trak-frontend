@@ -9,7 +9,7 @@ export const AssuredPlacement = () => {
     return (
         <div>
             <div
-                className="w-full  object-cover bg-no-repeat"
+                className="w-full object-cover bg-no-repeat"
                 // className="h-[400px] w-full bg-cover bg-center bg-no-repeat flex items-center"
                 style={{
                     backgroundImage:
@@ -20,11 +20,11 @@ export const AssuredPlacement = () => {
                     <AssuredPlacementTitle />
 
                     <AssuredPlacementJourney />
-                    <div className="flex items-center max-w-7xl mx-auto gap-6 ">
+                    <div className="flex flex-col md:flex-row justify-center md:justify-normal items-center md:max-w-7xl md:mx-auto gap-6 ">
                         <div className="">
                             <AustraliaMap />
                         </div>
-                        <div className="w-1/2">
+                        <div className="md:w-1/2 w-full">
                             <FloatingLogos />
                         </div>
                     </div>

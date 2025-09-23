@@ -6,7 +6,7 @@ import {
     HeroSection,
     StudentSuccessStories,
     TrustedByMarquee,
-    WhoWeServe
+    WhoWeServe,
 } from '@components/site'
 import { SiteLayout } from '@layouts'
 import TechnicalPartners from '@partials/frontPages/home2/TechnicalPartners/TechnicalPartners'
@@ -19,7 +19,7 @@ const HomeV3: NextPageWithLayout = () => {
     return (
         <>
             <HeroSection />
-            <TrustedByMarquee />
+            {/* <TrustedByMarquee /> */}
             <WhoWeServe />
             <CountsSection />
             <AssuredPlacement />
