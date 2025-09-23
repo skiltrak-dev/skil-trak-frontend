@@ -22,7 +22,6 @@ export const FavByCoordinator = () => {
             </GlobalModal>
         )
     }
-    console.log('data', data)
     return (
         <>
             {modal && modal}

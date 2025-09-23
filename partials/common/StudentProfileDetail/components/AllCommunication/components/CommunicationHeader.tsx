@@ -47,8 +47,6 @@ export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
         )
     }
 
-    console.log({ selectedWorkplace })
-
     return (
         <>
             {modal}

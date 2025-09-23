@@ -13,7 +13,6 @@ import { PageHeading } from '@components/headings'
 import {
     ActionButton,
     AppointmentTypeFilters,
-    Button,
     Card,
     EmptyData,
     Filter,
@@ -27,7 +26,7 @@ import {
 import { DocumentsView, useNavbar } from '@hooks'
 import { DeleteRplModal, ViewAcademicDocumentsModal } from '@partials/admin/Rpl'
 import Link from 'next/link'
-import { FaFileExport, FaTrash } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
 import { MdEmail, MdPhoneIphone } from 'react-icons/md'
 
 type Props = {}
@@ -98,12 +97,14 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                 const { industry } = row.original
                 return (
                     <Link href={`#`} className="flex items-center gap-x-2">
-                        <div className="shadow-inner-image rounded-full relative">
-                            <InitialAvatar
-                                name={industry?.user?.name}
-                                imageUrl={industry?.user?.avatar}
-                            />
-                        </div>
+                        {industry?.user?.name && (
+                            <div className="shadow-inner-image rounded-full relative">
+                                <InitialAvatar
+                                    name={industry?.user?.name}
+                                    imageUrl={industry?.user?.avatar}
+                                />
+                            </div>
+                        )}
                         <div>
                             <p className="font-semibold">
                                 {industry?.user?.name}
