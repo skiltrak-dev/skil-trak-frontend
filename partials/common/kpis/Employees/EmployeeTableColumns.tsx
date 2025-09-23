@@ -24,6 +24,7 @@ import { MetricsHeader } from '../Common/MetricsHeader'
 import { SerialNumber } from '../Common/SerialNumber'
 import { DataTable } from '../Table'
 import Link from 'next/link'
+import { EmployeeHeader } from './EmployeeHeader'
 
 interface MetricsConfig {
     accessorKey: string
@@ -131,7 +132,7 @@ export const EmployeeTableColumns = ({
     const columns: ColumnDef<KpiTarget>[] = [
         {
             accessorKey: 'id',
-            header: 'S.No',
+            header: () => <EmployeeHeader header={'S.No'} />,
             cell: (info) => (
                 <SerialNumber
                     row={info?.row}
@@ -142,7 +143,7 @@ export const EmployeeTableColumns = ({
         },
         {
             accessorKey: 'name',
-            header: 'Employee',
+            header: () => <EmployeeHeader header={'Employee'} />,
             enableSorting: false,
             cell: ({ row }) => (
                 <Link
@@ -166,7 +167,7 @@ export const EmployeeTableColumns = ({
         },
         {
             accessorKey: 'department',
-            header: 'Department',
+            header: () => <EmployeeHeader header={'Department'} />,
             cell: ({ row }) => (
                 <span className="text-xs">
                     {row.original?.departmentMember?.department?.name || '---'}
@@ -176,7 +177,7 @@ export const EmployeeTableColumns = ({
         },
         {
             accessorKey: 'kpiScore',
-            header: 'KPI',
+            header: () => <EmployeeHeader header={'KPI'} />,
             cell: ({ row }) => (
                 <CircularProgress
                     value={Math.round(row?.original?.user?.progress || 0)}
@@ -187,10 +188,16 @@ export const EmployeeTableColumns = ({
         ...metricsColumns,
         {
             accessorKey: 'departmentMember.subadmin.assignStudents',
-            header: 'Assigned Students',
+            header: () => <EmployeeHeader header={'Assigned Students'} />,
             cell: ({ row }) => (
                 <div className="flex items-center justify-center">
-                    <Typography variant="label" medium color="text-gray-500">
+                    <Typography
+                        variant="label"
+                        medium
+                        center
+                        block
+                        color="text-gray-500"
+                    >
                         {
                             row?.original?.departmentMember.subadmin
                                 .assignStudents
@@ -201,8 +208,37 @@ export const EmployeeTableColumns = ({
             enableSorting: false,
         },
         {
+            accessorKey: 'favoriteIndustryStudent',
+            header: () => (
+                <EmployeeHeader header={'Favorite Industry Student'} />
+            ),
+            cell: (info) => (
+                <Typography variant="label" center block color="text-gray-500">
+                    {info?.row?.original?.user?.favoriteIndustryStudent}
+                </Typography>
+            ),
+        },
+        {
+            accessorKey: 'capacityApproved',
+            header: () => <EmployeeHeader header={'Capacity Approved'} />,
+            cell: (info) => (
+                <Typography variant="label" center block color="text-gray-500">
+                    {info?.row?.original?.user?.capacityApproved}
+                </Typography>
+            ),
+        },
+        {
+            accessorKey: 'capacityDeclined',
+            header: () => <EmployeeHeader header={'Capacity Declined'} />,
+            cell: (info) => (
+                <Typography variant="label" center block color="text-gray-500">
+                    {info?.row?.original?.user?.capacityDeclined}
+                </Typography>
+            ),
+        },
+        {
             accessorKey: 'verified',
-            header: 'Verified by HOD',
+            header: () => <EmployeeHeader header={'Verified by HOD'} />,
             cell: ({ row }) => (
                 <div className="flex items-center justify-center">
                     <MdVerified
@@ -214,7 +250,6 @@ export const EmployeeTableColumns = ({
                     />
                 </div>
             ),
-            enableSorting: false,
         },
 
         {
@@ -233,7 +268,6 @@ export const EmployeeTableColumns = ({
                     />
                 </div>
             ),
-            enableSorting: false,
         },
     ]
 

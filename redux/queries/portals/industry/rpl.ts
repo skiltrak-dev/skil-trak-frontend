@@ -13,7 +13,7 @@ export const rplEndpoints = (
         query: (body) => ({
             url: `${PREFIX}/rpl/add`,
             method: 'POST',
-            body: body,
+            body,
         }),
         invalidatesTags: ['RPL'],
     }),

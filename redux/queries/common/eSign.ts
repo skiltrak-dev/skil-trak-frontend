@@ -91,6 +91,12 @@ export const eSignEndpoints = (
         }),
         providesTags: ['E-Sign'],
     }),
+
+    getIndustryAllEsignList: builder.query<any, number>({
+        query: (id) => `${PREFIX}/industry/${id}/docs`,
+        providesTags: ['E-Sign'],
+    }),
+
     getIndustryEsignDetail: builder.query<any, number>({
         query: (id) => `${PREFIX}/facility-checklist/template/${id}/view`,
         providesTags: ['E-Sign'],

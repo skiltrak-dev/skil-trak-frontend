@@ -10,6 +10,7 @@ import {
     Button,
     Card,
     Popup,
+    ShowErrorNotifications,
     TextArea,
     Typography,
 } from '@components'
@@ -23,7 +24,14 @@ import { UploadRPLDocs } from './components'
 import { useAddRplMutation } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-export const RPLForm = () => {
+export const RPLForm = ({
+    onBackClicked,
+    industryUserId,
+}: {
+    onBackClicked?: () => void
+    industryUserId?: number
+}) => {
+    console.log({ industryUserId })
     const [addRpl, addRplResult] = useAddRplMutation()
     const [isRPLApplied] = useState(false)
     const [iseRPLSaved, setIseRPLSaved] = useState(false)
@@ -86,9 +94,11 @@ export const RPLForm = () => {
     const onSubmit = async (values: any) => {
         const formData = new FormData()
         const { academicDocuments, ...rest } = values
-        Object.keys(rest).forEach((file: any) => {
-            formData.append(file, values[file])
-        })
+        Object.entries({ ...rest, userId: industryUserId }).forEach(
+            ([key, value]: any) => {
+                formData.append(key, value)
+            }
+        )
         values?.academicDocuments?.forEach((file: any) => {
             formData.append('academicDocuments', file)
         })
@@ -96,11 +106,13 @@ export const RPLForm = () => {
     }
     return (
         <>
-            <BackButton
-                link={'/portals/industry/tasks'}
-                text={'Back To RPL Instructions'}
-            />
-            {/* <ShowErrorNotifications result={addRplResult} /> */}
+            {!onBackClicked && (
+                <BackButton
+                    link={'/portals/industry/tasks'}
+                    text={'Back To RPL Instructions'}
+                />
+            )}
+            <ShowErrorNotifications result={addRplResult} />
             {iseRPLSaved && (
                 <div className="w-full fixed top-1/2 left-1/3 -translate-y-1/2 z-50">
                     <div className="max-w-465">
@@ -119,9 +131,13 @@ export const RPLForm = () => {
                     description={'Your RPL has been submitted successfully.'}
                     variant={'primary'}
                     primaryAction={{
-                        text: 'Back To List',
+                        text: 'Go Back',
                         onClick: () => {
-                            router.push(`/portals/industry`)
+                            if (onBackClicked) {
+                                onBackClicked()
+                            } else {
+                                router.push(`/portals/industry`)
+                            }
                         },
                     }}
                 />
@@ -173,6 +189,7 @@ export const RPLForm = () => {
                                                 label={'Job Description'}
                                                 name={'jobDescription'}
                                                 validationIcons
+                                                rows={6}
                                             />
                                         </div>
                                     </div>

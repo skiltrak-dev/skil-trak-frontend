@@ -1,28 +1,18 @@
-import {
-    Button,
-    GlobalModal,
-    LoadingAnimation,
-    NoData,
-    Select,
-    SelectOption,
-    ShowErrorNotifications,
-    Typography,
-} from '@components'
-import { useNotification } from '@hooks'
-import { DocumentView } from '@partials/sub-admin'
-import { CommonApi, IndustryApi } from '@queries'
-import { useEffect, useMemo, useState } from 'react'
+import { GlobalModal } from '@components'
+import { useState } from 'react'
 import { MdCancel } from 'react-icons/md'
 import {
     EsignDocuments,
+    IndustryEsignList,
     InitiatedEsignList,
-    InitiateIndustryEsign,
 } from '../components'
 
 export const InitiateIndustryEsignModal = ({
     industryUserId,
+    industryId,
     onCancel,
 }: {
+    industryId?: number
     onCancel: () => void
     industryUserId: number
 }) => {
@@ -32,13 +22,13 @@ export const InitiateIndustryEsignModal = ({
         {
             id: 'initiateIndustryEsign',
             label: 'Initiate Industry Esign',
-            component: InitiateIndustryEsign,
+            component: IndustryEsignList,
         },
-        {
-            id: 'initiatedEsignList',
-            label: 'Initiated Esign List',
-            component: InitiatedEsignList,
-        },
+        // {
+        //     id: 'initiatedEsignList',
+        //     label: 'Initiated Esign List',
+        //     component: InitiatedEsignList,
+        // },
         {
             id: 'esignDocuments',
             label: 'Esign Documents',
@@ -86,6 +76,7 @@ export const InitiateIndustryEsignModal = ({
                             <Component
                                 onCancel={onCancel}
                                 industryUserId={industryUserId}
+                                industryId={industryId}
                             />
                         )}
                     </div>
