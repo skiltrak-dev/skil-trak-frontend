@@ -255,6 +255,7 @@ export interface SubAdmin extends BaseResponse {
     allowIndustryListing: boolean
     allowAutoAssignment: boolean
     canAccessRtoProfile: boolean
+    allowIndustryAssignment: boolean
     canDownloadReport: boolean
     canViewStudentDetails: boolean
     canViewIndustryDetails: boolean

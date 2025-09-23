@@ -38,7 +38,7 @@ export const SubadminStudentIndustries = ({
     }
     const appliedIndustry = studentsListWorkplace()
 
-    const wpApp = latestWP?.workplaceApprovaleRequest?.[0]?.industry
+    const wpApp = latestWP?.latestPendingApproval?.industry
 
     return workplace && workplace?.length > 0 && appliedIndustry ? (
         <IndustryCellInfo onlyName={false} industry={appliedIndustry} />

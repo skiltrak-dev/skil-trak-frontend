@@ -1,18 +1,18 @@
-import { SubAdmin, UserStatus } from '@types'
 import {
     ProfileDetail,
-    SubadminCalendarViewDetail,
-    SubadminProfileCounts,
-    SubadminProgress,
     SubadminReports,
     SubadminTodoList,
+    SubadminProgress,
+    SubadminProfileCounts,
+    SubadminCalendarViewDetail,
 } from './components'
-import { AdminApi } from '@queries'
-import { MailsCommunication } from '@partials/common/StudentProfileDetail/components'
-import { SubadminHistory } from './components/SubadminHistory'
-import { useEffect } from 'react'
 import { useAlert } from '@hooks'
+import { useEffect } from 'react'
+import { AdminApi } from '@queries'
 import { Notes } from '@partials/common'
+import { SubAdmin, UserStatus } from '@types'
+import { SubadminHistory } from './components/SubadminHistory'
+import { MailsCommunication } from '@partials/common/StudentProfileDetail/components'
 
 export const SubadminProfileDetail = ({ subadmin }: { subadmin: SubAdmin }) => {
     const subAdminProfileCount = AdminApi.SubAdmins.useProfileCount(

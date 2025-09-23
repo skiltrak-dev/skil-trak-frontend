@@ -6,7 +6,11 @@ import { BsUnlockFill } from 'react-icons/bs'
 import { IoMdEyeOff } from 'react-icons/io'
 import { PiCellSignalLowFill, PiStudentFill } from 'react-icons/pi'
 import { SubadminStudentsList } from '../SubadminStudentsList'
-import { AllowPermissionModal } from '@partials/admin/sub-admin/modals'
+import {
+    AllowPermissionModal,
+    UpdateFavIndustriesModal,
+} from '@partials/admin/sub-admin/modals'
+import { FaIndustry } from 'react-icons/fa'
 
 export const ProfileLinks = ({ subadmin }: { subadmin: SubAdmin }) => {
     const { passwordModal, onViewPassword, onUpdatePassword } = useActionModal()
@@ -19,6 +23,15 @@ export const ProfileLinks = ({ subadmin }: { subadmin: SubAdmin }) => {
         setModal(
             <AllowPermissionModal
                 subadmin={subadmin}
+                onCancel={onCancelClicked}
+            />
+        )
+    }
+
+    const onUpdateFavIndustries = (subadmin: SubAdmin) => {
+        setModal(
+            <UpdateFavIndustriesModal
+                subAdmin={subadmin}
                 onCancel={onCancelClicked}
             />
         )
@@ -45,6 +58,11 @@ export const ProfileLinks = ({ subadmin }: { subadmin: SubAdmin }) => {
             onClick: () => {
                 setModal(<SubadminStudentsList onCancel={onCancelClicked} />)
             },
+        },
+        {
+            text: 'Update Fav Industries',
+            onClick: () => onUpdateFavIndustries(subadmin),
+            Icon: FaIndustry,
         },
         {
             text: 'Permissions',
