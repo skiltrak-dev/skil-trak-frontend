@@ -1,6 +1,6 @@
 import { InputErrorMessage } from '@components/inputs/components'
 import { useNotification } from '@hooks'
-import React, { useState, useRef, KeyboardEvent } from 'react'
+import React, { KeyboardEvent, useRef, useState } from 'react'
 import { uuid } from 'uuidv4'
 
 // Define interface for tag object
@@ -294,7 +294,7 @@ export const TagsInput = ({
                 )}
             </div>
 
-            {showError ? <InputErrorMessage name={name} /> : null}
+            {showError ? <InputErrorMessage name={name + ''} /> : null}
         </div>
     )
 }
