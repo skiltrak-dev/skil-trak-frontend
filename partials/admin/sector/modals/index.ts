@@ -1,4 +1,6 @@
 export * from './DeleteModal'
+export * from './AddNoteModal'
+export * from './ViewNoteModal'
 export * from './RequirementModal'
 export * from './DeleteCourseModal'
 export * from './DeleteWpTypeModal'

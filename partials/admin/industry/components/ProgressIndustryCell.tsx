@@ -8,9 +8,10 @@ export const ProgressIndustryCell = ({ industry }: { industry: Industry }) => {
             <IndustryCell industry={industry} />
             {Number(industry?.profileCompletionPercentage) ? (
                 <IndustryProgressBar
-                    showPercentage
-                    percentage={Number(industry?.profileCompletionPercentage)}
                     height={12}
+                    showPercentage
+                    missingAttributes={industry?.missingAttributes}
+                    percentage={Number(industry?.profileCompletionPercentage)}
                 />
             ) : null}
         </div>

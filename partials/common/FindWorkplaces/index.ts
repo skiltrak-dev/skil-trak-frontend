@@ -1,6 +1,7 @@
 export * from './tabs'
 export * from './modal'
 export * from './MapDetail'
+export * from './components'
 export * from './InfoBoxCard'
 export * from './DefaultModal'
 export * from './FindWorkplaces'

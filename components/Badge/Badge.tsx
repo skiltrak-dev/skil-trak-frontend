@@ -1,8 +1,10 @@
+import { Typography } from '@components/Typography'
 import classNames from 'classnames'
 import { PulseLoader } from 'react-spinners'
 
 interface BadgeProps {
     text: string
+    Icon?: any
     variant?:
         | 'primary'
         | 'primaryNew'
@@ -17,7 +19,8 @@ interface BadgeProps {
     shape?: 'rounded' | 'pill' | 'flat'
     disabled?: boolean
     loading?: boolean
-    onClick?: () => void
+    outline?: boolean
+    onClick?: (e: any) => void
 }
 
 const LoaderColor = {
@@ -38,6 +41,8 @@ export const Badge = ({
     disabled,
     onClick,
     loading,
+    outline,
+    Icon,
 }: BadgeProps) => {
     const classes = classNames({
         'px-2 py-0.5 inline-block uppercase': true,
@@ -47,22 +52,51 @@ export const Badge = ({
         'text-xs font-medium': size === 'sm',
         'text-[10px]': size === 'xs',
         'text-normal': size === 'lg',
+        border: outline,
 
         // Colors
-        'bg-orange-100 text-orange-500': !disabled && variant === 'primary',
-        'bg-primaryNew text-white': !disabled && variant === 'primaryNew',
-        'bg-sky-100 text-sky-500': variant === 'secondary',
-        'bg-indigo-100 text-indigo-500': !disabled && variant === 'accent',
-        'bg-green-100 text-green-500': !disabled && variant === 'success',
-        'bg-blue-100 text-blue-500': !disabled && variant === 'info',
-        'bg-red-100 text-red-500': !disabled && variant === 'error',
-        'bg-amber-100 text-amber-500': !disabled && variant === 'warning',
-        'bg-slate-200 text-slate-500': !disabled && variant === 'muted',
+        'bg-orange-100 text-orange-500':
+            !disabled && variant === 'primary' && !outline,
+        'bg-primaryNew text-white':
+            !disabled && variant === 'primaryNew' && !outline,
+        'bg-sky-100 text-sky-500': variant === 'secondary' && !outline,
+        'bg-indigo-100 text-indigo-500':
+            !disabled && variant === 'accent' && !outline,
+        'bg-green-100 text-green-500':
+            !disabled && variant === 'success' && !outline,
+        'bg-blue-100 text-blue-500':
+            !disabled && variant === 'info' && !outline,
+        'bg-red-100 text-red-500': !disabled && variant === 'error' && !outline,
+        'bg-amber-100 text-amber-500':
+            !disabled && variant === 'warning' && !outline,
+        'bg-slate-200 text-slate-500':
+            !disabled && variant === 'muted' && !outline,
         'bg-gray-100 text-gray-500': disabled,
+
+        'border-orange-100 text-orange-500':
+            !disabled && variant === 'primary' && outline,
+        'border-primaryNew text-primaryNew':
+            !disabled && variant === 'primaryNew' && outline,
+        'border-sky-100 text-sky-500': variant === 'secondary' && outline,
+        'border-indigo-100 text-indigo-500':
+            !disabled && variant === 'accent' && outline,
+        'border-green-100 text-green-500':
+            !disabled && variant === 'success' && outline,
+        'border-blue-100 text-blue-500':
+            !disabled && variant === 'info' && outline,
+        'border-red-100 text-red-500':
+            !disabled && variant === 'error' && outline,
+        'border-amber-100 text-amber-500':
+            !disabled && variant === 'warning' && outline,
+        'border-slate-200 text-slate-500':
+            !disabled && variant === 'muted' && outline,
         '!cursor-pointer': !!onClick,
     })
     return (
-        <div className={`${classes} `} {...(onClick ? { onClick } : {})}>
+        <div
+            className={`${classes} `}
+            {...(onClick ? { onClick: (e) => onClick(e) } : {})}
+        >
             {loading ? (
                 <PulseLoader
                     size={5}
@@ -70,7 +104,9 @@ export const Badge = ({
                     color={(LoaderColor as any)[variant]}
                 />
             ) : (
-                text
+                <div className="flex items-center gap-x-1">
+                    {Icon && <Icon className="text-xs" />} <span>{text}</span>
+                </div>
             )}
         </div>
     )

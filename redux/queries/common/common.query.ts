@@ -485,8 +485,10 @@ const {
     useChangeUserStatusMutation,
     // ---- COURSE ---- //
     useGetCoursesListQuery,
+    useGetSectorWPTypesQuery,
     useGetAllCoursesByRtoQuery,
     useGetAppointmentCoursesQuery,
+    useGetCoursesListBySectorQuery,
     useGetSubadminCoursesListQuery,
 
     // ---- AGREEMENT ---- //
@@ -711,7 +713,9 @@ export const CommonApi = {
     },
     Courses: {
         useCoursesList: useGetCoursesListQuery,
+        getSectorWPTypes: useGetSectorWPTypesQuery,
         getCoursesByRto: useGetAllCoursesByRtoQuery,
+        getCoursesBySector: useGetCoursesListBySectorQuery,
         subadminCoursesList: useGetSubadminCoursesListQuery,
         getAppointmentCourses: useGetAppointmentCoursesQuery,
     },

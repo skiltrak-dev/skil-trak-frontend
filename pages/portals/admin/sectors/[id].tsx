@@ -13,18 +13,16 @@ import { NextPageWithLayout } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 import {
-    AiFillCodeSandboxCircle,
     AiOutlineBarcode,
     AiOutlineLogin,
     AiTwotonePhone,
 } from 'react-icons/ai'
 import { BsPatchCheckFill } from 'react-icons/bs'
-import { FaArchive, FaBan, FaPhoneAlt } from 'react-icons/fa'
+import { FaArchive, FaBan } from 'react-icons/fa'
 
 import { AdminApi } from '@queries'
-import { IoLogIn } from 'react-icons/io5'
-import { MdPlace } from 'react-icons/md'
 import Image from 'next/image'
+import { MdPlace } from 'react-icons/md'
 
 const RtoDetail: NextPageWithLayout = () => {
     const router = useRouter()

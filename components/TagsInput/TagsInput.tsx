@@ -1,4 +1,7 @@
+import { InputErrorMessage } from '@components/inputs/components'
+import { useNotification } from '@hooks'
 import React, { useState, useRef, KeyboardEvent } from 'react'
+import { uuid } from 'uuidv4'
 
 // Define interface for tag object
 interface Tag {
@@ -10,20 +13,24 @@ interface TagsInputProps {
     label?: string
     name?: string
     placeholder?: string
+    inputWordsLength?: number
     onChange?: (tags: Tag[]) => void
     maxTags?: number
     validationIcons?: boolean
     hint?: string
     onBlur?: (tagTexts: string[]) => void
     type?: string
+    showError?: boolean
 }
 
 export const TagsInput = ({
     label,
     name,
+    showError = true,
     placeholder = 'Add tag...',
     onChange,
     maxTags = 10,
+    inputWordsLength,
     validationIcons,
     hint,
     type = 'text',
@@ -35,14 +42,32 @@ export const TagsInput = ({
     const inputRef = useRef<HTMLInputElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
 
+    const { notification } = useNotification()
+
     // Generate a unique ID for a tag
-    const generateId = () => `tag-${Math.random().toString(36).substr(2, 9)}`
+    const generateId = `tag-${uuid()}`
 
     // Handle adding a new tag
     const handleAddition = () => {
         const trimmedInput = input.trim()
+        const trimmedInputLength =
+            trimmedInput?.split(' ')?.length > Number(inputWordsLength)
+        if (trimmedInputLength && inputWordsLength) {
+            notification.warning({
+                title: `Text must be or less then ${inputWordsLength} words`,
+                description: '',
+            })
+            return
+        }
+        if (tags.length >= maxTags) {
+            notification.warning({
+                title: `Max ${maxTags} Tags are allowed`,
+                description: '',
+            })
+            return
+        }
         if (trimmedInput && tags.length < maxTags) {
-            const newTag = { id: generateId(), text: trimmedInput }
+            const newTag = { id: generateId, text: trimmedInput }
             const newTags = [...tags, newTag]
             setTags(newTags)
             setInput('')
@@ -133,7 +158,7 @@ export const TagsInput = ({
             const remainingSlots = maxTags - tags.length
 
             pastedItems.slice(0, remainingSlots).forEach((item) => {
-                newTags.push({ id: generateId(), text: item })
+                newTags.push({ id: generateId, text: item })
             })
 
             setTags(newTags)
@@ -268,6 +293,8 @@ export const TagsInput = ({
                     </button>
                 )}
             </div>
+
+            {showError ? <InputErrorMessage name={name} /> : null}
         </div>
     )
 }

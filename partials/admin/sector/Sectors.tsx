@@ -18,12 +18,11 @@ import { FaBook, FaEdit, FaFileExport, FaTrash } from 'react-icons/fa'
 import { useContextBar, useNavbar } from '@hooks'
 import { AdminApi } from '@queries'
 import { Sector, SectorFilterTypes } from '@types'
+import { getFilterQuery } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { DeleteModal } from './modals'
-import { getFilterQuery } from '@utils'
-import { AddSectoIndustryChecksForm } from './form'
 import { SectorViewCB } from './contextBar'
+import { AddNoteModal, DeleteModal, ViewNoteModal } from './modals'
 
 const filterKeys = ['code', 'name']
 
@@ -102,6 +101,23 @@ export const Sectors = () => {
         contextBar.setContent(<SectorViewCB sector={sector} />)
     }
 
+    const onAddNote = (sector: Sector) => {
+        setModal(
+            <AddNoteModal
+                sector={sector}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    const onViewNote = (sector: Sector) => {
+        setModal(
+            <ViewNoteModal
+                sector={sector}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     const columns: ColumnDef<Sector>[] = [
         {
             accessorKey: 'name',
@@ -171,6 +187,28 @@ export const Sectors = () => {
                     <span>Unpublished</span>
                 )
             },
+        },
+        {
+            accessorKey: 'note',
+            header: () => <span>Keywords</span>,
+            cell: (info) => (
+                <div className="flex items-center gap-x-2">
+                    <ActionButton
+                        text="View"
+                        variant="info"
+                        onClick={() => {
+                            onViewNote(info?.row?.original)
+                        }}
+                    />
+                    <ActionButton
+                        text="Add"
+                        variant="info"
+                        onClick={() => {
+                            onAddNote(info?.row?.original)
+                        }}
+                    />
+                </div>
+            ),
         },
         {
             accessorKey: 'action',

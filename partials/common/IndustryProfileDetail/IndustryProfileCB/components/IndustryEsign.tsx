@@ -3,8 +3,8 @@ import { ReactElement, useState } from 'react'
 import { InitiateIndustryEsignModal } from '../../modal'
 
 export const IndustryEsign = ({
-    industryUserId,
     industryId,
+    industryUserId,
 }: {
     industryId?: number
     industryUserId?: number
@@ -16,8 +16,8 @@ export const IndustryEsign = ({
     const onInitiateSign = () => {
         setModal(
             <InitiateIndustryEsignModal
-                industryId={industryId}
                 onCancel={onCancel}
+                industryId={industryId}
                 industryUserId={Number(industryUserId)}
             />
         )

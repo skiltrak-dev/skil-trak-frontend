@@ -25,6 +25,7 @@ export const StudentReviews = () => {
         <div className="flex flex-col gap-y-4 md:gap-y-40 relative px-4 md:px-0">
             {reviews?.map((review, index) => (
                 <div
+                    key={index}
                     className={`rounded-xl ${
                         index === 1
                             ? 'bg-[#F7A619] md:absolute -left-20 top-36 '

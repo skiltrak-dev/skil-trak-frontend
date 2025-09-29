@@ -1,4 +1,10 @@
-import { Badge, Button, ShowErrorNotifications, Typography } from '@components'
+import {
+    Badge,
+    Button,
+    LoadingAnimation,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
 import { useNotification } from '@hooks'
 import { DocumentView } from '@partials/sub-admin'
 import { CommonApi, IndustryApi } from '@queries'
@@ -106,146 +112,154 @@ export const IndustryEsignList = ({
         ),
     }))
 
+    const query = sectors || esignList
+
     return (
         <div className="h-full">
             <div className="flex gap-4 h-[calc(100%-55px)] p-2">
                 <ShowErrorNotifications result={initiateResult} />
                 <div className="w-[38%] min-w-[420px] space-y-4 overflow-y-auto">
                     {/* Templates */}
-                    {sectorsAndTemplates?.map(
-                        (sector: Sector) =>
-                            sector?.templates?.length > 0 && (
-                                <div key={sector?.id} className="pb-6">
-                                    <div className="flex items-center justify-between mb-3">
-                                        <h3 className="text-gray-900 font-medium">
-                                            {sector?.name}
-                                        </h3>
-                                        <span className="text-sm text-gray-500">
-                                            {sector?.templates?.length} template
-                                            {sector?.templates?.length !== 1
-                                                ? 's'
-                                                : ''}
-                                        </span>
-                                    </div>
-                                    <div className="space-y-3">
-                                        {sector?.templates?.map(
-                                            (eSign: any) =>
-                                                sector?.id ===
-                                                    eSign?.sector?.id && (
-                                                    <div
-                                                        key={eSign.id}
-                                                        className={`group border rounded-lg p-4 cursor-pointer hover:shadow-md ${
-                                                            selectedTemplate?.id ===
-                                                            eSign?.id
-                                                                ? 'ring-2 ring-offset-2'
-                                                                : 'hover:border-gray-300'
-                                                        } ${
-                                                            eSign?.status ===
-                                                            'sent'
-                                                                ? 'border-2'
-                                                                : eSign?.status ===
-                                                                  'signed'
-                                                                ? 'border-2'
-                                                                : 'border-2'
-                                                        } ${
-                                                            eSign
-                                                                ?.documents?.[0]
-                                                                ?.initiatedBy
-                                                                ? 'border-2 border-primaryNew bg-primaryNew-light '
-                                                                : eSign
-                                                                      ?.documents?.[0]
-                                                                      ?.status ===
-                                                                      'signed' &&
-                                                                  !eSign
-                                                                      ?.documents?.[0]
-                                                                      ?.initiatedBy
-                                                                ? 'border-2 border-primaryNew bg-primaryNew-light'
-                                                                : 'border-2 border-primary bg-[#F7910F08]'
-                                                        }`}
-                                                        style={{
-                                                            alignContent: '',
-                                                            ...(selectedTemplate?.id ===
-                                                                eSign?.id && {
-                                                                ringColor:
-                                                                    eSign?.status ===
-                                                                    'sent'
-                                                                        ? '#044866'
-                                                                        : eSign?.status ===
-                                                                          'signed'
-                                                                        ? '#0D5468'
-                                                                        : '#F7A619',
-                                                            }),
-                                                        }}
-                                                        onClick={() =>
-                                                            handleTemplateSelect(
+                    {sectors?.isLoading || esignList?.isLoading ? (
+                        <LoadingAnimation />
+                    ) : (
+                        sectorsAndTemplates?.map(
+                            (sector: Sector) =>
+                                sector?.templates?.length > 0 && (
+                                    <div key={sector?.id} className="pb-6">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <h3 className="text-gray-900 font-medium">
+                                                {sector?.name}
+                                            </h3>
+                                            <span className="text-sm text-gray-500">
+                                                {sector?.templates?.length}{' '}
+                                                template
+                                                {sector?.templates?.length !== 1
+                                                    ? 's'
+                                                    : ''}
+                                            </span>
+                                        </div>
+                                        <div className="space-y-3">
+                                            {sector?.templates?.map(
+                                                (eSign: any) =>
+                                                    sector?.id ===
+                                                        eSign?.sector?.id && (
+                                                        <div
+                                                            key={eSign.id}
+                                                            className={`group border rounded-lg p-4 cursor-pointer hover:shadow-md ${
+                                                                selectedTemplate?.id ===
+                                                                eSign?.id
+                                                                    ? 'ring-2 ring-offset-2'
+                                                                    : 'hover:border-gray-300'
+                                                            } ${
+                                                                eSign?.status ===
+                                                                'sent'
+                                                                    ? 'border-2'
+                                                                    : eSign?.status ===
+                                                                      'signed'
+                                                                    ? 'border-2'
+                                                                    : 'border-2'
+                                                            } ${
                                                                 eSign
-                                                            )
-                                                        }
-                                                    >
-                                                        <div className="flex items-start justify-between">
-                                                            <div className="flex-1 min-w-0">
-                                                                <div className="flex items-center gap-2 mb-2">
-                                                                    {getStatusIcon(
-                                                                        eSign
+                                                                    ?.documents?.[0]
+                                                                    ?.initiatedBy
+                                                                    ? 'border-2 border-primaryNew bg-primaryNew-light '
+                                                                    : eSign
+                                                                          ?.documents?.[0]
+                                                                          ?.status ===
+                                                                          'signed' &&
+                                                                      !eSign
+                                                                          ?.documents?.[0]
+                                                                          ?.initiatedBy
+                                                                    ? 'border-2 border-primaryNew bg-primaryNew-light'
+                                                                    : 'border-2 border-primary bg-[#F7910F08]'
+                                                            }`}
+                                                            style={{
+                                                                alignContent:
+                                                                    '',
+                                                                ...(selectedTemplate?.id ===
+                                                                    eSign?.id && {
+                                                                    ringColor:
+                                                                        eSign?.status ===
+                                                                        'sent'
+                                                                            ? '#044866'
+                                                                            : eSign?.status ===
+                                                                              'signed'
+                                                                            ? '#0D5468'
+                                                                            : '#F7A619',
+                                                                }),
+                                                            }}
+                                                            onClick={() =>
+                                                                handleTemplateSelect(
+                                                                    eSign
+                                                                )
+                                                            }
+                                                        >
+                                                            <div className="flex items-start justify-between">
+                                                                <div className="flex-1 min-w-0">
+                                                                    <div className="flex items-center gap-2 mb-2">
+                                                                        {getStatusIcon(
+                                                                            eSign
+                                                                                ?.documents?.[0]
+                                                                        )}
+                                                                        <span className="text-sm font-medium text-gray-900 truncate">
+                                                                            {
+                                                                                eSign?.name
+                                                                            }
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="flex items-center gap-2">
+                                                                        {getStatusBadge(
+                                                                            eSign
+                                                                                ?.documents?.[0]
+                                                                        )}
+                                                                        {eSign
                                                                             ?.documents?.[0]
-                                                                    )}
-                                                                    <span className="text-sm font-medium text-gray-900 truncate">
-                                                                        {
-                                                                            eSign?.name
-                                                                        }
-                                                                    </span>
+                                                                            ?.initiatedBy && (
+                                                                            <span className="text-[11px] whitespace-pre text-gray-500">
+                                                                                Ready
+                                                                                to
+                                                                                resend
+                                                                            </span>
+                                                                        )}
+                                                                        {eSign
+                                                                            ?.documents?.[0]
+                                                                            ?.status ===
+                                                                            'signed' && (
+                                                                            <span className="text-[11px] text-gray-500 whitespace-pre">
+                                                                                Process
+                                                                                complete
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
                                                                 </div>
-                                                                <div className="flex items-center gap-2">
-                                                                    {getStatusBadge(
-                                                                        eSign
-                                                                            ?.documents?.[0]
+                                                                <div className="flex items-center gap-2 flex-shrink-0 ml-3">
+                                                                    {!eSign
+                                                                        ?.documents
+                                                                        ?.length && (
+                                                                        <Button variant="primaryNew">
+                                                                            Initiate
+                                                                        </Button>
                                                                     )}
                                                                     {eSign
                                                                         ?.documents?.[0]
                                                                         ?.initiatedBy && (
-                                                                        <span className="text-[11px] whitespace-pre text-gray-500">
-                                                                            Ready
-                                                                            to
-                                                                            resend
-                                                                        </span>
-                                                                    )}
-                                                                    {eSign
-                                                                        ?.documents?.[0]
-                                                                        ?.status ===
-                                                                        'signed' && (
-                                                                        <span className="text-[11px] text-gray-500 whitespace-pre">
-                                                                            Process
-                                                                            complete
-                                                                        </span>
+                                                                        <Button
+                                                                            variant="primaryNew"
+                                                                            outline
+                                                                        >
+                                                                            Resend
+                                                                        </Button>
                                                                     )}
                                                                 </div>
                                                             </div>
-                                                            <div className="flex items-center gap-2 flex-shrink-0 ml-3">
-                                                                {!eSign
-                                                                    ?.documents
-                                                                    ?.length && (
-                                                                    <Button variant="primaryNew">
-                                                                        Initiate
-                                                                    </Button>
-                                                                )}
-                                                                {eSign
-                                                                    ?.documents?.[0]
-                                                                    ?.initiatedBy && (
-                                                                    <Button
-                                                                        variant="primaryNew"
-                                                                        outline
-                                                                    >
-                                                                        Resend
-                                                                    </Button>
-                                                                )}
-                                                            </div>
                                                         </div>
-                                                    </div>
-                                                )
-                                        )}
+                                                    )
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            )
+                                )
+                        )
                     )}
                 </div>
 
