@@ -32,8 +32,16 @@ export const coursesEndpoints = (
         query: () => `shared/courses/list`,
         providesTags: ['Course'],
     }),
+    getCoursesListBySector: builder.query<any, number>({
+        query: (id) => `shared/sector/${id}/courses-list`,
+        providesTags: ['Course'],
+    }),
     getSubadminCoursesList: builder.query<any, void>({
         query: () => `subadmin/courses/list`,
+        providesTags: ['Course'],
+    }),
+    getSectorWPTypes: builder.query<any, number>({
+        query: (id) => `shared/sector/${id}/workplace-types-list`,
         providesTags: ['Course'],
     }),
 })

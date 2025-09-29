@@ -42,7 +42,7 @@ export const ProfileAppointments = ({
                             <span className="text-[15px]">Appointment</span>
                         </Typography>
                         <AuthorizedUserComponent
-                            excludeRoles={[UserRoles.OBSERVER]}
+                            roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                         >
                             <Button
                                 text="Book Appointment"

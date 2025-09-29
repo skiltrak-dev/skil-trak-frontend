@@ -1,16 +1,12 @@
-import { GlobalModal } from '@components'
 import { useState } from 'react'
+import { GlobalModal } from '@components'
 import { MdCancel } from 'react-icons/md'
-import {
-    EsignDocuments,
-    IndustryEsignList,
-    InitiatedEsignList,
-} from '../components'
+import { EsignDocuments, IndustryEsignList } from '../components'
 
 export const InitiateIndustryEsignModal = ({
-    industryUserId,
-    industryId,
     onCancel,
+    industryId,
+    industryUserId,
 }: {
     industryId?: number
     onCancel: () => void

@@ -54,30 +54,30 @@ export const useWorkplaceStatusModals = ({
     }, [selectedWorkplace, appliedIndustry])
 
     // Book Appointment Info Modal
-    useEffect(() => {
-        if (
-            selectedWorkplace?.currentStatus ===
-                WorkplaceCurrentStatus.AwaitingWorkplaceResponse &&
-            !workplaceStudentDetail?.data?.appointmentBooked &&
-            workplaceStudentDetail?.isSuccess &&
-            !workplaceStudentDetail?.isLoading &&
-            !workplaceStudentDetail?.isFetching &&
-            (role === UserRoles.ADMIN || role === UserRoles.SUBADMIN)
-        ) {
-            showModal(
-                <BookAppointmentInfoModal
-                    onCancel={() => showModal(null)}
-                    courseId={Number(selectedWorkplace?.courses?.[0]?.id)}
-                    studentUser={workplaceStudentDetail?.data?.user?.id}
-                    approvalDate={latestWorkplaceApprovaleRequest?.approvalDate}
-                />
-            )
-        }
-    }, [
-        selectedWorkplace,
-        workplaceStudentDetail,
-        workplaceStudentDetail?.data?.appointmentBooked,
-    ])
+    // useEffect(() => {
+    //     if (
+    //         selectedWorkplace?.currentStatus ===
+    //             WorkplaceCurrentStatus.AwaitingWorkplaceResponse &&
+    //         !workplaceStudentDetail?.data?.appointmentBooked &&
+    //         workplaceStudentDetail?.isSuccess &&
+    //         !workplaceStudentDetail?.isLoading &&
+    //         !workplaceStudentDetail?.isFetching &&
+    //         (role === UserRoles.ADMIN || role === UserRoles.SUBADMIN)
+    //     ) {
+    //         showModal(
+    //             <BookAppointmentInfoModal
+    //                 onCancel={() => showModal(null)}
+    //                 courseId={Number(selectedWorkplace?.courses?.[0]?.id)}
+    //                 studentUser={workplaceStudentDetail?.data?.user?.id}
+    //                 approvalDate={latestWorkplaceApprovaleRequest?.approvalDate}
+    //             />
+    //         )
+    //     }
+    // }, [
+    //     selectedWorkplace,
+    //     workplaceStudentDetail,
+    //     workplaceStudentDetail?.data?.appointmentBooked,
+    // ])
 
     // Initiate Signing Modal
     useEffect(() => {

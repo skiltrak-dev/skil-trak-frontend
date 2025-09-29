@@ -16,6 +16,7 @@ export const SubadminProgressIndustryCell = ({
                     showPercentage
                     percentage={Number(industry?.profileCompletionPercentage)}
                     height={12}
+                    missingAttributes={industry?.missingAttributes}
                 />
             ) : null}
         </div>

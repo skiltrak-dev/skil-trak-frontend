@@ -15,6 +15,7 @@ import {
     ActiveIndustries,
     AddIndustry,
     BlockedIndustries,
+    RunListingAutomation,
     WithoutEmailListing,
 } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
@@ -143,6 +144,8 @@ const FutureIndustryListing: NextPageWithLayout = (props: Props) => {
             />
             <div className="flex justify-end gap-x-2 mt-4 mr-6">
                 {filterAction}
+
+                {/* <RunListingAutomation /> */}
                 <Button
                     text={'Upload Industries'}
                     variant="dark"
@@ -153,7 +156,6 @@ const FutureIndustryListing: NextPageWithLayout = (props: Props) => {
                 />
                 <Button
                     text={'Add Industry'}
-                    variant="dark"
                     Icon={MdAddBusiness}
                     onClick={() => {
                         onAddIndustry()

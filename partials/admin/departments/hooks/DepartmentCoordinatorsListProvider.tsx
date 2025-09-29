@@ -12,7 +12,7 @@ import {
     Button,
     TableAction,
     TruncatedTextWithTooltip,
-    Typography
+    Typography,
 } from '@components'
 import { useActionModal, useContextBar } from '@hooks'
 import { AdminApi, commonApi } from '@queries'
@@ -20,11 +20,7 @@ import { Rto, SubAdmin, User } from '@types'
 import { useRouter } from 'next/router'
 
 // Modals
-import {
-    AllowPermissionModal,
-    ArchiveModal,
-    BlockModal
-} from '@partials/admin/sub-admin/modals'
+import { BlockModal } from '@partials/admin/sub-admin/modals'
 
 import { UserRoles } from '@constants'
 import { RtoCellInfo } from '@partials/admin/rto/components'
@@ -34,7 +30,6 @@ import { ColumnDef } from '@tanstack/react-table'
 import { checkListLength, getUserCredentials } from '@utils'
 import { BsArchiveFill } from 'react-icons/bs'
 import { FaEdit, FaEye } from 'react-icons/fa'
-import { PiCellSignalLowFill } from 'react-icons/pi'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { ChangeHodModal, RemoveCoordinatorModal } from '../modal'
 
@@ -134,14 +129,6 @@ export const DepartmentCoordinatorsListProvider = ({ children }: any) => {
             />
         )
     }
-    const onArchivedClicked = (subAdmin: SubAdmin) => {
-        setModal(
-            <ArchiveModal
-                item={subAdmin}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
 
     const onEditSubAdmin = (subAdmin: SubAdmin) => {
         contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
@@ -149,14 +136,6 @@ export const DepartmentCoordinatorsListProvider = ({ children }: any) => {
         contextBar.show()
     }
 
-    const onAllowPermissionClicked = (subadmin: SubAdmin) => {
-        setModal(
-            <AllowPermissionModal
-                subadmin={subadmin}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
     const role = getUserCredentials()?.role
 
     const tableActionOptions = (subAdmin: any) => {
@@ -176,22 +155,6 @@ export const DepartmentCoordinatorsListProvider = ({ children }: any) => {
                     onEditSubAdmin(subadmin)
                 },
                 Icon: FaEdit,
-            },
-            // {
-            //     ...(role === UserRoles.ADMIN
-            //         ? {
-            //               text: 'Permissions',
-            //               onClick: (subAdmin: SubAdmin) =>
-            //                   onAllowPermissionClicked(subAdmin),
-            //               Icon: PiCellSignalLowFill,
-            //           }
-            //         : {}),
-            // },
-            {
-                text: 'Permissions',
-                onClick: (subAdmin: SubAdmin) =>
-                    onAllowPermissionClicked(subAdmin),
-                Icon: PiCellSignalLowFill,
             },
             {
                 ...(role === UserRoles.ADMIN

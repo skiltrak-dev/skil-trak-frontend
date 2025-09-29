@@ -47,6 +47,7 @@ export interface Course extends BaseResponse {
     requirements: string
     courseRequirements?: any
     sector: Sector
+    keywords: string[]
     folders: Folder[]
     results: any
     timing: any
@@ -61,6 +62,7 @@ export interface Sector extends BaseResponse {
     id: number
     code: string
     name: string
+    keywords?: string[]
     courses: Course[]
 }
 

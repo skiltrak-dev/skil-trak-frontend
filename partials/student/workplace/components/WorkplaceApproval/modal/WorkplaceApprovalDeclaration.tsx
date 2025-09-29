@@ -1,7 +1,3 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import Image from 'next/image'
-import { MdCancel } from 'react-icons/md'
-import { StudentApi, SubAdminApi } from '@queries'
 import {
     Button,
     Checkbox,
@@ -9,9 +5,12 @@ import {
     ShowErrorNotifications,
     Typography,
 } from '@components'
-import { WPApprovalStatus } from '../enum'
 import { useNotification } from '@hooks'
 import { RateCoordinatorModal } from '@partials/common'
+import { StudentApi, SubAdminApi } from '@queries'
+import { ReactElement, useState } from 'react'
+import { MdCancel } from 'react-icons/md'
+import { WPApprovalStatus } from '../enum'
 
 export const WorkplaceApprovalDeclaration = ({
     onCancel,
@@ -41,7 +40,6 @@ export const WorkplaceApprovalDeclaration = ({
             date: string
         }
     )
-    const onCancelModal = () => setModal(null)
 
     const changeWpApprovalReq = StudentApi.Workplace.changeStatusWpApprroval(
         { id: wpApprovalId, ...reqData },
@@ -54,15 +52,6 @@ export const WorkplaceApprovalDeclaration = ({
         SubAdminApi.Workplace.changeWpReqStatus()
 
     const { notification } = useNotification()
-
-    // useEffect(() => {
-    //     if (changeWpApprovalReq.isSuccess) {
-    //         // if (onCancel) {
-    //         setShowRateModal(true)
-    //         // }
-    //         console.log('showRateModal:::::: in useEffect', showRateModal)
-    //     }
-    // }, [changeWpApprovalReq.isSuccess])
 
     const onChangeStatusClicked = async (status: WPApprovalStatus) => {
         const res: any = await changeStatus({ id: wpApprovalId, status })

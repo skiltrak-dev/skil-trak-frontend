@@ -1,19 +1,19 @@
-import { ReactElement, useEffect, useState } from 'react'
 import {
-    NoData,
-    Typography,
     LoadingAnimation,
+    NoData,
     SectorCourseStudentCount,
+    Typography,
 } from '@components'
-import moment from 'moment'
-import { useNavbar } from '@hooks'
-import { AuthUtils } from '@utils'
-import { AdminLayout } from '@layouts'
-import { NextPageWithLayout } from '@types'
-import { AdminApi, CommonApi } from '@queries'
-import { useMediaQuery } from 'react-responsive'
-import { ProgressLineChart } from '@partials/common'
 import { FigureCard } from '@components/sections/subAdmin'
+import { useNavbar } from '@hooks'
+import { AdminLayout } from '@layouts'
+import { ProgressLineChart } from '@partials/common'
+import { AdminApi, CommonApi } from '@queries'
+import { NextPageWithLayout } from '@types'
+import { AuthUtils } from '@utils'
+import moment from 'moment'
+import { ReactElement, useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 import StackGrid, { transitions } from 'react-stack-grid'
 
 const { scaleDown } = transitions
@@ -48,7 +48,7 @@ const AdminDashboard: NextPageWithLayout = () => {
     }, [])
 
     return (
-        <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6 ">
+        <div className="flex flex-col gap-y-6 pb-8 px-6 pt-6">
             {/* Admin Welcome Message */}
             <div className="relative pt-6">
                 <div className="absolute right-8 -top-8">

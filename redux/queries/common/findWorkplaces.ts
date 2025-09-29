@@ -1,4 +1,3 @@
-import { UserRoles } from '@constants'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import { Industry, PaginationWithSearch } from '@types'
