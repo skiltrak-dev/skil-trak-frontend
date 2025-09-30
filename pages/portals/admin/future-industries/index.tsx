@@ -145,7 +145,7 @@ const FutureIndustryListing: NextPageWithLayout = (props: Props) => {
             <div className="flex justify-end gap-x-2 mt-4 mr-6">
                 {filterAction}
 
-                <RunListingAutomation />
+                {/* <RunListingAutomation /> */}
                 <Button
                     text={'Upload Industries'}
                     variant="dark"
