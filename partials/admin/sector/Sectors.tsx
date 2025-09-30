@@ -113,6 +113,7 @@ export const Sectors = () => {
         setModal(
             <ViewNoteModal
                 sector={sector}
+                onAddNote={onAddNote}
                 onCancel={() => onModalCancelClicked()}
             />
         )
@@ -188,28 +189,32 @@ export const Sectors = () => {
                 )
             },
         },
-        // {
-        //     accessorKey: 'note',
-        //     header: () => <span>Keywords</span>,
-        //     cell: (info) => (
-        //         <div className="flex items-center gap-x-2">
-        //             <ActionButton
-        //                 text="View"
-        //                 variant="info"
-        //                 onClick={() => {
-        //                     onViewNote(info?.row?.original)
-        //                 }}
-        //             />
-        //             <ActionButton
-        //                 text="Add"
-        //                 variant="info"
-        //                 onClick={() => {
-        //                     onAddNote(info?.row?.original)
-        //                 }}
-        //             />
-        //         </div>
-        //     ),
-        // },
+        {
+            accessorKey: 'note',
+            header: () => <span>Keywords</span>,
+            cell: (info) => (
+                <div className="flex items-center gap-x-2">
+                    {info?.row?.original?.keywords &&
+                    info?.row?.original?.keywords?.length > 0 ? (
+                        <ActionButton
+                            text="View"
+                            variant="info"
+                            onClick={() => {
+                                onViewNote(info?.row?.original)
+                            }}
+                        />
+                    ) : (
+                        <ActionButton
+                            text="Add"
+                            variant="info"
+                            onClick={() => {
+                                onAddNote(info?.row?.original)
+                            }}
+                        />
+                    )}
+                </div>
+            ),
+        },
         {
             accessorKey: 'action',
             header: () => <span>Action</span>,

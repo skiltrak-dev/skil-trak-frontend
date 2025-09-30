@@ -806,3 +806,8 @@
 ul.landing-content {
     list-style-type: disc !important;
 }
+
+/* For Google Addresses dropdown */
+.pac-container {
+    z-index: 99999 !important;
+}

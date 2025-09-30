@@ -53,7 +53,9 @@ export const IndustryDetail = ({
     workplace,
     appliedIndustry,
     approvalDate,
+    latestWorkplaceApprovaleRequest,
 }: {
+    latestWorkplaceApprovaleRequest: any
     student: Student
     wpIndustriesLength: number
     approvalDate: string
@@ -70,8 +72,6 @@ export const IndustryDetail = ({
     const suggestedIndustries = workplace?.industries?.filter(
         (i: any) => !i.applied
     )
-
-    const industry = workplace?.workplaceApprovaleRequest?.[0]?.industry
 
     const onCancelClicked = () => setModal(null)
 
@@ -434,13 +434,17 @@ export const IndustryDetail = ({
                                                 Industry Detail:
                                             </Typography>
                                             <div className="flex items-center justify-center gap-x-2">
-                                                {industry?.user?.name && (
+                                                {latestWorkplaceApprovaleRequest
+                                                    ?.industry?.user?.name && (
                                                     <InitialAvatar
                                                         name={
-                                                            industry?.user?.name
+                                                            latestWorkplaceApprovaleRequest
+                                                                ?.industry?.user
+                                                                ?.name
                                                         }
                                                         imageUrl={
-                                                            industry?.user
+                                                            latestWorkplaceApprovaleRequest
+                                                                ?.industry?.user
                                                                 ?.avatar
                                                         }
                                                     />
@@ -449,7 +453,11 @@ export const IndustryDetail = ({
                                                     variant="label"
                                                     bold
                                                 >
-                                                    {industry?.user?.name}
+                                                    {
+                                                        latestWorkplaceApprovaleRequest
+                                                            ?.industry?.user
+                                                            ?.name
+                                                    }
                                                 </Typography>
                                             </div>
                                         </div>

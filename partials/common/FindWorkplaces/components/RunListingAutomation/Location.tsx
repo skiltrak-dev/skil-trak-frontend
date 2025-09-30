@@ -13,10 +13,14 @@ export const Location = () => {
             <div className="relative w-full">
                 <TextInput
                     id="location"
-                    name="location"
+                    name="address"
                     placeholder="Enter address..."
                     className="w-full pl-8 h-8 text-xs"
                     placesSuggetions
+                    onPlaceSuggetions={{
+                        placesSuggetions: true,
+                        setIsPlaceSelected: () => {},
+                    }}
                 />
             </div>
         </div>

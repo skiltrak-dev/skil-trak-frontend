@@ -37,7 +37,6 @@ export const ViewProfileCB = () => {
         {}
     )
     const studentIndustries = StudentApi.Profile.useIndustriesForFeedback()
-    console.log('studentIndustries::', studentIndustries?.data)
     const getPlacementFeedback = CommonApi.Feedback.useGetPlacementFeedback({})
 
     const processedFeedback = processSubmission(getPlacementFeedback?.data)

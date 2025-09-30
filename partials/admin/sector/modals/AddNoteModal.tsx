@@ -5,6 +5,8 @@ import { AdminApi } from '@queries'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 import { Sector } from '@types'
+import { uuid } from 'uuidv4'
+import { useEffect } from 'react'
 
 export interface SectorNoteType {
     keywords: { id: string; text: string }[]
@@ -20,6 +22,13 @@ export const AddNoteModal = ({
     const { notification } = useNotification()
 
     const [addTags, addTagsResult] = AdminApi.Sectors.useUpdateMutation()
+
+    const generateId = `tag-${uuid()}`
+
+    const keywords = sector?.keywords?.map((keyword) => ({
+        id: generateId,
+        text: keyword,
+    }))
 
     const validationSchema = Yup.object({
         keywords: Yup.array()
@@ -37,6 +46,12 @@ export const AddNoteModal = ({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
+
+    useEffect(() => {
+        if (keywords && keywords?.length > 0) {
+            methods.setValue('keywords', keywords)
+        }
+    }, [keywords])
 
     const onSubmit = async (values: SectorNoteType) => {
         const res: any = await addTags({
@@ -72,6 +87,7 @@ export const AddNoteModal = ({
                             onChange={(e: { id: string; text: string }[]) => {
                                 methods.setValue('keywords', e)
                             }}
+                            defaultTags={keywords}
                             placeholder={
                                 'Add Note Tags (Press Enter to add tags)'
                             }

@@ -53,7 +53,6 @@ export const IndustryEsignList = ({
     })
 
     const getStatusIcon = (document: any) => {
-        console.log({ document })
         if (document?.initiatedBy) {
             return <Send className="h-4 w-4" style={{ color: '#044866' }} />
         }
