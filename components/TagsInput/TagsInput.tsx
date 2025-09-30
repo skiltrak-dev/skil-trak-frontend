@@ -1,6 +1,6 @@
 import { InputErrorMessage } from '@components/inputs/components'
 import { useNotification } from '@hooks'
-import React, { KeyboardEvent, useRef, useState } from 'react'
+import React, { KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { uuid } from 'uuidv4'
 
 // Define interface for tag object
@@ -21,6 +21,7 @@ interface TagsInputProps {
     onBlur?: (tagTexts: string[]) => void
     type?: string
     showError?: boolean
+    defaultTags?: { id: string; text: string }[]
 }
 
 export const TagsInput = ({
@@ -35,6 +36,7 @@ export const TagsInput = ({
     hint,
     type = 'text',
     onBlur,
+    defaultTags,
 }: TagsInputProps) => {
     const [tags, setTags] = useState<Tag[]>([])
     const [input, setInput] = useState('')
@@ -43,6 +45,12 @@ export const TagsInput = ({
     const containerRef = useRef<HTMLDivElement>(null)
 
     const { notification } = useNotification()
+
+    useEffect(() => {
+        if (defaultTags && defaultTags?.length > 0) {
+            setTags(defaultTags)
+        }
+    }, [defaultTags])
 
     // Generate a unique ID for a tag
     const generateId = `tag-${uuid()}`

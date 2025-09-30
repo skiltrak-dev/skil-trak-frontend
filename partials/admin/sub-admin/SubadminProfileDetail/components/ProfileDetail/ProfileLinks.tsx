@@ -60,7 +60,7 @@ export const ProfileLinks = ({ subadmin }: { subadmin: SubAdmin }) => {
             },
         },
         {
-            text: 'Update Fav Industries',
+            text: 'Transfer Fav Industries',
             onClick: () => onUpdateFavIndustries(subadmin),
             Icon: FaIndustry,
         },

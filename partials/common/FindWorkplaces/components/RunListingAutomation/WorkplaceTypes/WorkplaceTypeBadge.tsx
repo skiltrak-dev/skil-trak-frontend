@@ -5,7 +5,7 @@ import { WorkplaceType } from '@types'
 export const WorkplaceTypeBadge = memo<{
     type: WorkplaceType
     isSelected: boolean
-    onToggle: (type: number) => void
+    onToggle: (type: string) => void
 }>(({ type, isSelected, onToggle }) => (
     <Badge
         text={type?.name}
@@ -13,6 +13,6 @@ export const WorkplaceTypeBadge = memo<{
         size="sm"
         shape="pill"
         outline={!isSelected}
-        onClick={() => onToggle(type?.id)}
+        onClick={() => onToggle(type?.name)}
     />
 ))

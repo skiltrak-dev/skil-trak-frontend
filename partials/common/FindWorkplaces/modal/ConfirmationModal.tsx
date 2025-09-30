@@ -1,69 +1,67 @@
-import { Button, GlobalModal, Typography } from '@components'
 import React from 'react'
-import { MdCheckCircle, MdDescription, MdSearch, MdClose } from 'react-icons/md'
+import { CommonApi } from '@queries'
+import { useNotification } from '@hooks'
+import { MdCancel, MdCheckCircle, MdDescription } from 'react-icons/md'
+import { Button, Modal, ShowErrorNotifications, Typography } from '@components'
 
 interface ConfirmationModalProps {
     onCancel: () => void
-    activeItems: number
-    onConfirmSubmit: () => void
-    onFindMoreIndustries: () => void
+    selectedSector: number
+    listingResults: string[]
 }
 
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     onCancel,
-    activeItems,
-    onConfirmSubmit,
-    onFindMoreIndustries,
+    selectedSector,
+    listingResults,
 }) => {
-    return (
-        <GlobalModal onCancel={onCancel}>
-            {/* Modal Content */}
-            <div className="relative bg-white rounded-xl shadow-2xl max-w-md w-full">
-                {/* Header */}
-                <div className="px-6 py-4 border-b border-gray-200 rounded-t-xl">
-                    <div className="flex items-center justify-between">
-                        <div
-                            className="text-xl bg-clip-text text-transparent flex items-center gap-2"
-                            style={{
-                                backgroundImage:
-                                    'linear-gradient(to right, #044866, #0D5468)',
-                            }}
-                        >
-                            <MdCheckCircle
-                                className="w-5 h-5"
-                                style={{ color: '#F7A619' }}
-                            />
-                            Submit Complete!
-                        </div>
-                        <button
-                            onClick={onCancel}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                        >
-                            <MdClose className="w-4 h-4 text-gray-500" />
-                        </button>
-                    </div>
-                    <div className="text-gray-600 pt-2">
-                        Your {activeItems} companies have been successfully
-                        submitted to the Industry Listing. What would you like
-                        to do next?
-                    </div>
-                </div>
+    const [submitListing, submitListingResult] =
+        CommonApi.FindWorkplace.submitAutoListing()
 
-                {/* Content */}
+    const { notification } = useNotification()
+
+    const onSubmitListing = async () => {
+        const res: any = await submitListing({
+            id: selectedSector,
+            listing: listingResults,
+        })
+
+        if (res?.data) {
+            notification.success({
+                title: 'Listing Submit',
+                description: 'Listing Submit Successfully',
+            })
+            onCancel()
+        }
+    }
+
+    return (
+        <>
+            <ShowErrorNotifications result={submitListingResult} />
+            <Modal
+                title="Submit Complete!"
+                subtitle={`Your ${listingResults?.length} companies have been successfully
+                        submitted to the Industry Listing. What would you like
+                        to do next?`}
+                onCancelClick={onCancel}
+                showActions={false}
+            >
                 <div className="p-6">
                     <div className="flex flex-col gap-3">
                         <Button
                             variant="primaryNew"
-                            onClick={onConfirmSubmit}
-                            text="Close Page"
+                            onClick={onSubmitListing}
+                            text="Submit"
+                            loading={submitListingResult?.isLoading}
+                            disabled={submitListingResult?.isLoading}
                             Icon={MdDescription}
                         />
 
                         <Button
                             outline
-                            onClick={onFindMoreIndustries}
-                            Icon={MdSearch}
-                            text="Find More Industries"
+                            onClick={onCancel}
+                            Icon={MdCancel}
+                            text="Cancel"
                         />
                     </div>
 
@@ -80,13 +78,13 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                         >
                             <MdCheckCircle className="w-4 h-4" />
                             <Typography variant="small" color="#044866">
-                                Ready to submit {activeItems} companies to your
-                                industry database
+                                Ready to submit {listingResults?.length}{' '}
+                                companies to your industry database
                             </Typography>
                         </div>
                     </div>
                 </div>
-            </div>
-        </GlobalModal>
+            </Modal>
+        </>
     )
 }

@@ -144,9 +144,11 @@ const commonTagTypes = [
     'Impersonation',
     'BulkUsersDelete',
     'RecentActivities',
+    'FutureIndustries',
     'AllNotifications',
     'AllCommunications',
     'StudentAppointments',
+    'RunListingAutomation',
     'IndustriesAddProfile',
 ]
 

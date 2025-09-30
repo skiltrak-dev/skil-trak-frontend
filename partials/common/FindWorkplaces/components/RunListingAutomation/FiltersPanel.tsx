@@ -1,18 +1,25 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import { MdPlayArrow } from 'react-icons/md'
 import * as Yup from 'yup'
-import { Button, Select, SelectOption, TextArea, Typography } from '@components'
-import { AuthApi } from '@queries'
 import { Sector } from '@types'
-import { FormProvider, useForm } from 'react-hook-form'
+import { AuthApi, CommonApi } from '@queries'
 import { Courses } from './Courses'
-import styles from './css/FiltersPanel.module.css'
-import { LoadingAnimation } from './LoadingAnimation'
 import { Location } from './Location'
+import { MdPlayArrow } from 'react-icons/md'
 import { RadiusBuckets } from './RadiusBuckets'
-import { ResultsDisplay } from './ResultsDisplay'
 import { WorkplaceTypes } from './WorkplaceTypes'
+import styles from './css/FiltersPanel.module.css'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { LoadingAnimation } from './LoadingAnimation'
+import { FormProvider, useForm } from 'react-hook-form'
+import React, { useCallback, useMemo, useState } from 'react'
+import {
+    Button,
+    Select,
+    SelectOption,
+    ShowErrorNotifications,
+    TextArea,
+    Typography,
+} from '@components'
+import { ResultsDisplay } from './ResultsDisplay'
 
 interface FiltersPanelProps {
     onClose: () => void
@@ -25,12 +32,15 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
     >('filters')
 
     const sectorResponse = AuthApi.useSectors({})
+    const [runAutomation, runAutomationResult] =
+        CommonApi.FindWorkplace.runListingAutomation()
 
     const validationSchema = Yup.object({
         sector: Yup.number().required('Sector is required'),
-        location: Yup.string().required('Location is required'),
+        address: Yup.string().required('Address is required'),
         keywords: Yup.string().required('Keyword is required'),
-        wpTypes: Yup.array().min(1, 'Must select at least 1 Workplace Type'),
+        type: Yup.string().required('Workplace Type is required'),
+        // wpTypes: Yup.array().min(1, 'Must select at least 1 Workplace Type'),
     })
 
     const methods = useForm({
@@ -52,12 +62,25 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
         [setSelectedSector, sectorResponse.data]
     )
 
-    const handleRunAutomation = useCallback(async (values: any) => {
+    const handleRunAutomation = async (values: any) => {
+        const keywords = values?.keywords?.split(', ')
         setCurrentView('loading')
-        // Simulate API call with 15 second delay for 25 listings
-        await new Promise((resolve) => setTimeout(resolve, 15000))
+
+        const startTime = Date.now()
+
+        await runAutomation({ ...values, keywords })
+
+        const endTime = Date.now()
+        const duration = endTime - startTime
+        const seconds = (duration / 1000).toFixed(2)
+        const totalSeconds = 15000
+
+        totalSeconds > Number(seconds) &&
+            (await new Promise((resolve) =>
+                setTimeout(resolve, totalSeconds - Number(seconds))
+            ))
         setCurrentView('results')
-    }, [])
+    }
 
     const handleBackToFilters = useCallback(() => {
         setCurrentView('filters')
@@ -82,12 +105,14 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
                 onBack={handleBackToFilters}
                 onClose={onClose}
                 selectedSector={Number(selectedSector)}
+                listingResults={runAutomationResult?.data || {}}
             />
         )
     }
 
     return (
         <div className={styles.slideUpFade}>
+            <ShowErrorNotifications result={runAutomationResult} />
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(handleRunAutomation)}>
                     <div className="w-full flex flex-col space-y-3 animate-in fade-in-0 slide-in-from-bottom-4 duration-500">
@@ -111,7 +136,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
                         </div>
 
                         {/* Sector Notes */}
-                        {sectorsOptions && (
+                        {selectedSector && (
                             <TextArea
                                 label={'Sector Keywords (auto)'}
                                 id="sector-notes"
@@ -125,7 +150,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
                         )}
 
                         {/* Courses Selection */}
-                        {sectorsOptions && sectorsOptions?.length > 0 && (
+                        {selectedSector && (
                             <Courses selectedSector={Number(selectedSector)} />
                         )}
 
@@ -133,10 +158,12 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
                         <Location />
 
                         {/* Workplace Types */}
-                        <WorkplaceTypes
-                            name={'wpTypes'}
-                            selectedSector={Number(selectedSector)}
-                        />
+                        {selectedSector && (
+                            <WorkplaceTypes
+                                name={'type'}
+                                selectedSector={Number(selectedSector)}
+                            />
+                        )}
 
                         {/* Radius Buckets */}
                         <RadiusBuckets />
@@ -145,7 +172,6 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
                         <div className="w-full flex flex-col space-y-1 pt-2 border-t">
                             <Button
                                 submit
-                                onClick={handleRunAutomation}
                                 variant="primaryNew"
                                 Icon={MdPlayArrow}
                                 text="Run Automation"

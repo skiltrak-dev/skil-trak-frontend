@@ -367,6 +367,9 @@ export const Workplace = ({
                                                 approvalDate={
                                                     latestWorkplaceApprovaleRequest?.approvalDate
                                                 }
+                                                latestWorkplaceApprovaleRequest={
+                                                    latestWorkplaceApprovaleRequest
+                                                }
                                             />
                                         </div>
                                     </div>

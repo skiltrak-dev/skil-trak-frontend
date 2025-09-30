@@ -1,3 +1,4 @@
+import { RunAutomationEnum } from '@partials/common/FindWorkplaces/enum'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import { Industry, PaginationWithSearch } from '@types'
@@ -12,19 +13,19 @@ export const findWorkplaceEndpoints = (
             url: `${PREFIX}/list`,
             params,
         }),
-        providesTags: [''],
+        providesTags: ['FutureIndustries'],
     }),
     getIndustryListingProfileDetails: builder.query<any, any>({
         query: (id) => ({
             url: `${PREFIX}/${id}/detail`,
         }),
-        providesTags: [''],
+        providesTags: ['FutureIndustries'],
     }),
     getIndustryListingNotes: builder.query<any, any>({
         query: (id) => ({
             url: `${PREFIX}/${id}/notes/list-all`,
         }),
-        providesTags: [''],
+        providesTags: ['FutureIndustries'],
     }),
     // ${PREFIX}/id/note-add body comment
     addIndustryListingDetailsNote: builder.mutation<any, any>({
@@ -33,7 +34,7 @@ export const findWorkplaceEndpoints = (
             method: 'POST',
             body,
         }),
-        invalidatesTags: [''],
+        invalidatesTags: ['FutureIndustries'],
     }),
 
     changePendingIndustryStatus: builder.mutation<
@@ -247,4 +248,41 @@ export const findWorkplaceEndpoints = (
             'Industries',
         ],
     }),
+
+    runListingAutomation: builder.mutation({
+        query: (body) => ({
+            url: `openai/listing/generate`,
+            body,
+            method: 'POST',
+        }),
+        invalidatesTags: ['RunListingAutomation'],
+    }),
+
+    listingAutomationDetails: builder.query<any, string>({
+        query: (id) => `openai/places/${id}/get-details`,
+        providesTags: ['RunListingAutomation'],
+    }),
+
+    updateEligibilityListing: builder.mutation<
+        any,
+        { id: string; reason: RunAutomationEnum }
+    >({
+        query: ({ id, ...body }) => ({
+            url: `openai/place/${id}/update`,
+            body,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Industries'],
+    }),
+
+    submitAutoListing: builder.mutation<any, { id: number; listing: string[] }>(
+        {
+            query: ({ id, ...body }) => ({
+                url: `openai/sector/${id}/listing/add`,
+                body,
+                method: 'POST',
+            }),
+            invalidatesTags: ['Industries', 'FutureIndustries'],
+        }
+    ),
 })

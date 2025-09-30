@@ -33,14 +33,15 @@ export const UpdateFavIndustriesModal = ({
             <ActionModal
                 Icon={HiCheckBadge}
                 variant="success"
-                title="Are you sure!"
-                description={`You are about to Update Fav Industries. Do you wish to continue?`}
+                title="Transfer Fav Industries to Team"
+                description={`You are about to transfer the favorite industries of this coordinator to their department coordinators. Are you sure you want to continue?`}
                 onConfirm={onConfirmUClicked}
                 onCancel={onCancel}
                 input
                 inputKey={subAdmin.user.email}
                 actionObject={subAdmin}
                 loading={updateResult.isLoading}
+                confirmText="Confirm Transfer"
             />
         </>
     )
