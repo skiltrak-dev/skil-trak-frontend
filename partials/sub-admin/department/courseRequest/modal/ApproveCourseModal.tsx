@@ -113,8 +113,6 @@ export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
                 title: 'Course Description',
                 description: 'Course description successfully updated.',
             })
-            // onCloseModal() // ✅ Close only on success
-            // methods.reset()
         } else {
             showErrorNotifications({ isError: true, ...res })
         }

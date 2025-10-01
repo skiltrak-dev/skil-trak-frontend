@@ -22,7 +22,6 @@ export const ResultDisplayCard = ({
     setRemovedItems,
     removedItems,
     groupIndex,
-    handleLocationSelect,
     companyIndex,
     company,
     selectedLocationId,
@@ -34,7 +33,6 @@ export const ResultDisplayCard = ({
     groupIndex: number
     companyIndex: number
     companyAnalyses: any
-    handleLocationSelect: any
     selectedLocationId: string
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -160,7 +158,6 @@ export const ResultDisplayCard = ({
                               }
                             : {}
                     }
-                    onClick={() => handleLocationSelect(company.id)}
                 >
                     <div className="py-3 pb-1 px-4">
                         <div className="flex items-start justify-between gap-3">
@@ -181,7 +178,6 @@ export const ResultDisplayCard = ({
                                                     }}
                                                 />
                                                 <Typography variant="xxs">
-                                                    {' '}
                                                     Keyword match
                                                 </Typography>
                                             </div>
@@ -240,20 +236,6 @@ export const ResultDisplayCard = ({
                                     />
                                 </div>
 
-                                {/* <div className="flex items-center gap-1">
-                        <MdLanguage className="w-3 h-3 flex-shrink-0" />
-                        <Typography
-                            variant="xs"
-                            color="text-gray-500"
-                        >
-                            <span className="truncate">
-                                {
-                                    company.website
-                                }
-                            </span>
-                        </Typography>
-                    </div> */}
-
                                 {/* Keyword matches display */}
                                 {company?.types &&
                                     company?.types?.length > 0 && (
@@ -273,16 +255,18 @@ export const ResultDisplayCard = ({
                             </div>
                             <div className="flex items-center gap-1 flex-shrink-0">
                                 <div className="flex flex-col gap-1">
-                                    <Badge
-                                        outline
-                                        onClick={(e) => {
-                                            e.stopPropagation()
-                                            onRemoveDuplicate()
-                                        }}
-                                        variant="primary"
-                                        text={'Remove Duplicate'}
-                                        Icon={MdClose}
-                                    />
+                                    {company?.duplicated && (
+                                        <Badge
+                                            outline
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                onRemoveDuplicate()
+                                            }}
+                                            variant="primary"
+                                            text={'Remove Duplicate'}
+                                            Icon={MdClose}
+                                        />
+                                    )}
 
                                     <Badge
                                         outline
