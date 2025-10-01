@@ -1,26 +1,18 @@
-import React, {
-    ReactElement,
-    useCallback,
-    useEffect,
-    useMemo,
-    useState,
-} from 'react'
+import React, { ReactElement, useCallback, useMemo, useState } from 'react'
 
-import { MdArrowBack, MdCheckCircle, MdLocationOn } from 'react-icons/md'
+import {
+    MdArrowBack,
+    MdCheckCircle,
+    MdExpandLess,
+    MdExpandMore,
+    MdLocationOn,
+} from 'react-icons/md'
 
 import { Alert, Badge, Button, Typography } from '@components'
 import { ConfirmationModal } from '@partials/common/FindWorkplaces/modal'
 import { MapView } from '../MapView'
-import { formatAddressWithCode, getRegionInfo } from '../utils/addressCodes'
-import {
-    findKeywordMatches,
-    hasSignificantKeywordMatch,
-    KeywordMatch,
-} from '../utils/keywordMatcher'
-import {
-    checkSkilTrakMatch,
-    type SkilTrakMatch,
-} from '../utils/skilTrakDatabase'
+import { KeywordMatch } from '../utils/keywordMatcher'
+import { type SkilTrakMatch } from '../utils/skilTrakDatabase'
 import { ResultDisplayCard } from './ResultDisplayCard'
 
 interface ResultsDisplayProps {
@@ -37,113 +29,6 @@ interface CompanyAnalysis {
     regionInfo: { region: string; postcode: string }
     hasKeywordMatch: boolean
     hasSkilTrakMatch: boolean
-}
-
-const mockResults = [
-    {
-        distance: '≤ 2 km',
-        companies: [
-            {
-                id: 'comp-1',
-                name: 'Sunset Gardens Aged Care',
-                type: 'Private',
-                address: '123 Collins Street, Melbourne VIC',
-                website: 'https://sunsetgardens.com.au',
-                lat: -37.8136,
-                lng: 144.9631,
-            },
-            {
-                id: 'comp-2',
-                name: 'Melbourne Central Care',
-                type: 'Not-for-profit',
-                address: '456 Bourke Street, Melbourne VIC',
-                website: 'https://melbournecentralcare.org.au',
-                lat: -37.8102,
-                lng: 144.9628,
-            },
-        ],
-    },
-    {
-        distance: '≤ 5 km',
-        companies: [
-            {
-                id: 'comp-3',
-                name: 'Richmond Care Facility',
-                type: 'Public',
-                address: '789 Swan Street, Richmond VIC',
-                website: 'https://richmondcare.vic.gov.au',
-                lat: -37.8197,
-                lng: 144.9967,
-            },
-            {
-                id: 'comp-4',
-                name: 'Hawthorn Health Services',
-                type: 'Private',
-                address: '321 Burke Road, Hawthorn VIC',
-                website: 'https://hawthornhealth.com.au',
-                lat: -37.822,
-                lng: 145.0362,
-            },
-            {
-                id: 'comp-5',
-                name: 'Prahran Community Care Centre',
-                type: 'Government',
-                address: '654 Chapel Street, Prahran VIC',
-                website: 'https://prahrancare.vic.gov.au',
-                lat: -37.8467,
-                lng: 144.9961,
-            },
-        ],
-    },
-    {
-        distance: '≤ 10 km',
-        companies: [
-            {
-                id: 'comp-6',
-                name: 'Springvale Aged Living Centre',
-                type: 'Private',
-                address: '987 Springvale Road, Springvale VIC',
-                website: 'https://springvaleaging.com.au',
-                lat: -37.9505,
-                lng: 145.1508,
-            },
-        ],
-    },
-]
-
-// Mock existing database entries for duplicate checking
-const existingDatabase = [
-    {
-        name: 'Sunset Gardens Aged Care',
-        address: '123 Collins Street, Melbourne VIC',
-    },
-    {
-        name: 'Melbourne Central Care Facility', // Similar name
-        address: '456 Bourke Street, Melbourne VIC',
-    },
-    {
-        name: 'Richmond Community Care',
-        address: '789 Swan Street, Richmond VIC', // Same address, different name
-    },
-]
-
-// Function to check for duplicates
-const checkForDuplicates = (company: any) => {
-    return existingDatabase.some((existing) => {
-        // Exact address match
-        const addressMatch =
-            existing.address.toLowerCase() === company.address.toLowerCase()
-
-        // Fuzzy name match (simple word overlap check)
-        const companyWords = company.name.toLowerCase().split(' ')
-        const existingWords = existing.name.toLowerCase().split(' ')
-        const commonWords = companyWords.filter(
-            (word: any) => existingWords.includes(word) && word.length > 3 // Ignore short words
-        )
-        const nameMatch = commonWords.length >= 2 // At least 2 common significant words
-
-        return addressMatch || nameMatch
-    })
 }
 
 export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
@@ -167,71 +52,10 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
     const filteredCompanies = (companies: any) =>
         companies?.filter((company: any) => !removedItems.has(company?.placeId))
 
-    // Transform companies for map display
-    const mapLocations = useMemo(
-        () =>
-            mockResults.flatMap((group) =>
-                filteredCompanies(group.companies)?.map((company: any) => ({
-                    id: company.id,
-                    name: company.name,
-                    type: company.type,
-                    address: company.address,
-                    lat: company.lat,
-                    lng: company.lng,
-                    distance: group.distance,
-                }))
-            ),
-        [removedItems]
-    )
-
-    // Analyze companies on component mount
-    useEffect(() => {
-        const foundDuplicates = new Set<string>()
-        const analyses = new Map<string, CompanyAnalysis>()
-
-        mockResults.forEach((group) => {
-            group.companies.forEach((company) => {
-                // Check for duplicates
-                if (checkForDuplicates(company)) {
-                    foundDuplicates.add(company.id)
-                }
-
-                // Analyze company
-                const keywordMatches = findKeywordMatches(
-                    company.name,
-                    company.address,
-                    selectedSector as any
-                )
-                const skilTrakMatch = checkSkilTrakMatch(
-                    company.name,
-                    company.address
-                )
-                const addressCode = formatAddressWithCode(company.address)
-                const regionInfo = getRegionInfo(company.address)
-
-                analyses.set(company.id, {
-                    keywordMatches,
-                    skilTrakMatch,
-                    addressCode,
-                    regionInfo,
-                    hasKeywordMatch: hasSignificantKeywordMatch(keywordMatches),
-                    hasSkilTrakMatch: skilTrakMatch !== null,
-                })
-            })
-        })
-
-        setDuplicates(foundDuplicates)
-        setCompanyAnalyses(analyses)
-    }, [selectedSector])
-
     const onCancel = useCallback(() => setModal(null), [])
 
     const toggleMapExpanded = useCallback(() => {
         setIsMapExpanded((prev) => !prev)
-    }, [])
-
-    const handleLocationSelect = useCallback((locationId: string) => {
-        setSelectedLocationId(locationId)
     }, [])
 
     const total = useMemo(
@@ -260,7 +84,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
         ?.filter((a: any) => a?.duplicated)?.length
 
     return (
-        <div className="space-y-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-500 px-10 pb-10">
+        <div className="space-y-3 animate-in fade-in-0 slide-in-from-bottom-4 duration-500 px-3 pb-10">
             {modal}
 
             <style>{`
@@ -324,7 +148,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
 
             {/* Map Toggle Button */}
             <div className="flex items-center justify-between">
-                {/* <Button
+                <Button
                     outline
                     variant="primaryNew"
                     onClick={toggleMapExpanded}
@@ -338,18 +162,14 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                             <MdExpandMore className="w-4 h-4" />
                         )}
                     </div>
-                </Button> */}
+                </Button>
             </div>
 
             {/* Map View - Expandable */}
             {isMapExpanded && (
-                <div className="animate-in fade-in-0 slide-in-from-top-2 duration-300">
-                    <MapView
-                        locations={mapLocations}
-                        selectedLocationId={selectedLocationId}
-                        onLocationSelect={handleLocationSelect}
-                    />
-                </div>
+                <MapView
+                    listingResults={Object.values(listingResults)?.flat()}
+                />
             )}
 
             {/* Duplicate Warning Banner */}
@@ -467,9 +287,6 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                                                     groupIndex={groupIndex}
                                                     selectedLocationId={
                                                         selectedLocationId
-                                                    }
-                                                    handleLocationSelect={
-                                                        handleLocationSelect
                                                     }
                                                 />
                                             )
