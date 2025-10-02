@@ -367,4 +367,12 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
+
+    canApproveRtoWorkplace: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/subadmin/${id}/allow-workplace-approval`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdmins'],
+    }),
 })

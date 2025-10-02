@@ -1,13 +1,13 @@
-import { Alert, AuthorizedUserComponent, Card, PageTitle } from '@components'
-import { UserRoles } from '@constants'
-import { useAlert, useContextBar } from '@hooks'
-import { CommonApi } from '@queries'
-import { Industry, UserStatus } from '@types'
-import { getUserCredentials } from '@utils'
 import moment from 'moment'
+import { CommonApi } from '@queries'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 import { useEffect, useState } from 'react'
+import { Industry, UserStatus } from '@types'
+import { useAlert, useContextBar } from '@hooks'
 import { ProfileAppointments } from '../ProfileAppointments'
 import { MailsCommunication } from '../StudentProfileDetail/components'
+import { Alert, AuthorizedUserComponent, Card, PageTitle } from '@components'
 import {
     IndustryHistory,
     IndustryProgress,

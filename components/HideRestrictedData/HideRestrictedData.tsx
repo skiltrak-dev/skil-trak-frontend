@@ -4,7 +4,9 @@ import { RestrictedDataTypes } from './types'
 export const HideRestrictedData = ({
     children,
     type,
+    isAdmin,
 }: {
     type: RestrictedDataTypes
     children: ReactNode
-}) => useRestrictedData(children, type)
+    isAdmin?: boolean
+}) => useRestrictedData(children, type, isAdmin)

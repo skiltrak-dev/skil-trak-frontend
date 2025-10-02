@@ -2,7 +2,7 @@ import { UserRoles } from '@constants'
 import { useCheckPermission } from '@partials/admin/hooks'
 import { SubAdmin } from '@types'
 import { getUserCredentials } from '@utils'
-import { FaSchool } from 'react-icons/fa'
+import { FaIndustry, FaSchool } from 'react-icons/fa'
 import { MdAdminPanelSettings, MdOutlineAssignmentReturn } from 'react-icons/md'
 import { usePermission } from '../hooks'
 import { FaArrowsToDot } from 'react-icons/fa6'
@@ -209,6 +209,13 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             toggle: subadmin?.canViewRtoList,
             isLoading: results?.resultCanToggleRtoList.isLoading,
             Icon: MdOutlineAssignmentReturn,
+        },
+        {
+            Icon: FaIndustry,
+            text: 'Can Approve Rto Workplaces',
+            toggle: subadmin?.canApproveWorkplace,
+            onClick: () => Actions.onApproveRtoWorkplaces(subadmin),
+            isLoading: results?.resultcanApproveRtoWorkplaces.isLoading,
         },
     ]
 

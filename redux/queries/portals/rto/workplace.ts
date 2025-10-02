@@ -40,6 +40,6 @@ export const workplaceEndpoints = (
             params,
             method: 'PATCH',
         }),
-        invalidatesTags: ['RTOWorkplace'],
+        invalidatesTags: ['RTOWorkplace', 'SubAdminWorkplace'],
     }),
 })

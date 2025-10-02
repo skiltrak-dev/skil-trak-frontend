@@ -58,6 +58,10 @@ export const usePermissionQueries = () => {
 
     const [industriesAssignment, resultIndustriesAssignment] =
         AdminApi.SubAdmins.industriesAssignment()
+
+    const [canApproveRtoWorkplaces, resultcanApproveRtoWorkplaces] =
+        AdminApi.SubAdmins.canApproveRtoWorkplace()
+
     return {
         queries: {
             todoEnabled,
@@ -69,6 +73,7 @@ export const usePermissionQueries = () => {
             allowRtoListing,
             canViewAllStudents,
             allowIndustryListing,
+            canApproveRtoWorkplaces,
             canAdmin,
             canLogin,
             allowPlacement,
@@ -86,6 +91,7 @@ export const usePermissionQueries = () => {
             canAddStudents,
         },
         results: {
+            resultcanApproveRtoWorkplaces,
             resultIndustriesAssignment,
             resultTodoEnabled,
             resultToggleManager,

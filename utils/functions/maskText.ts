@@ -13,6 +13,8 @@ export const maskText = (key: string, len = 4) => {
     // Get the last 4 digits
     const lastFour = keyStr?.slice(-datalength)
     // Create asterisks for the rest of the length
-    const mask = '*'.repeat(keyStr?.length - datalength)
+
+    const staricLength = keyStr?.length - datalength
+    const mask = '*'.repeat(staricLength > 5 ? 5 : staricLength)
     return mask + lastFour
 }
