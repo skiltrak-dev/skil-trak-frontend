@@ -44,7 +44,10 @@ export const WorkplaceApprovalReq = ({
             {!wpReqApproval?.isEligible ? (
                 <EligibleWorkplaceComponent wpReqApproval={wpReqApproval} />
             ) : !wpReqApproval?.hasVerifiedCapacity ? (
-                <VerifyCapacityComponent wpReqApproval={wpReqApproval} />
+                <VerifyCapacityComponent
+                    courseId={course?.id}
+                    wpReqApproval={wpReqApproval}
+                />
             ) : (
                 <div className="grid grid-cols-3 gap-x-6 items-center border-b border-[#F7910F] px-4 py-2">
                     <Typography variant="label" semibold block capitalize>

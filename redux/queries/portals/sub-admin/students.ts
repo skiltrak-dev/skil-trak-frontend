@@ -307,6 +307,17 @@ export const studentsEndpoints = (
         invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
     }),
 
+    confirmWpCapacityThroughtEmail: builder.mutation<
+        any,
+        { courseId: number; wpApprovalId: number }
+    >({
+        query: ({ courseId, wpApprovalId }) => ({
+            url: `students/workplace-requests/course/${courseId}/capacity-confirmation/${wpApprovalId}/send-email`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['SubAdminStudents', 'SubAdminWorkplace'],
+    }),
+
     getWorkplaceStudentDetail: builder.query<any, number>({
         query: (id) => `${PREFIX}/workplace-request/${id}/student-details`,
         providesTags: [
