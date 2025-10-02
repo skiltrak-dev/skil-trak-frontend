@@ -22,6 +22,8 @@ export interface Folder extends BaseResponse {
     category: FolderCategoryEnum
     capacity: number
     description: string
+    isAgreement: boolean
+    isFacilityCheckList: boolean
     isRequired: boolean
     isCustom?: boolean
     isIndustryCheck?: boolean

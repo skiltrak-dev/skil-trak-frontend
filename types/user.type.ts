@@ -114,6 +114,7 @@ export interface Rto extends BaseResponse {
     allowAutoComplete: boolean
     workplaceApprovalRequired: boolean
     autoReleaseLogBook: boolean
+    allowEsignAutoPopulation: boolean
     allowInvoicing: boolean
     allowAutoReport: boolean
     allowPartialSubmission: boolean

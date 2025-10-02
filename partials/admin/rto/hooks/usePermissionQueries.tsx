@@ -22,6 +22,9 @@ export const usePermissionQueries = () => {
     const [allowScheduleEmail, allowScheduleEmailResult] =
         AdminApi.Rtos.allowScheduleEmailToggle()
 
+    const [toggleEsignPopulation, toggleEsignPopulationResult] =
+        AdminApi.Rtos.toggleEsignPopulation()
+
     return {
         queries: {
             allowUpdation,
@@ -31,6 +34,7 @@ export const usePermissionQueries = () => {
             rtoCanViewPayment,
             allowScheduleEmail,
             rtoWpApprovalRequest,
+            toggleEsignPopulation,
         },
         results: {
             allowUpdationResult,
@@ -40,6 +44,7 @@ export const usePermissionQueries = () => {
             rtoCanViewPaymentResult,
             allowScheduleEmailResult,
             rtoWpApprovalRequestResult,
+            toggleEsignPopulationResult,
         },
     }
 }
