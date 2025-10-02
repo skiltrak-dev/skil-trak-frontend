@@ -287,9 +287,21 @@ export const usePermission = () => {
         })
     }
 
+    const onApproveRtoWorkplaces = (subAdmin: SubAdmin) => {
+        queries.canApproveRtoWorkplaces(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Change Status For SubAdmins.`,
+                })
+            }
+        })
+    }
+
     return {
         results,
         Actions: {
+            onApproveRtoWorkplaces,
             onTodoEnabled,
             onIsManagerClicked,
             onToggleDistributeIndustries,

@@ -29,6 +29,8 @@ export const useRestricted = (type: RestrictedDataTypes, isAdmin: boolean) => {
                 return 'canDownloadReport'
             case 'canAccessRtoProfile':
                 return 'canAccessRtoProfile'
+            case 'canApproveWorkplace':
+                return 'canApproveWorkplace'
 
             default:
                 return null
@@ -37,6 +39,7 @@ export const useRestricted = (type: RestrictedDataTypes, isAdmin: boolean) => {
 
     const key = checkType()
 
+    console.log('Cheema lala', role === UserRoles.SUBADMIN)
     if (role === UserRoles.SUBADMIN && (!isAdmin || subadmin?.data?.isAdmin)) {
         const canAccess = key ? subadmin?.data?.[key] : false
         return canAccess

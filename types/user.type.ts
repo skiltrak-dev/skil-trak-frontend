@@ -260,6 +260,7 @@ export interface SubAdmin extends BaseResponse {
     canDownloadReport: boolean
     canViewStudentDetails: boolean
     canViewIndustryDetails: boolean
+    canApproveWorkplace: boolean
     canAccessRpl: boolean
     canAccessTalentPool: boolean
     canAccessQueries: boolean

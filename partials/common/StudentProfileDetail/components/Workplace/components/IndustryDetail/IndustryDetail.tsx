@@ -3,6 +3,7 @@ import {
     AuthorizedUserComponent,
     Card,
     GlobalModal,
+    HideRestrictedData,
     InitialAvatar,
     NoData,
     Tooltip,
@@ -36,7 +37,11 @@ import {
 } from '../../modals'
 import { AgreementView } from '../AgreementView'
 
-import { ContactedIndustriesList, IndustryCard } from './components'
+import {
+    ApproveRtoWorkplaceActions,
+    ContactedIndustriesList,
+    IndustryCard,
+} from './components'
 import { MapModal } from './components/MapModal'
 import { StudentProvidedABNActions } from './StudentProvidedABNActions'
 import { StudentProvidedActions } from './StudentProvidedActions'
@@ -420,7 +425,7 @@ export const IndustryDetail = ({
                             ) : workplace?.currentStatus ===
                               WorkplaceCurrentStatus.AwaitingRtoResponse ? (
                                 <Card noPadding fullHeight>
-                                    <div className="flex flex-col justify-center items-center bg-yellow-100 p-5">
+                                    <div className="flex flex-col justify-center items-center gap-y-2 bg-yellow-100 p-5">
                                         <Typography
                                             variant="label"
                                             bold
@@ -461,6 +466,17 @@ export const IndustryDetail = ({
                                                 </Typography>
                                             </div>
                                         </div>
+
+                                        <HideRestrictedData
+                                            isAdmin={false}
+                                            type="canApproveWorkplace"
+                                        >
+                                            <ApproveRtoWorkplaceActions
+                                                wpApproval={
+                                                    latestWorkplaceApprovaleRequest
+                                                }
+                                            />
+                                        </HideRestrictedData>
                                     </div>
                                 </Card>
                             ) : (

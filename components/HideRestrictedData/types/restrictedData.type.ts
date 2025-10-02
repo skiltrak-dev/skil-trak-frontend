@@ -18,3 +18,4 @@ export type RestrictedDataTypes =
     | 'canDownloadReport'
     | 'canViewRtoList'
     | 'canAccessRtoProfile'
+    | 'canApproveWorkplace'
