@@ -78,6 +78,7 @@ export interface AssessmentEvidenceDetailType extends BaseResponse {
     negativeComment: string
     notAssessed: boolean
     studentResponse: StudentResponseType[]
+    course: Course
     isAgreement: boolean
     isIndustryCheck: boolean
     isFacilityCheckList: boolean

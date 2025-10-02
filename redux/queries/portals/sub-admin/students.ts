@@ -846,6 +846,20 @@ export const studentsEndpoints = (
         providesTags: ['SubAdminStudents'],
     }),
 
+    checkExistingIndustryRtoDoc: builder.query<any, number>({
+        query: (id) => `${PREFIX}/workplace/${id}/check-document`,
+        providesTags: ['SubAdminStudents'],
+    }),
+
+    sendExistingDocument: builder.mutation<any, { id: number; url: string }>({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/workplace/${id}/document-add`,
+            params,
+            method: 'POST',
+        }),
+        invalidatesTags: ['SubAdminStudents'],
+    }),
+
     // ind/:id/workplace/:wpId/emails
     getIndustryInRadiusWorkplaceEmails: builder.query<any, any>({
         query: ({ wpId }) => ({

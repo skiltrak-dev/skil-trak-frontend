@@ -401,4 +401,12 @@ export const rtoEndpoints = (
         }),
         invalidatesTags: ['RTOS'],
     }),
+
+    toggleEsignPopulation: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto/${id}/toggle/auto-esign`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
 })

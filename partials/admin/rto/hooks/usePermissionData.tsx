@@ -2,7 +2,7 @@ import { UserRoles } from '@constants'
 import { useCheckPermission } from '@partials/admin/hooks'
 import { Rto, UserStatus } from '@types'
 import { getUserCredentials } from '@utils'
-import { FaFileInvoiceDollar, FaSchool } from 'react-icons/fa'
+import { FaFileInvoiceDollar, FaFileSignature, FaSchool } from 'react-icons/fa'
 import { usePermission } from './usePermission'
 import { useChangeStatus } from './useChangeStatus'
 import { useModal } from '@hooks'
@@ -82,6 +82,13 @@ export const usePermissionData = (rto: Rto) => {
             toggle: rto?.allowScheduleEmails,
             isLoading: results?.allowScheduleEmailResult.isLoading,
             Icon: MdOutlinePayment,
+        },
+        {
+            text: 'Allow Esign Population',
+            onClick: () => Actions?.onToggleEsignPopulation(rto),
+            toggle: rto?.allowEsignAutoPopulation,
+            isLoading: results?.toggleEsignPopulationResult.isLoading,
+            Icon: FaFileSignature,
         },
         {
             text: 'Archive',

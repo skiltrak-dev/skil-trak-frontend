@@ -1,18 +1,11 @@
-import {
-    NoData,
-    Button,
-    Tooltip,
-    Typography,
-    GlobalModal,
-    LoadingAnimation,
-} from '@components'
-import { Folder } from '@types'
-import { SubAdminApi } from '@queries'
-import { MdCancel } from 'react-icons/md'
-import { IoIosSend } from 'react-icons/io'
-import { ReactElement, useState } from 'react'
-import { IWorkplaceIndustries } from 'redux/queryTypes'
+import { GlobalModal, LoadingAnimation, NoData, Typography } from '@components'
 import { InitiateSigningModal } from '@partials/sub-admin/assessmentEvidence/modal'
+import { SubAdminApi } from '@queries'
+import { AssessmentEvidenceDetailType } from '@types'
+import { ReactElement, useCallback, useState } from 'react'
+import { MdCancel } from 'react-icons/md'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
+import { DocumentToRelease, ExistingFacility } from '../components'
 
 export const GenerateEsignModal = ({
     workplace,
@@ -33,19 +26,28 @@ export const GenerateEsignModal = ({
         }
     )
 
+    const checkExistingIndustryRtoDoc =
+        SubAdminApi.Student.checkExistingIndustryRtoDoc(Number(workplace?.id), {
+            skip: !workplace,
+            refetchOnMountOrArgChange: true,
+        })
+
     const onCancelModal = () => setModal(null)
 
-    const onInitiateSigning = (folder: any) => {
-        setModal(
-            <InitiateSigningModal
-                onCancel={() => {
-                    onCancelModal()
-                }}
-                courseId={courseId}
-                folder={folder}
-            />
-        )
-    }
+    const onInitiateSigning = useCallback(
+        (folder: AssessmentEvidenceDetailType) => {
+            setModal(
+                <InitiateSigningModal
+                    onCancel={() => {
+                        onCancelModal()
+                    }}
+                    courseId={courseId}
+                    folder={folder}
+                />
+            )
+        },
+        []
+    )
 
     return (
         <GlobalModal>
@@ -90,40 +92,61 @@ export const GenerateEsignModal = ({
                           esignDocumentsFolders?.data?.length > 0 ? (
                             <div className="py-3 space-y-2">
                                 {esignDocumentsFolders?.data?.map(
-                                    (folder: Folder) => (
-                                        <div
-                                            key={folder?.id}
-                                            className="flex items-center justify-between gap-x-2 py-2 px-6 bg-white border border-gray-200 rounded-lg shadow-sm"
-                                        >
-                                            <div className="flex items-center gap-x-1">
-                                                <Typography
-                                                    variant="label"
-                                                    semibold
-                                                    color="text-primaryNew"
-                                                >
-                                                    {folder?.name}
-                                                </Typography>{' '}
-                                                {folder?.course?.esignTemplates?.find(
-                                                    (temp: any) =>
-                                                        temp?.documents
-                                                            ?.length > 0
-                                                ) && (
-                                                    <div className="relative group">
-                                                        <IoIosSend />
-                                                        <Tooltip>
-                                                            Document Initiated
-                                                        </Tooltip>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <Button
-                                                text="RELEASE DOCUMENT"
-                                                onClick={() =>
-                                                    onInitiateSigning(folder)
+                                    (folder: AssessmentEvidenceDetailType) => {
+                                        if (folder?.isFacilityCheckList) {
+                                            if (
+                                                checkExistingIndustryRtoDoc?.isSuccess &&
+                                                checkExistingIndustryRtoDoc
+                                                    ?.data?.isExist
+                                            ) {
+                                                return (
+                                                    <ExistingFacility
+                                                        onCancel={onCancel}
+                                                        existingDoc={
+                                                            checkExistingIndustryRtoDoc?.data
+                                                        }
+                                                        workplace={workplace}
+                                                        onInitiateSigning={() =>
+                                                            onInitiateSigning(
+                                                                folder
+                                                            )
+                                                        }
+                                                    />
+                                                )
+                                            }
+
+                                            return (
+                                                <div className="relative">
+                                                    {checkExistingIndustryRtoDoc?.isLoading && (
+                                                        <div className="w-full  absolute top-0 left-0 inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50">
+                                                            <div className="flex flex-col items-center">
+                                                                {/* Spinner */}
+                                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-3"></div>
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    {/*  */}
+                                                    <DocumentToRelease
+                                                        folder={folder}
+                                                        key={folder?.id}
+                                                        onInitiateSigning={
+                                                            onInitiateSigning
+                                                        }
+                                                    />
+                                                </div>
+                                            )
+                                        }
+                                        return (
+                                            <DocumentToRelease
+                                                folder={folder}
+                                                key={folder?.id}
+                                                onInitiateSigning={
+                                                    onInitiateSigning
                                                 }
                                             />
-                                        </div>
-                                    )
+                                        )
+                                    }
                                 )}
                             </div>
                         ) : esignDocumentsFolders?.isSuccess ? (

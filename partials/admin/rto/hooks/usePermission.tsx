@@ -100,6 +100,18 @@ export const usePermission = () => {
         }
     }
 
+    const onToggleEsignPopulation = async (rto: Rto) => {
+        const res: any = await queries.toggleEsignPopulation(rto?.id)
+
+        if (res?.data) {
+            notification.success({
+                title: 'Esign Population Permission Changed',
+                description:
+                    'Esign Population Permission Changed Successfully!',
+            })
+        }
+    }
+
     return {
         results,
         Actions: {
@@ -108,6 +120,7 @@ export const usePermission = () => {
             onAllowScheduleEmail,
             onAllowCanViewPayment,
             onAllowLogbookClicked,
+            onToggleEsignPopulation,
             onAllowPermissionClicked,
             onAllowAutoCompleteClicked,
         },
