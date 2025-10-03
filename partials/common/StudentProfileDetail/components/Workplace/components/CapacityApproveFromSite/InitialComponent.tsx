@@ -9,12 +9,14 @@ interface InitialComponentProps {
     availableStudents: number
     onConfirm: (capacity: number) => void
     onNoStudentsConfirm: () => void
+    result: any
 }
 
 export function InitialComponent({
-    availableStudents,
     onConfirm,
+    availableStudents,
     onNoStudentsConfirm,
+    result,
 }: InitialComponentProps) {
     const [capacity, setCapacity] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
@@ -23,12 +25,12 @@ export function InitialComponent({
 
     const handleConfirm = async () => {
         if (isValidCapacity) {
-            setIsLoading(true)
+            // setIsLoading(true)
 
-            // Simulate API call
-            await new Promise((resolve) => setTimeout(resolve, 1200))
+            // // Simulate API call
+            // await new Promise((resolve) => setTimeout(resolve, 1200))
 
-            setIsLoading(false)
+            // setIsLoading(false)
             onConfirm(capacity)
         }
     }
@@ -44,7 +46,7 @@ export function InitialComponent({
     }
 
     return (
-        <div className="text-center relative z-10">
+        <div className="text-center relative z-10 space-y-4">
             <div className="animate-scale-in animate-delay-200">
                 <Image
                     src="https://www.skiltrak.com.au/images/site/logo-light.webp"
@@ -58,21 +60,12 @@ export function InitialComponent({
 
             {availableStudents === 1 ? (
                 <div className="animate-fade-in">
-                    <Typography variant="h3" center color="text-primaryNew">
-                        Capacity Confirmation
-                    </Typography>
-
                     <Typography
-                        variant="label"
+                        variant="h4"
                         center
-                        color="text-muted-foreground"
+                        color="text-primaryNew"
+                        className="mb-2 animate-slide-up animate-delay-300"
                     >
-                        Thank you for clicking "Capacity Available"
-                    </Typography>
-                </div>
-            ) : (
-                <div className="animate-fade-in">
-                    <Typography variant="h1" center color="text-primaryNew">
                         Capacity Confirmation
                     </Typography>
 
@@ -80,6 +73,27 @@ export function InitialComponent({
                         variant="body"
                         center
                         color="text-muted-foreground"
+                        className="mb-8 animate-slide-up animate-delay-400"
+                    >
+                        Thank you for clicking "Capacity Available"
+                    </Typography>
+                </div>
+            ) : (
+                <div className="animate-fade-in">
+                    <Typography
+                        variant="h4"
+                        center
+                        color="text-primaryNew"
+                        className="mb-2 animate-slide-up animate-delay-300"
+                    >
+                        Capacity Confirmation
+                    </Typography>
+
+                    <Typography
+                        variant="label"
+                        center
+                        color="text-muted-foreground"
+                        className="mb-8 animate-slide-up animate-delay-400"
                     >
                         Help us match students with the right opportunities
                     </Typography>
@@ -89,11 +103,11 @@ export function InitialComponent({
             {availableStudents === 0 && (
                 <div className="space-y-6 animate-slide-up animate-delay-500">
                     <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-4">
-                        <FiClock className="w-6 h-6 text-primary" />
+                        <FiClock className="w-6 h-6 text-primaryNew" />
                     </div>
 
                     <div className="space-y-3">
-                        <Typography variant="h3" center color="text-primary">
+                        <Typography variant="h3" center color="text-primaryNew">
                             No students available right now
                         </Typography>
                         <Typography
@@ -108,7 +122,6 @@ export function InitialComponent({
 
                     <div className="button-hover-scale">
                         <Button
-                            // className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground rounded-xl px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-200"
                             onClick={handleNoStudentsConfirm}
                             disabled={isLoading}
                         >
@@ -125,7 +138,7 @@ export function InitialComponent({
                 </div>
             )}
 
-            {availableStudents === 1 && (
+            {/* {availableStudents === 1 && (
                 <div className="space-y-6 animate-slide-up animate-delay-500">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4 animate-icon-bounce animate-delay-600">
                         <FiCheckCircle className="w-8 h-8 text-green-600" />
@@ -157,20 +170,24 @@ export function InitialComponent({
                         </Typography>
                     </div>
                 </div>
-            )}
+            )} */}
 
-            {availableStudents > 1 && (
+            {availableStudents > 0 && (
                 <div className="space-y-6 animate-slide-up animate-delay-500">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-4 animate-bounce-in animate-delay-600">
-                        <FiUsers className="w-6 h-6 text-primary" />
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full animate-bounce-in animate-delay-600">
+                        <FiUsers className="w-6 h-6 text-primaryNew" />
                     </div>
 
                     <div className="space-y-3">
-                        <Typography variant="h3" center color="text-primaryNew">
+                        <Typography
+                            variant="title"
+                            center
+                            color="text-primaryNew"
+                        >
                             Great! We have {availableStudents} students ready
                         </Typography>
                         <Typography
-                            variant="body"
+                            variant="label"
                             center
                             color="text-muted-foreground"
                         >
@@ -180,7 +197,7 @@ export function InitialComponent({
                     </div>
 
                     <div className="space-y-4 animate-fade-in animate-delay-700">
-                        <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl p-6 border border-primary/10">
+                        <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl px-6 py-4 border border-primary/10">
                             <CapacityStepper
                                 value={capacity}
                                 onChange={setCapacity}
@@ -203,7 +220,7 @@ export function InitialComponent({
                                         variant="small"
                                         center
                                         color="text-destructive"
-                                        // role="alert"
+                                        className="animate-fade-in"
                                     >
                                         Please enter a number between 1 and{' '}
                                         {availableStudents}
@@ -215,6 +232,7 @@ export function InitialComponent({
                                         variant="small"
                                         center
                                         color="text-green-600"
+                                        className="animate-fade-in"
                                     >
                                         Perfect! You can accommodate {capacity}{' '}
                                         student{capacity !== 1 ? 's' : ''}
@@ -231,21 +249,13 @@ export function InitialComponent({
                             }
                         >
                             <Button
-                                // className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground rounded-xl px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                 onClick={handleConfirm}
-                                disabled={!isValidCapacity || isLoading}
-                            >
-                                {isLoading ? (
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                        Confirming capacity...
-                                    </div>
-                                ) : (
-                                    `Confirm ${capacity} student${
-                                        capacity !== 1 ? 's' : ''
-                                    }`
-                                )}
-                            </Button>
+                                disabled={!isValidCapacity || result?.isLoading}
+                                loading={result?.isLoading}
+                                text={`Confirm ${capacity} student${
+                                    capacity !== 1 ? 's' : ''
+                                }`}
+                            />
                         </div>
                     </div>
                 </div>
@@ -256,7 +266,7 @@ export function InitialComponent({
                     variant="small"
                     center
                     color="text-muted-foreground"
-                    // className="mt-8 animate-fade-in animate-delay-800"
+                    className="mt-8 animate-fade-in animate-delay-800"
                 >
                     💡 You can update your capacity anytime from your SkilTrak
                     dashboard
@@ -268,7 +278,7 @@ export function InitialComponent({
                     variant="small"
                     center
                     color="text-muted-foreground"
-                    // className="mt-8 animate-fade-in animate-delay-800"
+                    className="mt-8 animate-fade-in animate-delay-800"
                 >
                     💡 You can update your availability anytime from your
                     SkilTrak dashboard

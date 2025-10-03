@@ -11,7 +11,6 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit } from 'react-icons/fa'
 
 import { Industry } from '@types'
-import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { MdBlock, MdDelete } from 'react-icons/md'
 // import { IndustryCell, SectorCell } from './components'
@@ -25,7 +24,6 @@ import {
     IndustryListingCellInfo,
     IndustryListingStatus,
     ListingCreatedBy,
-    PhoneNumberCell,
 } from '../components'
 import {
     BlockIndustryListingModal,
@@ -36,8 +34,8 @@ import { MultipleBlockModal } from '../MultipleBlockModal'
 import { MultipleDefaultModal } from '../MultipleDefaultModal'
 import { MultipleDoNotDisturbModal } from '../MultipleDoNotDisturbModal'
 import { MultipleFavoriteModal } from '../MultipleFavoriteModal'
-import { useIndustryListingActions } from './useIndustryListingActions'
 import { AddIndustry } from '../tabs'
+import { useIndustryListingActions } from './useIndustryListingActions'
 
 export const useColumns = ({
     data,
@@ -50,8 +48,6 @@ export const useColumns = ({
 
     const { actionsModal, tableActionOptions } =
         useIndustryListingActions(onSetIndustryData)
-
-    const router = useRouter()
 
     const contextBar = useContextBar()
 
@@ -212,9 +208,14 @@ export const useColumns = ({
         {
             accessorKey: 'createdBy',
             header: () => <span>Created By</span>,
-            cell: (info) => (
-                <ListingCreatedBy createdBy={info.row.original?.createdBy} />
-            ),
+            cell: (info) =>
+                info?.row?.original?.isImported ? (
+                    <Typography variant="label"> Auto Import </Typography>
+                ) : (
+                    <ListingCreatedBy
+                        createdBy={info.row.original?.createdBy}
+                    />
+                ),
         },
         {
             accessorKey: 'action',

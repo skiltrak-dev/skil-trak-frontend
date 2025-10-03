@@ -39,10 +39,8 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         <>
             <ShowErrorNotifications result={submitListingResult} />
             <Modal
-                title="Submit Complete!"
-                subtitle={`Your ${listingResults?.length} companies have been successfully
-                        submitted to the Industry Listing. What would you like
-                        to do next?`}
+                title="Ready to Submit!"
+                subtitle={`You have ${listingResults?.length} companies ready to be submitted to the Industry Listing. Please confirm to proceed.`}
                 onCancelClick={onCancel}
                 showActions={false}
             >
@@ -78,8 +76,9 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                         >
                             <MdCheckCircle className="w-4 h-4" />
                             <Typography variant="small" color="#044866">
-                                Ready to submit {listingResults?.length}{' '}
-                                companies to your industry database
+                                {listingResults?.length} companies are ready to
+                                be added to our industry listing database. Ready
+                                to submit{' '}
                             </Typography>
                         </div>
                     </div>

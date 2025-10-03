@@ -21,14 +21,23 @@ export const WorkplaceTypes = ({
 
     useEffect(() => {
         if (wpTypes?.data && wpTypes?.data?.length > 0) {
-            formContext.setValue(name, wpTypes?.data?.[0]?.name)
+            formContext.setValue(
+                name,
+                wpTypes?.data?.map((wpType: any) => wpType?.name) || []
+            )
+            // formContext.setValue(name, wpTypes?.data?.[0]?.name)
         }
     }, [wpTypes?.data])
 
-    const selectedWorkplaceTypes = formContext.watch(name)
+    const selectedWorkplaceTypes = formContext.watch(name) || []
 
     const toggleWorkplaceType = (type: string) => {
-        formContext.setValue(name, type)
+        formContext.setValue(
+            name,
+            selectedWorkplaceTypes?.includes(type)
+                ? selectedWorkplaceTypes?.filter((t: string) => t !== type)
+                : [...selectedWorkplaceTypes, type]
+        )
     }
     return (
         <div className="w-full flex flex-col space-y-1">
@@ -55,7 +64,10 @@ export const WorkplaceTypes = ({
                             // isSelected={selectedWorkplaceTypes?.includes(
                             //     type?.id
                             // )}
-                            isSelected={selectedWorkplaceTypes === type?.name}
+                            isSelected={selectedWorkplaceTypes.includes(
+                                type?.name
+                            )}
+                            // isSelected
                             onToggle={toggleWorkplaceType}
                         />
                     ))

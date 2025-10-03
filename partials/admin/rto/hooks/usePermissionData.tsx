@@ -84,7 +84,7 @@ export const usePermissionData = (rto: Rto) => {
             Icon: MdOutlinePayment,
         },
         {
-            text: 'Allow Esign Population',
+            text: 'Allow auto-fetch checklist',
             onClick: () => Actions?.onToggleEsignPopulation(rto),
             toggle: rto?.allowEsignAutoPopulation,
             isLoading: results?.toggleEsignPopulationResult.isLoading,

@@ -10,8 +10,8 @@ import React, { useState } from 'react'
 import { IndustryInRadiusListCard } from '../industriesListCards'
 
 export const SignedUpIndustriesInRadiusTab = ({
-    workplaceId,
     courseId,
+    workplaceId,
     setSelectedBox,
 }: any) => {
     const [page, setPage] = useState(1)
@@ -31,6 +31,9 @@ export const SignedUpIndustriesInRadiusTab = ({
         )
     return (
         <div className="h-[25rem] overflow-auto remove-scrollbar space-y-4">
+            {workplaceCourseIndustries?.isError ? (
+                <NoData isError text="there is some technical issue!" />
+            ) : null}
             {workplaceCourseIndustries?.isLoading ? (
                 <LoadingAnimation />
             ) : workplaceCourseIndustries?.data?.inds?.data &&

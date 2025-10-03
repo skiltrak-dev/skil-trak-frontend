@@ -136,13 +136,20 @@ const RPLList: NextPageWithLayout = (props: Props) => {
             },
         },
         {
+            header: () => <span>Course</span>,
+            accessorKey: 'course',
+            cell: (info) => {
+                return <div>{info.row.original?.course || '---'}</div>
+            },
+        },
+        {
             header: () => <span>Resume</span>,
             accessorKey: 'resume',
             cell: (info) => {
                 const fileType = info.row.original?.resume
                     ?.split('.')
                     ?.reverse()[0]
-                return (
+                return info.row.original?.resume ? (
                     <ActionButton
                         variant="info"
                         onClick={() => {
@@ -154,6 +161,8 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                     >
                         View
                     </ActionButton>
+                ) : (
+                    '---'
                 )
             },
         },
@@ -164,7 +173,7 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                 const fileType = info.row.original?.identity
                     ?.split('.')
                     ?.reverse()[0]
-                return (
+                return info.row.original?.identity ? (
                     <ActionButton
                         variant="info"
                         onClick={() => {
@@ -176,6 +185,8 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                     >
                         View
                     </ActionButton>
+                ) : (
+                    '---'
                 )
             },
         },
@@ -186,7 +197,8 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                 const extension = info.row.original?.financialEvidence?.[0]
                     ?.split('.')
                     ?.reverse()[0]
-                return (
+                return info.row.original?.financialEvidence &&
+                    info.row.original?.financialEvidence?.length > 0 ? (
                     <ActionButton
                         variant="info"
                         onClick={() => {
@@ -198,17 +210,17 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                     >
                         View
                     </ActionButton>
+                ) : (
+                    '---'
                 )
             },
         },
         {
             header: () => <span>Academic Documents</span>,
             accessorKey: 'academicDocuments',
-            cell: (info) => {
-                const extension = info.row.original?.financialEvidence?.[0]
-                    ?.split('.')
-                    ?.reverse()[0]
-                return (
+            cell: (info) =>
+                info.row.original?.academicDocuments &&
+                info.row.original?.academicDocuments?.length > 0 ? (
                     <ActionButton
                         variant="info"
                         onClick={() => {
@@ -219,8 +231,9 @@ const RPLList: NextPageWithLayout = (props: Props) => {
                     >
                         View
                     </ActionButton>
-                )
-            },
+                ) : (
+                    '---'
+                ),
         },
         {
             accessorKey: 'action',

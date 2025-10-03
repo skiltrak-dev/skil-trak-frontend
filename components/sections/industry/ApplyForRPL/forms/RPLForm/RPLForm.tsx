@@ -12,6 +12,7 @@ import {
     Popup,
     ShowErrorNotifications,
     TextArea,
+    TextInput,
     Typography,
 } from '@components'
 import { InputErrorMessage } from '@components/inputs/components'
@@ -45,43 +46,44 @@ export const RPLForm = ({
     }, [iseRPLSaved])
 
     const validationSchema = yup.object().shape({
-        identity: yup
-            .mixed()
-            .test('file', 'You need to provide a Identity', (value) => {
-                if (value || value?.length > 0) {
-                    return true
-                }
-                return false
-            }),
-        resume: yup
-            .mixed()
-            .test('file', 'You need to provide a Resume', (value) => {
-                if (value || value?.length > 0) {
-                    return true
-                }
-                return false
-            }),
-        financialEvidence: yup
-            .mixed()
-            .test('file', 'You need to provide a file', (value) => {
-                if (value || value?.length > 0) {
-                    return true
-                }
-                return false
-            }),
-        academicDocuments: yup
-            .mixed()
-            .test(
-                'file',
-                'You need to provide all Academic Documents',
-                (values) => {
-                    if (values?.every((file: any) => file)) {
-                        return true
-                    }
-                    return false
-                }
-            ),
+        // identity: yup
+        //     .mixed()
+        //     .test('file', 'You need to provide a Identity', (value) => {
+        //         if (value || value?.length > 0) {
+        //             return true
+        //         }
+        //         return false
+        //     }),
+        // resume: yup
+        //     .mixed()
+        //     .test('file', 'You need to provide a Resume', (value) => {
+        //         if (value || value?.length > 0) {
+        //             return true
+        //         }
+        //         return false
+        //     }),
+        // financialEvidence: yup
+        //     .mixed()
+        //     .test('file', 'You need to provide a file', (value) => {
+        //         if (value || value?.length > 0) {
+        //             return true
+        //         }
+        //         return false
+        //     }),
+        // academicDocuments: yup
+        //     .mixed()
+        //     .test(
+        //         'file',
+        //         'You need to provide all Academic Documents',
+        //         (values) => {
+        //             if (values?.every((file: any) => file)) {
+        //                 return true
+        //             }
+        //             return false
+        //         }
+        //     ),
 
+        course: yup.string().required(),
         jobDescription: yup.string().required(),
     })
 
@@ -95,12 +97,17 @@ export const RPLForm = ({
         const { academicDocuments, ...rest } = values
         Object.entries({ ...rest, userId: industryUserId }).forEach(
             ([key, value]: any) => {
-                formData.append(key, value)
+                if (value) {
+                    formData.append(key, value)
+                }
             }
         )
-        values?.academicDocuments?.forEach((file: any) => {
-            formData.append('academicDocuments', file)
-        })
+        console.log({ values })
+        values?.academicDocuments
+        ?.filter((a: any) => a)
+            ?.forEach((file: any) => {
+                formData.append('academicDocuments', file)
+            })
         await addRpl(formData)
     }
     return (
@@ -146,9 +153,28 @@ export const RPLForm = ({
                     <Card>
                         <FormProvider {...methods}>
                             <form
-                                className="mt-2 w-full"
+                                className=" w-full"
                                 onSubmit={methods.handleSubmit(onSubmit)}
                             >
+                                <div className="w-full">
+                                    <TextInput
+                                        label={'Course'}
+                                        name={'course'}
+                                        validationIcons
+                                        required
+                                        placeholder="Add a course name"
+                                    />
+                                </div>
+                                <div className="w-full">
+                                    <TextArea
+                                        label={'Job Description'}
+                                        name={'jobDescription'}
+                                        validationIcons
+                                        placeholder="Please provide an some information, how many employees do you need"
+                                        rows={6}
+                                        required
+                                    />
+                                </div>
                                 <Typography variant={'title'}>
                                     Your Identity
                                 </Typography>
@@ -157,7 +183,7 @@ export const RPLForm = ({
                                     Any photo ID etc.
                                 </Typography>
 
-                                <div className="mt-1.5 max-w-220">
+                                <div className="max-w-220">
                                     <UploadRPLDocs
                                         name={'identity'}
                                         acceptFiles={'application/pdf'}
@@ -165,7 +191,7 @@ export const RPLForm = ({
                                     />
                                 </div>
 
-                                <div className="mt-4">
+                                <div>
                                     <Typography variant={'title'}>
                                         Detailed Resume
                                     </Typography>
@@ -176,25 +202,15 @@ export const RPLForm = ({
                                     </Typography>
 
                                     <div className="flex justify-between items-end gap-x-6">
-                                        <div className="mt-1.5 w-1/4">
-                                            <UploadRPLDocs
-                                                name={'resume'}
-                                                acceptFiles={'application/pdf'}
-                                                required
-                                            />
-                                        </div>
-                                        <div className="w-3/4">
-                                            <TextArea
-                                                label={'Job Description'}
-                                                name={'jobDescription'}
-                                                validationIcons
-                                                rows={6}
-                                            />
-                                        </div>
+                                        <UploadRPLDocs
+                                            name={'resume'}
+                                            acceptFiles={'application/pdf'}
+                                            required
+                                        />
                                     </div>
                                 </div>
 
-                                <div className="my-4">
+                                <div>
                                     <Typography variant={'title'}>
                                         Payslip or Financial Evidence
                                     </Typography>
@@ -212,7 +228,7 @@ export const RPLForm = ({
                                     </div>
                                 </div>
 
-                                <div className="my-4">
+                                <div>
                                     <Typography variant={'title'}>
                                         Academic Documents
                                     </Typography>
@@ -222,7 +238,7 @@ export const RPLForm = ({
                                         in Australia
                                     </Typography>
 
-                                    <div className="mt-1.5 flex gap-x-3 w-full md:w-5/6">
+                                    <div className="mt-1.5 flex gap-x-3 w-full">
                                         <UploadRPLDocs
                                             name={'academicDocuments[0]'}
                                             acceptFiles={'application/pdf'}
@@ -242,12 +258,6 @@ export const RPLForm = ({
                                 </div>
 
                                 <div className="flex justify-between items-center">
-                                    {/* <Button
-                                        variant={'secondary'}
-                                        onClick={() => setIseRPLSaved(true)}
-                                    >
-                                        Save
-                                    </Button> */}
                                     <Button
                                         submit
                                         loading={addRplResult?.isLoading}
