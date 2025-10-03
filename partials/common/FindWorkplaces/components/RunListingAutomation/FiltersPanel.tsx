@@ -39,8 +39,8 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
         sector: Yup.number().required('Sector is required'),
         address: Yup.string().required('Address is required'),
         keywords: Yup.string().required('Keyword is required'),
-        type: Yup.string().required('Workplace Type is required'),
-        // wpTypes: Yup.array().min(1, 'Must select at least 1 Workplace Type'),
+        // type: Yup.string().required('Workplace Type is required'),
+        type: Yup.array().min(1, 'Must select at least 1 Workplace Type'),
     })
 
     const methods = useForm({
@@ -96,7 +96,14 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
     )
 
     if (currentView === 'loading') {
-        return <LoadingAnimation />
+        return (
+            <LoadingAnimation
+                listingCount={
+                    Object.values(runAutomationResult?.data || {})?.flat()
+                        ?.length || 0
+                }
+            />
+        )
     }
 
     if (currentView === 'results') {
@@ -182,8 +189,8 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
                                 color="text-gray-500"
                                 center
                             >
-                                Scrapes and adds up to 25 industries, nearest
-                                first.
+                                Scrapes and adds available industries from the
+                                selected area, prioritizing nearest first
                             </Typography>
                         </div>
                     </div>

@@ -896,4 +896,26 @@ export const studentsEndpoints = (
         }),
         providesTags: ['SubAdminStudents', 'Industries'],
     }),
+
+    getStudentCapacityWhenApproveIndustry: builder.query<any, number>({
+        query: (id) => ({
+            url: `students/workplace-requests/capacity-approval-request/${id}/retrieve`,
+        }),
+        providesTags: ['SubAdminStudents', 'Industries'],
+    }),
+
+    acceptStudentCapacityByIndustry: builder.mutation<
+        any,
+        { approvalId: number; capacity: number }
+    >({
+        query: ({ approvalId, ...body }) => {
+            console.log({ approvalId })
+            return {
+                url: `students/workplace-requests/capacity-approval-request/${approvalId}/confirm`,
+                method: 'POST',
+                body,
+            }
+        },
+        invalidatesTags: ['SubAdminStudents', 'Industries'],
+    }),
 })

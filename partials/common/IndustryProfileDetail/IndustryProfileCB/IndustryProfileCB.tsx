@@ -1,6 +1,7 @@
 import {
     AuthorizedUserComponent,
     Badge,
+    Button,
     HideRestrictedData,
     Typography,
 } from '@components'
@@ -15,7 +16,7 @@ import { Industry } from '@types'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
 import { IndustryInsuranceDoc, IndustryLocations } from '../components'
-import { PlacementEligibilityCriteriaModal } from '../modal'
+import { AddRplModal, PlacementEligibilityCriteriaModal } from '../modal'
 import {
     IndustryContactPerson,
     IndustryDetail,
@@ -89,6 +90,9 @@ export const IndustryProfileCB = ({
             />
         )
     }
+
+    const onAddRpl = () =>
+        setModal(<AddRplModal industry={industry} onCancel={onCancelModal} />)
 
     return (
         <>
@@ -212,30 +216,35 @@ export const IndustryProfileCB = ({
                     <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                         <IndustryStatus industry={industry} />
                     </AuthorizedUserComponent>
-                    <AuthorizedUserComponent
-                        roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
-                    >
-                        {industry?.isPartner && (
-                            <div>
-                                <Modal>
-                                    <Modal.Open opens="viewCapacity">
-                                        <div className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200">
-                                            Capacity
-                                        </div>
-                                    </Modal.Open>
-                                    <Modal.Window name="viewCapacity">
-                                        <SectorBaseCapacityModal
-                                            id={id}
-                                            prevIndCapacity={
-                                                industry?.studentCapacity
-                                            }
-                                            industry={industry}
-                                        />
-                                    </Modal.Window>
-                                </Modal>
-                            </div>
-                        )}
-                    </AuthorizedUserComponent>
+                    <div>
+                        <AuthorizedUserComponent
+                            roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                        >
+                            {industry?.isPartner && (
+                                <div>
+                                    <Modal>
+                                        <Modal.Open opens="viewCapacity">
+                                            <div className="cursor-pointer text-[11px] py-2 px-1 text-info hover:bg-gray-200">
+                                                Capacity
+                                            </div>
+                                        </Modal.Open>
+                                        <Modal.Window name="viewCapacity">
+                                            <SectorBaseCapacityModal
+                                                id={id}
+                                                prevIndCapacity={
+                                                    industry?.studentCapacity
+                                                }
+                                                industry={industry}
+                                            />
+                                        </Modal.Window>
+                                    </Modal>
+                                </div>
+                            )}
+                        </AuthorizedUserComponent>
+
+                        {/*  */}
+                        <Badge text="Add Rpl" onClick={onAddRpl} />
+                    </div>
                 </div>
 
                 <div className="flex justify-between items-center gap-x-3 mt-2">

@@ -19,9 +19,9 @@ export const FutureIndustriesInRadiusTab = ({
     const [itemPerPage, setItemPerPage] = useState(5)
     const router = useRouter()
     useEffect(() => {
-            setPage(Number(router.query.page || 1))
-            // setItemPerPage(Number(router.query.pageSize || 5))
-        }, [router])
+        setPage(Number(router.query.page || 1))
+        // setItemPerPage(Number(router.query.pageSize || 5))
+    }, [router])
     const workplaceCourseIndustries =
         SubAdminApi.Workplace.useWorkplaceCourseIndustries(
             {
@@ -36,7 +36,9 @@ export const FutureIndustriesInRadiusTab = ({
         )
     return (
         <div className="h-[25rem] overflow-auto remove-scrollbar space-y-4">
-            {' '}
+            {workplaceCourseIndustries?.isError ? (
+                <NoData isError text="there is some technical issue!" />
+            ) : null}
             {workplaceCourseIndustries.isLoading ? (
                 <LoadingAnimation />
             ) : workplaceCourseIndustries?.data?.listing?.data &&

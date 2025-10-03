@@ -1,20 +1,20 @@
 import { createElement, ReactNode } from 'react'
 
 const TypographyOptions = {
-    h1: { className: `text-2xl md:text-4xl font-bold`, element: 'h1' },
-    h2: { className: `text-xl md:text-3xl font-bold`, element: 'h2' },
-    h3: { className: `text-xl md:text-2xl font-bold`, element: 'h3' },
-    h4: { className: `text-base md:text-xl font-bold`, element: 'h4' },
-    body: { className: `text-base text-normal`, element: 'p' },
-    title: { className: `text-lg font-semibold`, element: 'p' },
-    subtitle: { className: `text-base font-medium`, element: 'p' },
-    label: { className: `text-sm font-medium`, element: 'label' },
-    muted: { className: `text-xs font-medium`, element: 'p' },
-    small: { className: `text-xs font-normal`, element: 'p' },
-    xs: { className: `text-[11px] font-normal`, element: 'p' },
-    xxs: { className: `text-[10px] font-normal`, element: 'p' },
-    tableCell: { className: `text-xs font-medium`, element: 'p' },
-    badge: { className: `text-[9px] font-semibold`, element: 'span' },
+    h1: { defaultClasses: `text-2xl md:text-4xl font-bold`, element: 'h1' },
+    h2: { defaultClasses: `text-xl md:text-3xl font-bold`, element: 'h2' },
+    h3: { defaultClasses: `text-xl md:text-2xl font-bold`, element: 'h3' },
+    h4: { defaultClasses: `text-base md:text-xl font-bold`, element: 'h4' },
+    body: { defaultClasses: `text-base text-normal`, element: 'p' },
+    title: { defaultClasses: `text-lg font-semibold`, element: 'p' },
+    subtitle: { defaultClasses: `text-base font-medium`, element: 'p' },
+    label: { defaultClasses: `text-sm font-medium`, element: 'label' },
+    muted: { defaultClasses: `text-xs font-medium`, element: 'p' },
+    small: { defaultClasses: `text-xs font-normal`, element: 'p' },
+    xs: { defaultClasses: `text-[11px] font-normal`, element: 'p' },
+    xxs: { defaultClasses: `text-[10px] font-normal`, element: 'p' },
+    tableCell: { defaultClasses: `text-xs font-medium`, element: 'p' },
+    badge: { defaultClasses: `text-[9px] font-semibold`, element: 'span' },
 }
 
 const VariantOptions = [
@@ -66,6 +66,7 @@ interface TypographyProps {
     block?: boolean
     italic?: boolean
     whiteSpacePre?: boolean
+    className?: string
 }
 
 export const Typography = ({
@@ -101,6 +102,7 @@ export const Typography = ({
 
     block,
     whiteSpacePre,
+    className,
 }: TypographyProps) => {
     let classes = `${color}`
 
@@ -152,11 +154,11 @@ export const Typography = ({
         classes = `${classes} !whitespace-pre`
     }
 
-    const { element, className } = TypographyOptions[variant]
+    const { element, defaultClasses } = TypographyOptions[variant]
     return createElement(
         element,
         {
-            className: `${className} ${classes}`,
+            className: `${defaultClasses} ${classes} ${className}`,
             ...(htmlFor ? { htmlFor } : {}),
         },
         children

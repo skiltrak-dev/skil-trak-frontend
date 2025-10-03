@@ -49,6 +49,10 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
         Map<string, CompanyAnalysis>
     >(new Map())
 
+    const duplicateCount = Object.values(listingResults)
+        ?.flat()
+        ?.filter((a: any) => a?.duplicated)?.length
+
     const filteredCompanies = (companies: any) =>
         companies?.filter((company: any) => !removedItems.has(company?.placeId))
 
@@ -74,14 +78,12 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                 selectedSector={Number(selectedSector)}
                 listingResults={filteredCompanies(
                     Object.values(listingResults)?.flat()
-                )?.map((l: any) => l?.placeId)}
+                )
+                    ?.filter((l: any) => !l?.duplicated)
+                    ?.map((l: any) => l?.placeId)}
             />
         )
     }
-
-    const duplicateCount = Object.values(listingResults)
-        ?.flat()
-        ?.filter((a: any) => a?.duplicated)?.length
 
     return (
         <div className="space-y-3 animate-in fade-in-0 slide-in-from-bottom-4 duration-500 px-3 pb-10">
@@ -212,7 +214,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                                 'linear-gradient(to right, #F7A619, #044866)',
                         }}
                     >
-                        {activeItems}
+                        {total - duplicateCount}
                     </div>
                     <Typography variant="small" color="text-gray-600">
                         Ready to Add
@@ -307,11 +309,11 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
 
                 <div className="flex items-center gap-4">
                     <Typography variant="small" color="text-gray-600">
-                        {activeItems} items ready to submit
+                        {total - duplicateCount} items ready to submit
                     </Typography>
                     <button
                         onClick={handleSubmit}
-                        disabled={activeItems === 0 || isSubmitting}
+                        disabled={total - duplicateCount === 0 || isSubmitting}
                         className="text-white px-8 py-3 flex items-center gap-x-1 rounded-md text-sm"
                         style={{
                             background:
