@@ -9,6 +9,7 @@ import {
     MdAutoAwesome,
 } from 'react-icons/md'
 import { accentGradient, THEME_COLORS } from './utils/theme'
+import { Redirecting } from './Redirecting'
 
 interface LoadingStep {
     icon: React.ComponentType<{ className?: string }>
@@ -115,6 +116,9 @@ const LoadingProgress = memo<{
                         </Typography>
                     </div>
                 </div>
+
+                {/*  */}
+                <Redirecting />
 
                 <div
                     className="flex items-center gap-3 px-6 py-3 rounded-lg border animate-fade-up-3"
@@ -257,69 +261,69 @@ const StepIndicator = memo<{
 
 StepIndicator.displayName = 'StepIndicator'
 
-export const LoadingAnimation = memo<{ listingCount: number }>(
-    ({ listingCount }) => {
-        const [currentStep, setCurrentStep] = useState(0)
-        const [listingsFound, setListingsFound] = useState(0)
-        const [showCompletion, setShowCompletion] = useState(false)
+export const LoadingAnimation = memo<{
+    isNotPending: boolean
+    listingCount: number
+}>(({ listingCount, isNotPending }) => {
+    const [currentStep, setCurrentStep] = useState(0)
+    const [listingsFound, setListingsFound] = useState(0)
+    const [showCompletion, setShowCompletion] = useState(false)
 
-        // Progress through steps
-        useEffect(() => {
-            if (currentStep >= LOADING_STEPS.length - 1) return
+    // Progress through steps
+    useEffect(() => {
+        if (currentStep >= LOADING_STEPS.length - 1) return
 
-            const stepTimer = setTimeout(() => {
-                setCurrentStep((prev) => prev + 1)
-            }, LOADING_STEPS[currentStep]?.duration || 2000)
+        const stepTimer = setTimeout(() => {
+            setCurrentStep((prev) => prev + 1)
+        }, LOADING_STEPS[currentStep]?.duration || 2000)
 
-            return () => clearTimeout(stepTimer)
-        }, [currentStep])
+        return () => clearTimeout(stepTimer)
+    }, [currentStep])
 
-        // Increment listings counter
-        useEffect(() => {
-            const listingTimer = setInterval(() => {
-                setListingsFound((prev) =>
-                    prev < TOTAL_LISTINGS ? prev + 1 : prev
-                )
-            }, LISTING_INTERVAL)
+    // Increment listings counter
+    useEffect(() => {
+        const listingTimer = setInterval(() => {
+            setListingsFound((prev) =>
+                prev < TOTAL_LISTINGS ? prev + 1 : prev
+            )
+        }, LISTING_INTERVAL)
 
-            return () => clearInterval(listingTimer)
-        }, [])
+        return () => clearInterval(listingTimer)
+    }, [])
 
-        // Show completion message
-        useEffect(() => {
-            const completionTimer = setTimeout(() => {
-                setShowCompletion(true)
-            }, COMPLETION_DELAY)
+    // Show completion message
+    useEffect(() => {
+        if (isNotPending) {
+            setShowCompletion(true)
+        }
+    }, [isNotPending])
 
-            return () => clearTimeout(completionTimer)
-        }, [])
+    const orbitingDots = useMemo(
+        () =>
+            Array.from({ length: 6 }, (_, index) => (
+                <div
+                    key={index}
+                    className="absolute w-2 h-2 rounded-full animate-spin"
+                    style={{
+                        backgroundColor: THEME_COLORS.accent,
+                        left: '50%',
+                        top: '50%',
+                        marginLeft: '-4px',
+                        marginTop: '-4px',
+                        transformOrigin: `${
+                            50 * Math.cos((index * Math.PI) / 3)
+                        }px ${50 * Math.sin((index * Math.PI) / 3)}px`,
+                        animationDuration: '4s',
+                        animationDelay: `${index * 0.3}s`,
+                    }}
+                />
+            )),
+        []
+    )
 
-        const orbitingDots = useMemo(
-            () =>
-                Array.from({ length: 6 }, (_, index) => (
-                    <div
-                        key={index}
-                        className="absolute w-2 h-2 rounded-full animate-spin"
-                        style={{
-                            backgroundColor: THEME_COLORS.accent,
-                            left: '50%',
-                            top: '50%',
-                            marginLeft: '-4px',
-                            marginTop: '-4px',
-                            transformOrigin: `${
-                                50 * Math.cos((index * Math.PI) / 3)
-                            }px ${50 * Math.sin((index * Math.PI) / 3)}px`,
-                            animationDuration: '4s',
-                            animationDelay: `${index * 0.3}s`,
-                        }}
-                    />
-                )),
-            []
-        )
-
-        return (
-            <div className="flex flex-col items-center justify-center py-12 space-y-8">
-                <style>{`
+    return (
+        <div className="flex flex-col items-center justify-center py-12 space-y-8">
+            <style>{`
         @keyframes spin-ring {
           to { transform: rotate(360deg); }
         }
@@ -348,103 +352,99 @@ export const LoadingAnimation = memo<{ listingCount: number }>(
           animation: orbit 4s ease-in-out infinite;
         }
       `}</style>
-                <LoadingProgress
-                    listingsFound={listingsFound}
-                    showCompletion={showCompletion}
-                    listingCount={listingCount}
-                />
+            <LoadingProgress
+                listingsFound={listingsFound}
+                showCompletion={showCompletion}
+                listingCount={listingCount}
+            />
 
-                {!showCompletion && (
-                    <>
-                        {/* Central Loading Animation */}
-                        <div className="relative">
-                            {/* Outer rotating ring */}
-                            <div
-                                className="w-32 h-32 border-4 rounded-full animate-spin-ring"
-                                style={{
-                                    borderColor: THEME_COLORS.primary,
-                                    borderTopColor: THEME_COLORS.secondary,
-                                    borderLeftColor: `rgba(4, 72, 102, 0.3)`,
-                                    borderRightColor: `rgba(4, 72, 102, 0.3)`,
-                                    borderBottomColor: `rgba(4, 72, 102, 0.3)`,
-                                }}
-                            />
+            {!showCompletion && (
+                <>
+                    {/* Central Loading Animation */}
+                    <div className="relative">
+                        {/* Outer rotating ring */}
+                        <div
+                            className="w-32 h-32 border-4 rounded-full animate-spin-ring"
+                            style={{
+                                borderColor: THEME_COLORS.primary,
+                                borderTopColor: THEME_COLORS.secondary,
+                                borderLeftColor: `rgba(4, 72, 102, 0.3)`,
+                                borderRightColor: `rgba(4, 72, 102, 0.3)`,
+                                borderBottomColor: `rgba(4, 72, 102, 0.3)`,
+                            }}
+                        />
 
-                            {/* Inner pulsing circle */}
-                            <div
-                                className="absolute inset-6 rounded-full flex items-center justify-center animate-pulse-scale"
+                        {/* Inner pulsing circle */}
+                        <div
+                            className="absolute inset-6 rounded-full flex items-center justify-center animate-pulse-scale"
+                            style={{
+                                background: `linear-gradient(to right, ${THEME_COLORS.primary}, ${THEME_COLORS.secondary})`,
+                            }}
+                        >
+                            <MdSmartToy className="w-10 h-10 text-white" />
+                        </div>
+
+                        {/* Listings Counter */}
+                        <div className="absolute -bottom-4 left-1/2 bg-white px-4 py-2 rounded-full shadow-lg border animate-counter-pulse">
+                            <span
+                                className="text-lg bg-clip-text text-transparent"
                                 style={{
-                                    background: `linear-gradient(to right, ${THEME_COLORS.primary}, ${THEME_COLORS.secondary})`,
+                                    backgroundImage: `linear-gradient(to right, ${THEME_COLORS.primary}, ${THEME_COLORS.secondary})`,
                                 }}
                             >
-                                <MdSmartToy className="w-10 h-10 text-white" />
-                            </div>
-
-                            {/* Listings Counter */}
-                            <div className="absolute -bottom-4 left-1/2 bg-white px-4 py-2 rounded-full shadow-lg border animate-counter-pulse">
-                                <span
-                                    className="text-lg bg-clip-text text-transparent"
-                                    style={{
-                                        backgroundImage: `linear-gradient(to right, ${THEME_COLORS.primary}, ${THEME_COLORS.secondary})`,
-                                    }}
-                                >
-                                    {listingsFound}/{TOTAL_LISTINGS}
-                                </span>
-                            </div>
-
-                            {/* Orbiting dots */}
-                            {orbitingDots}
+                                {listingsFound}/{TOTAL_LISTINGS}
+                            </span>
                         </div>
 
-                        {/* Progress Steps */}
-                        <div className="w-full max-w-lg space-y-4">
-                            <div className="text-center space-y-2">
-                                <div
-                                    className="bg-clip-text text-transparent"
-                                    style={{
-                                        backgroundImage: `linear-gradient(to right, ${THEME_COLORS.primary}, ${THEME_COLORS.secondary})`,
-                                    }}
-                                >
-                                    <Typography
-                                        variant="h4"
-                                        color="bg-clip-text text-transparent"
-                                    >
-                                        AI Discovery in Progress
-                                    </Typography>
-                                </div>
+                        {/* Orbiting dots */}
+                        {orbitingDots}
+                    </div>
+
+                    {/* Progress Steps */}
+                    <div className="w-full max-w-lg space-y-4">
+                        <div className="text-center space-y-2">
+                            <div
+                                className="bg-clip-text text-transparent"
+                                style={{
+                                    backgroundImage: `linear-gradient(to right, ${THEME_COLORS.primary}, ${THEME_COLORS.secondary})`,
+                                }}
+                            >
                                 <Typography
-                                    variant="small"
-                                    color="text-gray-500"
+                                    variant="h4"
+                                    color="bg-clip-text text-transparent"
                                 >
-                                    Finding{' '}
-                                    {listingsFound < TOTAL_LISTINGS
-                                        ? 'and analyzing'
-                                        : 'the best'}{' '}
-                                    workplace opportunities for you
+                                    AI Discovery in Progress
                                 </Typography>
                             </div>
-
-                            {LOADING_STEPS.map((step, index) => (
-                                <StepIndicator
-                                    key={index}
-                                    step={step}
-                                    index={index}
-                                    currentStep={currentStep}
-                                />
-                            ))}
+                            <Typography variant="small" color="text-gray-500">
+                                Finding{' '}
+                                {listingsFound < TOTAL_LISTINGS
+                                    ? 'and analyzing'
+                                    : 'the best'}{' '}
+                                workplace opportunities for you
+                            </Typography>
                         </div>
 
-                        {/* Progress Bar */}
-                        <LoadingProgress
-                            listingsFound={listingsFound}
-                            showCompletion={showCompletion}
-                            listingCount={listingCount}
-                        />
-                    </>
-                )}
-            </div>
-        )
-    }
-)
+                        {LOADING_STEPS.map((step, index) => (
+                            <StepIndicator
+                                key={index}
+                                step={step}
+                                index={index}
+                                currentStep={currentStep}
+                            />
+                        ))}
+                    </div>
+
+                    {/* Progress Bar */}
+                    <LoadingProgress
+                        listingsFound={listingsFound}
+                        showCompletion={showCompletion}
+                        listingCount={listingCount}
+                    />
+                </>
+            )}
+        </div>
+    )
+})
 
 LoadingAnimation.displayName = 'LoadingAnimation'

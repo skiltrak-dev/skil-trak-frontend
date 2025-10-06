@@ -165,13 +165,9 @@ export const ProgressLineChart = () => {
                     <Typography variant="h3">Statistics</Typography>
                 </div>
                 <div className="flex items-center justify-end w-full gap-x-2 xl:gap-x-4">
-                    <div className="w-44 lg:w-48 xl:w-64">
+                    <div className="w-44 lg:w-48 xl:w-64 relative z-20">
                         <Select
-                            // label={'Search By Rto'}
                             name={'rtoId'}
-                            // value={rtoOptions?.find(
-                            //     (rto: OptionType) => rto.value === Number(filter?.rtoId)
-                            // )}
                             options={rtoOptions}
                             placeholder={'Select By Rto...'}
                             onChange={(e: any) => {
@@ -182,16 +178,11 @@ export const ProgressLineChart = () => {
                             disabled={getRtos.isLoading}
                         />
                     </div>
-                    <div className="w-44 lg:w-48 xl:w-64">
+                    <div className="w-44 lg:w-48 xl:w-64 relative z-20">
                         <Select
-                            // label={'Search by Sector'}
                             name={'sectorId'}
                             options={sectorOptions}
                             placeholder={'Select Sector...'}
-                            // value={sectorOptions?.find(
-                            //     (sector: SelectOption) =>
-                            //         sector.value === Number(filter?.sectorId)
-                            // )}
                             onChange={(e: any) => {
                                 setSectorId(e?.value)
                             }}
@@ -200,9 +191,8 @@ export const ProgressLineChart = () => {
                             disabled={sectorResponse.isLoading}
                         />
                     </div>
-                    <div className="mt-4 w-44 lg:w-48 xl:w-64">
+                    <div className="mt-4 w-44 lg:w-48 xl:w-64 relative z-20">
                         <Select
-                            // label={'Search by Year'}
                             name={'year'}
                             options={yearOptions}
                             placeholder={'Select Year...'}

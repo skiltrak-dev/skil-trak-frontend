@@ -73,12 +73,13 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
         const endTime = Date.now()
         const duration = endTime - startTime
         const seconds = (duration / 1000).toFixed(2)
-        const totalSeconds = 15000
+        const totalSeconds = 3500
 
         totalSeconds > Number(seconds) &&
             (await new Promise((resolve) =>
                 setTimeout(resolve, totalSeconds - Number(seconds))
             ))
+
         setCurrentView('results')
     }
 
@@ -102,6 +103,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
                     Object.values(runAutomationResult?.data || {})?.flat()
                         ?.length || 0
                 }
+                isNotPending={runAutomationResult?.status !== 'pending'}
             />
         )
     }
