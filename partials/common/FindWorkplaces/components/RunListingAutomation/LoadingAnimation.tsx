@@ -111,14 +111,16 @@ const LoadingProgress = memo<{
                     </div>
                     <div className="animate-fade-up-2">
                         <Typography variant="body" color="text-gray-600">
-                            Successfully discovered {listingCount} workplace
-                            opportunities
+                            {Number(listingCount) > 0
+                                ? `Successfully
+                            discovered ${listingCount} workplace opportunities`
+                                : 'No Workplace was found'}
                         </Typography>
                     </div>
                 </div>
 
                 {/*  */}
-                <Redirecting />
+                {Number(listingCount) > 0 && <Redirecting />}
 
                 <div
                     className="flex items-center gap-3 px-6 py-3 rounded-lg border animate-fade-up-3"

@@ -104,7 +104,7 @@ export const RPLForm = ({
         )
         console.log({ values })
         values?.academicDocuments
-        ?.filter((a: any) => a)
+            ?.filter((a: any) => a)
             ?.forEach((file: any) => {
                 formData.append('academicDocuments', file)
             })
@@ -170,7 +170,7 @@ export const RPLForm = ({
                                         label={'Job Description'}
                                         name={'jobDescription'}
                                         validationIcons
-                                        placeholder="Please provide an some information, how many employees do you need"
+                                        placeholder="Please provide some information, how many employees do you need"
                                         rows={6}
                                         required
                                     />

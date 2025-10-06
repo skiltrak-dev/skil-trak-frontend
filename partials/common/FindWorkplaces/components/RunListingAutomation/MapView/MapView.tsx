@@ -78,7 +78,14 @@ export const MapView = ({ listingResults }: { listingResults: any }) => {
             {isLoaded && (
                 <GoogleMap
                     mapContainerStyle={containerStyle}
-                    center={center}
+                    center={
+                        map?.getCenter()?.lat() && map?.getCenter()?.lng()
+                            ? {
+                                  lat: Number(map?.getCenter()?.lat()),
+                                  lng: Number(map?.getCenter()?.lng()),
+                              }
+                            : center
+                    }
                     zoom={3.6}
                     onLoad={onMapLoad}
                     onUnmount={onMapUnmount}

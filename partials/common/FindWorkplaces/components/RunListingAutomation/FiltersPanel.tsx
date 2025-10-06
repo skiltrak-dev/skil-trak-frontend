@@ -68,7 +68,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
 
         const startTime = Date.now()
 
-        await runAutomation({ ...values, keywords })
+        const res: any = await runAutomation({ ...values, keywords })
 
         const endTime = Date.now()
         const duration = endTime - startTime
@@ -80,7 +80,11 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
                 setTimeout(resolve, totalSeconds - Number(seconds))
             ))
 
-        setCurrentView('results')
+        if (Object.values(res?.data || {})?.flat()?.length > 0) {
+            setCurrentView('results')
+        } else {
+            setCurrentView('filters')
+        }
     }
 
     const handleBackToFilters = useCallback(() => {

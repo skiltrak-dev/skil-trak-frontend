@@ -235,6 +235,14 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['SubAdminWorkplace', 'SubAdminStudents'],
     }),
+
+    updateWpAppliedIndustry: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `students/workplace-requests/${id}/update`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdminWorkplace', 'SubAdminStudents'],
+    }),
     checkIsIndustryPerformedAction: builder.query<
         any,
         { wpId: number; wiId: number }

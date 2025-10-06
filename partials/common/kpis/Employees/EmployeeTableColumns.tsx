@@ -210,7 +210,7 @@ export const EmployeeTableColumns = ({
         {
             accessorKey: 'favoriteIndustryStudent',
             header: () => (
-                <EmployeeHeader header={'Favorite Industry Student'} />
+                <EmployeeHeader header={'Approved In Fav Industry'} />
             ),
             cell: (info) => (
                 <Typography variant="label" center block color="text-gray-500">
