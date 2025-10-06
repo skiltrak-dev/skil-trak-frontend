@@ -1,7 +1,6 @@
 import { Typography } from '@components'
 import { useNotification } from '@hooks'
 import { ReactElement, useState } from 'react'
-import { FaRegCopy } from 'react-icons/fa'
 import { IndustryListingCallModal } from '../modal'
 import { CopyData } from './CopyData'
 

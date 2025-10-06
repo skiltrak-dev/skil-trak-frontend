@@ -15,6 +15,12 @@ export const Redirecting = () => {
                     <span className="animate-[bounce_1s_ease-in-out_0.4s_infinite] opacity-0 animation-delay-400">
                         .
                     </span>
+                    <span className="animate-[bounce_1s_ease-in-out_0.6s_infinite] opacity-0 animation-delay-600">
+                        .
+                    </span>
+                    <span className="animate-[bounce_1s_ease-in-out_0.8s_infinite] opacity-0 animation-delay-800">
+                        .
+                    </span>
                 </span>
             </div>
             <p className="mt-4 text-gray-600 text-[13px] text-center">
@@ -43,6 +49,14 @@ export const Redirecting = () => {
 
                 .animation-delay-400 {
                     animation-delay: 0.4s;
+                }
+
+                .animation-delay-600 {
+                    animation-delay: 0.6s;
+                }
+
+                .animation-delay-800 {
+                    animation-delay: 0.8s;
                 }
             `}</style>
         </div>

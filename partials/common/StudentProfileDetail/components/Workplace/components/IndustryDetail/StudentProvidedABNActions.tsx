@@ -1,6 +1,6 @@
 import { Button, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
-import { ApproveRequestModal } from '@partials/sub-admin/workplace/modals'
+import { ApproveWpIndByAbnModal } from '@partials/sub-admin/workplace/modals'
 import { CommonApi, useChangeCustomIndustryStatusMutation } from '@queries'
 import { Course, Student, UserStatus } from '@types'
 import { WorkplaceCurrentStatus } from '@utils'
@@ -53,7 +53,7 @@ export const StudentProvidedABNActions = ({
 
     const onApproveModal = () => {
         setModal(
-            <ApproveRequestModal
+            <ApproveWpIndByAbnModal
                 onCancel={onModalCancelClicked}
                 workplaceId={workplace?.id}
             />
