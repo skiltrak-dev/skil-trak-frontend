@@ -34,29 +34,59 @@ export function Navbar2() {
                     text: 'Talent Pool',
                     url: '/our-services/talent-pool',
                 },
-                {
-                    text: 'Employment Hub',
-                    url: '/our-services/employment-hub',
-                },
-                {
-                    text: 'Upskill Traineeship Program',
-                    url: '/our-services/upskill-traineeship-program',
-                },
+                // {
+                //     text: 'Employment Hub',
+                //     url: '/our-services/employment-hub',
+                // },
+                // {
+                //     text: 'Upskill Traineeship Program',
+                //     url: '/our-services/upskill-traineeship-program',
+                // },
             ],
         },
         {
-            text: 'Features',
-            url: '/features',
+            text: 'Who We Serve',
+            url: '/who-we-serve',
+            subMenus: [
+                {
+                    text: 'Students',
+                    url: '/who-we-serve/students',
+                },
+                {
+                    text: 'RTO',
+                    url: '/who-we-serve/rto',
+                },
+                {
+                    text: 'Industry',
+                    url: '/who-we-serve/industry',
+                },
+                // {
+                //     text: 'Employment Hub',
+                //     url: '/our-services/employment-hub',
+                // },
+                // {
+                //     text: 'Upskill Traineeship Program',
+                //     url: '/our-services/upskill-traineeship-program',
+                // },
+            ],
         },
+        // {
+        //     text: 'Features',
+        //     url: '/features',
+        // },
+        // {
+        //     text: 'Blogs',
+        //     url: '/blogs',
+        // },
         {
-            text: 'Blogs',
-            url: '/blogs',
+            text: 'Sectors',
+            url: '/sectors',
         },
-        {
-            text: 'Placements',
-            url: '/blogs?category=34',
-            // subMenus: blogsMenuOptions,
-        },
+        // {
+        //     text: 'Placements',
+        //     url: '/blogs?category=34',
+        //     // subMenus: blogsMenuOptions,
+        // },
         {
             text: 'About Us',
             url: '/about-us',

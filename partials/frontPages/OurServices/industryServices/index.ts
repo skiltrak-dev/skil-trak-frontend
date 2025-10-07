@@ -1,0 +1,12 @@
+export * from './HeroSectionIndServices'
+export * from './IndustryServices'
+export * from './IndustryServicesAboutUsSection'
+export * from './SkiltrakACompleteSolution'
+export * from './IndustryServicesEmployeeScheduling'
+export * from './IndustryServicesWorkFlowSection'
+export * from './IndustryServicesMobileApp'
+export * from './IndustryServicesTestimonial'
+
+export * from './faqs'
+export * from './industryServicesSectorAndCourses'
+export * from './infoCards'

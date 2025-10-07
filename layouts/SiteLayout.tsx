@@ -54,8 +54,8 @@ export const SiteLayout = ({ children, title }: any) => {
             </div> */}
             <DisplayNotifications />
             <main>{children}</main>
-            <Footer4 />
-            {/* <FooterVIII /> */}
+            {/* <Footer4 /> */}
+            <FooterVIII />
             <div>
                 <TawkMessengerReact
                     propertyId={'61b1f52ec82c976b71c091e2'}

@@ -4,7 +4,7 @@ import { BlogSlider } from './BlogSlider'
 import { Typography } from '@components/Typography'
 import Image from 'next/image'
 
-export const ContactAndBlogs = () => {
+export const ContactAndBlogs = ({ featuredBlogs }: any) => {
     return (
         <div className="md:max-w-7xl md:mx-auto flex flex-col md:flex-row gap-4 my-10">
             {/* Left Side - Featured Blogs */}
@@ -21,7 +21,7 @@ export const ContactAndBlogs = () => {
                         className="mt-2"
                     />
                 </div>
-                <BlogSlider />
+                <BlogSlider featuredBlogs={featuredBlogs} />
             </div>
 
             {/* Divider */}

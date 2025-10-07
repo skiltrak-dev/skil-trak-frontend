@@ -1,0 +1,13 @@
+export * from './HeroSection'
+export * from './AboutUsSection'
+export * from './TrackYourPlacement'
+export * from './SkiltrakAppSection'
+export * from './SvgLine'
+export * from './StudentAccFeatures'
+export * from './OurProfessionalWorkFlow'
+export * from './TalentPoolSection'
+export * from './TalentPoolSection'
+export * from './TestimonialSection'
+export * from './faqs'
+
+export * from './StudentsServices'

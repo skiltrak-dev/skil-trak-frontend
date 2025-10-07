@@ -4,3 +4,8 @@ export * from './modal'
 export * from './ourStory'
 export * from './OurServices'
 export * from './privacyPolicy'
+
+export * from './components'
+export * from './sectors'
+export * from './aboutUs'
+export * from './talentPool'

@@ -1,0 +1,12 @@
+export * from './RtoAboutUsSection'
+export * from './RtoServices'
+export * from './RtoAccFeatures'
+export * from './RtoApiFeature'
+export * from './rtoFaqs'
+export * from './RtoHeroSection'
+export * from './RtoFeaturesCard'
+export * from './EmpoweringRtoSection'
+
+export * from './pricing'
+export * from './sectorAndCourses'
+export * from './testimonial'

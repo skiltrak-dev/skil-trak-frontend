@@ -8,6 +8,7 @@ import Image from 'next/image'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { ellipsisText } from '@utils'
+import Link from 'next/link'
 
 const slides = [
     {
@@ -28,7 +29,7 @@ const slides = [
     },
 ]
 
-export const BlogSlider = () => {
+export const BlogSlider = ({ featuredBlogs }: any) => {
     const paginationRef = useRef(null)
     const swiperRef = useRef<any>(null)
 
@@ -70,7 +71,7 @@ export const BlogSlider = () => {
                     }
                 }}
             >
-                {slides.map((item) => (
+                {featuredBlogs?.slice(0, 3)?.map((item: any) => (
                     <SwiperSlide key={item.id}>
                         {/* Mobile Layout (stacked) */}
                         <div className="block md:hidden w-full">
@@ -78,8 +79,8 @@ export const BlogSlider = () => {
                                 {/* Image on top for mobile */}
                                 <div className="w-full">
                                     <Image
-                                        src={item.img}
-                                        alt={item.title}
+                                        src={`${item?.featuredImage}`}
+                                        alt={item?.title}
                                         width={500}
                                         height={250}
                                         className="w-full h-48 object-cover"
@@ -89,17 +90,23 @@ export const BlogSlider = () => {
                                 {/* Content below image for mobile */}
                                 <div className="p-4">
                                     <p className="text-xs text-gray-600 mb-2">
-                                        {item.date}
+                                        {item?.updatedAt?.slice(0, 10) ?? 'NA'}
                                     </p>
                                     <h2 className="text-base font-semibold text-[#9B2000] leading-snug mb-3">
-                                        {ellipsisText(item.title, 15)}
+                                        {ellipsisText(item?.title, 15)}
                                     </h2>
                                     <p className="text-sm text-gray-700 mb-4 leading-relaxed">
-                                        {ellipsisText(item.desc, 25)}
+                                        {ellipsisText(
+                                            item?.shortDescription,
+                                            25
+                                        )}
                                     </p>
-                                    <button className="px-4 py-2 border border-[#9B2000] text-[#9B2000] rounded-md text-xs font-medium hover:bg-[#9B2000] hover:text-white transition w-full sm:w-auto">
+                                    <Link
+                                        href={`/blogs/${item?.slug}`}
+                                        className="px-4 py-2 border border-[#9B2000] text-[#9B2000] rounded-md text-xs font-medium hover:bg-[#9B2000] hover:text-white transition w-full sm:w-auto"
+                                    >
                                         READ MORE
-                                    </button>
+                                    </Link>
                                     <p className="text-xs text-gray-500 mt-3">
                                         Published by {item?.author}
                                     </p>
@@ -113,10 +120,10 @@ export const BlogSlider = () => {
                                 {/* Image floating on the left side */}
                                 <div className="relative z-20 flex-shrink-0 mr-6">
                                     <p className="text-sm text-gray-600 mb-2">
-                                        {item.date}
+                                        {item?.updatedAt?.slice(0, 10)}
                                     </p>
                                     <Image
-                                        src={item.img}
+                                        src={item.featuredImage}
                                         alt={item.title}
                                         width={340}
                                         height={225}
@@ -138,11 +145,17 @@ export const BlogSlider = () => {
                                                 {ellipsisText(item.title, 12)}
                                             </h2>
                                             <p className="text-sm text-gray-700 mb-4 leading-relaxed">
-                                                {ellipsisText(item.desc, 200)}
+                                                {ellipsisText(
+                                                    item?.shortDescription,
+                                                    200
+                                                )}
                                             </p>
-                                            <button className="px-5 py-2 border border-[#9B2000] text-[#9B2000] rounded-md text-sm font-medium hover:bg-[#9B2000] hover:text-white transition">
+                                            <Link
+                                                href={`/blogs/${item?.slug}`}
+                                                className="px-5 py-2 border border-[#9B2000] text-[#9B2000] rounded-md text-sm font-medium hover:bg-[#9B2000] hover:text-white transition"
+                                            >
                                                 READ MORE
-                                            </button>
+                                            </Link>
                                         </div>
                                         {/* <p className="text-xs text-gray-500 mt-4">
                                             Published by {item?.author}

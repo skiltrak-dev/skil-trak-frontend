@@ -15,24 +15,24 @@ const linkGroups: LinkGroup[] = [
     {
         title: 'Services',
         links: [
-            { label: 'Talent Pool', href: '/talent-pool' },
-            { label: 'WBT', href: '/wbt' },
+            { label: 'Talent Pool', href: '/our-services/talent-pool' },
+            { label: 'WBT', href: '/our-services/work-based-training' },
         ],
     },
     {
         title: 'Who We Serve',
         links: [
-            { label: 'Student', href: '/student' },
-            { label: 'Training Organisations', href: '/training-orgs' },
-            { label: 'Industries', href: '/industries' },
+            { label: 'Student', href: '/who-we-serve/students' },
+            { label: 'Training Organisations', href: '/who-we-serve/rto' },
+            { label: 'Industries', href: '/who-we-serve/industry' },
         ],
     },
     {
         title: 'About Us',
         links: [
-            { label: 'Our Vision', href: '/vision' },
-            { label: 'Our Mission', href: '/mission' },
-            { label: 'Meet Our Team', href: '/team' },
+            { label: 'Our Vision', href: '/about-us' },
+            { label: 'Our Mission', href: '/about-us' },
+            { label: 'Meet Our Team', href: '/about-us' },
         ],
     },
     {
@@ -40,13 +40,13 @@ const linkGroups: LinkGroup[] = [
         links: [
             {
                 label: 'Individual Support',
-                href: '/sectors/individual-support',
+                href: '/sectors',
             },
             {
                 label: 'Community Services',
-                href: '/sectors/community-services',
+                href: '/sectors',
             },
-            { label: 'Hospitality', href: '/sectors/hospitality' },
+            { label: 'Hospitality', href: '/sectors' },
         ],
     },
 ]
