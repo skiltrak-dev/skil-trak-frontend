@@ -38,13 +38,12 @@ import { FeedbackButton } from '../feedbackForm/components'
 export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     const [modal, setModal] = useState<any>(null)
     const role = getUserCredentials()?.role
-    const { data, isLoading, isError, isSuccess } =
-        CommonApi.Feedback.useGetCourseSchedules(
-            { userId: profile?.user?.id },
-            {
-                skip: !profile?.user?.id,
-            }
-        )
+    const { data } = CommonApi.Feedback.useGetCourseSchedules(
+        { userId: profile?.user?.id },
+        {
+            skip: !profile?.user?.id,
+        }
+    )
     const getPlacementFeedback = CommonApi.Feedback.useGetPlacementFeedback(
         { userId: profile?.user?.id },
         {

@@ -37,3 +37,4 @@ export * from './tickets.types'
 export * from './noteTemplate.type'
 
 export * from './kpi.types'
+export * from './meal-types.enum'

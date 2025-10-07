@@ -1,4 +1,5 @@
-import { ActionButton, Typography } from '@components'
+import { ActionButton, Tooltip, Typography } from '@components'
+import moment from 'moment'
 import {
     AssignStudentModal,
     UnAssignStudentModal,
@@ -28,9 +29,20 @@ export const AssignToMeStudent = ({ student }: { student: Student }) => {
             />
         )
     }
+    // Enable the action button only if assignToCoordinatorDate is within last 14 days.
+    // If the date is missing or unparsable, keep the button enabled.
+    const isWithin14Days = (() => {
+        const dateStr = student?.assignToCoordinatorDate
+        if (!dateStr) return true
+        const assignedAt = moment(dateStr)
+        if (!assignedAt.isValid()) return true
+        return moment().diff(assignedAt, 'days') <= 14
+    })()
+
     return (
-        <div>
+        <div className="relative group">
             {modal}
+
             <ActionButton
                 onClick={() => {
                     if (student?.subadmin) {
@@ -41,9 +53,16 @@ export const AssignToMeStudent = ({ student }: { student: Student }) => {
                 }}
                 simple
                 variant="info"
+                disabled={isWithin14Days}
             >
                 {student?.subadmin ? 'Un-Assign' : 'Assign to me'}
             </ActionButton>
+
+            {isWithin14Days ? (
+                <Tooltip> Student cant unassign with in 14 days </Tooltip>
+            ) : (
+                ''
+            )}
         </div>
     )
 }

@@ -365,7 +365,7 @@ export const studentsEndpoints = (
             method: 'POST',
             body,
         }),
-        invalidatesTags: ['SubAdminStudentssss', 'Notes'],
+        invalidatesTags: ['SubAdmin-Students', 'Notes'],
     }),
     createAutomatedWp: builder.mutation<any, any>({
         query: (body) => ({
@@ -373,7 +373,7 @@ export const studentsEndpoints = (
             method: 'POST',
             body,
         }),
-        invalidatesTags: ['SubAdminStudentssss', 'Notes'],
+        invalidatesTags: ['SubAdmin-Students', 'Notes'],
     }),
 
     subAdminRequestIndustryWorkplace: builder.mutation<any, any>({

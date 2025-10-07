@@ -1,5 +1,6 @@
 import { UserRoles } from '@constants'
-import { SubAdminApi } from '@queries'
+import { useMemo } from 'react'
+import { CommonApi, SubAdminApi } from '@queries'
 import { useRouter } from 'next/router'
 import { WorkplaceTypes } from '@types'
 import { getUserCredentials } from '@utils'
@@ -38,6 +39,27 @@ export const PersonalInfoQuestions = ({
         }
     )
 
+    const getSectorByCourseId = CommonApi.Courses.getSectorByCourseId(
+        Number(selectedCourse),
+        {
+            skip: !selectedCourse,
+        }
+    )
+
+    console.log({ getSectorByCourseId })
+
+    const visibleQuestions = useMemo(() => {
+        if (
+            getSectorByCourseId?.isSuccess &&
+            getSectorByCourseId?.data?.id !== 9
+        ) {
+            return questionList.filter(
+                (q) => q?.name !== workplaceQuestionsKeys.serviceType
+            )
+        }
+        return questionList
+    }, [getSectorByCourseId?.data?.id])
+
     const wpTypesOptions =
         wpType?.data?.map((wpType: WorkplaceTypes) => ({
             label: wpType?.workplaceType?.name,
@@ -46,7 +68,7 @@ export const PersonalInfoQuestions = ({
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-7">
-            {questionList?.map((ques, i, list) => {
+            {visibleQuestions?.map((ques, i, list) => {
                 const textTypeLength = list?.filter(
                     (l) => l?.type === 'text'
                 )?.length
@@ -128,6 +150,7 @@ export const PersonalInfoQuestions = ({
                         return <TextAreaQuestions key={i} ques={ques} />
                     }
                 }
+
                 return (
                     <DefaultQuestions
                         key={i}
