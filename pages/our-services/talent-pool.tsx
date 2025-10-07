@@ -1,21 +1,26 @@
-import { Footer4 } from '@components/site'
+import { FooterVIII } from '@components/site'
 import { Navbar2 } from '@components/site/navbar'
-import { TalentPool } from '@partials/frontPages'
+import { TalentPoolSections } from '@partials/frontPages'
+import { NextPageWithLayout } from '@types'
 import Head from 'next/head'
 
-const TalentPoolPage = () => {
+const Sectors: NextPageWithLayout = () => {
     return (
-        <>
+        <div>
             <Head>
-                <title> Talent Pool </title>
+                <title>Talent Pool</title>
             </Head>
             <div>
                 <Navbar2 />
-                <TalentPool />
-                <Footer4 />
+                <TalentPoolSections />
+
+                <FooterVIII />
             </div>
-        </>
+        </div>
     )
 }
+// Sectors.getLayout = (page: ReactElement) => {
+//     return <SiteLayout>{page}</SiteLayout>
+// }
 
-export default TalentPoolPage
+export default Sectors

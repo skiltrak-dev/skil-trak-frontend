@@ -4,6 +4,8 @@ import Link from 'next/link'
 import React from 'react'
 import { IoArrowForwardOutline } from 'react-icons/io5'
 import FlowingRibbon from './FlowingRibbon'
+import Modal from '@modals/Modal'
+import { WorkbaseQuery } from '@partials/frontPages'
 
 export const HeroSection = () => {
     return (
@@ -108,7 +110,7 @@ export const HeroSection = () => {
 
                                 {/* CTA Buttons */}
                                 <div className="flex items-center justify-center flex-col md:flex-row md:justify-start gap-4 mt-6">
-                                    <Link href={'/'}>
+                                    <Link href={'/auth/login'}>
                                         <div className="bg-[#9B2000] text-white text-center p-2 md:px-6 md:py-4 rounded-lg hover:bg-[#8A1C00] transition-colors cursor-pointer shadow-lg md:w-full w-auto">
                                             <Typography
                                                 variant="title"
@@ -135,26 +137,34 @@ export const HeroSection = () => {
                                         </div>
                                     </Link>
 
-                                    <Link href={'/'}>
-                                        <div className="bg-[#F7A619] text-[#043873] text-center p-2 md:px-6 md:py-5 rounded-lg hover:bg-[#E6951A] transition-colors cursor-pointer shadow-lg w-full sm:w-auto">
-                                            <Typography
-                                                variant="title"
-                                                color="text-[#043873]"
-                                                medium
-                                            >
-                                                Enquire Now
-                                            </Typography>
-                                            <div className="flex items-center gap-x-1 justify-center">
-                                                <Typography
-                                                    variant="body"
-                                                    color="!text-[#043873]"
-                                                >
-                                                    We're here to help
-                                                </Typography>
-                                                <IoArrowForwardOutline className="text-sm" />
-                                            </div>
-                                        </div>
-                                    </Link>
+                                    <div>
+                                        {/* WorkbaseQuery */}
+                                        <Modal>
+                                            <Modal.Open opens="enquireNow">
+                                                <div className="bg-[#F7A619] text-[#043873] text-center p-2 md:px-6 md:py-5 rounded-lg hover:bg-[#E6951A] transition-colors cursor-pointer shadow-lg w-full sm:w-auto">
+                                                    <Typography
+                                                        variant="title"
+                                                        color="text-[#043873]"
+                                                        medium
+                                                    >
+                                                        Enquire Now
+                                                    </Typography>
+                                                    <div className="flex items-center gap-x-1 justify-center">
+                                                        <Typography
+                                                            variant="body"
+                                                            color="!text-[#043873]"
+                                                        >
+                                                            We're here to help
+                                                        </Typography>
+                                                        <IoArrowForwardOutline className="text-sm" />
+                                                    </div>
+                                                </div>
+                                            </Modal.Open>
+                                            <Modal.Window name="enquireNow">
+                                                <WorkbaseQuery />
+                                            </Modal.Window>
+                                        </Modal>
+                                    </div>
                                 </div>
                             </div>
 

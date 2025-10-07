@@ -2,6 +2,7 @@ import type { FC } from 'react'
 import Image from 'next/image'
 import { Typography } from '@components/Typography'
 import SiteButtonV3 from '../../button/SiteButtonV3'
+import { useRouter } from 'next/router'
 
 type ButtonVariant = 'primary' | 'secondary' | 'danger'
 
@@ -15,6 +16,7 @@ interface CardData {
         variant: ButtonVariant
     }
     classes: string
+    link?: string
 }
 
 const cards: CardData[] = [
@@ -26,6 +28,7 @@ const cards: CardData[] = [
         image: '/images/site/home-page-v3/who-we-serve/cards/card-1.webp',
         button: { text: 'Learn More', variant: 'primary' },
         classes: 'text-[#F7A619]',
+        link: '/who-we-serve/students',
     },
     {
         title: 'Training Organizations',
@@ -35,6 +38,7 @@ const cards: CardData[] = [
         image: '/images/site/home-page-v3/who-we-serve/cards/card-2.webp',
         button: { text: 'Learn More', variant: 'secondary' },
         classes: 'text-[#044866]',
+        link: '/who-we-serve/rto',
     },
     {
         title: 'Industries',
@@ -44,10 +48,12 @@ const cards: CardData[] = [
         image: '/images/site/home-page-v3/who-we-serve/cards/card-3.webp',
         button: { text: 'Learn More', variant: 'danger' },
         classes: 'text-[#9B2000]',
+        link: '/who-we-serve/industry',
     },
 ]
 
 export const WhoWeServeCard: FC = () => {
+    const router = useRouter()
     return (
         <div className="w-full relative my-10">
             <div className="max-w-7xl mx-auto inline-grid md:grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -85,9 +91,7 @@ export const WhoWeServeCard: FC = () => {
                             <SiteButtonV3
                                 text={card.button.text}
                                 variant={card.button.variant}
-                                onClick={() =>
-                                    console.log(`${card.title} button clicked`)
-                                }
+                                onClick={() => router.push(card?.link || '#')}
                             />
                         </div>
                     </div>

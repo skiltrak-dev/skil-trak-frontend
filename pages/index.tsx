@@ -1,111 +1,65 @@
-import { lazy, ReactElement, useEffect, useRef, useState } from 'react'
-
+import {
+    AssuredPlacement,
+    CollaborationAddOns,
+    ContactAndBlogs,
+    CountsSection,
+    HeroSection,
+    StudentSuccessStories,
+    TrustedByMarquee,
+    WhoWeServe,
+} from '@components/site'
 import { SiteLayout } from '@layouts'
+import TechnicalPartners from '@partials/frontPages/home2/TechnicalPartners/TechnicalPartners'
 import { NextPageWithLayout } from '@types'
-import { NoData } from '@components'
+import { ReactElement } from 'react'
 
-const JumboSection = lazy(() => import('@components/site/JumboSection'))
-const FeatureBlogs = lazy(
-    () => import('@components/site/FeatureBlogs/FeatureBlogs')
-)
-const LatestUpdates = lazy(
-    () => import('@partials/frontPages/home2/LatestUpdates/LatestUpdates')
-)
-const RecentJobs = lazy(
-    () => import('@partials/frontPages/home2/RecentJobs/RecentJobs')
-)
-const TechnicalPartners = lazy(
-    () =>
-        import('@partials/frontPages/home2/TechnicalPartners/TechnicalPartners')
-)
-const OurPartners = lazy(
-    () => import('@partials/frontPages/home2/OurPartners/OurPartners')
-)
-const OurPackages = lazy(
-    () => import('@partials/frontPages/home2/OurPackages/OurPackages')
-)
-const OperateStates = lazy(
-    () => import('@partials/frontPages/home2/OperateStates/OperateStates')
-)
-const GetStarted = lazy(
-    () => import('@partials/frontPages/home2/GetStarted/GetStarted')
-)
-const ContactUs = lazy(
-    () => import('@partials/frontPages/home2/ContactUs/ContactUs')
-)
-const StudentPlacementManagement = lazy(
-    () =>
-        import(
-            '@components/site/studentPlacementManagement/StudentPlacementManagement'
-        )
-)
-const KeyFeatures = lazy(
-    () => import('@components/site/keyFeatures/KeyFeatures')
-)
-
-const Home3: NextPageWithLayout = ({ data }: any) => {
-    const contactUsRef = useRef(null)
-    const [mount, setMount] = useState(false)
-
-    useEffect(() => {
-        setMount(true)
-    }, [])
-
+const HomeV3: NextPageWithLayout = ({ featuredBlogs }: any) => {
     return (
-        <div>
-            <JumboSection />
-            {/* <Asia100Award /> */}
-            {/* Key Features */}
-            <KeyFeatures /> {/* Student Placement Management System */}
-            <StudentPlacementManagement />{' '}
-            <div className="relative">
-                {/* Our packages */}
-                <OurPackages />{' '}
-            </div>
-            {/* Our Partners */}
-            <OurPartners /> {/* We Operate in the Following States */}
-            <OperateStates />
-            <GetStarted contactUsRef={contactUsRef} /> <RecentJobs />
-            <ContactUs /> {/*  */}
+        <>
+            <HeroSection />
+            {/* <TrustedByMarquee /> */}
+            <WhoWeServe />
+            <CountsSection />
+            <AssuredPlacement />
+            <CollaborationAddOns />
+            {/* ✅ Pass featuredBlogs as props here */}
+            <ContactAndBlogs featuredBlogs={featuredBlogs} />
+            <StudentSuccessStories />
             <TechnicalPartners />
-            <FeatureBlogs blogs={data} />
-            <div
-                className="trustpilot-widget mb-2"
-                data-locale="en-US"
-                data-template-id="56278e9abfbbba0bdcd568bc"
-                data-businessunit-id="674fb3169ddbaeac9ead5f92"
-                data-style-height="52px"
-                data-style-width="100%"
-            >
-                <a
-                    href="https://www.trustpilot.com/review/skiltrak.com.au"
-                    target="_blank"
-                    rel="noopener"
-                >
-                    Trustpilot
-                </a>
-            </div>
-            <LatestUpdates />
-        </div>
+        </>
     )
 }
 
-Home3.getLayout = (page: ReactElement) => {
+HomeV3.getLayout = (page: ReactElement) => {
     return <SiteLayout>{page}</SiteLayout>
 }
 
-export async function getStaticProps() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`)
-    const data = await res.json()
-    if (!data) {
-        return <NoData text="No Data" />
-    }
-    return {
-        props: {
-            data,
-        },
-        revalidate: 3600,
+// ✅ Fetch featured blogs from your API
+export const getStaticProps = async () => {
+    try {
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`
+        )
+        const data = await res.json()
+
+        // Filter featured blogs
+        const featuredBlogs =
+            data?.filter((item: any) => item?.isFeatured) || []
+
+        return {
+            props: {
+                featuredBlogs,
+            },
+            revalidate: 60, // Rebuild every 60 seconds
+        }
+    } catch (error) {
+        console.error('Error fetching featured blogs:', error)
+        return {
+            props: {
+                featuredBlogs: [],
+            },
+        }
     }
 }
 
-export default Home3
+export default HomeV3

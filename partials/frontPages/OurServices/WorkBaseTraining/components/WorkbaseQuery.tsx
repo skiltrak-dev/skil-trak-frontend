@@ -6,7 +6,7 @@ import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
 import moment from 'moment'
 
-export const WorkbaseQuery = () => {
+export const WorkbaseQuery = ({ onCloseModal }: { onCloseModal?: any }) => {
     const [addWorkBase, addWorkBaseResult] =
         CommonApi.WorkBased.useAddWorkBased()
 
@@ -20,6 +20,7 @@ export const WorkbaseQuery = () => {
                         description:
                             'Your inquiry has been submitted to our administrator',
                     })
+                    onCloseModal()
                 }
             }
         )
