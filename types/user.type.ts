@@ -3,7 +3,7 @@ import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { ReportingType } from '@partials/admin/rto/enum'
 import { IndustryPlacementStatus } from '@partials/common'
 import { InvoiceTypeEnum } from '@partials/admin/invoices'
-import { AssessmentToolsType, Course, Packages } from '@types'
+import { AssessmentToolsType, Course, MealTypes, Packages } from '@types'
 
 export enum StudentStatusEnum {
     ACTIVE = 'active',
@@ -156,6 +156,7 @@ export interface Student extends BaseResponse {
     age: string
     isInternational: boolean
     familyName: string
+    assignToCoordinatorDate: string
     hasIssue: boolean
     isReported: boolean
     statusHistory: any
@@ -340,6 +341,7 @@ export interface Industry extends BaseResponse {
     user: User
     location: string
     headQuarter: Industry
+    serviceOffered: MealTypes[]
     isHiring: boolean
     subAdmin: SubAdmin[]
     callLog: CallLog[]

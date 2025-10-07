@@ -54,6 +54,7 @@ const subadminTagTypes = [
     'SubAdminCourses',
     'SubAdminStudents',
     'SetUnAvailability',
+    'SubAdmin-Students',
     'SubAdminWorkplace',
     'AssessmentEvidence',
     'SubAdminIndustries',

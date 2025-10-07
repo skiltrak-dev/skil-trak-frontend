@@ -4,6 +4,7 @@ import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions
 import {
     Course,
     Industry,
+    MealTypes,
     PaginatedResponse,
     PaginationValues,
     PaginationWithSearch,
@@ -177,5 +178,20 @@ export const industryEndpoints = (
             body,
         }),
         invalidatesTags: ['RequestToAddCourse', 'SubAdminCourses'],
+    }),
+    addIndustryServiceOffered: builder.mutation<
+        any,
+        { id: number; serviceOffered: MealTypes[] }
+    >({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}industry/${id}/service-type-update`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: [
+            'RequestToAddCourse',
+            'SubAdminCourses',
+            'Industries',
+        ],
     }),
 })

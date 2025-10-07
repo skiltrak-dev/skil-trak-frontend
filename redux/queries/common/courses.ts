@@ -44,4 +44,8 @@ export const coursesEndpoints = (
         query: (id) => `shared/sector/${id}/workplace-types-list`,
         providesTags: ['Course'],
     }),
+    getSectorByCourseId: builder.query<any, number>({
+        query: (id) => `subadmin/course/${id}/sector`,
+        providesTags: ['Course'],
+    }),
 })

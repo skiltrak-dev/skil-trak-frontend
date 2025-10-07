@@ -23,6 +23,7 @@ import {
     IndustryEsign,
     IndustryJobHiring,
     IndustryProfileAvatar,
+    IndustryServiceTypeOffered,
     IndustryStatus,
     IndustryWpType,
     MakeIndustryPartner,
@@ -243,7 +244,15 @@ export const IndustryProfileCB = ({
                         </AuthorizedUserComponent>
 
                         {/*  */}
-                        <Badge text="Add Rpl" onClick={onAddRpl} />
+                        <div className="flex justify-end flex-col">
+                            <div className="ml-auto">
+                                <Badge text="Add Rpl" onClick={onAddRpl} />
+                            </div>
+                            <IndustryServiceTypeOffered
+                                industryId={industry?.id}
+                                serviceOffered={industry?.serviceOffered}
+                            />
+                        </div>
                     </div>
                 </div>
 
