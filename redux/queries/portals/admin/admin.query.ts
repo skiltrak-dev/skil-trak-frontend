@@ -23,6 +23,7 @@ import { talentPoolEndpoints } from './talentPool'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { wptypesEndpoints } from './wptypes'
+import { sectorDocumentsEndpoints } from './sector-documents'
 import { invoiceEndpoints } from './invoice'
 
 const PREFIX = 'admin'
@@ -74,6 +75,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...folderEndpoints(build),
         ...studentEndpoints(build),
         ...wptypesEndpoints(build),
+        ...sectorDocumentsEndpoints(build),
         ...invoiceEndpoints(build),
         ...profileEndpoints(build),
         ...subAdminEndpoints(build),
@@ -294,6 +296,14 @@ const {
     useAddWpTypeMutation,
     useUpdateWpTypeMutation,
     useRemoveWpTypeMutation,
+
+    // ------ SECTOR-DOCUMENTS ------ //
+    useSectorDocumentsQuery,
+    useSectorDocumentsBySectorQuery,
+    useSectorDocumentDetailQuery,
+    useAddSectorDocumentMutation,
+    useUpdateSectorDocumentMutation,
+    useRemoveSectorDocumentMutation,
 
     // ------ SUBSCRIBERS ------ //
     useListSubscribersQuery,
@@ -713,6 +723,15 @@ export const AdminApi = {
         wpTypeDetail: useWpTypeDetailQuery,
         updateWpType: useUpdateWpTypeMutation,
         removeWpType: useRemoveWpTypeMutation,
+    },
+
+    SectorDocuments: {
+        sectorDocuments: useSectorDocumentsQuery,
+        sectorDocumentsBySector: useSectorDocumentsBySectorQuery,
+        addSectorDocument: useAddSectorDocumentMutation,
+        sectorDocumentDetail: useSectorDocumentDetailQuery,
+        updateSectorDocument: useUpdateSectorDocumentMutation,
+        removeSectorDocument: useRemoveSectorDocumentMutation,
     },
 
     Folders: {

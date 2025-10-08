@@ -97,7 +97,7 @@ export const IndustryProfileCB = ({
 
     return (
         <>
-            {modal && modal}
+            {modal}
             <div>
                 <div className="flex justify-between items-start">
                     <div>

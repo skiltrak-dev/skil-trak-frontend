@@ -7,8 +7,8 @@ export const IndustryServiceTypeOffered = ({
     industryId,
     serviceOffered,
 }: {
-    serviceOffered: MealTypes[]
     industryId: number
+    serviceOffered: MealTypes[]
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 

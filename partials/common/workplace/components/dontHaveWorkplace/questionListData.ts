@@ -29,7 +29,8 @@ export const workplaceQuestions = {
         'When would be the most convenient time for one of the SkilTrak coordinators to call you to discuss workplace details further*',
     [workplaceQuestionsKeys.autoTalentPool]:
         'Would you like to be added to our Talent Pool Programme? Once you successfully complete your placement, you will be added to this list. Industries can view your profile and contact you directly for interviews.',
-    [workplaceQuestionsKeys.serviceType]: 'Service type are oddered?',
+    [workplaceQuestionsKeys.serviceOffered]:
+        'Industry can only confirm placements that include the requested meal period(s) or provide an override reason?',
 }
 
 export const questionList = [
@@ -187,9 +188,9 @@ export const questionList = [
         required: true,
     },
     {
-        name: workplaceQuestionsKeys.serviceType,
+        name: workplaceQuestionsKeys.serviceOffered,
         index: 15,
-        title: 'Service Type:',
+        title: 'Selecting Hospitality reveals the meal-period question and enforces at least one choice:',
         required: true,
         multipleSelection: true,
         customAnswers: ['breakfast', 'lunch', 'dinner'],

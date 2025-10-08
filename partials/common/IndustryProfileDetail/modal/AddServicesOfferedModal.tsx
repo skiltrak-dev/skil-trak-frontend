@@ -48,9 +48,10 @@ export const AddServicesOfferedModal = ({
         <>
             <ShowErrorNotifications result={addserviceOfferedResult} />
             <Modal
-                showActions={false}
+                confirmText="Add"
                 title="Services Offered"
                 onCancelClick={onCancel}
+                onConfirmClick={onConfirm}
                 subtitle="Select Services Offered"
                 loading={addserviceOfferedResult?.isLoading}
             >
@@ -66,9 +67,6 @@ export const AddServicesOfferedModal = ({
                         options={mealTypeOptions}
                         onChange={setSelectedMealType}
                     />
-                    <div className="flex justify-end items-center mt-4">
-                        <Button text="Add" onClick={onConfirm} />
-                    </div>
                 </div>
             </Modal>
         </>

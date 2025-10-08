@@ -50,7 +50,10 @@ export const PersonalInfo = ({
                         type: key,
                     })
                 }
-            } else if (key === workplaceQuestionsKeys.possession) {
+            } else if (
+                key === workplaceQuestionsKeys.possession ||
+                key === workplaceQuestionsKeys.serviceOffered
+            ) {
                 if (values[key]) {
                     questions.push({
                         question: value,
