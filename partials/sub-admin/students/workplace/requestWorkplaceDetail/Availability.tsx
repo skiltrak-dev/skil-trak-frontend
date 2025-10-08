@@ -73,6 +73,7 @@ export const Availability = ({
             }
             if (res?.error?.data) {
                 showErrorNotifications(res)
+                setIsLoading(false)
                 setActive(1)
             }
         })

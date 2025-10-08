@@ -54,7 +54,7 @@ export const PersonalInfoQuestions = ({
             getSectorByCourseId?.data?.id !== 9
         ) {
             return questionList.filter(
-                (q) => q?.name !== workplaceQuestionsKeys.serviceType
+                (q) => q?.name !== workplaceQuestionsKeys.serviceOffered
             )
         }
         return questionList

@@ -30,6 +30,7 @@ const adminTagTypes = [
     'NotesTemplates',
     'Insurance-Type',
     'WorkplaceTypes',
+    'SectorDocuments',
     'BlogCategories',
     'AllowRtoListing',
     'AppointmentTypes',

@@ -13,5 +13,5 @@ export enum workplaceQuestionsKeys {
     understandingOfDocumentation = 'understandingOfDocumentation',
     preferredContactTime = 'preferredContactTime',
     autoTalentPool = 'autoTalentPool',
-    serviceType = 'serviceType',
+    serviceOffered = 'serviceOffered',
 }

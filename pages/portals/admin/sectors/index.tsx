@@ -2,7 +2,12 @@ import { ReactElement } from 'react'
 
 import { TabNavigation, TabProps } from '@components'
 import { AdminLayout } from '@layouts'
-import { Courses, Sectors, WorkplaceTypes } from '@partials/admin/sector'
+import {
+    Courses,
+    Sectors,
+    WorkplaceTypes,
+    SectorDocuments,
+} from '@partials/admin/sector'
 import { NextPageWithLayout } from '@types'
 
 const SectorList: NextPageWithLayout = () => {
@@ -30,6 +35,14 @@ const SectorList: NextPageWithLayout = () => {
                 query: { tab: 'wp-types', page: 1, pageSize: 50 },
             },
             element: <WorkplaceTypes />,
+        },
+        {
+            label: 'Sector Documents',
+            href: {
+                pathname: 'sectors',
+                query: { tab: 'sector-documents', page: 1, pageSize: 50 },
+            },
+            element: <SectorDocuments />,
         },
     ]
 
