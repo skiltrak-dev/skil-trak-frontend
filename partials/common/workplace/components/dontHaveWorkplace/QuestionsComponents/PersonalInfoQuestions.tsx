@@ -51,7 +51,7 @@ export const PersonalInfoQuestions = ({
     const visibleQuestions = useMemo(() => {
         if (
             getSectorByCourseId?.isSuccess &&
-            getSectorByCourseId?.data?.id !== 9
+            getSectorByCourseId?.data?.id !== 1
         ) {
             return questionList.filter(
                 (q) => q?.name !== workplaceQuestionsKeys.serviceOffered
