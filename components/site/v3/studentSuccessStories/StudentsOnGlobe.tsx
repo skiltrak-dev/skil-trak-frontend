@@ -131,15 +131,21 @@ export const StudentsOnGlobe = () => {
                 <div className="bg-white w-[287px] h-[61px] px-4 py-2 flex items-center gap-x-6  border-[#F7A619] border-2 rounded-2xl">
                     <Typography>Review Us On</Typography>
                     <div className="rounded-sm px-2">
-                        <Image
-                            src={
-                                '/images/site/home-page-v3/student-success-stories/trust-pilot.svg'
-                            }
-                            alt={`title line`}
-                            height={60}
-                            width={100}
-                            className=""
-                        />
+                        <a
+                            href="https://www.trustpilot.com/review/skiltrak.com.au"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <Image
+                                src={
+                                    '/images/site/home-page-v3/student-success-stories/trust-pilot.svg'
+                                }
+                                alt={`title line`}
+                                height={60}
+                                width={100}
+                                className=""
+                            />
+                        </a>
                     </div>
                 </div>
                 <div className="bg-white w-[287px] h-[61px] px-4 py-2 flex items-center gap-x-8  border-[#F7A619] border-2 rounded-2xl">

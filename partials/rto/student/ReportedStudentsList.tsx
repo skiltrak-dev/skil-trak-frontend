@@ -174,7 +174,7 @@ export const ReportedStudentsList = () => {
                     <Modal.Open>
                         <Button variant={'info'} text="View" outline />
                     </Modal.Open>
-                    <Modal.Window>
+                    <Modal.Window name="reportedComment">
                         <div className="p-5 flex flex-col justify-center items-center gap-y-4">
                             <Typography variant="title">
                                 Reported Comment

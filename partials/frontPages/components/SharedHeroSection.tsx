@@ -26,7 +26,7 @@ export const SharedHeroSection = ({
             }}
         >
             <div className="flex flex-col justify-center items-center h-full max-w-7xl mx-auto px-4 md:px-0 gap-y-12">
-                <h1 className="text-white text-center md:text-7xl text-3xl font-bold">
+                <h1 className="text-white text-center md:text-5xl text-3xl font-bold">
                     {title ?? 'Title here'}
                 </h1>
                 {subheading && (

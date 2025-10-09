@@ -1,5 +1,6 @@
 import { ellipsisText } from '@utils'
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { useRef, useEffect } from 'react'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -23,18 +24,18 @@ const sliderData = [
         description:
             "It's easier than ever to sign all your most important documents without the hassle of a printer, scanner...",
     },
-    {
-        icon: '/images/site/home-page-v3/who-we-serve/esign.png',
-        title: 'E-Sign System',
-        description:
-            "It's easier than ever to sign all your most important documents without the hassle of a printer, scanner...",
-    },
-    {
-        icon: '/images/site/home-page-v3/who-we-serve/esign.png',
-        title: 'E-Sign System',
-        description:
-            "It's easier than ever to sign all your most important documents without the hassle of a printer, scanner...",
-    },
+    // {
+    //     icon: '/images/site/home-page-v3/who-we-serve/esign.png',
+    //     title: 'E-Sign System',
+    //     description:
+    //         "It's easier than ever to sign all your most important documents without the hassle of a printer, scanner...",
+    // },
+    // {
+    //     icon: '/images/site/home-page-v3/who-we-serve/esign.png',
+    //     title: 'E-Sign System',
+    //     description:
+    //         "It's easier than ever to sign all your most important documents without the hassle of a printer, scanner...",
+    // },
 ]
 
 export const WhoWeAreSlider = () => {
@@ -86,7 +87,7 @@ export const WhoWeAreSlider = () => {
                 }}
             >
                 {sliderData.map((item: any, index: any) => (
-                    <SwiperSlide key={index} className=''>
+                    <SwiperSlide key={index} className="">
                         <div className="bg-white h-[220px] shadow-[0_10px_20px_rgba(0,0,0,0.1)] rounded-3xl p-4 flex flex-col justify-center items-center text-center relative">
                             {/* Icon */}
                             <div className="mb-4">
@@ -108,7 +109,7 @@ export const WhoWeAreSlider = () => {
                                 title={item.description}
                                 className="text-sm text-[#044866]/70 bg-[#F7A619]/20 rounded-3xl px-4 py-2 h-20"
                             >
-                                {ellipsisText(item.description, 60)}
+                                {ellipsisText(item.description, 50)}
                             </p>
                         </div>
                     </SwiperSlide>
@@ -122,6 +123,12 @@ export const WhoWeAreSlider = () => {
                     className="flex items-center justify-center gap-1"
                 ></div>
             </div>
+            <Link
+                href="/features"
+                className="flex justify-center text-primaryNew underline"
+            >
+                View All Features
+            </Link>
 
             {/* Scoped pagination colors */}
             <style jsx>{`

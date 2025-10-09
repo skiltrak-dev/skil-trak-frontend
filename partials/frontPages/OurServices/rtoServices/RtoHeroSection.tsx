@@ -1,11 +1,6 @@
 import { Button, Typography } from '@components'
-import SiteButtonV3 from '@components/site/v3/button/SiteButtonV3'
-import Image from 'next/image'
-import React from 'react'
-import { CiLocationOn, CiFaceSmile } from 'react-icons/ci'
-import { GoThumbsup, GoGift } from 'react-icons/go'
-import { LiaBoxSolid } from 'react-icons/lia'
-import { IoMdAlarm } from 'react-icons/io'
+import { BookADemoModal } from '@components/site/v3/hero/BookADemoModal'
+import Modal from '@modals/Modal'
 import Link from 'next/link'
 
 export const RtoHeroSection = () => {
@@ -32,11 +27,11 @@ export const RtoHeroSection = () => {
                         <p className={'text-white leading-8 md:w-[50rem]'}>
                             SkilTrak streamlines student placements, ensures
                             Eligibility, and provides real-time progress
-                            Tracking across every aspect of work-based
-                            training.  Whether you're managing high volumes of
-                            placements, liaising with host employers, or
-                            documenting Placement Agreements, SkilTrak’s
-                            intuitive platform keeps you in control.
+                            Tracking across every aspect of work-based training.
+                            Whether you're managing high volumes of placements,
+                            liaising with host employers, or documenting
+                            Placement Agreements, SkilTrak’s intuitive platform
+                            keeps you in control.
                         </p>
                     </div>
                     <div className="mt-10 flex justify-center items-center gap-x-2">
@@ -46,9 +41,16 @@ export const RtoHeroSection = () => {
                         >
                             <Button text="Sign Up" />
                         </Link>
-                        <Link href="/auth/login" className="inline-block">
-                            <Button text="Schedule For Demo" />
-                        </Link>
+
+                        <Modal>
+                            <Modal.Open opens="bookADemo">
+                                <Button text="Schedule For Demo" />
+                            </Modal.Open>
+
+                            <Modal.Window name="bookADemo" noPadding>
+                                <BookADemoModal />
+                            </Modal.Window>
+                        </Modal>
                     </div>
                 </div>
                 <div

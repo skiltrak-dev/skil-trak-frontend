@@ -5,7 +5,7 @@ import React from 'react'
 export const PodCastSection = () => {
     return (
         <div
-            className="bg-no-repeat bg-cover flex flex-col gap-10 md:flex-row items-center justify-center mx-auto max-w-7xl px-4 md:px-0 py-10 md:py-20"
+            className="bg-no-repeat bg-cover flex flex-col gap-10 md:flex-row items-center justify-center mx-auto max-w-7xl px-4 md:px-0 py-16"
             style={{
                 backgroundImage: 'url(/images/site/about-us/podcast-bg.png)',
             }}

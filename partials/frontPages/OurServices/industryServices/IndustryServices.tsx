@@ -23,7 +23,7 @@ export const IndustryServices = () => {
             <IndustryServicesSidebarScroll />
             <IndustryServicesMobileApp />
             <IndustryServicesTestimonial />
-            <IndustryServicesFaqsSection />
+            {/* <IndustryServicesFaqsSection /> */}
             <ContactSection variant="red" />
         </div>
     )

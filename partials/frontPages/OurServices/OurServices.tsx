@@ -24,16 +24,16 @@ export const OurServices = () => {
             image: 'talent-pool.png',
             link: 'talent-pool',
         },
-        {
-            text: 'Employment Hub',
-            image: 'businessman.png',
-            link: 'employment-hub',
-        },
-        {
-            text: 'Upskill Traineeship Program',
-            image: 'upskilling.png',
-            link: 'upskill-traineeship-program',
-        },
+        // {
+        //     text: 'Employment Hub',
+        //     image: 'businessman.png',
+        //     link: 'employment-hub',
+        // },
+        // {
+        //     text: 'Upskill Traineeship Program',
+        //     image: 'upskilling.png',
+        //     link: 'upskill-traineeship-program',
+        // },
     ]
     return (
         <div className="ourServicesBg bg-cover pt-5 md:pt-10 xl:pt-[75px] pb-5">

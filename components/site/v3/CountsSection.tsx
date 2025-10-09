@@ -3,22 +3,22 @@ import Image from 'next/image'
 import React from 'react'
 import { AnimatedWaves } from './animatedWaves'
 
-export const CountsSection = () => {
+export const CountsSection = ({ homepageCounts }: any) => {
     const counts = [
         {
-            count: '2500',
+            count: homepageCounts?.students || 0,
             subtitle: 'Students Placed',
         },
         {
-            count: '36000',
+            count: homepageCounts?.listing || 0,
             subtitle: 'Industry Connections',
         },
         {
-            count: '25',
+            count: homepageCounts?.rtos || 0,
             subtitle: 'RTOs ',
         },
         {
-            count: '10',
+            count: homepageCounts?.courses || 0,
             subtitle: 'Courses ',
         },
     ]

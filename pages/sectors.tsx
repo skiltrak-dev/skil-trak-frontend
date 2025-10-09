@@ -1,11 +1,8 @@
-import { Typography } from '@components'
-import { Footer4 } from '@components/site'
+import { FooterVIII } from '@components/site'
 import { Navbar2 } from '@components/site/navbar'
-import { SiteLayout } from '@layouts'
-import { RtoServices, SkiltrakSectors } from '@partials/frontPages'
+import { SkiltrakSectors } from '@partials/frontPages'
 import { NextPageWithLayout } from '@types'
 import Head from 'next/head'
-import React, { ReactElement } from 'react'
 
 const Sectors: NextPageWithLayout = () => {
     return (
@@ -25,7 +22,7 @@ const Sectors: NextPageWithLayout = () => {
                 <Navbar2 />
                 <SkiltrakSectors />
 
-                <Footer4 />
+                <FooterVIII />
             </div>
         </div>
     )

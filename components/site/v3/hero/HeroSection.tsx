@@ -6,6 +6,7 @@ import { IoArrowForwardOutline } from 'react-icons/io5'
 import FlowingRibbon from './FlowingRibbon'
 import Modal from '@modals/Modal'
 import { WorkbaseQuery } from '@partials/frontPages'
+import { BookADemoModal } from './BookADemoModal'
 
 export const HeroSection = () => {
     return (
@@ -110,32 +111,44 @@ export const HeroSection = () => {
 
                                 {/* CTA Buttons */}
                                 <div className="flex items-center justify-center flex-col md:flex-row md:justify-start gap-4 mt-6">
-                                    <Link href={'/auth/login'}>
-                                        <div className="bg-[#9B2000] text-white text-center p-2 md:px-6 md:py-4 rounded-lg hover:bg-[#8A1C00] transition-colors cursor-pointer shadow-lg md:w-full w-auto">
-                                            <Typography
-                                                variant="title"
-                                                color="text-white"
-                                                medium
-                                            >
-                                                Book a Demo
-                                            </Typography>
-                                            <Typography
-                                                variant="small"
-                                                color="text-white"
-                                            >
-                                                For Training Organisations
-                                            </Typography>
-                                            <div className="flex items-center gap-x-1 justify-center">
-                                                <Typography
-                                                    variant="small"
-                                                    color="text-white"
-                                                >
-                                                    & Employers
-                                                </Typography>
-                                                <IoArrowForwardOutline className="text-sm" />
+                                    <Modal>
+                                        <Modal.Open opens="bookADemo">
+                                            <div>
+                                                <div className="bg-[#9B2000] text-white text-center p-2 md:px-6 md:py-4 rounded-lg hover:bg-[#8A1C00] transition-colors cursor-pointer shadow-lg md:w-full w-auto">
+                                                    <Typography
+                                                        variant="title"
+                                                        color="text-white"
+                                                        medium
+                                                    >
+                                                        Book a Demo
+                                                    </Typography>
+                                                    <Typography
+                                                        variant="small"
+                                                        color="text-white"
+                                                    >
+                                                        For Training
+                                                        Organisations
+                                                    </Typography>
+                                                    <div className="flex items-center gap-x-1 justify-center">
+                                                        <Typography
+                                                            variant="small"
+                                                            color="text-white"
+                                                        >
+                                                            & Employers
+                                                        </Typography>
+                                                        <IoArrowForwardOutline className="text-sm" />
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </Link>
+                                        </Modal.Open>
+
+                                        <Modal.Window
+                                            name="bookADemo"
+                                            noPadding
+                                        >
+                                            <BookADemoModal />
+                                        </Modal.Window>
+                                    </Modal>
 
                                     <div>
                                         {/* WorkbaseQuery */}
@@ -160,7 +173,9 @@ export const HeroSection = () => {
                                                     </div>
                                                 </div>
                                             </Modal.Open>
-                                            <Modal.Window name="enquireNow">
+                                            <Modal.Window
+                                                name="enquireNow"
+                                            >
                                                 <WorkbaseQuery />
                                             </Modal.Window>
                                         </Modal>

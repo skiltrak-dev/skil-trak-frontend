@@ -25,6 +25,11 @@ const TechnicalPartners = () => {
             width: 100,
             link: 'https://zoom.us/',
         },
+        {
+            image: 'trello-logo.png',
+            width: 100,
+            link: 'https://trello.com/',
+        },
     ]
     return (
         <div className="border-y border-secondary-dark">

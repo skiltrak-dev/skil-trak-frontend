@@ -20,6 +20,7 @@ import { NextPage } from 'next'
 import { IoMdChatbubbles, IoMdTime } from 'react-icons/io'
 import { MdTimelapse } from 'react-icons/md'
 import { VscScreenNormal } from 'react-icons/vsc'
+import { SharedHeroSection } from '@partials/frontPages'
 
 const features = [
     {
@@ -156,7 +157,14 @@ const bgColors = [
 const Page: NextPage = () => {
     return (
         <SiteLayout title={'Features'}>
-            <div className="h-96 jumbo-bg w-full">
+            <SharedHeroSection
+                title={'SKILTRAK FEATURES'}
+                description={
+                    'We have knowledgeable and friendly professionals available to schedule an appointment or answer any questions you may have in relation to Work Placement Call us today!'
+                }
+                // button
+            />
+            {/* <div className="h-96 jumbo-bg w-full">
                 <div className="h-full max-w-3xl mx-auto flex flex-col justify-center items-center">
                     <Typography variant={'h1'} color="text-white">
                         SKILTRAK FEATURES
@@ -166,16 +174,13 @@ const Page: NextPage = () => {
                         color={'text-white'}
                         center
                     >
-                        We have knowledgeable and friendly professionals
-                        available to schedule an appointment or answer any
-                        questions you may have in relation to Work Placement .
-                        Call us today!
+                        dfasdsf
                     </Typography>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="max-w-7xl 2xl:max-w-screen-3xl my-4 mx-auto">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 justify-center px-5">
+            <div className="max-w-7xl mx-auto my-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-4 gap-y-8 justify-center px-5">
                     {features.map((feature, i) => (
                         <KeyFeatureCard
                             key={i}
