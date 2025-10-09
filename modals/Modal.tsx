@@ -2,9 +2,9 @@ import { useOutsideClick } from '@hooks'
 import { cloneElement, createContext, useContext, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { HiXMark } from 'react-icons/hi2'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-const StyledModal = styled.div`
+const StyledModal = styled.div<{ noPadding?: boolean }>`
     position: fixed;
     top: 50%;
     left: 50%;
@@ -12,10 +12,16 @@ const StyledModal = styled.div`
     background-color: #fff;
     border-radius: 9px;
     box-shadow: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
-    padding: 1.25rem 1.5rem;
     transition: all 0.5s;
     max-height: 90vh;
     overflow: auto;
+    padding: 1.25rem 1.5rem;
+
+    ${({ noPadding }) =>
+        noPadding &&
+        css`
+            padding: 0;
+        `}
 `
 
 const Overlay = styled.div`
@@ -48,9 +54,6 @@ const Button = styled.button`
     & svg {
         width: 1.8rem;
         height: 1.8rem;
-        /* Sometimes we need both */
-        /* fill: #6b7280;
-    stroke: #6b7280; */
         color: #6b7280;
     }
 `
@@ -75,14 +78,21 @@ const Open = ({
     opens: opensWindowName,
 }: {
     children: any
-    opens?: any
+    opens?: string
 }) => {
     const { open } = useContext(ModalContext)
-
     return cloneElement(children, { onClick: () => open(opensWindowName) })
 }
 
-const Window = ({ children, name }: any) => {
+const Window = ({
+    children,
+    name,
+    noPadding = false,
+}: {
+    children: any
+    name: string
+    noPadding?: boolean
+}) => {
     const { openName, close } = useContext(ModalContext)
     const ref = useOutsideClick(close)
 
@@ -90,14 +100,16 @@ const Window = ({ children, name }: any) => {
 
     return createPortal(
         <Overlay>
-            <StyledModal className=" custom-scrollbar" ref={ref}>
+            <StyledModal
+                ref={ref}
+                className="remove-scrollbar"
+                noPadding={noPadding}
+            >
                 <Button onClick={close}>
                     <HiXMark />
                 </Button>
 
-                <div className="">
-                    {cloneElement(children, { onCloseModal: close })}
-                </div>
+                <div>{cloneElement(children, { onCloseModal: close })}</div>
             </StyledModal>
         </Overlay>,
         document.body

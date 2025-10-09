@@ -6,6 +6,7 @@ import { ReactElement, useEffect } from 'react'
 // hooks
 import { AdminLayout } from '@layouts'
 import {
+    BookADemoQuery,
     ContactUsQuery,
     TraineeshipProgramQuery,
     WorkBasedQuery,
@@ -61,6 +62,18 @@ const TraineeshipProgram = () => {
                 loading: contactUsQueriesCount?.isLoading,
             },
             element: <ContactUsQuery />,
+        },
+        {
+            label: 'Book A Demo',
+            href: {
+                pathname: 'queries',
+                query: { tab: 'book-a-demo' },
+            },
+            badge: {
+                text: contactUsQueriesCount?.data,
+                loading: contactUsQueriesCount?.isLoading,
+            },
+            element: <BookADemoQuery />,
         },
     ]
 

@@ -624,6 +624,8 @@ const {
     useGetContactUsQueriesQuery,
     useGetContactUsQueriesCountQuery,
     useAddWorkBasedProgramMutation,
+    useBookADemoMutation,
+    useListBookDemoQuery,
     useGetWorkBasedProgramCountQuery,
     useContactWorkBasedProgramMutation,
     useContactContactUsQueriesMutation,
@@ -953,6 +955,8 @@ export const CommonApi = {
         useContactUsQueries: useGetContactUsQueriesQuery,
         useContactUsQueriesCount: useGetContactUsQueriesCountQuery,
         useAddWorkBased: useAddWorkBasedProgramMutation,
+        useBookADemo: useBookADemoMutation,
+        useListBookDemo: useListBookDemoQuery,
         useContactWorkBase: useContactWorkBasedProgramMutation,
         useContactContactUsQueries: useContactContactUsQueriesMutation,
         useWorkBaseAndTraineeCount:

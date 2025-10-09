@@ -14,7 +14,7 @@ const sliderData = [
         title: 'Industry Partners',
     },
     {
-        image: '/images/site/home-page-v3/collaboration-add-ons/collaboration-add-on-2.jpg',
+        image: '/images/site/home-page-v3/collaboration-add-ons/collaboration-add-on-3.png',
         title: 'Migration Agents',
     },
     {
@@ -23,10 +23,6 @@ const sliderData = [
     },
     {
         image: '/images/site/home-page-v3/collaboration-add-ons/collaboration-add-on-4.jpg',
-        title: 'Another Partner',
-    },
-    {
-        image: '/images/site/home-page-v3/collaboration-add-ons/collaboration-add-on-5.jpg',
         title: 'Another Partner',
     },
 ]
@@ -60,7 +56,7 @@ export const CollabAddOnsSlider = () => {
                     prevEl: prevRef.current,
                     nextEl: nextRef.current,
                 }}
-                onBeforeInit={(swiper:any) => {
+                onBeforeInit={(swiper: any) => {
                     // @ts-ignore
                     swiper.params.navigation.prevEl = prevRef.current
                     // @ts-ignore
@@ -68,7 +64,7 @@ export const CollabAddOnsSlider = () => {
                 }}
                 className="pb-12"
             >
-                {sliderData.map((item:any, index:any) => (
+                {sliderData.map((item: any, index: any) => (
                     <SwiperSlide key={index}>
                         <div className="relative rounded-2xl overflow-hidden shadow-lg">
                             {/* Background Image */}

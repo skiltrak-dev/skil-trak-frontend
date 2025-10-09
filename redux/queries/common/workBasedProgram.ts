@@ -26,6 +26,21 @@ export const workBasedProgramEndpoints = (
         query: () => 'website-messages/count',
         providesTags: ['WorkBased'],
     }),
+    bookADemo: builder.mutation<any, void>({
+        query: (body) => ({
+            url: `website-messages/book-demo`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['WorkBased'],
+    }),
+    listBookDemo: builder.query<any, any>({
+        query: (params) => ({
+            url: 'website-messages/list-demo',
+            params,
+        }),
+        providesTags: ['WorkBased'],
+    }),
     getWorkBasedProgramAndTraineeshipCount: builder.query<any, void>({
         query: () => 'admin/queries/count-both',
         providesTags: ['WorkBased'],

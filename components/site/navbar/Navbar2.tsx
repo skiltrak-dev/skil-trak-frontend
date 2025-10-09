@@ -46,7 +46,7 @@ export function Navbar2() {
         },
         {
             text: 'Who We Serve',
-            url: '/who-we-serve',
+            url: '#',
             subMenus: [
                 {
                     text: 'Students',
@@ -70,14 +70,14 @@ export function Navbar2() {
                 // },
             ],
         },
-        // {
-        //     text: 'Features',
-        //     url: '/features',
-        // },
-        // {
-        //     text: 'Blogs',
-        //     url: '/blogs',
-        // },
+        {
+            text: 'Features',
+            url: '/features',
+        },
+        {
+            text: 'Blogs',
+            url: '/blogs',
+        },
         {
             text: 'Sectors',
             url: '/sectors',

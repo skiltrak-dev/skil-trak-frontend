@@ -32,14 +32,13 @@ export const OurMissionAndVision = () => {
             <div className="flex flex-col-reverse md:flex-row items-center justify-center gap-6 md:gap-8 w-full">
                 <div className="md:w-1/2 space-y-6">
                     <AboutSectionTitle
-                        title="Our Mission"
+                        title="Our Vision"
                         space={'justify-start items-start'}
                     />
                     <Typography color="text-gray-500" variant="body">
-                        To empower students and support educators by
-                        streamlining the placement process through reliable
-                        technology, professional guidance, and trusted industry
-                        partnerships.
+                        To be Australia’s leading placement management solution,
+                        recognized for innovation, integrity, and impact in
+                        education and workforce development.
                     </Typography>
                 </div>
                 <div className="md:w-1/2">

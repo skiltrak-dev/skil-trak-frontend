@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { Typography } from '@components'
 import { ContactUs } from '@components/site/ContactUs'
+import { SharedHeroSection } from '@partials/frontPages'
 
 const Page = ({ location }: any) => {
     const [scrollTo, setScrollTo] = useState(location?.state?.scorllToForm)
@@ -24,7 +25,7 @@ const Page = ({ location }: any) => {
 
     return (
         <SiteLayout title={'Contact Us'}>
-            <div className="h-80 jumbo-bg w-full">
+            {/* <div className="h-80 jumbo-bg w-full">
                 <div className="h-full max-w-3xl mx-auto flex flex-col gap-y-1 justify-center items-center">
                     <div className="text-center">
                         <Typography variant={'h1'} color="text-white">
@@ -42,7 +43,14 @@ const Page = ({ location }: any) => {
                         Call us today!
                     </Typography>
                 </div>
-            </div>
+            </div> */}
+            <SharedHeroSection
+                title={'GET IN TOUCH WITH SKILTRAK'}
+                description={
+                    'We have knowledgeable and friendly professionals available to schedule an appointment or answer any questions you may have in relation to Work Placement. Call us today!'
+                }
+                // button
+            />
 
             <ContactUs />
 

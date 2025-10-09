@@ -13,17 +13,22 @@ import TechnicalPartners from '@partials/frontPages/home2/TechnicalPartners/Tech
 import { NextPageWithLayout } from '@types'
 import { ReactElement } from 'react'
 
-const HomeV3: NextPageWithLayout = ({ featuredBlogs }: any) => {
+const HomeV3: NextPageWithLayout = ({ featuredBlogs, homepageCounts }: any) => {
     return (
         <>
             <HeroSection />
             {/* <TrustedByMarquee /> */}
             <WhoWeServe />
-            <CountsSection />
+
+            {/* ✅ Pass homepageCounts data into CountsSection */}
+            <CountsSection homepageCounts={homepageCounts} />
+
             <AssuredPlacement />
             <CollaborationAddOns />
+
             {/* ✅ Pass featuredBlogs as props here */}
             <ContactAndBlogs featuredBlogs={featuredBlogs} />
+
             <StudentSuccessStories />
             <TechnicalPartners />
         </>
@@ -34,29 +39,37 @@ HomeV3.getLayout = (page: ReactElement) => {
     return <SiteLayout>{page}</SiteLayout>
 }
 
-// ✅ Fetch featured blogs from your API
+// ✅ Fetch both featured blogs and homepage counts
 export const getStaticProps = async () => {
     try {
-        const res = await fetch(
+        // Fetch featured blogs
+        const blogRes = await fetch(
             `${process.env.NEXT_PUBLIC_END_POINT}/blogs/site`
         )
-        const data = await res.json()
+        const blogData = await blogRes.json()
 
-        // Filter featured blogs
         const featuredBlogs =
-            data?.filter((item: any) => item?.isFeatured) || []
+            blogData?.filter((item: any) => item?.isFeatured) || []
+
+        // Fetch homepage counts
+        const countsRes = await fetch(
+            `${process.env.NEXT_PUBLIC_END_POINT}/admin/homepage-counts`
+        )
+        const homepageCounts = await countsRes.json()
 
         return {
             props: {
                 featuredBlogs,
+                homepageCounts,
             },
-            revalidate: 60, // Rebuild every 60 seconds
+            revalidate: 60, // ISR - rebuild every 60 seconds
         }
     } catch (error) {
-        console.error('Error fetching featured blogs:', error)
+        console.error('Error fetching homepage data:', error)
         return {
             props: {
                 featuredBlogs: [],
+                homepageCounts: null,
             },
         }
     }
