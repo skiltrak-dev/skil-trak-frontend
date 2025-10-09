@@ -18,6 +18,7 @@ import { SelectAppointDateModal } from './SelectAppointDateModal'
 import { TradingHoursNotFoundModal } from './TradingHoursNotFoundModal'
 import { WorkplaceTypeNotFoundModal } from './WorkplaceTypeNotFoundModal'
 import { WorkplaceTypeMisMatchModal } from './WorkplaceTypeMisMatchModal'
+import { WpServiceOfferedMisMatchModal } from './WpServiceOfferedMisMatchModal'
 
 export const ShowIndustryNotesAndTHModal = ({
     industryCapacity,
@@ -98,9 +99,15 @@ export const ShowIndustryNotesAndTHModal = ({
             )
             setWorkplaceData(null)
         }
-        if (workplaceData?.type === WorkplaceErrorMessage.WP_TYPE_MIS_MATCH) {
+        if (
+            workplaceData?.type ===
+            WorkplaceErrorMessage.WP_SERVICE_OFFERED_MISMATCH
+        ) {
             setModal(
-                <WorkplaceTypeMisMatchModal onCancel={onCancelInnerModal} />
+                <WpServiceOfferedMisMatchModal
+                    onCancel={onCancelInnerModal}
+                    message={workplaceData?.message}
+                />
             )
             setWorkplaceData(null)
         }
@@ -177,6 +184,17 @@ export const ShowIndustryNotesAndTHModal = ({
             setWorkplaceData({
                 type: WorkplaceErrorMessage.WP_TYPE_MIS_MATCH,
                 branch: type,
+            })
+        }
+        if (
+            res?.error?.data?.message.startsWith(
+                'The selected industry does not offer'
+            )
+        ) {
+            setWorkplaceData({
+                type: WorkplaceErrorMessage.WP_SERVICE_OFFERED_MISMATCH,
+                branch: type,
+                message: res?.error?.data?.message,
             })
         }
     }

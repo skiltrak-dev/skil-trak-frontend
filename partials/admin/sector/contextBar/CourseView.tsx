@@ -23,7 +23,7 @@ export const CourseView = ({ course }: { course: Course }) => {
     return (
         <div className="flex flex-col gap-y-6">
             {/* Context Bar Title */}
-            {modal && modal}
+            {modal}
 
             <div>
                 <Typography variant={'muted'} color={'text-gray-400'}>

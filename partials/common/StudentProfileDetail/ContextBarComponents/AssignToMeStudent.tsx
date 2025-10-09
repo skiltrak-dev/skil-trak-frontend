@@ -1,11 +1,11 @@
-import { ActionButton, Tooltip, Typography } from '@components'
-import moment from 'moment'
+import { ActionButton, Tooltip } from '@components'
 import {
     AssignStudentModal,
     UnAssignStudentModal,
 } from '@partials/sub-admin/students/modals'
 import { Student } from '@types'
-import React, { ReactElement, useState } from 'react'
+import moment from 'moment'
+import { ReactElement, useState } from 'react'
 
 export const AssignToMeStudent = ({ student }: { student: Student }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -53,13 +53,15 @@ export const AssignToMeStudent = ({ student }: { student: Student }) => {
                 }}
                 simple
                 variant="info"
-                disabled={isWithin14Days}
+                disabled={isWithin14Days && !!student?.subadmin}
             >
                 {student?.subadmin ? 'Un-Assign' : 'Assign to me'}
             </ActionButton>
 
-            {isWithin14Days ? (
-                <Tooltip> Student cant unassign with in 14 days </Tooltip>
+            {isWithin14Days && student?.subadmin ? (
+                <Tooltip>
+                    Students cannot be unassigned within 14 days of assignment
+                </Tooltip>
             ) : (
                 ''
             )}

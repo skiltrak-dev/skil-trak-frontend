@@ -15,7 +15,7 @@ export const workplaceEndpoints = (
     }),
     getWorkplaceIndustries: builder.query<any, void>({
         query: () => `${PREFIX}/workindustry/list`,
-        providesTags: ['Workplace', 'SubAdminStudentssss'],
+        providesTags: ['Workplace', 'SubAdmin-Students'],
     }),
 
     getPlacementProgress: builder.query<any, void>({

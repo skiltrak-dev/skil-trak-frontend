@@ -121,6 +121,17 @@ export const SelectAppointDateModal = ({
                     branch,
                 })
             }
+            if (
+                res?.error?.data?.message.startsWith(
+                    'The selected industry does not offer'
+                )
+            ) {
+                setWorkplaceData({
+                    type: WorkplaceErrorMessage.WP_SERVICE_OFFERED_MISMATCH,
+                    branch,
+                    message: res?.error?.data?.message,
+                })
+            }
         } else {
             setShowError(true)
         }

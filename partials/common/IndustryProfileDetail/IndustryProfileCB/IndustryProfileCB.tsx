@@ -248,10 +248,14 @@ export const IndustryProfileCB = ({
                             <div className="ml-auto">
                                 <Badge text="Add Rpl" onClick={onAddRpl} />
                             </div>
-                            <IndustryServiceTypeOffered
-                                industryId={industry?.id}
-                                serviceOffered={industry?.serviceOffered}
-                            />
+                            {industry?.courses
+                                ?.map((course) => course?.sector?.id)
+                                ?.includes(1) && (
+                                <IndustryServiceTypeOffered
+                                    industryId={industry?.id}
+                                    serviceOffered={industry?.serviceOffered}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

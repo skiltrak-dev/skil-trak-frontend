@@ -168,15 +168,10 @@ export const AvailabilityForm = ({
                             })}
                         </div>
                         <div className="my-4">
-                            {/* <Typography variant={'muted'} color={'grayLight'}>
-                                * Click Find Workplace Manually to submit your
-                                request. A SkilTrak coordinator will then
-                                manually match you with a suitable workplace.
-                            </Typography> */}
                             <Typography variant={'muted'} color={'grayLight'}>
-                                * Click Auto-Match & Apply (Beta) to let the
-                                system automatically find and apply to the
-                                nearest available workplace on your behalf.
+                                * Click Auto-Match & Apply to let the system
+                                automatically find and apply to the nearest
+                                available workplace on your behalf.
                             </Typography>
                         </div>
                         <div className="flex justify-between items-center">
