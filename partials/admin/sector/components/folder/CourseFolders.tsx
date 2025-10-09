@@ -1,4 +1,10 @@
-import { ActionButton, NoData, ShowErrorNotifications } from '@components'
+import {
+    ActionButton,
+    Badge,
+    NoData,
+    ShowErrorNotifications,
+    Typography,
+} from '@components'
 import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import {
@@ -11,6 +17,16 @@ import {
 import { useEffect, useState } from 'react'
 import { CourseFolderForm } from '../../form'
 import { CourseFolder } from './CourseFolder'
+// Utility functions for filtering folders
+const getRegularFolders = (folders: Folder[] | undefined): Folder[] => {
+    if (!folders) return []
+    return folders.filter((folder: Folder) => !folder?.isIndustryCheck)
+}
+
+const getIndustryCheckFolders = (folders: Folder[] | undefined): Folder[] => {
+    if (!folders) return []
+    return folders.filter((folder: Folder) => folder?.isIndustryCheck === true)
+}
 
 export const CourseFolders = ({
     course,
@@ -77,6 +93,10 @@ export const CourseFolders = ({
 
     const onFormCancel = () => setCreate(false)
 
+    // Filter folders using utility functions
+    const regularFolders = getRegularFolders(folders)
+    const industryCheckFolders = getIndustryCheckFolders(folders)
+
     return (
         <>
             <ShowErrorNotifications result={addFolderResult} />
@@ -127,15 +147,42 @@ export const CourseFolders = ({
                 <>
                     {!create &&
                         (folders && folders.length ? (
-                            folders?.map((f: any) => (
-                                <CourseFolder
-                                    folder={f}
-                                    key={f.id}
-                                    course={course!!}
-                                    category={category}
-                                    result={addAssessmentEvidenceResult}
-                                />
-                            ))
+                            <div>
+                                {regularFolders.length > 0 && (
+                                    <div>
+                                        <Badge text="Folders" />
+                                        {regularFolders.map((f: Folder) => (
+                                            <CourseFolder
+                                                folder={f}
+                                                key={f.id}
+                                                course={course!!}
+                                                category={category}
+                                                result={
+                                                    addAssessmentEvidenceResult
+                                                }
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                                {industryCheckFolders.length > 0 && (
+                                    <div>
+                                        <Badge text="Industry Checks" />
+                                        {industryCheckFolders.map(
+                                            (f: Folder) => (
+                                                <CourseFolder
+                                                    folder={f}
+                                                    key={f.id}
+                                                    course={course!!}
+                                                    category={category}
+                                                    result={
+                                                        addAssessmentEvidenceResult
+                                                    }
+                                                />
+                                            )
+                                        )}
+                                    </div>
+                                )}
+                            </div>
                         ) : (
                             <NoData text="No Folder Here" />
                         ))}

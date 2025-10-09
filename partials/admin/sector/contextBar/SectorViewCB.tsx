@@ -66,6 +66,7 @@ export const SectorViewCB = ({ sector }: { sector: Sector }) => {
                         onSubmit={onSubmit}
                         result={addIndustryChecksResult}
                         onCancel={() => setIsAddFolder(false)}
+                        sectorId={sector?.id}
                     />
                 </div>
             ) : (
@@ -96,6 +97,7 @@ export const SectorViewCB = ({ sector }: { sector: Sector }) => {
                                     <IndustryCheckFolder
                                         key={industryCheck}
                                         industryCheck={industryCheck}
+                                        sectorId={sector?.id}
                                     />
                                 )
                             )}

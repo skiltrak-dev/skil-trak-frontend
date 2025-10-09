@@ -6,6 +6,7 @@ import {
     TextArea,
     TextInput,
 } from '@components'
+import { AdminApi } from '@queries'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AddFolderFormType, Folder, TypeOptionsEnum } from '@types'
 import { useEffect, useState } from 'react'
@@ -18,6 +19,7 @@ interface CourseFolderFormProps {
     edit?: boolean
     onCancel?: () => void
     result: any
+    sectorId?: number
 }
 
 export const AddSectoIndustryChecksForm = ({
@@ -26,6 +28,7 @@ export const AddSectoIndustryChecksForm = ({
     initialValues,
     onCancel,
     result,
+    sectorId,
 }: CourseFolderFormProps) => {
     const [selectedType, setSelectedType] = useState<string | null>(null)
 
@@ -36,7 +39,22 @@ export const AddSectoIndustryChecksForm = ({
     }, [initialValues])
 
     const validationSchema = yup.object({
-        name: yup.string().required('Name is required'),
+        documentTemplate: yup
+            .number()
+            .nullable()
+            .when([], {
+                is: () => !!sectorId,
+                then: (schema) =>
+                    schema
+                        .typeError('Document template is required')
+                        .required('Document template is required'),
+                otherwise: (schema) => schema.notRequired(),
+            }),
+        name: yup.string().when([], {
+            is: () => !sectorId,
+            then: (schema) => schema.required('Name is required'),
+            otherwise: (schema) => schema.notRequired(),
+        }),
         capacity: yup.number().required('Capacity is Required'),
     })
 
@@ -45,6 +63,18 @@ export const AddSectoIndustryChecksForm = ({
         defaultValues: initialValues,
         mode: 'all',
     })
+
+    const sectorDocs = AdminApi.SectorDocuments.sectorDocumentsBySector(
+        Number(sectorId),
+        {
+            skip: !sectorId,
+        }
+    )
+
+    const nameOptions = (sectorDocs?.data || [])?.map((d: any) => ({
+        label: d?.name,
+        value: d?.id,
+    }))
 
     const typeOptions = [
         { label: 'Documents', value: TypeOptionsEnum.Documents },
@@ -60,12 +90,23 @@ export const AddSectoIndustryChecksForm = ({
             >
                 <div className="">
                     <div className="flex flex-col">
-                        <TextInput
-                            label={'Name'}
-                            name={'name'}
-                            placeholder={'Folder Name...'}
-                            required
-                        />
+                        {sectorId ? (
+                            <Select
+                                label={'Document Template'}
+                                name={'documentTemplate'}
+                                options={nameOptions}
+                                loading={sectorDocs?.isLoading}
+                                required
+                                onlyValue
+                            />
+                        ) : (
+                            <TextInput
+                                label={'Name'}
+                                name={'name'}
+                                placeholder={'Folder Name...'}
+                                required
+                            />
+                        )}
 
                         <TextInput
                             label={'Capacity'}

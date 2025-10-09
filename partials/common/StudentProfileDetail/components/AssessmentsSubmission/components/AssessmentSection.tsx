@@ -105,6 +105,16 @@ export const AssessmentSection: React.FC<AssessmentSectionProps> = ({
                             </AuthorizedUserComponent>
                         </AssessmentFiles>
                     </div>
+                    <AddComment
+                        resultId={result?.id}
+                        studentId={student?.id}
+                        comment={getAssessmentResponse?.data?.comment}
+                        assessmentResponseId={getAssessmentResponse?.data?.id}
+                        assessmentFolder={
+                            getAssessmentResponse?.data?.assessmentFolder
+                        }
+                        folderStatus={getAssessmentResponse?.data?.status}
+                    />
                     <AuthorizedUserComponent
                         excludeRoles={[UserRoles.OBSERVER]}
                     >

@@ -6,7 +6,9 @@ import { AddSectoIndustryChecksForm } from '../../form'
 import { useNotification } from '@hooks'
 export const IndustryCheckFolder = ({
     industryCheck,
+    sectorId,
 }: {
+    sectorId: number
     industryCheck: any
 }) => {
     const [edit, setEdit] = useState(false)
@@ -54,6 +56,7 @@ export const IndustryCheckFolder = ({
                     onCancel={() => setEdit(false)}
                     edit
                     initialValues={industryCheck}
+                    sectorId={sectorId}
                 />
             ) : (
                 <div className="relative">

@@ -1,17 +1,16 @@
+import { Select, SelectOption, Typography } from '@components'
 import { UserRoles } from '@constants'
-import { useMemo } from 'react'
+import { workplaceQuestionsKeys } from '@partials/common/workplace/enum'
 import { CommonApi, SubAdminApi } from '@queries'
-import { useRouter } from 'next/router'
 import { WorkplaceTypes } from '@types'
 import { getUserCredentials } from '@utils'
+import { useMemo } from 'react'
+import { questionList, workplaceQuestions } from '../questionListData'
+import { AvailabilitySelector } from './AvailabilitySelector'
 import { DaysQuestions } from './DaysQuestions'
 import { DefaultQuestions } from './DefaultQuestions'
 import { TextAreaQuestions } from './TextAreaQuestions'
 import { TextTypeQuestions } from './TextTypeQuestions'
-import { AvailabilitySelector } from './AvailabilitySelector'
-import { Select, SelectOption, Typography } from '@components'
-import { questionList, workplaceQuestions } from '../questionListData'
-import { workplaceQuestionsKeys } from '@partials/common/workplace/enum'
 
 export const PersonalInfoQuestions = ({
     userId,
@@ -24,7 +23,6 @@ export const PersonalInfoQuestions = ({
     personalInfoData: any
     selectedCourse: number
 }) => {
-    const router = useRouter()
     const formValues = formMethods.watch()
 
     const role = getUserCredentials()?.role
@@ -46,12 +44,10 @@ export const PersonalInfoQuestions = ({
         }
     )
 
-    console.log({ getSectorByCourseId })
-
     const visibleQuestions = useMemo(() => {
         if (
             getSectorByCourseId?.isSuccess &&
-            getSectorByCourseId?.data?.id !== 1
+            getSectorByCourseId?.data?.id !== 9
         ) {
             return questionList.filter(
                 (q) => q?.name !== workplaceQuestionsKeys.serviceOffered
@@ -109,7 +105,7 @@ export const PersonalInfoQuestions = ({
                                         ]
                                     }
                                 </Typography>
-                                <AvailabilitySelector />
+                                <AvailabilitySelector name={ques.name} />
                             </div>
                         )
                     } else if (
