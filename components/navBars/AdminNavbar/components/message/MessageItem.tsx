@@ -35,10 +35,11 @@ export const MessageItem = ({
         >
             {icon ? (
                 <div
-                    className={`${!resultSeenMessage.isSuccess && !isSeen
+                    className={`${
+                        !resultSeenMessage.isSuccess && !isSeen
                             ? 'text-blue-400'
                             : 'text-gray-500'
-                        }  bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}
+                    }  bg-gray-300 h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}
                 >
                     <Icon />
                 </div>
@@ -50,10 +51,11 @@ export const MessageItem = ({
                 />
             ) : (
                 <div
-                    className={`${!resultSeenMessage.isSuccess && !isSeen
+                    className={`${
+                        !resultSeenMessage.isSuccess && !isSeen
                             ? 'text-blue-400 bg-blue-200'
                             : 'text-gray-500 bg-gray-300'
-                        } h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}
+                    } h-8 w-8 rounded-md flex items-center justify-center text-2xl mr-2`}
                 >
                     <AiFillBell />
                 </div>
@@ -63,16 +65,15 @@ export const MessageItem = ({
                 <div
                     className={`text-gray-400 text-xs`}
                     dangerouslySetInnerHTML={{
-                        __html: title.substring(0, 10),
+                        __html: title?.substring(0, 10),
                     }}
                 />
                 <div
                     className={`text-gray-400 text-xs`}
                     dangerouslySetInnerHTML={{
-                        __html: description.substring(0, 80),
+                        __html: description?.substring(0, 80),
                     }}
                 />
-
             </div>
             <div className="flex flex-col items-end">
                 <p className="text-[11px] text-gray-400">
