@@ -1,15 +1,15 @@
 import {
-    ActionButton,
-    Badge,
     Card,
-    EmptyData,
-    LoadingAnimation,
+    Badge,
     Table,
+    EmptyData,
+    Typography,
     TableAction,
+    ActionButton,
+    TechnicalError,
+    LoadingAnimation,
     TableActionOption,
     TableChildrenProps,
-    TechnicalError,
-    Typography,
 } from '@components'
 import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
@@ -18,16 +18,15 @@ import { FaEdit, FaEye } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { CommonApi } from '@queries'
 import { Rto, Student, UserStatus } from '@types'
-import { checkListLength, isBrowser, setLink } from '@utils'
+import { checkListLength } from '@utils'
 import { useRouter } from 'next/router'
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
 
 // hooks
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { DocumentsView, useActionModal } from '@hooks'
-import { ApproveModal, ArchiveModal, DeleteModal } from './modal'
+import { DocumentsView } from '@hooks'
 import Link from 'next/link'
+import { ApproveModal, DeleteModal } from './modal'
 
 export const ArchivedEsigns = () => {
     const router = useRouter()

@@ -25,7 +25,7 @@ import { MdBlock } from 'react-icons/md'
 import { DocumentsView } from '@hooks'
 import Link from 'next/link'
 import { BlockModal, BlockMultiStudentsModal } from '../student/modals'
-import { ArchiveModal } from './modal'
+import { ArchiveModal, DeleteModal } from './modal'
 
 export const IndustryEsignTemp = () => {
     const router = useRouter()
@@ -67,6 +67,10 @@ export const IndustryEsignTemp = () => {
 
     const onArchiveClicked = (eSign: any) => {
         setModal(<ArchiveModal eSign={eSign} onCancel={onModalCancelClicked} />)
+    }
+
+    const onDeleteClicked = (eSign: any) => {
+        setModal(<DeleteModal eSign={eSign} onCancel={onModalCancelClicked} />)
     }
 
     const tableActionOptions: TableActionOption<any>[] = [
@@ -153,10 +157,21 @@ export const IndustryEsignTemp = () => {
                     getEsign?.data?.data as Student[]
                 )
 
+                const updatedTableActions = [...tableActionOptions]
+
+                if (info.row.original?.status === 'archived') {
+                    updatedTableActions.push({
+                        text: 'Delete',
+                        onClick: (eSign: any) => onDeleteClicked(eSign),
+                        Icon: MdBlock,
+                        color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+                    })
+                }
+
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
-                            options={tableActionOptions}
+                            options={updatedTableActions}
                             rowItem={info.row.original}
                             lastIndex={length.includes(info.row?.index)}
                         />
