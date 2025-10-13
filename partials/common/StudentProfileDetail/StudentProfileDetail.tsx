@@ -32,11 +32,9 @@ export const StudentProfileDetail = () => {
 
     // Navigation and section highlighting
     const {
-        selectedId,
         setSelectedId,
         quickSearch,
         setQuickSearch,
-        handleScroll,
         handleSectionClick,
         getActiveBorder,
     } = useProfileNavigation(router, profile)

@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -10,7 +10,6 @@ import {
     Avatar,
     Button,
     Card,
-    RadioGroup,
     Select,
     SelectOption,
     ShowErrorNotifications,
@@ -33,8 +32,6 @@ import { Course } from '@types'
 import {
     CourseSelectOption,
     formatOptionLabel,
-    getLatLng,
-    getPostalCode,
     getUserCredentials,
     onlyNumbersAcceptedInYup,
     removeEmptySpaces,
@@ -110,11 +107,8 @@ export const IndustryProfileFrom = ({
     >(null)
     const [courseValues, setCourseValues] = useState<SelectOption[]>([])
     const [sectors, setSectors] = useState<any | null>(null)
-    const [isPartner, setIsPartner] = useState<string>('')
     const [courseOptions, setCourseOptions] = useState([])
     const [courseDefaultOptions, setCourseDefaultOptions] = useState([])
-    const [countryId, setCountryId] = useState(null)
-    const [stateId, setStateId] = useState(null)
     const [isAddressUpdated, setIsAddressUpdated] = useState<boolean>(false)
 
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
@@ -123,12 +117,6 @@ export const IndustryProfileFrom = ({
         mode: 'all',
         resolver: yupResolver(validationSchema),
     })
-
-    const country = CommonApi.Countries.useCountriesList()
-    const { data: states, isLoading: statesLoading } =
-        CommonApi.Countries.useCountryStatesList(countryId, {
-            skip: !countryId,
-        })
 
     const { onUpdatePassword, passwordModal } = useActionModal()
 
@@ -235,24 +223,6 @@ export const IndustryProfileFrom = ({
 
     const role = getUserCredentials()?.role
 
-    const statesOption = useMemo(
-        () =>
-            states?.map((state: any) => ({
-                label: state?.name,
-                value: state?.id,
-            })),
-        [states]
-    )
-
-    const countryOptions = useMemo(
-        () =>
-            country?.data?.map((c: any) => ({
-                label: c?.name,
-                value: c?.id,
-            })) || [],
-        [country]
-    )
-
     useEffect(() => {
         if (profile?.data && profile.isSuccess) {
             const {
@@ -306,12 +276,6 @@ export const IndustryProfileFrom = ({
                 formMethods.setValue(key, values[key])
             }
 
-            if (profile?.data?.country?.id) {
-                setCountryId(profile?.data?.country?.id)
-            }
-            if (profile?.data?.region?.id) {
-                setStateId(profile?.data?.region?.id)
-            }
             setIsAddressUpdated(profile?.data?.isAddressUpdated)
             // setIsPartner(profile?.data?.isPartner ? 'yes' : 'no')
         }
@@ -335,7 +299,7 @@ export const IndustryProfileFrom = ({
                 // studentCapacity:
                 //     isPartner === 'yes' ? values?.studentCapacity : 0,
                 region: values?.region?.value,
-                country: countryId,
+                country: null,
                 isAddressUpdated,
             })
         }

@@ -10,7 +10,7 @@ export const UpdateTransferredStudentCoursesModal = ({
     studentId,
 }: {
     studentId: number
-    onCancel: () => void
+    onCancel: (isSuccess?: boolean) => void
 }) => {
     const {
         courseLoading,
@@ -49,9 +49,8 @@ export const UpdateTransferredStudentCoursesModal = ({
                 title: 'Course Updated',
                 description: 'Course Updated Successfully',
             })
-            onCancel()
+            onCancel(true)
         }
-        console.log({ values })
     }
 
     return (

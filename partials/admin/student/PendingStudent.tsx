@@ -26,7 +26,7 @@ import { RiLockPasswordFill } from 'react-icons/ri'
 import { SectorCell, StudentCellInfo } from './components'
 import { useChangeStatus } from './hooks'
 import { AcceptModal, RejectModal } from './modals'
-import { Span } from 'next/dist/trace'
+import { UpdateTransferredStudentCoursesModal } from '@partials/common/StudentProfileDetail/modals'
 
 export const PendingStudent = () => {
     const router = useRouter()
@@ -63,6 +63,23 @@ export const PendingStudent = () => {
     const onAcceptClicked = (item: Student) => {
         setModal(
             <AcceptModal item={item} onCancel={() => onModalCancelClicked()} />
+        )
+    }
+    const onAddTransferredStudentCourses = (student: Student) => {
+        setModal(
+            <UpdateTransferredStudentCoursesModal
+                studentId={student?.id}
+                onCancel={(isSuccess?: boolean) => {
+                    if (
+                        student?.user?.status === UserStatus.Pending &&
+                        isSuccess
+                    ) {
+                        onAcceptClicked(student)
+                    } else {
+                        onModalCancelClicked()
+                    }
+                }}
+            />
         )
     }
     const onRejectClicked = (item: Student) => {
@@ -155,7 +172,14 @@ export const PendingStudent = () => {
                 <div className="flex gap-x-1 items-center">
                     <ActionButton
                         variant="success"
-                        onClick={() => onAcceptClicked(info.row.original)}
+                        onClick={() =>
+                            info.row.original?.isTransferred &&
+                            !info.row.original?.courses?.length
+                                ? onAddTransferredStudentCourses(
+                                      info.row.original
+                                  )
+                                : onAcceptClicked(info.row.original)
+                        }
                         loading={changeStatusResult.isLoading}
                         disabled={changeStatusResult.isLoading}
                     >

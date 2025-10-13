@@ -4,7 +4,6 @@ import { ReactElement } from 'react'
 import {
     EmptyData,
     LoadingAnimation,
-    SelectOption,
     ShowErrorNotifications,
     TechnicalError,
 } from '@components'
@@ -32,7 +31,7 @@ const EditIndustriesProfile: NextPageWithLayout = () => {
             id: profile?.data?.user?.id,
             body: {
                 ...values,
-                courses: values?.courses?.map((course: SelectOption) => ({
+                courses: values?.courses?.map((course: any) => ({
                     id: course?.value,
                 })),
             },
