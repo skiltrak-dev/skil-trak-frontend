@@ -16,7 +16,11 @@ import { Industry } from '@types'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
 import { IndustryInsuranceDoc, IndustryLocations } from '../components'
-import { AddRplModal, PlacementEligibilityCriteriaModal } from '../modal'
+import {
+    AddRplModal,
+    PlacementEligibilityCriteriaModal,
+    PremiumFeaturesModal,
+} from '../modal'
 import {
     IndustryContactPerson,
     IndustryDetail,
@@ -36,6 +40,7 @@ import {
     DisplayIndustryRating,
     IndustryRatingList,
 } from '../components/IndustryReviews'
+import { IoDiamondOutline } from 'react-icons/io5'
 
 export const IndustryProfileCB = ({
     isHod,
@@ -76,6 +81,20 @@ export const IndustryProfileCB = ({
                 industry={industry}
                 onCancel={onCancelModal}
             />
+        )
+    }
+    const onClickPremiumFeatures = () => {
+        setModal(
+            <>
+                Hello
+                <PremiumFeaturesModal
+                    // industry={industry}
+                    indId={industry?.id}
+                    isPremium={industry.isPremium}
+                    userId={industry?.user?.id}
+                    onCancel={onCancelModal}
+                />
+            </>
         )
     }
     const onClickViewAllReviews = () => {
@@ -266,6 +285,17 @@ export const IndustryProfileCB = ({
 
                 <div className="flex justify-between items-center gap-x-3 mt-2">
                     <IndustryWpType industryUserId={industry?.user?.id} />
+                    <div
+                        onClick={onClickPremiumFeatures}
+                        className="flex items-center gap-x-2 mt-4 cursor-pointer"
+                    >
+                        <div className="">
+                            <IoDiamondOutline className="text-indigo-500" />
+                        </div>
+                        <Typography variant="muted" color="text-gray-500">
+                            Premium
+                        </Typography>
+                    </div>
                 </div>
 
                 <AuthorizedUserComponent
@@ -295,6 +325,7 @@ export const IndustryProfileCB = ({
                 </AuthorizedUserComponent>
 
                 {/*  */}
+
                 <IndustryDetail industry={industry} />
                 <IndustryContactPerson industry={industry} />
 

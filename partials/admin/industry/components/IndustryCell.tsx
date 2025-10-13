@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaFileSignature, FaHandshake } from 'react-icons/fa'
 import { HiOutlineSpeakerphone } from 'react-icons/hi'
+import { IoDiamondSharp } from 'react-icons/io5'
 import { MdSnooze } from 'react-icons/md'
 
 export const IndustryCell = ({ industry }: any) => {
@@ -14,7 +15,7 @@ export const IndustryCell = ({ industry }: any) => {
     const initiatedEsign = industry?.user?.signers?.filter(
         (sign: any) => sign?.document?.template
     )
-
+    console.log('industry?.isPremium', industry?.isPremium)
     return (
         <Link legacyBehavior href={`/portals/admin/industry/${industry?.id}`}>
             <a
@@ -39,6 +40,14 @@ export const IndustryCell = ({ industry }: any) => {
                             </div>
                         ) : null}
                     </div>
+                    {industry?.isPremium ? (
+                        <div
+                            title="Industry Premium Feature Active"
+                            className="absolute bottom-1 right-0 w-5 h-5 flex items-center justify-center bg-indigo-500 rounded-full text-white"
+                        >
+                            <IoDiamondSharp size={14} />
+                        </div>
+                    ) : null}
                     <div>
                         {industry?.snoozedDate &&
                         industry?.snoozedDate !== null ? (

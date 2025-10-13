@@ -326,6 +326,7 @@ export interface Industry extends BaseResponse {
     missingAttributes: string[]
     contactPersonNumber: string
     isPartner: boolean
+    isPremium: boolean
     PartneredBy: User
     studentCapacity: number | null
     courses: Course[]

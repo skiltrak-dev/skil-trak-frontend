@@ -385,6 +385,10 @@ const {
     useGetIndustriesWPTypeListQuery,
     useGetIndustryEligibilityCriteriaQuery,
     useUpdateIndustryEligibilityCriteriaMutation,
+    useToggleIndustryPremiumFeatureMutation,
+    useGetIndustryPremiumFeaturesQuery,
+    useToggleIndustryPremiumSubFeaturesMutation,
+    useGetPremiumFeaturesListQuery,
 
     useGetAllRtosQuery,
     useGetRtosListQuery,
@@ -717,6 +721,12 @@ export const CommonApi = {
         useIndustryEligibilityCriteria: useGetIndustryEligibilityCriteriaQuery,
         useUpdateIndustryEligibilityCriteria:
             useUpdateIndustryEligibilityCriteriaMutation,
+        useToggleIndustryPremiumFeature:
+            useToggleIndustryPremiumFeatureMutation,
+        useIndustryPremiumFeatures: useGetIndustryPremiumFeaturesQuery,
+        useToggleIndustryPremiumSubFeatures:
+            useToggleIndustryPremiumSubFeaturesMutation,
+        usePremiumFeaturesList: useGetPremiumFeaturesListQuery,
     },
     Courses: {
         useCoursesList: useGetCoursesListQuery,

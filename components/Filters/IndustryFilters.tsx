@@ -21,7 +21,9 @@ export const IndustryFilters = ({
     // query
     const getCourses = CommonApi.Filter.useCourses()
     const getSectors = AuthApi.useSectors({})
+    const getPremiumFeaturesList = CommonApi.Industries.usePremiumFeaturesList()
 
+    console.log('getPremiumFeaturesList', getPremiumFeaturesList?.data)
     const coursesOptions = getCourses?.data?.map((course: any) => ({
         item: course,
         value: course?.id,
@@ -51,6 +53,12 @@ export const IndustryFilters = ({
         //     value: false,
         // },
     ]
+    const isPremiumOptions = getPremiumFeaturesList?.data?.map(
+        (premium: any) => ({
+            label: premium?.title,
+            value: premium?.id,
+        })
+    )
 
     return (
         <>
@@ -105,6 +113,19 @@ export const IndustryFilters = ({
                     onChange={(e: any) =>
                         onFilterChange({ ...filter, isPartner: e?.value })
                     }
+                    showError={false}
+                />
+
+                <Select
+                    label={'Premium Features'}
+                    name={'feature'}
+                    options={isPremiumOptions}
+                    onChange={(e: any) => {
+                        onFilterChange({
+                            ...filter,
+                            feature: e?.value,
+                        })
+                    }}
                     showError={false}
                 />
 

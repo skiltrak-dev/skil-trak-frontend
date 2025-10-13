@@ -200,6 +200,21 @@ export const industriesEndpoints = (
 
         providesTags: ['Industry'],
     }),
+    // premium-features/list
+    getIndustryPremiumFeatures: builder.query<any, { params?: any } | void>({
+        query: (arg) => ({
+            url: 'premium-features/list',
+            ...(arg?.params && { params: arg.params }),
+        }),
+        providesTags: ['Industries', 'SubAdminIndustries'],
+    }),
+    // premium-features/list-all
+    getPremiumFeaturesList: builder.query<any, void>({
+        query: () => ({
+            url: 'premium-features/list-all',
+        }),
+    }),
+
     updateIndustryEligibilityCriteria: builder.mutation<any, any>({
         query: ({ id, body }) => {
             return {
@@ -209,5 +224,24 @@ export const industriesEndpoints = (
             }
         },
         invalidatesTags: ['Industry'],
+    }),
+
+    toggleIndustryPremiumFeature: builder.mutation<any, any>({
+        query: ({ id }) => {
+            return {
+                url: `admin/industry/${id}/premium-activate`,
+                method: 'PATCH',
+            }
+        },
+        invalidatesTags: ['Industries', 'SubAdminIndustries'],
+    }),
+
+    toggleIndustryPremiumSubFeatures: builder.mutation<any, any>({
+        query: ({ body }) => ({
+            url: `/premium-features/industry/add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Industries', 'SubAdminIndustries'],
     }),
 })

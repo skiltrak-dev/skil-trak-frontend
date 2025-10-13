@@ -15,4 +15,5 @@ export interface AdminIndustryFormFilter {
     wpType: number
     isHiring: boolean | undefined
     isSnoozed: boolean | undefined
+    feature: any
 }
