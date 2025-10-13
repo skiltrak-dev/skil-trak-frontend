@@ -782,6 +782,21 @@ export const studentsEndpoints = (
         providesTags: ['SubAdminStudents'],
     }),
 
+    updateStudentCourses: builder.mutation<
+        Student,
+        {
+            id: number
+            courses: number[]
+        }
+    >({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/student/${id}/update-courses`,
+            body,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['Students', 'SubAdminStudents'],
+    }),
+
     studentActionsApprovalRequests: builder.query<any, PaginationWithSearch>({
         query: (params) => ({
             url: `${PREFIX}/student/update-requests`,
@@ -908,14 +923,11 @@ export const studentsEndpoints = (
         any,
         { approvalId: number; capacity: number }
     >({
-        query: ({ approvalId, ...body }) => {
-            console.log({ approvalId })
-            return {
-                url: `students/workplace-requests/capacity-approval-request/${approvalId}/confirm`,
-                method: 'POST',
-                body,
-            }
-        },
+        query: ({ approvalId, ...body }) => ({
+            url: `students/workplace-requests/capacity-approval-request/${approvalId}/confirm`,
+            method: 'POST',
+            body,
+        }),
         invalidatesTags: ['SubAdminStudents', 'Industries'],
     }),
 })

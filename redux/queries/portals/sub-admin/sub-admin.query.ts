@@ -320,6 +320,7 @@ export const {
     // ----- STUDENTS-------//
     useGetSubAdminStudentsQuery,
     useGetSubAdminFlaggedStudentsQuery,
+    useUpdateStudentCoursesMutation,
     useGetRtoSubadminStudentsQuery,
     useGetSubAdminSnoozedStudentsQuery,
     useGetSubAdminUrgentStudentsQuery,
@@ -635,6 +636,7 @@ export const SubAdminApi = {
         esignDocumentsFolders: useEsignDocumentsFoldersListQuery,
         checkExistingIndustryRtoDoc: useCheckExistingIndustryRtoDocQuery,
         useSubAdminFlaggedStudents: useGetSubAdminFlaggedStudentsQuery,
+        updateStudentCourses: useUpdateStudentCoursesMutation,
         useRtoSubadminStudentsList: useGetRtoSubadminStudentsQuery,
         useSnoozedStudents: useGetSubAdminSnoozedStudentsQuery,
         useUrgentStudents: useGetSubAdminUrgentStudentsQuery,

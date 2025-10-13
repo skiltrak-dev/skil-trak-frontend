@@ -102,7 +102,6 @@ export const RPLForm = ({
                 }
             }
         )
-        console.log({ values })
         values?.academicDocuments
             ?.filter((a: any) => a)
             ?.forEach((file: any) => {

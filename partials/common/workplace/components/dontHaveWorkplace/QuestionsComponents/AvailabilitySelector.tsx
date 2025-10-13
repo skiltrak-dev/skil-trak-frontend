@@ -11,8 +11,6 @@ export const AvailabilitySelector = ({ name }: { name: string }) => {
     const [selectedDays, setSelectedDays] = useState<string[]>([])
     const [selectedTime, setSelectedTime] = useState<string>('')
 
-    console.log({ formContext: formContext.getFieldState(String(name)).error })
-
     const error =
         formContext &&
         formContext.getFieldState(String(name)).error !== undefined
