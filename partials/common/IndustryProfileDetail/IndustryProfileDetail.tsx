@@ -7,7 +7,13 @@ import { Industry, UserStatus } from '@types'
 import { useAlert, useContextBar } from '@hooks'
 import { ProfileAppointments } from '../ProfileAppointments'
 import { MailsCommunication } from '../StudentProfileDetail/components'
-import { Alert, AuthorizedUserComponent, Card, PageTitle } from '@components'
+import {
+    Alert,
+    AuthorizedUserComponent,
+    Card,
+    PageTitle,
+    useAuthorizedUserComponent,
+} from '@components'
 import {
     IndustryHistory,
     IndustryProgress,
@@ -28,6 +34,12 @@ export const IndustryProfileDetail = ({
     industry: Industry
 }) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+
+    const excludeRoles = useAuthorizedUserComponent({
+        excludeRoles: [UserRoles.RTO],
+    })
+
+    console.log({ excludeRoles })
 
     // its incresing the views of profile
     CommonApi.Industries.useAddProfileVisitor(industry?.user?.id, {
@@ -131,13 +143,19 @@ export const IndustryProfileDetail = ({
                         </Card>
                     </div>
 
-                    <div className="w-1/3 h-full">
-                        <IndustryProgress industry={industry} />
-                    </div>
+                    <AuthorizedUserComponent excludeRoles={[UserRoles.RTO]}>
+                        <div className="w-1/3 h-full">
+                            <IndustryProgress industry={industry} />
+                        </div>
+                    </AuthorizedUserComponent>
                 </div>
 
                 {/*  */}
-                <div className="grid grid-cols-2 gap-3 h-[570px]">
+                <div
+                    className={`grid ${
+                        excludeRoles ? 'grid-cols-2' : 'grid-cols-1'
+                    }  gap-3 h-[570px]`}
+                >
                     <div className="h-full">
                         <ProfileAppointments
                             link={
