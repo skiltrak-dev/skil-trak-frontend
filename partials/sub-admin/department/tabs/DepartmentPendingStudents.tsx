@@ -1,33 +1,3 @@
-import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, Student } from '@types'
-import React, { ReactElement, useState } from 'react'
-import { SubAdminApi } from '@queries'
-import {
-    getStudentWorkplaceAppliedIndustry,
-    getUserCredentials,
-    removeEmptyValues,
-    setLink,
-} from '@utils'
-import { useRouter } from 'next/router'
-import {
-    AddToNonContactableStudents,
-    AssignStudentModal,
-    BlockModal,
-    ChangeStudentStatusModal,
-    HighPriorityModal,
-} from '@partials/sub-admin/students/modals'
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { InterviewModal } from '@partials/sub-admin/workplace/modals'
-import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
-import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
-import { MdBlock, MdPriorityHigh } from 'react-icons/md'
-import { ColumnDef } from '@tanstack/react-table'
-import {
-    StudentCellInfo,
-    SubadminStudentIndustries,
-} from '@partials/sub-admin/students'
-import { StudentRtoCellInfo } from '@components/Appointment/AppointmentModal'
-import { SectorCell } from '@partials/admin/student/components'
 import {
     Card,
     CaseOfficerAssignedStudent,
@@ -40,6 +10,34 @@ import {
     TechnicalError,
     UserCreatedAt,
 } from '@components'
+import { StudentRtoCellInfo } from '@components/Appointment/AppointmentModal'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { SectorCell } from '@partials/admin/student/components'
+import {
+    StudentCellInfo,
+    SubadminStudentIndustries,
+} from '@partials/sub-admin/students'
+import {
+    AddToNonContactableStudents,
+    AssignStudentModal,
+    BlockModal,
+    ChangeStudentStatusModal,
+    HighPriorityModal,
+} from '@partials/sub-admin/students/modals'
+import { InterviewModal } from '@partials/sub-admin/workplace/modals'
+import { SubAdminApi } from '@queries'
+import { ColumnDef } from '@tanstack/react-table'
+import { Student } from '@types'
+import {
+    getStudentWorkplaceAppliedIndustry,
+    getUserCredentials,
+    setLink,
+} from '@utils'
+import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
+import { FaEdit, FaEye } from 'react-icons/fa'
+import { MdBlock, MdPriorityHigh } from 'react-icons/md'
+import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 
 // useDepartmentStudents
 export const DepartmentPendingStudents = () => {
@@ -55,7 +53,7 @@ export const DepartmentPendingStudents = () => {
             {
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
-                search: `status: 'pending'`
+                search: `status: 'pending'`,
                 // search: `${JSON.stringify(
                 //     removeEmptyValues({
                 //         status: 'pending',
@@ -164,31 +162,12 @@ export const DepartmentPendingStudents = () => {
                 Icon: FaEye,
             },
             {
-                text: 'Old Profile',
-                onClick: (student: Student) => {
-                    router.push(
-                        `/portals/sub-admin/students/${student.id}?tab=overview`
-                    )
-                },
-                Icon: FaEye,
-            },
-            {
-                text: student?.subadmin ? 'Un Assign' : 'Assign to me',
-                onClick: (student: Student) => onAssignStudentClicked(student),
-                Icon: MdBlock,
-            },
-            {
                 text: student?.nonContactable
                     ? 'Add to Contactable'
                     : 'Add to Not Contactable',
                 onClick: (student: Student) =>
                     onNonContactableStudents(student),
                 Icon: MdBlock,
-            },
-            {
-                text: 'Interview',
-                onClick: (student: Student) => onInterviewClicked(student),
-                Icon: FaUsers,
             },
             {
                 text: 'Change Status',

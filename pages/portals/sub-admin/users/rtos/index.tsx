@@ -75,15 +75,6 @@ const RTOs: NextPageWithLayout = () => {
             },
             Icon: FaEye,
         },
-        {
-            text: 'Old Profile',
-            onClick: (rto) => {
-                router.push(
-                    `/portals/sub-admin/users/rtos/${rto?.id}/detail?tab=overview`
-                )
-            },
-            Icon: FaEye,
-        },
     ]
 
     type RTOStudents = Rto & {

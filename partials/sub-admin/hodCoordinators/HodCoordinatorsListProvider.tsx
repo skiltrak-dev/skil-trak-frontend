@@ -168,13 +168,6 @@ export const HodCoordinatorsListProvider = ({ children }: any) => {
                 Icon: FaEye,
             },
             {
-                text: 'Edit',
-                onClick: (subadmin: SubAdmin) => {
-                    onEditSubAdmin(subadmin)
-                },
-                Icon: FaEdit,
-            },
-            {
                 ...(role === UserRoles.ADMIN
                     ? {
                           text: 'Permissions',

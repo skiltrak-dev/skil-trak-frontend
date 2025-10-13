@@ -1,4 +1,5 @@
-import { ActionButton } from '@components'
+import { ActionButton, AuthorizedUserComponent } from '@components'
+import { UserRoles } from '@constants'
 import { Course, SubAdmin, Rto } from '@types'
 import { useState } from 'react'
 import { FaMinusCircle } from 'react-icons/fa'
@@ -37,18 +38,22 @@ export const AssignedRto = ({
                         </p>
                     </div>
 
-                    <div>
-                        <button
-                            className="text-red-500 text-[11px] flex items-center gap-x-2 hover:bg-red-500 hover:text-white px-2 py-1 rounded transition-all
+                    <AuthorizedUserComponent
+                        excludeRoles={[UserRoles.SUBADMIN]}
+                    >
+                        <div>
+                            <button
+                                className="text-red-500 text-[11px] flex items-center gap-x-2 hover:bg-red-500 hover:text-white px-2 py-1 rounded transition-all
            duration-300"
-                            onClick={() => {
-                                onRemoveClicked()
-                            }}
-                        >
-                            <FaMinusCircle />
-                            <span>Remove</span>
-                        </button>
-                    </div>
+                                onClick={() => {
+                                    onRemoveClicked()
+                                }}
+                            >
+                                <FaMinusCircle />
+                                <span>Remove</span>
+                            </button>
+                        </div>
+                    </AuthorizedUserComponent>
                 </div>
             ) : (
                 <div className="p-1">
