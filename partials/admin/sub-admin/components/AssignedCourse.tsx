@@ -3,8 +3,13 @@ import { useState } from 'react'
 import { AdminApi } from '@queries'
 import { useNotification } from '@hooks'
 import { FaMinusCircle } from 'react-icons/fa'
-import { ActionButton, ShowErrorNotifications } from '@components'
+import {
+    ActionButton,
+    AuthorizedUserComponent,
+    ShowErrorNotifications,
+} from '@components'
 import { PulseLoader } from 'react-spinners'
+import { UserRoles } from '@constants'
 
 interface AssignedCourseProps {
     course: Course
@@ -55,19 +60,23 @@ export const AssignedCourse = ({ course, subAdminId }: AssignedCourseProps) => {
                         </p>
                     </div>
 
-                    <div>
-                        <button
-                            className="text-red-500 text-[11px] flex items-center gap-x-2 hover:bg-red-500 hover:text-white px-2 py-1 rounded transition-all
+                    <AuthorizedUserComponent
+                        excludeRoles={[UserRoles.SUBADMIN]}
+                    >
+                        <div>
+                            <button
+                                className="text-red-500 text-[11px] flex items-center gap-x-2 hover:bg-red-500 hover:text-white px-2 py-1 rounded transition-all
                    duration-300"
-                            onClick={() => {
-                                //  onRemove(course)
-                                onRemoveClicked()
-                            }}
-                        >
-                            <FaMinusCircle />
-                            <span>Remove</span>
-                        </button>
-                    </div>
+                                onClick={() => {
+                                    //  onRemove(course)
+                                    onRemoveClicked()
+                                }}
+                            >
+                                <FaMinusCircle />
+                                <span>Remove</span>
+                            </button>
+                        </div>
+                    </AuthorizedUserComponent>
                 </div>
             ) : (
                 <div className="bg-gray-50 p-1">

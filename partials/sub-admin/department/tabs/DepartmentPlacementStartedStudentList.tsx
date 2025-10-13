@@ -1,33 +1,3 @@
-import { SubAdminLayout } from '@layouts'
-import { NextPageWithLayout, OptionType, Student } from '@types'
-import React, { ReactElement, useEffect, useState } from 'react'
-import { SubAdminApi } from '@queries'
-import {
-    getStudentWorkplaceAppliedIndustry,
-    getUserCredentials,
-    removeEmptyValues,
-    setLink,
-} from '@utils'
-import { useRouter } from 'next/router'
-import {
-    AddToNonContactableStudents,
-    AssignStudentModal,
-    BlockModal,
-    ChangeStudentStatusModal,
-    HighPriorityModal,
-} from '@partials/sub-admin/students/modals'
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { InterviewModal } from '@partials/sub-admin/workplace/modals'
-import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
-import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
-import { MdBlock, MdPriorityHigh } from 'react-icons/md'
-import { ColumnDef } from '@tanstack/react-table'
-import {
-    StudentCellInfo,
-    SubadminStudentIndustries,
-} from '@partials/sub-admin/students'
-import { StudentRtoCellInfo } from '@components/Appointment/AppointmentModal'
-import { SectorCell } from '@partials/admin/student/components'
 import {
     Card,
     CaseOfficerAssignedStudent,
@@ -40,8 +10,29 @@ import {
     TechnicalError,
     UserCreatedAt,
 } from '@components'
-import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
+import { StudentRtoCellInfo } from '@components/Appointment/AppointmentModal'
+import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { SectorCell } from '@partials/admin/student/components'
+import {
+    StudentCellInfo,
+    SubadminStudentIndustries,
+} from '@partials/sub-admin/students'
+import {
+    AddToNonContactableStudents,
+    BlockModal,
+    ChangeStudentStatusModal,
+    HighPriorityModal,
+} from '@partials/sub-admin/students/modals'
+import { SubAdminApi } from '@queries'
+import { ColumnDef } from '@tanstack/react-table'
+import { OptionType, Student } from '@types'
+import { getUserCredentials, removeEmptyValues, setLink } from '@utils'
 import moment from 'moment'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+import { FaEdit, FaEye } from 'react-icons/fa'
+import { MdBlock, MdPriorityHigh } from 'react-icons/md'
+import { isWorkplaceValid } from 'utils/workplaceRowBlinking'
 
 // useDepartmentStudents
 export const DepartmentPlacementStartedStudentList = () => {
@@ -155,14 +146,6 @@ export const DepartmentPlacementStartedStudentList = () => {
     const onModalCancelClicked = () => {
         setModal(null)
     }
-    const onAssignStudentClicked = (student: Student) => {
-        setModal(
-            <AssignStudentModal
-                student={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
 
     const onNonContactableStudents = (student: Student) => {
         setModal(
@@ -205,22 +188,6 @@ export const DepartmentPlacementStartedStudentList = () => {
         )
     }
 
-    const onInterviewClicked = (student: Student) => {
-        setModal(
-            <InterviewModal
-                student={student}
-                onCancel={onModalCancelClicked}
-                workplace={Number(student?.workplace[0]?.id)}
-                workIndustry={Number(
-                    getStudentWorkplaceAppliedIndustry(
-                        student?.workplace[0]
-                            ?.industries as WorkplaceWorkIndustriesType[]
-                    )?.id
-                )}
-            />
-        )
-    }
-
     const tableActionOptions = (student: any) => {
         return [
             {
@@ -234,31 +201,12 @@ export const DepartmentPlacementStartedStudentList = () => {
                 Icon: FaEye,
             },
             {
-                text: 'Old Profile',
-                onClick: (student: Student) => {
-                    router.push(
-                        `/portals/sub-admin/students/${student.id}?tab=overview`
-                    )
-                },
-                Icon: FaEye,
-            },
-            {
-                text: student?.subadmin ? 'Un Assign' : 'Assign to me',
-                onClick: (student: Student) => onAssignStudentClicked(student),
-                Icon: MdBlock,
-            },
-            {
                 text: student?.nonContactable
                     ? 'Add to Contactable'
                     : 'Add to Not Contactable',
                 onClick: (student: Student) =>
                     onNonContactableStudents(student),
                 Icon: MdBlock,
-            },
-            {
-                text: 'Interview',
-                onClick: (student: Student) => onInterviewClicked(student),
-                Icon: FaUsers,
             },
             {
                 text: 'Change Status',

@@ -1,4 +1,9 @@
-import { ContextBarLoading, NoData, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    ContextBarLoading,
+    NoData,
+    Typography,
+} from '@components'
 import { useContextBar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 
@@ -6,6 +11,7 @@ import { Rto, SubAdmin } from '@types'
 import { useEffect } from 'react'
 import { AssignedRto } from '../components'
 import { AssignRtoForm } from '../form'
+import { UserRoles } from '@constants'
 
 export const ViewRtosCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
     const contextBar = useContextBar()
@@ -72,11 +78,13 @@ export const ViewRtosCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                 <Typography variant={'label'}>{subAdmin.user.name}</Typography>
             </div>
 
-            <AssignRtoForm
-                onSubmit={onSubmit}
-                result={assignRtoResult}
-                assignedRtos={rtoList.data}
-            />
+            <AuthorizedUserComponent excludeRoles={[UserRoles.SUBADMIN]}>
+                <AssignRtoForm
+                    onSubmit={onSubmit}
+                    result={assignRtoResult}
+                    assignedRtos={rtoList.data}
+                />
+            </AuthorizedUserComponent>
 
             <div className={'flex flex-col gap-y-2'}>
                 <Typography variant={'muted'} color={'text-gray-400'}>

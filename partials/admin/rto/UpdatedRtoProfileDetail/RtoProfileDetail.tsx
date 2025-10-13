@@ -5,10 +5,10 @@ import {
     RtoReports,
     RtoSectors,
     RtoProfileTopbar,
+    RtoNotifications,
     RtoAssessmentTools,
     RtoProfileStatistics,
     InsuranceDocumentsData,
-    RtoNotifications,
 } from './components'
 import { getSectors, getUserCredentials } from '@utils'
 import { UserRoles } from '@constants'

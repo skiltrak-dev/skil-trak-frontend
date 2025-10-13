@@ -18,12 +18,10 @@ import {
 } from '@partials/sub-admin/students'
 import {
     AddToNonContactableStudents,
-    AssignStudentModal,
     BlockModal,
     ChangeStudentStatusModal,
     HighPriorityModal,
 } from '@partials/sub-admin/students/modals'
-import { InterviewModal } from '@partials/sub-admin/workplace/modals'
 import { SubAdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { Student } from '@types'
@@ -31,14 +29,12 @@ import {
     filterAwaitingAgreementBeyondSevenDays,
     findCallLogsUnanswered,
     findExpiringInNext45Days,
-    getStudentWorkplaceAppliedIndustry,
     setLink,
 } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import { FaEdit, FaEye, FaUsers } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
-import { WorkplaceWorkIndustriesType } from 'redux/queryTypes'
 
 export const DepartmentStudentList = () => {
     const router = useRouter()
@@ -68,14 +64,6 @@ export const DepartmentStudentList = () => {
 
     const onModalCancelClicked = () => {
         setModal(null)
-    }
-    const onAssignStudentClicked = (student: Student) => {
-        setModal(
-            <AssignStudentModal
-                student={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
     }
 
     const onNonContactableStudents = (student: Student) => {
@@ -118,22 +106,6 @@ export const DepartmentStudentList = () => {
         )
     }
 
-    const onInterviewClicked = (student: Student) => {
-        setModal(
-            <InterviewModal
-                student={student}
-                onCancel={onModalCancelClicked}
-                workplace={Number(student?.workplace[0]?.id)}
-                workIndustry={Number(
-                    getStudentWorkplaceAppliedIndustry(
-                        student?.workplace[0]
-                            ?.industries as WorkplaceWorkIndustriesType[]
-                    )?.id
-                )}
-            />
-        )
-    }
-
     const tableActionOptions = (student: any) => {
         return [
             {
@@ -146,20 +118,7 @@ export const DepartmentStudentList = () => {
                 },
                 Icon: FaEye,
             },
-            {
-                text: 'Old Profile',
-                onClick: (student: Student) => {
-                    router.push(
-                        `/portals/sub-admin/students/${student.id}?tab=overview`
-                    )
-                },
-                Icon: FaEye,
-            },
-            {
-                text: student?.subadmin ? 'Un Assign' : 'Assign to me',
-                onClick: (student: Student) => onAssignStudentClicked(student),
-                Icon: MdBlock,
-            },
+
             {
                 text: student?.nonContactable
                     ? 'Add to Contactable'
@@ -168,11 +127,7 @@ export const DepartmentStudentList = () => {
                     onNonContactableStudents(student),
                 Icon: MdBlock,
             },
-            {
-                text: 'Interview',
-                onClick: (student: Student) => onInterviewClicked(student),
-                Icon: FaUsers,
-            },
+
             {
                 text: 'Change Status',
                 onClick: (student: Student) => onChangeStatus(student),

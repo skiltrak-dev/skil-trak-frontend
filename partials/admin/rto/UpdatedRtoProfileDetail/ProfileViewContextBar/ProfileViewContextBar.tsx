@@ -1,4 +1,4 @@
-import { RtoAvatar, Typography } from '@components'
+import { AuthorizedUserComponent, RtoAvatar, Typography } from '@components'
 import { Rto } from '@types'
 import {
     ContactPersons,
@@ -9,6 +9,7 @@ import {
     RtoProfileActions,
     Subadmins,
 } from '../components'
+import { UserRoles } from '@constants'
 
 export const ProfileViewContextBar = ({ rto }: { rto: Rto }) => {
     return (
@@ -21,7 +22,9 @@ export const ProfileViewContextBar = ({ rto }: { rto: Rto }) => {
                         canEdit
                     />
                 </div>
-                <ProfileLinks rto={rto} />
+                <AuthorizedUserComponent excludeRoles={[UserRoles.SUBADMIN]}>
+                    <ProfileLinks rto={rto} />
+                </AuthorizedUserComponent>
             </div>
 
             {/* User */}

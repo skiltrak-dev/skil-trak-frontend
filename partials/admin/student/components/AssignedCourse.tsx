@@ -1,4 +1,5 @@
-import { ActionButton } from '@components'
+import { ActionButton, AuthorizedUserComponent } from '@components'
+import { UserRoles } from '@constants'
 import { ApiCallResult, Course } from '@types'
 import { useState } from 'react'
 import { FaMinusCircle } from 'react-icons/fa'
@@ -38,19 +39,21 @@ export const AssignedCourse = ({
                 </p>
             </div>
 
-            <div>
-                <button
-                    className="text-red-500 text-[11px] flex items-center gap-x-2 hover:bg-red-500 hover:text-white px-2 py-1 rounded transition-all
-           duration-300"
-                    onClick={() => {
-                        //  onRemove(course)
-                        onRemoveClicked()
-                    }}
-                >
-                    <FaMinusCircle />
-                    <span>Remove</span>
-                </button>
-            </div>
+            <AuthorizedUserComponent excludeRoles={[UserRoles.SUBADMIN]}>
+                <div>
+                    <button
+                        className="text-red-500 text-[11px] flex items-center gap-x-2 hover:bg-red-500 hover:text-white px-2 py-1 rounded transition-all
+                    duration-300"
+                        onClick={() => {
+                            //  onRemove(course)
+                            onRemoveClicked()
+                        }}
+                    >
+                        <FaMinusCircle />
+                        <span>Remove</span>
+                    </button>
+                </div>
+            </AuthorizedUserComponent>
         </div>
     ) : (
         <div className="bg-gray-50 p-1">

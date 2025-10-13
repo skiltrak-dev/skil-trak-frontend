@@ -36,20 +36,18 @@ export const SectorCell = ({
         contextBar.show()
     }
 
+    console.log({ subadmin })
+
     return (
         <div className="w-fit">
             <div className="flex flex-col items-center">
-                {(subadmin?.departmentMember?.isHod ||
-                    subadmin?.isManager ||
-                    role === UserRoles.ADMIN) && (
-                    <ActionButton
-                        variant="link"
-                        onClick={() => onViewSectorClicked(student)}
-                        simple
-                    >
-                        <span className="whitespace-pre">View / Edit</span>
-                    </ActionButton>
-                )}
+                <ActionButton
+                    variant="link"
+                    onClick={() => onViewSectorClicked(student)}
+                    simple
+                >
+                    <span className="whitespace-pre">View / Edit</span>
+                </ActionButton>
                 {subadmin?.isAssociatedWithRto ? (
                     <div className="flex flex-col gap-y-0.5 max-h-16 overflow-auto custom-scrollbar">
                         {student?.courses?.map((c: Course) => (

@@ -1,4 +1,5 @@
 import {
+    AuthorizedUserComponent,
     LoadingAnimation,
     NoData,
     ShowErrorNotifications,
@@ -11,6 +12,7 @@ import { Course, OptionType, SubAdmin } from '@types'
 import { useEffect } from 'react'
 import { AssignedCourse } from '../components'
 import { AssignSectorForm } from '../form'
+import { UserRoles } from '@constants'
 
 const getSectors = (courses: any) => {
     if (!courses) return {}
@@ -67,11 +69,13 @@ export const ViewSectorsCB = ({ subAdmin }: { subAdmin: SubAdmin }) => {
                     </Typography>
                 </div>
 
-                <AssignSectorForm
-                    onSubmit={onSubmit}
-                    result={assignCoursesResult}
-                    addedCourses={subAdmin?.courses}
-                />
+                <AuthorizedUserComponent excludeRoles={[UserRoles.SUBADMIN]}>
+                    <AssignSectorForm
+                        onSubmit={onSubmit}
+                        result={assignCoursesResult}
+                        addedCourses={subAdmin?.courses}
+                    />
+                </AuthorizedUserComponent>
 
                 <div className={'flex flex-col gap-y-2'}>
                     <Typography variant={'muted'} color={'text-gray-400'}>

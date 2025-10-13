@@ -1,4 +1,9 @@
-import { ContextBarLoading, NoData, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    ContextBarLoading,
+    NoData,
+    Typography,
+} from '@components'
 import { useContextBar, useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 
@@ -6,6 +11,7 @@ import { Course, Rto } from '@types'
 import { Fragment, useEffect } from 'react'
 import { AssignSectorForm } from '../forms'
 import { AssignedCourse } from '../components'
+import { UserRoles } from '@constants'
 
 const getSectors = (courses: any) => {
     if (!courses) return {}
@@ -94,11 +100,13 @@ export const ViewSectorsCB = ({ rto }: { rto: Rto }) => {
                 <Typography variant={'label'}>{rto.user.name}</Typography>
             </div>
 
-            <AssignSectorForm
-                onSubmit={onSubmit}
-                result={assignCoursesResult}
-                sectorsWithCourses={sectorsWithCourses}
-            />
+            <AuthorizedUserComponent excludeRoles={[UserRoles.SUBADMIN]}>
+                <AssignSectorForm
+                    onSubmit={onSubmit}
+                    result={assignCoursesResult}
+                    sectorsWithCourses={sectorsWithCourses}
+                />
+            </AuthorizedUserComponent>
 
             <div className={'flex flex-col gap-y-2'}>
                 <Typography variant={'muted'} color={'text-gray-400'}>

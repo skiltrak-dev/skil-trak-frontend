@@ -1,6 +1,6 @@
 import { SubAdminLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import React, { ReactElement, useEffect, useMemo, useState } from 'react'
+import { ReactElement, useEffect, useMemo, useState } from 'react'
 
 import {
     BackButton,
@@ -10,6 +10,7 @@ import {
     TabProps,
     TechnicalError,
 } from '@components'
+import { FigureCard } from '@components/sections/subAdmin'
 import {
     DepartmentPendingStudents,
     DepartmentPlacementStartedStudentList,
@@ -20,15 +21,10 @@ import {
     SnoozedDepartmentStudentList,
 } from '@partials/sub-admin'
 import { SubAdminApi } from '@queries'
-import {
-    checkFilteredDataLength,
-    getFilterQuery,
-    removeEmptyValues,
-} from '@utils'
+import { getFilterQuery, removeEmptyValues } from '@utils'
 import { useRouter } from 'next/router'
-import { FigureCard } from '@components/sections/subAdmin'
-import { FaUserFriends, FaFlag } from 'react-icons/fa'
 import { BiSolidAlarmSnooze } from 'react-icons/bi'
+import { FaFlag, FaUserFriends } from 'react-icons/fa'
 import { FiPhoneOff } from 'react-icons/fi'
 
 interface StudentCounts {
