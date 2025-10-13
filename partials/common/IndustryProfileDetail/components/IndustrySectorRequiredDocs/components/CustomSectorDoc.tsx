@@ -1,12 +1,12 @@
 import {
     ActionButton,
-    Checkbox,
+    AuthorizedUserComponent,
     ShowErrorNotifications,
     Switch,
     Typography,
 } from '@components'
-import { IndustryApi, useAddOrUpdateRequiredDocumentMutation } from '@queries'
-import { ReactElement, useEffect, useState } from 'react'
+import { IndustryApi } from '@queries'
+import { ReactElement, useState } from 'react'
 
 import { AiFillDelete } from 'react-icons/ai'
 import { MdEdit } from 'react-icons/md'
@@ -16,6 +16,7 @@ import {
     DeleteIndustryCustomDocModal,
     UpdateCustomSectorFolderModal,
 } from '../modals'
+import { UserRoles } from '@constants'
 
 export const CustomSectorDoc = ({
     doc,
@@ -92,26 +93,28 @@ export const CustomSectorDoc = ({
                     />
                 </div>
 
-                <div className="w-1/5 flex items-center justify-center gap-x-2">
-                    <ActionButton
-                        Icon={MdEdit}
-                        variant={'info'}
-                        onClick={() => {
-                            onEditDocClicked()
-                            // setEditing(true)
-                        }}
-                        title={'Edit Custom Docs'}
-                    />
+                <AuthorizedUserComponent excludeRoles={[UserRoles.RTO]}>
+                    <div className="w-1/5 flex items-center justify-center gap-x-2">
+                        <ActionButton
+                            Icon={MdEdit}
+                            variant={'info'}
+                            onClick={() => {
+                                onEditDocClicked()
+                                // setEditing(true)
+                            }}
+                            title={'Edit Custom Docs'}
+                        />
 
-                    <ActionButton
-                        Icon={AiFillDelete}
-                        variant={'error'}
-                        onClick={() => {
-                            onDeleteFolder()
-                        }}
-                        title={'Delete Custom Docs'}
-                    />
-                </div>
+                        <ActionButton
+                            Icon={AiFillDelete}
+                            variant={'error'}
+                            onClick={() => {
+                                onDeleteFolder()
+                            }}
+                            title={'Delete Custom Docs'}
+                        />
+                    </div>
+                </AuthorizedUserComponent>
             </div>
         </>
     )

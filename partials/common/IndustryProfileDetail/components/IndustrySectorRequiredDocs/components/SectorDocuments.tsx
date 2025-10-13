@@ -120,10 +120,13 @@ export const SectorDocuments = ({
                                         <span className="w-2/5 text-center">
                                             Is Required
                                         </span>
-
-                                        <span className="w-1/5 text-center">
-                                            Actions
-                                        </span>
+                                        <AuthorizedUserComponent
+                                            excludeRoles={[UserRoles.RTO]}
+                                        >
+                                            <span className="w-1/5 text-center">
+                                                Actions
+                                            </span>
+                                        </AuthorizedUserComponent>
                                     </div>
                                     <CustomSectorDoc
                                         key={doc?.id}

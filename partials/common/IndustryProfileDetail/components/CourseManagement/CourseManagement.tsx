@@ -51,9 +51,11 @@ export const CourseManagement = ({ industry }: { industry: Industry }) => {
                     </div>
 
                     {toggleTab === 'pending' ? (
-                        <PendingCourses industry={industry} />
+                        <div className="max-h-[355px] min-h-[340px] overflow-auto custom-scrollbar">
+                            <PendingCourses industry={industry} />
+                        </div>
                     ) : (
-                        <div className="max-h-[380px] min-h-[370px] overflow-auto custom-scrollbar">
+                        <div className="max-h-[355px] min-h-[340px] overflow-auto custom-scrollbar">
                             <RenderCourseList industry={industry} />
                         </div>
                     )}
@@ -62,7 +64,7 @@ export const CourseManagement = ({ industry }: { industry: Industry }) => {
         }
 
         return (
-            <div className="max-h-[380px] min-h-[370px] overflow-auto custom-scrollbar">
+            <div className="max-h-[355px] min-h-[340px] overflow-auto custom-scrollbar">
                 <RenderCourseList industry={industry} />
             </div>
         )

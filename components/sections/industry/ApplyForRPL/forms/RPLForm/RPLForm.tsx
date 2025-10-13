@@ -109,6 +109,29 @@ export const RPLForm = ({
             })
         await addRpl(formData)
     }
+
+    const UploadFile = ({
+        title,
+        subtitle,
+        name,
+    }: {
+        title: string
+        subtitle: string
+        name: string
+    }) => (
+        <div className="space-y-1.5">
+            <Typography variant={'title'}>{title}</Typography>
+            <Typography variant={'muted'}>{subtitle}</Typography>
+
+            <div className="max-w-220">
+                <UploadRPLDocs
+                    name={name}
+                    acceptFiles={'application/pdf'}
+                    required
+                />
+            </div>
+        </div>
+    )
     return (
         <>
             {!onBackClicked && (
@@ -174,57 +197,28 @@ export const RPLForm = ({
                                         required
                                     />
                                 </div>
-                                <Typography variant={'title'}>
-                                    Your Identity
-                                </Typography>
-                                <Typography variant={'muted'}>
-                                    Passport, Drivers Licence, Utility bills,
-                                    Any photo ID etc.
-                                </Typography>
 
-                                <div className="max-w-220">
-                                    <UploadRPLDocs
-                                        name={'identity'}
-                                        acceptFiles={'application/pdf'}
-                                        required
+                                <div className="grid grid-cols-3 gap-3">
+                                    <UploadFile
+                                        name="identity"
+                                        title="Your Identity"
+                                        subtitle="Passport, Drivers Licence, Utility
+                                            bills, Any photo ID etc."
                                     />
-                                </div>
+                                    <UploadFile
+                                        name="resume"
+                                        title="Detailed Resume"
+                                        subtitle="Resume must contain true information
+                                            about your academic details & Job
+                                            information."
+                                    />
 
-                                <div>
-                                    <Typography variant={'title'}>
-                                        Detailed Resume
-                                    </Typography>
-                                    <Typography variant={'muted'}>
-                                        Resume must contain true information
-                                        about your academic details & Job
-                                        information.
-                                    </Typography>
-
-                                    <div className="flex justify-between items-end gap-x-6">
-                                        <UploadRPLDocs
-                                            name={'resume'}
-                                            acceptFiles={'application/pdf'}
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <Typography variant={'title'}>
-                                        Payslip or Financial Evidence
-                                    </Typography>
-                                    <Typography variant={'muted'}>
-                                        The most recent one to justify that you
-                                        are working in the industry.
-                                    </Typography>
-
-                                    <div className="mt-1.5 max-w-220">
-                                        <UploadRPLDocs
-                                            name={'financialEvidence'}
-                                            acceptFiles={'application/pdf'}
-                                            required
-                                        />
-                                    </div>
+                                    <UploadFile
+                                        name="financialEvidence"
+                                        title="Payslip or Financial Evidence"
+                                        subtitle="The most recent one to justify that
+                                            you are working in the industry."
+                                    />
                                 </div>
 
                                 <div>
