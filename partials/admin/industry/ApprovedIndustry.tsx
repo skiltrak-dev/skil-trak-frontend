@@ -59,7 +59,7 @@ export const ApprovedIndustry = () => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-
+    console.log('data::::: list', data)
     const hasCourseApproved =
         data?.data &&
         data?.data?.length > 0 &&
@@ -95,10 +95,10 @@ export const ApprovedIndustry = () => {
         {
             ...(role === UserRoles.ADMIN
                 ? {
-                    text: 'View Password',
-                    onClick: (industry: Industry) => onViewPassword(industry),
-                    Icon: RiLockPasswordFill,
-                }
+                      text: 'View Password',
+                      onClick: (industry: Industry) => onViewPassword(industry),
+                      Icon: RiLockPasswordFill,
+                  }
                 : {}),
         },
         {

@@ -49,7 +49,6 @@ export const IndustryProfileDetail = ({
     const contextBar = useContextBar()
 
     const { alert, setAlerts } = useAlert()
-
     useEffect(() => {
         contextBar.show(false)
         contextBar.setContent(

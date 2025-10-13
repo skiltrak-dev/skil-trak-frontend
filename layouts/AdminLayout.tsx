@@ -45,6 +45,7 @@ import { UserRoles } from '@constants'
 import { getUserCredentials } from '@utils'
 import { TbClockCheck, TbEyeSearch } from 'react-icons/tb'
 import { ImOffice } from 'react-icons/im'
+import { IoDiamond } from 'react-icons/io5'
 
 export type RouteNavLinkCountType = {
     loading: boolean
@@ -192,6 +193,12 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             Icon: TbClockCheck,
             visible: checkIsHod,
         },
+        // {
+        //     text: 'Premium Features',
+        //     path: getRoutePath('/premium-features'),
+        //     Icon: IoDiamond,
+        //     visible: checkIsHod,
+        // },
         {
             text: 'Talent Pool',
             path: getRoutePath('/talent-pool?tab=all'),
