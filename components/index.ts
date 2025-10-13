@@ -66,6 +66,7 @@ export * from './StudentStatusProgressCell'
 export * from './ProtectedRoute'
 export * from './RedirectUnApprovedUsers'
 export * from './SectorCourseStudentCount'
+export * from './ProductionDataRestriction'
 
 // Forms
 export * from './forms'
