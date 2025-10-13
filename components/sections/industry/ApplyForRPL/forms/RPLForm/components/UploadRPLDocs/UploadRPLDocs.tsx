@@ -9,6 +9,7 @@ import { BsFillFileEarmarkPdfFill } from 'react-icons/bs'
 // components
 import { Typography, VideoPreview } from '@components'
 import { InputErrorMessage } from '@components/inputs/components'
+import { BiUpload } from 'react-icons/bi'
 // import { elipiciseText } from '@utills'
 
 // components
@@ -96,7 +97,7 @@ export const UploadRPLDocs = ({
                 onDrop={(event) => handleChange(event, true)}
             >
                 <div
-                    className={`w-full h-36 border rounded-lg overflow-hidden relative ${
+                    className={`w-full h-28 border rounded-lg overflow-hidden relative ${
                         isDrag
                             ? 'bg-primary-light flex justify-center items-center border-primary'
                             : 'bg-white border-secondary-dark'
@@ -160,7 +161,17 @@ export const UploadRPLDocs = ({
                                 htmlFor={`file_id_${name}`}
                                 className="cursor-pointer hover:underline"
                             >
-                                <AiFillPlusCircle className="text-6xl text-gray-light" />
+                                <div className="text-center">
+                                    <div className="w-fit mx-auto p-2 bg-gray-100 group-hover:bg-blue-100 rounded-full transition-colors">
+                                        <BiUpload className="w-6 h-6 text-gray-600 group-hover:text-blue-600 transition-colors" />
+                                    </div>
+                                    <p className="text-sm font-medium text-gray-700 mb-1">
+                                        Click to upload
+                                    </p>
+                                    <p className="text-xs text-gray-500">
+                                        or drag and drop
+                                    </p>
+                                </div>
                             </label>
                             {/* </Typography> */}
                         </div>

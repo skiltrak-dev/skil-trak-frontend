@@ -13,13 +13,12 @@ export const IndustrySectorRequiredDocs = ({
     const [selectedSector, setSelectedSector] = useState<number | null>(null)
     const [isViewd, setIsViewd] = useState<boolean>(false)
 
-    const { data, isError, isLoading } =
-        IndustryApi.Courses.useGetIndustrySectorsQuery(
-            Number(industry?.user?.id),
-            {
-                skip: !isViewd,
-            }
-        )
+    const { data, isLoading } = IndustryApi.Courses.useGetIndustrySectorsQuery(
+        Number(industry?.user?.id),
+        {
+            skip: !isViewd,
+        }
+    )
 
     const sectorOptions = useMemo(
         () =>
