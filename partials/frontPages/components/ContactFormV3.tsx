@@ -1,18 +1,16 @@
 import { Button, TextArea, TextInput, Typography } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 // import { Turnstile } from '@marsidev/react-turnstile'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 export const ContactFormV3 = ({
     onSubmit,
     result,
-    variant,
 }: {
     onSubmit: (values: any) => void
     result: any
-    variant?: any
 }) => {
     const [captchaToken, setCaptchaToken] = useState<string | null>(null)
     const validationSchema = yup.object({

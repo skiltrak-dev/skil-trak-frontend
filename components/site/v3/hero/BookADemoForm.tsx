@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Button, Select, ShowErrorNotifications, TextInput } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -48,13 +48,11 @@ export const BookADemoForm = () => {
         //     time: timeISO,
         // }
         bookADemo(data)
-
-        console.log('Submitted Data:', data)
     }
 
     return (
         <>
-        <ShowErrorNotifications result={resultBookADemo} />
+            <ShowErrorNotifications result={resultBookADemo} />
             <FormProvider {...methods}>
                 <form
                     className="mt-2 w-full"

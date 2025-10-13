@@ -158,8 +158,6 @@ export const SectorDocuments = () => {
         ),
     }
 
-    console.log({ data })
-
     return (
         <>
             {modal}

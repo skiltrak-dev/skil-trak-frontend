@@ -117,9 +117,7 @@ export const ApproveCourseModal = ({ onCloseModal, request }: any) => {
             showErrorNotifications({ isError: true, ...res })
         }
 
-        for (const [key, value] of formData.entries()) {
-            console.log(`${key}:`, value)
-        }
+        // Form data processed
     }
 
     const submitForm = () => {

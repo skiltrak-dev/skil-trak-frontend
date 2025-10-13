@@ -51,7 +51,6 @@ export const ResultDisplayCard = ({
     useEffect(() => {
         const getPostCode = async () => {
             const postalCode = await getPostalCode(company?.location)
-            console.log({ postalCode })
             setPostCode(postalCode)
         }
         getPostCode()
