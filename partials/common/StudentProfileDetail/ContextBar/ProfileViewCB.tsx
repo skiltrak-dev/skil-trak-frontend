@@ -146,16 +146,19 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                                     })}
                                 </ProductionDataRestriction>{' '}
                             </Typography>
-                            {/* {process.env.NEXT_PUBLIC_NODE_ENV === 'local'
-                                ? profile?.user?.email
-                                : useMaskText({
-                                      key: profile?.user?.email,
-                                  })} */}
                         </HideRestrictedData>
                     </AuthorizedUserComponent>
-                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
+                    <AuthorizedUserComponent
+                        roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
+                    >
                         <ProductionDataRestriction
-                            condition={!profile?.subadmin}
+                            condition={
+                                role === UserRoles.ADMIN
+                                    ? !!profile?.subadmin
+                                        ? true
+                                        : false
+                                    : !profile?.subadmin
+                            }
                         >
                             <AssignToMeStudent student={profile} />
                         </ProductionDataRestriction>

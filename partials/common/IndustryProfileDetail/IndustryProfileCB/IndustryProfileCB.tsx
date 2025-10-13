@@ -244,19 +244,23 @@ export const IndustryProfileCB = ({
                         </AuthorizedUserComponent>
 
                         {/*  */}
-                        <div className="flex justify-end flex-col">
-                            <div className="ml-auto">
-                                <Badge text="Add Rpl" onClick={onAddRpl} />
+                        <AuthorizedUserComponent excludeRoles={[UserRoles.RTO]}>
+                            <div className="flex justify-end flex-col">
+                                <div className="ml-auto">
+                                    <Badge text="Add Rpl" onClick={onAddRpl} />
+                                </div>
+                                {industry?.courses
+                                    ?.map((course) => course?.sector?.id)
+                                    ?.includes(1) && (
+                                    <IndustryServiceTypeOffered
+                                        industryId={industry?.id}
+                                        serviceOffered={
+                                            industry?.serviceOffered
+                                        }
+                                    />
+                                )}
                             </div>
-                            {industry?.courses
-                                ?.map((course) => course?.sector?.id)
-                                ?.includes(1) && (
-                                <IndustryServiceTypeOffered
-                                    industryId={industry?.id}
-                                    serviceOffered={industry?.serviceOffered}
-                                />
-                            )}
-                        </div>
+                        </AuthorizedUserComponent>
                     </div>
                 </div>
 

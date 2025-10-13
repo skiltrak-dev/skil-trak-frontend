@@ -42,15 +42,6 @@ export const useColumns = () => {
         setModal(<BlockModal item={student} onCancel={onModalCancelClicked} />)
     }
 
-    const onAssignStudentClicked = (student: Student) => {
-        setModal(
-            <UnAssignStudentModal
-                student={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
     const onNonContactableStudents = (student: Student) => {
         setModal(
             <AddToNonContactableStudents
@@ -135,12 +126,7 @@ export const useColumns = () => {
                 onClick: (student) => onNonContactableStudents(student),
                 Icon: MdBlock,
             },
-            {
-                text: student?.subadmin ? 'Un Assign' : 'Assign to me',
-                onClick: (student) => onAssignStudentClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
+
             {
                 text: 'Block',
                 onClick: (student) => onBlockClicked(student),
