@@ -461,10 +461,7 @@ export const IndustryProfileFrom = ({
                                     placeholder={'Select Sectors...'}
                                     multi
                                     loading={sectorResponse.isLoading}
-                                    disabled={
-                                        role === UserRoles.SUBADMIN &&
-                                        !subadmin?.departmentMember?.isHod
-                                    }
+                                    disabled={role === UserRoles.SUBADMIN}
                                     onChange={onSectorChanged}
                                     validationIcons
                                 />
@@ -479,8 +476,7 @@ export const IndustryProfileFrom = ({
                                     multi
                                     disabled={
                                         courseOptions?.length === 0 ||
-                                        (role === UserRoles.SUBADMIN &&
-                                            !subadmin?.departmentMember?.isHod)
+                                        role === UserRoles.SUBADMIN
                                     }
                                     validationIcons
                                     onChange={(e: any) => {
