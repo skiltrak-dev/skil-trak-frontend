@@ -25,7 +25,7 @@ export const IndustryServiceTypeOffered = ({
     }
 
     return (
-        <div>
+        <div className="ml-auto">
             {modal}
 
             <Badge

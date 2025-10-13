@@ -217,7 +217,7 @@ export const IndustryProfileCB = ({
                     <AuthorizedUserComponent roles={[UserRoles.ADMIN]}>
                         <IndustryStatus industry={industry} />
                     </AuthorizedUserComponent>
-                    <div>
+                    <div className="w-full">
                         <AuthorizedUserComponent
                             roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
                         >
@@ -245,7 +245,7 @@ export const IndustryProfileCB = ({
 
                         {/*  */}
                         <AuthorizedUserComponent excludeRoles={[UserRoles.RTO]}>
-                            <div className="flex justify-end flex-col">
+                            <div className="flex justify-end flex-col ml-auto">
                                 <div className="ml-auto">
                                     <Badge text="Add Rpl" onClick={onAddRpl} />
                                 </div>
