@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { StudentProfileContent, StudentProfileHeader } from './components'
 import {
@@ -10,8 +10,10 @@ import {
 } from './hooks'
 import { useSubadminProfile } from '@hooks'
 import { WorkplaceHookProvider } from './components/Workplace/hooks'
+import { UpdateTransferredStudentCoursesModal } from './modals'
 
 export const StudentProfileDetail = () => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     // Main profile data and router logic
     const {
         profile,
@@ -22,6 +24,7 @@ export const StudentProfileDetail = () => {
         alertMessage,
         setAlerts,
         alerts,
+        studentCourses,
     } = useStudentProfile()
 
     // Sub-admin specific data
@@ -47,6 +50,23 @@ export const StudentProfileDetail = () => {
     // Workplace data management
     const { workplaceLength, getWorkplaceLength } = useWorkplaceData()
 
+    const onCancel = () => setModal(null)
+
+    useEffect(() => {
+        if (
+            studentCourses?.isSuccess &&
+            !studentCourses?.data?.length &&
+            profile?.data?.isTransferred
+        ) {
+            setModal(
+                <UpdateTransferredStudentCoursesModal
+                    studentId={profile?.data?.id}
+                    onCancel={onCancel}
+                />
+            )
+        }
+    }, [studentCourses])
+
     // Loading and error states
     if (profile.isError) {
         return <TechnicalError />
@@ -67,6 +87,7 @@ export const StudentProfileDetail = () => {
 
     return (
         <div>
+            {modal}
             <StudentProfileHeader
                 profile={profile}
                 role={role}

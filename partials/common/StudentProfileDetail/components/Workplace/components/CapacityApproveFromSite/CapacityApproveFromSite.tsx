@@ -27,8 +27,6 @@ export const CapacityApproveFromSite = () => {
     // This would come from the email link or API
     const availableStudents = getStdCapacity?.data || 0
 
-    console.log({ availableStudents })
-
     const handleConfirm = async (capacity: number) => {
         const res: any = await acceptStdCapacityBuInd({
             approvalId: Number(router?.query?.id),

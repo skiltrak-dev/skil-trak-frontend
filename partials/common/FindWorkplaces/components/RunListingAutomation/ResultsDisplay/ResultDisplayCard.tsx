@@ -3,6 +3,7 @@ import { useNotification } from '@hooks'
 import { RunAutomationEnum } from '@partials/common/FindWorkplaces/enum'
 import {
     BlacklistWarningModal,
+    ChangeIndustrySectorModal,
     CompanyProfileModal,
 } from '@partials/common/FindWorkplaces/modal'
 import { CommonApi } from '@queries'
@@ -17,6 +18,7 @@ import {
     MdWarning,
 } from 'react-icons/md'
 import { THEME_COLORS } from '../utils/theme'
+import { CgArrowsExchange } from 'react-icons/cg'
 
 export const ResultDisplayCard = ({
     setRemovedItems,
@@ -49,6 +51,7 @@ export const ResultDisplayCard = ({
     useEffect(() => {
         const getPostCode = async () => {
             const postalCode = await getPostalCode(company?.location)
+            console.log({ postalCode })
             setPostCode(postalCode)
         }
         getPostCode()
@@ -107,6 +110,16 @@ export const ResultDisplayCard = ({
                     onConfirmClicked(RunAutomationEnum.NOT_ELIGIBLE)
                 }
                 removalReason={RunAutomationEnum.NOT_ELIGIBLE}
+            />
+        )
+    }
+
+    const onUpdateIndustrySector = () => {
+        setModal(
+            <ChangeIndustrySectorModal
+                company={company}
+                onCancel={onCancel}
+                setRemovedItems={setRemovedItems}
             />
         )
     }
@@ -216,6 +229,22 @@ export const ResultDisplayCard = ({
                                                 </Typography>
                                             </div>
                                         )}
+                                        {company?.NOT_ELIGIBLE && (
+                                            <div className="flex items-center gap-1">
+                                                <MdWarning
+                                                    className="w-3 h-3"
+                                                    style={{
+                                                        color: THEME_COLORS.accent,
+                                                    }}
+                                                />
+                                                <Typography
+                                                    variant="xxs"
+                                                    color="text-primaryNew"
+                                                >
+                                                    Possible Not Eligible
+                                                </Typography>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
@@ -276,6 +305,15 @@ export const ResultDisplayCard = ({
                                         variant="error"
                                         text={'Remove Not Eligible'}
                                         Icon={MdClose}
+                                    />
+                                    <Badge
+                                        outline
+                                        onClick={() => {
+                                            onUpdateIndustrySector()
+                                        }}
+                                        variant="success"
+                                        text={'Update Industry Sector'}
+                                        Icon={CgArrowsExchange}
                                     />
                                 </div>
                             </div>
