@@ -3,6 +3,7 @@ import {
     Badge,
     GlobalModal,
     HideRestrictedData,
+    ProductionDataRestriction,
     StudentAvatar,
     Typography,
 } from '@components'
@@ -137,16 +138,27 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                     >
                         <HideRestrictedData type={UserRoles.STUDENT}>
                             <Typography variant="xs" color="text-[#6B7280]">
-                                {process.env.NEXT_PUBLIC_NODE_ENV === 'local'
-                                    ? profile?.user?.email
-                                    : useMaskText({
-                                          key: profile?.user?.email,
-                                      })}
+                                <ProductionDataRestriction
+                                    localData={profile?.user?.email}
+                                >
+                                    {useMaskText({
+                                        key: profile?.user?.email,
+                                    })}
+                                </ProductionDataRestriction>{' '}
                             </Typography>
+                            {/* {process.env.NEXT_PUBLIC_NODE_ENV === 'local'
+                                ? profile?.user?.email
+                                : useMaskText({
+                                      key: profile?.user?.email,
+                                  })} */}
                         </HideRestrictedData>
                     </AuthorizedUserComponent>
                     <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
-                        <AssignToMeStudent student={profile} />
+                        <ProductionDataRestriction
+                            condition={!profile?.subadmin}
+                        >
+                            <AssignToMeStudent student={profile} />
+                        </ProductionDataRestriction>
                     </AuthorizedUserComponent>
                 </div>
 
