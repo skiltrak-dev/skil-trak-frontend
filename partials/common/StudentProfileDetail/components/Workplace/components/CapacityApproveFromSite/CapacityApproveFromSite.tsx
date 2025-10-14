@@ -37,11 +37,11 @@ export const CapacityApproveFromSite = () => {
                 title: 'Student Accepted',
                 description: 'Student Accepted Successfully',
             })
+            setConfirmedCapacity(capacity)
+            setIsSubmitted(true)
+            setIsNoStudents(false)
             router.push('/')
         }
-        setConfirmedCapacity(capacity)
-        setIsSubmitted(true)
-        setIsNoStudents(false)
     }
 
     const handleNoStudentsConfirm = () => {

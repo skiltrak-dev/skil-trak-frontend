@@ -83,7 +83,7 @@ export const AddNoteModal = ({
                         <TagsInput
                             name="keywords"
                             label="Add Sector Keywords"
-                            inputWordsLength={2}
+                            inputWordsLength={4}
                             onChange={(e: { id: string; text: string }[]) => {
                                 methods.setValue('keywords', e)
                             }}

@@ -124,6 +124,7 @@ const {
     useDeleteBlogCategoryMutation,
     useGetCategoriesQuery,
     useGetBlogsCountQuery,
+    useUploadImageMutation,
 
     // Departments
     useGetDepartmentCoordinatorsQuery,
@@ -779,6 +780,7 @@ export const AdminApi = {
     },
     Blogs: {
         useBlogsCount: useGetBlogsCountQuery,
+        uploadImage: useUploadImageMutation,
     },
     GenerateKey: {
         getKeys: useGetKeysQuery,
