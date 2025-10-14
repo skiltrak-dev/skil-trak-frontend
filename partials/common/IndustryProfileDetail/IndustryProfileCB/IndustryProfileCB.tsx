@@ -90,7 +90,6 @@ export const IndustryProfileCB = ({
                 <PremiumFeaturesModal
                     // industry={industry}
                     indId={industry?.id}
-                    isPremium={industry.isPremium}
                     userId={industry?.user?.id}
                     onCancel={onCancelModal}
                 />
