@@ -154,7 +154,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
             root.querySelectorAll('img')
         ) as HTMLImageElement[]
 
-        let overlay = wrapper.querySelector(
+        let overlay: any = wrapper.querySelector(
             '.ql-image-upload-overlays'
         ) as HTMLDivElement | null
 
