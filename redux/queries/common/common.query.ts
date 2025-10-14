@@ -389,6 +389,7 @@ const {
     useGetIndustryPremiumFeaturesQuery,
     useToggleIndustryPremiumSubFeaturesMutation,
     useGetPremiumFeaturesListQuery,
+    useGetPremiumFeatureFlagQuery,
 
     useGetAllRtosQuery,
     useGetRtosListQuery,
@@ -727,6 +728,7 @@ export const CommonApi = {
         useToggleIndustryPremiumSubFeatures:
             useToggleIndustryPremiumSubFeaturesMutation,
         usePremiumFeaturesList: useGetPremiumFeaturesListQuery,
+        usePremiumFeatureFlag: useGetPremiumFeatureFlagQuery,
     },
     Courses: {
         useCoursesList: useGetCoursesListQuery,
