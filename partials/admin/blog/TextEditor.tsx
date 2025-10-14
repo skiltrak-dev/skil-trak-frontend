@@ -565,6 +565,14 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     }, [])
 
     const onSubmit: any = (data: any, publish: boolean) => {
+        if (uploadImageResult?.isLoading) {
+            notification.warning({
+                title: 'Wait till images uploading,',
+                description: 'Wait for all images to upload',
+            })
+
+            return
+        }
         const content = quillRef.current.getEditor().root.innerHTML
 
         if (!data.featuredImage || !data.featuredImage[0]) {
@@ -712,7 +720,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                     <div className="bg-primaryNew rounded-lg shadow-lg border border-gray-200 px-6 py-4 flex items-center gap-3">
                         {/* Loading Spinner */}
                         <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                        <span className="text-gray-700 font-medium text-white">
+                        <span className="font-medium text-white">
                             Uploading image...
                         </span>
                     </div>
