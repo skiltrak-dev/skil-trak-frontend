@@ -8,14 +8,15 @@ import {
     TextInput,
     Typography,
     UploadFile,
+    useShowErrorNotification,
 } from '@components'
 import { FileUpload } from '@hoc'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { InputErrorMessage } from '@components/inputs/components'
-import { adminApi } from '@queries'
+import { AdminApi, adminApi } from '@queries'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -48,6 +49,7 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     }
 
     const [createBlog, createBlogResult] = adminApi.useCreateBlogMutation()
+    const [uploadImage, uploadImageResult] = AdminApi.Blogs.uploadImage()
     const { data, isLoading } = adminApi.useGetCategoriesQuery(undefined)
     const [shortDescriptionWordCount, setShortDescriptionWordCount] =
         useState(0)
@@ -89,6 +91,8 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         metaData: yup.string(),
     })
 
+    const showErrorNotifications = useShowErrorNotification()
+
     const formMethods = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
@@ -97,22 +101,108 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         control: formMethods.control,
         name: 'blogQuestions',
     })
-    const modules = {
-        toolbar: [
-            [{ font: [] }],
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ color: [] }, { background: [] }],
-            [{ script: 'sub' }, { script: 'super' }],
-            ['blockquote', 'code-block'],
-            [{ list: 'ordered' }, { list: 'bullet' }],
-            [{ indent: '-1' }, { indent: '+1' }, { align: [] }],
-            ['link', 'image', 'video'],
-            ['table'],
-            ['clean'],
-        ],
-        // table: true,
+
+    const uploadImageToServer = async (file: File) => {
+        const formData = new FormData()
+        formData.append('file', file)
+
+        const res: any = await uploadImage(formData)
+        console.log({ res })
+
+        if (!res?.data?.url) {
+            showErrorNotifications({
+                isError: true,
+                error: {
+                    data: {
+                        error: 'Image Failed to upload',
+                        message: 'Image Failed to upload',
+                    },
+                },
+            })
+
+            return null
+        }
+
+        if (res?.data) {
+            notification.success({
+                title: 'Image Uplaoded',
+                description: 'Image Uploaded Successfully',
+            })
+            return res?.data?.url
+        }
+
+        return null
     }
+
+    // Custom image handler function
+    const imageHandler = () => {
+        const editor = quillRef.current?.getEditor()
+        if (!editor) return
+
+        const range = editor.getSelection()
+        if (!range) return
+
+        // Create file input
+        const fileInput = document.createElement('input')
+        fileInput.setAttribute('type', 'file')
+        fileInput.setAttribute('accept', 'image/*')
+        fileInput.click()
+
+        fileInput.onchange = async () => {
+            const file = fileInput.files?.[0]
+            if (!file) return
+
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file')
+                return
+            }
+
+            // Validate file size (2MB limit to match your existing validation)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Image size must be less than 2MB')
+                return
+            }
+
+            // Show loading state in editor (optional)
+            editor.enable(false)
+
+            // Upload image to server
+            const imageUrl = await uploadImageToServer(file)
+
+            // Re-enable editor
+            editor.enable(true)
+
+            if (imageUrl) {
+                // Insert the image URL into the editor
+                editor.insertEmbed(range.index, 'image', imageUrl)
+                editor.setSelection(range.index + 1)
+            }
+        }
+    }
+    const modules = useMemo(
+        () => ({
+            toolbar: {
+                container: [
+                    [{ font: [] }],
+                    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ color: [] }, { background: [] }],
+                    [{ script: 'sub' }, { script: 'super' }],
+                    ['blockquote', 'code-block'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    [{ indent: '-1' }, { indent: '+1' }, { align: [] }],
+                    ['link', 'image', 'video'],
+                    ['table'],
+                    ['clean'],
+                ],
+                handlers: {
+                    image: imageHandler,
+                },
+            },
+        }),
+        []
+    )
 
     const onSubmit: any = (data: any, publish: boolean) => {
         const content = quillRef.current.getEditor().root.innerHTML
@@ -255,6 +345,18 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
     return (
         <div>
             <ShowErrorNotifications result={createBlogResult} />
+            <ShowErrorNotifications result={uploadImageResult} />
+            {uploadImageResult?.isLoading && (
+                <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in">
+                    <div className="bg-primaryNew rounded-lg shadow-lg border border-gray-200 px-6 py-4 flex items-center gap-3">
+                        {/* Loading Spinner */}
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                        <span className="text-gray-700 font-medium text-white">
+                            Uploading image...
+                        </span>
+                    </div>
+                </div>
+            )}
             <FormProvider {...formMethods}>
                 <form
                     onSubmit={formMethods.handleSubmit((data) =>
@@ -452,6 +554,22 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
                 </form>
             </FormProvider>
             <InputErrorMessage name={'quill editor'} />
+
+            <style jsx>{`
+                @keyframes fade-in {
+                    from {
+                        opacity: 0;
+                        transform: translate(-50%, -25px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translate(-50%, 0);
+                    }
+                }
+                .animate-fade-in {
+                    animation: fade-in 0.3s ease-out;
+                }
+            `}</style>
         </div>
     )
 }
