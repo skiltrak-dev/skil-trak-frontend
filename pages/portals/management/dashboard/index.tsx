@@ -1,9 +1,8 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { GlobalModal, NoData, Typography } from '@components'
 import { ManagementLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
-import { GlobalModal, NoData, Typography } from '@components'
+import { ReactElement, useState } from 'react'
 
-import { useRouter } from 'next/router'
 import {
     AddNewTeamCard,
     AddNewTeamMemberModal,
@@ -12,8 +11,8 @@ import {
     StateSummaryCard,
     TeamCard,
 } from '@partials/management'
-import Link from 'next/link'
-import { AuthApi, ManagementApi } from '@queries'
+import { ManagementApi } from '@queries'
+import { useRouter } from 'next/router'
 
 const ManagementDashboard: NextPageWithLayout = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)

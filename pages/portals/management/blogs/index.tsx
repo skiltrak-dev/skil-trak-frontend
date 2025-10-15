@@ -87,7 +87,7 @@ const BlogsList: NextPageWithLayout = () => {
             <TabNavigation tabs={tabs}>
                 {({ header, element }: any) => (
                     <div>
-                        <div className="flex justify-between items-center">
+                        <div className="flex justify-between items-center ">
                             <div className="w-full">{header}</div>
                             <div className="flex-shrink-0">
                                 <Button
@@ -101,7 +101,9 @@ const BlogsList: NextPageWithLayout = () => {
                                 />
                             </div>
                         </div>
-                        <div className="px-4 overflow-auto mt-5">{element}</div>
+                        <div className="px-4 max-h-[calc(100vh-220px)] custom-scrollbar overflow-auto mt-5">
+                            {element}
+                        </div>
                     </div>
                 )}
             </TabNavigation>
