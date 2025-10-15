@@ -32,6 +32,7 @@ const adminTagTypes = [
     'WorkplaceTypes',
     'BlogCategories',
     'SectorDocuments',
+    'PremiumFeatures',
     'AllowRtoListing',
     'AppointmentTypes',
     'Upload-Blog-Image',

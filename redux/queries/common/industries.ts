@@ -200,20 +200,6 @@ export const industriesEndpoints = (
 
         providesTags: ['Industry'],
     }),
-    // premium-features/list
-    getIndustryPremiumFeatures: builder.query<any, { params?: any } | void>({
-        query: (arg) => ({
-            url: 'premium-features/list',
-            ...(arg?.params && { params: arg.params }),
-        }),
-        providesTags: ['Industries', 'SubAdminIndustries'],
-    }),
-    // premium-features/list-all
-    getPremiumFeaturesList: builder.query<any, void>({
-        query: () => ({
-            url: 'premium-features/list-all',
-        }),
-    }),
 
     updateIndustryEligibilityCriteria: builder.mutation<any, any>({
         query: ({ id, body }) => {
@@ -225,6 +211,28 @@ export const industriesEndpoints = (
         },
         invalidatesTags: ['Industry'],
     }),
+    // =============================== Premium Feature =======================================
+    // premium-features/list
+    getIndustryPremiumFeatures: builder.query<any, { params?: any } | void>({
+        query: (arg) => ({
+            url: 'premium-features/list',
+            ...(arg?.params && { params: arg.params }),
+        }),
+        providesTags: ['PremiumFeatures'],
+    }),
+    // premium-features/list-all
+    getPremiumFeaturesList: builder.query<any, void>({
+        query: () => ({
+            url: 'premium-features/list-all',
+        }),
+        providesTags: ['PremiumFeatures'],
+    }),
+    getPremiumFeatureFlag: builder.query<any, any>({
+        query: (id) => ({
+            url: `shared/industry/${id}/premium-check`,
+        }),
+        providesTags: ['PremiumFeatures'],
+    }),
 
     toggleIndustryPremiumFeature: builder.mutation<any, any>({
         query: ({ id }) => {
@@ -233,7 +241,7 @@ export const industriesEndpoints = (
                 method: 'PATCH',
             }
         },
-        invalidatesTags: ['Industries', 'SubAdminIndustries'],
+        invalidatesTags: ['PremiumFeatures'],
     }),
 
     toggleIndustryPremiumSubFeatures: builder.mutation<any, any>({
@@ -242,6 +250,6 @@ export const industriesEndpoints = (
             method: 'POST',
             body,
         }),
-        invalidatesTags: ['Industries', 'SubAdminIndustries'],
+        invalidatesTags: ['PremiumFeatures'],
     }),
 })
