@@ -62,6 +62,12 @@ export const usePermissionQueries = () => {
     const [canApproveRtoWorkplaces, resultcanApproveRtoWorkplaces] =
         AdminApi.SubAdmins.canApproveRtoWorkplace()
 
+    const [canImportIndustryListing, resultcanImportIndustryListing] =
+        AdminApi.SubAdmins.canImportIndustryListing()
+
+    const [viewPremiumToggleButton, resultviewPremiumToggleButton] =
+        AdminApi.SubAdmins.canOnPremiumFeature()
+
     return {
         queries: {
             todoEnabled,
@@ -89,6 +95,8 @@ export const usePermissionQueries = () => {
             canViewStudentDetail,
             canViewRTODetail,
             canAddStudents,
+            canImportIndustryListing,
+            viewPremiumToggleButton,
         },
         results: {
             resultcanApproveRtoWorkplaces,
@@ -116,6 +124,8 @@ export const usePermissionQueries = () => {
             resultCanAddStudents,
             resultCanViewAllStudents,
             resultCanToggleInternalTicket,
+            resultcanImportIndustryListing,
+            resultviewPremiumToggleButton,
         },
     }
 }

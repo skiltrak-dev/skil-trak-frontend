@@ -19,3 +19,4 @@ export type RestrictedDataTypes =
     | 'canViewRtoList'
     | 'canAccessRtoProfile'
     | 'canApproveWorkplace'
+    | 'canOnPremiumFeature'

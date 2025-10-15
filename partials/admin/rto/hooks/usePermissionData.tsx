@@ -2,7 +2,12 @@ import { UserRoles } from '@constants'
 import { useCheckPermission } from '@partials/admin/hooks'
 import { Rto, UserStatus } from '@types'
 import { getUserCredentials } from '@utils'
-import { FaFileInvoiceDollar, FaFileSignature, FaSchool } from 'react-icons/fa'
+import {
+    FaFileInvoiceDollar,
+    FaFileSignature,
+    FaSchool,
+    FaUser,
+} from 'react-icons/fa'
 import { usePermission } from './usePermission'
 import { useChangeStatus } from './useChangeStatus'
 import { useModal } from '@hooks'
@@ -89,6 +94,20 @@ export const usePermissionData = (rto: Rto) => {
             toggle: rto?.allowEsignAutoPopulation,
             isLoading: results?.toggleEsignPopulationResult.isLoading,
             Icon: FaFileSignature,
+        },
+        {
+            text: 'Allow Student need workplace',
+            onClick: () => Actions?.onCanStudentAddNeedWOrkplace(rto),
+            toggle: rto?.canAddNeedWorkplace,
+            isLoading: results?.canStudentAddOwnWorkplaceResult.isLoading,
+            Icon: FaUser,
+        },
+        {
+            text: 'Allow Student Own workplace',
+            onClick: () => Actions?.onCanStudentAddOwnWorkplace(rto),
+            toggle: rto?.canAddOwnWorkplace,
+            isLoading: results?.canStudentAddNeedWOrkplaceResult.isLoading,
+            Icon: FaUser,
         },
         {
             text: 'Archive',

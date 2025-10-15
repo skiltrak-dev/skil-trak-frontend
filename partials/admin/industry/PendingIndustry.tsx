@@ -1,6 +1,5 @@
 import {
     ActionButton,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -8,12 +7,10 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
-    TruncatedTextWithTooltip,
     UserCreatedAt,
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { UserRoles } from '@constants'
 import { useActionModal, useNotification } from '@hooks'

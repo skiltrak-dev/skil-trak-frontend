@@ -28,6 +28,7 @@ import { useEsignModals } from './useEsignModals.hook'
 
 // Define the context type
 export interface WorkplaceContextType {
+    student: Student
     // Modal state
     modal: ReactNode | null
 
@@ -206,6 +207,7 @@ export const WorkplaceHookProvider = ({
     const contextValue: WorkplaceContextType = {
         ...actions,
         ...queriesActions,
+        student,
         modal,
         course,
         folders,

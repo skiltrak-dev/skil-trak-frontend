@@ -24,6 +24,10 @@ export const usePermissionQueries = () => {
 
     const [toggleEsignPopulation, toggleEsignPopulationResult] =
         AdminApi.Rtos.toggleEsignPopulation()
+    const [canStudentAddOwnWorkplace, canStudentAddOwnWorkplaceResult] =
+        AdminApi.Rtos.canStudentAddOwnWorkplace()
+    const [canStudentAddNeedWOrkplace, canStudentAddNeedWOrkplaceResult] =
+        AdminApi.Rtos.canStudentAddNeedWorkplace()
 
     return {
         queries: {
@@ -35,6 +39,8 @@ export const usePermissionQueries = () => {
             allowScheduleEmail,
             rtoWpApprovalRequest,
             toggleEsignPopulation,
+            canStudentAddOwnWorkplace,
+            canStudentAddNeedWOrkplace,
         },
         results: {
             allowUpdationResult,
@@ -45,6 +51,8 @@ export const usePermissionQueries = () => {
             allowScheduleEmailResult,
             rtoWpApprovalRequestResult,
             toggleEsignPopulationResult,
+            canStudentAddOwnWorkplaceResult,
+            canStudentAddNeedWOrkplaceResult,
         },
     }
 }

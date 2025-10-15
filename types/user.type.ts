@@ -111,7 +111,9 @@ export interface Rto extends BaseResponse {
     studentsCount: string
     zipCode: string
     allowUpdate: boolean
+    canAddOwnWorkplace: boolean
     allowAutoComplete: boolean
+    canAddNeedWorkplace: boolean
     workplaceApprovalRequired: boolean
     autoReleaseLogBook: boolean
     allowEsignAutoPopulation: boolean
@@ -251,6 +253,7 @@ export interface SubAdmin extends BaseResponse {
     isAdmin: boolean
     rtos: Rto[]
     associatedRto: Rto
+    canOnPremiumFeature: boolean
     removeOnPlacementStart: boolean
     canCancelWorkPlaceRequest: boolean
     allowRtoListing: boolean
@@ -260,6 +263,7 @@ export interface SubAdmin extends BaseResponse {
     allowIndustryAssignment: boolean
     canDownloadReport: boolean
     canViewStudentDetails: boolean
+    canImportIndustryListing: boolean
     canViewIndustryDetails: boolean
     canApproveWorkplace: boolean
     canAccessRpl: boolean

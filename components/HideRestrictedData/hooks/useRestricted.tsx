@@ -31,6 +31,8 @@ export const useRestricted = (type: RestrictedDataTypes, isAdmin: boolean) => {
                 return 'canAccessRtoProfile'
             case 'canApproveWorkplace':
                 return 'canApproveWorkplace'
+            case 'canOnPremiumFeature':
+                return 'canOnPremiumFeature'
 
             default:
                 return null

@@ -10,12 +10,13 @@ import {
     Typography,
 } from '@components'
 import { FigureCard } from '@components/sections/subAdmin'
-import { useContextBar } from '@hooks'
+import { useContextBar, useSubadminProfile } from '@hooks'
 import { SubAdminLayout } from '@layouts'
 import {
     ActiveIndustries,
     AddIndustry,
     DepartmentFutureIndustries,
+    RunListingAutomation,
     WithoutEmailListing,
 } from '@partials/common'
 import { FilteredSearchIndustries } from '@partials/common/FindWorkplaces/FilteredSearchIndustries'
@@ -50,12 +51,9 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
     )
     const [industryData, setIndustryData] = useState<any>(null)
 
-    const profile = SubAdminApi.SubAdmin.useProfile()
+    const subadmin = useSubadminProfile()
 
-    const isHod = useMemo(
-        () => profile?.data?.departmentMember?.isHod,
-        [profile?.data]
-    )
+    const isHod = useMemo(() => subadmin?.departmentMember?.isHod, [subadmin])
     const searchString = useMemo(() => {
         return JSON.stringify(filter)
             .replaceAll('{', '')
@@ -182,14 +180,17 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
     }
     return (
         <>
-            {profile?.data && profile?.data?.allowIndustryListing ? (
+            {subadmin && subadmin?.allowIndustryListing ? (
                 <div>
                     <SetDetaultQueryFilteres<FindWorkplaceFilter>
                         filterKeys={filterKeys}
                         setFilter={setFilter}
                     />
                     <div className="flex justify-end gap-x-2 mt-4 mr-6">
-                        {filterAction}{' '}
+                        {filterAction}
+                        {subadmin?.canImportIndustryListing && (
+                            <RunListingAutomation />
+                        )}
                         <Button
                             text={'Upload Industries'}
                             variant="dark"

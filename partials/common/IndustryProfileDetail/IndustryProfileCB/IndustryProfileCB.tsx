@@ -1,7 +1,6 @@
 import {
     AuthorizedUserComponent,
     Badge,
-    Button,
     HideRestrictedData,
     Typography,
 } from '@components'
@@ -12,10 +11,15 @@ import {
     VerifyUserEmail,
 } from '@partials/common/components'
 import { IndustryRequestsActions } from '@partials/sub-admin/ManagerApprovalList/enum'
+import { CommonApi } from '@queries'
 import { Industry } from '@types'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
 import { IndustryInsuranceDoc, IndustryLocations } from '../components'
+import {
+    DisplayIndustryRating,
+    IndustryRatingList,
+} from '../components/IndustryReviews'
 import {
     AddRplModal,
     PlacementEligibilityCriteriaModal,
@@ -31,16 +35,12 @@ import {
     IndustryStatus,
     IndustryWpType,
     MakeIndustryPartner,
+    PremiumIndustrySwitch,
     ProfileLinks,
     SectorBaseCapacityModal,
     SnoozeIndustrySwitch,
 } from './components'
-import { CommonApi } from '@queries'
-import {
-    DisplayIndustryRating,
-    IndustryRatingList,
-} from '../components/IndustryReviews'
-import { IoDiamondOutline } from 'react-icons/io5'
+import { useSubadminProfile } from '@hooks'
 
 export const IndustryProfileCB = ({
     isHod,
@@ -86,7 +86,6 @@ export const IndustryProfileCB = ({
     const onClickPremiumFeatures = () => {
         setModal(
             <>
-                Hello
                 <PremiumFeaturesModal
                     // industry={industry}
                     indId={industry?.id}
@@ -282,8 +281,10 @@ export const IndustryProfileCB = ({
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center gap-x-3 mt-2">
+                <div>
                     <IndustryWpType industryUserId={industry?.user?.id} />
+                </div>
+                {/* <div className="flex justify-between items-center gap-x-3 mt-2">
                     <AuthorizedUserComponent
                         roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                         isAssociatedWithRto={false}
@@ -300,7 +301,17 @@ export const IndustryProfileCB = ({
                             </Typography>
                         </div>
                     </AuthorizedUserComponent>
-                </div>
+                </div> */}
+
+                <AuthorizedUserComponent
+                    roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
+                >
+                    <PremiumIndustrySwitch
+                        isPremium={industry?.isPremium}
+                        industryId={industry?.id}
+                        industryUserId={industry?.user?.id}
+                    />
+                </AuthorizedUserComponent>
 
                 <AuthorizedUserComponent
                     roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}

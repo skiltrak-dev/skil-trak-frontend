@@ -10,6 +10,7 @@ import { AiFillStar } from 'react-icons/ai'
 import { FaFileSignature, FaHandshake } from 'react-icons/fa'
 import { HiBriefcase } from 'react-icons/hi2'
 import { ImPhone, ImPhoneHangUp } from 'react-icons/im'
+import { IoDiamondSharp } from 'react-icons/io5'
 import { MdSnooze } from 'react-icons/md'
 export const IndustryCellInfo = ({
     industry,
@@ -92,6 +93,14 @@ export const IndustryCellInfo = ({
                                                 20
                                             )}
                                         </p>
+                                        {industry?.isPremium ? (
+                                            <div
+                                                title="Industry Premium Feature Active"
+                                                className=" bottom-1 right-0 w-5 h-5 flex items-center justify-center bg-indigo-500 rounded-full text-white"
+                                            >
+                                                <IoDiamondSharp size={14} />
+                                            </div>
+                                        ) : null}
                                         {initiatedEsign &&
                                             initiatedEsign?.length > 0 && (
                                                 <div className="group relative w-fit">

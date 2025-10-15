@@ -217,6 +217,20 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             onClick: () => Actions.onApproveRtoWorkplaces(subadmin),
             isLoading: results?.resultcanApproveRtoWorkplaces.isLoading,
         },
+        {
+            Icon: FaIndustry,
+            text: 'Can Import Industry Listing',
+            toggle: subadmin?.canImportIndustryListing,
+            onClick: () => Actions.onImportIndustryListing(subadmin),
+            isLoading: results?.resultcanImportIndustryListing.isLoading,
+        },
+        {
+            Icon: FaIndustry,
+            text: 'View Premium Toggle Button',
+            toggle: subadmin?.canOnPremiumFeature,
+            onClick: () => Actions.onViewPremiumToggleButton(subadmin),
+            isLoading: results?.resultviewPremiumToggleButton.isLoading,
+        },
     ]
 
     // const responses = Object.values(results)

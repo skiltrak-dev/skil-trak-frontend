@@ -15,6 +15,7 @@ export const SubAdminIndustryFilter = ({
 }: ItemFilterProps) => {
     // query
     const getCourses = CommonApi.Filter.useCourses()
+    const getPremiumFeaturesList = CommonApi.Industries.usePremiumFeaturesList()
 
     const coursesOptions = getCourses?.data?.map((course: any) => ({
         item: course,
@@ -36,6 +37,13 @@ export const SubAdminIndustryFilter = ({
         value: coordinator?.id,
         label: coordinator?.user?.name,
     }))
+
+    const isPremiumOptions = getPremiumFeaturesList?.data?.map(
+        (premium: any) => ({
+            label: premium?.title,
+            value: premium?.id,
+        })
+    )
 
     return (
         <>
@@ -90,6 +98,22 @@ export const SubAdminIndustryFilter = ({
                     onChange={(e: any) =>
                         onFilterChange({ ...filter, isPartner: e?.value })
                     }
+                    showError={false}
+                />
+                <Select
+                    label={'Premium Features'}
+                    name={'feature'}
+                    options={isPremiumOptions}
+                    value={isPremiumOptions?.find(
+                        (premium: OptionType) =>
+                            premium?.value === Number(filter?.feature)
+                    )}
+                    onChange={(e: any) => {
+                        onFilterChange({
+                            ...filter,
+                            feature: e?.value,
+                        })
+                    }}
                     showError={false}
                 />
                 <Select
