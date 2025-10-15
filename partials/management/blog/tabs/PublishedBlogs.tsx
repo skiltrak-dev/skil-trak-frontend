@@ -263,7 +263,7 @@ export const PublishedBlogs = () => {
                                                     : null}
                                             </div>
                                         </div>
-                                        <div className="overflow-auto remove-scrollbar h-[calc(100vh-350px)] remove-scrollbar">
+                                        <div className="overflow-auto remove-scrollbar  remove-scrollbar">
                                             <div className="px-6 w-full">
                                                 {table}
                                             </div>

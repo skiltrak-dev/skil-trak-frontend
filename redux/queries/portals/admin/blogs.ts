@@ -115,6 +115,6 @@ export const blogsEndpoints = (
             method: 'POST',
             body,
         }),
-        invalidatesTags: ['Blog'],
+        invalidatesTags: ['Upload-Blog-Image'],
     }),
 })
