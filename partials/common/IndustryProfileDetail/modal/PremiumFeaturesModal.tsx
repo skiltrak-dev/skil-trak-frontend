@@ -1,36 +1,24 @@
-import { Modal, ShowErrorNotifications, Switch } from '@components'
-import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
-import React, { useState, useEffect } from 'react'
+import { useNotification, useSubadminProfile } from '@hooks'
+import { Modal, ShowErrorNotifications, Switch } from '@components'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const PremiumFeaturesModal = ({ onCancel, indId, userId }: any) => {
     const { notification } = useNotification()
-
-    const [togglePremium, resultTogglePremium] =
-        CommonApi.Industries.useToggleIndustryPremiumFeature()
+    const subadmin = useSubadminProfile()
+    const role = getUserCredentials()?.role
 
     const [toggleSubFeatures, resultToggleSubFeatures] =
         CommonApi.Industries.useToggleIndustryPremiumSubFeatures()
     const premiumFlag = CommonApi.Industries.usePremiumFeatureFlag(indId, {
         skip: !indId,
     })
-    const { data, isLoading, refetch } =
-        CommonApi.Industries.useIndustryPremiumFeatures({
+    const { data, isLoading } = CommonApi.Industries.useIndustryPremiumFeatures(
+        {
             params: { id: userId },
-        })
-
-    useEffect(() => {
-        if (resultTogglePremium.isSuccess) {
-            notification.success({
-                title: 'Premium Feature',
-                description: `Premium feature updated successfully`,
-            })
         }
-    }, [resultTogglePremium.isSuccess])
-
-    const onTogglePremium = async () => {
-        togglePremium({ id: indId })
-    }
+    )
 
     const onToggleSubFeature = async (featureId: number) => {
         toggleSubFeatures({
@@ -48,9 +36,7 @@ export const PremiumFeaturesModal = ({ onCancel, indId, userId }: any) => {
 
     return (
         <>
-            <ShowErrorNotifications
-                result={resultTogglePremium || resultToggleSubFeatures}
-            />
+            <ShowErrorNotifications result={resultToggleSubFeatures} />
 
             <Modal
                 title="Premium Features"
@@ -58,22 +44,6 @@ export const PremiumFeaturesModal = ({ onCancel, indId, userId }: any) => {
                 showActions={false}
                 onCancelClick={onCancel}
             >
-                <div className="mb-6 border-b border-gray-200 pb-4">
-                    <Switch
-                        name="isPremium"
-                        customStyleClass="profileSwitch"
-                        onChange={onTogglePremium}
-                        defaultChecked={premiumFlag?.data?.isPremium}
-                        value={premiumFlag?.data?.isPremium}
-                        loading={
-                            resultTogglePremium?.isLoading ??
-                            premiumFlag.isLoading
-                        }
-                        disabled={resultTogglePremium?.isLoading}
-                        label="Enable Premium Features"
-                    />
-                </div>
-
                 <div className="space-y-4">
                     {isLoading ? (
                         <p className="text-gray-500 text-sm">
@@ -98,7 +68,10 @@ export const PremiumFeaturesModal = ({ onCancel, indId, userId }: any) => {
                                         ?.isActive
                                 }
                                 onChange={() => onToggleSubFeature(feature.id)}
-                                disabled={!premiumFlag?.data?.isPremium}
+                                disabled={
+                                    !subadmin?.canOnPremiumFeature &&
+                                    role === UserRoles.SUBADMIN
+                                }
                                 label={feature.title}
                                 loading={
                                     resultToggleSubFeatures?.isLoading &&

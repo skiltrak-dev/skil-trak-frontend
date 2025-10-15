@@ -23,7 +23,6 @@ export const IndustryFilters = ({
     const getSectors = AuthApi.useSectors({})
     const getPremiumFeaturesList = CommonApi.Industries.usePremiumFeaturesList()
 
-    console.log('getPremiumFeaturesList', getPremiumFeaturesList?.data)
     const coursesOptions = getCourses?.data?.map((course: any) => ({
         item: course,
         value: course?.id,

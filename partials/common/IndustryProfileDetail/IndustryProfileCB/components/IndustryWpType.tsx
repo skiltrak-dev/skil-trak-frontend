@@ -94,7 +94,7 @@ export const IndustryWpType = ({
                         Workplace Type
                     </Typography>
                     {/* </AuthorizedUserComponent> */}
-                    <div className="flex justify-end ml-auto w-full">
+                    <div className="flex   w-full">
                         <ActionButton
                             onClick={() => {
                                 onAddIndustryWPType()

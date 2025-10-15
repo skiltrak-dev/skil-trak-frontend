@@ -298,6 +298,28 @@ export const usePermission = () => {
         })
     }
 
+    const onImportIndustryListing = (subAdmin: SubAdmin) => {
+        queries.canImportIndustryListing(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Change Status For SubAdmins.`,
+                })
+            }
+        })
+    }
+
+    const onViewPremiumToggleButton = (subAdmin: SubAdmin) => {
+        queries.viewPremiumToggleButton(subAdmin?.id).then((res: any) => {
+            if (res?.data) {
+                notification.success({
+                    title: `Status Changed`,
+                    description: `subAdmin "${subAdmin?.user?.name}" Change Status For SubAdmins.`,
+                })
+            }
+        })
+    }
+
     return {
         results,
         Actions: {
@@ -326,6 +348,8 @@ export const usePermission = () => {
             onCanAccessSubAdminClicked,
             onCanAddStudentsClicked,
             onCanCreateInternalTicketClicked,
+            onImportIndustryListing,
+            onViewPremiumToggleButton,
         },
     }
 }

@@ -112,6 +112,30 @@ export const usePermission = () => {
         }
     }
 
+    const onCanStudentAddNeedWOrkplace = async (rto: Rto) => {
+        const res: any = await queries.canStudentAddNeedWOrkplace(rto?.id)
+
+        if (res?.data) {
+            notification.success({
+                title: 'Rto Students Request Permission Changed',
+                description:
+                    'Rto Students Request Permission Changed Successfully!',
+            })
+        }
+    }
+
+    const onCanStudentAddOwnWorkplace = async (rto: Rto) => {
+        const res: any = await queries.canStudentAddOwnWorkplace(rto?.id)
+
+        if (res?.data) {
+            notification.success({
+                title: 'Rto Students Workplace Permission Changed',
+                description:
+                    'Rto Students Workplace Permission Changed Successfully!',
+            })
+        }
+    }
+
     return {
         results,
         Actions: {
@@ -123,6 +147,8 @@ export const usePermission = () => {
             onToggleEsignPopulation,
             onAllowPermissionClicked,
             onAllowAutoCompleteClicked,
+            onCanStudentAddOwnWorkplace,
+            onCanStudentAddNeedWOrkplace,
         },
     }
 }

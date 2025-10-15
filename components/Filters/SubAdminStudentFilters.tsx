@@ -227,7 +227,9 @@ export const SubAdminStudentFilters = ({
                     />
                 )}
 
-                {subadmin?.isManager && (
+                {(subadmin?.isManager ||
+                    subadmin?.id === 3 ||
+                    subadmin?.id === 76) && (
                     <Select
                         label={'Search by Coordinator'}
                         name={'subadminId'}

@@ -11,4 +11,5 @@ export interface SubadminIndustryFilter {
     isHiring: boolean
     isPartner: boolean
     subAdminId: any
+    feature: number
 }

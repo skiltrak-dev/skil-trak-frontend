@@ -409,4 +409,20 @@ export const rtoEndpoints = (
         }),
         invalidatesTags: ['RTOS'],
     }),
+
+    canStudentAddOwnWorkplace: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto/${id}/can-add-own-workplace`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
+
+    canStudentAddNeedWorkplace: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto/${id}/can-add-need-workplace`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
 })
