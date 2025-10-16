@@ -1,4 +1,11 @@
-import { Badge, Button, ShowErrorNotifications, Typography } from '@components'
+import {
+    ActionButton,
+    Badge,
+    Button,
+    ShowErrorNotifications,
+    Tooltip,
+    Typography,
+} from '@components'
 import { useNotification } from '@hooks'
 import { RunAutomationEnum } from '@partials/common/FindWorkplaces/enum'
 import {
@@ -11,6 +18,7 @@ import { getPostalCode } from '@utils'
 import { ReactElement, useEffect, useState } from 'react'
 import {
     MdClose,
+    MdDelete,
     MdLocationOn,
     MdStorage,
     MdVisibility,
@@ -258,10 +266,12 @@ export const ResultDisplayCard = ({
                                                 company.address}
                                         </span>
                                     </Typography>
-                                    <Badge
-                                        variant="primaryNew"
-                                        text={postCode + ''}
-                                    />
+                                    {postCode && (
+                                        <Badge
+                                            variant="primaryNew"
+                                            text={postCode + ''}
+                                        />
+                                    )}
                                 </div>
 
                                 {/* Keyword matches display */}
@@ -282,8 +292,8 @@ export const ResultDisplayCard = ({
                                     )}
                             </div>
                             <div className="flex items-center gap-1 flex-shrink-0">
-                                <div className="flex flex-col gap-1">
-                                    {company?.duplicated && (
+                                <div className="flex  gap-1">
+                                    {/* {company?.duplicated && (
                                         <Badge
                                             outline
                                             onClick={(e) => {
@@ -294,9 +304,9 @@ export const ResultDisplayCard = ({
                                             text={'Remove Duplicate'}
                                             Icon={MdClose}
                                         />
-                                    )}
+                                    )} */}
 
-                                    <Badge
+                                    {/* <Badge
                                         outline
                                         onClick={(e: any) => {
                                             onEligibilityUpdate()
@@ -304,8 +314,49 @@ export const ResultDisplayCard = ({
                                         variant="error"
                                         text={'Remove Not Eligible'}
                                         Icon={MdClose}
-                                    />
-                                    <Badge
+                                    /> */}
+
+                                    <div className="relative group">
+                                        <ActionButton
+                                            Icon={CgArrowsExchange}
+                                            onClick={() => {
+                                                onUpdateIndustrySector()
+                                            }}
+                                            variant="success"
+                                        />
+
+                                        <Tooltip>
+                                            Update Industry Sector
+                                        </Tooltip>
+                                    </div>
+
+                                    <div className="relative group">
+                                        <ActionButton
+                                            Icon={MdClose}
+                                            onClick={(e) => {
+                                                onEligibilityUpdate()
+                                            }}
+                                            variant="warning"
+                                        />
+
+                                        <Tooltip>Remove Not Eligible</Tooltip>
+                                    </div>
+
+                                    {company?.duplicated && (
+                                        <div className="relative group">
+                                            <ActionButton
+                                                Icon={MdDelete}
+                                                onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    onRemoveDuplicate()
+                                                }}
+                                                variant="error"
+                                            />
+
+                                            <Tooltip>Remove Duplicate</Tooltip>
+                                        </div>
+                                    )}
+                                    {/* <Badge
                                         outline
                                         onClick={() => {
                                             onUpdateIndustrySector()
@@ -313,7 +364,7 @@ export const ResultDisplayCard = ({
                                         variant="success"
                                         text={'Update Industry Sector'}
                                         Icon={CgArrowsExchange}
-                                    />
+                                    /> */}
                                 </div>
                             </div>
                         </div>
@@ -329,8 +380,7 @@ export const ResultDisplayCard = ({
                                 }}
                                 fullWidth
                                 variant="primaryNew"
-                                text=" View Profile"
-                                Icon={MdVisibility}
+                                text="Details"
                             />
 
                             {/* <Button
