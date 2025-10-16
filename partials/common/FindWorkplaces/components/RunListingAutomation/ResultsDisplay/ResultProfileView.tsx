@@ -142,10 +142,12 @@ export const ResultProfileView: React.FC<CompanyProfileProps> = ({
                                                 }
                                             </span>
                                         </Typography>
-                                        <Badge
-                                            variant="primaryNew"
-                                            text={postCode + ''}
-                                        />
+                                        {postCode && (
+                                            <Badge
+                                                variant="primaryNew"
+                                                text={postCode + ''}
+                                            />
+                                        )}
                                     </div>
 
                                     {companyDetail?.data?.result?.website && (
