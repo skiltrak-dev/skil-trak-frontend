@@ -12,15 +12,6 @@ export function ConfirmationComponent({
     capacity,
     isNoStudents = false,
 }: ConfirmationComponentProps) {
-    useEffect(() => {
-        // Optional redirect after 3 seconds
-        const timer = setTimeout(() => {
-            console.log('Redirecting to dashboard...')
-        }, 3000)
-
-        return () => clearTimeout(timer)
-    }, [])
-
     return (
         <div className="text-center relative z-10">
             <div className="animate-scale-in animate-delay-200">

@@ -59,7 +59,7 @@ export const ApprovedIndustry = () => {
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
-    console.log('data::::: list', data)
+
     const hasCourseApproved =
         data?.data &&
         data?.data?.length > 0 &&

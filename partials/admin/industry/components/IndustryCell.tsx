@@ -15,7 +15,7 @@ export const IndustryCell = ({ industry }: any) => {
     const initiatedEsign = industry?.user?.signers?.filter(
         (sign: any) => sign?.document?.template
     )
-    console.log('industry?.isPremium', industry?.isPremium)
+
     return (
         <Link legacyBehavior href={`/portals/admin/industry/${industry?.id}`}>
             <a
