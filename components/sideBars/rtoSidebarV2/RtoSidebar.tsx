@@ -1,0 +1,412 @@
+'use client'
+import { Fragment } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+    LayoutDashboard,
+    Users,
+    FileSignature,
+    CheckSquare,
+    Send,
+    Flag,
+    Upload,
+    Mail,
+    Calendar,
+    Bell as BellIcon,
+    Building2,
+    Settings,
+    GraduationCap,
+} from 'lucide-react'
+import { useRouter } from 'next/router'
+
+const menuSections = [
+    {
+        title: 'Dashboard',
+        items: [
+            {
+                icon: LayoutDashboard,
+                label: 'Dashboard',
+                key: 'Dashboard',
+                path: '/portals/rto/dashboard',
+                badge: '9',
+                bg: 'bg-gradient-to-r from-[#044866]/10 to-[#0D5468]/10 border border-[#044866]/30 shadow-sm',
+                iconBg: 'bg-gradient-to-br from-[#044866] to-[#0D5468]',
+                badgeBg: 'bg-[#044866]',
+                text: 'text-[#044866]',
+            },
+        ],
+    },
+    {
+        title: '🚨 Action Required',
+        showCount: true,
+        totalCount: 40,
+        items: [
+            {
+                icon: FileSignature,
+                label: 'Sign Documents',
+                key: 'Sign Documents',
+                badge: '5',
+                bg: 'bg-red-50 border border-red-200',
+                iconBg: 'bg-red-500',
+                badgeBg: 'bg-red-500',
+                text: 'text-red-700',
+            },
+            {
+                icon: CheckSquare,
+                label: 'Approve Placements',
+                key: 'Approve Placements',
+                badge: '3',
+                bg: 'bg-orange-50 border border-orange-200',
+                iconBg: 'bg-orange-500',
+                badgeBg: 'bg-orange-500',
+                text: 'text-orange-700',
+            },
+            {
+                icon: Send,
+                label: 'Submissions',
+                key: 'Submissions',
+                badge: '2',
+                bg: 'bg-amber-50 border border-amber-200',
+                iconBg: 'bg-amber-500',
+                badgeBg: 'bg-amber-500',
+                text: 'text-amber-700',
+            },
+            {
+                icon: Flag,
+                label: 'Resolve Issues',
+                key: 'Resolve Issues',
+                badge: '30',
+                bg: 'bg-yellow-50 border border-yellow-200',
+                iconBg: 'bg-yellow-500',
+                badgeBg: 'bg-yellow-500',
+                text: 'text-yellow-700',
+            },
+        ],
+    },
+    {
+        title: 'Students & Placements',
+        items: [
+            {
+                icon: Users,
+                label: 'All Students',
+                key: 'All Students',
+                badge: '11',
+                bg: 'bg-blue-50 border border-blue-200',
+                iconBg: 'bg-blue-500',
+                badgeBg: 'bg-blue-500',
+                text: 'text-blue-700',
+            },
+            {
+                icon: Upload,
+                label: 'Import Students',
+                key: 'Import Students',
+                bg: 'bg-indigo-50 border border-indigo-200',
+                iconBg: 'bg-indigo-500',
+                badgeBg: 'bg-indigo-500',
+                text: 'text-indigo-700',
+            },
+        ],
+    },
+    {
+        title: 'Communications',
+        items: [
+            {
+                icon: Mail,
+                label: 'Emails',
+                key: 'Emails',
+                badge: '8',
+                bg: 'bg-sky-50 border border-sky-200',
+                iconBg: 'bg-sky-500',
+                badgeBg: 'bg-sky-500',
+                text: 'text-sky-700',
+            },
+            {
+                icon: Calendar,
+                label: 'Appointments',
+                key: 'Appointments',
+                badge: '7',
+                bg: 'bg-cyan-50 border border-cyan-200',
+                iconBg: 'bg-cyan-500',
+                badgeBg: 'bg-cyan-500',
+                text: 'text-cyan-700',
+            },
+            {
+                icon: BellIcon,
+                label: 'Notifications',
+                key: 'Notifications',
+                badge: '3',
+                bg: 'bg-teal-50 border border-teal-200',
+                iconBg: 'bg-teal-500',
+                badgeBg: 'bg-teal-500',
+                text: 'text-teal-700',
+            },
+        ],
+    },
+    {
+        title: 'Manage',
+        items: [
+            {
+                icon: Settings,
+                label: 'Setup for automation',
+                key: 'Setup for automation',
+                badge: '60%',
+                bg: 'bg-gray-50 border border-gray-200',
+                iconBg: 'bg-gray-600',
+                badgeBg: 'bg-gray-600',
+                text: 'text-gray-800',
+            },
+            {
+                icon: Building2,
+                label: 'Industries',
+                key: 'Industries',
+                bg: 'bg-slate-50 border border-slate-200',
+                iconBg: 'bg-slate-500',
+                badgeBg: 'bg-slate-500',
+                text: 'text-slate-700',
+            },
+            {
+                icon: GraduationCap,
+                label: 'Courses',
+                key: 'Courses',
+                bg: 'bg-zinc-50 border border-zinc-200',
+                iconBg: 'bg-zinc-500',
+                badgeBg: 'bg-zinc-500',
+                text: 'text-zinc-700',
+            },
+        ],
+    },
+]
+
+export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
+    const router = useRouter()
+
+    const Drawer = (
+        <motion.aside
+            initial={{ x: -320, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -320, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 260, damping: 30 }}
+            className="fixed inset-y-0 left-0 z-40 w-72 bg-white border-r border-sidebar-border flex flex-col"
+            role="dialog"
+            aria-modal="true"
+        >
+            {/* ============================= HEADER ============================= */}
+            <div className="flex items-center justify-between p-4 border-b border-sidebar-border shrink-0">
+                <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white">
+                        <GraduationCap className="h-5 w-5" />
+                    </div>
+                    <div>
+                        <div className="font-semibold">SkilTrak</div>
+                        <div className="text-xs text-muted-foreground">
+                            RTO Management
+                        </div>
+                    </div>
+                </div>
+                <button
+                    onClick={onClose}
+                    className="p-2 rounded-md hover:bg-muted/30"
+                >
+                    ✕
+                </button>
+            </div>
+
+            {/* ============================= SCROLLABLE CONTENT ============================= */}
+            <nav className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+                {menuSections.map((section) => (
+                    <div
+                        key={section.title}
+                        className="hover:shadow-premium-lg"
+                    >
+                        <div className="flex items-center justify-between px-1 mb-2">
+                            <div className="text-xs uppercase font-semibold text-muted-foreground">
+                                {section.title}
+                            </div>
+                            {section.showCount && section.totalCount && (
+                                <div className="text-[11px] bg-destructive text-white px-2 rounded">
+                                    {section.totalCount}
+                                </div>
+                            )}
+                        </div>
+
+                        <ul className="space-y-1">
+                            {section.items.map((item: any) => (
+                                <li key={item.key}>
+                                    <button
+                                        onClick={() => onNavigate?.(item.key)}
+                                        className={`w-full flex justify-between items-center gap-3 p-2 rounded-xl transition ${item.bg} hover:opacity-90`}
+                                    >
+                                        <div className="flex items-center gap-x-2">
+                                            <div
+                                                className={`p-2 rounded-xl shrink-0 ${item.iconBg} text-white`}
+                                            >
+                                                <item.icon className="h-4 w-4" />
+                                            </div>
+
+                                            <span
+                                                className={`flex text-sm font-medium ${item.text}`}
+                                            >
+                                                {item.label}
+                                            </span>
+                                        </div>
+
+                                        {item.badge && (
+                                            <span
+                                                className={`text-[11px] px-2 py-0.5 rounded-full text-white ${item.badgeBg}`}
+                                            >
+                                                {item.badge}
+                                            </span>
+                                        )}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
+            </nav>
+
+            {/* ============================= FOOTER ============================= */}
+            <div className="p-4 border-t border-sidebar-border shrink-0">
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <div className="flex items-center gap-2.5">
+                        <div className="relative flex h-2.5 w-2.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-60"></span>
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success"></span>
+                        </div>
+                        <span>System Online</span>
+                    </div>
+                    <div className="text-[12px] font-semibold text-primary">
+                        v1.0.3
+                    </div>
+                </div>
+            </div>
+        </motion.aside>
+    )
+
+    return (
+        <>
+            {/*======================== Desktop sidebar ======================= */}
+            <aside className="hidden md:flex md:flex-col w-72 shrink-0 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+                {/* ================== FIXED TOP LOGO AREA ================= */}
+                <div className="p-4 border-b border-sidebar-border shrink-0">
+                    <div className="flex items-center gap-3 cursor-pointer group relative">
+                        <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#044866] to-[#0D5468] rounded-2xl blur-md opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                            <div className="relative h-12 w-12 rounded-2xl bg-gradient-to-br from-primaryNew to-[#0D5468] flex items-center justify-center shadow-premium group-hover:shadow-glow-primary transition-all group-hover:scale-105">
+                                <GraduationCap
+                                    className="h-6 w-6 text-white"
+                                    strokeWidth={2.5}
+                                />
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-white/0 to-white/20"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-bold text-[#044866] tracking-tight">
+                                SkilTrak
+                            </h2>
+                            <p className="text-xs text-slate-500 font-semibold tracking-wide">
+                                RTO MANAGEMENT
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* ======================= SCROLLABLE MENU SECTION ========================= */}
+                <div className="flex-1 overflow-y-auto px-4 py-3 remove-scrollbar scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+                    {menuSections.map((section, idx) => (
+                        <div key={section.title}>
+                            <div
+                                className={`${
+                                    idx > 0
+                                        ? 'pt-8 mt-3 !mx-8 border-t border-sidebar-border/30'
+                                        : ''
+                                } mb-1 last:mb-0`}
+                            />
+                            <div className="flex items-center justify-between px-1 mb-2">
+                                <div className="text-xs uppercase tracking-wide font-semibold text-slate-500">
+                                    {section.title}
+                                </div>
+                                {section.showCount && section.totalCount && (
+                                    <div className="text-[10px] bg-error text-white flex items-center animate-pulse justify-center text-center rounded-full size-5">
+                                        {section.totalCount}
+                                    </div>
+                                )}
+                            </div>
+
+                            <ul className="space-y-2">
+                                {section.items.map((item: any) => (
+                                    <li key={item.key}>
+                                        <button
+                                            onClick={() => {
+                                                if (item.path)
+                                                    router.push(item.path)
+                                                onNavigate?.(item.key)
+                                            }}
+                                            className={`w-full flex justify-between items-center p-2 rounded-2xl transition ${item.bg} hover:opacity-90`}
+                                        >
+                                            <div className="flex items-center gap-x-2">
+                                                <div
+                                                    className={`p-2 rounded-xl shrink-0 ${item.iconBg} text-white`}
+                                                >
+                                                    <item.icon className="h-4 w-4" />
+                                                </div>
+
+                                                <span
+                                                    className={`flex text-sm font-medium ${item.text}`}
+                                                >
+                                                    {item.label}
+                                                </span>
+                                            </div>
+
+                                            {item.badge && (
+                                                <span
+                                                    className={`text-[11px] px-2 py-0.5 rounded-full text-white ${item.badgeBg}`}
+                                                >
+                                                    {item.badge}
+                                                </span>
+                                            )}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </div>
+
+                {/* ====================== FIXED FOOTER  ================== */}
+                <div className="p-4 border-t border-sidebar-border shrink-0">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <div className="flex items-center gap-2.5">
+                            <div className="relative flex h-2.5 w-2.5">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-60"></span>
+                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success"></span>
+                            </div>
+                            <span>System Online</span>
+                        </div>
+                        <div className="text-[12px] font-semibold text-primary">
+                            v1.0.3
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            {/* ============== Mobile drawer ======== */}
+            <AnimatePresence>
+                {isOpen && (
+                    <Fragment>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.5 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.15 }}
+                            onClick={onClose}
+                            className="fixed inset-0 z-30 bg-black"
+                            style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+                        />
+
+                        {Drawer}
+                    </Fragment>
+                )}
+            </AnimatePresence>
+        </>
+    )
+}

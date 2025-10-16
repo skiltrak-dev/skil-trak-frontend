@@ -10,3 +10,5 @@ export * from './SiteLayout'
 export * from './SimpleLayout'
 export * from './ManagementLayout'
 export * from './RtoContactPersonLayout'
+
+export * from './RtoLayoutV2'

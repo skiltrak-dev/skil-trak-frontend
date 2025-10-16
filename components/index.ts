@@ -110,3 +110,5 @@ export * from './StudentTimer'
 export * from './PaymentModal'
 
 export * from './Skeleton'
+
+export * from './Dropdown'
