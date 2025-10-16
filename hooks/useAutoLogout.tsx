@@ -25,7 +25,7 @@ export enum LogoutType {
     Manual = 'manual',
 }
 
-const INACTIVITY_TIMEOUT = 25 * 60 * 1000 // 25 minutes
+const INACTIVITY_TIMEOUT = 10 * 60 * 1000 // 10 minutes
 const TOKEN_REFRESH_INTERVAL = 4 * 60 * 1000 // 4 minutes
 const TOKEN_REFRESH_BEFORE_EXPIRY = 5 * 60 * 1000 // 5 minutes before expiry
 
@@ -99,8 +99,11 @@ export const AutoLogoutProvider = ({
         const expiryTime = credentials.exp * 1000
         const currentTime = Date.now()
         const timeUntilRefresh = Math.max(
-            0,
-            expiryTime - TOKEN_REFRESH_BEFORE_EXPIRY - currentTime
+            60000, // Minimum 1 minute delay to prevent immediate refresh
+            Math.min(
+                TOKEN_REFRESH_INTERVAL, // Maximum 4 minutes
+                expiryTime - TOKEN_REFRESH_BEFORE_EXPIRY - currentTime
+            )
         )
 
         clearTimeout(refreshTokenTimeoutRef.current!)
