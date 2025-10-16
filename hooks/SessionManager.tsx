@@ -5,8 +5,9 @@ import { LogoutType } from './useAutoLogout'
 import { useRouter } from 'next/router'
 import { SessionExpireModal } from '@components'
 
-const INACTIVITY_TIMEOUT = 30 * 60 * 1000 // 30 minutes
+const INACTIVITY_TIMEOUT = 10 * 60 * 1000 // 10 minutes
 const TOKEN_REFRESH_BEFORE_EXPIRY = 5 * 60 * 1000 // 5 minutes before expiry
+const TOKEN_CHECK_INTERVAL = 60 * 1000 // Check every 1 minute instead of 10 seconds
 
 const SessionManager: React.FC = () => {
     const router = useRouter()
@@ -121,42 +122,51 @@ const SessionManager: React.FC = () => {
 
             // Check token refresh (before expiry)
             if (isAuthenticated) {
-                const expirationTime =
-                    AuthUtils.getUserCredentials()?.exp * 1000
-                const timeRemaining = expirationTime - currentTime
+                const credentials = AuthUtils.getUserCredentials()
+                if (credentials?.exp) {
+                    const expirationTime = credentials.exp * 1000
+                    const timeRemaining = expirationTime - currentTime
 
-                // Refresh token if within the refresh window and on portal pages
-                if (
-                    timeRemaining <= TOKEN_REFRESH_BEFORE_EXPIRY &&
-                    router.asPath?.split('/').includes('portals')
-                ) {
-                    try {
-                        const result: any = await refreshToken()
-                        if (result?.data) {
-                            const rememberLogin =
-                                isBrowser() &&
-                                localStorage.getItem('rememberMe')
-                            if (rememberLogin) {
-                                AuthUtils.setToken(result?.data?.access_token)
-                                AuthUtils.setRefreshToken(
-                                    result?.data?.refreshToken
-                                )
-                            } else {
-                                AuthUtils.setTokenToSession(
-                                    result?.data?.access_token
-                                )
-                                AuthUtils.setRefreshTokenToSessionStorage(
-                                    result?.data?.refreshToken
-                                )
+                    // Refresh token if within the refresh window and on portal pages
+                    // Only refresh if we have more than 30 seconds left to avoid race conditions
+                    if (
+                        timeRemaining <= TOKEN_REFRESH_BEFORE_EXPIRY &&
+                        timeRemaining > 30000 && // 30 seconds buffer
+                        router.asPath?.split('/').includes('portals')
+                    ) {
+                        try {
+                            const result: any = await refreshToken()
+                            if (result?.data) {
+                                const rememberLogin =
+                                    isBrowser() &&
+                                    localStorage.getItem('rememberMe')
+                                if (rememberLogin) {
+                                    AuthUtils.setToken(
+                                        result?.data?.access_token
+                                    )
+                                    AuthUtils.setRefreshToken(
+                                        result?.data?.refreshToken
+                                    )
+                                } else {
+                                    AuthUtils.setTokenToSession(
+                                        result?.data?.access_token
+                                    )
+                                    AuthUtils.setRefreshTokenToSessionStorage(
+                                        result?.data?.refreshToken
+                                    )
+                                }
+                                // Update last activity to prevent immediate logout after refresh
+                                setLastActivity(currentTime)
                             }
+                        } catch (error) {
+                            console.error('Token refresh failed:', error)
+                            // If token refresh fails, logout
+                            handleLogout()
                         }
-                    } catch (error) {
-                        // If token refresh fails, logout
-                        handleLogout()
                     }
                 }
             }
-        }, 10000) // Check every 10 seconds
+        }, TOKEN_CHECK_INTERVAL) // Check every 1 minute
 
         // Cleanup
         return () => {
