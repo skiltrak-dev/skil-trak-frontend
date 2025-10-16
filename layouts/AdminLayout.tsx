@@ -391,7 +391,7 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
                     <SideBar portalType={UserRoles.ADMIN} routes={routes} />
                     {/* <div className="flex-grow flex flex-col justify-between"> */}
                     <div className="flex-grow w-[calc(100vh-224px)]  justify-between">
-                        <div className="border-b bg-white">
+                        <div className="border-b border-gray-200 bg-white">
                             <AdminNavbar />
                         </div>
                         <div className="flex h-full bg-[#F8FAFC]">
