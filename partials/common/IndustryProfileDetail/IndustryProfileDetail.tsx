@@ -39,8 +39,6 @@ export const IndustryProfileDetail = ({
         excludeRoles: [UserRoles.RTO],
     })
 
-    console.log({ excludeRoles })
-
     // its incresing the views of profile
     CommonApi.Industries.useAddProfileVisitor(industry?.user?.id, {
         skip: !industry,

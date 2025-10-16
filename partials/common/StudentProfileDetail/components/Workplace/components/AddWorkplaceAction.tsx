@@ -22,8 +22,6 @@ export const AddWorkplaceAction = ({
 
     const { workplaceRto } = useWorkplace()
 
-    console.log({ workplaceRto })
-
     const workplaceActions = [
         {
             key: 'own',

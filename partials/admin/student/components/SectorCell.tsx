@@ -36,8 +36,6 @@ export const SectorCell = ({
         contextBar.show()
     }
 
-    console.log({ subadmin })
-
     return (
         <div className="w-fit">
             <div className="flex flex-col items-center">
