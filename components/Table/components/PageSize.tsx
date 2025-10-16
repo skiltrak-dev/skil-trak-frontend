@@ -59,7 +59,7 @@ export const PageSize = ({
                             table?.setPageSize(Number(e.target.value))
                             if (setItemPerPage) setItemPerPage(e.target.value)
                         }}
-                        className="outline-none border rounded px-1 py-0.5"
+                        className="outline-none border  rounded px-1 py-0.5"
                     >
                         {[5, 10, 20, 30, 40, 50, 100].map((pageSize) => (
                             <option key={pageSize} value={pageSize}>

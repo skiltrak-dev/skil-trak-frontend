@@ -21,7 +21,6 @@ import { RtoApi, useGetRtoStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
 import { getUserCredentials, studentsListWorkplace } from '@utils'
 import { saveAs } from 'file-saver'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 

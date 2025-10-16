@@ -1,8 +1,110 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap'); */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+    /* Custom Colors */
+    --color-primary: var(--theme-primary-default);
+    --color-primary-dark: var(--theme-primary-dark);
+    --color-primary-light: var(--theme-primary-light);
+
+    --color-primaryNew: var(--theme-primaryNew-default);
+    --color-primaryNew-dark: var(--theme-primaryNew-dark);
+    --color-primaryNew-light: var(--theme-primaryNew-light);
+
+    --color-layout: var(--theme-layout-default);
+    --color-layout-dark: var(--theme-layout-dark);
+    --color-layout-light: var(--theme-layout-light);
+
+    --color-secondary: var(--theme-secondary-default);
+    --color-secondary-dark: var(--theme-secondary-dark);
+    --color-secondary-light: var(--theme-secondary-light);
+
+    --color-success: var(--theme-success-default);
+    --color-success-dark: var(--theme-success-dark);
+    --color-success-light: var(--theme-success-light);
+
+    --color-info: var(--theme-info-default);
+    --color-info-dark: var(--theme-info-dark);
+    --color-info-light: var(--theme-info-light);
+
+    --color-error: var(--theme-error-default);
+    --color-error-dark: var(--theme-error-dark);
+    --color-error-light: var(--theme-error-light);
+
+    --color-link: var(--theme-link-default);
+    --color-link-dark: var(--theme-link-dark);
+    --color-link-light: var(--theme-link-light);
+
+    --color-typography: var(--theme-text-base);
+    --color-typography-light: var(--theme-text-secondary);
+    --color-typography-dark: var(--theme-text-dark);
+
+    --color-base: var(--theme-base-default);
+    --color-base-light: var(--theme-base-light);
+    --color-base-dark: var(--theme-base-dark);
+
+    --color-muted: var(--theme-text-muted);
+    --color-muted-dark: var(--theme-text-muted-dark);
+    --color-muted-light: var(--theme-text-muted-light);
+
+    /* Default Border Color */
+    --color-border: #e5e7eb; /* gray-200 */
+
+    /* Custom Max Width */
+    --width-screen-3xl: 1800px;
+
+    /* Custom Box Shadows */
+    --shadow-site: 0px 4px 34px 0px rgba(177, 177, 177, 0.25);
+    --shadow-profiles: 0px 4px 16px 0px rgba(0, 0, 0, 0.05);
+    --shadow-profiles2: 0px 1px 16px 0px rgba(0, 0, 0, 0.1);
+    --shadow-inner-image: inset 0 1px 4px rgba(0, 0, 0, 0.3);
+
+    /* Custom Animations */
+    --animate-float: float 3s ease-in-out infinite;
+    --animate-accordion-down: accordion-down 0.2s ease-out;
+    --animate-accordion-up: accordion-up 0.2s ease-out;
+    --animate-blink: blink 2s infinite;
+
+    /* Custom Keyframes */
+    @keyframes float {
+        0%,
+        100% {
+            transform: translateY(5px);
+        }
+        50% {
+            transform: translateY(0px);
+        }
+    }
+
+    @keyframes accordion-down {
+        from {
+            height: 0;
+        }
+        to {
+            height: var(--radix-accordion-content-height);
+        }
+    }
+
+    @keyframes accordion-up {
+        from {
+            height: var(--radix-accordion-content-height);
+        }
+        to {
+            height: 0;
+        }
+    }
+
+    @keyframes blink {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+    }
+}
 
 @layer utilities {
     .animate-fadeIn {
@@ -34,6 +136,9 @@
 }
 
 @layer components {
+    * {
+        border-color: var(--color-border);
+    }
     .bg-gradient-black-to-white:hover {
         background: linear-gradient(to top, #ffffff01 65%, #24556d 100%);
         transition: background 1s cubic-bezier(0.4, 0, 0.2, 1);

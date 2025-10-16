@@ -38,7 +38,7 @@ export const DepartmentInfoCard = ({
         <>
             {modal && modal}
             <div
-                className={`${bgColors} py-4 px-14 min-w-[266px] w-full text-center rounded-xl border-2 border-dashed border-[#1C1D22] border-opacity-15 whitespace-nowrap`}
+                className={`${bgColors} py-4 px-14 min-w-[266px] w-full text-center rounded-xl border-2 border-dashed border-[#1C1D22]/20  whitespace-nowrap`}
             >
                 <div className="flex flex-col gap-y-1.5 justify-center items-center">
                     <Typography variant="xs" uppercase color="text-primaryNew">

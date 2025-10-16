@@ -1,3 +1,5 @@
+@reference "tailwindcss";
+
 .blog-bg {
     background-image: url('/images/site/blog-hero-image.jpeg');
     background-size: cover;
