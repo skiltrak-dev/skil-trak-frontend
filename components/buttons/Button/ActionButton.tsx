@@ -51,7 +51,7 @@ export const ActionButton = ({
     noPadding,
 }: ButtonProps) => {
     const classes = classNames({
-        'text-xs font-medium uppercase transition-all duration-300 focus:outline-none shadow':
+        'text-xs font-medium uppercase transition-all duration-300 focus:outline-none shadow cursor-pointer':
             true,
         'rounded-full px-2 py-2': rounded && !small,
         'rounded px-4 py-2': !rounded && !small,
@@ -79,7 +79,7 @@ export const ActionButton = ({
     })
 
     const simpleClasses = classNames({
-        'text-xs font-medium uppercase transition-all duration-300 px-4 py-2 rounded focus:outline-none hover:bg-gray-200':
+        'text-xs font-medium uppercase transition-all duration-300 px-4 py-2 rounded focus:outline-none hover:bg-gray-200 cursor-pointer':
             true,
         '!rounded-full ': rounded,
         'text-red-500 ': variant === 'error',

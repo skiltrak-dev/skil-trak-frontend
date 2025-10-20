@@ -56,7 +56,7 @@ export const Button = ({
     fullHeight,
     mini,
 }: ButtonProps) => {
-    const buttonClass = `text-[11px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 ${
+    const buttonClass = `text-[11px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 cursor-pointer ${
         rounded ? 'rounded-full' : 'rounded-md'
     } ${fullWidth ? 'w-full' : 'min-w-[80px]'} ${fullHeight ? 'h-full' : ''} `
 

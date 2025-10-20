@@ -12,6 +12,7 @@ import {
     BlacklistWarningModal,
     ChangeIndustrySectorModal,
     CompanyProfileModal,
+    SkipAutomationIndustryModal,
 } from '@partials/common/FindWorkplaces/modal'
 import { CommonApi } from '@queries'
 import { getPostalCode } from '@utils'
@@ -27,6 +28,7 @@ import {
 } from 'react-icons/md'
 import { THEME_COLORS } from '../utils/theme'
 import { CgArrowsExchange } from 'react-icons/cg'
+import { TbPlayerSkipForwardFilled } from 'react-icons/tb'
 
 export const ResultDisplayCard = ({
     setRemovedItems,
@@ -130,6 +132,15 @@ export const ResultDisplayCard = ({
             />
         )
     }
+    const onSkipIndustry = () => {
+        setModal(
+            <SkipAutomationIndustryModal
+                company={company}
+                onCancel={onCancel}
+                setRemovedItems={setRemovedItems}
+            />
+        )
+    }
 
     return (
         <>
@@ -184,7 +195,7 @@ export const ResultDisplayCard = ({
                             <div className="space-y-1 flex-1 min-w-0">
                                 <div className="flex items-center gap-2 flex-wrap">
                                     <h3 className="text-sm truncate font-medium">
-                                        {company.name}
+                                        {company?.name}
                                     </h3>
 
                                     {/* Icons for different match types */}
@@ -340,6 +351,17 @@ export const ResultDisplayCard = ({
                                         />
 
                                         <Tooltip>Remove Not Eligible</Tooltip>
+                                    </div>
+                                    <div className="relative group">
+                                        <ActionButton
+                                            Icon={TbPlayerSkipForwardFilled}
+                                            onClick={() => {
+                                                onSkipIndustry()
+                                            }}
+                                            variant="warning"
+                                        />
+
+                                        <Tooltip>Skip Industry</Tooltip>
                                     </div>
 
                                     {company?.duplicated && (
