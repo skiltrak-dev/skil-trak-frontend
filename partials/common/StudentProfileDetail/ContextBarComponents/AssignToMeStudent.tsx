@@ -1,14 +1,18 @@
 import { ActionButton, Tooltip } from '@components'
+import { UserRoles } from '@constants'
 import {
     AssignStudentModal,
     UnAssignStudentModal,
 } from '@partials/sub-admin/students/modals'
 import { Student } from '@types'
+import { getUserCredentials } from '@utils'
 import moment from 'moment'
 import { ReactElement, useState } from 'react'
 
 export const AssignToMeStudent = ({ student }: { student: Student }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const role = getUserCredentials()?.role
 
     const onModalCancelClicked = () => setModal(null)
 
@@ -53,12 +57,16 @@ export const AssignToMeStudent = ({ student }: { student: Student }) => {
                 }}
                 simple
                 variant="info"
-                disabled={isWithin14Days && !!student?.subadmin}
+                disabled={
+                    isWithin14Days &&
+                    !!student?.subadmin &&
+                    role !== UserRoles.ADMIN
+                }
             >
                 {student?.subadmin ? 'Un-Assign' : 'Assign to me'}
             </ActionButton>
 
-            {isWithin14Days && student?.subadmin ? (
+            {isWithin14Days && student?.subadmin && role !== UserRoles.ADMIN ? (
                 <Tooltip>
                     Students cannot be unassigned within 14 days of assignment
                 </Tooltip>

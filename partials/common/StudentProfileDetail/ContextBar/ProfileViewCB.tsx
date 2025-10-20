@@ -148,9 +148,7 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                             </Typography>
                         </HideRestrictedData>
                     </AuthorizedUserComponent>
-                    <AuthorizedUserComponent
-                        roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
-                    >
+                    <AuthorizedUserComponent roles={[UserRoles.SUBADMIN]}>
                         <ProductionDataRestriction
                             condition={
                                 role === UserRoles.ADMIN
