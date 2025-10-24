@@ -1,14 +1,13 @@
 // Icons
-import { IoMdArrowDroprightCircle } from 'react-icons/io'
 
 // Context
+import { Typography } from '@components'
+import { MediaQueries } from '@constants'
 import { useContextBar } from '@hooks'
 import classNames from 'classnames'
-import { Typography } from '@components'
+import { useEffect } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useMediaQuery } from 'react-responsive'
-import { MediaQueries } from '@constants'
-import { useEffect } from 'react'
 
 export const ContextBar = () => {
     const isTablet = useMediaQuery(MediaQueries.Tablet)
@@ -34,7 +33,10 @@ export const ContextBar = () => {
         'bg-white remove-scrollbar overflow-y-scroll overflow-x-hidden': true,
         // 'translate-x-0': contextBar.isVisible,
         // 'w-[450px] p-4': contextBar.isVisible,
-        'min-w-[320px] max-w-[321px] p-3': contextBar.isVisible,
+        'min-w-[320px] max-w-[321px] p-3':
+            contextBar.isVisible && !contextBar.contextWidth,
+        [contextBar.contextWidth]:
+            contextBar.contextWidth && contextBar.isVisible,
         // 'translate-x-full': !contextBar.isVisible,
         'w-[0px] p-0': !contextBar.isVisible,
     })

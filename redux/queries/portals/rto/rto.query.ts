@@ -12,7 +12,7 @@ import { contactPersonEndpoints } from './contactPerson'
 import { rtoDocumentsEndpoints } from './rtoDocuments'
 import { assessmentToolsEndpoints } from './assessmentTools'
 
-export const rtoApi = emptySplitApi.injectEndpoints({
+export const rtoApi = emptySplitApi('rtoApi').injectEndpoints({
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
         rtoMyProfile: build.query<any, void>({

@@ -290,9 +290,9 @@ export const InitiateSignStudent = ({
                     })
 
                     dispatch(
-                        emptySplitApi.util.invalidateTags(['SubAdminStudents'])
+                        emptySplitApi().util.invalidateTags(['SubAdminStudents'])
                     )
-                    dispatch(emptySplitApi.util.invalidateTags(['E-Sign']))
+                    dispatch(emptySplitApi().util.invalidateTags(['E-Sign']))
                     onCancel()
                 }
                 setIsLoading(false)

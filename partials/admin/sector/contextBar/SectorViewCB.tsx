@@ -17,9 +17,11 @@ export const SectorViewCB = ({ sector }: { sector: Sector }) => {
 
     const [isAddFolder, setIsAddFolder] = useState<boolean>(false)
 
-    const industryChecks = AdminApi.Sectors.getIndustryChecks(sector?.id)
+    const industryChecks = AdminApi.IndustryChecks.industryChecksBySector(
+        sector?.id
+    )
     const [addIndustryChecks, addIndustryChecksResult] =
-        AdminApi.Sectors.addIndustryChecks()
+        AdminApi.IndustryChecks.addIndustryCheck()
 
     const onSubmit = async (values: any) => {
         const res: any = await addIndustryChecks({
@@ -89,18 +91,16 @@ export const SectorViewCB = ({ sector }: { sector: Sector }) => {
                         <ContextBarLoading />
                     ) : industryChecks?.isError ? (
                         <NoData text="There is some technical issue!" isError />
-                    ) : industryChecks?.data?.data &&
-                      industryChecks?.data?.data?.length > 0 ? (
+                    ) : industryChecks?.data &&
+                      industryChecks?.data?.length > 0 ? (
                         <div>
-                            {industryChecks?.data?.data?.map(
-                                (industryCheck: any) => (
-                                    <IndustryCheckFolder
-                                        key={industryCheck}
-                                        industryCheck={industryCheck}
-                                        sectorId={sector?.id}
-                                    />
-                                )
-                            )}
+                            {industryChecks?.data?.map((industryCheck: any) => (
+                                <IndustryCheckFolder
+                                    key={industryCheck}
+                                    industryCheck={industryCheck}
+                                    sectorId={sector?.id}
+                                />
+                            ))}
                         </div>
                     ) : (
                         <NoData text="There is no industry checks!" />

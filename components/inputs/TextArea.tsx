@@ -12,12 +12,15 @@ import { useFormContext } from 'react-hook-form'
 import { InputErrorMessage } from './components/InputErrorMessage'
 import { InputProps } from './InputPropType'
 import { getTextInputClasses } from './inputStyleClasses'
+import { ReactElement } from 'react'
 
 export type TextAreaProps = InputProps & {
     placeholder?: string
     rows?: number
     color?: string
     showError?: boolean
+    recomendedText?: string
+    textInfo?: ReactElement
 }
 
 export const TextArea = ({
@@ -41,7 +44,8 @@ export const TextArea = ({
     disabled = false,
     validationIcons = false,
     showError = true,
-
+    recomendedText,
+    textInfo,
     rows,
 }: TextAreaProps) => {
     const formContext = useFormContext()
@@ -85,6 +89,10 @@ export const TextArea = ({
 
                 {!loading && validationIcons && <ValidationIcon name={name} />}
                 <LoadingSpinner loading={loading} />
+            </div>
+            <div className="flex items-center justify-between text-xs">
+                <p className="text-muted-foreground">{recomendedText}</p>
+                {textInfo}
             </div>
 
             <HelpText text={helpText} />

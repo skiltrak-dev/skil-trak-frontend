@@ -24,10 +24,12 @@ import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { wptypesEndpoints } from './wptypes'
 import { sectorDocumentsEndpoints } from './sector-documents'
+import { industryChecksEndpoints } from './industry-checks'
 import { invoiceEndpoints } from './invoice'
+import { rtoEnquiryEndpoints } from './rto-enquiry'
 
 const PREFIX = 'admin'
-export const adminApi = emptySplitApi.injectEndpoints({
+export const adminApi = emptySplitApi('adminApi').injectEndpoints({
     // ---------- ADMIN ENDPOINTS ---------- //
     endpoints: (build) => ({
         statistics: build.query<AdminStats, void>({
@@ -76,6 +78,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...studentEndpoints(build),
         ...wptypesEndpoints(build),
         ...sectorDocumentsEndpoints(build),
+        ...industryChecksEndpoints(build),
         ...invoiceEndpoints(build),
         ...profileEndpoints(build),
         ...subAdminEndpoints(build),
@@ -87,6 +90,7 @@ export const adminApi = emptySplitApi.injectEndpoints({
         ...subscriberEndpoints(build),
         ...talentPoolEndpoints(build),
         ...departmentEndpoints(build),
+        ...rtoEnquiryEndpoints(build),
         ...kpiProgressEndpoints(build),
         ...industryRplEndpoints(build),
         ...generateKeysEndpoints(build),
@@ -276,11 +280,6 @@ const {
     useSectorAddMutation,
     useSectorUpdateMutation,
     useSectorRemoveMutation,
-    useAddSectorTagsMutation,
-    useGetIndustryChecksQuery,
-    useUpdateIndustryCheckMutation,
-    useRemoveIndustryCheckMutation,
-    useAddSectorIndustryChecksMutation,
 
     // ------ COURSES ------ //
     useCoursesQuery,
@@ -307,6 +306,14 @@ const {
     useAddSectorDocumentMutation,
     useUpdateSectorDocumentMutation,
     useRemoveSectorDocumentMutation,
+
+    // ------ INDUSTRY-CHECKS ------ //
+    useIndustryChecksQuery,
+    useIndustryChecksBySectorQuery,
+    useIndustryCheckDetailQuery,
+    useAddIndustryCheckMutation,
+    useUpdateIndustryCheckMutation,
+    useRemoveIndustryCheckMutation,
 
     // ------ SUBSCRIBERS ------ //
     useListSubscribersQuery,
@@ -465,6 +472,14 @@ const {
     useInvoiceRtoDataDownloadQuery,
     useMarkDuplicateToggleMutation,
     useAddRtoInvoiceSettingMutation,
+
+    // ---- RTO ENQUIRY ---- //
+    useCloseEnquiryMutation,
+    useGetRtoEnquiriesQuery,
+    useAttachIndustryMutation,
+    useGetRtoEnquiryDetailQuery,
+    useGetRtoEnquiriesCountsQuery,
+    usePremiumIndustriesListForEnquiryQuery,
 } = adminApi
 
 export const AdminApi = {
@@ -705,13 +720,8 @@ export const AdminApi = {
         useListQuery: useSectorsQuery,
         useDetailQuery: useSectorDetailQuery,
         useAddMutation: useSectorAddMutation,
-        addSectorTags: useAddSectorTagsMutation,
         useUpdateMutation: useSectorUpdateMutation,
         useRemoveMutation: useSectorRemoveMutation,
-        getIndustryChecks: useGetIndustryChecksQuery,
-        updateIndustryCheck: useUpdateIndustryCheckMutation,
-        removeIndustryCheck: useRemoveIndustryCheckMutation,
-        addIndustryChecks: useAddSectorIndustryChecksMutation,
     },
 
     Courses: {
@@ -741,6 +751,15 @@ export const AdminApi = {
         sectorDocumentDetail: useSectorDocumentDetailQuery,
         updateSectorDocument: useUpdateSectorDocumentMutation,
         removeSectorDocument: useRemoveSectorDocumentMutation,
+    },
+
+    IndustryChecks: {
+        industryChecks: useIndustryChecksQuery,
+        industryChecksBySector: useIndustryChecksBySectorQuery,
+        addIndustryCheck: useAddIndustryCheckMutation,
+        industryCheckDetail: useIndustryCheckDetailQuery,
+        updateIndustryCheck: useUpdateIndustryCheckMutation,
+        removeIndustryCheck: useRemoveIndustryCheckMutation,
     },
 
     Folders: {
@@ -831,5 +850,13 @@ export const AdminApi = {
         changePaymentStatus: useChangePaymentStatusMutation,
         addRtoInvoiceSetting: useAddRtoInvoiceSettingMutation,
         invoiceRtoDataDownload: useInvoiceRtoDataDownloadQuery,
+    },
+    RtoEnquiry: {
+        closeEnquiry: useCloseEnquiryMutation,
+        getRtoEnquiries: useGetRtoEnquiriesQuery,
+        attachIndustry: useAttachIndustryMutation,
+        getRtoEnquiryDetail: useGetRtoEnquiryDetailQuery,
+        getRtoEnquiriesCounts: useGetRtoEnquiriesCountsQuery,
+        premiumIndustriesList: usePremiumIndustriesListForEnquiryQuery,
     },
 }

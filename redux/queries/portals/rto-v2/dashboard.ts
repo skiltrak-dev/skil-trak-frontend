@@ -1,0 +1,33 @@
+import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
+import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+
+const PREFIX = 'rtos/'
+export const dashboardEndpoints = (
+    builder: EndpointBuilder<BaseQueryFn, string, string>
+) => ({
+    autoWpCount: builder.query<any, void>({
+        query: () => `${PREFIX}automatic/count`,
+        providesTags: ['RTO'],
+    }),
+    last24HoursWp: builder.query<any, void>({
+        query: () => `${PREFIX}yesterday-automatic/list`,
+        providesTags: ['RTO'],
+    }),
+
+    rtoDashboardCounts: builder.query<any, void>({
+        query: () => `${PREFIX}students/waiting-for-rto/count`,
+        providesTags: ['RTO'],
+    }),
+
+    aupdateRTOProfile: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: 'rtos/profile/update',
+            method: 'PATCH',
+            params: { rto: id },
+            body,
+        }),
+        invalidatesTags: ['RTO'],
+    }),
+
+    // Add custom course requirements
+})

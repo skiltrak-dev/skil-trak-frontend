@@ -191,7 +191,7 @@ export const Sectors = () => {
         },
         {
             accessorKey: 'note',
-            header: () => <span>Keywords</span>,
+            header: () => <span>Non eligible workplace</span>,
             cell: (info) => (
                 <div className="flex items-center gap-x-2">
                     {info?.row?.original?.keywords &&

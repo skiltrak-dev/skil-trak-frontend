@@ -1,19 +1,44 @@
 import { Button } from '@components'
 import { isBrowser } from '@utils'
+import { ArrowDown } from 'lucide-react'
 import { useRouter } from 'next/router'
 
-export const DownloadEsignDocument = () => {
+const VariantOptions = [
+    'primary',
+    'secondary',
+    'info',
+    'error',
+    'action',
+    'dark',
+    'success',
+    'primaryNew',
+] as const
+
+export const DownloadEsignDocument = ({
+    text,
+    docId,
+    variant,
+}: {
+    text?: string
+    docId?: number
+    variant?: (typeof VariantOptions)[number]
+}) => {
     const router = useRouter()
 
     return (
         <div className="pb-2 flex justify-end">
             <Button
-                variant="dark"
-                text="Download Documnet"
+                variant={variant || 'dark'}
+                text={text || 'Download Documnet'}
+                Icon={ArrowDown}
                 onClick={() => {
                     if (isBrowser()) {
                         window.open(
-                            `${process.env.NEXT_PUBLIC_END_POINT}/esign/document/${router.query?.id}/download`
+                            `${
+                                process.env.NEXT_PUBLIC_END_POINT
+                            }/esign/document/${
+                                docId || router.query?.id
+                            }/download`
                         )
                     }
                 }}

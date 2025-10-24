@@ -14,6 +14,7 @@ import {
     managementApi,
     observerApi,
 } from '@queries'
+import { rtoV2Api } from '@queries/portals/rto-v2'
 
 export const store = configureStore({
     reducer: {
@@ -29,6 +30,8 @@ export const store = configureStore({
         [subAdminApi.reducerPath]: subAdminApi.reducer,
         [stripeApi.reducerPath]: stripeApi.reducer,
         [observerApi.reducerPath]: observerApi.reducer,
+        [observerApi.reducerPath]: observerApi.reducer,
+        [rtoV2Api.reducerPath]: rtoV2Api.reducer,
     },
     // Adding the api middleware enables caching, invalidation, polling,
     // and other useful features of `rtk-query`.
@@ -45,6 +48,7 @@ export const store = configureStore({
             subAdminApi.middleware,
             stripeApi.middleware,
             observerApi.middleware,
+            rtoV2Api.middleware,
         ]),
 })
 

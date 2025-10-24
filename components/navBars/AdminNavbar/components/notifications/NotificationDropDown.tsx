@@ -7,6 +7,7 @@ import { NotificationItem } from './NotificationItem'
 
 interface NotificationDropDown {
     expanded: boolean
+    showArrow?: boolean
     data: any
     isReadNotification: any
     resultIsReadNotification: any
@@ -16,6 +17,7 @@ export const NotificationDropDown = ({
     expanded,
     data,
     isReadNotification,
+    showArrow = true,
     resultIsReadNotification,
     setNotificationsExpanded,
 }: NotificationDropDown) => {
@@ -47,20 +49,22 @@ export const NotificationDropDown = ({
                 } `}
             >
                 <div className="relative">
-                    <div className="absolute -top-5 right-20 !z-50">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="27"
-                            height="22"
-                            viewBox="0 0 27 22"
-                            fill="none"
-                        >
-                            <path
-                                d="M13.5 0L26.0574 21.75H0.942632L13.5 0Z"
-                                fill="#FD7A7C"
-                            />
-                        </svg>
-                    </div>
+                    {showArrow && (
+                        <div className="absolute -top-5 right-20 !z-50">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="27"
+                                height="22"
+                                viewBox="0 0 27 22"
+                                fill="none"
+                            >
+                                <path
+                                    d="M13.5 0L26.0574 21.75H0.942632L13.5 0Z"
+                                    fill="#FD7A7C"
+                                />
+                            </svg>
+                        </div>
+                    )}
                     <div className="py-2 bg-red-400 px-4 rounded-t-lg border-b flex gap-x-2 items-center">
                         <div>
                             {' '}
