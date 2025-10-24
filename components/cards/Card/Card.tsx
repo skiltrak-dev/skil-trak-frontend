@@ -9,11 +9,13 @@ interface CardProps {
     layout?: 'wrap' | 'fluid' | 'min'
     fullHeight?: boolean
     border?: boolean
+    className?: string
     borderColor?: string
     fitHeight?: boolean
 }
 
 export const Card = ({
+    className,
     children,
     noPadding,
     shadowType,
@@ -41,5 +43,9 @@ export const Card = ({
         'border-[#6B728050]': !borderColor,
         borderColor,
     })
-    return <div className={`${classes} ${shadowColor}`}>{children}</div>
+    return (
+        <div className={`${classes} ${shadowColor} ${className}`}>
+            {children}
+        </div>
+    )
 }

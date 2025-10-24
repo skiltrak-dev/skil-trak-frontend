@@ -1,7 +1,13 @@
 import PuffLoader from 'react-spinners/PuffLoader'
 import { getTheme } from './theme'
-import { ReactNode, MouseEvent } from 'react'
+import {
+    ReactNode,
+    MouseEvent,
+    ForwardRefExoticComponent,
+    RefAttributes,
+} from 'react'
 import { IconType } from 'react-icons'
+import { LucideProps } from 'lucide-react'
 
 export const ButtonType = {
     Primary: 'primary',
@@ -26,8 +32,14 @@ const VariantOptions = [
 ] as const
 
 interface ButtonProps {
+    iconSize?: number
     variant?: (typeof VariantOptions)[number]
-    Icon?: IconType
+    className?: string
+    Icon?:
+        | IconType
+        | ForwardRefExoticComponent<
+              Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+          >
     children?: ReactNode
     text?: string
     onClick?: (e: MouseEvent<HTMLButtonElement>) => void
@@ -54,7 +66,9 @@ export const Button = ({
     submit,
     fullWidth,
     fullHeight,
+    className,
     mini,
+    iconSize = 13,
 }: ButtonProps) => {
     const buttonClass = `text-[11px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 cursor-pointer ${
         rounded ? 'rounded-full' : 'rounded-md'
@@ -80,7 +94,7 @@ export const Button = ({
         <button
             disabled={disabled}
             type={submit ? 'submit' : 'button'}
-            className={currentClass}
+            className={`${currentClass} ${className}`}
             {...(!submit ? { onClick: (e) => onClick && onClick(e) } : {})}
         >
             {loading ? (
@@ -93,8 +107,12 @@ export const Button = ({
                 </div>
             ) : (
                 <div className="flex items-center justify-center gap-x-2">
-                    {Icon && <Icon />}
-                    {!mini && <p>{text || children}</p>}
+                    {Icon && <Icon size={iconSize} />}
+                    {!mini && (
+                        <p className="flex items-center gap-x-1">
+                            {text || children}
+                        </p>
+                    )}
                 </div>
             )}
         </button>

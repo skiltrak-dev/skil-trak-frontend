@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { usePlacesWidget } from 'react-google-autocomplete'
 import { useFormContext } from 'react-hook-form'
 
@@ -16,6 +16,7 @@ import { getMethodsForInput } from '@utils'
 import { InputErrorMessage, PasswordView } from './components'
 import { InputProps } from './InputPropType'
 import { getTextInputClasses } from './inputStyleClasses'
+import moment from 'moment'
 
 export type InputType =
     | 'text'

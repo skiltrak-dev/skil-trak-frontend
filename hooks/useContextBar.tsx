@@ -28,6 +28,8 @@ interface ContextBarContextType {
     viewContext: string | null
     bgColor: string | null
     setBgColor: Function
+    setContextWidth: Function
+    contextWidth: string
 }
 
 export const ContextBarContext =
@@ -45,6 +47,7 @@ export const ContextBarProvider = ({
     const [bgColor, setBgColor] = useState<string | null>(null)
     const [viewContext, setViewContext] = useState<string | null>(null)
     const [title, setTitle] = useState('')
+    const [contextWidth, setContextWidth] = useState('')
     const [viewedPendingIndustriesModal, setViewedPendingIndustriesModal] =
         useState<number>(Number())
     const [viewAgreementModal, setViewAgreementModal] = useState<number>(
@@ -75,6 +78,8 @@ export const ContextBarProvider = ({
         viewContext,
         setBgColor,
         bgColor,
+        setContextWidth,
+        contextWidth,
     }
 
     return (

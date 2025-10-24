@@ -1,6 +1,12 @@
 import { Tooltip } from '@components/Tooltip'
 import classNames from 'classnames'
-import { ReactNode, MouseEvent } from 'react'
+import { LucideProps } from 'lucide-react'
+import {
+    ReactNode,
+    MouseEvent,
+    ForwardRefExoticComponent,
+    RefAttributes,
+} from 'react'
 import { IconType } from 'react-icons'
 import { PulseLoader } from 'react-spinners'
 
@@ -17,7 +23,11 @@ const VariantOptions = [
 
 interface ButtonProps {
     variant?: (typeof VariantOptions)[number]
-    Icon?: IconType
+    Icon?:
+        | IconType
+        | ForwardRefExoticComponent<
+              Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+          >
     children?: ReactNode
     onClick?: (e: MouseEvent<HTMLElement>) => void
     disabled?: boolean

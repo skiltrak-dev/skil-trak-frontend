@@ -23,7 +23,7 @@ import { ticketEndpoints } from './ticket.query'
 import { traineeshipProgramEndpoints } from './traineeshipProgram'
 import { workBasedProgramEndpoints } from './workBasedProgram'
 
-export const commonApi = emptySplitApi.injectEndpoints({
+export const commonApi = emptySplitApi('commonApi').injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
     endpoints: (build) => ({
         getSerchedPlaces: build.query<any, any>({

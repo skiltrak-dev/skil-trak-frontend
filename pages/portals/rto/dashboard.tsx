@@ -1,8 +1,13 @@
 import { RtoLayoutV2 } from '@layouts'
+import { RtoDashboardV2 } from '@partials'
 import React, { ReactElement } from 'react'
 
 export const Dashboard = () => {
-    return <div className=''>Here is the new dashboard</div>
+    return (
+        <div className="">
+            <RtoDashboardV2 />
+        </div>
+    )
 }
 
 Dashboard.getLayout = (page: ReactElement) => {

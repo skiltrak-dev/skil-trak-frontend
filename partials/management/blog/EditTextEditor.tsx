@@ -641,7 +641,6 @@ TextEditorProps) {
     // Quill Editor
     useEffect(() => {
         if (blogData && !coverUrl) {
-            console.log('Andr', blogData.content)
             quillRef.current.getEditor().root.innerHTML = blogData.content || ''
             setCoverUrl(blogData?.featuredImage)
         }

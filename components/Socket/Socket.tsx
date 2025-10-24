@@ -40,7 +40,7 @@ export const Socket = ({ children }: any) => {
         const tagsToInvalidate = (socketEventToTagMapping as any)[eventName]
         if (tagsToInvalidate) {
             tagsToInvalidate.forEach((tag: any) => {
-                dispatch(emptySplitApi.util.invalidateTags([tag]))
+                dispatch(emptySplitApi().util.invalidateTags([tag]))
             })
         }
     }
@@ -87,7 +87,7 @@ export const Socket = ({ children }: any) => {
                             eventListener: notify,
                         })
                         dispatch(
-                            emptySplitApi.util.invalidateTags([
+                            emptySplitApi().util.invalidateTags([
                                 'AllNotifications',
                             ])
                         )

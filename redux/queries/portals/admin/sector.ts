@@ -32,46 +32,6 @@ export const sectorEndpoints = (
         invalidatesTags: ['Sectors'],
     }),
 
-    addSectorIndustryChecks: builder.mutation<Sector, Sector>({
-        query: (body) => ({
-            url: `industry-checks/create`,
-            method: 'POST',
-            body,
-        }),
-        invalidatesTags: ['Sectors'],
-    }),
-
-    updateIndustryCheck: builder.mutation<any, any>({
-        query: ({ id, ...body }) => ({
-            url: `industry-checks/${id}/update`,
-            method: 'PATCH',
-            body,
-        }),
-        invalidatesTags: ['Sectors'],
-    }),
-
-    addSectorTags: builder.mutation<any, any>({
-        query: ({ id, ...body }) => ({
-            url: `industry-checks/${id}/update`,
-            method: 'PATCH',
-            body,
-        }),
-        invalidatesTags: ['Sectors'],
-    }),
-
-    removeIndustryCheck: builder.mutation<any, number>({
-        query: (id) => ({
-            url: `industry-checks/${id}/remove`,
-            method: 'DELETE',
-        }),
-        invalidatesTags: ['Sectors'],
-    }),
-
-    getIndustryChecks: builder.query<any, number>({
-        query: (id) => `industry-checks/${id}/list`,
-        providesTags: ['Sectors'],
-    }),
-
     sectorUpdate: builder.mutation<Sector, Sector>({
         query: ({ id, ...body }) => ({
             url: `${PREFIX}/sector/update/${id}`,

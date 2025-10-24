@@ -3,7 +3,7 @@ import { documentsEndpoints } from './documents'
 import { teamEndpoints } from './team'
 import { checkKpiEndpoints } from './checkKpi'
 
-export const managementApi = emptySplitApi.injectEndpoints({
+export const managementApi = emptySplitApi('managementApi').injectEndpoints({
     endpoints: (build) => ({
         ...documentsEndpoints(build),
         ...teamEndpoints(build),

@@ -92,6 +92,7 @@ export * from './InitialAvatar'
 export * from './TabNavigation'
 export * from './Filters'
 export * from './Filters/SectorDocumentFilters'
+export * from './Filters/IndustryCheckFilters'
 export * from './Table'
 export * from './cards'
 

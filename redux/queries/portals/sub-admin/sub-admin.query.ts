@@ -17,7 +17,7 @@ import { todoListEndpoints } from './todoList'
 import { subadminVolunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { deptKpiProgressEndpoints } from './deptKpiProgress'
-export const subAdminApi = emptySplitApi.injectEndpoints({
+export const subAdminApi = emptySplitApi('subAdminApi').injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',
     //     baseQuery: fetchBaseQuery({

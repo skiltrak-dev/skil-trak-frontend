@@ -31,7 +31,7 @@ export const ProgressChart = ({
     ]
 
     return (
-        <div className="">
+        <div>
             <ChartContainer>
                 <Chart
                     chartType="PieChart"

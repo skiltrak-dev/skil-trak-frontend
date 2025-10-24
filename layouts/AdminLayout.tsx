@@ -318,6 +318,11 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             visible: subadmin?.data?.canAccessQueries,
         },
         {
+            text: 'RTO Enquiry Queue',
+            path: getRoutePath('/rto-enquiry-queue'),
+            Icon: FaCircleQuestion,
+        },
+        {
             text: 'Sub-Admin As Admin Activities',
             path: getRoutePath('/sub-admin-as-admin-activities'),
             Icon: MdHistory,

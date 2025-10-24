@@ -164,34 +164,35 @@ const managementTypes = [
     'TeamManagement',
     'KpiReportDocument',
 ]
-export const emptySplitApi = createApi({
-    reducerPath: 'dashboardAPi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
-        prepareHeaders: async (headers, { getState }) => {
-            // const token = AuthUtils.getToken()
-            const token = AuthUtils.token()
+export const emptySplitApi = (reducerPath = 'dashboardAPi') =>
+    createApi({
+        reducerPath,
+        baseQuery: fetchBaseQuery({
+            baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
+            prepareHeaders: async (headers, { getState }) => {
+                // const token = AuthUtils.getToken()
+                const token = AuthUtils.token()
 
-            // const session: any = await getSession()
+                // const session: any = await getSession()
 
-            if (token) {
-                headers.set('authorization', `Bearer ${token}`)
-            }
-            // if (session?.accessToken) {
-            //     headers.set('authorization', `Bearer ${session?.accessToken}`)
-            // }
-            return headers
-        },
-    }),
-    tagTypes: [
-        ...rtoTagTypes,
-        ...adminTagTypes,
-        ...commonTagTypes,
-        ...studentTagTypes,
-        ...managementTypes,
-        ...industryTagTypes,
-        ...subadminTagTypes,
-    ],
+                if (token) {
+                    headers.set('authorization', `Bearer ${token}`)
+                }
+                // if (session?.accessToken) {
+                //     headers.set('authorization', `Bearer ${session?.accessToken}`)
+                // }
+                return headers
+            },
+        }),
+        tagTypes: [
+            ...rtoTagTypes,
+            ...adminTagTypes,
+            ...commonTagTypes,
+            ...studentTagTypes,
+            ...managementTypes,
+            ...industryTagTypes,
+            ...subadminTagTypes,
+        ],
 
-    endpoints: () => ({}),
-})
+        endpoints: () => ({}),
+    })

@@ -20,7 +20,7 @@ import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { insuranceEndpoints } from './insurance'
 
-export const industryApi = emptySplitApi.injectEndpoints({
+export const industryApi = emptySplitApi('industryApi').injectEndpoints({
     // export const industryApi = createApi({
     //     reducerPath: 'industryApi',
     //     baseQuery: fetchBaseQuery({
@@ -252,8 +252,7 @@ export const IndustryApi = {
     Profile: {
         useIndustryProfileQuery,
         useUpdateIndustryProfileMutation,
-        useIndustryFavByCoordinator:
-            useGetIndustryFavByCoordinatorQuery,
+        useIndustryFavByCoordinator: useGetIndustryFavByCoordinatorQuery,
     },
     AvailableShifts: {
         useGetShiftsQuery,

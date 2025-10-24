@@ -1,13 +1,12 @@
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 //Layouts
 import { RtoLayout } from '@layouts'
-import debounce from 'lodash/debounce'
 import { NextPageWithLayout, StudentsFilterType, UserStatus } from '@types'
+import debounce from 'lodash/debounce'
 
 //components
 import {
     Button,
-    Card,
     Filter,
     LoadingAnimation,
     PageTitle,
@@ -27,14 +26,12 @@ import {
     FilteredStudents,
     IncompleteSubmissionStudent,
     PendingStudent,
-    ProblematicStudent,
     RejectedStudent,
-    ReportedStudentsList,
 } from '@partials/rto/student'
+import { RtoApi, useGetRtoStudentsQuery } from '@queries'
+import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
 import { FaChevronDown, FaFileImport, FaUserGraduate } from 'react-icons/fa'
-import { useGetRtoStudentsQuery, RtoApi } from '@queries'
-import { checkFilteredDataLength, getCountData } from '@utils'
 
 const filterKeys = [
     'name',

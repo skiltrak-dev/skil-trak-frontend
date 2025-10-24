@@ -16,8 +16,8 @@ export const IndustryCheckFolder = ({
 
     const { notification } = useNotification()
 
-    const [update, updateResult] = AdminApi.Sectors.updateIndustryCheck()
-    const [remove, removeResult] = AdminApi.Sectors.removeIndustryCheck()
+    const [update, updateResult] = AdminApi.IndustryChecks.updateIndustryCheck()
+    const [remove, removeResult] = AdminApi.IndustryChecks.removeIndustryCheck()
 
     const onDelete = async () => {
         const res: any = await remove(industryCheck?.id)

@@ -49,6 +49,7 @@ const menuSections = [
                 iconBg: 'bg-red-500',
                 badgeBg: 'bg-red-500',
                 text: 'text-red-700',
+                path: '/portals/rto/sign-documents?tab=pending',
             },
             {
                 icon: CheckSquare,
@@ -233,7 +234,7 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
                                 <li key={item.key}>
                                     <button
                                         onClick={() => onNavigate?.(item.key)}
-                                        className={`w-full flex justify-between items-center gap-3 p-2 rounded-xl transition ${item.bg} hover:opacity-90`}
+                                        className={`w-full flex justify-between items-center gap-3 p-2 rounded-xl transition ${item.bg} hover:opacity-90 cursor-pointer`}
                                     >
                                         <div className="flex items-center gap-x-2">
                                             <div
