@@ -286,7 +286,7 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
     return (
         <>
             {/*======================== Desktop sidebar ======================= */}
-            <aside className="hidden md:flex md:flex-col w-72 shrink-0 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+            <aside className="hidden md:flex md:flex-col w-80 shrink-0 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
                 {/* ================== FIXED TOP LOGO AREA ================= */}
                 <div className="p-4 border-b border-sidebar-border shrink-0">
                     <div className="flex items-center gap-3 cursor-pointer group relative">
@@ -342,7 +342,7 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
                                                     router.push(item.path)
                                                 onNavigate?.(item.key)
                                             }}
-                                            className={`w-full flex justify-between items-center p-2 rounded-2xl transition ${item.bg} hover:opacity-90`}
+                                            className={`w-full flex justify-between items-center p-2 rounded-2xl transition ${item.bg} hover:opacity-90 cursor-pointer`}
                                         >
                                             <div className="flex items-center gap-x-2">
                                                 <div
