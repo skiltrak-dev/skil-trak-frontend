@@ -35,7 +35,7 @@ export const RtoLayoutV2 = ({ children }: RtoLayoutProps) => {
                     <RtoNavbarV2 onOpenSidebar={() => setSidebarOpen(true)} />
                 </div>
                 {/* Main scrollable content */}
-                <main className="flex-1 overflow-y-auto p-4 md:p-6 max-w-[1300px] mx-auto w-full">
+                <main className="flex-1 overflow-y-auto p-4 md:p-6  mx-auto w-full">
                     <div>{children}</div>
                 </main>
                 <DisplayNotifications />
