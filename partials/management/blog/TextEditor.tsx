@@ -110,7 +110,6 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
         formData.append('file', file)
 
         const res: any = await uploadImage(formData)
-        console.log({ res })
 
         if (!res?.data?.url) {
             showErrorNotifications({
