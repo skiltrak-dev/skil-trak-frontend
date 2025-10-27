@@ -48,6 +48,7 @@ export const ViewAllCourseChartModal = ({
             },
         },
     ]
+
     return (
         <RtoDashboardBaseModal
             onCancel={onCancel}
@@ -59,7 +60,11 @@ export const ViewAllCourseChartModal = ({
                 {rtoCourses?.map((course, i) => (
                     <div>
                         <div
-                            className={`relative overflow-hidden rounded-xl border border-border/50 bg-gradient-to-br ${coursesData[i].color.from} ${coursesData[i].color.to} p-4 shadow-premium`}
+                            className={`relative overflow-hidden rounded-xl border border-border/50 bg-gradient-to-br ${
+                                coursesData[i % coursesData?.length].color.from
+                            } ${
+                                coursesData[i % coursesData?.length].color.to
+                            } p-4 shadow-premium`}
                         >
                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
                             <div className="relative flex items-start justify-between gap-4">
