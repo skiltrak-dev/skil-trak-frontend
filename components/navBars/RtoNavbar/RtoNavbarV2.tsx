@@ -96,15 +96,6 @@ export const RtoNavbarV2 = ({ onOpenSidebar }: any) => {
                 >
                     <Menu className="h-5 w-5 text-foreground" />
                 </button>
-                <div
-                    className={`hidden sm:flex items-center gap-2 bg-gray-100 border border-input px-2 py-1 rounded-md focus:ring-2 focus:ring-primaryNew `}
-                >
-                    <Search className="h-4 w-4 text-gray-400" />
-                    <input
-                        className="w-full bg-transparent outline-none text-sm placeholder:text-slate-300 h-6 min-w-[28rem]"
-                        placeholder="Search students, emails..."
-                    />
-                </div>
             </div>
 
             <div className="flex items-center gap-3">
