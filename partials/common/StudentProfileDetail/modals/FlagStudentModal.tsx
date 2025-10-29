@@ -1,8 +1,10 @@
 import {
     Modal,
     RadioGroup,
+    Select,
     ShowErrorNotifications,
     TextArea,
+    TextInput,
     Typography,
     useAuthorizedUserComponent,
 } from '@components'
@@ -13,11 +15,26 @@ import { SubAdminApi } from '@queries'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
+export enum flagStudentPriorityEnum {
+    Critical = 'critical',
+    Medium = 'medium',
+    High = 'high',
+}
+export enum flagStudentCategoryEnum {
+    Scheduling = 'scheduling',
+    Communication = 'communication',
+    Documentation = 'documentation',
+    Logistics = 'logistics',
+    Compliance = 'compliance',
+    Capacity = 'capacity',
+}
 export const FlagStudentModal = ({
     onCancel,
     studentId,
+    workplaceId,
 }: {
     studentId: number
+    workplaceId?: number
     onCancel: () => void
 }) => {
     const [problamaticStudent, problamaticStudentResult] =
@@ -34,21 +51,46 @@ export const FlagStudentModal = ({
 
     const validationSchema = Yup.object({
         comment: Yup.string().required('Please provide the note'),
+
         isReported: Yup.string()
             .nullable(true)
             .required('Please select the option Yes/No'),
+
+        title: Yup.string().when('isReported', {
+            is: (val: string) => val === 'yes',
+            then: (schema) => schema.required('Please provide a title'),
+            otherwise: (schema) => schema.notRequired(),
+        }),
+
+        priority: Yup.string().when('isReported', {
+            is: (val: string) => val === 'yes',
+            then: (schema) => schema.required('Please select a priority'),
+            otherwise: (schema) => schema.notRequired(),
+        }),
+
+        category: Yup.string().when('isReported', {
+            is: (val: string) => val === 'yes',
+            then: (schema) => schema.required('Please select a category'),
+            otherwise: (schema) => schema.notRequired(),
+        }),
     })
 
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         mode: 'all',
     })
+    const { watch } = methods
+    const isReported = watch('isReported')
 
     const onSubmit = (values: any) => {
         const isReported = values?.isReported === 'yes' ? true : false
+        console.log('isReported', isReported)
         const body = {
-            isReported: isReported,
-            comment: values?.comment,
+            ...values,
+            isReported,
+        }
+        if (workplaceId) {
+            body.workplaceId = workplaceId
         }
         problamaticStudent({ studentId, body }).then((res: any) => {
             if (res?.data) {
@@ -64,6 +106,14 @@ export const FlagStudentModal = ({
             }
         })
     }
+    const priorityOptions = [
+        { label: 'Crictical', value: flagStudentPriorityEnum.Critical },
+        { label: 'High', value: flagStudentPriorityEnum.High },
+        { label: 'Medium', value: flagStudentPriorityEnum.Medium },
+    ]
+    const categoryOptions = [
+        { label: 'Scheduling', value: flagStudentCategoryEnum.Scheduling },
+    ]
     return (
         <>
             <ShowErrorNotifications result={problamaticStudentResult} />
@@ -98,6 +148,36 @@ export const FlagStudentModal = ({
                                 required
                             />
                         </div>
+                        {isReported === 'yes' && (
+                            <>
+                                <TextInput
+                                    name="title"
+                                    placeholder="Issue title"
+                                />
+                                <div className="flex items-center gap-x-2 w-[40rem]">
+                                    <div className="w-1/2">
+                                        <Select
+                                            label={'Priority'}
+                                            name={'priority'}
+                                            placeholder={'Priority...'}
+                                            // defaultValue={priorityOptions?.[0]}
+                                            options={priorityOptions}
+                                            onlyValue
+                                        />
+                                    </div>
+                                    <div className="w-1/2">
+                                        <Select
+                                            label={'Category'}
+                                            name={'category'}
+                                            placeholder={'Category...'}
+                                            // defaultValue={priorityOptions?.[0]}
+                                            options={categoryOptions}
+                                            onlyValue
+                                        />
+                                    </div>
+                                </div>
+                            </>
+                        )}{' '}
                     </form>
                 </FormProvider>
             </Modal>

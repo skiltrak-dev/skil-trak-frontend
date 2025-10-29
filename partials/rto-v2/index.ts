@@ -1,4 +1,6 @@
 export * from './dashboard'
 export * from './submissions'
 export * from './sign-documents'
+export * from './resolve-issues'
+export * from './import-students'
 export * from './approve-placement'

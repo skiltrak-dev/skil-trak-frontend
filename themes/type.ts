@@ -8,10 +8,17 @@ export interface ThemeColors {
     primary: ColorSet
     primaryNew: ColorSet
     secondary: ColorSet
+    secondaryNew: ColorSet
     success: ColorSet
+    successNew: ColorSet
     info: ColorSet
+    infoNew: ColorSet
+    warning: ColorSet
     error: ColorSet
     link: ColorSet
     base: ColorSet
     muted: ColorSet
+    mutedNew: ColorSet
+    destructive: ColorSet
+    borderNew: ColorSet
 }

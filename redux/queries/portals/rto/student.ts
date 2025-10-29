@@ -270,4 +270,35 @@ export const studentEndpoints = (
         }),
         providesTags: ['Rto-Students'],
     }),
+
+    // Resolve issues
+    // rtos/reported-students/list?search=status:open
+    getRtoResolveIssuesStudents: builder.query<any, any>({
+        query: (params) => {
+            return {
+                url: `${PREFIX}/reported-students/list`,
+                params,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
+    rtoResolveIssue: builder.mutation<any, any>({
+        query: ({ id, body }) => {
+            return {
+                url: `${PREFIX}/report/${id}/resolve`,
+                method: 'PATCH',
+                body,
+            }
+        },
+        invalidatesTags: ['Rto-Students'],
+    }),
+    // counts
+    getRtoResolveIssuesStudentsCount: builder.query<any, void>({
+        query: () => {
+            return {
+                url: `${PREFIX}/reported-students/count`,
+            }
+        },
+        providesTags: ['Rto-Students'],
+    }),
 })

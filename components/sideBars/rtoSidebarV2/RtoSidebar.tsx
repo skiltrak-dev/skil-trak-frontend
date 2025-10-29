@@ -1,5 +1,5 @@
 'use client'
-import { Fragment } from 'react'
+import { Fragment, ReactElement, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
     LayoutDashboard,
@@ -17,6 +17,7 @@ import {
     GraduationCap,
 } from 'lucide-react'
 import { useRouter } from 'next/router'
+import { ImportStudentsModal } from '@partials'
 
 const menuSections = [
     {
@@ -77,6 +78,7 @@ const menuSections = [
                 icon: Flag,
                 label: 'Resolve Issues',
                 key: 'Resolve Issues',
+                path: '/portals/rto/dashboard/resolve-issues?tab=open-issues',
                 badge: '30',
                 bg: 'bg-yellow-50 border border-yellow-200',
                 iconBg: 'bg-yellow-500',
@@ -180,8 +182,9 @@ const menuSections = [
 ]
 
 export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
-
+    const onCancel = () => setModal(null)
     const Drawer = (
         <motion.aside
             initial={{ x: -320, opacity: 0 }}
@@ -285,8 +288,13 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
         </motion.aside>
     )
 
+    const onClickImportStudents = () => {
+        setModal(<ImportStudentsModal onCancel={onCancel} />)
+    }
+
     return (
         <>
+            {modal && modal}
             {/*======================== Desktop sidebar ======================= */}
             <aside className="hidden md:flex md:flex-col w-80 shrink-0 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
                 {/* ================== FIXED TOP LOGO AREA ================= */}
@@ -337,11 +345,20 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
 
                             <ul className="space-y-2">
                                 {section.items.map((item: any) => (
-                                    <li key={item.key}>
+                                    <li
+                                        key={item.key}
+                                        className="cursor-pointer"
+                                    >
                                         <button
                                             onClick={() => {
-                                                if (item.path)
+                                                if (
+                                                    item.key ===
+                                                    'Import Students'
+                                                ) {
+                                                    onClickImportStudents()
+                                                } else if (item.path) {
                                                     router.push(item.path)
+                                                }
                                                 onNavigate?.(item.key)
                                             }}
                                             className={`w-full flex justify-between items-center p-2 rounded-2xl transition ${item.bg} hover:opacity-90 cursor-pointer`}

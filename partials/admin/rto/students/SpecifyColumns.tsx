@@ -42,57 +42,7 @@ export const SpecifyColumns = ({ initialValues, onColumnsChange }: Props) => {
                     />
                 </div>
             </div>
-            {/* <FormProvider {...formMethods}>
-                <form
-                    className="flex flex-col"
-                    onSubmit={formMethods.handleSubmit(onSubmit)}
-                >
-                    <div className="grid grid-cols-5 gap-2">
-                        <TextInput
-                            label={'Student ID'}
-                            name="id"
-                            placeholder="id"
-                        />
-                        <TextInput
-                            label={'Name'}
-                            name="name"
-                            placeholder="name"
-                        />
-                        <TextInput
-                            label={'Email'}
-                            name="email"
-                            placeholder="email"
-                        />
-                        <TextInput
-                            label={'Contact'}
-                            name="contact"
-                            placeholder="contact"
-                        />
-                        <TextInput
-                            label={'Address'}
-                            name="address"
-                            placeholder="address"
-                        />
-                        <TextInput
-                            label={'State'}
-                            name="state"
-                            placeholder="state"
-                        />
-                        <TextInput
-                            label={'Zip Code'}
-                            name="zipcode"
-                            placeholder="zipcode"
-                        />
-                    </div>
-                    <div>
-                        <Button
-                            text={'Update Columns'}
-                            submit
-                            variant="action"
-                        />
-                    </div>
-                </form>
-            </FormProvider> */}
+            
         </Card>
     )
 }

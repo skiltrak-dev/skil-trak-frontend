@@ -35,6 +35,7 @@ import stepsConfig from '../feedbackForm/config'
 import { processSubmission } from '../feedbackForm/utils/getAnswersWithQuestions'
 import { ViewPlacementFeedbackModal } from '../feedbackForm'
 import { FeedbackButton } from '../feedbackForm/components'
+import { useWorkplaceQueries } from '../components/Workplace/hooks/useWorkplaceQueries.hook'
 
 export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     const [modal, setModal] = useState<any>(null)
@@ -45,6 +46,7 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             skip: !profile?.user?.id,
         }
     )
+    const { selectedWorkplace } = useWorkplaceQueries({ student: profile })
     const getPlacementFeedback = CommonApi.Feedback.useGetPlacementFeedback(
         { userId: profile?.user?.id },
         {
@@ -72,6 +74,7 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             </GlobalModal>
         )
     }
+    console.log('selectedWorkplace', selectedWorkplace?.id)
 
     return (
         <>
@@ -262,6 +265,7 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
                     studentUnFlaggedRequest={profile?.studentUpdateRequests?.find(
                         (r) => r?.action === IndustryRequestsActions.UnFlagged
                     )}
+                    workplaceId={selectedWorkplace?.id}
                 />
 
                 <StudentDetail profile={profile} />

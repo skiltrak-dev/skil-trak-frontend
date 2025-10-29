@@ -171,7 +171,7 @@ export const RtoNavbarV2 = ({ onOpenSidebar }: any) => {
                         <DropdownContent align="end">
                             <DropdownLabel>
                                 <Typography variant="badge">
-                                    {user?.name}
+                                    {user?.name || 'NA'}
                                 </Typography>
                             </DropdownLabel>
                             <DropdownSeparator />
