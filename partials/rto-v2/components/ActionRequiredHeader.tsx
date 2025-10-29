@@ -67,18 +67,10 @@ export const ActionRequiredHeader = ({
                                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-br from-${gradientFrom}/10 to-${gradientTo}/10 border`}
                             >
                                 <AlertTriangle
-                                    className={`h-3 w-3 ${
-                                        gradientFrom.includes('destructive')
-                                            ? 'text-destructive animate-pulse'
-                                            : 'text-primary'
-                                    }`}
+                                    className={`h-3 w-3 text-${gradientFrom}`}
                                 />
                                 <span
-                                    className={`font-semibold ${
-                                        gradientFrom.includes('destructive')
-                                            ? 'text-destructive'
-                                            : 'text-primary'
-                                    }`}
+                                    className={`font-semibold text-${gradientFrom}`}
                                 >
                                     {urgentCount} {urgentLabel}
                                 </span>

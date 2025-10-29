@@ -1,4 +1,4 @@
-import { PaginationValues } from '@types'
+import { PaginationValues, PaginationWithSearch } from '@types'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import { WpAppRequEnum } from '@partials/rto/wpApprovalReq/enum'
@@ -23,6 +23,13 @@ export const workplaceEndpoints = (
     wpApprovalRequest: builder.query<any, PaginationValues>({
         query: (params) => ({
             url: `${PREFIX}/workplace-approval/request/pending/list`,
+            params,
+        }),
+        providesTags: ['RTOWorkplace'],
+    }),
+    wpApprovalRequestByStatus: builder.query<any, PaginationWithSearch>({
+        query: (params) => ({
+            url: `${PREFIX}/workplace-approval/requests/list`,
             params,
         }),
         providesTags: ['RTOWorkplace'],

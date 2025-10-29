@@ -11,6 +11,7 @@ import { appointmentsEndpoints } from './appointments'
 import { contactPersonEndpoints } from './contactPerson'
 import { rtoDocumentsEndpoints } from './rtoDocuments'
 import { assessmentToolsEndpoints } from './assessmentTools'
+import { submissionsEndpoints } from './submissions'
 
 export const rtoApi = emptySplitApi('rtoApi').injectEndpoints({
     // ---------- RTO ENDPOINTS ---------- //
@@ -36,6 +37,7 @@ export const rtoApi = emptySplitApi('rtoApi').injectEndpoints({
         ...workplaceEndpoints(build),
         ...insuranceEndpoints(build),
         ...industriesEndpoints(build),
+        ...submissionsEndpoints(build),
         ...coordinatorEndpoints(build),
         ...appointmentsEndpoints(build),
         ...rtoDocumentsEndpoints(build),
@@ -147,6 +149,7 @@ export const {
     // --- WORKPLACES --- //
     useGetRTOWorkplacesQuery,
     useWpApprovalRequestQuery,
+    useWpApprovalRequestByStatusQuery,
     useGetRTOWorkplaceDetailQuery,
     useWpApprovalRequestCountQuery,
     useWpApprovalRequestChangeStatusMutation,
@@ -158,6 +161,11 @@ export const {
     // ---- INSURANCE ---- //
     useGetRtoInsuranceTypeQuery,
     useUploadRtoInsuranceDocsMutation,
+
+    // ---- SUBMISSIONS ---- //
+    useGetRtoSubmissionsQuery,
+    useGetRtoSubmissionsCountQuery,
+    useChangeRtoSubmissionStatusMutation,
 } = rtoApi
 
 export const RtoApi = {
@@ -238,10 +246,16 @@ export const RtoApi = {
     Workplace: {
         wpApprovalRequest: useWpApprovalRequestQuery,
         wpApprovalRequestCount: useWpApprovalRequestCountQuery,
+        wpApprovalRequestByStatus: useWpApprovalRequestByStatusQuery,
         wpAppReqChangeStatus: useWpApprovalRequestChangeStatusMutation,
     },
     Industry: {
         removeFromBlackList: useRemoveFromBlackListMutation,
         getBlackListedIndustries: useGetBlackListedIndustriesQuery,
+    },
+    Submissions: {
+        getRtoSubmissions: useGetRtoSubmissionsQuery,
+        getRtoSubmissionsCount: useGetRtoSubmissionsCountQuery,
+        changeSubmissionStatus: useChangeRtoSubmissionStatusMutation,
     },
 }

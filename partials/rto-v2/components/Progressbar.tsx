@@ -100,7 +100,7 @@ export const Progressbar: React.FC<ProgressBarProps> = ({
     variant = 'primary',
     value,
     max = 100,
-    size = 'md',
+    size = 'sm',
     showLabel = false,
     label,
     className,
@@ -117,7 +117,7 @@ export const Progressbar: React.FC<ProgressBarProps> = ({
     )
 
     const progressFillClasses = cn(
-        'h-full rounded-full transition-all duration-500 ease-out',
+        'h-full rounded-full transition-all duration-500 ease-out ',
         styles.variant.bg,
         animated && 'animate-pulse',
         striped && 'bg-stripes'

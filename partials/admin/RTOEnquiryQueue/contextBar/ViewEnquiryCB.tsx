@@ -1,4 +1,5 @@
 import {
+    ActionButton,
     Badge,
     Button,
     Card,
@@ -6,21 +7,25 @@ import {
     NoData,
     Typography,
 } from '@components'
-import { useContextBar } from '@hooks'
+import { DocumentsView, useContextBar } from '@hooks'
 import {
     Activity,
     AlertCircle,
+    Briefcase,
     Building2,
     Calendar,
     CheckCircle,
     Clock,
+    FileCheck,
     FileText,
     Handshake,
     Link as LinkIcon,
     Mail,
     MessageSquare,
     Monitor,
+    Paperclip,
     Send,
+    User,
     Video,
     XCircle,
     Zap,
@@ -31,6 +36,15 @@ import { AttachIndustryModal, CloseEnquiryModal } from '../modal'
 import { AdminApi } from '@queries'
 import { PremiumFeatureTypes } from '@partials/rto-v2/dashboard/enum'
 import { GetStatusBadge } from '../components'
+import { getSectors } from '@utils'
+import { Course } from '@types'
+import {
+    AdvancedSimulationRoomOtherDetails,
+    ProfessionalWebinarPlatformOtherDetail,
+    ServiceDetail,
+} from './components'
+import { DetailViewCard } from './cards'
+import moment from 'moment'
 
 export const ViewEnquiryCB = ({
     selectedEnquiry,
@@ -39,6 +53,8 @@ export const ViewEnquiryCB = ({
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const contextBar = useContextBar()
+
+    const { onFileClicked, documentsViewModal } = DocumentsView()
 
     const getRtoEnquiryDetail = AdminApi.RtoEnquiry.getRtoEnquiryDetail(
         Number(selectedEnquiry?.id),
@@ -125,6 +141,7 @@ export const ViewEnquiryCB = ({
     return (
         <>
             {modal}
+            {documentsViewModal}
             <div className="w-full sm:max-w-2xl overflow-y-auto !p-2">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-start gap-4">
@@ -179,67 +196,9 @@ export const ViewEnquiryCB = ({
                   getRtoEnquiryDetail?.isSuccess ? (
                     <div className="mt-8 space-y-6">
                         {/* Service Details Card */}
-                        <Card className="border-2 border-[#0D5468]/20">
-                            <div className="pb-3">
-                                <Typography
-                                    variant="title"
-                                    className="flex items-center gap-2 text-[#0D5468]"
-                                >
-                                    <FileText className="h-4 w-4" />
-                                    Service Details
-                                </Typography>
-                            </div>
-                            <div className="space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <Typography
-                                            variant="small"
-                                            className="text-[#8c8c8c]"
-                                        >
-                                            Service Type
-                                        </Typography>
-                                        <p className="text-sm text-[#262626] mt-1">
-                                            {
-                                                selectedEnquiry?.premiumFeature
-                                                    ?.type
-                                            }
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <Typography
-                                            variant="small"
-                                            className="text-[#8c8c8c]"
-                                        >
-                                            Submitted
-                                        </Typography>
-                                        <p className="text-sm text-[#262626] mt-1">
-                                            {new Date(
-                                                selectedEnquiry?.createdAt
-                                            ).toLocaleDateString('en-US', {
-                                                month: 'short',
-                                                day: 'numeric',
-                                                year: 'numeric',
-                                            })}
-                                        </p>
-                                    </div>
-                                </div>
-                                {selectedEnquiry?.timeLine && (
-                                    <div>
-                                        <Typography
-                                            variant="small"
-                                            className="text-[#8c8c8c]"
-                                        >
-                                            Preferred Timeline
-                                        </Typography>
-                                        <p className="text-sm text-[#262626] mt-1 flex items-center gap-2">
-                                            <Calendar className="h-3.5 w-3.5 text-[#F7A619]" />
-                                            {selectedEnquiry?.timeLine}
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
-                        </Card>
-
+                        <ServiceDetail
+                            enquiryDetails={getRtoEnquiryDetail?.data}
+                        />
                         {/* RTO Information */}
                         <Card className="!bg-primary/5 border-[#F7A619]/30 space-y-3">
                             <div className="pb-3">
@@ -260,7 +219,10 @@ export const ViewEnquiryCB = ({
                                         Organization Name
                                     </Typography>
                                     <p className="text-sm text-[#262626] mt-1">
-                                        {selectedEnquiry?.rto?.user?.name}
+                                        {
+                                            getRtoEnquiryDetail?.data?.rto?.user
+                                                ?.name
+                                        }
                                     </p>
                                 </div>
 
@@ -273,10 +235,14 @@ export const ViewEnquiryCB = ({
                                     </Typography>
                                     <p className="text-sm text-[#262626] mt-1 flex items-center gap-2">
                                         <Mail className="h-3.5 w-3.5 text-[#F7A619]" />
-                                        {selectedEnquiry?.rto?.user?.email}
+                                        {
+                                            getRtoEnquiryDetail?.data?.rto?.user
+                                                ?.email
+                                        }
                                     </p>
                                 </div>
-                                {selectedEnquiry.contactPersonName && (
+                                {getRtoEnquiryDetail?.data
+                                    .contactPersonName && (
                                     <div>
                                         <Typography
                                             variant="small"
@@ -285,15 +251,222 @@ export const ViewEnquiryCB = ({
                                             Contact Person
                                         </Typography>
                                         <p className="text-sm text-[#262626] mt-1">
-                                            {selectedEnquiry.contactPersonName}
+                                            {
+                                                getRtoEnquiryDetail?.data
+                                                    .contactPersonName
+                                            }
                                         </p>
                                     </div>
                                 )}
                             </div>
                         </Card>
+                        {/* Your Contact Details */}
+                        <Card className="!bg-[#F7A619]/5 border-[#F7A619]/30 !py-6">
+                            <div className="pb-3">
+                                <div className="flex items-center gap-2 text-[#F7A619] font-bold">
+                                    <User className="h-4 w-4" />
+                                    Your Contact Details
+                                </div>
+                            </div>
+                            <div className="space-y-3">
+                                <div>
+                                    <label className="text-xs text-[#8c8c8c]">
+                                        Person making this enquiry
+                                    </label>
+                                    <p className="text-sm text-[#262626] mt-1">
+                                        {
+                                            getRtoEnquiryDetail?.data
+                                                ?.contactPersonName
+                                        }
+                                    </p>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="text-xs text-[#8c8c8c]">
+                                            Role
+                                        </label>
+                                        <p className="text-sm text-[#262626] mt-1">
+                                            {getRtoEnquiryDetail?.data?.role}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <label className="text-xs text-[#8c8c8c]">
+                                            Email
+                                        </label>
+                                        <p className="text-sm text-[#262626] mt-1 flex items-center gap-2">
+                                            <Mail className="h-3.5 w-3.5 text-[#F7A619]" />
+                                            {getRtoEnquiryDetail?.data?.email}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </Card>
+                        {/* Service Details */}
+                        <Card className="border-2 border-[#0D5468]/20">
+                            <div className="pb-3">
+                                <div className="flex items-center gap-2 text-[#0D5468] font-bold">
+                                    <Briefcase className="h-4 w-4" />
+                                    Course Details
+                                </div>
+                                <p className="text-xs text-[#8c8c8c] mt-1">
+                                    Please provide the following information
+                                </p>
+                            </div>
+                            <div className="space-y-4">
+                                {Object.entries(
+                                    getSectors(
+                                        getRtoEnquiryDetail?.data?.courses
+                                    )
+                                )?.map(
+                                    ([sector, courses]: any, idx: number) => {
+                                        console.log({
+                                            sector: getRtoEnquiryDetail?.data
+                                                ?.courses,
+                                        })
+                                        return (
+                                            <div
+                                                key={idx}
+                                                className="space-y-2"
+                                            >
+                                                <h4 className="text-[#262626]">
+                                                    {sector}
+                                                </h4>
+                                                <ul className="space-y-1 pl-4">
+                                                    {courses?.map(
+                                                        (
+                                                            course: Course,
+                                                            qIdx: number
+                                                        ) => (
+                                                            <li
+                                                                key={qIdx}
+                                                                className="text-sm text-[#595959] flex items-start gap-2"
+                                                            >
+                                                                <FileCheck className="h-4 w-4 mt-0.5 flex-shrink-0 text-[#0D5468]" />
+                                                                <span>
+                                                                    {
+                                                                        course?.title
+                                                                    }
+                                                                </span>
+                                                            </li>
+                                                        )
+                                                    )}
+                                                </ul>
+                                            </div>
+                                        )
+                                    }
+                                )}
+
+                                {getRtoEnquiryDetail?.data?.description && (
+                                    <div className="pt-4 border-t">
+                                        <label className="text-xs text-[#8c8c8c]">
+                                            Description
+                                        </label>
+                                        <p className="text-sm text-[#262626] leading-relaxed mt-2 whitespace-pre-line">
+                                            {
+                                                getRtoEnquiryDetail?.data
+                                                    ?.description
+                                            }
+                                        </p>
+                                        <p className="text-xs text-[#8c8c8c] mt-2">
+                                            {
+                                                getRtoEnquiryDetail?.data
+                                                    ?.description?.length
+                                            }
+                                            /1000 characters
+                                        </p>
+                                    </div>
+                                )}
+
+                                {getRtoEnquiryDetail?.data?.timeLine && (
+                                    <div className="pt-2">
+                                        <label className="text-xs text-[#8c8c8c]">
+                                            Select timeline
+                                        </label>
+                                        <p className="text-sm text-[#262626] mt-1 flex items-center gap-2">
+                                            <Calendar className="h-3.5 w-3.5 text-[#0D5468]" />
+                                            {
+                                                getRtoEnquiryDetail?.data
+                                                    ?.timeLine
+                                            }
+                                        </p>
+                                    </div>
+                                )}
+
+                                {getRtoEnquiryDetail?.data?.attachments &&
+                                    getRtoEnquiryDetail?.data?.attachments
+                                        .length > 0 && (
+                                        <div className="pt-2">
+                                            <label className="text-xs text-[#8c8c8c] mb-2 block">
+                                                Upload files
+                                            </label>
+                                            <div className="space-y-2">
+                                                {getRtoEnquiryDetail?.data?.attachments?.map(
+                                                    (
+                                                        file: string,
+                                                        fIdx: number
+                                                    ) => (
+                                                        <div
+                                                            key={fIdx}
+                                                            className="flex items-center justify-between gap-2 text-sm text-[#262626] bg-[#f0f2f5] px-3 py-2 rounded"
+                                                        >
+                                                            <div className="flex items-center gap-2">
+                                                                <Paperclip className="h-4 w-4 text-[#0D5468]" />
+                                                                <span>
+                                                                    File
+                                                                </span>
+                                                            </div>
+                                                            <ActionButton
+                                                                text="View File"
+                                                                onClick={() =>
+                                                                    onFileClicked(
+                                                                        {
+                                                                            file: file
+                                                                                .replaceAll(
+                                                                                    '{"',
+                                                                                    ''
+                                                                                )
+                                                                                .replaceAll(
+                                                                                    '"}',
+                                                                                    ''
+                                                                                ),
+                                                                            extension:
+                                                                                file
+                                                                                    ?.split(
+                                                                                        '.'
+                                                                                    )
+                                                                                    ?.reverse()[0],
+                                                                            type: 'all',
+                                                                        }
+                                                                    )
+                                                                }
+                                                            />
+                                                        </div>
+                                                    )
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+                            </div>
+                        </Card>
+
+                        {/* Other Details */}
+                        {getRtoEnquiryDetail?.data?.premiumFeature?.type ===
+                            PremiumFeatureTypes.ProfessionalIndustrySpeaker && (
+                            <ProfessionalWebinarPlatformOtherDetail
+                                enquiryDetails={getRtoEnquiryDetail?.data}
+                            />
+                        )}
+
+                        {/* Other Details */}
+                        {getRtoEnquiryDetail?.data?.premiumFeature?.type ===
+                            PremiumFeatureTypes.AdvancedSimulationTools && (
+                            <AdvancedSimulationRoomOtherDetails
+                                enquiryDetails={getRtoEnquiryDetail?.data}
+                            />
+                        )}
 
                         {/* Requirements */}
-                        {selectedEnquiry?.summary && (
+                        {getRtoEnquiryDetail?.data?.summary && (
                             <Card className="border space-y-3">
                                 <div className="pb-3">
                                     <Typography
@@ -311,7 +484,6 @@ export const ViewEnquiryCB = ({
                                 </div>
                             </Card>
                         )}
-
                         {/* Attached Industry */}
                         {getRtoEnquiryDetail?.data?.industry && (
                             <Card className="!bg-secondary border border-[#0D5468]/30">
@@ -365,9 +537,8 @@ export const ViewEnquiryCB = ({
                                 </div>
                             </Card>
                         )}
-
                         {/* Closure Information */}
-                        {selectedEnquiry.status === 'closed' && (
+                        {getRtoEnquiryDetail?.data.status === 'closed' && (
                             <Card className="bg-[#8c8c8c]/5 border-[#8c8c8c]/30">
                                 <div className="pb-3">
                                     <Typography
@@ -379,7 +550,7 @@ export const ViewEnquiryCB = ({
                                     </Typography>
                                 </div>
                                 <div className="space-y-3">
-                                    {selectedEnquiry.closedDate && (
+                                    {getRtoEnquiryDetail?.data.closedDate && (
                                         <div>
                                             <Typography
                                                 variant="small"
@@ -389,7 +560,7 @@ export const ViewEnquiryCB = ({
                                             </Typography>
                                             <p className="text-sm text-[#262626] mt-1">
                                                 {new Date(
-                                                    selectedEnquiry.closedDate
+                                                    getRtoEnquiryDetail?.data.closedDate
                                                 ).toLocaleDateString('en-US', {
                                                     month: 'long',
                                                     day: 'numeric',
@@ -398,7 +569,7 @@ export const ViewEnquiryCB = ({
                                             </p>
                                         </div>
                                     )}
-                                    {selectedEnquiry.closedBy && (
+                                    {getRtoEnquiryDetail?.data.closedBy && (
                                         <div>
                                             <Typography
                                                 variant="small"
@@ -407,11 +578,14 @@ export const ViewEnquiryCB = ({
                                                 Closed By
                                             </Typography>
                                             <p className="text-sm text-[#262626] mt-1">
-                                                {selectedEnquiry.closedBy}
+                                                {
+                                                    getRtoEnquiryDetail?.data
+                                                        .closedBy
+                                                }
                                             </p>
                                         </div>
                                     )}
-                                    {selectedEnquiry.notes && (
+                                    {getRtoEnquiryDetail?.data.notes && (
                                         <div>
                                             <Typography
                                                 variant="small"
@@ -420,16 +594,18 @@ export const ViewEnquiryCB = ({
                                                 Notes
                                             </Typography>
                                             <p className="text-sm text-[#262626] mt-1 whitespace-pre-line">
-                                                {selectedEnquiry.notes}
+                                                {
+                                                    getRtoEnquiryDetail?.data
+                                                        .notes
+                                                }
                                             </p>
                                         </div>
                                     )}
                                 </div>
                             </Card>
                         )}
-
                         {/* Admin Actions */}
-                        {selectedEnquiry.status !== 'closed' && (
+                        {getRtoEnquiryDetail?.data.status !== 'closed' && (
                             <Card className="border-2">
                                 <div className="pb-3">
                                     <Typography
@@ -440,7 +616,8 @@ export const ViewEnquiryCB = ({
                                     </Typography>
                                 </div>
                                 <div className="space-y-3">
-                                    {!selectedEnquiry.attachedIndustry && (
+                                    {!getRtoEnquiryDetail?.data
+                                        .attachedIndustry && (
                                         <Button
                                             text="Attach Industry Partner"
                                             Icon={LinkIcon}
