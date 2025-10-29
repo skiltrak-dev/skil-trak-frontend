@@ -3,7 +3,13 @@ import { IWorkplaceIndustries } from 'redux/queryTypes'
 import { ReportingType } from '@partials/admin/rto/enum'
 import { IndustryPlacementStatus } from '@partials/common'
 import { InvoiceTypeEnum } from '@partials/admin/invoices'
-import { AssessmentToolsType, Course, MealTypes, Packages } from '@types'
+import {
+    AssessmentToolsType,
+    Course,
+    MealTypes,
+    Packages,
+    WorkplaceType,
+} from '@types'
 
 export enum StudentStatusEnum {
     ACTIVE = 'active',
@@ -215,6 +221,7 @@ export interface RtoApprovalWorkplaceRequest extends BaseResponse {
     approvalChannal: string
     student: Student
     industry: Industry
+    workplaceRequest: IWorkplaceIndustries
 }
 
 export interface Dates {
@@ -335,6 +342,7 @@ export interface Industry extends BaseResponse {
     studentCapacity: number | null
     courses: Course[]
     branches: Industry[]
+    workplaceType: WorkplaceType
     createdBy: any
     channel: string
     website: string

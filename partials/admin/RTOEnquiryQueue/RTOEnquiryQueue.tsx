@@ -56,7 +56,7 @@ export function RTOEnquiryQueue() {
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8c8c8c]" />
                             <TextInput
                                 name="search"
-                                placeholder="Search by RTO name, service type, or requirements..."
+                                placeholder="Search by RTO name..."
                                 onChange={(
                                     e: ChangeEvent<HTMLInputElement>
                                 ) => {
@@ -75,15 +75,6 @@ export function RTOEnquiryQueue() {
                                     updateFilter('type', e)
                                 }}
                                 onlyValue
-                            />
-                        </div>
-
-                        {/* Export */}
-                        <div>
-                            <Button
-                                variant="secondary"
-                                text="Export"
-                                Icon={() => <Download size={12} />}
                             />
                         </div>
                     </div>

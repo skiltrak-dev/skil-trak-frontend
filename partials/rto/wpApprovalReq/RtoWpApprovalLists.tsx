@@ -15,7 +15,7 @@ export const RtoWpApprovalLists = () => {
                 query: { tab: 'approval-list', page: 1, pageSize: 50 },
             },
             badge: {
-                text: count?.data?.pendingRequests,
+                text: count?.data?.pending,
                 loading: count.isLoading,
             },
             element: <RtoWpApproval />,

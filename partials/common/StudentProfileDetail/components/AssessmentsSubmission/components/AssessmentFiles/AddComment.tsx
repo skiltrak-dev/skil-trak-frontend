@@ -20,6 +20,8 @@ export const AddComment = ({
     assessmentResponseId: number
     folderStatus: AddCommentEnum
 }) => {
+    console.log({ assessmentResponseId })
+
     const { notification } = useNotification()
 
     const [addComment, addCommentResult] = useAddCommentOnAssessmentMutation()

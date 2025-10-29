@@ -100,7 +100,7 @@ export const RtoNavbar = () => {
                       activeClasses: 'bg-blue-100 text-blue-700',
                       inActiveClasses: 'text-slate-700',
                       id: 'workplaceApproval',
-                      count: count?.data?.pendingRequests,
+                      count: count?.data?.pending,
                   },
               ]
             : []),

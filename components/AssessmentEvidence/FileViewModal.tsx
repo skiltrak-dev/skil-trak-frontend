@@ -5,6 +5,7 @@ import { MdCancel } from 'react-icons/md'
 import { ReactNode } from 'react'
 import { AuthorizedUserComponent } from '@components/AuthorizedUserComponent'
 import { UserRoles } from '@constants'
+import { Portal } from '@components/Portal'
 
 interface FileViewModalProps {
     title: string
@@ -24,41 +25,43 @@ export const FileViewModal = ({
     onCancelButtonClick,
 }: FileViewModalProps) => {
     return (
-        <div className="bg-[#00000050] w-full h-screen flex items-start justify-center fixed top-0 left-0 z-40 overflow-scroll py-16">
-            <div className="bg-white rounded-2xl flex flex-col justify-between shadow-md min-w-[450px] overflow-hidden">
-                <div className="px-2 py-1 flex justify-between items-center">
-                    {/* <div>
+        <Portal>
+            <div className="bg-[#00000050] w-full h-screen flex items-start justify-center fixed top-0 left-0 z-40 overflow-scroll py-16">
+                <div className="bg-white rounded-2xl flex flex-col justify-between shadow-md min-w-[450px] overflow-hidden">
+                    <div className="px-2 py-1 flex justify-between items-center">
+                        {/* <div>
                         <Typography variant={'title'}>{title}</Typography>
                         <Typography variant={'subtitle'} color={'text-muted'}>
                             {subtitle}
                         </Typography>
                     </div> */}
-                    <AuthorizedUserComponent
-                        excludeRoles={[UserRoles.OBSERVER]}
-                    >
-                        <div>
-                            <a
-                                href={url}
-                                className="text-sm font-semibold text-info"
-                            >
-                                Download
-                            </a>
-                        </div>
-                    </AuthorizedUserComponent>
-                    <MdCancel
-                        onClick={onCancelButtonClick}
-                        className="transition-all duration-300 text-gray-400 hover:text-black text-2xl cursor-pointer"
-                    />
-                </div>
+                        <AuthorizedUserComponent
+                            excludeRoles={[UserRoles.OBSERVER]}
+                        >
+                            <div>
+                                <a
+                                    href={url}
+                                    className="text-sm font-semibold text-info"
+                                >
+                                    Download
+                                </a>
+                            </div>
+                        </AuthorizedUserComponent>
+                        <MdCancel
+                            onClick={onCancelButtonClick}
+                            className="transition-all duration-300 text-gray-400 hover:text-black text-2xl cursor-pointer"
+                        />
+                    </div>
 
-                <div className="">{children}</div>
+                    <div className="">{children}</div>
 
-                {/* <div className="flex justify-end items-end gap-x-4 px-4 py-2">
+                    {/* <div className="flex justify-end items-end gap-x-4 px-4 py-2">
                     <Button variant={'secondary'} onClick={onCancelButtonClick}>
                         {'Cancel'}
                     </Button>
                 </div> */}
+                </div>
             </div>
-        </div>
+        </Portal>
     )
 }

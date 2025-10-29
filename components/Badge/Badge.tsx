@@ -107,7 +107,8 @@ export const Badge = ({
                 />
             ) : (
                 <div className="flex items-center gap-x-1">
-                    {Icon && <Icon className="text-xs" />} <span>{text}</span>
+                    {Icon && <Icon className="text-xs" size={12} />}{' '}
+                    <span>{text}</span>
                 </div>
             )}
         </div>

@@ -46,7 +46,7 @@ export const ExpertIndustryConsultation = ({
             .required('Course selection is required'),
 
         // Service specific fields
-        challengeGoal: Yup.string()
+        description: Yup.string()
             .min(50, 'Please provide at least 50 characters')
             .max(1000, 'Description must not exceed 1000 characters')
             .required('Challenge/Goal description is required'),
@@ -60,7 +60,7 @@ export const ExpertIndustryConsultation = ({
         resolver: yupResolver(validationSchema),
         mode: 'all',
         defaultValues: {
-            challengeGoal: '',
+            description: '',
             premiumFeature: service?.premiumFeature,
         },
     })
@@ -102,7 +102,7 @@ export const ExpertIndustryConsultation = ({
 
     const colors = getServiceColor()
 
-    const challengeGoal = methods.watch('challengeGoal')
+    const description = methods.watch('description')
 
     return (
         <>
@@ -139,17 +139,17 @@ export const ExpertIndustryConsultation = ({
                                     label={'Describe Your Challenge / Goal'}
                                     rows={5}
                                     required
-                                    name="challengeGoal"
+                                    name="description"
                                     recomendedText="500-1000 characters recommended"
                                     textInfo={
                                         <p
                                             className={
-                                                challengeGoal?.length > 1000
+                                                description?.length > 1000
                                                     ? 'text-destructive'
                                                     : 'text-muted-foreground'
                                             }
                                         >
-                                            {challengeGoal?.length || 0}
+                                            {description?.length || 0}
                                             /1000
                                         </p>
                                     }

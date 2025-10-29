@@ -49,7 +49,7 @@ const menuSections = [
                 iconBg: 'bg-red-500',
                 badgeBg: 'bg-red-500',
                 text: 'text-red-700',
-                path: '/portals/rto/sign-documents?tab=pending',
+                path: '/portals/rto/action-required/sign-documents?tab=pending',
             },
             {
                 icon: CheckSquare,
@@ -60,6 +60,7 @@ const menuSections = [
                 iconBg: 'bg-orange-500',
                 badgeBg: 'bg-orange-500',
                 text: 'text-orange-700',
+                path: '/portals/rto/action-required/approve-placement?tab=pending',
             },
             {
                 icon: Send,
@@ -67,6 +68,7 @@ const menuSections = [
                 key: 'Submissions',
                 badge: '2',
                 bg: 'bg-amber-50 border border-amber-200',
+                path: '/portals/rto/action-required/submissions?tab=submissions-requiring-review',
                 iconBg: 'bg-amber-500',
                 badgeBg: 'bg-amber-500',
                 text: 'text-amber-700',

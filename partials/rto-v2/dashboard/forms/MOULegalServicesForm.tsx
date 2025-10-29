@@ -50,11 +50,11 @@ export const MOULegalServicesForm = ({
 
         // Service specific fields
         jurisdiction: Yup.string().required('Jurisdiction is required'),
-        deadline: Yup.date()
-            .typeError('Please enter a valid deadline')
-            .min(new Date(), 'Deadline must be in the future')
-            .required('Deadline is required'),
-        summary: Yup.string()
+        timeLine: Yup.date()
+            .typeError('Please enter a valid timeLine')
+            .min(new Date(), 'TimeLine must be in the future')
+            .required('TimeLine is required'),
+        description: Yup.string()
             .min(50, 'Please provide at least 50 characters')
             .max(1000, 'Description must not exceed 1000 characters')
             .required('Summary of requirements is required'),
@@ -176,7 +176,7 @@ export const MOULegalServicesForm = ({
                                 <TextInput
                                     required
                                     type="date"
-                                    name="deadline"
+                                    name="timeLine"
                                     label={'Deadline'}
                                 />
                             </div>
@@ -189,7 +189,7 @@ export const MOULegalServicesForm = ({
                         label={'Summary of Requirements/Changes'}
                         rows={5}
                         required
-                        name="summary"
+                        name="description"
                     />
 
                     <FileUpload />
