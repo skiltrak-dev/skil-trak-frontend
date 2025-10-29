@@ -19,11 +19,21 @@ const colors: ThemeColors = {
         dark: '#E6E6E6',
         light: '#FAFAFA',
     },
+    secondaryNew: {
+        DEFAULT: '#0D5468', // light --secondary
+        dark: '#044866', // dark --secondary
+        light: '#0D546808',
+    },
 
     success: {
         DEFAULT: '#22c55e',
         dark: '#6AB04C',
         light: '#BADC5880',
+    },
+    successNew: {
+        DEFAULT: '#10b981', // light --success
+        dark: '#16a34a', // dark --success
+        light: '#10b98120',
     },
 
     info: {
@@ -31,11 +41,21 @@ const colors: ThemeColors = {
         dark: '#4834D4',
         light: '#686DE080',
     },
+    infoNew: {
+        DEFAULT: '#044866', // light --info
+        dark: '#0D5468', // dark --info
+        light: '#04486620',
+    },
 
     error: {
         DEFAULT: '#FF7979',
         dark: '#EB4D4B',
         light: '#FF797980',
+    },
+    warning: {
+        DEFAULT: '#F7A619', // same in both
+        dark: '#F7A619',
+        light: '#F7A61920',
     },
 
     link: {
@@ -54,6 +74,23 @@ const colors: ThemeColors = {
         DEFAULT: '#A5A3A9',
         dark: '#77757F',
         light: '#ffffff',
+    },
+
+    mutedNew: {
+        DEFAULT: '#f1f5f9', // light --muted
+        dark: '#1e2537', // dark --muted
+        light: '#ffffff',
+    },
+    destructive: {
+        DEFAULT: '#ef4444', // light --destructive
+        dark: '#dc2626', // dark --destructive
+        light: '#ef444420',
+    },
+
+    borderNew: {
+        DEFAULT: '#e2e8f0', // light --border
+        dark: '#2d3548', // dark --border
+        light: '#f8fafc',
     },
 }
 

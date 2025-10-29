@@ -208,6 +208,31 @@ export interface Student extends BaseResponse {
     hasPaid: boolean
 }
 
+export interface StudentIssue extends BaseResponse {
+    id: number
+    category: string
+    comment: string
+    reportedAt?: Dates
+    resolutionDate?: Dates
+    resolutionNote?: string
+    resolutionStatus: 'pending' | 'resolved' | 'rejected' | string
+    isActive: boolean
+    isApprovedByManager: boolean
+    isReportedByAdmin: boolean
+    priority: 'critical' | 'high' | 'medium'
+    title: string
+    workplaceRequest?: {
+        industries: any
+        courses: any
+    }
+    requestedBy?: {
+        id: number
+        name: string
+        email: string
+    }
+    student?: Student
+}
+
 export interface RtoApprovalWorkplaceRequest extends BaseResponse {
     id: number
     status: string

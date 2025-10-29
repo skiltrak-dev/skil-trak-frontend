@@ -129,6 +129,9 @@ export const {
 
     // --- STUDENTS --- //
     useGetRtoStudentsQuery,
+    useGetRtoResolveIssuesStudentsQuery,
+    useRtoResolveIssueMutation,
+    useGetRtoResolveIssuesStudentsCountQuery,
     useRemoveRTOStudentMutation,
     useGetRtoStudentProfileQuery,
     useGetRtoProblematicStudentsQuery,
@@ -187,6 +190,10 @@ export const RtoApi = {
     },
     Students: {
         useCount: useStudentsCountQuery,
+        useRtoResolveIssuesStudents: useGetRtoResolveIssuesStudentsQuery,
+        useRtoResolveIssuesStudentsCount:
+            useGetRtoResolveIssuesStudentsCountQuery,
+        useRtoResolveIssue: useRtoResolveIssueMutation,
         useImportStudents: useStudentsImportMutation,
         useRtoStudentsList: useGetRtoStudentsListQuery,
         useAddStudent: useAddStudentMutation,

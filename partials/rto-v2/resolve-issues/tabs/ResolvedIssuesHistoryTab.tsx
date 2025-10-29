@@ -22,7 +22,6 @@ import { Student, StudentIssue } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { SectorCell, StudentCellInfo } from './components'
 import {
     AlertTriangle,
     Building2,
@@ -33,12 +32,15 @@ import {
     User,
 } from 'lucide-react'
 import { CountCard } from '@partials/rto-v2/cards/CountCard'
-import { PriorityBadge, ResolveIssuesCompletedModal } from '@partials/rto-v2'
+import { ResolveIssuesCompletedModal } from '@partials/rto-v2'
 import { FaRegCheckCircle } from 'react-icons/fa'
-import moment from 'moment'
+import { SectorCell, StudentCellInfo } from '@partials/rto/student/components'
+import { LuFileCheck } from 'react-icons/lu'
 import { ellipsisText } from '@utils'
+import { PriorityBadge } from '../components'
+import moment from 'moment'
 
-export const ProblematicStudent = () => {
+export const ResolvedIssuesHistoryTab = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -46,12 +48,13 @@ export const ProblematicStudent = () => {
     const [page, setPage] = useState(1)
     const { isLoading, data, isError, refetch } =
         RtoApi.Students.useRtoResolveIssuesStudents({
-            search: 'status:open',
+            search: 'status:resolved',
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
     const count = RtoApi.Students.useRtoResolveIssuesStudentsCount()
     const onModalCancelClicked = () => setModal(null)
+
     const onChangeStatus = (student: Student) => {
         setModal(
             <ChangeStudentStatusModal
@@ -65,6 +68,7 @@ export const ProblematicStudent = () => {
             <ResolveIssuesCompletedModal
                 onCancel={onModalCancelClicked}
                 student={student}
+                view
             />
         )
     }
@@ -180,15 +184,24 @@ export const ProblematicStudent = () => {
                 <PriorityBadge priority={info?.row?.original?.priority} />
             ),
         },
+        // {
+        //     accessorKey: 'expiry',
+        //     header: () => <span>Expiry Countdown</span>,
+        //     cell: (info) => (
+        //         <StudentExpiryDaysLeft
+        //             expiryDate={info.row.original?.expiryDate}
+        //         />
+        //     ),
+        // },
+
         {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
+            accessorKey: 'actions',
+            header: () => <span>Actions</span>,
             cell: ({ row }) => (
                 <Button
-                    text="resolve"
-                    className="!bg-gradient-to-r from-successNew to-emerald-600"
+                    text="View Details"
                     variant="secondary"
-                    Icon={FaRegCheckCircle}
+                    Icon={LuFileCheck}
                     onClick={() => onClickCompleted(row.original)}
                 />
             ),
@@ -226,8 +239,8 @@ export const ProblematicStudent = () => {
     }
     const stats = [
         {
-            label: 'Open Issues',
-            value: count?.data?.openIssues || 0,
+            label: 'Total Resolved',
+            value: count?.data?.totalResolved || 0,
             icon: Flag,
             iconColor: 'text-[#ef4444]',
             iconBgColor: 'bg-gradient-to-br from-[#ef4444]/10 to-[#ef4444]/5',
@@ -235,8 +248,8 @@ export const ProblematicStudent = () => {
             highlight: true,
         },
         {
-            label: 'Critical Priority',
-            value: count?.data?.criticalPriority || 0,
+            label: 'This Month',
+            value: count?.data?.thisMonth || 0,
             icon: AlertTriangle,
             iconColor: 'text-[#ef4444]',
             iconBgColor: 'bg-gradient-to-br from-[#ef4444]/10 to-[#ef4444]/5',
@@ -244,7 +257,7 @@ export const ProblematicStudent = () => {
             highlight: true,
         },
         // {
-        //     label: 'Avg Days Open',
+        //     label: 'Avg Resolution Time',
         //     value: 2,
         //     subValue: 'days',
         //     icon: Clock,
@@ -252,8 +265,8 @@ export const ProblematicStudent = () => {
         //     iconBgColor: 'bg-gradient-to-br from-[#F7A619]/10 to-[#F7A619]/5',
         // },
         {
-            label: 'Students Affected',
-            value: count?.data?.studentsEffected || 0,
+            label: 'Critical Resolved',
+            value: count?.data?.criticalResolved || 0,
             icon: User,
             iconColor: 'text-[#044866]',
             iconBgColor: 'bg-gradient-to-br from-[#044866]/10 to-[#044866]/5',
@@ -332,8 +345,10 @@ export const ProblematicStudent = () => {
                     ) : (
                         !isError && (
                             <EmptyData
-                                title={'No Open Issue!'}
-                                description={'There is no issue request yet'}
+                                title={'No Resolved Issue!'}
+                                description={
+                                    'There is no resolved issue request yet'
+                                }
                                 height={'50vh'}
                             />
                         )

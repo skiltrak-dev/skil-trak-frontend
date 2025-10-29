@@ -11,6 +11,7 @@ export const ProblamaticStudent = ({
     isReported,
     studentUpdateRequest,
     studentUnFlaggedRequest,
+    workplaceId,
 }: {
     disabled: boolean
     hasIssue: boolean
@@ -18,6 +19,7 @@ export const ProblamaticStudent = ({
     isReported?: boolean
     studentUpdateRequest?: PartnerRemovalRequests
     studentUnFlaggedRequest?: PartnerRemovalRequests
+    workplaceId?: number
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
 
@@ -26,7 +28,7 @@ export const ProblamaticStudent = ({
     }
 
     const onMakeProblamatic = () => {
-        setModal(<FlagStudentModal onCancel={onCancel} studentId={studentId} />)
+        setModal(<FlagStudentModal onCancel={onCancel} studentId={studentId} workplaceId={workplaceId} />)
     }
 
     const onSwitchOff = () => {
