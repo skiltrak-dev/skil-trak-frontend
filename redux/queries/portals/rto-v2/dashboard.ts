@@ -29,5 +29,8 @@ export const dashboardEndpoints = (
         invalidatesTags: ['RTO'],
     }),
 
-    // Add custom course requirements
+    adminMessage: builder.query<any, void>({
+        query: () => `${PREFIX}message/by-admin`,
+        providesTags: ['RTO'],
+    }),
 })

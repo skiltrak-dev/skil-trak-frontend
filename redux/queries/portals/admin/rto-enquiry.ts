@@ -10,12 +10,12 @@ export const rtoEnquiryEndpoints = (
             url: `${PREFIX}rtos/inquires-list`,
             params,
         }),
-        providesTags: ['AppointmentTypes'],
+        providesTags: ['RTO-Enquiry'],
     }),
 
     getRtoEnquiryDetail: builder.query<any, number>({
         query: (id) => `${PREFIX}rto/inquiry/${id}-detail`,
-        providesTags: ['AppointmentTypes'],
+        providesTags: ['RTO-Enquiry'],
     }),
 
     getRtoEnquiriesCounts: builder.query<any, { search: string }>({
@@ -23,12 +23,12 @@ export const rtoEnquiryEndpoints = (
             url: `${PREFIX}rtos/inquires-count`,
             params,
         }),
-        providesTags: ['AppointmentTypes'],
+        providesTags: ['RTO-Enquiry'],
     }),
 
     premiumIndustriesListForEnquiry: builder.query<any, number>({
         query: (id) => `${PREFIX}feature/${id}/industries-list`,
-        providesTags: ['AppointmentTypes'],
+        providesTags: ['RTO-Enquiry'],
     }),
 
     attachIndustry: builder.mutation<any, { id: number; indId: number }>({
@@ -36,7 +36,7 @@ export const rtoEnquiryEndpoints = (
             url: `${PREFIX}inquiry/${id}/industry/${indId}/add`,
             method: 'PATCH',
         }),
-        invalidatesTags: ['AppointmentTypes'],
+        invalidatesTags: ['RTO-Enquiry'],
     }),
 
     closeEnquiry: builder.mutation<any, { id: number; closeNote: string }>({
@@ -45,6 +45,6 @@ export const rtoEnquiryEndpoints = (
             method: 'PATCH',
             body,
         }),
-        invalidatesTags: ['AppointmentTypes'],
+        invalidatesTags: ['RTO-Enquiry'],
     }),
 })

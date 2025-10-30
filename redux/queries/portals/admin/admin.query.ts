@@ -27,6 +27,7 @@ import { sectorDocumentsEndpoints } from './sector-documents'
 import { industryChecksEndpoints } from './industry-checks'
 import { invoiceEndpoints } from './invoice'
 import { rtoEnquiryEndpoints } from './rto-enquiry'
+import { rtoMessageCenterEndpoints } from './rto-message-center'
 
 const PREFIX = 'admin'
 export const adminApi = emptySplitApi('adminApi').injectEndpoints({
@@ -96,6 +97,7 @@ export const adminApi = emptySplitApi('adminApi').injectEndpoints({
         ...generateKeysEndpoints(build),
         ...notesTemplatesEndpoints(build),
         ...appointmentTypeEndpoints(build),
+        ...rtoMessageCenterEndpoints(build),
     }),
     // overrideExisting: false,
 })
@@ -480,6 +482,10 @@ const {
     useGetRtoEnquiryDetailQuery,
     useGetRtoEnquiriesCountsQuery,
     usePremiumIndustriesListForEnquiryQuery,
+
+    // ---- RTO MESSAGE CENTER ---- //
+    useGetRtosListQuery,
+    useSendRtoMessageMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -858,5 +864,9 @@ export const AdminApi = {
         getRtoEnquiryDetail: useGetRtoEnquiryDetailQuery,
         getRtoEnquiriesCounts: useGetRtoEnquiriesCountsQuery,
         premiumIndustriesList: usePremiumIndustriesListForEnquiryQuery,
+    },
+    RtoMessageCenter: {
+        getRtosList: useGetRtosListQuery,
+        sendRtoMessage: useSendRtoMessageMutation,
     },
 }

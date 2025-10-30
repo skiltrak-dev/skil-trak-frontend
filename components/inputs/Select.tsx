@@ -76,11 +76,42 @@ export const Select = forwardRef(
     ) => {
         const formContext = useFormContext()
 
-        useEffect(() => {
-            if ((value || defaultValue) && formContext) {
-                formContext.setValue(name, handleChange(value || defaultValue))
+        // useEffect(() => {
+        //     if ((value || defaultValue) && formContext) {
+        //         formContext.setValue(name, handleChange(value || defaultValue))
+        //     }
+        // }, [value, defaultValue])
+
+        // Convert form values to react-select format
+        const getDisplayValue = (fieldValue: any) => {
+            if (!fieldValue) return multi ? [] : null
+
+            if (multi) {
+                // Multi-select: convert array of values to array of options
+                if (onlyValue) {
+                    // If onlyValue is true, fieldValue is array of primitive values
+                    return options.filter((opt: OptionType) =>
+                        fieldValue.includes(opt.value)
+                    )
+                } else {
+                    // fieldValue is already array of option objects
+                    return fieldValue
+                }
+            } else {
+                // Single select: convert value to option object
+                if (onlyValue) {
+                    // If onlyValue is true, fieldValue is a primitive value
+                    return (
+                        options.find(
+                            (opt: OptionType) => opt.value === fieldValue
+                        ) || null
+                    )
+                } else {
+                    // fieldValue is already an option object
+                    return fieldValue
+                }
             }
-        }, [value, defaultValue])
+        }
 
         const CustomStyle = {
             control: (
@@ -195,16 +226,17 @@ export const Select = forwardRef(
         const getSimpleSelect = (
             onChange: any,
             onBlur: any,
-            defaultValue: any
+            defaultValue: any,
+            fieldValue: any
         ) => {
             return (
                 <ReactSelect
                     name={name}
                     isSearchable
-                    value={value}
                     onBlur={onBlur}
                     isMulti={multi}
                     options={options}
+                    isClearable={true}
                     onChange={onChange}
                     isLoading={loading}
                     styles={CustomStyle}
@@ -212,11 +244,10 @@ export const Select = forwardRef(
                     classNamePrefix="select"
                     {...(ref ? { ref } : {})}
                     placeholder={placeholder}
-                    isClearable={value !== ''}
-                    onMenuOpen={onMenuOpen}
                     onMenuClose={onMenuClose}
                     defaultValue={defaultValue}
                     onInputChange={onInputChange}
+                    value={getDisplayValue(fieldValue)}
                     formatOptionLabel={formatOptionLabel}
                     {...(components ? { components } : {})}
                     className={`basic-single w-full ${shadow}`}
@@ -238,7 +269,8 @@ export const Select = forwardRef(
                                 onChange && onChange(selectedData)
                             },
                             onBlur,
-                            defaultValue
+                            defaultValue,
+                            field.value
                         )
                     }
                 />
@@ -264,7 +296,8 @@ export const Select = forwardRef(
                               (event: any) =>
                                   onChange && onChange(handleChange(event)),
                               onBlur,
-                              defaultValue
+                              defaultValue,
+                              value
                           )}
                     {validationIcons && <ValidationIcon name={name} />}
                 </div>

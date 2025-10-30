@@ -9,9 +9,10 @@ import {
     ChevronUp,
 } from 'lucide-react'
 import { ActionButton, Badge, Button } from '@components'
+import { UrgencyLevel } from '@partials/admin/rto/message-center/enum'
 
 interface AdminMessageProps {
-    type?: 'urgent' | 'info' | 'success' | 'warning'
+    type?: UrgencyLevel
     title: string
     message: string
     from?: string
@@ -22,7 +23,7 @@ interface AdminMessageProps {
 }
 
 export const AdminMessage = ({
-    type = 'info',
+    type = UrgencyLevel.URGENT,
     title,
     message,
     from = 'Admin Team',
@@ -42,7 +43,7 @@ export const AdminMessage = ({
     if (!isVisible) return null
 
     const config = {
-        urgent: {
+        [UrgencyLevel.URGENT]: {
             bgColor: 'bg-primary-light/50',
             borderColor: 'border-destructive/30',
             icon: AlertTriangle,
@@ -53,7 +54,7 @@ export const AdminMessage = ({
             badgeText: 'URGENT',
             accentColor: 'text-destructive',
         },
-        warning: {
+        [UrgencyLevel.HIGH]: {
             bgColor:
                 'bg-gradient-to-r from-warning/10 via-accent/5 to-warning/10',
             borderColor: 'border-warning/30',
@@ -65,7 +66,7 @@ export const AdminMessage = ({
             badgeText: 'Important',
             accentColor: 'text-warning',
         },
-        success: {
+        [UrgencyLevel.MEDIUM]: {
             bgColor:
                 'bg-gradient-to-r from-success/10 via-emerald-500/5 to-success/10',
             borderColor: 'border-success/30',
@@ -77,7 +78,7 @@ export const AdminMessage = ({
             badgeText: 'Update',
             accentColor: 'text-success',
         },
-        info: {
+        [UrgencyLevel.LOW]: {
             bgColor:
                 'bg-gradient-to-r from-primary/10 via-secondary/5 to-primary/10',
             borderColor: 'border-primary/30',
@@ -164,7 +165,7 @@ export const AdminMessage = ({
                         <div
                             onClick={onAction}
                             className={`h-8 text-xs font-semibold px-3 shadow-sm hover:shadow-md transition-all hover-lift ${
-                                type === 'urgent'
+                                type === UrgencyLevel.URGENT
                                     ? 'bg-gradient-to-r from-destructive to-red-600 hover:opacity-90'
                                     : ''
                             }`}

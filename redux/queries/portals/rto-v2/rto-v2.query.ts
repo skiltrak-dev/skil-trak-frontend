@@ -13,6 +13,7 @@ export const rtoV2Api = emptySplitApi('rtoV2Api').injectEndpoints({
 const {
     // Dashboard
     useAutoWpCountQuery,
+    useAdminMessageQuery,
     useLast24HoursWpQuery,
     useRtoDashboardCountsQuery,
 
@@ -24,6 +25,7 @@ const {
 export const RtoV2Api = {
     Dashboard: {
         autoWpCount: useAutoWpCountQuery,
+        adminMessage: useAdminMessageQuery,
         last24HoursWp: useLast24HoursWpQuery,
         rtoDashboardCounts: useRtoDashboardCountsQuery,
     },

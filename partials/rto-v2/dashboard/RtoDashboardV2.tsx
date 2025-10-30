@@ -1,3 +1,4 @@
+import { RtoV2Api } from '@queries'
 import {
     AdminMessage,
     AIMatchingShowcase,
@@ -5,19 +6,23 @@ import {
     AvailableServices,
     WelcomeCard,
 } from './components'
+import moment from 'moment'
 
 export const RtoDashboardV2 = () => {
+    const adminMessage = RtoV2Api.Dashboard.adminMessage()
     return (
         <div className="space-y-4">
             <WelcomeCard />
-            <AdminMessage
-                type="urgent"
-                title="40 Critical Actions Required - Priority Focus Needed"
-                message="Multiple urgent items require immediate attention: 5 e-sign documents due Monday, 3 placement approvals waiting, 2 student submissions pending review, and 30 active issues requiring resolution. Please prioritize critical tasks to avoid delays in student placements."
-                from="Julie Anderson"
-                date="2h ago"
-                onDismiss={() => {}}
-            />
+            {adminMessage?.data && (
+                <AdminMessage
+                    type={adminMessage?.data?.urgencyLevel}
+                    title={adminMessage?.data?.title}
+                    message={adminMessage?.data?.message}
+                    from={adminMessage?.data?.senderName}
+                    date={moment(adminMessage?.data?.createdAt).fromNow()}
+                    onDismiss={() => {}}
+                />
+            )}
 
             {/*  */}
             <AIMatchingShowcase />
