@@ -1,5 +1,4 @@
 export * from './forms'
-export * from './Title'
 export * from './WelcomeCard'
 export * from './AdminMessage'
 export * from './AnalyticsInsight'

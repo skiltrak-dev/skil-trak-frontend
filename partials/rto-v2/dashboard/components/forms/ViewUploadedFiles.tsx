@@ -3,8 +3,8 @@ import { useFormContext } from 'react-hook-form'
 import { FileText, X } from 'lucide-react'
 import { ActionButton } from '@components'
 import { FileWithId } from '../../forms'
-import { Title } from '../Title'
 import classNames from 'classnames'
+import { Title } from '@partials/rto-v2'
 
 export const ViewUploadedFiles = ({
     variant,

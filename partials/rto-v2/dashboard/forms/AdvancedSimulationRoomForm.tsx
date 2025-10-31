@@ -7,7 +7,9 @@ import {
     Typography,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Title } from '@partials/rto-v2'
 import { Rto } from '@types'
+import { getDate } from '@utils'
 import { MessageSquare } from 'lucide-react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
@@ -15,16 +17,12 @@ import {
     InfoBanner,
     RtoInfoCard,
     Service,
-    ServiceFormActions,
-    Title,
-    ViewUploadedFiles,
+    ServiceFormActions
 } from '../components'
 import {
     AvailableServiceBaseForm,
-    AvailableServiceCourseForm,
-    FileUpload,
+    AvailableServiceCourseForm
 } from '../forms'
-import { getDate } from '@utils'
 import { useSubmitForm } from '../hooks'
 
 export const AdvancedSimulationRoomForm = ({

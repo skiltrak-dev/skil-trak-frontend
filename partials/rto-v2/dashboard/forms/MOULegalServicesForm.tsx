@@ -14,9 +14,9 @@ import {
     RtoInfoCard,
     Service,
     ServiceFormActions,
-    Title,
     ViewUploadedFiles,
 } from '../components'
+import { Title } from '@partials/rto-v2'
 import {
     AvailableServiceBaseForm,
     AvailableServiceCourseForm,

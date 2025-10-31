@@ -1,6 +1,11 @@
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
+import { debounce } from 'lodash'
 import { useRouter } from 'next/router'
-import { CiMail } from 'react-icons/ci'
-import { IoNotificationsOutline } from 'react-icons/io5'
+import { useCallback, useState } from 'react'
+import { FaInbox } from 'react-icons/fa'
+import { IoMdNotifications } from 'react-icons/io'
+import { IoSearch, IoSendSharp } from 'react-icons/io5'
 import { TopBar } from './components'
 import {
     FilterMails,
@@ -8,16 +13,6 @@ import {
     SenderMailsInbox,
     TabNotification,
 } from './tabs'
-import { getUserCredentials } from '@utils'
-import { UserRoles } from '@constants'
-import { FaInbox } from 'react-icons/fa'
-import { IoSendSharp } from 'react-icons/io5'
-import { IoMdNotifications } from 'react-icons/io'
-import { MailsCountCard } from './tabs/MailsInbox/Cards'
-import { IoSearch } from 'react-icons/io5'
-import { useCallback, useState } from 'react'
-import { AuthorizedUserComponent } from '@components'
-import { debounce } from 'lodash'
 
 export const MailsListing = () => {
     const [searchQuery, setSearchQuery] = useState('')
@@ -34,6 +29,8 @@ export const MailsListing = () => {
                 return '/portals/industry/notifications/e-mails'
             case UserRoles.STUDENT:
                 return '/portals/student/mails'
+            case UserRoles.RTO:
+                return '/portals/rto/communications/mails'
             // case UserRoles.RTO:
 
             default:

@@ -10,10 +10,14 @@ import {
 import { UserRoles } from '@constants'
 import { useMaskText } from '@hooks'
 import { Student } from '@types'
-import { ellipsisText, getUserCredentials } from '@utils'
+import { getUserCredentials } from '@utils'
 import { WPInvoiceStatus } from '../components'
-import { MdOutlinePaid } from 'react-icons/md'
 
+import Modal from '@modals/Modal'
+import { IndustryRequestsActions } from '@partials/sub-admin/ManagerApprovalList/enum'
+import { CommonApi } from '@queries'
+import { useState } from 'react'
+import { useWorkplaceQueries } from '../components/Workplace/hooks/useWorkplaceQueries.hook'
 import {
     AssignToMeStudent,
     ContactStatus,
@@ -25,17 +29,11 @@ import {
     StudentExpireTime,
     StudentStatus,
 } from '../ContextBarComponents'
-import { IndustryRequestsActions } from '@partials/sub-admin/ManagerApprovalList/enum'
-import { ViewPaymentDetailsModal } from '../modals'
-import Modal from '@modals/Modal'
-import { FeedbackForm } from '../feedbackForm/FeedbackForm'
-import { useState } from 'react'
-import { CommonApi } from '@queries'
-import stepsConfig from '../feedbackForm/config'
-import { processSubmission } from '../feedbackForm/utils/getAnswersWithQuestions'
 import { ViewPlacementFeedbackModal } from '../feedbackForm'
 import { FeedbackButton } from '../feedbackForm/components'
-import { useWorkplaceQueries } from '../components/Workplace/hooks/useWorkplaceQueries.hook'
+import { FeedbackForm } from '../feedbackForm/FeedbackForm'
+import { processSubmission } from '../feedbackForm/utils/getAnswersWithQuestions'
+import { ViewPaymentDetailsModal } from '../modals'
 
 export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     const [modal, setModal] = useState<any>(null)

@@ -7,7 +7,9 @@ import {
     Typography,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Title } from '@partials/rto-v2'
 import { Rto } from '@types'
+import classNames from 'classnames'
 import { MessageSquare, Users, Video } from 'lucide-react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
@@ -16,16 +18,8 @@ import {
     RtoInfoCard,
     Service,
     ServiceFormActions,
-    Title,
-    ViewUploadedFiles,
 } from '../components'
-import {
-    AvailableServiceBaseForm,
-    AvailableServiceCourseForm,
-    FileUpload,
-} from '../forms'
-import { getDate } from '@utils'
-import classNames from 'classnames'
+import { AvailableServiceBaseForm, AvailableServiceCourseForm } from '../forms'
 import { useSubmitForm } from '../hooks'
 
 export const ProfessionalWebinarSeminarForm = ({

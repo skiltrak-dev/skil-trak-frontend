@@ -323,8 +323,8 @@ export const IncompleteSubmissionStudent = () => {
     return (
         <>
             {modal && modal}
-            <div className="flex flex-col gap-y-3 mb-32">
-                <PageHeading
+            <div className="flex flex-col gap-y-3">
+                {/* <PageHeading
                     title={'Approved Students'}
                     subtitle={'List of Approved Students'}
                 >
@@ -342,7 +342,7 @@ export const IncompleteSubmissionStudent = () => {
                             }}
                         />
                     ) : null}
-                </PageHeading>
+                </PageHeading> */}
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

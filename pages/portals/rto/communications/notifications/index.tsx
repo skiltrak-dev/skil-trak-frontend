@@ -1,0 +1,28 @@
+import { RtoLayoutV2 } from '@layouts'
+import { NotificationList } from '@partials/common'
+import { Bell } from 'lucide-react'
+import React, { ReactElement } from 'react'
+
+const NotificationsPage = () => {
+    return (
+        <div>
+            <NotificationList />
+        </div>
+    )
+}
+
+NotificationsPage.getLayout = (page: ReactElement) => {
+    return (
+        <RtoLayoutV2
+            titleProps={{
+                Icon: Bell,
+                title: 'Notifications',
+                description: 'All Notifications',
+            }}
+        >
+            {page}
+        </RtoLayoutV2>
+    )
+}
+
+export default NotificationsPage

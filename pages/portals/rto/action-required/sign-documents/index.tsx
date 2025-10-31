@@ -3,11 +3,7 @@ import { SignDocuments } from '@partials'
 import React, { ReactElement } from 'react'
 
 const SignDocumentsPage = () => {
-    return (
-        <div>
-            <SignDocuments />
-        </div>
-    )
+    return <SignDocuments />
 }
 
 SignDocumentsPage.getLayout = (page: ReactElement) => {

@@ -13,8 +13,8 @@ export const HistoryDates = ({
     date: Date
     history: any
     subadmin?: number
-    filterType: FilterType
-    customRangeDate: any
+    filterType?: FilterType
+    customRangeDate?: any
 }) => {
     const yesterday = new Date()
     yesterday.setDate(yesterday.getDate() - 1)

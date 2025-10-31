@@ -136,11 +136,12 @@ export const Schedule = ({
                                             <Select
                                                 label={'Courses'}
                                                 name={'courses'}
-                                                value={courseOptions?.find(
-                                                    (c: any) =>
-                                                        c?.value ===
-                                                        selectedCourse
-                                                )}
+                                                // value={courseOptions?.find(
+                                                //     (c: any) =>
+                                                //         c?.value ===
+                                                //         selectedCourse
+                                                // )}
+                                                value={selectedCourse}
                                                 options={courseOptions}
                                                 loading={courses.isLoading}
                                                 onlyValue
@@ -163,11 +164,12 @@ export const Schedule = ({
                                                 label={'Workplaces'}
                                                 name={'workplace'}
                                                 defaultValue={industriesOptions}
-                                                value={industriesOptions?.find(
-                                                    (c: any) =>
-                                                        c?.value ===
-                                                        selectedIndustry
-                                                )}
+                                                // value={industriesOptions?.find(
+                                                //     (c: any) =>
+                                                //         c?.value ===
+                                                //         selectedIndustry
+                                                // )}
+                                                value={selectedIndustry}
                                                 options={industriesOptions}
                                                 loading={
                                                     studentWorkplace.isLoading

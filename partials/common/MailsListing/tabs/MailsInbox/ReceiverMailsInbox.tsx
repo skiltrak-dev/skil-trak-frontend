@@ -1,8 +1,7 @@
-import { useState } from 'react'
-import { MailTitle, MailTopBar, MailingList } from './components'
 import { CommonApi } from '@queries'
+import { useState } from 'react'
 import { useFunctions } from '../hooks'
-import { Typography } from '@components'
+import { MailTitle, MailTopBar, MailingList } from './components'
 
 export const ReceiverMailsInbox = () => {
     const [itemPerPage, setItemPerPage] = useState(30)

@@ -1,6 +1,5 @@
 import {
     ActionButton,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
@@ -9,11 +8,9 @@ import {
     TableActionOption,
     TableChildrenProps,
     TechnicalError,
-    Typography,
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEye, FaFileExport } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 
 import { useGetRtoStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
@@ -28,7 +25,7 @@ export const PendingStudent = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    const { isLoading, data, isError } = useGetRtoStudentsQuery({
+    const { isLoading, data, isError, isSuccess } = useGetRtoStudentsQuery({
         search: `status:${UserStatus.Pending}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
@@ -119,9 +116,9 @@ export const PendingStudent = () => {
 
     return (
         <>
-            {modal && modal}
-            <div className="flex flex-col gap-y-4 mb-32">
-                <PageHeading
+            {modal}
+            <div className="flex flex-col gap-y-4">
+                {/* <PageHeading
                     title={'Pending Students'}
                     subtitle={'List of Pending Students'}
                 >
@@ -134,13 +131,13 @@ export const PendingStudent = () => {
                             />
                         </>
                     ) : null}
-                </PageHeading>
+                </PageHeading> */}
 
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
-                    ) : data && data?.data?.length ? (
+                    ) : data?.data && data?.data?.length && isSuccess ? (
                         <Table
                             columns={columns}
                             data={data.data}
@@ -194,7 +191,7 @@ export const PendingStudent = () => {
                                 )
                             }}
                         </Table>
-                    ) : (
+                    ) : isSuccess ? (
                         <EmptyData
                             title={'No Pending Student!'}
                             description={
@@ -202,7 +199,7 @@ export const PendingStudent = () => {
                             }
                             height={'50vh'}
                         />
-                    )}
+                    ) : null}
                 </Card>
             </div>
         </>
