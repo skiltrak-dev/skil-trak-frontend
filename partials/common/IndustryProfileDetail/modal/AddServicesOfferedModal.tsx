@@ -60,9 +60,7 @@ export const AddServicesOfferedModal = ({
                         multi
                         onlyValue
                         name="mealType"
-                        value={mealTypeOptions?.filter((mealType) =>
-                            selectedMealType?.includes(mealType?.value)
-                        )}
+                        value={selectedMealType}
                         label="Select Meal Type"
                         options={mealTypeOptions}
                         onChange={setSelectedMealType}

@@ -246,9 +246,9 @@ export const ArchivedStudent = () => {
     }
 
     return (
-        <div className="flex flex-col gap-y-4 mb-32">
+        <div className="flex flex-col gap-y-4">
             {modal && modal}
-            <PageHeading
+            {/* <PageHeading
                 title={'Archived Students'}
                 subtitle={'List of Archived Students'}
             >
@@ -267,7 +267,7 @@ export const ArchivedStudent = () => {
                         </a>
                     </>
                 ) : null}
-            </PageHeading>
+            </PageHeading> */}
 
             <Card noPadding>
                 {isError && <TechnicalError />}

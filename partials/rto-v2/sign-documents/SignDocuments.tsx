@@ -19,7 +19,7 @@ export const SignDocuments = () => {
         },
     ]
     return (
-        <div className="space-y-4">
+        <div className="space-y-2">
             <ActionRequiredHeader
                 icon={FileSignature}
                 title="E-Sign Documents Required"
@@ -37,20 +37,6 @@ export const SignDocuments = () => {
                 gradientTo="primary-light"
                 iconGradient="from-red-400 to-red-600"
             />
-            <div className="grid grid-cols-3">
-                <CountCard
-                    stat={{
-                        label: 'Critical Priority',
-                        value: 3,
-                        icon: AlertCircle,
-                        iconColor: 'text-red-400',
-                        iconBgColor:
-                            'bg-gradient-to-br from-red-400/10 to-red-400/5',
-                        valueColor: 'text-red-400',
-                        highlight: true,
-                    }}
-                />
-            </div>
 
             <TabNavigation tabs={tabs}>
                 {({ header, element }: any) => {

@@ -234,8 +234,8 @@ export const CompletedStudents = () => {
     return (
         <>
             {modal}
-            <div className="flex flex-col gap-y-4 mb-32">
-                <PageHeading
+            <div className="flex flex-col gap-y-4">
+                {/* <PageHeading
                     title={'Completed Students'}
                     subtitle={'List of Completed Students'}
                 >
@@ -256,7 +256,7 @@ export const CompletedStudents = () => {
                             </a>
                         </>
                     ) : null}
-                </PageHeading>
+                </PageHeading> */}
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

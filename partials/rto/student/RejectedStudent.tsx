@@ -174,8 +174,8 @@ export const RejectedStudent = () => {
     return (
         <>
             {modal}
-            <div className="flex flex-col gap-y-4 mb-32">
-                <PageHeading
+            <div className="flex flex-col gap-y-4">
+                {/* <PageHeading
                     title={'Rejected Students'}
                     subtitle={'List of Rejected Students'}
                 >
@@ -186,7 +186,7 @@ export const RejectedStudent = () => {
                             Icon={FaFileExport}
                         />
                     ) : null}
-                </PageHeading>
+                </PageHeading> */}
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

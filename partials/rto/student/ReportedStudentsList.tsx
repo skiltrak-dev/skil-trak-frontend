@@ -333,7 +333,7 @@ export const ReportedStudentsList = () => {
         <>
             {modal}
             <div className="flex flex-col gap-y-3 mb-32">
-                <PageHeading
+                {/* <PageHeading
                     title={'Reported Students'}
                     subtitle={'List of Reported Students'}
                 >
@@ -351,7 +351,7 @@ export const ReportedStudentsList = () => {
                             }}
                         />
                     ) : null}
-                </PageHeading>
+                </PageHeading> */}
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

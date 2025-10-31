@@ -9,6 +9,7 @@ interface ActionRequiredHeaderProps {
     urgentLabel: string
     pendingCount?: number
     pendingLabel?: string
+    UrgentIcon?: any
     actionButton?: {
         label: string
         icon: LucideIcon
@@ -25,6 +26,7 @@ export const ActionRequiredHeader = ({
     title,
     description,
     urgentCount,
+    UrgentIcon,
     urgentLabel,
     pendingCount,
     pendingLabel,
@@ -66,9 +68,16 @@ export const ActionRequiredHeader = ({
                             <div
                                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-br from-${gradientFrom}/10 to-${gradientTo}/10 border`}
                             >
-                                <AlertTriangle
-                                    className={`h-3 w-3 text-${gradientFrom}`}
-                                />
+                                {UrgentIcon ? (
+                                    <UrgentIcon
+                                        className={`h-3 w-3 text-${gradientFrom}`}
+                                    />
+                                ) : (
+                                    <AlertTriangle
+                                        className={`h-3 w-3 text-${gradientFrom}`}
+                                    />
+                                )}
+
                                 <span
                                     className={`font-semibold text-${gradientFrom}`}
                                 >

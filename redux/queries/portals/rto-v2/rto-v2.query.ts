@@ -1,9 +1,11 @@
 import { emptySplitApi } from '../empty.query'
 import { availableServicesEndpoints } from './availableServices'
 import { dashboardEndpoints } from './dashboard'
+import { studentsEndpoints } from './students'
 
 export const rtoV2Api = emptySplitApi('rtoV2Api').injectEndpoints({
     endpoints: (build) => ({
+        ...studentsEndpoints(build),
         ...dashboardEndpoints(build),
         ...availableServicesEndpoints(build),
     }),
@@ -20,6 +22,9 @@ const {
     // Available Services
     useGetPremiumFeaturesQuery,
     useSubmitAvailableServiceFormMutation,
+
+    // ---- Students ---- //
+    useRtoStudentHistoryQuery,
 } = rtoV2Api
 
 export const RtoV2Api = {
@@ -32,5 +37,8 @@ export const RtoV2Api = {
     AvailableServices: {
         premiumFeatures: useGetPremiumFeaturesQuery,
         submitAvailableService: useSubmitAvailableServiceFormMutation,
+    },
+    Students: {
+        rtoStudentHistory: useRtoStudentHistoryQuery,
     },
 }

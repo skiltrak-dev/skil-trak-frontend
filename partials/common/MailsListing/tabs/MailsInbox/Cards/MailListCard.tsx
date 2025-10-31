@@ -63,6 +63,12 @@ export const MailListCard = ({
                 router.push(`/portals/student/mails/${mailDetail?.id}`)
                 break
 
+            case UserRoles.RTO:
+                router.push(
+                    `/portals/rto/communications/mails/${mailDetail?.id}`
+                )
+                break
+
             default:
                 break
         }

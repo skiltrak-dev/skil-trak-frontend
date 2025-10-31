@@ -1,19 +1,16 @@
 import {
     EmptyData,
     LoadingAnimation,
-    NoData,
     PageTitle,
     TechnicalError,
 } from '@components'
-import { FigureCard } from '@components/sections/subAdmin'
 import { AdminLayout } from '@layouts'
 import { HistoryDates, HistoryFilters } from '@partials/common'
 import { CommonApi } from '@queries'
 import { NextPageWithLayout } from '@types'
 import { getCommonDates, removeEmptyValues } from '@utils'
-import moment from 'moment'
 import { FilterType } from 'pages/portals/sub-admin/history'
-import React, { ReactElement, useState } from 'react'
+import { ReactElement, useState } from 'react'
 
 const SubAdminAsAdminActivities: NextPageWithLayout = () => {
     const [itemPerPage, setItemPerPage] = useState(50)

@@ -182,8 +182,8 @@ export const BlockedStudent = () => {
     return (
         <>
             {modal}
-            <div className="flex flex-col gap-y-4 mb-32">
-                <PageHeading
+            <div className="flex flex-col gap-y-4">
+                {/* <PageHeading
                     title={'Blocked Students'}
                     subtitle={'List of Blocked Students'}
                 >
@@ -196,7 +196,7 @@ export const BlockedStudent = () => {
                             />
                         </>
                     ) : null}
-                </PageHeading>
+                </PageHeading> */}
 
                 <Card noPadding>
                     {isError && <TechnicalError />}

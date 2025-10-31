@@ -7,6 +7,7 @@ import { getUserCredentials } from '@utils'
 import { FaPlus } from 'react-icons/fa6'
 import { RiDraftFill } from 'react-icons/ri'
 import { FaMailBulk } from 'react-icons/fa'
+import classNames from 'classnames'
 
 export const TopBar = ({ mailsTabs }: { mailsTabs: any }) => {
     const router = useRouter()
@@ -18,7 +19,14 @@ export const TopBar = ({ mailsTabs }: { mailsTabs: any }) => {
     }, [])
     const role = getUserCredentials()?.role
     return (
-        <div className="flex flex-col gap-y-6 gap-x-12 h-[690px] overflow-auto custom-scrollbar bg-white shadow-[inset_0_-1px_0_0_#EDEFF1] px-4 w-1/5 rounded-xl">
+        <div
+            className={classNames({
+                'flex flex-col gap-y-6 gap-x-12 h-[690px] overflow-auto custom-scrollbar bg-white shadow-[inset_0_-1px_0_0_#EDEFF1] px-4  rounded-xl':
+                    true,
+                '!w-1/3': role === UserRoles.RTO,
+                'w-1/5': role !== UserRoles.RTO,
+            })}
+        >
             <div className="mt-4">
                 <Button
                     onClick={() => {

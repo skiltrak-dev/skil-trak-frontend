@@ -322,11 +322,11 @@ export const ApprovedStudent = () => {
     return (
         <>
             {modal && modal}
-            <div className="flex flex-col gap-y-3 mb-32">
-                <PageHeading
+            <div className="flex flex-col gap-y-3">
+                {/* <PageHeading
                     title={'Approved Students'}
                     subtitle={'List of Approved Students'}
-                />
+                /> */}
                 {/* {data?.data && data?.data.length ? (
                         <Button
                             text={'Export'}

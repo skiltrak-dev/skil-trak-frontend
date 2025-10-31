@@ -24,8 +24,9 @@ import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { useContextBar } from '@hooks'
 import { Typography } from '@components/Typography'
+import { Title } from '@partials'
 
-export const RtoNavbarV2 = ({ onOpenSidebar }: any) => {
+export const RtoNavbarV2 = ({ onOpenSidebar, titleProps }: any) => {
     const [mount, setMount] = useState(false)
     const [notificationsExpanded, setNotificationsExpanded] = useState(false)
 
@@ -88,6 +89,11 @@ export const RtoNavbarV2 = ({ onOpenSidebar }: any) => {
 
     return (
         <header className="w-full flex items-center justify-between gap-3 px-4 md:px-6 py-3 border-b border-border bg-transparent backdrop-blur-sm z-30">
+            {titleProps && (
+                <div className="hidden lg:block">
+                    <Title {...titleProps} />
+                </div>
+            )}
             <div className="flex items-center gap-3">
                 <button
                     aria-label="Open menu"
@@ -97,7 +103,6 @@ export const RtoNavbarV2 = ({ onOpenSidebar }: any) => {
                     <Menu className="h-5 w-5 text-foreground" />
                 </button>
             </div>
-
             <div className="flex items-center gap-3">
                 <Dropdown>
                     <DropdownTrigger>
