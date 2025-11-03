@@ -1,12 +1,13 @@
 'use client'
-import { ReactNode, useState } from 'react'
 import {
-    RtoNavbarV2,
-    PageTitleProps,
-    DisplayNotifications,
+    ContextBar,
     DisplayAlerts,
+    DisplayNotifications,
+    PageTitleProps,
+    RtoNavbarV2
 } from '@components'
 import { RtoSidebar } from '@components/sideBars/rtoSidebarV2'
+import { ReactNode, useState } from 'react'
 
 interface RtoLayoutProps {
     pageTitle?: PageTitleProps
@@ -47,6 +48,9 @@ export const RtoLayoutV2 = ({ children, titleProps }: RtoLayoutProps) => {
                 <main className="flex-1 overflow-y-auto p-4 md:p-6  mx-auto w-full">
                     <div>{children}</div>
                 </main>
+                <div className="h-[10px]">
+                    <ContextBar />
+                </div>
                 <DisplayNotifications />
                 <DisplayAlerts />
             </div>

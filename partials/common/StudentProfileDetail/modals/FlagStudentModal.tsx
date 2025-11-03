@@ -37,7 +37,7 @@ export const FlagStudentModal = ({
     workplaceId?: number
     onCancel: () => void
 }) => {
-    const [problamaticStudent, problamaticStudentResult] =
+    const [problematicStudent, problematicStudentResult] =
         SubAdminApi.Student.useProblamaticStudent()
 
     const { notification } = useNotification()
@@ -92,36 +92,39 @@ export const FlagStudentModal = ({
         if (workplaceId) {
             body.workplaceId = workplaceId
         }
-        problamaticStudent({ studentId, body }).then((res: any) => {
+        problematicStudent({ studentId, body }).then((res: any) => {
             if (res?.data) {
                 notification?.[hasPermission ? 'success' : 'warning']({
-                    title: `Mark As Flaged ${
-                        !hasPermission ? 'request sent' : ''
-                    }`,
-                    description: `Marked As Flaged ${
-                        !hasPermission ? 'request sent to manager' : ''
-                    } successfully!`,
+                    title: `Mark As Flaged ${!hasPermission ? 'request sent' : ''
+                        }`,
+                    description: `Marked As Flaged ${!hasPermission ? 'request sent to manager' : ''
+                        } successfully!`,
                 })
                 onCancel()
             }
         })
     }
     const priorityOptions = [
-        { label: 'Crictical', value: flagStudentPriorityEnum.Critical },
+        { label: 'Critical', value: flagStudentPriorityEnum.Critical },
         { label: 'High', value: flagStudentPriorityEnum.High },
         { label: 'Medium', value: flagStudentPriorityEnum.Medium },
     ]
     const categoryOptions = [
         { label: 'Scheduling', value: flagStudentCategoryEnum.Scheduling },
+        { label: 'Communication', value: flagStudentCategoryEnum.Communication },
+        { label: 'Documentation', value: flagStudentCategoryEnum.Documentation },
+        { label: 'Logistics', value: flagStudentCategoryEnum.Logistics },
+        { label: 'Compliance', value: flagStudentCategoryEnum.Compliance },
+        { label: 'Capacity', value: flagStudentCategoryEnum.Capacity },
     ]
     return (
         <>
-            <ShowErrorNotifications result={problamaticStudentResult} />
+            <ShowErrorNotifications result={problematicStudentResult} />
             <Modal
                 title="Flagged Student"
                 onCancelClick={onCancel}
                 subtitle="Flagged Student"
-                loading={problamaticStudentResult.isLoading}
+                loading={problematicStudentResult.isLoading}
                 onConfirmClick={methods.handleSubmit(onSubmit)}
             >
                 <FormProvider {...methods}>

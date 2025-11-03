@@ -1,7 +1,7 @@
 import { GlobalModal } from '@components'
 import { FileSpreadsheet, Upload, UserPlus, X } from 'lucide-react'
 import React from 'react'
-import { ImportStudentsTab } from './tabs'
+import { AddIndividualStudentTab, ImportStudentsTab } from './tabs'
 
 export const ImportStudentsModal = ({ onCancel }: any) => {
     const [activeTab, setActiveTab] = React.useState<'import' | 'add'>('import')
@@ -19,7 +19,7 @@ export const ImportStudentsModal = ({ onCancel }: any) => {
             label: 'Add Individual',
             icon: UserPlus,
             color: 'from-[#F7A619] to-secondary',
-            content: <>Add Individual Student</>,
+            content: <AddIndividualStudentTab />,
         },
     ]
 
@@ -63,11 +63,10 @@ export const ImportStudentsModal = ({ onCancel }: any) => {
                                             tab.key as 'import' | 'add'
                                         )
                                     }
-                                    className={`flex items-center gap-2 px-16 py-3 text-sm font-medium rounded-xl transition-all duration-200 ${
-                                        isActive
+                                    className={`flex items-center gap-2 px-16 py-3 text-sm font-medium rounded-xl transition-all duration-200 ${isActive
                                             ? `text-white bg-gradient-to-r ${tab.color} shadow-md`
                                             : 'text-gray-600 hover:text-gray-800'
-                                    }`}
+                                        }`}
                                 >
                                     <Icon className="size-4" />
                                     {tab.label}

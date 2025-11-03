@@ -138,13 +138,11 @@ export const ResolvedIssuesHistoryTab = () => {
                     <div className="flex items-center gap-2">
                         <GraduationCap className="h-3 w-3 text-gray-500" />
                         <p className="text-xs truncate">
-                            {`${
-                                info.row.original?.workplaceRequest?.courses[0]
+                            {`${info.row.original?.workplaceRequest?.courses[0]
                                     ?.code ?? '————'
-                            } - ${
-                                info.row.original?.workplaceRequest?.courses[0]
+                                } - ${info.row.original?.workplaceRequest?.courses[0]
                                     ?.title ?? '————'
-                            }`}
+                                }`}
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -256,14 +254,14 @@ export const ResolvedIssuesHistoryTab = () => {
             valueColor: 'text-[#ef4444]',
             highlight: true,
         },
-        // {
-        //     label: 'Avg Resolution Time',
-        //     value: 2,
-        //     subValue: 'days',
-        //     icon: Clock,
-        //     iconColor: 'text-[#F7A619]',
-        //     iconBgColor: 'bg-gradient-to-br from-[#F7A619]/10 to-[#F7A619]/5',
-        // },
+        {
+            label: 'Avg Resolution Time',
+            value: count?.data?.averageResolutionDays || 0,
+            subValue: 'days',
+            icon: Clock,
+            iconColor: 'text-[#F7A619]',
+            iconBgColor: 'bg-gradient-to-br from-[#F7A619]/10 to-[#F7A619]/5',
+        },
         {
             label: 'Critical Resolved',
             value: count?.data?.criticalResolved || 0,
@@ -281,7 +279,7 @@ export const ResolvedIssuesHistoryTab = () => {
                     title={'Problematic Students'}
                     subtitle={'List of Problematic Students'}
                 ></PageHeading> */}
-                <div className="mt-5 grid grid-cols-3 gap-4">
+                <div className="mt-5 grid grid-cols-4 gap-4">
                     {stats.map((stat) => (
                         <CountCard stat={stat} />
                     ))}
@@ -295,7 +293,7 @@ export const ResolvedIssuesHistoryTab = () => {
                             columns={columns}
                             data={data.data}
                             quickActions={quickActionsElements}
-                            // enableRowSelection
+                        // enableRowSelection
                         >
                             {({
                                 table,

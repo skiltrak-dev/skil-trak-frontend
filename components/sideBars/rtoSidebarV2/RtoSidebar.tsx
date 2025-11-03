@@ -15,6 +15,7 @@ import {
     Building2,
     Settings,
     GraduationCap,
+    Briefcase,
 } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { ImportStudentsModal } from '@partials'
@@ -100,6 +101,16 @@ const menuSections = [
                 iconBg: 'bg-blue-500',
                 badgeBg: 'bg-blue-500',
                 text: 'text-blue-700',
+            },
+            {
+                icon: Briefcase,
+                label: 'Placement Requests',
+                key: 'Placement Requests',
+                path: '/portals/rto/dashboard/placement-requests?tab=student-need-wp',
+                bg: 'bg-indigo-50 border border-indigo-200',
+                iconBg: 'bg-indigo-500',
+                badgeBg: 'bg-indigo-500',
+                text: 'text-indigo-700',
             },
             {
                 icon: Upload,
@@ -329,11 +340,10 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
                     {menuSections.map((section, idx) => (
                         <div key={section.title}>
                             <div
-                                className={`${
-                                    idx > 0
-                                        ? 'pt-8 mt-3 !mx-8 border-t border-sidebar-border/30'
-                                        : ''
-                                } mb-1 last:mb-0`}
+                                className={`${idx > 0
+                                    ? 'pt-8 mt-3 !mx-8 border-t border-sidebar-border/30'
+                                    : ''
+                                    } mb-1 last:mb-0`}
                             />
                             <div className="flex items-center justify-between px-1 mb-2">
                                 <div className="text-xs uppercase tracking-wide font-semibold text-slate-500">

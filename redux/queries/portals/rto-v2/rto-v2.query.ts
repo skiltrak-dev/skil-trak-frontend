@@ -1,6 +1,7 @@
 import { emptySplitApi } from '../empty.query'
 import { availableServicesEndpoints } from './availableServices'
 import { dashboardEndpoints } from './dashboard'
+import { placementRequestsEndPoints } from './placementRequests'
 import { studentsEndpoints } from './students'
 
 export const rtoV2Api = emptySplitApi('rtoV2Api').injectEndpoints({
@@ -8,6 +9,7 @@ export const rtoV2Api = emptySplitApi('rtoV2Api').injectEndpoints({
         ...studentsEndpoints(build),
         ...dashboardEndpoints(build),
         ...availableServicesEndpoints(build),
+        ...placementRequestsEndPoints(build),
     }),
     // overrideExisting: true,
 })
@@ -23,6 +25,10 @@ const {
     useGetPremiumFeaturesQuery,
     useSubmitAvailableServiceFormMutation,
 
+    // Student Placement Requests
+    useGetStudentPlacementRequestListQuery,
+    useGetStudentPlacementRequestStatsQuery,
+
     // ---- Students ---- //
     useRtoStudentHistoryQuery,
 } = rtoV2Api
@@ -37,6 +43,11 @@ export const RtoV2Api = {
     AvailableServices: {
         premiumFeatures: useGetPremiumFeaturesQuery,
         submitAvailableService: useSubmitAvailableServiceFormMutation,
+    },
+    PlacementRequests: {
+        useStudentPlacementRequestList: useGetStudentPlacementRequestListQuery,
+        useStudentPlacementRequestStats:
+            useGetStudentPlacementRequestStatsQuery,
     },
     Students: {
         rtoStudentHistory: useRtoStudentHistoryQuery,
