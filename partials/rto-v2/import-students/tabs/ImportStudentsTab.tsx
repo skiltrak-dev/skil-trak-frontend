@@ -64,20 +64,6 @@ export const ImportStudentsTab = () => {
                 )
             }
         })
-
-        // const courses = values?.courses?.map((c: any) => c.value)
-
-        // const formData = new FormData()
-        // courses?.forEach((c: any) => {
-        //     formData.append('courses[]', c)
-        // })
-
-        // formData.append('batch', values.batch)
-        // formData.append('expiry', values.expiry)
-
-        // formData.append('file', file)
-
-        // await importStudents({ id: Number(router.query.id), body: formData })
     }
 
     return (
