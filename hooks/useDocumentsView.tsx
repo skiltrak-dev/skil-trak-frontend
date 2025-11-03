@@ -55,7 +55,6 @@ export const DocumentsView = () => {
             // const fileSplit = file.file.split('https://')
             // const url = `https://www.${fileSplit[1]}`
             const url = `${file?.file}`
-            console.log({ url: file?.extension })
             setModal(
                 <PdfViewModal
                     url={url}

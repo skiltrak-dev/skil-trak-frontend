@@ -5,7 +5,12 @@ import { FileDrop } from 'react-file-drop'
 
 // components
 import { PdfViewer, Typography, VideoPreview } from '@components'
-import { HelpText, RequiredStar, Tooltip } from './components'
+import {
+    HelpText,
+    InputErrorMessage,
+    RequiredStar,
+    Tooltip,
+} from './components'
 
 import { FileData } from '@types'
 import {
@@ -348,6 +353,8 @@ export const BinaryFileUpload = ({
             </FileDrop>
 
             <HelpText text={helpText} />
+
+            <InputErrorMessage name={name} />
         </div>
     )
 }

@@ -56,8 +56,6 @@ export const RecentActivities = () => {
 
     const recentActivitiesIcons = [Clock, Upload, Sparkles, LogIn, Clock]
 
-    console.log({ recentActivities })
-
     return (
         <Card className="border-border/50 shadow-premium-lg hover:shadow-premium-xl transition-all">
             <Collapsible open={expand} onOpenChange={() => setExpand(!expand)}>
