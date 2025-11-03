@@ -90,25 +90,33 @@ export const Select = forwardRef(
                 // Multi-select: convert array of values to array of options
                 if (onlyValue) {
                     // If onlyValue is true, fieldValue is array of primitive values
-                    return options.filter((opt: OptionType) =>
+                    return options?.filter((opt: OptionType) =>
                         fieldValue.includes(opt.value)
                     )
                 } else {
-                    // fieldValue is already array of option objects
-                    return fieldValue
+                    if (typeof fieldValue === 'object') {
+                        return fieldValue
+                    } else {
+                        return options?.filter((opt: OptionType) =>
+                            fieldValue.includes(opt.value)
+                        )
+                    }
                 }
             } else {
+                const optionData =
+                    options?.find(
+                        (opt: OptionType) => opt.value === fieldValue
+                    ) || null
                 // Single select: convert value to option object
                 if (onlyValue) {
                     // If onlyValue is true, fieldValue is a primitive value
-                    return (
-                        options.find(
-                            (opt: OptionType) => opt.value === fieldValue
-                        ) || null
-                    )
+                    return optionData
                 } else {
-                    // fieldValue is already an option object
-                    return fieldValue
+                    if (typeof fieldValue === 'object') {
+                        return fieldValue
+                    } else {
+                        return optionData
+                    }
                 }
             }
         }

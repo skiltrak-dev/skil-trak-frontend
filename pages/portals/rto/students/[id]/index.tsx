@@ -1,8 +1,7 @@
-import { useContextBar, useNavbar } from '@hooks'
 import { RtoLayout } from '@layouts'
 import { NextPageWithLayout } from '@types'
 import { ReactElement, useEffect } from 'react'
-
+import { useContextBar, useNavbar } from '@hooks'
 import { StudentProfileDetail } from '@partials/common'
 
 const Detail: NextPageWithLayout = () => {
@@ -18,12 +17,7 @@ const Detail: NextPageWithLayout = () => {
         }
     }, [])
 
-    return (
-        <>
-            <StudentProfileDetail />
-        </>
-    )
-}
+    return <StudentProfileDetail />
 
 Detail.getLayout = (page: ReactElement) => {
     return (
