@@ -84,7 +84,6 @@ export const FlagStudentModal = ({
 
     const onSubmit = (values: any) => {
         const isReported = values?.isReported === 'yes' ? true : false
-        console.log('isReported', isReported)
         const body = {
             ...values,
             isReported,
@@ -95,10 +94,12 @@ export const FlagStudentModal = ({
         problematicStudent({ studentId, body }).then((res: any) => {
             if (res?.data) {
                 notification?.[hasPermission ? 'success' : 'warning']({
-                    title: `Mark As Flaged ${!hasPermission ? 'request sent' : ''
-                        }`,
-                    description: `Marked As Flaged ${!hasPermission ? 'request sent to manager' : ''
-                        } successfully!`,
+                    title: `Mark As Flaged ${
+                        !hasPermission ? 'request sent' : ''
+                    }`,
+                    description: `Marked As Flaged ${
+                        !hasPermission ? 'request sent to manager' : ''
+                    } successfully!`,
                 })
                 onCancel()
             }
@@ -111,8 +112,14 @@ export const FlagStudentModal = ({
     ]
     const categoryOptions = [
         { label: 'Scheduling', value: flagStudentCategoryEnum.Scheduling },
-        { label: 'Communication', value: flagStudentCategoryEnum.Communication },
-        { label: 'Documentation', value: flagStudentCategoryEnum.Documentation },
+        {
+            label: 'Communication',
+            value: flagStudentCategoryEnum.Communication,
+        },
+        {
+            label: 'Documentation',
+            value: flagStudentCategoryEnum.Documentation,
+        },
         { label: 'Logistics', value: flagStudentCategoryEnum.Logistics },
         { label: 'Compliance', value: flagStudentCategoryEnum.Compliance },
         { label: 'Capacity', value: flagStudentCategoryEnum.Capacity },

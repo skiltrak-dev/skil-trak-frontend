@@ -23,9 +23,6 @@ export const CourseDetails = ({ enquiryDetails }: { enquiryDetails: any }) => {
                 <div className="space-y-4">
                     {Object.entries(getSectors(enquiryDetails?.courses))?.map(
                         ([sector, courses]: any, idx: number) => {
-                            console.log({
-                                sector: enquiryDetails?.courses,
-                            })
                             return (
                                 <div key={idx} className="space-y-2">
                                     <h4 className="text-[#262626]">{sector}</h4>
