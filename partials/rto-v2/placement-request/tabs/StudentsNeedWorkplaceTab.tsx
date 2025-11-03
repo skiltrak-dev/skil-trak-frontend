@@ -1,7 +1,9 @@
+
 import {
     ActionButton,
     Button,
     Card,
+    CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
     StudentExpiryDaysLeft,
@@ -9,6 +11,7 @@ import {
     TableAction,
     TableActionOption,
     TechnicalError,
+    Typography,
     UserCreatedAt,
 } from '@components'
 import { PageHeading } from '@components/headings'
@@ -17,12 +20,11 @@ import { FaCheckCircle, FaEdit, FaEye } from 'react-icons/fa'
 
 import { EditTimer } from '@components/StudentTimer/EditTimer'
 import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
-import { RtoApi } from '@queries'
+import { RtoApi, RtoV2Api } from '@queries'
 import { Student, StudentIssue } from '@types'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock } from 'react-icons/md'
-import { SectorCell, StudentCellInfo } from './components'
 import {
     AlertTriangle,
     Building2,
@@ -30,23 +32,29 @@ import {
     Clock,
     Flag,
     GraduationCap,
+    MessageSquare,
     User,
 } from 'lucide-react'
 import { CountCard } from '@partials/rto-v2/cards/CountCard'
 import { PriorityBadge, ResolveIssuesCompletedModal } from '@partials/rto-v2'
 import { FaRegCheckCircle } from 'react-icons/fa'
 import moment from 'moment'
-import { ellipsisText } from '@utils'
+import { ellipsisText, studentsListWorkplace } from '@utils'
+import { SectorCell, StudentCellInfo } from '@partials/rto/student/components'
+import { SubadminStudentIndustries } from '@partials/sub-admin/students'
+import { CreateStudentNote } from '@partials/common/Notes/forms'
+import { LuMessageSquare } from 'react-icons/lu'
 
-export const ProblematicStudent = () => {
+export const StudentsNeedWorkplaceTab = () => {
     const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+    // RtoV2Api.PlacementRequests.useStudentPlacementRequestList()
     const { isLoading, data, isError, refetch } =
-        RtoApi.Students.useRtoResolveIssuesStudents({
-            search: 'status:open',
+        RtoV2Api.PlacementRequests.useStudentPlacementRequestList({
+            search: `studentProvidedWorkplace:${false}`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
@@ -68,6 +76,20 @@ export const ProblematicStudent = () => {
             />
         )
     }
+    const onAddNote = (student: Student) => {
+        setModal(
+            <div
+                className={`bg-[#00000050]  w-[calc(100%-80%)]
+                     h-full flex items-center justify-center gap-x-2 fixed top-[4.4rem] right-0 z-40`}
+            >
+                <CreateStudentNote
+                    studentId={student?.id}
+                    onCancel={onModalCancelClicked}
+                    receiverId={student?.user?.id}
+                /> 
+            </div>
+        )
+    }
 
     const onDateClick = (student: Student) => {
         setModal(
@@ -79,135 +101,138 @@ export const ProblematicStudent = () => {
         )
     }
 
-    const tableActionOptions: TableActionOption<Student>[] = [
+    const tableActionOptions = (student: Student) => [
         {
             text: 'View',
-            onClick: (student) =>
+            onClick: (student: Student) =>
                 router.push(`/portals/rto/students/${student.id}?tab=overview`),
             Icon: FaEye,
         },
+        // {
+        //     text: 'Edit',
+        //     onClick: (student: Student) =>
+        //         router.push(`/portals/rto/students/${student.id}/edit-student`),
+        //     Icon: FaEye,
+        // },
+        // {
+        //     text: student?.rtoCoordinator
+        //         ? 'Change Coordinator'
+        //         : 'Assign Coordinator',
+        //     onClick: (student: Student) => onAssignCoordinatorClicked(student),
+        //     Icon: FaUserPlus,
+        // },
+        // {
+        //     text: 'Block',
+        //     onClick: (student: Student) => onBlockClicked(student),
+        //     Icon: MdBlock,
+        //     color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        // },
         {
             text: 'Change Status',
-            onClick: (student) => onChangeStatus(student),
+            onClick: (student: Student) => onChangeStatus(student),
             Icon: FaEdit,
         },
         {
-            text: 'Change Expiry',
-            onClick: (student) => onDateClick(student),
-            Icon: FaEdit,
+            text: 'Add Note',
+            onClick: (student: Student) => onAddNote(student),
+            Icon: LuMessageSquare,
         },
-        // {
-        //     text: 'Completed',
-        //     onClick: () => onClickCompleted(),
-        //     Icon: FaCheckCircle,
-        // },
     ]
 
-    const columns: ColumnDef<StudentIssue>[] = [
+    const columns: ColumnDef<Student>[] = [
         {
-            accessorKey: 'student.title',
+            accessorKey: 'user.name',
             cell: (info) => (
-                <span title={info.row?.original?.title}>
-                    {ellipsisText(info.row?.original?.title, 15)}
-                </span>
-            ),
-            header: () => <span>Issue</span>,
-        },
-        {
-            accessorKey: 'student.user.name',
-            cell: (info) => (
-                <>
-                    {info.row?.original?.student && (
-                        <StudentCellInfo
-                            student={info.row?.original?.student}
-                        />
-                    )}
-                </>
+                <StudentCellInfo student={info.row.original} call />
             ),
             header: () => <span>Student</span>,
         },
         {
-            accessorKey: 'workplaceRequest',
-            header: () => <span>Course & Industry</span>,
-            cell: (info) => (
-                <div className="">
-                    <div className="flex items-center gap-2">
-                        <GraduationCap className="h-3 w-3 text-gray-500" />
-                        <p className="text-xs truncate">
-                            {`${info.row.original?.workplaceRequest?.courses[0]
-                                ?.code ?? '————'
-                                } - ${info.row.original?.workplaceRequest?.courses[0]
-                                    ?.title ?? '————'
-                                }`}
-                        </p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Building2 className="h-3 w-3 text-gray-500" />
-                        <p className="text-xs text-[#64748b] truncate">
-                            {info.row.original?.workplaceRequest
-                                ?.industries?.[0]?.industry?.user?.name ??
-                                '————'}
-                        </p>
-                    </div>
-                </div>
+            accessorKey: 'progress',
+            header: () => <span>Status</span>,
+            cell: ({ row }) => (
+                <CaseOfficerAssignedStudent student={row.original} />
             ),
         },
         {
-            accessorKey: 'requestedBy',
-            header: () => <span>Reported By</span>,
-            cell: (info) => (
-                <div className="space-y-1">
-                    <div className="flex items-center gap-2 text-sm">
-                        <Calendar className="h-3 w-3 text-muted-foreground" />
-                        <span className="text-xs">
-                            {moment(info?.row?.original?.createdAt).format(
-                                'Do MMM YYYY'
-                            )}
-                        </span>
-                    </div>
-                    <p className="text-xs text-gray-500">
-                        By {info?.row?.original?.requestedBy?.name}
-                    </p>
-                </div>
-            ),
+            accessorKey: 'sectors',
+            header: () => <span>Sectors</span>,
+            cell: (info) => <SectorCell student={info.row.original} />,
         },
         {
-            accessorKey: 'priority',
-            header: () => <span>Priority</span>,
-            cell: (info) => (
-                <PriorityBadge priority={info?.row?.original?.priority} />
-            ),
+            accessorKey: 'industry',
+            header: () => <span>Industry</span>,
+            cell: (info: any) => {
+                const industry = info.row.original?.industries
+
+                const appliedIndustry = studentsListWorkplace(
+                    info.row.original?.workplace
+                )
+
+                return industry && industry?.length > 0 ? (
+                    <SubadminStudentIndustries
+                        workplace={info.row.original?.workplace}
+                        industries={info.row.original?.industries}
+                    />
+                ) : info.row.original?.workplace &&
+                    info.row.original?.workplace?.length > 0 &&
+                    appliedIndustry ? (
+                    <SubadminStudentIndustries
+                        workplace={info.row.original?.workplace}
+                        industries={info.row.original?.industries}
+                    />
+                ) : (
+                    <Typography center>---</Typography>
+                )
+            },
+        },
+        {
+            accessorKey: 'assigned',
+            header: () => <span>Assigned Coordinator</span>,
+            cell: ({ row }: any) =>
+                row.original?.rtoCoordinator ? (
+                    <div>
+                        <Typography variant="label">
+                            {row.original?.rtoCoordinator?.user?.name}
+                        </Typography>
+                        <Typography variant="small" color={'text-gray-400'}>
+                            {row.original?.rtoCoordinator?.user?.email}
+                        </Typography>
+                        <Typography variant="small" color={'text-gray-400'}>
+                            {row.original?.rtoCoordinator?.phone}
+                        </Typography>
+                    </div>
+                ) : (
+                    '----'
+                ),
         },
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
-            cell: ({ row }) => (
-                <Button
-                    text="resolve"
-                    className="!bg-gradient-to-r from-successNew to-emerald-600"
-                    variant="secondary"
-                    Icon={FaRegCheckCircle}
-                    onClick={() => onClickCompleted(row.original)}
-                />
+            cell: ({ row }: any) => (
+                <UserCreatedAt createdAt={row.original?.createdAt} />
             ),
         },
-        // {
-        //     accessorKey: 'action',
-        //     header: () => <span>Action</span>,
-        //     cell: (info) => (
-        //         <div className="flex gap-x-1 items-center">
-        //             <TableAction
-        //                 options={tableActionOptions}
-        //                 rowItem={info.row.original}
-        //             />
-        //         </div>
-        //     ),
-        // },
+        {
+            accessorKey: 'action',
+            header: () => <span>Action</span>,
+            cell: (info) => {
+                const tableActionOption = tableActionOptions(info.row.original)
+                return (
+                    <div className="flex gap-x-1 items-center">
+                        <TableAction
+                            options={tableActionOption}
+                            rowItem={info.row.original}
+                        />
+                    </div>
+                )
+            },
+        },
     ]
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: StudentIssue) => (
+        individual: (id: Student) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
@@ -216,62 +241,20 @@ export const ProblematicStudent = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: StudentIssue[]) => (
+        common: (ids: Student[]) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>
         ),
     }
-    console.log('count?.data', count?.data);
-    const stats = [
-        {
-            label: 'Open Issues',
-            value: count?.data?.openIssues || 0,
-            icon: Flag,
-            iconColor: 'text-[#ef4444]',
-            iconBgColor: 'bg-gradient-to-br from-[#ef4444]/10 to-[#ef4444]/5',
-            valueColor: 'text-[#ef4444]',
-            highlight: true,
-        },
-        {
-            label: 'Critical Priority',
-            value: count?.data?.criticalPriority || 0,
-            icon: AlertTriangle,
-            iconColor: 'text-[#ef4444]',
-            iconBgColor: 'bg-gradient-to-br from-[#ef4444]/10 to-[#ef4444]/5',
-            valueColor: 'text-[#ef4444]',
-            highlight: true,
-        },
-        {
-            label: 'Avg Days Open',
-            value: count?.data?.averageResolutionDays || 0,
-            subValue: 'days',
-            icon: Clock,
-            iconColor: 'text-[#F7A619]',
-            iconBgColor: 'bg-gradient-to-br from-[#F7A619]/10 to-[#F7A619]/5',
-        },
-        {
-            label: 'Students Affected',
-            value: count?.data?.studentsEffected || 0,
-            icon: User,
-            iconColor: 'text-[#044866]',
-            iconBgColor: 'bg-gradient-to-br from-[#044866]/10 to-[#044866]/5',
-        },
-    ]
+
 
     return (
         <>
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
-                {/* <PageHeading
-                    title={'Problematic Students'}
-                    subtitle={'List of Problematic Students'}
-                ></PageHeading> */}
-                <div className="mt-5 grid grid-cols-4 gap-4">
-                    {stats.map((stat) => (
-                        <CountCard stat={stat} />
-                    ))}
-                </div>
+
+
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading ? (

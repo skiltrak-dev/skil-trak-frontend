@@ -33,9 +33,7 @@ const CATEGORY_OPTIONS = [
     { label: 'Capacity', value: 'capacity' },
 ]
 
-// Helper function to check filtered data length (similar to RtoStudents)
 const checkFilteredDataLength = (filter: any) => {
-    // Remove empty values and 'all' values, then check length
     const cleanedFilter = Object.entries(filter).reduce((acc, [key, value]) => {
         if (value && value !== '' && value !== 'all') {
             acc[key] = value
@@ -47,8 +45,7 @@ const checkFilteredDataLength = (filter: any) => {
 }
 
 export const ResolveIssues = () => {
-    const criticalCount = 20
-    const highCount = 10
+
 
     const [selectedPriority, setSelectedPriority] = useState('all')
     const [selectedCategory, setSelectedCategory] = useState('all')
@@ -56,12 +53,9 @@ export const ResolveIssues = () => {
     const [debouncedSearch, setDebouncedSearch] = useState('')
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-
+    const count = RtoApi.Students.useRtoResolveIssuesStudentsCount()
     const router = useRouter()
 
-    // handle pagination sync with URL
-
-    // debounce text input
     const handleSearchChange = useMemo(
         () =>
             debounce((value: string) => {
@@ -75,7 +69,6 @@ export const ResolveIssues = () => {
         handleSearchChange(e.target.value)
     }
 
-    // prepare filter object (ignore 'all' values and empty strings)
     const activeFilters = useMemo(() => {
         const filters: any = {}
 
@@ -138,9 +131,9 @@ export const ResolveIssues = () => {
                 icon={Flag}
                 title="Resolve Issues"
                 description="Address placement issues requiring coordinator attention"
-                urgentCount={criticalCount}
+                urgentCount={count?.data?.criticalPriority || 0}
                 urgentLabel="Critical Issue(s)"
-                pendingCount={highCount}
+                pendingCount={count?.data?.highPriority || 0}
                 pendingLabel="High Priority"
                 warningMessage="<strong>Urgent:</strong> These issues are blocking student placements and require immediate coordinator intervention. Delays in resolution may impact student progress and compliance timelines."
                 gradientFrom="from-red-400/10"
@@ -148,10 +141,8 @@ export const ResolveIssues = () => {
                 iconGradient="from-destructive to-red-600"
             />
 
-            {/* Filter Bar */}
             <div className="shadow-premium rounded-2xl bg-white mt-5">
                 <div className="p-4 flex flex-col md:flex-row gap-4 w-full">
-                    {/* Search Field */}
                     <div className="flex-1 relative w-1/2">
                         <Search className="absolute left-3 top-1/2 -translate-y-1-2 h-4 w-4 text-muted-foreground" />
                         <TextInput
@@ -164,7 +155,6 @@ export const ResolveIssues = () => {
                         />
                     </div>
 
-                    {/* Dropdown Filters */}
                     <div className="flex gap-2 items-center w-1/2">
                         <div className="w-1/2">
                             <Select

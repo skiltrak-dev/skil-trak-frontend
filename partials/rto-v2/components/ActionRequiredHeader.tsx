@@ -5,8 +5,8 @@ interface ActionRequiredHeaderProps {
     icon: LucideIcon
     title: string
     description: string
-    urgentCount: number
-    urgentLabel: string
+    urgentCount?: number
+    urgentLabel?: string
     pendingCount?: number
     pendingLabel?: string
     UrgentIcon?: any
@@ -65,25 +65,27 @@ export const ActionRequiredHeader = ({
                             {description}
                         </p>
                         <div className="flex items-center gap-3 text-xs">
-                            <div
-                                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-br from-${gradientFrom}/10 to-${gradientTo}/10 border`}
-                            >
-                                {UrgentIcon ? (
+                            {urgentLabel && (
+                                <div
+                                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-br from-${gradientFrom}/10 to-${gradientTo}/10 border`}
+                                >
+                                    {UrgentIcon ? (
                                     <UrgentIcon
                                         className={`h-3 w-3 text-${gradientFrom}`}
                                     />
                                 ) : (
                                     <AlertTriangle
-                                        className={`h-3 w-3 text-${gradientFrom}`}
-                                    />
-                                )}
+                                            className={`h-3 w-3 text-${gradientFrom}`}
+                                        />
+                                    )}
 
                                 <span
-                                    className={`font-semibold text-${gradientFrom}`}
-                                >
-                                    {urgentCount} {urgentLabel}
-                                </span>
-                            </div>
+                                        className={`font-semibold text-${gradientFrom}`}
+                                    >
+                                        {urgentCount} {urgentLabel}
+                                    </span>
+                                </div>
+                            )}
                             {pendingCount !== undefined && pendingLabel && (
                                 <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-warning/10 border border-warning/20">
                                     <span className="font-semibold text-warning">

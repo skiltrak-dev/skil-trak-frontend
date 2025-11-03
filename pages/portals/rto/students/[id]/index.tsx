@@ -18,7 +18,6 @@ const Detail: NextPageWithLayout = () => {
     }, [])
 
     return <StudentProfileDetail />
-}
 
 Detail.getLayout = (page: ReactElement) => {
     return (
