@@ -18,30 +18,27 @@ export const TopBar = ({ mailsTabs }: { mailsTabs: any }) => {
         setIsComposeMail(false)
     }, [])
     const role = getUserCredentials()?.role
+
+    if (!role) return null
+
     return (
         <div
             className={classNames({
                 'flex flex-col gap-y-6 gap-x-12 h-[690px] overflow-auto custom-scrollbar bg-white shadow-[inset_0_-1px_0_0_#EDEFF1] px-4  rounded-xl':
                     true,
-                '!w-1/3': role === UserRoles.RTO,
-                'w-1/5': role !== UserRoles.RTO,
+                'w-1/3': role == UserRoles.RTO && role,
+                'w-1/5': role != UserRoles.RTO && role,
             })}
         >
-            <div className="mt-4">
-                <Button
-                    onClick={() => {
-                        setIsComposeMail(!isComposeMail)
-                        // contextBar.setTitle('Compose Mail')
-                        // contextBar.setContent(<SendMail />)
-                        // contextBar.show()
-                    }}
-                    fullWidth
-                >
-                    <span className="flex gap-x-2 items-center">
-                        <FaPlus /> <span>Compose</span>
-                    </span>
-                </Button>
-            </div>
+            <Button
+                onClick={() => {
+                    setIsComposeMail(!isComposeMail)
+                }}
+                className="mt-4"
+                fullWidth
+                Icon={FaPlus}
+                text="Compose"
+            />
             <div className="flex flex-col gap-y-4 gap-x-12">
                 {mailsTabs.map((tab: any, i: number) => {
                     const active = router?.query?.tab
@@ -49,7 +46,7 @@ export const TopBar = ({ mailsTabs }: { mailsTabs: any }) => {
                         : i == 0
 
                     return (
-                        <div>
+                        <div key={tab?.text}>
                             <div
                                 className={`py-3 w-full flex items-center gap-x-3 cursor-pointer px-5 rounded-lg ${
                                     active ? 'bg-[#ECEEFB]' : ''

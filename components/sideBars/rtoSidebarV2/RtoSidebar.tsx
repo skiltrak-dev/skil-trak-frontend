@@ -119,6 +119,7 @@ const menuSections = [
                 icon: Mail,
                 label: 'Emails',
                 key: 'Emails',
+                path: '/portals/rto/communications/e-mails',
                 badge: '8',
                 bg: 'bg-sky-50 border border-sky-200',
                 iconBg: 'bg-sky-500',
@@ -296,7 +297,7 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
 
     return (
         <>
-            {modal && modal}
+            {modal}
             {/*======================== Desktop sidebar ======================= */}
             <aside className="hidden md:flex md:flex-col w-80 shrink-0 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
                 {/* ================== FIXED TOP LOGO AREA ================= */}

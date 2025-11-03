@@ -88,33 +88,6 @@ export const MailsListing = () => {
 
             {/* Component */}
             <div className="w-full">
-                {/* TODO: API Integration for counts */}
-                {/* <AuthorizedUserComponent
-                    roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
-                >
-                    <div className="flex items-center justify-between gap-x-16 mb-5 w-full">
-                        <MailsCountCard
-                            imageUrl="/images/mails/student-mail-icon.svg"
-                            title="Student"
-                            count={20}
-                        />
-                        <MailsCountCard
-                            imageUrl="/images/mails/industry-mail-icon.svg"
-                            title="Industry"
-                            count={10}
-                        />
-                        <MailsCountCard
-                            imageUrl="/images/mails/department-mail-icon.svg"
-                            title="Department"
-                            count={13}
-                        />
-                        <MailsCountCard
-                            imageUrl="/images/mails/management-mail-icon.svg"
-                            title="Management"
-                            count={33}
-                        />
-                    </div>
-                </AuthorizedUserComponent> */}
                 <div className="relative w-full mb-4">
                     <div className="absolute top-1/2 left-8 ">
                         <IoSearch
