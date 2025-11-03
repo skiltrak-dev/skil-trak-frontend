@@ -1,22 +1,10 @@
 import { RtoLayoutV2 } from '@layouts'
-import { Title } from '@partials'
 import { MailsListing } from '@partials/common/MailsListing'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { BiEnvelope } from 'react-icons/bi'
 
 const MailsPage = () => {
-    return (
-        <div>
-            <Title
-                Icon={BiEnvelope}
-                title="Emails"
-                description="Manage all your RTO communications
-
-"
-            />
-            <MailsListing />
-        </div>
-    )
+    return <MailsListing />
 }
 
 MailsPage.getLayout = (page: ReactElement) => {

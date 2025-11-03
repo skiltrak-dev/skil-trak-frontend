@@ -87,7 +87,10 @@ export const MailTopBar = ({
                             >
                                 <div className="w-full flex flex-col">
                                     {['All', 'Read', 'Un Read']?.map((text) => (
-                                        <div className="hover:bg-secondary-dark py-1.5">
+                                        <div
+                                            key={text}
+                                            className="hover:bg-secondary-dark py-1.5"
+                                        >
                                             <Typography
                                                 center
                                                 variant="small"
