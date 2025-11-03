@@ -65,7 +65,7 @@ export const MailListCard = ({
 
             case UserRoles.RTO:
                 router.push(
-                    `/portals/rto/communications/mails/${mailDetail?.id}`
+                    `/portals/rto/communications/e-mails/${mailDetail?.id}`
                 )
                 break
 

@@ -916,9 +916,7 @@ TextEditorProps) {
                             label="Categories"
                             name="category"
                             options={options}
-                            value={options?.filter((cate: any) =>
-                                selectedCategories.includes(cate?.value)
-                            )}
+                            value={selectedCategories}
                             onChange={(e: any) => {
                                 setSelectedCategories(e)
                             }}

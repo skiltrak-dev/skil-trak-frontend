@@ -30,7 +30,7 @@ export const MailsListing = () => {
             case UserRoles.STUDENT:
                 return '/portals/student/mails'
             case UserRoles.RTO:
-                return '/portals/rto/communications/mails'
+                return '/portals/rto/communications/e-mails'
             // case UserRoles.RTO:
 
             default:

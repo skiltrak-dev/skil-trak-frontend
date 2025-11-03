@@ -20,6 +20,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { BulkDeleteModal, DeleteModal } from '../components'
 import { OptionType } from '@types'
+import Link from 'next/link'
 export const PublishedBlogs = () => {
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
@@ -81,9 +82,15 @@ export const PublishedBlogs = () => {
     const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'title',
-            cell: (info: any) => {
-                return <div>{info?.row?.original?.title}</div>
-            },
+            cell: (info: any) => (
+                <Link
+                    target="_blank"
+                    className="hover:underline font-medium"
+                    href={`/blogs/${info.row?.original?.slug}`}
+                >
+                    {info?.row?.original?.title}
+                </Link>
+            ),
             header: () => <span>Title</span>,
         },
 
