@@ -89,10 +89,13 @@ export const Select = forwardRef(
             if (multi) {
                 // Multi-select: convert array of values to array of options
                 if (onlyValue) {
-                    // If onlyValue is true, fieldValue is array of primitive values
-                    return options?.filter((opt: OptionType) =>
-                        fieldValue.includes(opt.value)
-                    )
+                    if (typeof fieldValue === 'object') {
+                        return fieldValue
+                    } else {
+                        return options?.filter((opt: OptionType) =>
+                            fieldValue.includes(opt.value)
+                        )
+                    }
                 } else {
                     if (typeof fieldValue === 'object') {
                         return fieldValue
@@ -110,7 +113,11 @@ export const Select = forwardRef(
                 // Single select: convert value to option object
                 if (onlyValue) {
                     // If onlyValue is true, fieldValue is a primitive value
-                    return optionData
+                    if (typeof fieldValue === 'object') {
+                        return fieldValue
+                    } else {
+                        return optionData
+                    }
                 } else {
                     if (typeof fieldValue === 'object') {
                         return fieldValue
@@ -255,7 +262,10 @@ export const Select = forwardRef(
                     onMenuClose={onMenuClose}
                     defaultValue={defaultValue}
                     onInputChange={onInputChange}
-                    value={getDisplayValue(fieldValue)}
+                    {...(fieldValue
+                        ? { value: getDisplayValue(fieldValue) }
+                        : {})}
+                    // value={value}
                     formatOptionLabel={formatOptionLabel}
                     {...(components ? { components } : {})}
                     className={`basic-single w-full ${shadow}`}
