@@ -418,7 +418,7 @@ export const StudentSchedulePage = () => {
                                 >
                                     {student.studentName}
                                 </p>
-                                <Badge
+                                {/* <Badge
                                     variant={
                                         student.status === 'confirmed'
                                             ? 'default'
@@ -435,7 +435,7 @@ export const StudentSchedulePage = () => {
                                     }`}
                                 >
                                     {student.status}
-                                </Badge>
+                                </Badge> */}
                             </div>
 
                             <div className="space-y-0.5">
