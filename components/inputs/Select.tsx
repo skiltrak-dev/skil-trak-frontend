@@ -89,12 +89,24 @@ export const Select = forwardRef(
             if (multi) {
                 // Multi-select: convert array of values to array of options
                 if (onlyValue) {
-                    if (typeof fieldValue === 'object') {
-                        return fieldValue
-                    } else {
+                    // if (typeof fieldValue === 'object') {
+                    //     return fieldValue
+                    // } else {
+                    //     return options?.filter((opt: OptionType) =>
+                    //         fieldValue.includes(opt.value)
+                    //     )
+                    // }
+                    if (
+                        Array.isArray(fieldValue) &&
+                        fieldValue.length > 0 &&
+                        typeof fieldValue[0] === 'number'
+                    ) {
                         return options?.filter((opt: OptionType) =>
                             fieldValue.includes(opt.value)
                         )
+                    } else {
+                        // It's an array of objects, return as is
+                        return fieldValue
                     }
                 } else {
                     if (typeof fieldValue === 'object') {
