@@ -18,23 +18,23 @@ import {
 } from 'lucide-react'
 import { ReactElement } from 'react'
 
-export const PlacementRequests = () => {
+export const Appointments = () => {
     const tabs: TabProps[] = [
         {
-            label: 'Student Need Workplace',
+            label: 'Upcoming Appointments',
             href: {
-                pathname: 'placement-requests',
-                query: { tab: 'student-need-wp' },
+                pathname: 'appointments',
+                query: { tab: 'upcoming' },
             },
-            element: <StudentsNeedWorkplaceTab />,
+            element: <>Upcoming Appointments</>,
         },
         {
-            label: 'Student Provided Workplace',
+            label: 'Past Appointments',
             href: {
-                pathname: 'placement-requests',
-                query: { tab: 'student-provided-wp' },
+                pathname: 'appointments',
+                query: { tab: 'past' },
             },
-            element: <StudentProvidedWorkplaceTab />,
+            element: <>Past Appointments</>,
         },
     ]
     const count = RtoV2Api.PlacementRequests.useStudentPlacementRequestStats()
@@ -63,10 +63,7 @@ export const PlacementRequests = () => {
                 className="border border-border/50 shadow-premium-lg"
             >
                 <div className="border-b p-6">
-                    <Title
-                        Icon={Briefcase}
-                        title="Placement Requests"
-                    />
+                    <Title Icon={Briefcase} title="Placement Requests" />
                 </div>
 
                 <TabNavigation tabs={tabs}>
@@ -82,8 +79,8 @@ export const PlacementRequests = () => {
     )
 }
 
-PlacementRequests.getLayout = (page: ReactElement) => {
+Appointments.getLayout = (page: ReactElement) => {
     return <RtoLayoutV2>{page}</RtoLayoutV2>
 }
 
-export default PlacementRequests
+export default Appointments

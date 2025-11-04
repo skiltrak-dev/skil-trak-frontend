@@ -113,6 +113,16 @@ const menuSections = [
                 text: 'text-indigo-700',
             },
             {
+                icon: Briefcase,
+                label: 'Student Schedule',
+                key: 'Student Schedule',
+                path: '/portals/rto/dashboard/student-schedule',
+                bg: 'bg-indigo-50 border border-indigo-200',
+                iconBg: 'bg-indigo-500',
+                badgeBg: 'bg-indigo-500',
+                text: 'text-indigo-700',
+            },
+            {
                 icon: Upload,
                 label: 'Import Students',
                 key: 'Import Students',
@@ -205,7 +215,7 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -320, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 260, damping: 30 }}
-            className="fixed inset-y-0 left-0 z-40 w-72 bg-white border-r border-sidebar-border flex flex-col"
+            className="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-sidebar-border flex flex-col"
             role="dialog"
             aria-modal="true"
         >
@@ -310,7 +320,7 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
         <>
             {modal}
             {/*======================== Desktop sidebar ======================= */}
-            <aside className="hidden md:flex md:flex-col w-80 shrink-0 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+            <aside className="hidden md:flex md:flex-col w-64 shrink-0 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
                 {/* ================== FIXED TOP LOGO AREA ================= */}
                 <div className="p-4 border-b border-sidebar-border shrink-0">
                     <div className="flex items-center gap-3 cursor-pointer group relative">
@@ -346,7 +356,7 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
                                     } mb-1 last:mb-0`}
                             />
                             <div className="flex items-center justify-between px-1 mb-2">
-                                <div className="text-xs uppercase tracking-wide font-semibold text-slate-500">
+                                <div className="text-[10px] uppercase tracking-wide font-medium text-slate-500">
                                     {section.title}
                                 </div>
                                 {section.showCount && section.totalCount && (
@@ -378,13 +388,13 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
                                         >
                                             <div className="flex items-center gap-x-2">
                                                 <div
-                                                    className={`p-2 rounded-xl shrink-0 ${item.iconBg} text-white`}
+                                                    className={`p-1.5 rounded-xl shrink-0 ${item.iconBg} text-white`}
                                                 >
                                                     <item.icon className="h-4 w-4" />
                                                 </div>
 
                                                 <span
-                                                    className={`flex text-sm font-medium ${item.text}`}
+                                                    className={`flex text-xs font-medium ${item.text}`}
                                                 >
                                                     {item.label}
                                                 </span>
