@@ -1,11 +1,10 @@
 import { Button, Card } from '@components'
-import { SpecifyColumns } from '@partials/admin/rto/students'
 import { AdminApi } from '@queries'
 import { ImportStudentFormType } from '@types'
 import { trimText } from '@utils'
+import { AlertCircle, Download } from 'lucide-react'
 import { useState } from 'react'
 import { ImportStudentFormV2 } from './ImportStudentFormV2'
-import { AlertCircle, Download } from 'lucide-react'
 
 export const ImportStudentsListFormWithOTP = ({
     onSubmit,
@@ -14,7 +13,7 @@ export const ImportStudentsListFormWithOTP = ({
     foundStudents,
     result,
     rtoCourses,
-    onCancel
+    onCancel,
 }: {
     onSubmit: (values: ImportStudentFormType) => void
     setFoundStudents: any
@@ -22,7 +21,7 @@ export const ImportStudentsListFormWithOTP = ({
     foundStudents: any
     result: any
     rtoCourses: any
-    onCancel?:any
+    onCancel?: any
 }) => {
     const [checkMails, checkMailsResult] =
         AdminApi.Rtos.useRtoStudentAccountCheck()
@@ -65,10 +64,11 @@ export const ImportStudentsListFormWithOTP = ({
             <div className="flex items-start gap-2 rounded-md border border-[#F7A619]/30 bg-[#F7A619]/5 p-3">
                 <AlertCircle className="h-4 w-4 text-accent mt-0.5 shrink-0" />
                 <p className="text-sm text-gray-400">
-                    Please ensure your file adheres to the following format. As an example, please refer to the sample file provided.
+                    Please ensure your file adheres to the following format. As
+                    an example, please refer to the sample file provided.
                 </p>
             </div>
-            <a 
+            <a
                 className="text-xs font-medium text-orange-500 flex justify-end mt-4"
                 href="https://skiltrak-dev.s3.ap-southeast-2.amazonaws.com/downloadable/Sample+Import+Student+List.xlsx"
                 download
@@ -78,15 +78,14 @@ export const ImportStudentsListFormWithOTP = ({
             </a>
             <div className="flex flex-col gap-2">
                 <div className="w-full flex items-stretch gap-2">
-                    
-                        <ImportStudentFormV2
-                            onSubmit={onSubmit}
-                            onStudentFound={onStudentFound}
-                            setEmailExistList={setEmailExistList}
-                            result={result}
-                            rtoCourses={rtoCourses}
-                            onCancel={onCancel}
-                        />
+                    <ImportStudentFormV2
+                        onSubmit={onSubmit}
+                        onStudentFound={onStudentFound}
+                        setEmailExistList={setEmailExistList}
+                        result={result}
+                        rtoCourses={rtoCourses}
+                        onCancel={onCancel}
+                    />
                 </div>
                 <div className="w-full">
                     {/* <div className="w-full mb-2">
@@ -185,12 +184,10 @@ export const ImportStudentsListFormWithOTP = ({
                                     </table> */}
                                 </Card>
                             </div>
-                        ) }
+                        )}
                     </div>
                 </div>
             </div>
-            
-
         </div>
     )
 }

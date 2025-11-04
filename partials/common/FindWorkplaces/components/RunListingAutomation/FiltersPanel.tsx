@@ -151,11 +151,11 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onClose }) => {
                         {/* Sector Notes */}
                         {selectedSector && (
                             <TextArea
-                                label={'Sector Keywords (auto)'}
+                                label={'Sector Non Eligible (Keywords)'}
                                 id="sector-notes"
                                 // value={selectedSectorData.notes}
                                 name={'keywords'}
-                                placeholder="Sector Keywords....."
+                                placeholder="Sector Non Eligible (Keywords)....."
                                 disabled
                                 className="w-full bg-gray-50 border-gray-200 resize-none text-xs"
                                 rows={1}

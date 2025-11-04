@@ -303,10 +303,6 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
 
             {/* Footer Actions */}
             <div className="flex justify-between items-center pt-6 border-t">
-                <Button outline variant="primaryNew">
-                    Refine Search
-                </Button>
-
                 <div className="flex items-center gap-4">
                     <Typography variant="small" color="text-gray-600">
                         {total - duplicateCount} items ready to submit

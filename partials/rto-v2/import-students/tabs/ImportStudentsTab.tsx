@@ -5,7 +5,6 @@ import { ReactElement, useEffect, useState } from 'react'
 import { ShowErrorNotifications } from '@components'
 import {
     CreatedStudentsList,
-    ImportStudentFromWithOtp,
     ImportStudentVerificationModal,
     useImportStudents,
 } from '@partials/common'
@@ -50,6 +49,8 @@ export const ImportStudentsTab = () => {
     const onCancel = () => setModal(null)
 
     const onSubmit = async (values: any) => {
+        console.log({ values })
+        return
         sendVerificationCode({}).then((res: any) => {
             if (res?.data) {
                 setModal(

@@ -394,7 +394,8 @@ export const LoadingAnimation = memo<{
                                     backgroundImage: `linear-gradient(to right, ${THEME_COLORS.primary}, ${THEME_COLORS.secondary})`,
                                 }}
                             >
-                                {listingsFound}/{TOTAL_LISTINGS}
+                                {listingCount || 'Loading...'}
+                                {/* {listingsFound}/{TOTAL_LISTINGS} */}
                             </span>
                         </div>
 

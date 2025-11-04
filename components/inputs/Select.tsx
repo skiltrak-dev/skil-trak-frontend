@@ -76,11 +76,11 @@ export const Select = forwardRef(
     ) => {
         const formContext = useFormContext()
 
-        // useEffect(() => {
-        //     if ((value || defaultValue) && formContext) {
-        //         formContext.setValue(name, handleChange(value || defaultValue))
-        //     }
-        // }, [value, defaultValue])
+        useEffect(() => {
+            if ((value || defaultValue) && formContext) {
+                formContext.setValue(name, handleChange(value || defaultValue))
+            }
+        }, [value, defaultValue])
 
         // Convert form values to react-select format
         const getDisplayValue = (fieldValue: any) => {
@@ -269,8 +269,8 @@ export const Select = forwardRef(
                 <Controller
                     control={formContext.control}
                     name={name}
-                    render={({ field }) =>
-                        getSimpleSelect(
+                    render={({ field }) => {
+                        return getSimpleSelect(
                             (event: any) => {
                                 const selectedData = handleChange(event)
                                 field.onChange(selectedData)
@@ -280,7 +280,7 @@ export const Select = forwardRef(
                             defaultValue,
                             field.value || value
                         )
-                    }
+                    }}
                 />
             )
         }

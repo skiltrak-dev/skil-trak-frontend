@@ -77,7 +77,9 @@ export const ImportStudentsModal = ({ onCancel }: any) => {
                 </div>
 
                 {/* Tab Content */}
-                <div className="p-4 h-[60vh] overflow-auto">{currentTab?.content}</div>
+                <div className="p-4 h-[60vh] overflow-auto">
+                    {currentTab?.content}
+                </div>
             </div>
         </GlobalModal>
     )
