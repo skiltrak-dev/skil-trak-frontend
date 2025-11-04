@@ -72,7 +72,6 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
             </GlobalModal>
         )
     }
-    console.log('selectedWorkplace', selectedWorkplace?.id)
 
     return (
         <>
