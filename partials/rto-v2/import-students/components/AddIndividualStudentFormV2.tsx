@@ -3,6 +3,7 @@ import {
     Button,
     Select,
     ShowErrorNotifications,
+    TextArea,
     TextInput,
     Typography,
 } from '@components'
@@ -20,12 +21,10 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { PlacementType } from './PlacementType'
+import { PlacementTypeEnum } from '../enum'
 
 export const AddIndividualStudentFormV2 = () => {
-    const [placementType, setPlacementType] = useState<'flexible' | 'block'>(
-        'flexible'
-    )
-
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
     const router = useRouter()
 
@@ -38,10 +37,10 @@ export const AddIndividualStudentFormV2 = () => {
     const rtoCoursesOptions =
         rto.isSuccess && rto?.data?.courses && rto?.data?.courses?.length > 0
             ? rto?.data?.courses?.map((course: Course) => ({
-                label: course?.title,
-                value: course?.id,
-                item: course,
-            }))
+                  label: course?.title,
+                  value: course?.id,
+                  item: course,
+              }))
             : []
 
     useEffect(() => {
@@ -61,12 +60,28 @@ export const AddIndividualStudentFormV2 = () => {
         batch: yup.string().required('Must provide your Batch'),
         phone: yup.string().required('Must provide your phone number'),
         age: yup.string().nullable().required('Must Select age'),
-        email: yup.string().email('Invalid Email').required('Must provide email'),
+        email: yup
+            .string()
+            .email('Invalid Email')
+            .required('Must provide email'),
+
+        placementType: yup
+            .string()
+            .oneOf(
+                [PlacementTypeEnum.BLOCK, PlacementTypeEnum.FLEXIBLE],
+                'Must select a valid placement type'
+            )
+            .required('Must select placement type'),
 
         // Conditional validation for dates
         expiryDate: yup
             .date()
-            .when('$placementType', {
+            .transform((value, originalValue) => {
+                // Return null for empty strings instead of Invalid Date
+                return originalValue === '' ? null : value
+            })
+            .nullable()
+            .when('placementType', {
                 is: 'flexible',
                 then: (schema) => schema.required('Must provide Expiry Date'),
                 otherwise: (schema) => schema.notRequired().nullable(),
@@ -74,16 +89,26 @@ export const AddIndividualStudentFormV2 = () => {
 
         startDate: yup
             .date()
-            .when('$placementType', {
-                is: 'block',
+            .transform((value, originalValue) => {
+                // Return null for empty strings instead of Invalid Date
+                return originalValue === '' ? null : value
+            })
+            .nullable()
+            .when('placementType', {
+                is: PlacementTypeEnum.BLOCK,
                 then: (schema) => schema.required('Must provide Start Date'),
                 otherwise: (schema) => schema.notRequired().nullable(),
             }),
 
         endDate: yup
             .date()
-            .when('$placementType', {
-                is: 'block',
+            .transform((value, originalValue) => {
+                // Return null for empty strings instead of Invalid Date
+                return originalValue === '' ? null : value
+            })
+            .nullable()
+            .when('placementType', {
+                is: PlacementTypeEnum.BLOCK,
                 then: (schema) => schema.required('Must provide End Date'),
                 otherwise: (schema) => schema.notRequired().nullable(),
             }),
@@ -92,22 +117,25 @@ export const AddIndividualStudentFormV2 = () => {
         courses: yup.array().min(1, 'Must select at least 1 course').required(),
     })
 
-
     const formMethods = useForm({
         mode: 'all',
         resolver: yupResolver(validationSchema),
-        context: { placementType },
+        defaultValues: { placementType: PlacementTypeEnum.FLEXIBLE },
     })
 
+    console.log({ formMethods })
+
     const onSubmitForm = (values: any) => {
+        console.log({ values })
+        return
         const filteredValues = { ...values }
 
-        if (placementType === 'flexible') {
-            delete filteredValues.startDate
-            delete filteredValues.endDate
-        } else if (placementType === 'block') {
-            delete filteredValues.expiryDate
-        }
+        // if (placementType === 'flexible') {
+        //     delete filteredValues.startDate
+        //     delete filteredValues.endDate
+        // } else if (placementType === 'block') {
+        //     delete filteredValues.expiryDate
+        // }
 
         addStudent({
             ...filteredValues,
@@ -126,12 +154,13 @@ export const AddIndividualStudentFormV2 = () => {
         })
     }
 
-
     const getMinExpiryDate = () => {
         const date = new Date()
         date.setMonth(date.getMonth() + 3)
         return date.toISOString().split('T')[0]
     }
+
+    const placementType: PlacementTypeEnum = formMethods.watch('placementType')
 
     return (
         <>
@@ -163,84 +192,8 @@ export const AddIndividualStudentFormV2 = () => {
             {!isSuccess && (
                 <FormProvider {...formMethods}>
                     <form onSubmit={formMethods.handleSubmit(onSubmitForm)}>
-                        <div className="border border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-4 rounded-lg">
-                            <Typography variant="label" className="mb-2 block">
-                                Placement Type
-                            </Typography>
+                        <PlacementType />
 
-                            <div className="flex flex-col gap-3">
-                                <div
-                                    className={`flex items-start space-x-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${placementType === 'flexible'
-                                        ? 'border-primaryNew bg-primaryNew/5'
-                                        : 'border-gray-300 hover:border-primaryNew/30'
-                                        }`}
-                                    onClick={() => setPlacementType('flexible')}
-                                >
-                                    <input
-                                        type="radio"
-                                        id="flexible"
-                                        name="placementType"
-                                        checked={placementType === 'flexible'}
-                                        onChange={() =>
-                                            setPlacementType('flexible')
-                                        }
-                                        className="mt-1 accent-primaryNew cursor-pointer"
-                                    />
-                                    <div className="flex-1">
-                                        <div className="flex justify-between">
-                                            <Typography
-                                                variant="body"
-                                                className="font-semibold cursor-pointer"
-                                            >
-                                                Flexible Placement
-                                            </Typography>
-                                            <div className="inline-flex items-center justify-center rounded-full border border-primary/30 bg-primary/20 px-2.5 py-0.5 text-xs font-medium text-primary text-center">
-                                                Flexible
-                                            </div>
-                                        </div>
-                                        <p className="text-sm text-gray-500 mt-1">
-                                            Student can be placed any time before
-                                            the expiry date
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div
-                                    className={`flex items-start space-x-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${placementType === 'block'
-                                        ? 'border-primaryNew bg-primaryNew/5'
-                                        : 'border-gray-300 hover:border-primaryNew/30'
-                                        }`}
-                                    onClick={() => setPlacementType('block')}
-                                >
-                                    <input
-                                        type="radio"
-                                        id="block"
-                                        name="placementType"
-                                        checked={placementType === 'block'}
-                                        onChange={() => setPlacementType('block')}
-                                        className="mt-1 accent-primaryNew cursor-pointer"
-                                    />
-                                    <div className="flex-1">
-                                        <div className="flex justify-between">
-                                            <Typography
-                                                variant="body"
-                                                className="font-semibold cursor-pointer"
-                                            >
-                                                Block Placement
-                                            </Typography>
-                                            <div className="inline-flex items-center justify-center rounded-full border border-primaryNew/30 bg-primaryNew/20 px-2.5 py-0.5 text-xs font-medium text-primaryNew text-center">
-                                                Scheduled
-                                            </div>
-                                        </div>
-
-                                        <p className="text-sm text-gray-500 mt-1">
-                                            Student must be placed before the start
-                                            date and will have an end date
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                             <TextInput
                                 label={'Full Name'}
@@ -306,19 +259,19 @@ export const AddIndividualStudentFormV2 = () => {
                         </div>
 
                         <div className="flex items-center gap-x-2 justify-between">
-                            {placementType === 'block' ? (
+                            {placementType === PlacementTypeEnum.BLOCK ? (
                                 <>
                                     <TextInput
                                         label="Start Date"
                                         name="startDate"
                                         type="date"
-                                    // min={getDate()}
+                                        // min={getDate()}
                                     />
                                     <TextInput
                                         label="End Date"
                                         name="endDate"
                                         type="date"
-                                    // min={getDate()}
+                                        // min={getDate()}
                                     />
                                 </>
                             ) : (
@@ -333,6 +286,14 @@ export const AddIndividualStudentFormV2 = () => {
                                 />
                             )}
                         </div>
+
+                        {/*  */}
+                        <TextArea
+                            label={'Notes (Optional)'}
+                            name={'notes'}
+                            placeholder={'Add Notes here...'}
+                            rows={4}
+                        />
 
                         <Button
                             submit

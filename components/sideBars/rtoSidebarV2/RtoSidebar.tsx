@@ -320,7 +320,7 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
         <>
             {modal}
             {/*======================== Desktop sidebar ======================= */}
-            <aside className="hidden md:flex md:flex-col w-64 shrink-0 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+            <aside className="hidden md:flex md:flex-col w-72 shrink-0 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
                 {/* ================== FIXED TOP LOGO AREA ================= */}
                 <div className="p-4 border-b border-sidebar-border shrink-0">
                     <div className="flex items-center gap-3 cursor-pointer group relative">
@@ -350,10 +350,11 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
                     {menuSections.map((section, idx) => (
                         <div key={section.title}>
                             <div
-                                className={`${idx > 0
-                                    ? 'pt-8 mt-3 !mx-8 border-t border-sidebar-border/30'
-                                    : ''
-                                    } mb-1 last:mb-0`}
+                                className={`${
+                                    idx > 0
+                                        ? 'pt-8 mt-3 !mx-8 border-t border-sidebar-border/30'
+                                        : ''
+                                } mb-1 last:mb-0`}
                             />
                             <div className="flex items-center justify-between px-1 mb-2">
                                 <div className="text-[10px] uppercase tracking-wide font-medium text-slate-500">

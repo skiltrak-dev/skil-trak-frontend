@@ -31,27 +31,24 @@ export const UploadCourseFile = ({ approval }: { approval: any }) => {
 
             {approval?.file ? (
                 <div className="flex items-start gap-x-1">
-                    <div className="relative group">
-                        <ActionButton
-                            Icon={FaEye}
-                            rounded
-                            onClick={() => {
-                                onFileClicked({
-                                    ...approval,
-                                    extension: extension(approval?.file),
-                                    file: approval?.file
-                                        .replaceAll('{"', '')
-                                        .replaceAll('"}', ''),
-                                    type: 'all',
-                                    showEdit: false,
-                                    showDownload: false,
-                                })
-                            }}
-                            variant="info"
-                        />
+                    <ActionButton
+                        Icon={FaEye}
+                        text={'Checklist'}
+                        onClick={() => {
+                            onFileClicked({
+                                ...approval,
+                                extension: extension(approval?.file),
+                                file: approval?.file
+                                    .replaceAll('{"', '')
+                                    .replaceAll('"}', ''),
+                                type: 'all',
+                                showEdit: false,
+                                showDownload: false,
+                            })
+                        }}
+                        variant="info"
+                    />
 
-                        <Tooltip>View Checklist</Tooltip>
-                    </div>
                     {/* <AuthorizedUserComponent
                         roles={[UserRoles.ADMIN, UserRoles.SUBADMIN]}
                         isAssociatedWithRto={false}

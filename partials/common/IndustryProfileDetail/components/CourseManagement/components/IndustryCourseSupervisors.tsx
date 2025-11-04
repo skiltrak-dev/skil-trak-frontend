@@ -36,7 +36,7 @@ export const IndustryCourseSupervisors = ({
                         {getSupervisorBySector?.isLoading ? (
                             <PuffLoader size={24} />
                         ) : getSupervisorBySector?.isSuccess &&
-                            getSupervisorBySector?.data ? (
+                          getSupervisorBySector?.data ? (
                             <div>
                                 <Modal>
                                     <Modal.Open opens="addDepartmentCourse">
@@ -48,7 +48,7 @@ export const IndustryCourseSupervisors = ({
                                                 }
                                                 variant="warning"
                                             >
-                                                View Supervisor
+                                                Supervisor Detail
                                             </ActionButton>
                                         </div>
                                     </Modal.Open>
@@ -64,14 +64,16 @@ export const IndustryCourseSupervisors = ({
                                 </Modal>
                             </div>
                         ) : getSupervisorBySector?.isSuccess &&
-                            !getSupervisorBySector?.data &&
-                            userRole !== UserRoles.RTO ? (
+                          !getSupervisorBySector?.data &&
+                          userRole !== UserRoles.RTO ? (
                             <Modal>
                                 <Modal.Open opens="addCourseSupervisor">
                                     <div className="relative group flex ">
                                         <ActionButton
                                             Icon={MdSupervisorAccount}
-                                            disabled={getSupervisorBySector?.isError}
+                                            disabled={
+                                                getSupervisorBySector?.isError
+                                            }
                                             variant="dark"
                                         >
                                             Add Supervisor
@@ -87,7 +89,6 @@ export const IndustryCourseSupervisors = ({
                                     {/* </div> */}
                                 </Modal.Window>
                             </Modal>
-
                         ) : null}
                     </div>
                 ) : null}

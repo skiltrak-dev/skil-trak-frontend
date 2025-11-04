@@ -130,31 +130,32 @@ export const CourseCard = ({
                                 >
                                     <div className="border bg-[#95C6FB26] bg-opacity-15">
                                         <div className="px-4 pt-4 flex justify-between gap-x-12 w-full items-center mb-4">
-                                            <div className="flex items-center gap-x-1">
+                                            <div className='space-y-2'>
                                                 <Typography
                                                     variant="small"
                                                     color="text-gray-600"
                                                 >
                                                     COURSES -{' '}
                                                 </Typography>
-
-                                                <Typography variant="muted">
-                                                    {approval?.course?.title ??
-                                                        approval?.title}{' '}
-                                                    -{' '}
-                                                    {approval?.course?.code ??
-                                                        approval?.code}
-                                                </Typography>
-                                                {isPending && (
-                                                    <div className="">
-                                                        <span className="py-0.5 px-2 bg-red-100 border border-red-200 text-red-700 rounded-md text-[10px] font-medium">
-                                                            Pending
-                                                        </span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <div>
-                                                <div className="text-right ">
+                                                <div className="flex items-center gap-x-1">
+                                                    <Typography variant="muted">
+                                                        {approval?.course
+                                                            ?.title ??
+                                                            approval?.title}{' '}
+                                                        -{' '}
+                                                        {approval?.course
+                                                            ?.code ??
+                                                            approval?.code}
+                                                    </Typography>
+                                                    {isPending && (
+                                                        <div className="">
+                                                            <span className="py-0.5 px-2 bg-red-100 border border-red-200 text-red-700 rounded-md text-[10px] font-medium">
+                                                                Pending
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="w-fit">
                                                     <Typography
                                                         variant="small"
                                                         color="text-gray-600"
@@ -162,16 +163,14 @@ export const CourseCard = ({
                                                     >
                                                         Course Hours
                                                     </Typography>
-                                                    <Typography
-                                                        variant="muted"
-                                                        center
-                                                    >
+                                                    <Typography variant="muted">
                                                         {approval?.course
                                                             ?.hours ??
                                                             approval?.hours}
                                                     </Typography>
                                                 </div>
                                             </div>
+                                            <div></div>
 
                                             <div className="flex items-center gap-x-2">
                                                 {!isPreviousCourses && (
@@ -358,10 +357,19 @@ export const CourseCard = ({
 
                                         {/* Hod Note */}
                                         {!isPreviousCourses && (
-                                            <AddHodNote
-                                                comment={approval?.hodComment}
-                                                courseReqId={approval?.id}
-                                            />
+                                            <AuthorizedUserComponent
+                                                roles={[
+                                                    UserRoles.ADMIN,
+                                                    UserRoles.SUBADMIN,
+                                                ]}
+                                            >
+                                                <AddHodNote
+                                                    comment={
+                                                        approval?.hodComment
+                                                    }
+                                                    courseReqId={approval?.id}
+                                                />
+                                            </AuthorizedUserComponent>
                                         )}
 
                                         <div className="flex justify-between text-[11px] px-4">

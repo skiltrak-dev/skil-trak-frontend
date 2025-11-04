@@ -1,4 +1,4 @@
-import { Button, RadioGroup, Select, TextInput, Typography } from '@components'
+import { Button, Select, TextArea, TextInput, Typography } from '@components'
 import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
@@ -6,11 +6,12 @@ import { AdminApi } from '@queries'
 import { ImportStudentFormType } from '@types'
 import { CourseSelectOption, formatOptionLabel, getDate } from '@utils'
 import { Upload } from 'lucide-react'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { read, utils } from 'xlsx'
 import * as yup from 'yup'
+import { PlacementType } from './PlacementType'
+import { PlacementTypeEnum } from '../enum'
 
 interface FormProps {
     onSubmit: (values: ImportStudentFormType) => void
@@ -36,11 +37,6 @@ export const ImportStudentFormV2 = ({
     const { notification } = useNotification()
     const [mount, setMount] = useState(false)
     const [studentsCount, setStudentsCount] = useState<number>(0)
-    const [placementType, setPlacementType] = useState<'flexible' | 'block'>(
-        'flexible'
-    )
-
-    const router = useRouter()
 
     useEffect(() => {
         if (!mount) setMount(true)
@@ -71,21 +67,91 @@ export const ImportStudentFormV2 = ({
 
     const validationSchema = yup.object({
         batch: yup.string().required('Batch required'),
-        ...(placementType === 'block'
-            ? {
-                startDate: yup.string().required('Start date required'),
-                endDate: yup.string().required('End date required'),
-            }
-            : {
-                expiryDate: yup.string().required('Expiry date required'),
-            }),
+        // Placement Type
+        placementType: yup
+            .string()
+            .oneOf(
+                [PlacementTypeEnum.BLOCK, PlacementTypeEnum.FLEXIBLE],
+                'Must select a valid placement type'
+            )
+            .required('Must select placement type'),
+
+        // Conditional Date Validations
+        startDate: yup.date().when('placementType', {
+            is: PlacementTypeEnum.BLOCK,
+            then: (schema) =>
+                schema
+                    .min(
+                        new Date(getDate()),
+                        'Start date cannot be in the past'
+                    )
+                    .required('Must provide start date for block placement'),
+            otherwise: (schema) => schema.nullable().notRequired(),
+        }),
+
+        endDate: yup.date().when(['placementType', 'startDate'], {
+            is: (placementType: string, startDate: Date) =>
+                placementType === PlacementTypeEnum.BLOCK && startDate,
+            then: (schema) =>
+                schema
+                    .min(
+                        yup.ref('startDate'),
+                        'End date must be after start date'
+                    )
+                    .required('Must provide end date for block placement'),
+            otherwise: (schema) => schema.nullable().notRequired(),
+        }),
+
+        expiryDate: yup.date().when('placementType', {
+            is: PlacementTypeEnum.FLEXIBLE,
+            then: (schema) =>
+                schema
+                    .min(
+                        new Date(getMinExpiryDate()),
+                        'Expiry date must be at least 3 months from today'
+                    )
+                    .required('Must provide expiry date for rolling placement'),
+            otherwise: (schema) => schema.nullable().notRequired(),
+        }),
+        courses: yup.array().min(1, 'Must select at least 1 course').required(),
+
+        list: yup
+            .mixed()
+            .required('A file is required')
+            .test(
+                'fileValue',
+                'A file is required',
+                (value) => [...value]?.length > 0
+            )
+            .test(
+                'fileSize',
+                'File size is too large. Maximum size is 5MB',
+                (value) =>
+                    value &&
+                    value?.length > 0 &&
+                    value?.[0]?.size <= 5 * 1024 * 1024 // 5MB
+            )
+            .test(
+                'fileType',
+                'Unsupported file format. PDF,JPG,Png formats are allowed.',
+                (value) =>
+                    value &&
+                    [
+                        'image/jpg',
+                        'image/png',
+                        'image/jpeg',
+                        'application/pdf',
+                    ].includes(value?.[0]?.type)
+            ),
     })
 
     const methods = useForm({
         resolver: yupResolver(validationSchema),
-        defaultValues: initialValues,
+         defaultValues: { placementType: PlacementTypeEnum.FLEXIBLE },
         mode: 'all',
     })
+
+    const placementType: PlacementTypeEnum = methods.watch('placementType')
 
     const onFileChange = async (e: any, fileData: any) => {
         try {
@@ -125,13 +191,13 @@ export const ImportStudentFormV2 = ({
         <FormProvider {...methods}>
             <form
                 className="w-full"
-                onSubmit={methods.handleSubmit((values) => {
+                onSubmit={methods.handleSubmit((values: any) => {
                     const filteredValues = { ...values }
 
-                    if (placementType === 'flexible') {
+                    if (placementType === PlacementTypeEnum.FLEXIBLE) {
                         delete filteredValues.startDate
                         delete filteredValues.endDate
-                    } else if (placementType === 'block') {
+                    } else if (placementType === PlacementTypeEnum.BLOCK) {
                         delete filteredValues.expiryDate
                     }
                     onSubmit(filteredValues)
@@ -139,84 +205,7 @@ export const ImportStudentFormV2 = ({
             >
                 <div className="space-y-4">
                     {/* Placement Type */}
-                    <div className="border border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-4 rounded-lg">
-                        <Typography variant="label" className="mb-2 block">
-                            Placement Type
-                        </Typography>
-
-                        <div className="flex flex-col gap-3">
-                            <div
-                                className={`flex items-start space-x-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${placementType === 'flexible'
-                                        ? 'border-primaryNew bg-primaryNew/5'
-                                        : 'border-gray-300 hover:border-primaryNew/30'
-                                    }`}
-                                onClick={() => setPlacementType('flexible')}
-                            >
-                                <input
-                                    type="radio"
-                                    id="flexible"
-                                    name="placementType"
-                                    checked={placementType === 'flexible'}
-                                    onChange={() =>
-                                        setPlacementType('flexible')
-                                    }
-                                    className="mt-1 accent-primaryNew cursor-pointer"
-                                />
-                                <div className="flex-1">
-                                    <div className="flex justify-between">
-                                        <Typography
-                                            variant="body"
-                                            className="font-semibold cursor-pointer"
-                                        >
-                                            Flexible Placement
-                                        </Typography>
-                                        <div className="inline-flex items-center justify-center rounded-full border border-primary/30 bg-primary/20 px-2.5 py-0.5 text-xs font-medium text-primary text-center">
-                                            Flexible
-                                        </div>
-                                    </div>
-                                    <p className="text-sm text-gray-500 mt-1">
-                                        Student can be placed any time before
-                                        the expiry date
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div
-                                className={`flex items-start space-x-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${placementType === 'block'
-                                        ? 'border-primaryNew bg-primaryNew/5'
-                                        : 'border-gray-300 hover:border-primaryNew/30'
-                                    }`}
-                                onClick={() => setPlacementType('block')}
-                            >
-                                <input
-                                    type="radio"
-                                    id="block"
-                                    name="placementType"
-                                    checked={placementType === 'block'}
-                                    onChange={() => setPlacementType('block')}
-                                    className="mt-1 accent-primaryNew cursor-pointer"
-                                />
-                                <div className="flex-1">
-                                    <div className="flex justify-between">
-                                        <Typography
-                                            variant="body"
-                                            className="font-semibold cursor-pointer"
-                                        >
-                                            Block Placement
-                                        </Typography>
-                                        <div className="inline-flex items-center justify-center rounded-full border border-primaryNew/30 bg-primaryNew/20 px-2.5 py-0.5 text-xs font-medium text-primaryNew text-center">
-                                            Scheduled
-                                        </div>
-                                    </div>
-
-                                    <p className="text-sm text-gray-500 mt-1">
-                                        Student must be placed before the start
-                                        date and will have an end date
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <PlacementType />
 
                     {/* Form Inputs */}
                     <div className="grid grid-cols-2 gap-2">
@@ -238,7 +227,7 @@ export const ImportStudentFormV2 = ({
                         </div>
                     </div>
                     <div className="flex items-center gap-x-2 justify-between">
-                        {placementType === 'block' ? (
+                        {placementType === PlacementTypeEnum.BLOCK ? (
                             <>
                                 <TextInput
                                     label="Start Date"
@@ -267,6 +256,13 @@ export const ImportStudentFormV2 = ({
                         name="list"
                         onChange={onFileChange}
                         fileAsObject={false}
+                    />
+
+                    <TextArea
+                        label={'Notes (Optional)'}
+                        name={'notes'}
+                        placeholder={'Add Notes here...'}
+                        rows={4}
                     />
 
                     {/* Expected Columns Preview */}

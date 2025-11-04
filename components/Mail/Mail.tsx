@@ -189,7 +189,7 @@ export const Mail = ({ message, sender, index }: any) => {
                     <div className="flex justify-between gap-x-2 relative mt-3">
                         <p className="text-sm">
                             <span
-                                className="block mr-6"
+                                className="block mr-6 content-editor"
                                 dangerouslySetInnerHTML={{
                                     __html: removeWhiteBackground(
                                         message?.message

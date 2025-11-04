@@ -134,11 +134,13 @@ export const ProblematicStudent = () => {
                     <div className="flex items-center gap-2">
                         <GraduationCap className="h-3 w-3 text-gray-500" />
                         <p className="text-xs truncate">
-                            {`${info.row.original?.workplaceRequest?.courses[0]
-                                ?.code ?? '————'
-                                } - ${info.row.original?.workplaceRequest?.courses[0]
+                            {`${
+                                info.row.original?.workplaceRequest?.courses[0]
+                                    ?.code ?? '————'
+                            } - ${
+                                info.row.original?.workplaceRequest?.courses[0]
                                     ?.title ?? '————'
-                                }`}
+                            }`}
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -222,7 +224,6 @@ export const ProblematicStudent = () => {
             </ActionButton>
         ),
     }
-    console.log('count?.data', count?.data);
     const stats = [
         {
             label: 'Open Issues',
@@ -281,7 +282,7 @@ export const ProblematicStudent = () => {
                             columns={columns}
                             data={data.data}
                             quickActions={quickActionsElements}
-                        // enableRowSelection
+                            // enableRowSelection
                         >
                             {({
                                 table,
