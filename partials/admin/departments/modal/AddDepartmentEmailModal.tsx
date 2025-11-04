@@ -97,7 +97,11 @@ export const AddDepartmentEmailModal = ({
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         mode: 'all',
-        defaultValues: { name: deptName, email: deptEmail },
+        defaultValues: {
+            name: deptName,
+            email: deptEmail,
+            sectors: uniqueSectors2,
+        },
     })
 
     const [updateDepartment, updateDepartmentResult] =
@@ -158,18 +162,19 @@ export const AddDepartmentEmailModal = ({
                                     options={
                                         sectors.isLoading ? [] : sectorsOptions
                                     }
-                                    value={sectorsOptions?.filter(
-                                        (s: OptionType) =>
-                                            selectedSectors?.includes(
-                                                Number(s?.value)
-                                            )
-                                    )}
                                     onChange={(options: number[]) => {
                                         setSelectedSectors(options)
                                     }}
                                     menuPlacement="top"
                                     onlyValue
-                                    loading={sectors.isLoading}
+                                    loading={
+                                        sectors.isLoading ||
+                                        deptCourses?.isLoading
+                                    }
+                                    disabled={
+                                        sectors.isLoading ||
+                                        deptCourses?.isLoading
+                                    }
                                     multi
                                 />
                                 <Select
