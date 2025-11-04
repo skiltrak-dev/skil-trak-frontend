@@ -591,7 +591,7 @@ export const StudentSchedulePage = () => {
                             },
                         ]}
                         value={density}
-                        onChange={(e: OptionType) => {
+                        onChange={(e: any) => {
                             setDensity(e)
                         }}
                     />
@@ -784,7 +784,7 @@ export const StudentSchedulePage = () => {
                                     value: sector,
                                 }))}
                                 value={selectedSector}
-                                onChange={(e: OptionType) => {
+                                onChange={(e: any) => {
                                     setSelectedSector(e)
                                 }}
                                 placeholder="Sector"
@@ -802,7 +802,7 @@ export const StudentSchedulePage = () => {
                                     value: course,
                                 }))}
                                 value={selectedCourse}
-                                onChange={(e: OptionType) => {
+                                onChange={(e: any) => {
                                     setSelectedCourse(e)
                                 }}
                                 placeholder="Course"
@@ -817,7 +817,7 @@ export const StudentSchedulePage = () => {
                                     value: coordinator,
                                 }))}
                                 value={selectedCoordinator}
-                                onChange={(e: OptionType) => {
+                                onChange={(e: any) => {
                                     setSelectedCoordinator(e)
                                 }}
                                 placeholder="Coordinator"
@@ -842,7 +842,7 @@ export const StudentSchedulePage = () => {
                                     },
                                 ]}
                                 value={selectedStatus}
-                                onChange={(e: OptionType) => {
+                                onChange={(e: any) => {
                                     setSelectedStatus(e)
                                 }}
                                 placeholder="Status"
