@@ -278,7 +278,7 @@ export const Select = forwardRef(
                             },
                             onBlur,
                             defaultValue,
-                            field.value
+                            field.value || value
                         )
                     }
                 />
