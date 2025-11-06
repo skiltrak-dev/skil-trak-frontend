@@ -72,7 +72,7 @@ export const AddNoteModal = ({
         <div>
             <ShowErrorNotifications result={addTagsResult} />
             <Modal
-                title={'Add Sector Keywords'}
+                title={'Add Non Eligible workplace keywords'}
                 subtitle={''}
                 onConfirmClick={methods.handleSubmit(onSubmit)}
                 onCancelClick={onCancel}
@@ -82,14 +82,13 @@ export const AddNoteModal = ({
                     <div className="w-full lg:w-[600px] max-h-full lg:max-h-[70vh] overflow-auto">
                         <TagsInput
                             name="keywords"
-                            label="Add Sector Keywords"
                             inputWordsLength={4}
                             onChange={(e: { id: string; text: string }[]) => {
                                 methods.setValue('keywords', e)
                             }}
                             defaultTags={keywords}
                             placeholder={
-                                'Add Note Tags (Press Enter to add tags)'
+                                'Add Add Non Eligible workplace keywords (Press Enter to add tags)'
                             }
                         />
                     </div>

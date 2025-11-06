@@ -8,27 +8,9 @@ import { ImportStudentFormV2 } from './ImportStudentFormV2'
 
 export const ImportStudentsListFormWithOTP = ({
     onSubmit,
-    setFoundStudents,
-    setExistingEmails,
-    foundStudents,
-    result,
-    rtoCourses,
-    onCancel,
 }: {
     onSubmit: (values: ImportStudentFormType) => void
-    setFoundStudents: any
-    setExistingEmails: any
-    foundStudents: any
-    result: any
-    rtoCourses: any
-    onCancel?: any
 }) => {
-    const [checkMails, checkMailsResult] =
-        AdminApi.Rtos.useRtoStudentAccountCheck()
-
-    const [studentList, setStudentList] = useState<any>([])
-    const [emailExistList, setEmailExistList] = useState<any | null>(null)
-
     const [columnsToRead, setColumnsToRead] = useState<any>({
         id: 'id',
         name: 'name',
@@ -38,13 +20,12 @@ export const ImportStudentsListFormWithOTP = ({
         // state: 'state',
         // zipcode: 'zipcode',
     })
+    const [studentList, setStudentList] = useState<any>([])
 
-    const onColumnsChange = (columns: any) => {
-        setColumnsToRead(columns)
-    }
+    const [checkMails, checkMailsResult] =
+        AdminApi.Rtos.useRtoStudentAccountCheck()
 
     const onStudentFound = (students: any, file: any, emailExists: any) => {
-        setFoundStudents(students)
         setStudentList(students)
 
         const mails = students.map((std: any) => trimText(std.email))
@@ -53,7 +34,6 @@ export const ImportStudentsListFormWithOTP = ({
         })
             .then((res: any) => {
                 if (res.data?.length) {
-                    setExistingEmails(res.data?.map((o: any) => o.email))
                 }
             })
             .catch((err) => {})
@@ -81,10 +61,6 @@ export const ImportStudentsListFormWithOTP = ({
                     <ImportStudentFormV2
                         onSubmit={onSubmit}
                         onStudentFound={onStudentFound}
-                        setEmailExistList={setEmailExistList}
-                        result={result}
-                        rtoCourses={rtoCourses}
-                        onCancel={onCancel}
                     />
                 </div>
                 <div className="w-full">
@@ -95,7 +71,7 @@ export const ImportStudentsListFormWithOTP = ({
                         />
                     </div> */}
                     <div className="w-full">
-                        {foundStudents && foundStudents?.length > 0 && (
+                        {studentList && studentList?.length > 0 && (
                             <div className="w-full">
                                 <Card>
                                     <p>
@@ -103,7 +79,7 @@ export const ImportStudentsListFormWithOTP = ({
                                             Total of
                                         </span>{' '}
                                         <span className="text-sm font-semibold text-gray-700">
-                                            {foundStudents.length}
+                                            {studentList.length}
                                         </span>{' '}
                                         <span className="text-sm text-gray-500">
                                             student(s) were found:
@@ -129,7 +105,7 @@ export const ImportStudentsListFormWithOTP = ({
                                         </div>
                                     ) : null}
 
-                                    {/* <table className="w-full">
+                                    <table className="w-full">
                                         <thead>
                                             <tr>
                                                 <th>Student Id</th>
@@ -137,12 +113,11 @@ export const ImportStudentsListFormWithOTP = ({
                                                 <th>Email</th>
                                                 <th>Contact</th>
                                                 <th>Address</th>
-                                                
                                             </tr>
                                         </thead>
 
                                         <tbody>
-                                            {foundStudents.map(
+                                            {studentList?.map(
                                                 (student: any, i: number) => (
                                                     <tr key={i}>
                                                         {Object.values(
@@ -181,7 +156,7 @@ export const ImportStudentsListFormWithOTP = ({
                                                 )
                                             )}
                                         </tbody>
-                                    </table> */}
+                                    </table>
                                 </Card>
                             </div>
                         )}

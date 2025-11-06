@@ -85,7 +85,7 @@ export const Alert = ({
                 className={`w-12 h-12 rounded-xl m-2 overflow-hidden flex justify-center items-center ${theme[variant].iconBg}`}
             >
                 {avatar ? (
-                    <img className="w-full h-full " src={avatar} alt="" />
+                    <img className="w-full h-full" src={avatar} alt="" />
                 ) : Icon ? (
                     <Icon className={`text-4xl text-white`} />
                 ) : (

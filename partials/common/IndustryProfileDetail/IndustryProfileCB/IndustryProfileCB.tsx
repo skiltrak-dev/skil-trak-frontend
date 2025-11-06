@@ -40,7 +40,6 @@ import {
     SectorBaseCapacityModal,
     SnoozeIndustrySwitch,
 } from './components'
-import { useSubadminProfile } from '@hooks'
 
 export const IndustryProfileCB = ({
     isHod,

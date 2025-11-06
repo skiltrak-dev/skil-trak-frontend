@@ -75,10 +75,6 @@ export const AddIndividualStudentForm = () => {
     }, [addStudentResult.isSuccess])
 
     const onSubmitForm = (values: any) => {
-        // if (onSubmit) {
-        //     onSubmit(values)
-        // } else
-
         addStudent({
             // ...values,
             id: Number(router.query.id),

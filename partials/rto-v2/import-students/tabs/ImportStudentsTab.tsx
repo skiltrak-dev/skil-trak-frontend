@@ -1,91 +1,53 @@
-import { useContextBar, useNavbar } from '@hooks'
-import { Course } from '@types'
-import { ReactElement, useEffect, useState } from 'react'
+import { useNavbar, useNotification } from '@hooks'
+import { useState } from 'react'
 
 import { ShowErrorNotifications } from '@components'
-import {
-    CreatedStudentsList,
-    ImportStudentVerificationModal,
-    useImportStudents,
-} from '@partials/common'
-import { RtoApi } from '@queries'
+import { CreatedStudentsList } from '@partials/common'
+import { RtoV2Api } from '@queries'
 import { ImportStudentsListFormWithOTP } from '../components'
 
 export const ImportStudentsTab = () => {
     const navBar = useNavbar()
-    const contextBar = useContextBar()
+
+    const { notification } = useNotification()
 
     const [importedStudentsResult, setImportedStudentsResult] =
         useState<any>(null)
 
-    useEffect(() => {
-        navBar.setTitle('RTO Detail')
-        contextBar.hide()
-
-        return () => {
-            navBar.setTitle('')
-        }
-    }, [])
-    const [modal, setModal] = useState<ReactElement | null>(null)
-    const [foundStudents, setFoundStudents] = useState<any>([])
-
-    const [existingEmails, setExistingEmails] = useState<any>([])
-
-    const [sendVerificationCode, sendVerificationCodeResult] =
-        RtoApi.Students.useSendVerificationCode()
-    const rto = RtoApi.Rto.useProfile()
-
-    const rtoCoursesOptions =
-        rto.isSuccess && rto?.data?.courses && rto?.data?.courses?.length > 0
-            ? rto?.data?.courses?.map((course: Course) => ({
-                  label: course?.title,
-                  value: course?.id,
-                  item: course,
-              }))
-            : []
-
-    const { onRtoImportStudents, RTOImportStudentsResult } = useImportStudents()
-
-    const onCancel = () => setModal(null)
+    const [importStudents, importStudentsResult] =
+        RtoV2Api.Students.importStudents()
 
     const onSubmit = async (values: any) => {
-        console.log({ values })
-        return
-        sendVerificationCode({}).then((res: any) => {
-            if (res?.data) {
-                setModal(
-                    <ImportStudentVerificationModal
-                        values={values}
-                        onCancel={onCancel}
-                        foundStudents={foundStudents}
-                        existingEmails={existingEmails}
-                        setImportedStudentsResult={setImportedStudentsResult}
-                        onImportStudentsList={onRtoImportStudents}
-                    />
-                )
-            }
-        })
+        const { list, ...payload } = values
+
+        const res: any = await importStudents(payload)
+
+        if (res?.data) {
+            notification.success({
+                title: 'Students Uploaded',
+                description: 'Students Uploaded Successfully',
+            })
+            setImportedStudentsResult(res?.data)
+            return true
+        }
+    }
+
+    if (importedStudentsResult) {
+        return (
+            <CreatedStudentsList
+                importedStudentsResult={importedStudentsResult}
+                onBack={() => {
+                    setImportedStudentsResult(null)
+                }}
+                buttonVariant={'primaryNew'}
+            />
+        )
     }
 
     return (
         <>
-            {modal}
-            <ShowErrorNotifications result={RTOImportStudentsResult} />
-            {!importedStudentsResult ? (
-                <ImportStudentsListFormWithOTP
-                    onSubmit={onSubmit}
-                    setFoundStudents={setFoundStudents}
-                    setExistingEmails={setExistingEmails}
-                    foundStudents={foundStudents}
-                    rtoCourses={rtoCoursesOptions}
-                    result={sendVerificationCodeResult}
-                    onCancel={onCancel}
-                />
-            ) : (
-                <CreatedStudentsList
-                    importedStudentsResult={importedStudentsResult}
-                />
-            )}
+            <ShowErrorNotifications result={importStudentsResult} />
+            <ImportStudentsListFormWithOTP onSubmit={onSubmit} />
         </>
     )
 }

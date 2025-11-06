@@ -10,9 +10,11 @@ export const RtoDashboardBaseModal = ({
     title,
     description,
     titleBadge,
+    icon,
     variant,
 }: {
-    variant?: 'primaryNew' | 'primary' | 'success'
+    icon?: any
+    variant?: 'primaryNew' | 'primary' | 'success' | 'primaryLight'
     titleBadge?: string
     title: string
     description: string
@@ -23,7 +25,10 @@ export const RtoDashboardBaseModal = ({
         'relative px-6 pt-6 pb-4 bg-primaryNew overflow-hidden': true,
         '!bg-primary': variant === 'primary',
         '!bg-success': variant === 'success',
+        '!bg-primary/10': variant === 'primaryLight',
     })
+
+    const Icon = icon || GraduationCap
 
     return (
         <GlobalModal className="!overflow-hidden !max-w-3xl">
@@ -39,7 +44,7 @@ export const RtoDashboardBaseModal = ({
                 <div className="relative">
                     <div className="flex items-start gap-4">
                         <div className="h-14 w-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shadow-premium border border-white/30 shrink-0">
-                            <GraduationCap
+                            <Icon
                                 className="h-7 w-7 text-white"
                                 strokeWidth={2.5}
                             />

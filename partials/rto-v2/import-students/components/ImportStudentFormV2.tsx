@@ -1,157 +1,48 @@
-import { Button, Select, TextArea, TextInput, Typography } from '@components'
+import { Button, Select, TextArea, TextInput } from '@components'
 import { BinaryFileUpload } from '@components/inputs/BinaryFileUpload'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
-import { AdminApi } from '@queries'
-import { ImportStudentFormType } from '@types'
+import { RtoApi } from '@queries'
+import { Course, ImportStudentFormType } from '@types'
 import { CourseSelectOption, formatOptionLabel, getDate } from '@utils'
 import { Upload } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form'
 import { read, utils } from 'xlsx'
-import * as yup from 'yup'
-import { PlacementType } from './PlacementType'
 import { PlacementTypeEnum } from '../enum'
+import { getMinExpiryDate, importStudentValidationSchema } from '../functions'
+import { PlacementType } from './PlacementType'
 
 interface FormProps {
-    onSubmit: (values: ImportStudentFormType) => void
-    edit?: boolean
-    initialValues?: any
+    onSubmit: SubmitHandler<ImportStudentFormType>
     onStudentFound: Function
-    setEmailExistList: Function
-    result: any
-    rtoCourses: any
-    onCancel?: any
 }
 
 export const ImportStudentFormV2 = ({
-    result,
     onSubmit,
-    edit,
-    initialValues,
     onStudentFound,
-    setEmailExistList,
-    rtoCourses,
-    onCancel,
 }: FormProps) => {
     const { notification } = useNotification()
-    const [mount, setMount] = useState(false)
     const [studentsCount, setStudentsCount] = useState<number>(0)
 
-    useEffect(() => {
-        if (!mount) setMount(true)
-    }, [])
+    const rto = RtoApi.Rto.useProfile()
 
-    const courses = AdminApi.Courses.useListQuery(undefined)
-    const [courseOptions, setCourseOptions] = useState<any>([])
+    const rtoCoursesOptions =
+        rto.isSuccess && rto?.data?.courses && rto?.data?.courses?.length > 0
+            ? rto?.data?.courses?.map((course: Course) => ({
+                  label: course?.title,
+                  value: course?.id,
+                  item: course,
+              }))
+            : []
 
-    const onSectorSelect = (options: any) => {
-        const currentSelectedSectors = options.map((opt: any) => opt.value)
-        const currentSelectableCourses: any = []
-
-        currentSelectedSectors.forEach((sectorId: number) => {
-            const currentCourses = courses.data?.data.filter(
-                (c) => c.sector.id === sectorId
-            )
-            if (currentCourses?.length)
-                currentSelectableCourses.push(...currentCourses)
-        })
-
-        setCourseOptions(
-            currentSelectableCourses.map((c: any) => ({
-                label: c.title,
-                value: c.id,
-            }))
-        )
-    }
-
-    const validationSchema = yup.object({
-        batch: yup.string().required('Batch required'),
-        // Placement Type
-        placementType: yup
-            .string()
-            .oneOf(
-                [PlacementTypeEnum.BLOCK, PlacementTypeEnum.FLEXIBLE],
-                'Must select a valid placement type'
-            )
-            .required('Must select placement type'),
-
-        // Conditional Date Validations
-        startDate: yup.date().when('placementType', {
-            is: PlacementTypeEnum.BLOCK,
-            then: (schema) =>
-                schema
-                    .min(
-                        new Date(getDate()),
-                        'Start date cannot be in the past'
-                    )
-                    .required('Must provide start date for block placement'),
-            otherwise: (schema) => schema.nullable().notRequired(),
-        }),
-
-        endDate: yup.date().when(['placementType', 'startDate'], {
-            is: (placementType: string, startDate: Date) =>
-                placementType === PlacementTypeEnum.BLOCK && startDate,
-            then: (schema) =>
-                schema
-                    .min(
-                        yup.ref('startDate'),
-                        'End date must be after start date'
-                    )
-                    .required('Must provide end date for block placement'),
-            otherwise: (schema) => schema.nullable().notRequired(),
-        }),
-
-        expiryDate: yup.date().when('placementType', {
-            is: PlacementTypeEnum.FLEXIBLE,
-            then: (schema) =>
-                schema
-                    .min(
-                        new Date(getMinExpiryDate()),
-                        'Expiry date must be at least 3 months from today'
-                    )
-                    .required('Must provide expiry date for rolling placement'),
-            otherwise: (schema) => schema.nullable().notRequired(),
-        }),
-        courses: yup.array().min(1, 'Must select at least 1 course').required(),
-
-        list: yup
-            .mixed()
-            .required('A file is required')
-            .test(
-                'fileValue',
-                'A file is required',
-                (value) => [...value]?.length > 0
-            )
-            .test(
-                'fileSize',
-                'File size is too large. Maximum size is 5MB',
-                (value) =>
-                    value &&
-                    value?.length > 0 &&
-                    value?.[0]?.size <= 5 * 1024 * 1024 // 5MB
-            )
-            .test(
-                'fileType',
-                'Unsupported file format. PDF,JPG,Png formats are allowed.',
-                (value) =>
-                    value &&
-                    [
-                        'image/jpg',
-                        'image/png',
-                        'image/jpeg',
-                        'application/pdf',
-                    ].includes(value?.[0]?.type)
-            ),
-    })
-
-    const methods = useForm({
-        resolver: yupResolver(validationSchema),
-         defaultValues: { placementType: PlacementTypeEnum.FLEXIBLE },
+    const methods = useForm<any>({
+        resolver: yupResolver(importStudentValidationSchema),
+        defaultValues: { placementType: PlacementTypeEnum.FLEXIBLE },
         mode: 'all',
     })
 
-    const placementType: PlacementTypeEnum = methods.watch('placementType')
+    const placementType = methods.watch('placementType')
 
     const onFileChange = async (e: any, fileData: any) => {
         try {
@@ -162,6 +53,7 @@ export const ImportStudentFormV2 = ({
                 const rows = utils.sheet_to_json(wb.Sheets[sheets[0]])
                 setStudentsCount(rows?.length)
                 if (rows?.length <= 50) {
+                    methods.setValue('students', rows)
                     onStudentFound && onStudentFound(rows, fileData)
                 } else {
                     notification.error({
@@ -180,29 +72,9 @@ export const ImportStudentFormV2 = ({
         }
     }
 
-    // Utility to calculate date 3 months ahead
-    const getMinExpiryDate = () => {
-        const date = new Date()
-        date.setMonth(date.getMonth() + 3)
-        return date.toISOString().split('T')[0]
-    }
-
     return (
         <FormProvider {...methods}>
-            <form
-                className="w-full"
-                onSubmit={methods.handleSubmit((values: any) => {
-                    const filteredValues = { ...values }
-
-                    if (placementType === PlacementTypeEnum.FLEXIBLE) {
-                        delete filteredValues.startDate
-                        delete filteredValues.endDate
-                    } else if (placementType === PlacementTypeEnum.BLOCK) {
-                        delete filteredValues.expiryDate
-                    }
-                    onSubmit(filteredValues)
-                })}
-            >
+            <form className="w-full" onSubmit={methods.handleSubmit(onSubmit)}>
                 <div className="space-y-4">
                     {/* Placement Type */}
                     <PlacementType />
@@ -218,7 +90,7 @@ export const ImportStudentFormV2 = ({
                             <Select
                                 name="courses"
                                 label="Courses"
-                                options={rtoCourses}
+                                options={rtoCoursesOptions}
                                 multi
                                 onlyValue
                                 components={{ Option: CourseSelectOption }}
@@ -286,17 +158,17 @@ export const ImportStudentFormV2 = ({
 
                     {/* Buttons */}
                     <div className="flex justify-end gap-x-2 items-center">
-                        <Button
-                            text="Cancel"
-                            onClick={onCancel}
-                            variant="secondary"
-                        />
+                        <Button text="Cancel" variant="secondary" />
                         <Button
                             text="Import Students"
                             Icon={Upload}
+                            variant="primaryNew"
                             submit
-                            loading={result.isLoading}
-                            disabled={result.isLoading || studentsCount > 50}
+                            loading={methods?.formState?.isSubmitting}
+                            disabled={
+                                methods?.formState?.isSubmitting ||
+                                studentsCount > 50
+                            }
                         />
                     </div>
                 </div>

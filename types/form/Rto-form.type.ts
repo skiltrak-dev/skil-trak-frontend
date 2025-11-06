@@ -1,5 +1,7 @@
+import { PlacementTypeEnum } from '@partials/rto-v2/import-students/enum'
 import { OptionType } from 'types/option.type'
 import { Course } from 'types/sector.type'
+import { Student } from 'types/user.type'
 
 export interface RtoAssessmentToolFormType extends FormData {
     course: number
@@ -20,5 +22,7 @@ export interface ImportStudentFormType {
     batch: string
     expiryDate: string
     courses: number[]
+    students: Student[]
     list: ImportStudentFileList
+    placementType: PlacementTypeEnum
 }

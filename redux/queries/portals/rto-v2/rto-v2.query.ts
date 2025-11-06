@@ -31,6 +31,8 @@ const {
 
     // ---- Students ---- //
     useRtoStudentHistoryQuery,
+    useImportStudentsMutation,
+    useAddSingleStudentWithPlacementTypeMutation,
 } = rtoV2Api
 
 export const RtoV2Api = {
@@ -50,6 +52,8 @@ export const RtoV2Api = {
             useGetStudentPlacementRequestStatsQuery,
     },
     Students: {
+        importStudents: useImportStudentsMutation,
         rtoStudentHistory: useRtoStudentHistoryQuery,
+        addIndividualStudent: useAddSingleStudentWithPlacementTypeMutation,
     },
 }

@@ -13,4 +13,25 @@ export const studentsEndpoints = (
         }),
         providesTags: ['RTO'],
     }),
+
+    importStudents: builder.mutation<any, PaginationWithSearch>({
+        query: (body) => ({
+            url: `${PREFIX}students/import/v2`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RTO'],
+    }),
+
+    addSingleStudentWithPlacementType: builder.mutation<
+        any,
+        PaginationWithSearch
+    >({
+        query: (body) => ({
+            url: `${PREFIX}student/add/v2`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RTO'],
+    }),
 })

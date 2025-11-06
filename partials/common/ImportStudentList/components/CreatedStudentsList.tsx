@@ -1,10 +1,14 @@
-import { Button } from '@components'
+import { Button, ButtonVariantOptions } from '@components'
 import { useRouter } from 'next/router'
 import React from 'react'
 
 export const CreatedStudentsList = ({
     importedStudentsResult,
+    onBack,
+    buttonVariant,
 }: {
+    onBack?: () => void
+    buttonVariant?: (typeof ButtonVariantOptions)[number]
     importedStudentsResult: any
 }) => {
     const router = useRouter()
@@ -79,12 +83,17 @@ export const CreatedStudentsList = ({
                 )}
 
                 {importedStudentsResult ? (
-                    <div>
+                    <div className="mt-4">
                         <Button
                             text="Back"
                             onClick={() => {
-                                router.back()
+                                if (onBack) {
+                                    onBack()
+                                } else {
+                                    router.back()
+                                }
                             }}
+                            variant={buttonVariant || 'primary'}
                         />
                     </div>
                 ) : null}
