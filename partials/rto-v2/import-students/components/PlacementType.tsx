@@ -1,19 +1,20 @@
 import { Typography } from '@components'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
+import { PlacementTypeEnum } from '../enum'
 
 const placementOptions = [
     {
-        id: 'flexible',
-        value: 'flexible',
+        id: PlacementTypeEnum.FLEXIBLE,
+        value: PlacementTypeEnum.FLEXIBLE,
         label: 'Flexible Placement',
         badge: 'Flexible',
         badgeColor: 'primary',
         description: 'Student can be placed any time before the expiry date',
     },
     {
-        id: 'block',
-        value: 'block',
+        id: PlacementTypeEnum.BLOCK,
+        value: PlacementTypeEnum.BLOCK,
         label: 'Block Placement',
         badge: 'Scheduled',
         badgeColor: 'primaryNew',

@@ -5,16 +5,16 @@ import {
     ShowErrorNotifications,
     TextArea,
     TextInput,
-    Typography,
 } from '@components'
 import { UserRoles } from '@constants'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AuthApi, RtoApi } from '@queries'
+import { RtoV2Api, RtoApi } from '@queries'
 import { Course } from '@types'
 import {
     CourseSelectOption,
     ageOptions,
     formatOptionLabel,
+    getDate,
     onlyAlphabets,
 } from '@utils'
 import { useRouter } from 'next/router'
@@ -23,14 +23,16 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { PlacementType } from './PlacementType'
 import { PlacementTypeEnum } from '../enum'
+import { useNotification } from '@hooks'
 
 export const AddIndividualStudentFormV2 = () => {
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
     const router = useRouter()
 
-    const [addStudent, addStudentResult] = RtoApi.Students.useAddStudent()
-    // auth api to get sectors
-    const sectorResponse = AuthApi.useSectors({})
+    const { notification } = useNotification()
+
+    const [addStudent, addStudentResult] =
+        RtoV2Api.Students.addIndividualStudent()
 
     const rto = RtoApi.Rto.useProfile()
 
@@ -82,7 +84,7 @@ export const AddIndividualStudentFormV2 = () => {
             })
             .nullable()
             .when('placementType', {
-                is: 'flexible',
+                is: PlacementTypeEnum.FLEXIBLE,
                 then: (schema) => schema.required('Must provide Expiry Date'),
                 otherwise: (schema) => schema.notRequired().nullable(),
             }),
@@ -125,9 +127,8 @@ export const AddIndividualStudentFormV2 = () => {
 
     console.log({ formMethods })
 
-    const onSubmitForm = (values: any) => {
+    const onSubmitForm = async (values: any) => {
         console.log({ values })
-        return
         const filteredValues = { ...values }
 
         // if (placementType === 'flexible') {
@@ -137,9 +138,8 @@ export const AddIndividualStudentFormV2 = () => {
         //     delete filteredValues.expiryDate
         // }
 
-        addStudent({
+        const res: any = await addStudent({
             ...filteredValues,
-            courses: filteredValues.courses.map((course: any) => course.value),
             role: UserRoles.STUDENT,
             age: 'N/A',
             familyName: 'N/A',
@@ -152,6 +152,13 @@ export const AddIndividualStudentFormV2 = () => {
             zipCode: 'N/A',
             password: 'N/A',
         })
+
+        if (res?.data) {
+            notification.success({
+                title: 'Student Added',
+                description: 'Student Added Successfully',
+            })
+        }
     }
 
     const getMinExpiryDate = () => {
@@ -253,6 +260,7 @@ export const AddIndividualStudentFormV2 = () => {
                                 options={rtoCoursesOptions}
                                 multi
                                 validationIcons
+                                onlyValue
                                 components={{ Option: CourseSelectOption }}
                                 formatOptionLabel={formatOptionLabel}
                             />
@@ -265,13 +273,13 @@ export const AddIndividualStudentFormV2 = () => {
                                         label="Start Date"
                                         name="startDate"
                                         type="date"
-                                        // min={getDate()}
+                                        min={getDate()}
                                     />
                                     <TextInput
                                         label="End Date"
                                         name="endDate"
                                         type="date"
-                                        // min={getDate()}
+                                        min={getDate()}
                                     />
                                 </>
                             ) : (
@@ -289,10 +297,10 @@ export const AddIndividualStudentFormV2 = () => {
 
                         {/*  */}
                         <TextArea
-                            label={'Notes (Optional)'}
-                            name={'notes'}
-                            placeholder={'Add Notes here...'}
                             rows={4}
+                            name={'note'}
+                            label={'Notes (Optional)'}
+                            placeholder={'Add Notes here...'}
                         />
 
                         <Button

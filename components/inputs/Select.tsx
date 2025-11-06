@@ -96,10 +96,13 @@ export const Select = forwardRef(
                     //         fieldValue.includes(opt.value)
                     //     )
                     // }
+
                     if (
                         Array.isArray(fieldValue) &&
                         fieldValue.length > 0 &&
-                        typeof fieldValue[0] === 'number'
+                        typeof fieldValue[0] !== 'object'
+                        // (typeof fieldValue[0] === 'number' ||
+                        //     typeof fieldValue[0] === 'string')
                     ) {
                         return options?.filter((opt: OptionType) =>
                             fieldValue.includes(opt.value)

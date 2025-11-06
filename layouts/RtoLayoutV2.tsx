@@ -4,13 +4,12 @@ import {
     DisplayAlerts,
     DisplayNotifications,
     PageTitleProps,
-    RtoNavbarV2
+    RtoNavbarV2,
 } from '@components'
 import { RtoSidebar } from '@components/sideBars/rtoSidebarV2'
 import { ReactNode, useState } from 'react'
 
 interface RtoLayoutProps {
-    pageTitle?: PageTitleProps
     children: ReactNode
     titleProps?: {
         Icon: any

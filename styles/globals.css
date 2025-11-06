@@ -58,6 +58,8 @@
     /* Custom Max Width */
     --width-screen-3xl: 1800px;
 
+    --animate-spin: spin 1s linear infinite;
+
     /* Custom Box Shadows */
     --shadow-site: 0px 4px 34px 0px rgba(177, 177, 177, 0.25);
     --shadow-profiles: 0px 4px 16px 0px rgba(0, 0, 0, 0.05);
@@ -106,6 +108,15 @@
         }
         50% {
             opacity: 0;
+        }
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
         }
     }
 }
@@ -1287,13 +1298,13 @@ ul.landing-content {
     --color-card-foreground: var(--card-foreground);
     --color-popover: var(--popover);
     --color-popover-foreground: var(--popover-foreground);
-    --color-primary: var(--primary);
+    /* --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
     --color-secondary: var(--secondary);
     --color-secondary-foreground: var(--secondary-foreground);
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
-    --color-accent: var(--accent);
+    --color-accent: var(--accent); */
     --color-accent-foreground: var(--accent-foreground);
     --color-destructive: var(--destructive);
     --color-border: var(--border);

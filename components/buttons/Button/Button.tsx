@@ -20,7 +20,7 @@ export const ButtonType = {
     Success: 'success',
 }
 
-const VariantOptions = [
+export const ButtonVariantOptions = [
     'primary',
     'secondary',
     'info',
@@ -33,7 +33,7 @@ const VariantOptions = [
 
 interface ButtonProps {
     iconSize?: number
-    variant?: (typeof VariantOptions)[number]
+    variant?: (typeof ButtonVariantOptions)[number]
     className?: string
     Icon?:
         | IconType
