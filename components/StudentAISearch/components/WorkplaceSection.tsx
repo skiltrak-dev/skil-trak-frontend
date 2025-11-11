@@ -38,7 +38,7 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="rounded-2xl border-2 border-dashed border-border bg-muted/20 p-6 shadow-lg lg:col-span-2"
+                className="rounded-2xl border-2 border-dashed border-border bg-white h-full p-6 shadow-lg lg:col-span-2"
             >
                 <div className="flex flex-col items-center justify-center py-8 text-center">
                     {/* Icon */}
@@ -71,23 +71,6 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
                             organization yet. Add a workplace to begin tracking
                             their placement progress.
                         </p>
-                    </motion.div>
-
-                    {/* Actions */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.9 }}
-                        className="flex flex-wrap justify-center gap-3"
-                    >
-                        <Button className="gap-2" onClick={() => {}}>
-                            <Plus className="h-4 w-4" />
-                            Add Workplace
-                        </Button>
-                        <Button variant="action" outline className="gap-2">
-                            <ExternalLink className="h-4 w-4" />
-                            Browse Organizations
-                        </Button>
                     </motion.div>
 
                     {/* Info Note */}
