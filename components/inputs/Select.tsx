@@ -36,6 +36,7 @@ export type SelectProps = {
     onInputChange?: (e: any) => void
     onMenuOpen?: () => void
     onMenuClose?: () => void
+    passValue?: boolean
 } & InputProps
 
 export const Select = forwardRef(
@@ -59,7 +60,7 @@ export const Select = forwardRef(
 
             helpText,
             tooltip,
-
+            passValue = true,
             required,
             loading,
             disabled,
@@ -96,6 +97,11 @@ export const Select = forwardRef(
                     //         fieldValue.includes(opt.value)
                     //     )
                     // }
+
+                    console.log(
+                        'Array.isArray(fieldValue)',
+                        Array.isArray(fieldValue)
+                    )
 
                     if (
                         Array.isArray(fieldValue) &&
@@ -259,6 +265,7 @@ export const Select = forwardRef(
             defaultValue: any,
             fieldValue: any
         ) => {
+            console.log({ fieldValue })
             return (
                 <ReactSelect
                     name={name}
@@ -277,7 +284,7 @@ export const Select = forwardRef(
                     onMenuClose={onMenuClose}
                     defaultValue={defaultValue}
                     onInputChange={onInputChange}
-                    {...(fieldValue
+                    {...(passValue && fieldValue
                         ? { value: getDisplayValue(fieldValue) }
                         : {})}
                     // value={value}

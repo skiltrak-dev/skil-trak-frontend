@@ -53,8 +53,8 @@ export const Courses: React.FC<CoursesProps> = ({
     const {
         result,
         isFilesUploaded,
-        isResubmittedFiles,
         allCommentsAdded,
+        isResubmittedFiles,
         shouldShowSubmitButton,
     } = useAssessmentLogic(selectedCourse, getFolders, getAssessmentResponse)
 

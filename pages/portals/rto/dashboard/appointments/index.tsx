@@ -1,21 +1,9 @@
 import { Card, TabNavigation, TabProps } from '@components'
 import { RtoLayoutV2 } from '@layouts'
-import {
-    PlacementRequestStats,
-    StudentProvidedWorkplaceTab,
-    StudentsNeedWorkplaceTab,
-} from '@partials'
+import { PlacementRequestStats } from '@partials'
 import { ActionRequiredHeader, Title } from '@partials/rto-v2/components'
 import { RtoV2Api } from '@queries'
-import {
-    Briefcase,
-    ClipboardCheck,
-    Play,
-    Sparkles,
-    TrendingUp,
-    User,
-    Users,
-} from 'lucide-react'
+import { Briefcase } from 'lucide-react'
 import { ReactElement } from 'react'
 
 export const Appointments = () => {
@@ -55,7 +43,7 @@ export const Appointments = () => {
                 totalRequests={count?.data?.all || 0}
                 needsWorkplaceCount={count?.data?.requested || 0}
                 providedWorkplaceCount={count?.data?.provided || 0}
-            // activePlacementsCount={10}
+                // activePlacementsCount={10}
             />
 
             <Card

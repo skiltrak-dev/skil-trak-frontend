@@ -4,6 +4,7 @@ import { Select, TextInput } from '@components/inputs'
 import { AdminApi, CommonApi } from '@queries'
 import { OptionType, SubadminIndustryFilter } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
+import { State } from 'country-state-city'
 
 interface ItemFilterProps {
     onFilterChange: (values: SubadminIndustryFilter) => void
@@ -44,6 +45,11 @@ export const SubAdminIndustryFilter = ({
             value: premium?.id,
         })
     )
+
+    const stateCodes = State.getStatesOfCountry('AU')?.map((state) => ({
+        value: state?.name,
+        label: state?.name,
+    }))
 
     return (
         <>
@@ -140,6 +146,23 @@ export const SubAdminIndustryFilter = ({
                     }}
                     showError={false}
                 />
+
+                <Select
+                    label={'State'}
+                    name={'state'}
+                    options={stateCodes}
+                    onlyValue
+                    value={filter?.state}
+                    placeholder={'Select State...'}
+                    onChange={(e: string) => {
+                        onFilterChange({
+                            ...filter,
+                            state: e,
+                        })
+                    }}
+                    showError={false}
+                />
+
                 <Select
                     label={'Search by Courses'}
                     name={'courseId'}

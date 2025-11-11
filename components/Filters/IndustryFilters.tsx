@@ -7,6 +7,7 @@ import { CommonApi, AuthApi } from '@queries'
 import { AdminIndustryFormFilter, OptionType, UserStatus } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
+import { State } from 'country-state-city'
 
 interface ItemFilterProps {
     onFilterChange: (values: AdminIndustryFormFilter) => void
@@ -58,6 +59,13 @@ export const IndustryFilters = ({
             value: premium?.id,
         })
     )
+
+    const stateCodes = State.getStatesOfCountry('AU')?.map((state) => ({
+        value: state?.name,
+        label: state?.name,
+    }))
+
+    console.log({ stateCodes })
 
     return (
         <>
@@ -144,6 +152,7 @@ export const IndustryFilters = ({
                     }}
                     showError={false}
                 />
+
                 <TextInput
                     label={'Industry Address'}
                     name={'address'}
@@ -157,6 +166,23 @@ export const IndustryFilters = ({
                     }}
                     showError={false}
                 />
+
+                <Select
+                    label={'State'}
+                    name={'state'}
+                    options={stateCodes}
+                    onlyValue
+                    value={filter?.state}
+                    placeholder={'Select State...'}
+                    onChange={(e: string) => {
+                        onFilterChange({
+                            ...filter,
+                            state: e,
+                        })
+                    }}
+                    showError={false}
+                />
+
                 <Select
                     label={'Search by Sectors'}
                     name={'sectorId'}

@@ -44,6 +44,7 @@ export * from './CreatedAtDate'
 export * from './AddressFieldInput'
 export * from './LoogbookEditor'
 export * from './ContextReducer'
+export * from './StudentAISearch'
 
 export * from './ErrorBoundary'
 

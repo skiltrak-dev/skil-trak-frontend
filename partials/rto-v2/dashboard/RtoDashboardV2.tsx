@@ -4,12 +4,11 @@ import {
     AIMatchingShowcase,
     AnalyticsInsight,
     AvailableServices,
-    StudentAISearch,
     WelcomeCard,
 } from './components'
 import moment from 'moment'
 import { Title } from '../components'
-import { Badge, Typography } from '@components'
+import { Badge, StudentAISearch, Typography } from '@components'
 import { Sparkles } from 'lucide-react'
 
 export const RtoDashboardV2 = () => {
@@ -28,7 +27,7 @@ export const RtoDashboardV2 = () => {
                 />
             )}
 
-            <div className='space-y-3'>
+            <div className="space-y-3">
                 <div className="flex items-center justify-between flex-wrap gap-3">
                     <Title
                         title="Search for Students"

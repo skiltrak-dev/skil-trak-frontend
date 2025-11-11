@@ -144,6 +144,7 @@ const commonTagTypes = [
     'Email Sign',
     'MailsRecent',
     'Traineeship',
+    'AI-Assistant',
     'Appointments',
     'Impersonation',
     'BulkUsersDelete',
