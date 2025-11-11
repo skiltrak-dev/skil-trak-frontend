@@ -12,7 +12,7 @@ interface ActionRequiredHeaderProps {
     UrgentIcon?: any
     actionButton?: {
         label: string
-        icon: LucideIcon
+        icon?: LucideIcon
         onClick?: () => void
     }
     warningMessage?: string
@@ -70,16 +70,16 @@ export const ActionRequiredHeader = ({
                                     className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-br from-${gradientFrom}/10 to-${gradientTo}/10 border`}
                                 >
                                     {UrgentIcon ? (
-                                    <UrgentIcon
-                                        className={`h-3 w-3 text-${gradientFrom}`}
-                                    />
-                                ) : (
-                                    <AlertTriangle
+                                        <UrgentIcon
+                                            className={`h-3 w-3 text-${gradientFrom}`}
+                                        />
+                                    ) : (
+                                        <AlertTriangle
                                             className={`h-3 w-3 text-${gradientFrom}`}
                                         />
                                     )}
 
-                                <span
+                                    <span
                                         className={`font-semibold text-${gradientFrom}`}
                                     >
                                         {urgentCount} {urgentLabel}
@@ -102,7 +102,9 @@ export const ActionRequiredHeader = ({
                         className="bg-gradient-to-r from-success to-emerald-600 gap-2 hover-lift shadow-premium"
                         onClick={actionButton.onClick}
                     >
-                        <actionButton.icon className="h-4 w-4" />
+                        {actionButton?.icon && (
+                            <actionButton.icon className="h-4 w-4" />
+                        )}
                         {actionButton.label}
                     </Button>
                 )}

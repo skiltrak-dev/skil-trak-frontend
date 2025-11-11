@@ -22,6 +22,7 @@ import { studentFeedbackEndpoints } from './studentFeedback'
 import { ticketEndpoints } from './ticket.query'
 import { traineeshipProgramEndpoints } from './traineeshipProgram'
 import { workBasedProgramEndpoints } from './workBasedProgram'
+import { aiAssistantEndpoints } from './ai-assistant'
 
 export const commonApi = emptySplitApi('commonApi').injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
@@ -323,6 +324,7 @@ export const commonApi = emptySplitApi('commonApi').injectEndpoints({
         ...industriesEndpoints(build),
         ...allowLoginEndpoints(build),
         ...agreementsEndpoints(build),
+        ...aiAssistantEndpoints(build),
         ...appointmentsEndpoints(build),
         ...notificationsEndpoints(build),
         ...findWorkplaceEndpoints(build),
@@ -652,6 +654,11 @@ const {
 
     // ---- Students ---- //
     useSearchAllPortalStudentsQuery,
+
+    // ---- AI ASSISTANT ---- //
+    useSearchStudentQuery,
+    useAskAiAboutStudentMutation,
+    useStudentWorkplaceRequestQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -989,5 +996,10 @@ export const CommonApi = {
     },
     AllowLogin: {
         useAllowAsLogin: useAllowAsLoginMutation,
+    },
+    AiAssistant: {
+        searchStudent: useSearchStudentQuery,
+        askAiAboutStudent: useAskAiAboutStudentMutation,
+        studentWorkplaceRequest: useStudentWorkplaceRequestQuery,
     },
 }

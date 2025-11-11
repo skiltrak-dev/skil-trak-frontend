@@ -19,8 +19,6 @@ const RtoProfile = () => {
 
     const { alert: alertMessage, setAlerts, alerts } = useAlert()
 
-    const role = getUserCredentials()?.role
-
     const rto = AdminApi.Rtos.useDetailQuery(Number(router.query.id), {
         skip: !router.query?.id,
         refetchOnMountOrArgChange: true,

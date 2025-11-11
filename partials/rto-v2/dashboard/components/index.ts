@@ -1,7 +1,6 @@
 export * from './forms'
 export * from './WelcomeCard'
 export * from './AdminMessage'
-export * from './StudentAISearch'
 export * from './AnalyticsInsight'
 export * from './AvailableServices'
 export * from './AIMatchingShowcase'

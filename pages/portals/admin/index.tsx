@@ -2,6 +2,7 @@ import {
     LoadingAnimation,
     NoData,
     SectorCourseStudentCount,
+    StudentAISearch,
     Typography,
 } from '@components'
 import { FigureCard } from '@components/sections/subAdmin'
@@ -137,6 +138,7 @@ const AdminDashboard: NextPageWithLayout = () => {
                     /> */}
                 </div>
             </div>
+            <StudentAISearch detailPageLink="/portals/admin/student-ai-search" />
             <div className="flex flex-col">
                 {/* Bar chart */}
                 {/* <ViewProgressByCourseAdmin /> */}

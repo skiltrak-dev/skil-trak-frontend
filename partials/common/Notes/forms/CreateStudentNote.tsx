@@ -303,7 +303,7 @@ export const CreateStudentNote = ({
             <ShowErrorNotifications result={changeNoteStatusResult} />
 
             <div
-                className={`h-[40rem] mb-20 min-w-80  overflow-auto remove-scrollbar bg-white p-4`}
+                className={`mb-20 min-w-80  overflow-auto remove-scrollbar bg-white p-4`}
             >
                 <FormProvider {...methods}>
                     <form

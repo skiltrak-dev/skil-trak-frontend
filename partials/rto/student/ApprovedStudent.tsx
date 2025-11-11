@@ -12,7 +12,6 @@ import {
     Typography,
     UserCreatedAt,
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaUserPlus } from 'react-icons/fa'
 

@@ -38,13 +38,13 @@ export const StudentProfileContent: React.FC<ProfileContentProps> = ({
             />
 
             <WorkplaceNotesSection
-                profile={profile}
                 role={role}
+                profile={profile}
                 subadmin={subadmin}
-                workplaceLength={workplaceLength}
-                getWorkplaceLength={getWorkplaceLength}
-                getActiveBorder={getActiveBorder}
                 isAdminRole={isAdminRole}
+                workplaceLength={workplaceLength}
+                getActiveBorder={getActiveBorder}
+                getWorkplaceLength={getWorkplaceLength}
             />
 
             <CommunicationSection

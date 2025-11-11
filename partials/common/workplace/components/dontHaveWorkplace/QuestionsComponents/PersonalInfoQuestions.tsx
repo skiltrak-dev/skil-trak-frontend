@@ -140,6 +140,7 @@ export const PersonalInfoQuestions = ({
                                             e?.join(', ')
                                         )
                                     }}
+                                    passValue={false}
                                 />
                             </div>
                         )

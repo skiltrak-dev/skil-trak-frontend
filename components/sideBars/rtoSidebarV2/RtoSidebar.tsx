@@ -150,6 +150,7 @@ const menuSections = [
             {
                 icon: Calendar,
                 label: 'Appointments',
+                path: '/portals/rto/communications/appointments',
                 key: 'Appointments',
                 badge: '7',
                 bg: 'bg-cyan-50 border border-cyan-200',
