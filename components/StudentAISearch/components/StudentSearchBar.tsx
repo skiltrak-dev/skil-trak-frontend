@@ -71,7 +71,7 @@ export const StudentSearchBar = ({
                     }}
                     onFocus={() => searchQuery.length > 0 && setIsOpen(true)}
                     placeholder="Search by student name, ID, or email..."
-                    className={`h-14 w-full rounded-2xl border-2 pl-16 pr-6  shadow-lg transition-all focus-visible:ring-4 placeholder:text-sm text-sm  ${
+                    className={`h-12 w-full rounded-lg border-2 pl-16 pr-6  shadow-lg transition-all focus-visible:ring-4 placeholder:text-sm text-sm  ${
                         hasTyped &&
                         data?.data?.length === 0 &&
                         searchQuery.length > 2

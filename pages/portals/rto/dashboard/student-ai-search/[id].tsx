@@ -1,5 +1,6 @@
 import { StudentAiSearchDetail } from '@components'
-import { AdminLayout } from '@layouts'
+import { RtoLayoutV2 } from '@layouts'
+import { Sparkles } from 'lucide-react'
 import { ReactElement } from 'react'
 
 const StudentAiSearchDetailPage = () => {
@@ -7,7 +8,16 @@ const StudentAiSearchDetailPage = () => {
 }
 
 StudentAiSearchDetailPage.getLayout = (page: ReactElement) => {
-    return <AdminLayout>{page}</AdminLayout>
+    return (
+        <RtoLayoutV2
+            titleProps={{
+                Icon: Sparkles,
+                title: 'Student Ai Search Detail',
+            }}
+        >
+            {page}
+        </RtoLayoutV2>
+    )
 }
 
 export default StudentAiSearchDetailPage

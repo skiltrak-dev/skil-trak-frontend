@@ -5,6 +5,7 @@ import {
     GlobalModal,
     ShowErrorNotifications,
     TextArea,
+    Typography,
 } from '@components'
 import { CreateStudentNote } from '@partials/common/Notes/forms'
 import { CommonApi } from '@queries'
@@ -96,27 +97,27 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
                 noPadding
                 className="overflow-hidden rounded-2xl border-2 shadow-xl"
             >
-                <div className="p-5 border-b bg-gradient-to-br from-blue-100 via-blue-100 to-blue-100">
+                <div className="p-2.5 border-b bg-gradient-to-br from-blue-100 via-blue-100 to-blue-100">
                     <div className="flex items-center gap-3">
                         <div className="rounded-xl bg-primaryNew/10 p-2">
-                            <Sparkles className="h-6 w-6 text-primaryNew" />
+                            <Sparkles className="h-4 w-4 text-primaryNew" />
                         </div>
                         <div>
-                            <h3 className="text-xl">
+                            <Typography variant="subtitle" semibold>
                                 Ask AI About This Student
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
+                            </Typography>
+                            <Typography variant="small" color="text-gray-700">
                                 Get instant insights about placement status,
                                 blockers, and next actions
-                            </p>
+                            </Typography>
                         </div>
                     </div>
                 </div>
 
-                <div className="space-y-6 p-6">
+                <div className="space-y-4 p-3">
                     {/* Suggested Questions */}
                     {!aiAssisstantResult?.data?.response && (
-                        <div className="space-y-3">
+                        <div className="space-y-1.5">
                             <p className="text-sm text-muted-foreground">
                                 Try asking:
                             </p>

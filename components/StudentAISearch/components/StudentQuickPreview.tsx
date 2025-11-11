@@ -3,6 +3,8 @@ import { Student } from '@types'
 import { motion } from 'framer-motion'
 import { ArrowRight, BookOpen, Hash, Mail } from 'lucide-react'
 import { useRouter } from 'next/router'
+import { searchAiUrls } from '../urls'
+import { getUserCredentials } from '@utils'
 
 interface StudentQuickPreviewProps {
     link?: string
@@ -14,6 +16,10 @@ export function StudentQuickPreview({
     student,
 }: StudentQuickPreviewProps) {
     const router = useRouter()
+
+    const role = getUserCredentials()?.role
+
+    const urls = searchAiUrls(role, student?.id)
 
     return (
         <motion.div
@@ -84,10 +90,7 @@ export function StudentQuickPreview({
                     <Button
                         fullWidth
                         onClick={() => {
-                            router.push(
-                                link ||
-                                    `dashboard/student-ai-search/${student?.id}`
-                            )
+                            router.push(urls?.detail + '')
                         }}
                         variant="primaryNew"
                         className="mt-6 h-12"

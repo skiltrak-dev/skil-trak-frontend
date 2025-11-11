@@ -12,7 +12,6 @@ import {
     WorkplaceSection,
 } from '@components'
 import { useGetSubAdminStudentDetailQuery } from '@queries'
-import { Sparkles } from 'lucide-react'
 import { useRouter } from 'next/router'
 
 export const StudentAiSearchDetail = () => {
@@ -27,13 +26,6 @@ export const StudentAiSearchDetail = () => {
         refetchOnMountOrArgChange: 30,
     })
 
-    const scrollToAIPanel = useCallback(() => {
-        aiPanelRef.current?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-        })
-    }, [])
-
     return (
         <>
             <div>
@@ -44,15 +36,15 @@ export const StudentAiSearchDetail = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3 }}
-                    className="space-y-8"
+                    className="space-y-2"
                 >
                     {/* Header */}
-                    <div className="text-center">
+                    {/* <div className="text-center">
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ delay: 0.1 }}
-                            className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primaryNew/10 via-primaryNew/20 to-primaryNew/10 px-4 py-2 text-xs text-primaryNew"
+                            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primaryNew/10 via-primaryNew/20 to-primaryNew/10 px-2 py-1 text-xs text-primaryNew"
                         >
                             <Sparkles className="h-4 w-4" />
                             <span>AI Powered Student Insights</span>
@@ -61,18 +53,18 @@ export const StudentAiSearchDetail = () => {
                             initial={{ y: 10, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.2 }}
-                            className="text-3xl"
+                            className="text-2xl"
                         >
                             Student Profile
                         </motion.h1>
-                    </div>
+                    </div> */}
                     {profile.isError ? <TechnicalError /> : null}
                     {profile.isLoading || profile.isFetching ? (
                         <LoadingAnimation />
                     ) : profile?.data && profile?.isSuccess ? (
                         <>
                             {/* Enhanced Profile & AI Panel */}
-                            <div className="grid grid-cols-1 gap-8 ">
+                            <div className="grid grid-cols-1 gap-5">
                                 {/* Main Profile - 2 columns */}
                                 <EnhancedStudentProfile
                                     student={profile?.data}
