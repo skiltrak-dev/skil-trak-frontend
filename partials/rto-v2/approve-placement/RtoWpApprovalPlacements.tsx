@@ -60,6 +60,7 @@ export const RtoWpApprovalPlacements = () => {
                 gradientFrom="primaryNew"
                 gradientTo="primaryNew"
                 iconGradient="from-primaryNew to-primaryNew"
+                
             />
 
             <TabNavigation tabs={tabs}>

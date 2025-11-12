@@ -223,6 +223,7 @@ const {
     useAutoReleaseLogbookMutation,
     useRtoAssessmentToolsQuery,
     useAllowSelfPaymentMutation,
+    useRtoCanViewNewDashboardMutation,
 
     // ------ STUDENT ------ //
     useStudentCountQuery,
@@ -326,6 +327,7 @@ const {
     // ------ SUB ADMINS ------ //
     useIsTodoEnabledMutation,
     useToggleIsManagerMutation,
+    useToggleRtoWpApprovalMutation,
     useUpdateFavIndustriesMutation,
     useToggleCanViewRtoListMutation,
     useToggleCanGlobalSearchMutation,
@@ -593,6 +595,7 @@ export const AdminApi = {
         useRtoAssessmentTools: useRtoAssessmentToolsQuery,
         autoReleaseLogbook: useAutoReleaseLogbookMutation,
         useAllowSelfPayment: useAllowSelfPaymentMutation,
+        useRtoCanViewNewDashboard: useRtoCanViewNewDashboardMutation,
     },
 
     Students: {
@@ -618,6 +621,7 @@ export const AdminApi = {
         useListQuery: useSubAdminsQuery,
         todoEnabled: useIsTodoEnabledMutation,
         toggleIsManager: useToggleIsManagerMutation,
+        useToggleRtoWpApproval: useToggleRtoWpApprovalMutation,
         updateFavIndustries: useUpdateFavIndustriesMutation,
         useCanViewRtoList: useToggleCanViewRtoListMutation,
         useAccessRtoProfile: useToggleCanAccessRTOProfileMutation,

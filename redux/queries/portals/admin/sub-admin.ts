@@ -343,6 +343,13 @@ export const subAdminEndpoints = (
         }),
         invalidatesTags: ['SubAdmins'],
     }),
+    toggleRtoWpApproval: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/subadmin/${id}/allow-rto-workplace-approval`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['SubAdmins'],
+    }),
 
     isTodoEnabled: builder.mutation<any, number>({
         query: (id) => ({

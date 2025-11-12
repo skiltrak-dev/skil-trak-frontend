@@ -26,20 +26,29 @@ export const usePermission = () => {
             })
         }
     }
+    const onAllowNewDashboard = async (item: Rto) => {
+        const res: any = await queries.allowNewDashboard(item?.id)
+        if (res?.data) {
+            notification.success({
+                title: `New Dashboard Access Status Changed`,
+                description: `New Dashboard Access Status Changed Successfully`,
+            })
+        }
+    }
 
     const onAllowUpdateClicked = (rto: Rto) => {
         queries.allowUpdation(rto?.id).then((res: any) => {
             if (res?.data) {
                 rto?.allowUpdate
                     ? notification.message({
-                          title: `Revoked`,
-                          description: `Revoked permission to update the timestamp.`,
-                      })
+                        title: `Revoked`,
+                        description: `Revoked permission to update the timestamp.`,
+                    })
                     : notification.success({
-                          title: 'Granted',
-                          description:
-                              'Granted permission to update the timestamp.',
-                      })
+                        title: 'Granted',
+                        description:
+                            'Granted permission to update the timestamp.',
+                    })
             }
         })
     }
@@ -140,6 +149,7 @@ export const usePermission = () => {
         results,
         Actions: {
             onAllWpRequest,
+            onAllowNewDashboard,
             onAllowUpdateClicked,
             onAllowScheduleEmail,
             onAllowCanViewPayment,

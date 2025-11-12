@@ -458,4 +458,28 @@ export const workplaceEndpoints = (
         }),
         providesTags: ['SubAdminWorkplace'],
     }),
+    // subadmin/rto/workplace-approval/pending/list
+    getRtoWpApprovalRequestPendingList: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}rto/workplace-approval/pending/list`,
+            params,
+        }),
+        providesTags: ['Workplace'],
+    }),
+    // subadmin/rto/workplace-approval/list
+    getRtoWpApprovalRequestApprovedList: builder.query<any, any>({
+        query: (params) => ({
+            url: `${PREFIX}rto/workplace-approval/list`,
+            params,
+        }),
+        providesTags: ['Workplace'],
+    }),
+    // subadmin/rto/workplace-approval/count
+    getRtoWpApprovalRequestCount: builder.query<any, void>({
+        query: (params) => ({
+            url: `${PREFIX}rto/workplace-approval/count`,
+            params,
+        }),
+        providesTags: ['Workplace'],
+    }),
 })

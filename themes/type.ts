@@ -19,6 +19,8 @@ export interface ThemeColors {
     base: ColorSet
     muted: ColorSet
     mutedNew: ColorSet
+    mutedNewForeground: ColorSet
     destructive: ColorSet
     borderNew: ColorSet
+    accent: ColorSet
 }

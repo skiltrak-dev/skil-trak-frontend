@@ -3,6 +3,7 @@ import { availableServicesEndpoints } from './availableServices'
 import { dashboardEndpoints } from './dashboard'
 import { placementRequestsEndPoints } from './placementRequests'
 import { studentsEndpoints } from './students'
+import { coursesEndPoints } from './courses'
 
 export const rtoV2Api = emptySplitApi('rtoV2Api').injectEndpoints({
     endpoints: (build) => ({
@@ -10,6 +11,7 @@ export const rtoV2Api = emptySplitApi('rtoV2Api').injectEndpoints({
         ...dashboardEndpoints(build),
         ...availableServicesEndpoints(build),
         ...placementRequestsEndPoints(build),
+        ...coursesEndPoints(build),
     }),
     // overrideExisting: true,
 })
@@ -28,6 +30,19 @@ const {
     // Student Placement Requests
     useGetStudentPlacementRequestListQuery,
     useGetStudentPlacementRequestStatsQuery,
+
+    // Courses
+    useAddCourseDocumentMutation,
+    useUpdateFacilityChecklistMutation,
+    useUpdateAgreementFileMutation,
+    useUpdateLogbookFileMutation,
+    useUpdateCourseSummaryMutation,
+    useAddCourseHighlightedTaskMutation,
+    useRemoveCourseHighlightedTaskMutation,
+    useAddAICourseDifferenceMutation,
+    useRemoveAICourseDifferenceMutation,
+    useGetCourseWorkplaceTypesQuery,
+    useUpdateSupervisorRequirementsMutation,
 
     // ---- Students ---- //
     useRtoStudentHistoryQuery,
@@ -52,6 +67,20 @@ export const RtoV2Api = {
         useStudentPlacementRequestList: useGetStudentPlacementRequestListQuery,
         useStudentPlacementRequestStats:
             useGetStudentPlacementRequestStatsQuery,
+    },
+    Courses: {
+        useAddCourseDocument: useAddCourseDocumentMutation,
+        useUpdateFacilityChecklist: useUpdateFacilityChecklistMutation,
+        useUpdateAgreementFile: useUpdateAgreementFileMutation,
+        useUpdateLogbookFile: useUpdateLogbookFileMutation,
+        useUpdateCourseSummary: useUpdateCourseSummaryMutation,
+        useAddCourseHighlightedTask: useAddCourseHighlightedTaskMutation,
+        useRemoveCourseHighlightedTask: useRemoveCourseHighlightedTaskMutation,
+        useAddAICourseDifference: useAddAICourseDifferenceMutation,
+        useRemoveAICourseDifference: useRemoveAICourseDifferenceMutation,
+        useCourseWorkplaceTypes: useGetCourseWorkplaceTypesQuery,
+        useUpdateSupervisorRequirements:
+            useUpdateSupervisorRequirementsMutation,
     },
     Students: {
         importStudents: useImportStudentsMutation,

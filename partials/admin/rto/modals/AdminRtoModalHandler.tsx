@@ -83,10 +83,11 @@ export const getAdminRtoModal = (
         [AdminRtoModalType.ALLOW_INVOICING]: (
             <AllowInvoicingModal rto={rto} onCancel={onCancel} />
         ),
-         [AdminRtoModalType.ALLOW_SELF_PAYMENT]: (
+        [AdminRtoModalType.ALLOW_SELF_PAYMENT]: (
             <AllowSelfPaymentModal rto={rto} onCancel={onCancel} />
         ),
+
     }
 
-    return modals[type] 
+    return modals[type]
 }

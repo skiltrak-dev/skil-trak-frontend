@@ -50,6 +50,13 @@ export const usePermissionData = (rto: Rto) => {
             Icon: FaSchool,
         },
         {
+            text: 'Allow New Dashboard',
+            onClick: () => Actions?.onAllowNewDashboard(rto),
+            toggle: rto?.canAccessNewPortal,
+            isLoading: results?.allowNewDashboardResult.isLoading,
+            Icon: FaSchool,
+        },
+        {
             text: 'Allow Auto Complete',
             onClick: () => Actions?.onAllowAutoCompleteClicked(rto),
             toggle: rto?.allowAutoComplete,

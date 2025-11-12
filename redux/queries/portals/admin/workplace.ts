@@ -188,4 +188,5 @@ export const workplaceEndpoints = (
         }),
         invalidatesTags: ['Workplaces'],
     }),
+    
 })

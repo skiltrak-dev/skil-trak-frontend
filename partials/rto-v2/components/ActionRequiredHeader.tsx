@@ -19,6 +19,7 @@ interface ActionRequiredHeaderProps {
     gradientFrom: string
     gradientTo: string
     iconGradient: string
+    WarningIcon?: any
 }
 
 export const ActionRequiredHeader = ({
@@ -35,6 +36,7 @@ export const ActionRequiredHeader = ({
     gradientFrom,
     gradientTo,
     iconGradient,
+    WarningIcon
 }: ActionRequiredHeaderProps) => {
     return (
         <div
@@ -112,7 +114,7 @@ export const ActionRequiredHeader = ({
 
             {warningMessage && (
                 <div className="relative mt-4 flex items-center gap-2 p-3 rounded-xl bg-white/60 dark:bg-white/5 border border-destructive/10 backdrop-blur-sm">
-                    <AlertTriangle className="h-4 w-4 text-destructive shrink-0 animate-pulse" />
+                    {WarningIcon && (<WarningIcon className={`h-4 w-4 text-${gradientFrom} shrink-0 animate-pulse`} />)}
                     <p
                         className="text-xs text-muted-foreground"
                         dangerouslySetInnerHTML={{ __html: warningMessage }}

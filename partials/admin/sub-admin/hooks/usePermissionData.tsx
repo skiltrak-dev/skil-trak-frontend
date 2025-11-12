@@ -231,6 +231,7 @@ export const usePermissionData = (subadmin: SubAdmin) => {
             onClick: () => Actions.onViewPremiumToggleButton(subadmin),
             isLoading: results?.resultviewPremiumToggleButton.isLoading,
         },
+
     ]
 
     // const responses = Object.values(results)
