@@ -42,10 +42,6 @@ export function EnhancedStudentProfile({
 
     const urls = searchAiUrls(role, student?.id)
 
-    // Mock data - in real app this would come from props/API
-
-    const upcomingShifts = 2
-
     const handleCopyEmail = () => {
         navigator.clipboard.writeText(student?.user?.email)
         // toast.success('Email copied to clipboard')
