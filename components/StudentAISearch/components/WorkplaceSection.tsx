@@ -18,6 +18,7 @@ import {
     ExternalLink,
     Plus,
 } from 'lucide-react'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 interface WorkplaceSectionProps {
     student: Student
@@ -31,8 +32,30 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
         }
     )
 
+    const filterAppliedWorkplaces = (
+        placements: IWorkplaceIndustries[] | undefined
+    ) => {
+        if (placements && placements?.length > 0) {
+            return placements
+                ?.map((placement) => ({
+                    ...placement,
+                    industries:
+                        placement?.industries &&
+                        placement?.industries?.length > 0
+                            ? placement?.industries.filter(
+                                  (industry: any) => industry.applied === true
+                              )
+                            : [],
+                }))
+                .filter((placement) => placement.industries.length > 0)
+        }
+        return []
+    }
+
+    const filteredWp = filterAppliedWorkplaces(workplaces?.data)
+
     // Scenario 1: No workplaces
-    if (workplaces?.data?.length === 0) {
+    if (filteredWp?.length === 0) {
         return (
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -40,7 +63,7 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
                 transition={{ delay: 0.6 }}
                 className="rounded-2xl border-2 border-dashed border-border bg-white h-full p-6 shadow-lg lg:col-span-2"
             >
-                <div className="flex flex-col items-center justify-center py-8 text-center">
+                <div className="flex flex-col items-center justify-center text-center space-y-6">
                     {/* Icon */}
                     <motion.div
                         initial={{ scale: 0 }}
@@ -50,7 +73,7 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
                             type: 'spring',
                             stiffness: 200,
                         }}
-                        className="mb-4 rounded-full bg-purple-500/10 p-6"
+                        className="rounded-full bg-purple-500/10 p-6"
                     >
                         <Building2 className="h-12 w-12 text-purple-500" />
                     </motion.div>
@@ -60,7 +83,7 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.8 }}
-                        className="mb-6 space-y-2"
+                        className="space-y-2"
                     >
                         <h3 className="flex items-center justify-center gap-2">
                             <Building2 className="h-5 w-5 text-purple-500" />
@@ -78,7 +101,7 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 1 }}
-                        className="mt-6 max-w-md rounded-lg border border-primary/20 bg-primary/5 p-3 text-xs text-muted-foreground"
+                        className="max-w-md rounded-lg border border-primary/20 bg-primary/5 p-3 text-xs text-muted-foreground"
                     >
                         <div className="flex items-start gap-2">
                             <AlertCircle className="h-4 w-4 flex-shrink-0 text-primary" />
@@ -95,10 +118,10 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
     }
 
     // Scenario 2 & 3: One or multiple workplaces
-    const activeWorkplaces = workplaces?.data?.filter(
+    const activeWorkplaces = filteredWp?.filter(
         (w) => w?.status === 'active'
     )?.length
-    const totalHoursCompleted = workplaces?.data
+    const totalHoursCompleted = filteredWp
         ?.filter((w: any) => w?.hoursCompleted)
         .reduce((sum: any, w: any) => sum + (w?.hoursCompleted || 0), 0)
 
@@ -107,7 +130,7 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
             {workplaces.isError ? <TechnicalError /> : null}
             {workplaces.isLoading || workplaces.isFetching ? (
                 <LoadingAnimation />
-            ) : workplaces?.data && workplaces?.isSuccess ? (
+            ) : filteredWp && workplaces?.isSuccess ? (
                 <>
                     <div className="space-y-4 lg:col-span-2">
                         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -117,9 +140,9 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
                                     Host Organizations
                                 </h3>
                                 <Badge
-                                    text={`${workplaces?.data?.length} 
+                                    text={`${filteredWp?.length} 
                             ${
-                                workplaces?.data?.length === 1
+                                filteredWp?.length === 1
                                     ? 'Workplace'
                                     : 'Workplaces'
                             }`}
@@ -138,7 +161,7 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
                         </div>
 
                         {/* Summary for multiple workplaces */}
-                        {workplaces?.data?.length > 1 && (
+                        {filteredWp?.length > 1 && (
                             <motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -154,7 +177,7 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
                                             <p className="text-xs text-muted-foreground">
                                                 Total Organizations
                                             </p>
-                                            <p>{workplaces?.data?.length}</p>
+                                            <p>{filteredWp?.length}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
@@ -187,21 +210,17 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
 
                         <div
                             className={`grid gap-4 ${
-                                workplaces?.data?.length === 1
-                                    ? ''
-                                    : 'lg:grid-cols-2'
+                                filteredWp?.length === 1 ? '' : 'lg:grid-cols-2'
                             }`}
                         >
-                            {workplaces?.data?.map((workplace, index) => (
+                            {filteredWp?.map((workplace, index) => (
                                 <motion.div
                                     key={workplace.id}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.6 + index * 0.1 }}
                                     className={`rounded-2xl border-2 border-border bg-card shadow-lg transition-all hover:border-primaryNew/50 hover:shadow-xl ${
-                                        workplaces?.data?.length === 1
-                                            ? 'p-8'
-                                            : 'p-6'
+                                        filteredWp?.length === 1 ? 'p-8' : 'p-6'
                                     }`}
                                     whileHover={{ y: -2 }}
                                 >

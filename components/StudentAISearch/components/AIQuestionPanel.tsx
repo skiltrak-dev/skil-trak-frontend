@@ -19,10 +19,17 @@ import {
     Ticket,
 } from 'lucide-react'
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useRef, useState } from 'react'
 
 interface AIQuestionPanelProps {
     student: Student
+}
+
+interface Message {
+    id: string
+    type: 'user' | 'ai'
+    content: string
+    timestamp: Date
 }
 
 const suggestedQuestions = [
@@ -37,36 +44,69 @@ const suggestedQuestions = [
 export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
     const [question, setQuestion] = useState('')
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [messages, setMessages] = useState<Message[]>([])
+    const messagesEndRef = useRef<HTMLDivElement>(null)
+    const chatContainerRef = useRef<HTMLDivElement>(null)
+    const [resetKey, setResetKey] = useState(0)
 
     const router = useRouter()
 
     const [aiAssisstant, aiAssisstantResult] =
         CommonApi.AiAssistant.askAiAboutStudent()
 
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [messages])
+
     const onSubmit = async (q: string) => {
-        const res: any = await aiAssisstant({
+        // Add user message
+        const userMessage: Message = {
+            id: Date.now().toString(),
+            type: 'user',
+            content: q,
+            timestamp: new Date(),
+        }
+        setMessages((prev) => [...prev, userMessage])
+        setQuestion('')
+
+        // Call AI
+        const response: any = await aiAssisstant({
             studentId: student?.id,
             question: q,
         })
 
-        if (res?.data) {
-            setQuestion('')
+        // Add AI response
+        if (response?.data) {
+            const aiMessage: Message = {
+                id: (Date.now() + 1).toString(),
+                type: 'ai',
+                content: response.data.response,
+                timestamp: new Date(),
+            }
+            setMessages((prev) => [...prev, aiMessage])
+            setResetKey((prev) => prev + 1) // Force TextArea to remount
         }
     }
 
     const handleSubmit = () => {
-        if (question.trim()) {
+        if (question.trim() && !aiAssisstantResult.isLoading) {
             onSubmit(question)
+        }
+    }
+
+    const handleKeyPress = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault()
+            handleSubmit()
         }
     }
 
     const handleSuggestedQuestion = (q: string) => {
         onSubmit(q)
-        setQuestion(q)
-    }
-
-    const handleAskAnother = () => {
-        setQuestion('')
     }
 
     const onCancel = () => setModal(null)
@@ -89,14 +129,30 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
         )
     }
 
+    const actionButtons = [
+        {
+            id: 'create-ticket',
+            icon: Ticket,
+            label: 'Create Ticket',
+            onClick: onCreateTicket,
+        },
+        {
+            id: 'add-note',
+            icon: FileText,
+            label: 'Add Note',
+            onClick: onAddNote,
+        },
+    ]
+
     return (
         <>
             {modal}
             <ShowErrorNotifications result={aiAssisstantResult} />
             <Card
                 noPadding
-                className="overflow-hidden rounded-2xl border-2 shadow-xl"
+                className="overflow-hidden rounded-2xl border-2 shadow-xl h-full flex flex-col"
             >
+                {/* Header */}
                 <div className="p-2.5 border-b bg-gradient-to-br from-blue-100 via-blue-100 to-blue-100">
                     <div className="flex items-center gap-3">
                         <div className="rounded-xl bg-primaryNew/10 p-2">
@@ -114,10 +170,13 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
                     </div>
                 </div>
 
-                <div className="space-y-4 p-3">
-                    {/* Suggested Questions */}
-                    {!aiAssisstantResult?.data?.response && (
-                        <div className="space-y-1.5">
+                {/* Chat Messages Area */}
+                <div
+                    ref={chatContainerRef}
+                    className="flex-1 max-h-96 overflow-y-auto p-4 space-y-4 custom-scrollbar"
+                >
+                    {messages.length === 0 ? (
+                        <div className="space-y-3">
                             <p className="text-sm text-muted-foreground">
                                 Try asking:
                             </p>
@@ -131,107 +190,113 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
                                         onClick={() =>
                                             handleSuggestedQuestion(q)
                                         }
-                                    ></Badge>
+                                    />
                                 ))}
                             </div>
                         </div>
-                    )}
+                    ) : (
+                        <>
+                            {messages.map((msg) => (
+                                <div
+                                    key={msg.id}
+                                    className={`flex ${
+                                        msg.type === 'user'
+                                            ? 'justify-end'
+                                            : 'justify-start'
+                                    }`}
+                                >
+                                    <div
+                                        className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                                            msg.type === 'user'
+                                                ? 'bg-primaryNew text-white'
+                                                : 'bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200'
+                                        }`}
+                                    >
+                                        {msg.type === 'ai' && (
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <Sparkles className="h-4 w-4 text-primaryNew" />
+                                                <span className="text-xs font-semibold text-primaryNew">
+                                                    AI Assistant
+                                                </span>
+                                            </div>
+                                        )}
+                                        <p className="whitespace-pre-line text-sm leading-relaxed">
+                                            {msg.content}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
 
-                    {/* Question Input */}
-                    <div className="space">
+                            {aiAssisstantResult.isLoading && (
+                                <div className="flex justify-start">
+                                    <div className="max-w-[80%] rounded-2xl px-4 py-3 bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200">
+                                        <div className="flex items-center gap-2">
+                                            <Loader2 className="h-4 w-4 animate-spin text-primaryNew" />
+                                            <span className="text-sm text-gray-600">
+                                                Trak AI is thinking...
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                            <div ref={messagesEndRef} />
+                        </>
+                    )}
+                </div>
+
+                {/* Quick Actions (shown when there are messages) */}
+                {messages.length > 0 && (
+                    <div className="px-4 pb-2">
+                        <div className="flex gap-2">
+                            {actionButtons.map((button) => {
+                                const Icon = button.icon
+                                return (
+                                    <Button
+                                        key={button.id}
+                                        variant="secondary"
+                                        className="flex items-center gap-2"
+                                        onClick={button.onClick}
+                                    >
+                                        <Icon className="h-4 w-4" />
+                                        <span className="text-xs">
+                                            {button.label}
+                                        </span>
+                                    </Button>
+                                )
+                            })}
+                        </div>
+                    </div>
+                )}
+
+                {/* Input Area */}
+                <div className="border-t bg-gray-50 p-3">
+                    <div className="flex gap-2">
                         <TextArea
+                            key={resetKey}
                             name="message"
                             value={question}
                             onChange={(e: any) => setQuestion(e.target.value)}
-                            placeholder="Type your question here..."
-                            rows={5}
-                            // onKeyDown={(e) => {
-                            //     if (e.key === 'Enter' && !e.shiftKey) {
-                            //         e.preventDefault()
-                            //         handleSubmit()
-                            //     }
-                            // }}
+                            // onKeyPress={handleKeyPress}
+                            placeholder="Type your question here... (Press Enter to send)"
+                            rows={2}
+                            className="flex-1"
+                            showError={false}
                         />
                         <Button
                             onClick={handleSubmit}
                             disabled={
                                 !question.trim() || aiAssisstantResult.isLoading
                             }
-                            className="gap-20"
-                            fullWidth
                             variant="info"
+                            className="self-end"
                         >
                             {aiAssisstantResult?.isLoading ? (
-                                <>
-                                    <Loader2 className="h-5 w-5 animate-spin" />
-                                    AI is thinking...
-                                </>
+                                <Loader2 className="h-5 w-5 animate-spin" />
                             ) : (
-                                <>
-                                    <Send className="h-5 w-5" />
-                                    Ask AI
-                                </>
+                                <Send className="h-5 w-5" />
                             )}
                         </Button>
                     </div>
-
-                    {/* AI Answer */}
-                    {aiAssisstantResult?.data?.response && (
-                        <div className="space-y-4">
-                            <div className="space-y-3 rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 p-6">
-                                <div className="flex items-center gap-2">
-                                    <Sparkles className="h-5 w-5 text-primaryNew" />
-                                    <h4 className="text-primaryNew">
-                                        AI Answer
-                                    </h4>
-                                </div>
-                                <div className="prose prose-sm max-w-none dark:prose-invert">
-                                    <p className="whitespace-pre-line leading-relaxed">
-                                        {aiAssisstantResult?.data?.response}
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Action Buttons */}
-                            <div className="space-y-3">
-                                <p className="text-sm text-muted-foreground">
-                                    What would you like to do next?
-                                </p>
-                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                                    <Button
-                                        variant="secondary"
-                                        className="h-auto flex-col gap-2 rounded-xl py-4 transition-all hover:border-primary hover:bg-primary/5"
-                                        onClick={handleAskAnother}
-                                    >
-                                        <MessageCircle className="h-5 w-5 text-primary" />
-                                        <span className="text-sm">
-                                            Ask Another Question
-                                        </span>
-                                    </Button>
-                                    <Button
-                                        variant="secondary"
-                                        className="h-auto flex-col gap-2 rounded-xl py-4 transition-all hover:border-primary hover:bg-primary/5"
-                                        onClick={onCreateTicket}
-                                    >
-                                        <Ticket className="h-5 w-5 text-primary" />
-                                        <span className="text-sm">
-                                            Create Ticket
-                                        </span>
-                                    </Button>
-                                    <Button
-                                        variant="secondary"
-                                        className="h-auto flex-col gap-2 rounded-xl py-4 transition-all hover:border-primary hover:bg-primary/5"
-                                        onClick={onAddNote}
-                                    >
-                                        <FileText className="h-5 w-5 text-primary" />
-                                        <span className="text-sm">
-                                            Add Note
-                                        </span>
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
                 </div>
             </Card>
         </>
