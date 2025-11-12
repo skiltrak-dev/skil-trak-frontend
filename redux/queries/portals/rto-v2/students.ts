@@ -35,4 +35,21 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['RTO'],
     }),
+
+    getWpForAutoMatching: builder.query<IWorkplaceIndustries[], void>({
+        query: () => `${PREFIX}workplace-request/pending/list`,
+        providesTags: ['RTO'],
+    }),
+
+    runAutomationForAvailabeleStudents: builder.mutation<
+        any,
+        { ids: number[] }
+    >({
+        query: (body) => ({
+            url: `students/workplace-requests/pending-workplace-request/process`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RTO-WORKPLACE'],
+    }),
 })

@@ -80,12 +80,13 @@ export const StudentAiSearchDetail = () => {
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.1 }}
+                                        className="h-full"
                                     >
                                         <WorkplaceSection
                                             student={profile?.data}
                                         />
                                     </motion.div>
-                                    <div className="sticky top-8">
+                                    <div className="sticky top-8 h-full">
                                         <AIQuestionPanel
                                             student={profile?.data}
                                         />

@@ -42,11 +42,6 @@ export function EnhancedStudentProfile({
 
     const urls = searchAiUrls(role, student?.id)
 
-    // Mock data - in real app this would come from props/API
-
-    const daysRemaining = 53
-    const upcomingShifts = 2
-
     const handleCopyEmail = () => {
         navigator.clipboard.writeText(student?.user?.email)
         // toast.success('Email copied to clipboard')
@@ -77,6 +72,8 @@ export function EnhancedStudentProfile({
         )
     }
 
+    const daysRemaining = moment(student?.expiryDate).diff(moment(), 'days')
+
     const stats = [
         // {
         //     icon: Target,
@@ -94,7 +91,8 @@ export function EnhancedStudentProfile({
             id: 'timeLeft',
             icon: Timer,
             label: 'Time Left',
-            value: `${moment(student?.expiryDate).diff(moment(), 'days')} days`,
+            value: `${daysRemaining < 0 ? 'Expired' : `${daysRemaining} days`}`,
+            variant: daysRemaining < 0 ? 'error' : 'primaryNew',
         },
     ]
 
@@ -140,7 +138,8 @@ export function EnhancedStudentProfile({
                                 {/*  */}
                                 <div>
                                     <Typography variant="title">
-                                        {student?.user?.name}
+                                        {student?.user?.name}{' '}
+                                        {student?.familyName}
                                     </Typography>
 
                                     <div className="mt-1 flex flex-wrap items-center gap-2">
@@ -262,12 +261,12 @@ export function EnhancedStudentProfile({
                                                     {/*  */}
                                                     <Badge
                                                         text={stat.value}
-                                                        variant="primaryNew"
+                                                        variant={
+                                                            (stat?.variant ||
+                                                                'primaryNew') as any
+                                                        }
                                                         outline
                                                     />
-                                                    {/* <p className="text-base md:text-lg">
-                                                        {stat.value}
-                                                    </p> */}
                                                 </div>
                                             </div>
                                         </motion.div>
