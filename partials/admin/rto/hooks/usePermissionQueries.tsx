@@ -12,6 +12,7 @@ export const usePermissionQueries = () => {
 
     const [allowPermissions, allowPermissionsResult] =
         AdminApi.Rtos.allowPartialSubmission()
+    const [allowNewDashboard, allowNewDashboardResult] = AdminApi.Rtos.useRtoCanViewNewDashboard()
 
     const [rtoWpApprovalRequest, rtoWpApprovalRequestResult] =
         AdminApi.Rtos.rtoWpApprovalRequest()
@@ -35,6 +36,7 @@ export const usePermissionQueries = () => {
             releaseLogbook,
             allowAutoUpdate,
             allowPermissions,
+            allowNewDashboard,
             rtoCanViewPayment,
             allowScheduleEmail,
             rtoWpApprovalRequest,
@@ -47,6 +49,7 @@ export const usePermissionQueries = () => {
             releaseLogbookResult,
             allowAutoUpdateResult,
             allowPermissionsResult,
+            allowNewDashboardResult,
             rtoCanViewPaymentResult,
             allowScheduleEmailResult,
             rtoWpApprovalRequestResult,

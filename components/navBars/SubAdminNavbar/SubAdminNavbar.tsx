@@ -15,6 +15,7 @@ import { IoMdSettings } from 'react-icons/io'
 import { IoCheckmarkCircleSharp } from 'react-icons/io5'
 import { MdEmail, MdSpaceDashboard } from 'react-icons/md'
 import { NavLinkItem } from '../NavLinkItem'
+import { HiOutlineDocumentText } from 'react-icons/hi2'
 
 const PREFIX = '/portals/sub-admin'
 
@@ -25,16 +26,17 @@ export const SubAdminNavbar = () => {
     const isManager = subadmin?.isManager
     const isAssociatedWithRto = subadmin?.isAssociatedWithRto
     const hasAllowAllStudents = subadmin?.hasAllStudentAccess
+    const hasAllowRtoApprovalRequest = subadmin?.hasRtoWorkplaceApprovalAccess
 
     const Routes = {
         Dashboard: `${PREFIX}`,
-        Students: `${PREFIX}/students?tab=${
-            checkIsHod ||
+        Students: `${PREFIX}/students?tab=${checkIsHod ||
             isManager ||
             (isAssociatedWithRto && hasAllowAllStudents)
-                ? 'all'
-                : 'my-students'
-        }`,
+            ? 'all'
+            : 'my-students'
+            }`,
+        WpApprovalReq: `${PREFIX}/wp-approval-request?tab=pending`,
         Users: `${PREFIX}/users`,
         Tasks: `${PREFIX}/tasks`,
         WPCancelationReq: `${PREFIX}/cancelled-workplace-requests`,
@@ -72,28 +74,38 @@ export const SubAdminNavbar = () => {
             activeClasses: 'bg-blue-100 text-blue-700',
             inActiveClasses: 'text-slate-700',
         },
+        ...(hasAllowRtoApprovalRequest ? [
+            {
+                link: Routes.WpApprovalReq,
+                text: 'RTO Approval Request',
+                Icon: HiOutlineDocumentText,
+                activeClasses: 'bg-blue-100 text-blue-700',
+                inActiveClasses: 'text-slate-700',
+            },
+        ] : []
+        ),
 
         ...(!isAssociatedWithRto
             ? [
-                  {
-                      link: Routes.Users,
-                      text: 'Users',
-                      Icon: HiUsers,
-                      activeClasses: 'bg-blue-100 text-blue-700',
-                      inActiveClasses: 'text-slate-700',
-                  },
-              ]
+                {
+                    link: Routes.Users,
+                    text: 'Users',
+                    Icon: HiUsers,
+                    activeClasses: 'bg-blue-100 text-blue-700',
+                    inActiveClasses: 'text-slate-700',
+                },
+            ]
             : []),
         ...(isAssociatedWithRto
             ? [
-                  {
-                      link: Routes.Industries,
-                      text: 'Industries',
-                      Icon: FaIndustry,
-                      activeClasses: 'bg-green-100 text-green-700',
-                      inActiveClasses: 'text-slate-700',
-                  },
-              ]
+                {
+                    link: Routes.Industries,
+                    text: 'Industries',
+                    Icon: FaIndustry,
+                    activeClasses: 'bg-green-100 text-green-700',
+                    inActiveClasses: 'text-slate-700',
+                },
+            ]
             : []),
         {
             link: Routes.Tasks,
@@ -128,25 +140,25 @@ export const SubAdminNavbar = () => {
         },
         ...(checkIsHod
             ? [
-                  {
-                      link: Routes.DeptSectionsList,
-                      text: 'Dept Section',
-                      Icon: GrUserAdmin,
-                      activeClasses: 'bg-green-100 text-green-700',
-                      inActiveClasses: 'text-slate-700',
-                  },
-              ]
+                {
+                    link: Routes.DeptSectionsList,
+                    text: 'Dept Section',
+                    Icon: GrUserAdmin,
+                    activeClasses: 'bg-green-100 text-green-700',
+                    inActiveClasses: 'text-slate-700',
+                },
+            ]
             : []),
         ...(isManager
             ? [
-                  {
-                      link: Routes.ManagerApprovalList,
-                      text: 'Approval List',
-                      Icon: IoCheckmarkCircleSharp,
-                      activeClasses: 'bg-green-100 text-green-700',
-                      inActiveClasses: 'text-slate-700',
-                  },
-              ]
+                {
+                    link: Routes.ManagerApprovalList,
+                    text: 'Approval List',
+                    Icon: IoCheckmarkCircleSharp,
+                    activeClasses: 'bg-green-100 text-green-700',
+                    inActiveClasses: 'text-slate-700',
+                },
+            ]
             : []),
     ]
 
@@ -179,11 +191,11 @@ export const SubAdminNavbar = () => {
             (!checkIsHod &&
                 (router.pathname === '/portals/sub-admin/department' ||
                     router.pathname ===
-                        '/portals/sub-admin/department/students' ||
+                    '/portals/sub-admin/department/students' ||
                     router.pathname ===
-                        '/portals/sub-admin/department/[id]')) ||
+                    '/portals/sub-admin/department/[id]')) ||
             router.pathname ===
-                '/portals/sub-admin/tickets?tab=department-tickets'
+            '/portals/sub-admin/tickets?tab=department-tickets'
         ) {
             router.replace('/portals/sub-admin')
         }

@@ -53,6 +53,7 @@ export const usePermissionQueries = () => {
 
     const [toggleManager, resultToggleManager] =
         AdminApi.SubAdmins.toggleIsManager()
+   
 
     const [todoEnabled, resultTodoEnabled] = AdminApi.SubAdmins.todoEnabled()
 

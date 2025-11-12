@@ -1335,7 +1335,7 @@ ul.landing-content {
     --popover-foreground: oklch(0.145 0 0);
     --primary: #f7910f;
     --primary-foreground: oklch(0.985 0 0);
-    --secondaryNew: #0d5468;
+    --secondary-new: #0d5468;
     --secondary-foreground: #ffffff;
     --mutedNew: #f1f5f9;
     --muted-foreground: #64748b;

@@ -30,11 +30,13 @@ import { AddSubAdminCB, ViewRtosCB, ViewSectorsCB } from './contextBar'
 import {
     AllowAsAdminModal,
     AllowLoginAfterHoursModal,
+    AllowRtoWpRequestModal,
     ArchiveModal,
     AssignAutoWorkplaceModal,
     BlockModal,
     RemoveFromAssociatedRTOModal,
 } from './modals'
+import { CiCircleList } from 'react-icons/ci'
 
 export const ActiveRTOSubAdmin = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -57,9 +59,8 @@ export const ActiveRTOSubAdmin = () => {
     const { isLoading, isFetching, data, isError, refetch } =
         AdminApi.SubAdmins.useListQuery(
             {
-                search: `status:${
-                    UserStatus.Approved
-                },isAssociatedWithRto:${true}`,
+                search: `status:${UserStatus.Approved
+                    },isAssociatedWithRto:${true}`,
                 skip: itemPerPage * page - itemPerPage,
                 limit: itemPerPage,
             },
@@ -110,6 +111,15 @@ export const ActiveRTOSubAdmin = () => {
     const onMakeAsAdminClicked = (subAdmin: SubAdmin) => {
         setModal(
             <AllowAsAdminModal
+                subAdmin={subAdmin}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+    // AllowRtoWpRequestModal
+    const onAllowRtoWpApprovalReqClicked = (subAdmin: SubAdmin) => {
+        setModal(
+            <AllowRtoWpRequestModal
                 subAdmin={subAdmin}
                 onCancel={() => onModalCancelClicked()}
             />
@@ -201,45 +211,56 @@ export const ActiveRTOSubAdmin = () => {
             {
                 ...(role === UserRoles.ADMIN
                     ? {
-                          text: 'View Password',
-                          onClick: (subAdmin: SubAdmin) =>
-                              onViewPassword(subAdmin),
-                          Icon: RiLockPasswordFill,
-                      }
+                        text: 'View Password',
+                        onClick: (subAdmin: SubAdmin) =>
+                            onViewPassword(subAdmin),
+                        Icon: RiLockPasswordFill,
+                    }
                     : {}),
             },
             {
                 ...(role === UserRoles.ADMIN
                     ? {
-                          text: `${
-                              !subAdmin?.canAdmin
-                                  ? 'Allow as Admin'
-                                  : 'Remove As Admin'
-                          }`,
-                          onClick: (subAdmin: SubAdmin) =>
-                              onMakeAsAdminClicked(subAdmin),
-                          Icon: MdAdminPanelSettings,
-                      }
+                        text: `${!subAdmin?.canAdmin
+                            ? 'Allow as Admin'
+                            : 'Remove As Admin'
+                            }`,
+                        onClick: (subAdmin: SubAdmin) =>
+                            onMakeAsAdminClicked(subAdmin),
+                        Icon: MdAdminPanelSettings,
+                    }
                     : {}),
             },
             {
                 ...(role === UserRoles.ADMIN
                     ? {
-                          text: subAdmin?.user?.after_hours_access
-                              ? 'Remove Login'
-                              : 'Allow Login',
-                          onClick: (subAdmin: SubAdmin) =>
-                              onAllowLoginAfterHoursModalClicked(subAdmin),
-                          Icon: MdAdminPanelSettings,
-                      }
+                        text: `${!subAdmin?.hasRtoWorkplaceApprovalAccess
+                            ? 'Allow WP Request'
+                            : 'Revoke WP Request'
+                            }`,
+                        onClick: (subAdmin: SubAdmin) =>
+                            onAllowRtoWpApprovalReqClicked(subAdmin),
+                        Icon: CiCircleList,
+                    }
                     : {}),
             },
             {
-                text: `${
-                    !subAdmin?.allowAutoAssignment
-                        ? 'Allow Auto Assignment'
-                        : 'Remove Auto Assignment'
-                }`,
+                ...(role === UserRoles.ADMIN
+                    ? {
+                        text: subAdmin?.user?.after_hours_access
+                            ? 'Remove Login'
+                            : 'Allow Login',
+                        onClick: (subAdmin: SubAdmin) =>
+                            onAllowLoginAfterHoursModalClicked(subAdmin),
+                        Icon: MdAdminPanelSettings,
+                    }
+                    : {}),
+            },
+            {
+                text: `${!subAdmin?.allowAutoAssignment
+                    ? 'Allow Auto Assignment'
+                    : 'Remove Auto Assignment'
+                    }`,
                 onClick: (subAdmin: SubAdmin) =>
                     onAutoAssignWorkplace(subAdmin),
                 Icon: MdOutlineAssignmentReturn,
@@ -306,7 +327,7 @@ export const ActiveRTOSubAdmin = () => {
                         </Typography>
                     </>
                 ) : info.row.original?.createdBy?.role ===
-                  UserRoles.SUBADMIN ? (
+                    UserRoles.SUBADMIN ? (
                     <>
                         <SubAdminCell
                             subAdmin={
@@ -378,10 +399,10 @@ export const ActiveRTOSubAdmin = () => {
         id: 'id',
         individual: (id: SubAdmin) => (
             <div className="flex gap-x-2">
-                <ActionButton variant="success" onClick={() => {}}>
+                <ActionButton variant="success" onClick={() => { }}>
                     Accept
                 </ActionButton>
-                <ActionButton variant="error" onClick={() => {}}>
+                <ActionButton variant="error" onClick={() => { }}>
                     Reject
                 </ActionButton>
             </div>

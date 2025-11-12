@@ -425,4 +425,11 @@ export const rtoEndpoints = (
         }),
         invalidatesTags: ['RTOS'],
     }),
+    rtoCanViewNewDashboard: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${PREFIX}/rto/${id}/can-access-portal`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOS'],
+    }),
 })

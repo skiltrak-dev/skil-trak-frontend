@@ -28,6 +28,7 @@ export const usePermission = () => {
             }
         })
     }
+   
     const onCanGlobalSearchClicked = (subAdmin: SubAdmin) => {
         queries.canGlobalSearch(subAdmin?.id).then((res: any) => {
             if (res?.data) {
@@ -175,13 +176,11 @@ export const usePermission = () => {
             if (res?.data) {
                 notification.success({
                     title: `subAdmin Allowed As Admin`,
-                    description: `subAdmin "${
-                        subAdmin?.user?.name
-                    }" login access has been ${
-                        subAdmin?.user?.after_hours_access
+                    description: `subAdmin "${subAdmin?.user?.name
+                        }" login access has been ${subAdmin?.user?.after_hours_access
                             ? 'removed'
                             : 'provided'
-                    }.`,
+                        }.`,
                 })
             }
         })

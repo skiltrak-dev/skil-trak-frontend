@@ -78,7 +78,12 @@ const colors: ThemeColors = {
 
     mutedNew: {
         DEFAULT: '#f1f5f9', // light --muted
-        dark: '#1e2537', // dark --muted
+        dark: '#f1f5f9', // dark --muted
+        light: '#f1f5f9',
+    },
+    mutedNewForeground: {
+        DEFAULT: '#64748b', // light --muted
+        dark: '#94a3b8', // dark --muted
         light: '#ffffff',
     },
     destructive: {
@@ -86,7 +91,11 @@ const colors: ThemeColors = {
         dark: '#dc2626', // dark --destructive
         light: '#ef444420',
     },
-
+    accent: {
+        DEFAULT: '#F7A619', // dark --accent
+        dark: '#F7A619',
+        light: '#00968820',
+    },
     borderNew: {
         DEFAULT: '#e2e8f0', // light --border
         dark: '#2d3548', // dark --border

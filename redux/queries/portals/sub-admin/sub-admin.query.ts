@@ -278,6 +278,9 @@ export const {
     useSubadminWpCancellationRequestsListQuery,
     useGetSubAdminMapSuggestedIndustryDetailQuery,
     useGetSubAdminMapIndustryBranchDetailQuery,
+    useGetRtoWpApprovalRequestPendingListQuery,
+    useGetRtoWpApprovalRequestApprovedListQuery,
+    useGetRtoWpApprovalRequestCountQuery,
 
     useGetStudentWorkplaceAnswersQuery,
     useGetStudentWorkplaceAvailabilityQuery,
@@ -828,6 +831,11 @@ export const SubAdminApi = {
         changeWpReqStatus: useChangeWorkplaceApprovalReqStatusMutation,
         placementAndInsuranceDocNote:
             useGetWarningPlacementAndInsuranceDocNoteQuery,
+        useRtoWpApprovalRequestPendingList:
+            useGetRtoWpApprovalRequestPendingListQuery,
+        useRtoWpApprovalRequestApprovedList:
+            useGetRtoWpApprovalRequestApprovedListQuery,
+        useRtoWpApprovalRequestCount: useGetRtoWpApprovalRequestCountQuery,
     },
 
     Courses: {

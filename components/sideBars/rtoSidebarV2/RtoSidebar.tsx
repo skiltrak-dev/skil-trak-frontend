@@ -197,6 +197,7 @@ const menuSections = [
                 icon: GraduationCap,
                 label: 'Courses',
                 key: 'Courses',
+                path: '/portals/rto/dashboard/courses',
                 bg: 'bg-zinc-50 border border-zinc-200',
                 iconBg: 'bg-zinc-500',
                 badgeBg: 'bg-zinc-500',

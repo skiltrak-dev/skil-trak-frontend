@@ -129,6 +129,7 @@ export interface Rto extends BaseResponse {
     allowStudentSelfPayment: boolean
     canViewPaymentStatus: boolean
     allowScheduleEmails: boolean
+    canAccessNewPortal: boolean
     reportType: ReportingType
     user: User
     package: Packages
@@ -313,6 +314,7 @@ export interface SubAdmin extends BaseResponse {
     canViewAllStudents: boolean
     canCreateInternalTicket: boolean
     canViewRtoList: boolean
+    hasRtoWorkplaceApprovalAccess: boolean
 
     departmentMember: DeptMember
 
