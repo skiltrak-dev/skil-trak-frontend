@@ -125,10 +125,7 @@ export const AddIndividualStudentFormV2 = () => {
         defaultValues: { placementType: PlacementTypeEnum.FLEXIBLE },
     })
 
-    console.log({ formMethods })
-
     const onSubmitForm = async (values: any) => {
-        console.log({ values })
         const filteredValues = { ...values }
 
         // if (placementType === 'flexible') {
