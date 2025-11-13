@@ -1,6 +1,6 @@
 import { useNotification, useSocketListener } from '@hooks'
 import { CommonApi } from '@queries'
-import { emptySplitApi } from '@queries/portals/empty.query'
+import { apiSlice } from '@queries/portals/empty.query'
 import { AuthUtils, playAudioSound } from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -40,7 +40,7 @@ export const Socket = ({ children }: any) => {
         const tagsToInvalidate = (socketEventToTagMapping as any)[eventName]
         if (tagsToInvalidate) {
             tagsToInvalidate.forEach((tag: any) => {
-                dispatch(emptySplitApi().util.invalidateTags([tag]))
+                dispatch(apiSlice.util.invalidateTags([tag]))
             })
         }
     }
@@ -87,9 +87,7 @@ export const Socket = ({ children }: any) => {
                             eventListener: notify,
                         })
                         dispatch(
-                            emptySplitApi().util.invalidateTags([
-                                'AllNotifications',
-                            ])
+                            apiSlice.util.invalidateTags(['AllNotifications'])
                         )
                         invalidateCacheForEvent(eventName)
 

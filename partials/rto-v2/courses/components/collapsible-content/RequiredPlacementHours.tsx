@@ -1,17 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { ShowErrorNotifications, TextInput } from '@components'
 import { Badge } from '@components/ui/badge'
 import { Button } from '@components/ui/button'
-import { CardContent } from '@components/ui/card'
-import { CollapsibleContent } from '@components/ui/collapsible'
-import { Input } from '@components/ui/input'
-import { Separator } from '@components/ui/separator'
-import { AlertCircle, CheckCircle2, Clock, Edit, Save } from 'lucide-react'
 import { useNotification } from '@hooks'
 import { RtoApi } from '@queries'
+import { AlertCircle, CheckCircle2, Clock, Edit, Save } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { PuffLoader } from 'react-spinners'
-import { ShowErrorNotifications } from '@components'
 
 type RequiredPlacementHoursProps = {
     course: any
@@ -29,7 +25,10 @@ export const RequiredPlacementHours = ({
 
     // Sync tempHours when course.hours changes
     useEffect(() => {
-        const hours = course.extraHours.length > 0 ? course?.extraHours[0]?.hours : course?.hours
+        const hours =
+            course.extraHours.length > 0
+                ? course?.extraHours[0]?.hours
+                : course?.hours
         setTempHours(hours ?? null)
     }, [course])
 
@@ -42,7 +41,6 @@ export const RequiredPlacementHours = ({
             })
             setIsEditing(false)
         }
-
     }, [updateHoursResult.isSuccess])
 
     // Handle save button
@@ -65,7 +63,7 @@ export const RequiredPlacementHours = ({
         <>
             <ShowErrorNotifications result={updateHoursResult} />
 
-            <CardContent className="space-y-8">
+            <div className="space-y-8">
                 {/* Required Hours */}
                 <div>
                     <div className="flex items-center gap-2 mb-4">
@@ -93,11 +91,12 @@ export const RequiredPlacementHours = ({
                         {isEditing ? (
                             <div className="flex items-center gap-3">
                                 <div className="flex items-center gap-2 flex-1">
-                                    <Input
+                                    <TextInput
+                                        name="tempHours"
                                         type="number"
                                         value={tempHours || 0}
                                         min={0}
-                                        onChange={(e) =>
+                                        onChange={(e: any) =>
                                             setTempHours(
                                                 parseInt(e.target.value) || 0
                                             )
@@ -161,7 +160,7 @@ export const RequiredPlacementHours = ({
                         )}
                     </div>
                 </div>
-            </CardContent>
+            </div>
         </>
     )
 }

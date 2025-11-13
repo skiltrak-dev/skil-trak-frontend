@@ -1,34 +1,41 @@
-"use client";
+'use client'
 
-import { ShowErrorNotifications } from '@components';
-import { Button } from '@components/ui/button';
-import { Textarea } from '@components/ui/textarea';
-import { useNotification } from '@hooks';
-import { RtoV2Api } from '@queries';
-import { Edit, Save, UserCheck } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Select, ShowErrorNotifications, TextArea } from '@components'
+import { Button } from '@components/ui/button'
+import { useNotification } from '@hooks'
+import { SupervisorQualification } from '@partials/common'
+import { RtoV2Api } from '@queries'
+import { OptionType } from '@types'
+import { Edit, Save, UserCheck } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 interface SupervisorRequirementsProps {
-    course: any;
+    course: any
 }
 
-export const SupervisorRequirements: React.FC<SupervisorRequirementsProps> = ({ course }) => {
-    const { notification } = useNotification();
-
-    const [updateSupervisorReq, updateSupervisorReqResult] = RtoV2Api.Courses.useUpdateSupervisorRequirements();
+export const SupervisorRequirements: React.FC<SupervisorRequirementsProps> = ({
+    course,
+}) => {
+    const { notification } = useNotification()
 
     const qualification =
-        course?.rtoSupervisorQualification?.[0]?.qualification
-        || course?.sector?.supervisors?.[0]?.qualification
-        || "";
+        course?.rtoSupervisorQualification?.[0]?.qualification ||
+        course?.sector?.supervisors?.[0]?.qualification ||
+        ''
 
-    const [isEditing, setIsEditing] = useState(false);
-    const [supervisionQualifications, setSupervisionQualifications] = useState<string>(qualification);
+    const [selectedQualification, setSelectedQualification] =
+        useState<string>('')
+    const [isEditing, setIsEditing] = useState(false)
+    const [supervisionQualifications, setSupervisionQualifications] =
+        useState<string>(qualification)
+
+    const [updateSupervisorReq, updateSupervisorReqResult] =
+        RtoV2Api.Courses.useUpdateSupervisorRequirements()
 
     // Sync state when course changes
     useEffect(() => {
-        setSupervisionQualifications(qualification);
-    }, [course]);
+        setSupervisionQualifications(qualification)
+    }, [course])
 
     // Notifications
     useEffect(() => {
@@ -36,43 +43,70 @@ export const SupervisorRequirements: React.FC<SupervisorRequirementsProps> = ({ 
             notification.success({
                 title: 'Supervisor requirements updated',
                 description: 'Supervisor requirements updated successfully',
-            });
-            setIsEditing(false);
+            })
+            setIsEditing(false)
         }
-    }, [updateSupervisorReqResult.isSuccess]);
+    }, [updateSupervisorReqResult.isSuccess])
 
     const handleSave = async () => {
-        if (!supervisionQualifications.trim()) return;
+        if (!selectedQualification.trim()) return
 
         await updateSupervisorReq({
             course: course.id,
-            qualification: supervisionQualifications.trim(),
-        });
-    };
+            qualification: selectedQualification.trim(),
+        })
+    }
 
     return (
         <>
             <ShowErrorNotifications result={updateSupervisorReqResult} />
 
-            <div className="mx-6">
+            <div>
                 <div className="flex items-center gap-2 mb-4">
                     <div className="h-8 w-8 rounded-lg bg-sky-950/10 flex items-center justify-center">
                         <UserCheck className="h-4 w-4 text-sky-900" />
                     </div>
-                    <h3 className="font-semibold text-base">Supervision Requirements</h3>
+                    <h3 className="font-semibold text-base">
+                        Supervision Requirements
+                    </h3>
                 </div>
 
                 <div className="bg-gradient-to-br from-secondaryNew/5 to-secondaryNew/10 rounded-xl p-5 border border-secondaryNew/20">
                     <div className="space-y-3">
-                        <label className="text-sm font-medium text-gray-500">Minimum Qualifications</label>
+                        <label className="text-sm font-medium text-gray-500">
+                            Minimum Qualifications
+                        </label>
 
                         {isEditing ? (
                             <div className="space-y-3">
-                                <Textarea
+                                {/* <TextArea
+                                    name="supervisionQualifications"
                                     value={supervisionQualifications}
-                                    onChange={(e) => setSupervisionQualifications(e.target.value)}
+                                    onChange={(e: any) =>
+                                        setSupervisionQualifications(
+                                            e.target.value
+                                        )
+                                    }
                                     placeholder="e.g., Certificate IV in Ageing Support, Disability, or Individual Support"
                                     className="min-h-[80px] bg-[#fafbfc]/50"
+                                /> */}
+
+                                <Select
+                                    name="level"
+                                    label={'Qualification'}
+                                    options={SupervisorQualification?.map(
+                                        (q) => ({
+                                            label: q?.label,
+                                            value: q?.label,
+                                        })
+                                    )}
+                                    onlyValue
+                                    onChange={(e: string) => {
+                                        setSelectedQualification(e)
+                                    }}
+                                    value={selectedQualification}
+                                    menuPlacement="top"
+                                    showError={false}
                                 />
 
                                 <div className="flex items-center gap-2">
@@ -80,20 +114,29 @@ export const SupervisorRequirements: React.FC<SupervisorRequirementsProps> = ({ 
                                         size="sm"
                                         onClick={handleSave}
                                         className="bg-success hover:bg-success/90 flex items-center gap-1"
-                                        disabled={updateSupervisorReqResult.isLoading || !supervisionQualifications.trim()}
+                                        disabled={
+                                            updateSupervisorReqResult.isLoading ||
+                                            !supervisionQualifications.trim()
+                                        }
                                     >
                                         <Save className="h-3.5 w-3.5" />
-                                        {updateSupervisorReqResult.isLoading ? "Saving..." : "Save"}
+                                        {updateSupervisorReqResult.isLoading
+                                            ? 'Saving...'
+                                            : 'Save'}
                                     </Button>
 
                                     <Button
                                         size="sm"
                                         variant="outline"
                                         onClick={() => {
-                                            setSupervisionQualifications(qualification);
-                                            setIsEditing(false);
+                                            setSupervisionQualifications(
+                                                qualification
+                                            )
+                                            setIsEditing(false)
                                         }}
-                                        disabled={updateSupervisorReqResult.isLoading}
+                                        disabled={
+                                            updateSupervisorReqResult.isLoading
+                                        }
                                     >
                                         Cancel
                                     </Button>
@@ -102,7 +145,11 @@ export const SupervisorRequirements: React.FC<SupervisorRequirementsProps> = ({ 
                         ) : (
                             <div className="flex items-start justify-between gap-3">
                                 <p className="text-sm text-slate-800 flex-1 bg-[#fafbfc]/30 rounded-lg p-3 border border-secondaryNew/10">
-                                    {supervisionQualifications || <span className="text-muted-foreground">Not specified</span>}
+                                    {supervisionQualifications || (
+                                        <span className="text-muted-foreground">
+                                            Not specified
+                                        </span>
+                                    )}
                                 </p>
 
                                 <Button
@@ -120,5 +167,5 @@ export const SupervisorRequirements: React.FC<SupervisorRequirementsProps> = ({ 
                 </div>
             </div>
         </>
-    );
-};
+    )
+}

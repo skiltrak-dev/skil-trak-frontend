@@ -1,24 +1,27 @@
-import { Badge } from '@components/ui/badge';
-import { Button } from '@components/ui/button';
-import { CardContent } from '@components/ui/card';
-import { CollapsibleContent } from '@components/ui/collapsible';
-import { Input } from '@components/ui/input';
-import { Separator } from '@components/ui/separator';
-import { AlertCircle, CheckCircle2, Clock, Edit, FileText, Save } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { DocumentsSection } from './cards/DocumentsSection';
-import { RtoApi } from '@queries';
-import { useNotification } from '@hooks';
-import { RequiredPlacementHours } from './RequiredPlacementHours';
+import { CollapsibleContent } from '@components/ui/collapsible'
+import { Separator } from '@components/ui/separator'
+import { useNotification } from '@hooks'
+import { RtoApi } from '@queries'
+import { FileText } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { DocumentsSection } from './cards/DocumentsSection'
+import { RequiredPlacementHours } from './RequiredPlacementHours'
 
-type LogbookStatus = "uploaded" | "summarized" | "formReady" | "inProgress" | "pendingSign" | "signedLocked";
+type LogbookStatus =
+    | 'uploaded'
+    | 'summarized'
+    | 'formReady'
+    | 'inProgress'
+    | 'pendingSign'
+    | 'signedLocked'
 
 export const RequiredPlacementDocuments = ({ course }: any) => {
     const [isEditing, setIsEditing] = useState(false)
     const [tempHours, setTempHours] = useState<number | null>(null)
 
     const { notification } = useNotification()
-    const [updateHours, updateHoursResult] = RtoApi.Courses.useUpdateCourseHours()
+    const [updateHours, updateHoursResult] =
+        RtoApi.Courses.useUpdateCourseHours()
 
     // Sync tempHours when course.hours changes
     useEffect(() => {
@@ -60,10 +63,9 @@ export const RequiredPlacementDocuments = ({ course }: any) => {
 
     return (
         <div>
-
             <CollapsibleContent>
                 <Separator />
-                <CardContent className="p-6 space-y-8">
+                <div className="py-6 space-y-8">
                     {/* Required Hours */}
                     <RequiredPlacementHours course={course} />
 
@@ -73,13 +75,13 @@ export const RequiredPlacementDocuments = ({ course }: any) => {
                             <div className="h-8 w-8 rounded-lg bg-primaryNew/10 flex items-center justify-center">
                                 <FileText className="h-4 w-4 text-primaryNew" />
                             </div>
-                            <h3 className="font-semibold text-base">Required Documents</h3>
+                            <h3 className="font-semibold text-base">
+                                Required Documents
+                            </h3>
                         </div>
-                        <DocumentsSection
-                            course={course}
-                        />
+                        <DocumentsSection course={course} />
                     </div>
-                </CardContent>
+                </div>
             </CollapsibleContent>
 
             {/* {showAssessmentForm && logbookSummaries[showAssessmentForm] && (
@@ -98,5 +100,4 @@ export const RequiredPlacementDocuments = ({ course }: any) => {
             )} */}
         </div>
     )
-
 }

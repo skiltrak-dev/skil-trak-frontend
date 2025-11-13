@@ -1,7 +1,7 @@
-import { emptySplitApi } from '../empty.query'
+import { apiSlice } from '../empty.query'
 import { studentsEndpoints } from './students'
 
-export const observerApi = emptySplitApi("observerApi").injectEndpoints({
+export const observerApi = apiSlice.injectEndpoints({
     // ---------- ADMIN ENDPOINTS ---------- //
     endpoints: (build) => ({
         ...studentsEndpoints(build),

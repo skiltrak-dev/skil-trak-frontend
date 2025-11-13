@@ -336,9 +336,8 @@ export const Select = forwardRef(
                     {validationIcons && <ValidationIcon name={name} />}
                 </div>
 
-                {showError && <InputErrorMessage name={name} />}
-
                 <HelpText text={helpText} />
+                {showError && <InputErrorMessage name={name} />}
             </div>
         )
     }

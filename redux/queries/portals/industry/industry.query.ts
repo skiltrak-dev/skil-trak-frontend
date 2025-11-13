@@ -1,5 +1,5 @@
 import { talentPoolEndpoints } from './talentPool'
-import { emptySplitApi } from '../empty.query'
+import { apiSlice } from '../empty.query'
 import { appointmentsEndpoints } from './appointment'
 
 import { availableShiftsEndpoints } from './availableShifts'
@@ -20,7 +20,7 @@ import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { insuranceEndpoints } from './insurance'
 
-export const industryApi = emptySplitApi('industryApi').injectEndpoints({
+export const industryApi = apiSlice.injectEndpoints({
     // export const industryApi = createApi({
     //     reducerPath: 'industryApi',
     //     baseQuery: fetchBaseQuery({

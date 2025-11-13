@@ -1,11 +1,11 @@
-import { emptySplitApi } from '../empty.query'
+import { apiSlice } from '../empty.query'
 import { availableServicesEndpoints } from './availableServices'
+import { coursesEndPoints } from './courses'
 import { dashboardEndpoints } from './dashboard'
 import { placementRequestsEndPoints } from './placementRequests'
 import { studentsEndpoints } from './students'
-import { coursesEndPoints } from './courses'
 
-export const rtoV2Api = emptySplitApi('rtoV2Api').injectEndpoints({
+export const rtoV2Api = apiSlice.injectEndpoints({
     endpoints: (build) => ({
         ...studentsEndpoints(build),
         ...dashboardEndpoints(build),
@@ -32,6 +32,8 @@ const {
     useGetStudentPlacementRequestStatsQuery,
 
     // Courses
+    useRtoCoursesQuery,
+    useCreateRtoWpTypeMutation,
     useAddCourseDocumentMutation,
     useUpdateFacilityChecklistMutation,
     useUpdateAgreementFileMutation,
@@ -69,8 +71,10 @@ export const RtoV2Api = {
             useGetStudentPlacementRequestStatsQuery,
     },
     Courses: {
+        rtoCourses: useRtoCoursesQuery,
         useAddCourseDocument: useAddCourseDocumentMutation,
         useUpdateFacilityChecklist: useUpdateFacilityChecklistMutation,
+        createRtoWpType: useCreateRtoWpTypeMutation,
         useUpdateAgreementFile: useUpdateAgreementFileMutation,
         useUpdateLogbookFile: useUpdateLogbookFileMutation,
         useUpdateCourseSummary: useUpdateCourseSummaryMutation,

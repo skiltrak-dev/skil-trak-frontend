@@ -5,21 +5,32 @@ const PREFIX = 'rtos/'
 export const coursesEndPoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
+    rtoCourses: builder.query<any, void>({
+        query: () => `${PREFIX}courses/list`,
+        providesTags: ['RTOCourses', 'RTO', 'RTO-V2-Courses'],
+    }),
+
     addCourseDocument: builder.mutation<any, any>({
-        query: ({ body, params }) => {
-            return {
-                url: `${PREFIX}document/add`,
-                method: 'POST',
-                body,
-                params,
-            }
-        },
+        query: ({ body, params }) => ({
+            url: `${PREFIX}document/add`,
+            method: 'POST',
+            body,
+            params,
+        }),
         invalidatesTags: ['RTOCourses', 'RTO'],
     }),
 
-    // rtos/course-file/:id/facility-checklist-update
+    createRtoWpType: builder.mutation<any, { id: number; name: string }>({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}course/${id}/workplace-type/create`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RTOCourses', 'RTO'],
+    }),
+
     updateFacilityChecklist: builder.mutation<any, any>({
-        query: ({ body, params, id }) => {
+        query: ({ body, id }) => {
             return {
                 url: `${PREFIX}course-file/${id}/facility-checklist-update`,
                 method: 'PATCH',
@@ -85,7 +96,7 @@ export const coursesEndPoints = (
             method: 'PATCH',
             body,
         }),
-        invalidatesTags: ['RTOCourses', 'RTO'],
+        invalidatesTags: ['RTOCourses', 'RTO', 'RTO-V2-Courses'],
     }),
     // rtos/summary/:id/differnces/remove
     removeAICourseDifference: builder.mutation<any, any>({

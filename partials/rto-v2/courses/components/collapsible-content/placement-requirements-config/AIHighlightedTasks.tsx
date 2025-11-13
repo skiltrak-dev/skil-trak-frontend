@@ -1,4 +1,4 @@
-import { NoData } from '@components'
+import { NoData, TextArea } from '@components'
 import { Badge } from '@components/ui/badge'
 import { Button } from '@components/ui/button'
 import {
@@ -6,7 +6,6 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@components/ui/collapsible'
-import { Textarea } from '@components/ui/textarea'
 import { useNotification } from '@hooks'
 import { RtoV2Api } from '@queries'
 import { CheckCircle2, ChevronDown, Edit, Plus, Target, X } from 'lucide-react'
@@ -78,7 +77,6 @@ export const AIHighlightedTasks = ({ course }: any) => {
                     [course.id]: open,
                 })
             }
-            className="mx-6"
         >
             <div className="rounded-xl bg-accent/5 border border-accent/20 overflow-hidden">
                 <CollapsibleTrigger className="w-full p-4 flex items-center gap-2 hover:bg-accent/10 transition-colors">
@@ -154,19 +152,23 @@ export const AIHighlightedTasks = ({ course }: any) => {
 
                         {editingHighlightedTasks === course.id && (
                             <div className="mt-3 flex items-start gap-2">
-                                <Textarea
+                                <TextArea
+                                    name="newTask"
                                     value={newTask}
-                                    onChange={(e) => setNewTask(e.target.value)}
+                                    onChange={(e: any) =>
+                                        setNewTask(e.target.value)
+                                    }
                                     placeholder="Add new highlighted task..."
                                     className="min-h-[60px] text-xs"
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter' && e.ctrlKey)
-                                            handleAdd()
-                                    }}
+                                    // onKeyDown={(e) => {
+                                    //     if (e.key === 'Enter' && e.ctrlKey)
+                                    //         handleAdd()
+                                    // }}
                                 />
                                 <Button
                                     size="sm"
                                     onClick={handleAdd}
+                                    disabled={removeDiffResult?.isLoading}
                                     className="bg-accent hover:bg-accent/90 text-white shrink-0"
                                 >
                                     <Plus className="h-3 w-3 mr-1" />

@@ -86,7 +86,7 @@ export const RtoPlacementRequirements = ({ course }: any) => {
     return (
         <>
             <ShowErrorNotifications result={updateSummaryResult} />
-            <Collapsible open={open} onOpenChange={setOpen} className="mx-6">
+            <Collapsible open={open} onOpenChange={setOpen}>
                 <div className="bg-gradient-to-br from-accent/5 to-accent/10 rounded-xl border border-accent/20 overflow-hidden">
                     {/* HEADER */}
                     <CollapsibleTrigger className="w-full p-4 flex items-start justify-between hover:bg-accent/5 transition-colors">

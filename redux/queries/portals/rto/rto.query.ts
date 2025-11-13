@@ -1,19 +1,19 @@
-import { mouEndpoints } from './mou'
-import { coursesEndpoints } from './courses'
-import { profileEndpoints } from './profile'
-import { studentEndpoints } from './student'
-import { emptySplitApi } from '../empty.query'
-import { workplaceEndpoints } from './workplace'
-import { insuranceEndpoints } from './insurance'
-import { industriesEndpoints } from './industries'
-import { coordinatorEndpoints } from './coordinator'
+import { apiSlice } from '../empty.query'
 import { appointmentsEndpoints } from './appointments'
-import { contactPersonEndpoints } from './contactPerson'
-import { rtoDocumentsEndpoints } from './rtoDocuments'
 import { assessmentToolsEndpoints } from './assessmentTools'
+import { contactPersonEndpoints } from './contactPerson'
+import { coordinatorEndpoints } from './coordinator'
+import { coursesEndpoints } from './courses'
+import { industriesEndpoints } from './industries'
+import { insuranceEndpoints } from './insurance'
+import { mouEndpoints } from './mou'
+import { profileEndpoints } from './profile'
+import { rtoDocumentsEndpoints } from './rtoDocuments'
+import { studentEndpoints } from './student'
 import { submissionsEndpoints } from './submissions'
+import { workplaceEndpoints } from './workplace'
 
-export const rtoApi = emptySplitApi('rtoApi').injectEndpoints({
+export const rtoApi = apiSlice.injectEndpoints({
     // ---------- RTO ENDPOINTS ---------- //
     endpoints: (build) => ({
         rtoMyProfile: build.query<any, void>({

@@ -1,5 +1,5 @@
 import { AdminStats, SMSFormQueryType } from '@types'
-import { emptySplitApi } from '../empty.query'
+import { apiSlice } from '../empty.query'
 import { appointmentTypeEndpoints } from './appointment-type'
 import { blogsEndpoints } from './blogs'
 import { courseEndpoints } from './course'
@@ -30,7 +30,7 @@ import { rtoEnquiryEndpoints } from './rto-enquiry'
 import { rtoMessageCenterEndpoints } from './rto-message-center'
 
 const PREFIX = 'admin'
-export const adminApi = emptySplitApi('adminApi').injectEndpoints({
+export const adminApi = apiSlice.injectEndpoints({
     // ---------- ADMIN ENDPOINTS ---------- //
     endpoints: (build) => ({
         statistics: build.query<AdminStats, void>({
@@ -486,8 +486,11 @@ const {
     usePremiumIndustriesListForEnquiryQuery,
 
     // ---- RTO MESSAGE CENTER ---- //
-    useGetRtosListQuery,
+    useRtoMessagesCountQuery,
     useSendRtoMessageMutation,
+    useGetRtoMessagesListingQuery,
+    useChangeMessageStatusMutation,
+    useGetRtosListForMesssagesQuery,
 } = adminApi
 
 export const AdminApi = {
@@ -870,7 +873,10 @@ export const AdminApi = {
         premiumIndustriesList: usePremiumIndustriesListForEnquiryQuery,
     },
     RtoMessageCenter: {
-        getRtosList: useGetRtosListQuery,
+        count: useRtoMessagesCountQuery,
         sendRtoMessage: useSendRtoMessageMutation,
+        messagesList: useGetRtoMessagesListingQuery,
+        getRtosList: useGetRtosListForMesssagesQuery,
+        changeMessageStatus: useChangeMessageStatusMutation,
     },
 }

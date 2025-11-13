@@ -1,19 +1,12 @@
-import { Badge } from '@components/ui/badge';
-import { Button } from '@components/ui/button';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@components/ui/collapsible';
-'lucide-react';
-import React, { useState } from 'react'
-import { AIDifferences } from './AIDifferences';
-import { AIHighlightedTasks } from './AIHighlightedTasks';
-import { AdminPlacementRequirements } from './AdminPlacementRequirements';
-import { RtoPlacementRequirements } from './RtoPlacementRequirements';
-import { RequiredPlacementDocuments } from '../RequiredPlacementDocuments';
-import { LogbookSummaryDisplay } from '../logbook-summary';
-import { EligibleWpTypes } from '../egilible-wp-types';
-import { SupervisorRequirements } from '../supervision-requirements';
+import { RequiredPlacementDocuments } from '../RequiredPlacementDocuments'
+import { EligibleWpTypes } from '../egilible-wp-types'
+import { SupervisorRequirements } from '../supervision-requirements'
+import { AIDifferences } from './AIDifferences'
+import { AIHighlightedTasks } from './AIHighlightedTasks'
+import { AdminPlacementRequirements } from './AdminPlacementRequirements'
+import { RtoPlacementRequirements } from './RtoPlacementRequirements'
 
 export const PlacementRequirementsConfiguration = ({ course }: any) => {
-
     return (
         <div className="space-y-4">
             <RequiredPlacementDocuments course={course} />

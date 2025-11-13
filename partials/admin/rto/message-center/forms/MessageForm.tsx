@@ -45,29 +45,25 @@ export const MessageForm = () => {
     }
 
     return (
-        <div className="space-y-5">
+        <div className="space-y-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                    <Select
-                        required
-                        onlyValue
-                        name="urgencyLevel"
-                        options={urgencyOptions}
-                        label={'Urgency Level'}
-                        placeholder={'Urgency Level'}
-                        helpText={getStatusMessage()}
-                    />
-                </div>
+                <Select
+                    required
+                    onlyValue
+                    name="urgencyLevel"
+                    options={urgencyOptions}
+                    label={'Urgency Level'}
+                    placeholder={'Urgency Level'}
+                    helpText={getStatusMessage()}
+                />
 
-                <div className="space-y-2">
-                    <TextInput
-                        name="senderName"
-                        label={'Sender Name'}
-                        placeholder={'Sender Name'}
-                        required
-                        helpText="Your name will appear on the notification"
-                    />
-                </div>
+                <TextInput
+                    name="senderName"
+                    label={'Sender Name'}
+                    placeholder={'Sender Name'}
+                    required
+                    helpText="Your name will appear on the notification"
+                />
             </div>
 
             <TextInput
@@ -75,6 +71,14 @@ export const MessageForm = () => {
                 label={'Title'}
                 placeholder={'Title'}
                 required
+            />
+
+            <TextInput
+                name="expiryDate"
+                label={'Expiry Date'}
+                placeholder={'Expiry Date'}
+                required
+                type="date"
             />
 
             <div className="space-y-2">

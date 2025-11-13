@@ -7,7 +7,7 @@ export const coursesEndpoints = (
 ) => ({
     getRTOCourses: builder.query<any, void>({
         query: () => `${PREFIX}/courses/list`,
-        providesTags: ['RTOCourses', 'RTO'],
+        providesTags: ['RTOCourses', 'RTO', 'RTO-V2-Courses'],
     }),
     updateCourseHours: builder.mutation<any, any>({
         query: ({ body, rtoUserId }) => ({

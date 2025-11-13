@@ -1,6 +1,6 @@
 'use client'
 
-import { NoData, ShowErrorNotifications } from '@components'
+import { NoData, ShowErrorNotifications, TextArea } from '@components'
 import { Badge } from '@components/ui/badge'
 import { Button } from '@components/ui/button'
 import {
@@ -8,7 +8,6 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@components/ui/collapsible'
-import { Textarea } from '@components/ui/textarea'
 import { useNotification } from '@hooks'
 import { RtoV2Api } from '@queries'
 import { AlertTriangle, ChevronDown, Edit, Plus, X } from 'lucide-react'
@@ -19,6 +18,7 @@ export const AIDifferences = ({ course }: any) => {
     const [open, setOpen] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const [newDiff, setNewDiff] = useState('')
+    const [key, setKey] = useState(0)
     const { notification } = useNotification()
 
     const [addDiff, addDiffResult] = RtoV2Api.Courses.useAddAICourseDifference()
@@ -32,6 +32,7 @@ export const AIDifferences = ({ course }: any) => {
                 description: 'Difference added successfully',
             })
             setNewDiff('')
+            setKey(key + 1)
         }
     }, [addDiffResult.isSuccess])
     useEffect(() => {
@@ -47,13 +48,13 @@ export const AIDifferences = ({ course }: any) => {
         course?.rtoCourseFiles
             ?.flatMap((f: any) => f?.rtoLogbookSummary ?? [])
             ?.flatMap((s: any) => s?.differences ?? []) || []
+
     const logbookSummaryId =
         course?.rtoCourseFiles?.find(
             (f: any, index: number) => f.title === 'logBook'
         )?.rtoLogbookSummary?.[0]?.id || null
 
     const onHandleAdd = () => {
-        console.log({ logbookSummaryId })
         if (logbookSummaryId && newDiff.trim()) {
             addDiff({ body: { differences: [newDiff] }, id: logbookSummaryId })
         }
@@ -69,7 +70,7 @@ export const AIDifferences = ({ course }: any) => {
             <ShowErrorNotifications
                 result={addDiffResult || removeDiffResult}
             />
-            <div className="mx-6">
+            <div>
                 <Collapsible open={open} onOpenChange={setOpen}>
                     <div className="rounded-xl bg-orange-50/50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-800 overflow-hidden">
                         {/* HEADER */}
@@ -158,9 +159,11 @@ export const AIDifferences = ({ course }: any) => {
 
                             {isEditing && (
                                 <div className="mt-3 flex items-start gap-2">
-                                    <Textarea
+                                    <TextArea
+                                        key={key}
+                                        name="newDiff"
                                         value={newDiff}
-                                        onChange={(e) =>
+                                        onChange={(e: any) =>
                                             setNewDiff(e.target.value)
                                         }
                                         placeholder="Add new difference..."

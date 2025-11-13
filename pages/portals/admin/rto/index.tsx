@@ -149,15 +149,16 @@ const RtoList: NextPageWithLayout = () => {
             />
             <div className="px-4">
                 <div className="flex items-center justify-end gap-x-2 mb-2">
-                    {' '}
                     <Button
                         text="Message Center"
                         onClick={() =>
-                            router.push('/portals/admin/rto/message-center')
+                            router.push(
+                                '/portals/admin/rto/message-center?tab=active'
+                            )
                         }
                         outline
                         variant="info"
-                    />{' '}
+                    />
                     {filterAction}
                 </div>
                 <Filter<RTOFilterType>

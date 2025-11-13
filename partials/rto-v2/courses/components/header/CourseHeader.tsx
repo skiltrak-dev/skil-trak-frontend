@@ -1,7 +1,5 @@
-// File: components/CourseSetup/CourseHeader.tsx
-'use client'
+import { Card } from '@components'
 import { Button } from '@components/ui/button'
-import { Card, CardHeader } from '@components/ui/card'
 import {
     Collapsible,
     CollapsibleContent,
@@ -10,7 +8,6 @@ import {
 import {
     CourseHeaderStats,
     CourseHeaderTitle,
-    LogbookSummaryDisplay,
     PlacementRequirementsConfiguration,
 } from '@partials/rto-v2/courses'
 import { ChevronDown, ChevronRight } from 'lucide-react'
@@ -21,11 +18,6 @@ export const CourseHeader = ({ coursesData }: any) => {
         coursesData?.[0]?.id,
     ])
 
-    const getCompletionColor = (progress: number) => {
-        if (progress >= 80) return 'text-success'
-        if (progress >= 50) return 'text-warning'
-        return 'text-destructive'
-    }
     const toggleCourse = (courseId: string) => {
         setExpandedCourses((prev) =>
             prev.includes(courseId)
@@ -47,7 +39,7 @@ export const CourseHeader = ({ coursesData }: any) => {
                             onOpenChange={() => toggleCourse(course?.id)}
                         >
                             <CollapsibleTrigger asChild>
-                                <CardHeader className="cursor-pointer transition-all pb-4">
+                                <div className="cursor-pointer transition-all pb-4">
                                     {/* Course Title Section */}
                                     <div className="space-y-4">
                                         <div className="flex items-start justify-between gap-4">
@@ -70,7 +62,7 @@ export const CourseHeader = ({ coursesData }: any) => {
                                         {/* Stats Grid */}
                                         <CourseHeaderStats course={course} />
                                     </div>
-                                </CardHeader>
+                                </div>
                             </CollapsibleTrigger>
                             <CollapsibleContent>
                                 <PlacementRequirementsConfiguration

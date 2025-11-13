@@ -10,7 +10,7 @@ import { notificationsEndpoints } from './notifications'
 import { rtosEndpoints } from './rtos'
 
 import { LogoutType } from '@hooks'
-import { emptySplitApi } from '@queries/portals/empty.query'
+import { apiSlice } from '@queries/portals/empty.query'
 import { UserStatus } from '@types'
 import { agreementsEndpoints } from './agreement'
 import { allowLoginEndpoints } from './allowLogin'
@@ -24,7 +24,7 @@ import { traineeshipProgramEndpoints } from './traineeshipProgram'
 import { workBasedProgramEndpoints } from './workBasedProgram'
 import { aiAssistantEndpoints } from './ai-assistant'
 
-export const commonApi = emptySplitApi('commonApi').injectEndpoints({
+export const commonApi = apiSlice.injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
     endpoints: (build) => ({
         getSerchedPlaces: build.query<any, any>({

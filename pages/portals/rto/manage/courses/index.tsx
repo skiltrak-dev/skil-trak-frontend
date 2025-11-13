@@ -1,9 +1,9 @@
-import { LoadingAnimation, NoData } from '@components'
+import { LoadingAnimation, NoData, TechnicalError } from '@components'
 import { RtoLayoutV2 } from '@layouts'
 import { ActionRequiredHeader } from '@partials'
 import { CourseHeader } from '@partials/rto-v2/courses'
 import { RtoApi } from '@queries'
-import { GraduationCap, Info, Users } from 'lucide-react'
+import { GraduationCap, Info } from 'lucide-react'
 import { ReactElement } from 'react'
 
 export const Courses = () => {
@@ -11,9 +11,6 @@ export const Courses = () => {
     console.log('data', data)
     return (
         <div className="space-y-6">
-            {/* Header */}
-            {/* <CoursesSetup /> */}
-            {/* Courses List */}
             <ActionRequiredHeader
                 icon={GraduationCap}
                 title="Course Setup & Configuration"
@@ -27,6 +24,7 @@ export const Courses = () => {
                 iconGradient="from-primaryNew to-primaryNew"
                 WarningIcon={Info}
             />
+            {isError ? <TechnicalError /> : null}
             {isLoading ? (
                 <LoadingAnimation />
             ) : data && data?.length > 0 ? (

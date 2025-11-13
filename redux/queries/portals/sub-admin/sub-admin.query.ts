@@ -1,7 +1,8 @@
 import { SubAdmin, UserStatus } from '@types'
-import { emptySplitApi } from '../empty.query'
+import { apiSlice } from '../empty.query'
 import { subAdminAppointmentspoints } from './appointments'
 import { assessmentEvidenceEndpoints } from './assessmentEvidence'
+import { deptKpiProgressEndpoints } from './deptKpiProgress'
 import { subAdminIndustriesEndpoints } from './industries'
 import { studentsLogbookEndpoints } from './logbookSign'
 import { notesEndpoints } from './notes'
@@ -16,8 +17,7 @@ import { talentPoolEndpoints } from './talentPool'
 import { todoListEndpoints } from './todoList'
 import { subadminVolunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
-import { deptKpiProgressEndpoints } from './deptKpiProgress'
-export const subAdminApi = emptySplitApi('subAdminApi').injectEndpoints({
+export const subAdminApi = apiSlice.injectEndpoints({
     // export const subAdminApi = createApi({
     //     reducerPath: 'subAdminApi',
     //     baseQuery: fetchBaseQuery({

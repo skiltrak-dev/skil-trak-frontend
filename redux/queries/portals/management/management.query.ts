@@ -1,9 +1,9 @@
-import { emptySplitApi } from '../empty.query'
+import { apiSlice } from '../empty.query'
 import { documentsEndpoints } from './documents'
 import { teamEndpoints } from './team'
 import { checkKpiEndpoints } from './checkKpi'
 
-export const managementApi = emptySplitApi('managementApi').injectEndpoints({
+export const managementApi = apiSlice.injectEndpoints({
     endpoints: (build) => ({
         ...documentsEndpoints(build),
         ...teamEndpoints(build),

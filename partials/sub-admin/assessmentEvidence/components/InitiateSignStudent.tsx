@@ -17,7 +17,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useMemo, useState } from 'react'
 import { MdEmail } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
-import { emptySplitApi } from '@queries/portals/empty.query'
+import { apiSlice } from '@queries/portals/empty.query'
 import { PuffLoader } from 'react-spinners'
 
 const UserCellInfo = ({
@@ -289,10 +289,8 @@ export const InitiateSignStudent = ({
                         description: 'Document Initiated Successfully',
                     })
 
-                    dispatch(
-                        emptySplitApi().util.invalidateTags(['SubAdminStudents'])
-                    )
-                    dispatch(emptySplitApi().util.invalidateTags(['E-Sign']))
+                    dispatch(apiSlice.util.invalidateTags(['SubAdminStudents']))
+                    dispatch(apiSlice.util.invalidateTags(['E-Sign']))
                     onCancel()
                 }
                 setIsLoading(false)

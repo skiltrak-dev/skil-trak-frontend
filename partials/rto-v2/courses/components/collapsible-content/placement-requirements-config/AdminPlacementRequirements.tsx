@@ -44,7 +44,7 @@ export const AdminPlacementRequirements = ({ course }: any) => {
         : countWords(content)
 
     return (
-        <Collapsible open={open} onOpenChange={setOpen} className="mx-6">
+        <Collapsible open={open} onOpenChange={setOpen}>
             <div className="bg-gradient-to-br from-mutedNew/30 to-mutedNew/50 rounded-xl border border-border/50 overflow-hidden">
                 <CollapsibleTrigger className="w-full p-4 flex items-center justify-between hover:bg-mutedNew/20 transition-colors">
                     <div className="flex items-center gap-2">

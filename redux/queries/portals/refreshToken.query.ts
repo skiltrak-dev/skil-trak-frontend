@@ -5,6 +5,7 @@ import { AuthUtils } from '@utils'
 // initialize an empty api service that we'll inject endpoints into later as needed
 
 export const refreshTokenApi = createApi({
+    reducerPath: 'refreshApi',
     baseQuery: fetchBaseQuery({
         baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
         prepareHeaders: (headers, { getState }) => {

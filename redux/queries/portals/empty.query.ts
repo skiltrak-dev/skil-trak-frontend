@@ -72,6 +72,7 @@ const rtoTagTypes = [
     'Rto-Students',
     'RTOWorkplace',
     'RtoDocuments',
+    'RTO-V2-Courses',
     'RTOIndustries',
     'RTOAppointment',
     'ContactPersons',
@@ -165,35 +166,34 @@ const managementTypes = [
     'TeamManagement',
     'KpiReportDocument',
 ]
-export const emptySplitApi = (reducerPath = 'dashboardAPi') =>
-    createApi({
-        reducerPath,
-        baseQuery: fetchBaseQuery({
-            baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
-            prepareHeaders: async (headers, { getState }) => {
-                // const token = AuthUtils.getToken()
-                const token = AuthUtils.token()
+export const apiSlice = createApi({
+    reducerPath: 'api',
+    baseQuery: fetchBaseQuery({
+        baseUrl: `${process.env.NEXT_PUBLIC_END_POINT}/`,
+        prepareHeaders: async (headers, { getState }) => {
+            // const token = AuthUtils.getToken()
+            const token = AuthUtils.token()
 
-                // const session: any = await getSession()
+            // const session: any = await getSession()
 
-                if (token) {
-                    headers.set('authorization', `Bearer ${token}`)
-                }
-                // if (session?.accessToken) {
-                //     headers.set('authorization', `Bearer ${session?.accessToken}`)
-                // }
-                return headers
-            },
-        }),
-        tagTypes: [
-            ...rtoTagTypes,
-            ...adminTagTypes,
-            ...commonTagTypes,
-            ...studentTagTypes,
-            ...managementTypes,
-            ...industryTagTypes,
-            ...subadminTagTypes,
-        ],
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            // if (session?.accessToken) {
+            //     headers.set('authorization', `Bearer ${session?.accessToken}`)
+            // }
+            return headers
+        },
+    }),
+    tagTypes: [
+        ...rtoTagTypes,
+        ...adminTagTypes,
+        ...commonTagTypes,
+        ...studentTagTypes,
+        ...managementTypes,
+        ...industryTagTypes,
+        ...subadminTagTypes,
+    ],
 
-        endpoints: () => ({}),
-    })
+    endpoints: () => ({}),
+})
