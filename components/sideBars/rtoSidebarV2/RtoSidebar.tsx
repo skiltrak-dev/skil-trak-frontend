@@ -16,6 +16,7 @@ import {
     Settings,
     GraduationCap,
     Briefcase,
+    User2,
 } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { ImportStudentsModal } from '@partials'
@@ -79,7 +80,7 @@ const menuSections = [
                 icon: Flag,
                 label: 'Resolve Issues',
                 key: 'Resolve Issues',
-                path: '/portals/rto/dashboard/resolve-issues?tab=open-issues',
+                path: '/portals/rto/action-required/resolve-issues?tab=open-issues',
                 badge: '30',
                 bg: 'bg-yellow-50 border border-yellow-200',
                 iconBg: 'bg-yellow-500',
@@ -106,7 +107,7 @@ const menuSections = [
                 icon: Briefcase,
                 label: 'Placement Requests',
                 key: 'Placement Requests',
-                path: '/portals/rto/dashboard/placement-requests?tab=student-need-wp',
+                path: '/portals/rto/students-and-placements/placement-requests?tab=student-need-wp',
                 bg: 'bg-indigo-50 border border-indigo-200',
                 iconBg: 'bg-indigo-500',
                 badgeBg: 'bg-indigo-500',
@@ -116,7 +117,7 @@ const menuSections = [
                 icon: Briefcase,
                 label: 'Student Schedule',
                 key: 'Student Schedule',
-                path: '/portals/rto/dashboard/student-schedule',
+                path: '/portals/rto/students-and-placements/student-schedule',
                 bg: 'bg-indigo-50 border border-indigo-200',
                 iconBg: 'bg-indigo-500',
                 badgeBg: 'bg-indigo-500',
@@ -188,16 +189,27 @@ const menuSections = [
                 icon: Building2,
                 label: 'Industries',
                 key: 'Industries',
+                path: '/portals/rto/manage/industries',
                 bg: 'bg-slate-50 border border-slate-200',
                 iconBg: 'bg-slate-500',
                 badgeBg: 'bg-slate-500',
                 text: 'text-slate-700',
             },
             {
+                icon: User2,
+                label: 'Team',
+                path: '/portals/rto/manage/team?tab=my-team',
+                key: 'User',
+                bg: 'bg-zinc-50 border border-zinc-200',
+                iconBg: 'bg-zinc-500',
+                badgeBg: 'bg-zinc-500',
+                text: 'text-zinc-700',
+            },
+            {
                 icon: GraduationCap,
                 label: 'Courses',
                 key: 'Courses',
-                path: '/portals/rto/dashboard/courses',
+                path: '/portals/rto/manage/courses',
                 bg: 'bg-zinc-50 border border-zinc-200',
                 iconBg: 'bg-zinc-500',
                 badgeBg: 'bg-zinc-500',
@@ -322,7 +334,7 @@ export const RtoSidebar = ({ isOpen, onClose, onNavigate, activeKey }: any) => {
         <>
             {modal}
             {/*======================== Desktop sidebar ======================= */}
-            <aside className="hidden md:flex md:flex-col w-72 shrink-0 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+            <aside className="hidden md:flex md:flex-col w-64 shrink-0 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
                 {/* ================== FIXED TOP LOGO AREA ================= */}
                 <div className="p-4 border-b border-sidebar-border shrink-0">
                     <div className="flex items-center gap-3 cursor-pointer group relative">

@@ -19,7 +19,6 @@ export const InfoCardsData = ({
     supervisor: any
     courseInfo: any
 }) => {
-    console.log({ courseInfo })
     const { documentsViewModal, onFileClicked } = DocumentsView()
 
     const infoCardsData = [

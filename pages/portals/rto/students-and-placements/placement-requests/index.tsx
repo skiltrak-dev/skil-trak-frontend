@@ -7,15 +7,7 @@ import {
 } from '@partials'
 import { ActionRequiredHeader, Title } from '@partials/rto-v2/components'
 import { RtoV2Api } from '@queries'
-import {
-    Briefcase,
-    ClipboardCheck,
-    Play,
-    Sparkles,
-    TrendingUp,
-    User,
-    Users,
-} from 'lucide-react'
+import { Briefcase } from 'lucide-react'
 import { ReactElement } from 'react'
 
 export const PlacementRequests = () => {
@@ -55,7 +47,7 @@ export const PlacementRequests = () => {
                 totalRequests={count?.data?.all || 0}
                 needsWorkplaceCount={count?.data?.requested || 0}
                 providedWorkplaceCount={count?.data?.provided || 0}
-            // activePlacementsCount={10}
+                // activePlacementsCount={10}
             />
 
             <Card
@@ -63,10 +55,7 @@ export const PlacementRequests = () => {
                 className="border border-border/50 shadow-premium-lg"
             >
                 <div className="border-b p-6">
-                    <Title
-                        Icon={Briefcase}
-                        title="Placement Requests"
-                    />
+                    <Title Icon={Briefcase} title="Placement Requests" />
                 </div>
 
                 <TabNavigation tabs={tabs}>

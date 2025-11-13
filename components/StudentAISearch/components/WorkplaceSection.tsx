@@ -61,7 +61,7 @@ export function WorkplaceSection({ student }: WorkplaceSectionProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="rounded-2xl border-2 border-dashed border-border bg-white h-full p-6 shadow-lg lg:col-span-2"
+                className="rounded-md border-2 border-dashed border-border bg-white h-full p-6 shadow-lg lg:col-span-2"
             >
                 <div className="flex flex-col items-center justify-center text-center space-y-6">
                     {/* Icon */}

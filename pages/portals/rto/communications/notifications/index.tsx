@@ -4,11 +4,7 @@ import { Bell } from 'lucide-react'
 import React, { ReactElement } from 'react'
 
 const NotificationsPage = () => {
-    return (
-        <div>
-            <NotificationList />
-        </div>
-    )
+    return <NotificationList />
 }
 
 NotificationsPage.getLayout = (page: ReactElement) => {

@@ -4,13 +4,7 @@ import { CourseDot } from '@partials/rto/student/components'
 import { Course, Rto, Student, SubAdmin } from '@types'
 import { ViewCoursesCB } from '../contextBar'
 
-export const CoursesCell = ({
-    coordinator,
-    showAction = true,
-}: {
-    showAction?: boolean
-    coordinator: any
-}) => {
+export const CoursesCell = ({ coordinator }: { coordinator: any }) => {
     const contextBar = useContextBar()
 
     const onViewSectorClicked = (subAdmin: SubAdmin) => {
@@ -22,15 +16,13 @@ export const CoursesCell = ({
     return (
         <div className="w-fit">
             <div className="flex flex-col items-center">
-                {showAction && (
-                    <ActionButton
-                        variant="link"
-                        onClick={() => onViewSectorClicked(coordinator)}
-                        simple
-                    >
-                        View / Edit
-                    </ActionButton>
-                )}
+                <ActionButton
+                    variant="link"
+                    onClick={() => onViewSectorClicked(coordinator)}
+                    simple
+                >
+                    View / Edit
+                </ActionButton>
                 <div className="flex gap-x-1">
                     {coordinator.courses.map((c: Course) => (
                         <CourseDot key={c?.id} course={c} />

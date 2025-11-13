@@ -98,11 +98,6 @@ export const Select = forwardRef(
                     //     )
                     // }
 
-                    console.log(
-                        'Array.isArray(fieldValue)',
-                        Array.isArray(fieldValue)
-                    )
-
                     if (
                         Array.isArray(fieldValue) &&
                         fieldValue.length > 0 &&
@@ -265,7 +260,6 @@ export const Select = forwardRef(
             defaultValue: any,
             fieldValue: any
         ) => {
-            console.log({ fieldValue })
             return (
                 <ReactSelect
                     name={name}

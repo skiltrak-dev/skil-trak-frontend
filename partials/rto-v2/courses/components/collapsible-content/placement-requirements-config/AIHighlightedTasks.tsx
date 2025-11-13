@@ -44,16 +44,14 @@ export const AIHighlightedTasks = ({ course }: any) => {
     }, [removeDiffResult.isSuccess])
 
     const logbookSummaryId =
-        course?.rtoCourseFiles?.find(
-            (f: any, index: number) => f.title === 'logBook'
-        )?.rtoLogbookSummary?.[0]?.id || null
+        course?.rtoCourseFiles?.find((f: any) => f.title === 'logBook')
+            ?.rtoLogbookSummary?.[0]?.id || null
 
     const handleAdd = async () => {
         if (!newTask.trim()) return
         addDiff({
             id: logbookSummaryId,
             body: { tasks: [newTask] },
-
         })
         setNewTask('')
     }
@@ -61,16 +59,15 @@ export const AIHighlightedTasks = ({ course }: any) => {
     const handleRemove = (index: number) => {
         removeDiff({
             id: logbookSummaryId,
-            params: { index }
+            params: { index },
         })
     }
     const highlightedTasks =
-        course?.rtoCourseFiles
-            ?.flatMap((file: any) =>
-                file?.rtoLogbookSummary?.flatMap(
-                    (summary: any) => summary?.highLightedTasks ?? []
-                )
-            ) || [];
+        course?.rtoCourseFiles?.flatMap((file: any) =>
+            file?.rtoLogbookSummary?.flatMap(
+                (summary: any) => summary?.highLightedTasks ?? []
+            )
+        ) || []
 
     return (
         <Collapsible
@@ -94,7 +91,6 @@ export const AIHighlightedTasks = ({ course }: any) => {
                         className="bg-accent/10 text-accent border-accent/30"
                     >
                         {highlightedTasks.length} key tasks
-
                     </Badge>
                     <Button
                         size="sm"
@@ -115,10 +111,11 @@ export const AIHighlightedTasks = ({ course }: any) => {
                             : 'Edit'}
                     </Button>
                     <ChevronDown
-                        className={`h-4 w-4 transition-transform shrink-0 ${highlightedTasksOpen[course.id] ?? false
-                            ? ''
-                            : '-rotate-90'
-                            }`}
+                        className={`h-4 w-4 transition-transform shrink-0 ${
+                            highlightedTasksOpen[course.id] ?? false
+                                ? ''
+                                : '-rotate-90'
+                        }`}
                     />
                 </CollapsibleTrigger>
                 <CollapsibleContent>
@@ -127,24 +124,31 @@ export const AIHighlightedTasks = ({ course }: any) => {
                             <NoData text="No highlighted tasks found" />
                         ) : (
                             <ul className="space-y-2">
-                                {highlightedTasks.map((task: any, index: number) => (
-                                    <li
-                                        key={index}
-                                        className="text-xs text-muted-foreground flex items-start gap-2"
-                                    >
-                                        <CheckCircle2 className="h-3.5 w-3.5 text-accent shrink-0 mt-0.5" />
-                                        <span className="flex-1">{task}</span>
+                                {highlightedTasks.map(
+                                    (task: any, index: number) => (
+                                        <li
+                                            key={index}
+                                            className="text-xs text-muted-foreground flex items-start gap-2"
+                                        >
+                                            <CheckCircle2 className="h-3.5 w-3.5 text-accent shrink-0 mt-0.5" />
+                                            <span className="flex-1">
+                                                {task}
+                                            </span>
 
-                                        {editingHighlightedTasks === course.id && (
-                                            <button
-                                                onClick={() => handleRemove(index)}
-                                                className="hover:bg-accent/20 rounded-full p-0.5 shrink-0"
-                                            >
-                                                <X className="h-3 w-3 text-accent" />
-                                            </button>
-                                        )}
-                                    </li>
-                                ))}
+                                            {editingHighlightedTasks ===
+                                                course.id && (
+                                                <button
+                                                    onClick={() =>
+                                                        handleRemove(index)
+                                                    }
+                                                    className="hover:bg-accent/20 rounded-full p-0.5 shrink-0"
+                                                >
+                                                    <X className="h-3 w-3 text-accent" />
+                                                </button>
+                                            )}
+                                        </li>
+                                    )
+                                )}
                             </ul>
                         )}
 

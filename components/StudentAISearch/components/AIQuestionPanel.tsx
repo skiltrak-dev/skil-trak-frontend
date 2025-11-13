@@ -10,6 +10,7 @@ import {
 import { CreateStudentNote } from '@partials/common/Notes/forms'
 import { CommonApi } from '@queries'
 import { Student } from '@types'
+import { isBrowser } from '@utils'
 import {
     FileText,
     Loader2,
@@ -58,8 +59,28 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
 
+    const onHandleScroll = (i: string) => {
+        if (isBrowser()) {
+            const parentDiv = document.getElementById('parent-div') // Replace with actual ID
+
+            console.log({ parentDiv })
+
+            if (parentDiv) {
+                const detailItem = document.getElementById(`detail-item-${i}`)
+                console.log({ detailItem })
+                if (detailItem) {
+                    const detailTop = detailItem.offsetTop // Get detail item's position within the div
+                    parentDiv.scrollTo({
+                        top: detailTop,
+                        behavior: 'smooth',
+                    }) // Scroll parent div to reveal the detail item
+                }
+            }
+        }
+    }
+
     useEffect(() => {
-        scrollToBottom()
+        onHandleScroll(messages?.[messages?.length - 1]?.id)
     }, [messages])
 
     const onSubmit = async (q: string) => {
@@ -71,6 +92,7 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
             timestamp: new Date(),
         }
         setMessages((prev) => [...prev, userMessage])
+        // onHandleScroll(userMessage?.id)
         setQuestion('')
 
         // Call AI
@@ -81,6 +103,7 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
 
         // Add AI response
         if (response?.data) {
+            console.log({ hello: response })
             const aiMessage: Message = {
                 id: (Date.now() + 1).toString(),
                 type: 'ai',
@@ -89,6 +112,10 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
             }
             setMessages((prev) => [...prev, aiMessage])
             setResetKey((prev) => prev + 1) // Force TextArea to remount
+            // onHandleScroll(aiMessage?.id)
+            // setTimeout(() => {
+            //     scrollToBottom()
+            // }, 200)
         }
     }
 
@@ -150,7 +177,7 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
             <ShowErrorNotifications result={aiAssisstantResult} />
             <Card
                 noPadding
-                className="overflow-hidden rounded-2xl border-2 shadow-xl h-full flex flex-col"
+                className="overflow-hidden !rounded-md border-2 shadow-xl h-full flex flex-col"
             >
                 {/* Header */}
                 <div className="p-2.5 border-b bg-gradient-to-br from-blue-100 via-blue-100 to-blue-100">
@@ -172,8 +199,9 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
 
                 {/* Chat Messages Area */}
                 <div
-                    ref={chatContainerRef}
-                    className="flex-1 max-h-96 overflow-y-auto p-4 space-y-4 custom-scrollbar"
+                    // ref={chatContainerRef}
+                    id={'parent-div'}
+                    className="max-h-96 overflow-y-auto p-4 space-y-4 custom-scrollbar"
                 >
                     {messages.length === 0 ? (
                         <div className="space-y-3">
@@ -199,6 +227,7 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
                             {messages.map((msg) => (
                                 <div
                                     key={msg.id}
+                                    id={`detail-item-${msg?.id}`}
                                     className={`flex ${
                                         msg.type === 'user'
                                             ? 'justify-end'
@@ -239,7 +268,7 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
                                     </div>
                                 </div>
                             )}
-                            <div ref={messagesEndRef} />
+                            {/* <div ref={messagesEndRef} /> */}
                         </>
                     )}
                 </div>

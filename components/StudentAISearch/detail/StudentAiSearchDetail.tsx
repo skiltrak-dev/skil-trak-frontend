@@ -38,26 +38,6 @@ export const StudentAiSearchDetail = () => {
                     transition={{ duration: 0.3 }}
                     className="space-y-2"
                 >
-                    {/* Header */}
-                    {/* <div className="text-center">
-                        <motion.div
-                            initial={{ scale: 0.9, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ delay: 0.1 }}
-                            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primaryNew/10 via-primaryNew/20 to-primaryNew/10 px-2 py-1 text-xs text-primaryNew"
-                        >
-                            <Sparkles className="h-4 w-4" />
-                            <span>AI Powered Student Insights</span>
-                        </motion.div>
-                        <motion.h1
-                            initial={{ y: 10, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.2 }}
-                            className="text-2xl"
-                        >
-                            Student Profile
-                        </motion.h1>
-                    </div> */}
                     {profile.isError ? <TechnicalError /> : null}
                     {profile.isLoading || profile.isFetching ? (
                         <LoadingAnimation />
@@ -86,11 +66,16 @@ export const StudentAiSearchDetail = () => {
                                             student={profile?.data}
                                         />
                                     </motion.div>
-                                    <div className="sticky top-8 h-full">
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.1 }}
+                                        className="sticky top-8 h-full"
+                                    >
                                         <AIQuestionPanel
                                             student={profile?.data}
                                         />
-                                    </div>
+                                    </motion.div>
                                 </div>
                             </div>
                             {/* Floating AI Button - Mobile only */}

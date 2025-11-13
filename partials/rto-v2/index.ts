@@ -1,5 +1,7 @@
+export * from './team'
 export * from './dashboard'
 export * from './components'
+export * from './industries'
 export * from './submissions'
 export * from './all-students'
 export * from './appointments'

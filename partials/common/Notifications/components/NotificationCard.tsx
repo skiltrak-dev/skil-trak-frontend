@@ -49,17 +49,13 @@ export const NotificationCard = ({
                     notification.isRead ? 'text-white' : 'text-[#4779ED]'
                 } `}
             />
-            <div className="w-12 h-11 relative">
-                <InitialAvatar
-                    large
-                    name="Saad"
-                    imageUrl={notification?.avatar}
-                />
+            <div className="w-12  relative">
+                <InitialAvatar name="Saad" imageUrl={notification?.avatar} />
             </div>
             <div className="flex justify-between items-center w-full">
                 <div>
                     <Typography
-                        variant={'subtitle'}
+                        variant={'label'}
                         color={
                             notification.isRead
                                 ? '!text-[#979797]'

@@ -118,8 +118,6 @@ export const PendingPlacement = () => {
                 wpApprovalRequests?.data?.data?.map((approval: any) => {
                     const isExpanded = expandedCards.has(approval.id)
 
-                    console.log({ mainApp: approval })
-
                     return (
                         <Card
                             key={approval.id}

@@ -138,7 +138,7 @@ const AdminDashboard: NextPageWithLayout = () => {
                     /> */}
                 </div>
             </div>
-            <StudentAISearch detailPageLink="/portals/admin/student-ai-search" />
+            <StudentAISearch />
             <div className="flex flex-col">
                 {/* Bar chart */}
                 {/* <ViewProgressByCourseAdmin /> */}

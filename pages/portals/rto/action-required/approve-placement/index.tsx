@@ -3,11 +3,7 @@ import { RtoWpApprovalPlacements } from '@partials'
 import React, { ReactElement } from 'react'
 
 const ApprovePlacementsPage = () => {
-    return (
-        <div>
-            <RtoWpApprovalPlacements />
-        </div>
-    )
+    return <RtoWpApprovalPlacements />
 }
 
 ApprovePlacementsPage.getLayout = (page: ReactElement) => {

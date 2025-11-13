@@ -104,7 +104,7 @@ export function EnhancedStudentProfile({
                 <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    className="relative overflow-hidden rounded-xl border-2 border-border bg-gradient-to-br from-card via-card to-primaryNew/5 shadow-xl"
+                    className="relative overflow-hidden rounded-md border-2 border-border bg-gradient-to-br from-card via-card to-primaryNew/5 shadow-xl"
                 >
                     {/* Background Pattern */}
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_var(--primaryNew)_0%,_transparent_50%)] opacity-5" />

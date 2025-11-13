@@ -65,8 +65,6 @@ export const IndustryFilters = ({
         label: state?.name,
     }))
 
-    console.log({ stateCodes })
-
     return (
         <>
             <SetQueryFilters<AdminIndustryFormFilter> filter={updatedFilter} />

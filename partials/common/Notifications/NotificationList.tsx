@@ -13,7 +13,7 @@ export const NotificationList = ({ userId }: { userId?: number }) => {
 
     return (
         <div className="flex flex-col gap-y-2">
-            <div className="bg-white px-6 pt-3 flex items-center gap-x-14">
+            <div className="bg-white px-6 pt-3 flex items-center gap-x-6">
                 {notificationTabs?.map((tab) => (
                     <div
                         className={`cursor-pointer pb-3 flex items-center gap-x-2 border-b-4 border-white ${
@@ -22,7 +22,7 @@ export const NotificationList = ({ userId }: { userId?: number }) => {
                         onClick={() => setSelectedTab(tab?.text)}
                     >
                         <IoIosNotificationsOutline size={20} />
-                        <Typography variant="label" bold cursorPointer>
+                        <Typography variant="small" bold cursorPointer>
                             {tab?.text}{' '}
                         </Typography>
                     </div>

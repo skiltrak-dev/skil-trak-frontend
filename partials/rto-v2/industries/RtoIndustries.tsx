@@ -1,7 +1,6 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 // Layouts
-import { RtoLayout } from '@layouts'
-import { NextPageWithLayout, RTOWorkplaceFormFilter } from '@types'
+import { RTOWorkplaceFormFilter } from '@types'
 //components
 import {
     Card,
@@ -22,9 +21,8 @@ import { useGetRTOWorkplacesQuery } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { getUserCredentials } from '@utils'
 import { useRouter } from 'next/router'
-import { FaFileExport } from 'react-icons/fa'
-
-type Props = {}
+import { ActionRequiredHeader } from '../components'
+import { Building2 } from 'lucide-react'
 
 const filterKeys = [
     'studentId',
@@ -36,7 +34,7 @@ const filterKeys = [
     'courseId',
 ]
 
-const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
+export const RtoIndustries = () => {
     const router = useRouter()
     const [filterAction, setFilterAction] = useState(null)
     const [filter, setFilter] = useState<RTOWorkplaceFormFilter>(
@@ -131,41 +129,18 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                 filterKeys={filterKeys}
                 setFilter={setFilter}
             />
-            <div className="mb-5">
-                <div className="flex justify-between items-center">
-                    <PageTitle
-                        title={'Industries'}
-                        navigateBack
-                        backTitle={'Dashboard'}
-                    />
-                    {/* {filterAction} */}
-                </div>
 
-                {/* <Filter<RTOWorkplaceFormFilter>
-                    component={RTOWorkplaceFilters}
-                    initialValues={filter}
-                    filterKeys={filterKeys}
-                    setFilterAction={setFilterAction}
-                    setFilter={setFilter}
-                /> */}
-                {/* <div className="flex justify-end">
-                    {data && data?.data.length ? (
-                        <>
-                            <a
-                                href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/workplaces/download/${userId}`}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                <Button
-                                    text={'Export'}
-                                    variant={'action'}
-                                    Icon={FaFileExport}
-                                />
-                            </a>
-                        </>
-                    ) : null}
-                </div> */}
-            </div>
+            <ActionRequiredHeader
+                urgentCount={11}
+                icon={Building2}
+                gradientTo="primaryNew"
+                gradientFrom="primaryNew"
+                title="Industry Partners"
+                urgentLabel="Total Students"
+                iconGradient="from-primaryNew to-primaryNew"
+                description="Manage workplace partners and placement opportunities"
+            />
+
             <Card noPadding>
                 {isError && <TechnicalError />}
                 {isLoading ? (
@@ -180,7 +155,7 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
                         }: any) => {
                             return (
                                 <div>
-                                    <div className="p-6 mb-2 flex justify-between">
+                                    <div className="mb-2 flex justify-between">
                                         {pageSize(itemPerPage, setItemPerPage)}
                                         <div className="flex gap-x-2">
                                             {quickActions}
@@ -210,16 +185,3 @@ const RtoWorkplaces: NextPageWithLayout = (props: Props) => {
         </>
     )
 }
-RtoWorkplaces.getLayout = (page: ReactElement) => {
-    return (
-        <RtoLayout
-        // pageTitle={{
-        //     title: 'Workplaces',
-        // }}
-        >
-            {page}
-        </RtoLayout>
-    )
-}
-
-export default RtoWorkplaces

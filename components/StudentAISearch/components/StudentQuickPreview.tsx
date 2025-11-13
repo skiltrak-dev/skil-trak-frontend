@@ -11,10 +11,7 @@ interface StudentQuickPreviewProps {
     student: Student
 }
 
-export function StudentQuickPreview({
-    link,
-    student,
-}: StudentQuickPreviewProps) {
+export function StudentQuickPreview({ student }: StudentQuickPreviewProps) {
     const router = useRouter()
 
     const role = getUserCredentials()?.role
@@ -27,7 +24,7 @@ export function StudentQuickPreview({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="group relative overflow-hidden rounded-2xl border-2 border-border bg-card shadow-lg transition-all hover:border-primaryNew hover:shadow-xl"
+            className="group relative overflow-hidden rounded-md border-2 border-border bg-card shadow-lg transition-all hover:border-primaryNew hover:shadow-xl"
         >
             {/* Gradient Background */}
             <div className="absolute inset-0 bg-gradient-to-br from-primaryNew/5 via-transparent to-primaryNew/5 opacity-0 transition-opacity group-hover:opacity-100" />

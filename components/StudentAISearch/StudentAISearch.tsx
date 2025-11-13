@@ -3,11 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useCallback, useState } from 'react'
 import { StudentQuickPreview, StudentSearchBar } from './components'
 
-export const StudentAISearch = ({
-    detailPageLink,
-}: {
-    detailPageLink?: string
-}) => {
+export const StudentAISearch = () => {
     const [previewStudent, setPreviewStudent] = useState<Student | null>(null)
 
     const handleSelectStudent = useCallback((student: Student) => {
@@ -57,7 +53,6 @@ export const StudentAISearch = ({
                                         transition={{ duration: 0.2 }}
                                     >
                                         <StudentQuickPreview
-                                            link={`${detailPageLink}/${previewStudent?.id}`}
                                             student={previewStudent}
                                         />
                                     </motion.div>
