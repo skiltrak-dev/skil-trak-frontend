@@ -1,7 +1,7 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import { ReactElement, useEffect, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
+import { ReactElement, useEffect, useState } from 'react'
 
 // components
 import {
@@ -104,6 +104,8 @@ export const StudentProfileForm = ({
             setCourseOptions(courseAddedOptions)
         }
     }, [courses])
+
+    console.log({ courseValues, courseDefaultOptions })
 
     useEffect(() => {
         if (courses?.data?.length > 0 && courses?.isSuccess) {
@@ -571,31 +573,27 @@ export const StudentProfileForm = ({
                                     )}
                                 </div>
                                 <div>
-                                    {courseOptions &&
-                                        courseOptions?.length > 0 && (
-                                            <Select
-                                                label={'Courses'}
-                                                name={'courses'}
-                                                value={courseValues}
-                                                defaultValue={
-                                                    courseDefaultOptions
-                                                }
-                                                options={courseOptions}
-                                                multi
-                                                validationIcons
-                                                onChange={(e: any) => {
-                                                    setCourseValues(e)
-                                                }}
-                                                disabled={isHod}
-                                                components={{
-                                                    Option: CourseSelectOption,
-                                                }}
-                                                formatOptionLabel={
-                                                    formatOptionLabel
-                                                }
-                                            />
-                                        )}
-                                    {!courseOptions?.length && (
+                                    {/* {courseOptions &&
+                                        courseOptions?.length > 0 && ( */}
+                                    <Select
+                                        label={'Courses'}
+                                        name={'courses'}
+                                        value={courseValues}
+                                        // defaultValue={courseDefaultOptions}
+                                        options={courseOptions}
+                                        multi
+                                        validationIcons
+                                        onChange={(e: any) => {
+                                            setCourseValues(e)
+                                        }}
+                                        disabled={isHod}
+                                        components={{
+                                            Option: CourseSelectOption,
+                                        }}
+                                        formatOptionLabel={formatOptionLabel}
+                                    />
+                                    {/* )} */}
+                                    {/* {!courseOptions?.length && (
                                         <Select
                                             label={'Courses'}
                                             name={'courses'}
@@ -614,7 +612,7 @@ export const StudentProfileForm = ({
                                                 formatOptionLabel
                                             }
                                         />
-                                    )}
+                                    )} */}
                                 </div>
                             </div>
                         )}

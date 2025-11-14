@@ -3,19 +3,17 @@ import {
     LoadingAnimation,
     NoData,
     ShowErrorNotifications,
-    useIsRestricted,
+    useIsRestricted
 } from '@components'
 import { SubAdminApi, useAddExistingIndustriesMutation } from '@queries'
 import {
     CheckCircle2,
     MapPin,
     Phone,
-    Sparkles,
-    Star,
-    Users,
+    Sparkles
 } from 'lucide-react'
 import { ReactElement, useEffect, useState } from 'react'
-import { IoDocumentTextOutline, IoMailOutline } from 'react-icons/io5'
+import { IoDocumentTextOutline } from 'react-icons/io5'
 
 import { UserRoles } from '@constants'
 import {
@@ -34,8 +32,8 @@ import {
     MaxReqLimitReachModal,
     ShowIndustryNotesAndTHModal,
 } from '../../../../../modals'
-import { OnViewMapCallAnswer } from './OnViewMapCallAnswer'
 import { CallStatus } from './CallStatus'
+import { OnViewMapCallAnswer } from './OnViewMapCallAnswer'
 
 export const OnViewMapIndustryDetailsTab = ({
     selectedBox,
@@ -281,6 +279,7 @@ export const OnViewMapIndustryDetailsTab = ({
                             </div>
                         </div>
                     </div>
+
                     <div className="grid grid-cols-2 gap-1 mt-4 px-2">
                         <div className="flex flex-col gap-y-2">
                             <Button

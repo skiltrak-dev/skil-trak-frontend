@@ -36,7 +36,7 @@ export const VerifyCapacityComponent = ({
         setModal(
             <WpConfirmCapacity
                 onCancel={onCancel}
-                wpReqApproval={wpReqApproval}
+                wpReqApproval={{ ...wpReqApproval, courseId }}
             />
         )
     }

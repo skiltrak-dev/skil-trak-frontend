@@ -1,8 +1,6 @@
 import { Button } from '@components/buttons'
-import { TextInput } from '@components/inputs'
 import { Portal } from '@components/Portal'
 import { useState } from 'react'
-import { FaBan } from 'react-icons/fa'
 
 export const ActionModalType = {
     primary: 'text-orange-500',

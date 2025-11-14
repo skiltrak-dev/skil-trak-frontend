@@ -77,14 +77,15 @@ export const Select = forwardRef(
     ) => {
         const formContext = useFormContext()
 
-        useEffect(() => {
-            if ((value || defaultValue) && formContext) {
-                formContext.setValue(name, handleChange(value || defaultValue))
-            }
-        }, [value, defaultValue])
+        // useEffect(() => {
+        //     if ((value || defaultValue) && formContext) {
+        //         formContext.setValue(name, handleChange(value || defaultValue))
+        //     }
+        // }, [value, defaultValue])
 
         // Convert form values to react-select format
         const getDisplayValue = (fieldValue: any) => {
+            console.log({ fieldValue, name })
             if (!fieldValue) return multi ? [] : null
 
             if (multi) {
@@ -114,7 +115,10 @@ export const Select = forwardRef(
                     }
                 } else {
                     if (typeof fieldValue === 'object') {
-                        return fieldValue
+                        return fieldValue?.map((f: OptionType) => ({
+                            label: f?.label,
+                            value: f?.value,
+                        }))
                     } else {
                         return options?.filter((opt: OptionType) =>
                             fieldValue.includes(opt.value)
@@ -281,7 +285,7 @@ export const Select = forwardRef(
                     {...(passValue && fieldValue
                         ? { value: getDisplayValue(fieldValue) }
                         : {})}
-                    // value={value}
+                    value={value}
                     formatOptionLabel={formatOptionLabel}
                     {...(components ? { components } : {})}
                     className={`basic-single w-full ${shadow}`}
