@@ -10,6 +10,7 @@ import {
     Student,
     StudentStatusEnum,
     UserStatus,
+    WorkplaceTypes,
 } from '@types'
 
 const PREFIX = 'subadmin'
@@ -929,5 +930,14 @@ export const studentsEndpoints = (
             body,
         }),
         invalidatesTags: ['SubAdminStudents', 'Industries'],
+    }),
+
+    studentRtoWpTypes: builder.query<
+        WorkplaceTypes[],
+        { courseId: number; rtoId: number }
+    >({
+        query: ({ courseId, rtoId }) =>
+            `subadmin/course/${courseId}/rto/${rtoId}/workplace-types`,
+        providesTags: ['SubAdminStudents', 'Industries'],
     }),
 })

@@ -3,13 +3,10 @@ import {
     Typography,
     draftToHtmlText,
 } from '@components'
-import React from 'react'
+import { useNotification } from '@hooks'
+import { CommonApi } from '@queries'
 import { LiaTimesSolid } from 'react-icons/lia'
 import { ComposeMailForm } from '../forms'
-import { CommonApi } from '@queries'
-import { AuthUtils } from '@utils'
-import { values } from 'lodash'
-import { useNotification } from '@hooks'
 
 export const ComposeMail = ({
     parentId,

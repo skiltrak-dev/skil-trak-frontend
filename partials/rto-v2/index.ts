@@ -1,4 +1,5 @@
 export * from './team'
+export * from './email'
 export * from './dashboard'
 export * from './components'
 export * from './industries'

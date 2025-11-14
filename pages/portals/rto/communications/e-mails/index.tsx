@@ -1,10 +1,10 @@
-import { RtoLayoutV2 } from '@layouts'
-import { MailsListing } from '@partials/common/MailsListing'
 import { ReactElement } from 'react'
+import { RtoEmails } from '@partials'
+import { RtoLayoutV2 } from '@layouts'
 import { BiEnvelope } from 'react-icons/bi'
 
 const MailsPage = () => {
-    return <MailsListing />
+    return <RtoEmails />
 }
 
 MailsPage.getLayout = (page: ReactElement) => {

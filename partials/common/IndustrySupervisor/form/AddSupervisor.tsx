@@ -18,7 +18,7 @@ export const AddSupervisor = ({
     initialValues,
     edit,
     sector,
-    onCloseModal
+    onCloseModal,
 }: any) => {
     const { notification } = useNotification()
 
@@ -43,7 +43,7 @@ export const AddSupervisor = ({
                 title: 'Supervisor Added',
                 description: 'Supervisor Added Successfully',
             })
-            onCloseModal()
+            onCloseModal && onCloseModal()
         }
     }, [addSupervisorResult])
 
@@ -53,7 +53,7 @@ export const AddSupervisor = ({
                 title: 'Supervisor Updated',
                 description: 'Supervisor Updated Successfully',
             })
-            onCloseModal()
+            onCloseModal && onCloseModal()
         }
     }, [editSupervisorResult])
 
@@ -62,6 +62,7 @@ export const AddSupervisor = ({
         // email: Yup.string().required('Email is required!'),
         level: Yup.number().required('Qualification is required!'),
         title: Yup.string().required('Course Title is required!'),
+        experience: Yup.string().required('Experience is required!'),
     })
 
     const methods = useForm({
@@ -73,14 +74,14 @@ export const AddSupervisor = ({
     const onSubmit = async (values: any) => {
         edit
             ? editSupervisor({
-                ...values,
-                industry: industry?.id,
-            })
+                  ...values,
+                  industry: industry?.id,
+              })
             : addSupervisor({
-                ...values,
-                industry: industry?.id,
-                sector: sector?.id,
-            })
+                  ...values,
+                  industry: industry?.id,
+                  sector: sector?.id,
+              })
     }
 
     const isLoading = edit
@@ -88,7 +89,7 @@ export const AddSupervisor = ({
         : addSupervisorResult.isLoading
 
     return (
-        <div className='w-full md:w-[600px]'>
+        <div className="w-full md:w-[600px]">
             <ShowErrorNotifications result={addSupervisorResult} />
             <ShowErrorNotifications result={editSupervisorResult} />
             <Typography variant={'small'} color={'text-gray-500'}>
@@ -122,7 +123,7 @@ export const AddSupervisor = ({
                                     (l: OptionType) =>
                                         l.value === selectedQualification
                                 )}
-                            // menuPlacement="top"
+                                // menuPlacement="top"
                             />
                         </div>
 
@@ -130,6 +131,13 @@ export const AddSupervisor = ({
                             label={'Course Title'}
                             name={'title'}
                             placeholder={'Your Course Title Here...'}
+                            validationIcons
+                            required
+                        />
+                        <TextInput
+                            label={'Experience'}
+                            name={'experience'}
+                            placeholder={'Your Experience Here...'}
                             validationIcons
                             required
                         />

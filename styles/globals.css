@@ -1078,6 +1078,12 @@
         backdrop-filter: blur(50%);
     }
 
+    .shadow-premium-lg {
+        box-shadow: 0 8px 32px -4px rgba(4, 72, 102, 0.15),
+            0 4px 16px -4px rgba(4, 72, 102, 0.1),
+            0 0 0 1px rgba(4, 72, 102, 0.03);
+    }
+
     @keyframes blink {
         0%,
         100% {

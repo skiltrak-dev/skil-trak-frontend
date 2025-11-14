@@ -30,6 +30,7 @@ export const WpApprovalRequest = ({
                         ...latestWorkplaceApprovaleRequest,
                         student: {
                             location: workplaceStudentDetail?.data?.location,
+                            rto: { id: workplaceStudentDetail?.data?.rto?.id },
                         },
                     }}
                     course={selectedWorkplace?.courses?.[0]}

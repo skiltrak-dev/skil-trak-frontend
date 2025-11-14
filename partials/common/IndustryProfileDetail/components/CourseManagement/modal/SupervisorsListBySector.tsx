@@ -20,6 +20,7 @@ export const SupervisorsListBySector = ({
     getSupervisorBySector,
     onCloseModal,
 }: any) => {
+    console.log({ getSupervisorBySector })
     const contextBar = useContextBar()
 
     const qualificationLevel = SupervisorQualification?.find(
@@ -109,6 +110,15 @@ export const SupervisorsListBySector = ({
                                     </Typography>
                                     <Typography variant="subtitle">
                                         {getSupervisorBySector?.data?.title}
+                                    </Typography>
+                                </div>
+                                <div className="border-t mt-3">
+                                    <Typography variant="label">
+                                        Experiance:
+                                    </Typography>
+                                    <Typography variant="subtitle">
+                                        {getSupervisorBySector?.data
+                                            ?.experience || '---'}
                                     </Typography>
                                 </div>
                                 {/* <div className="mt-4 text-right">
