@@ -85,7 +85,6 @@ export const Select = forwardRef(
 
         // Convert form values to react-select format
         const getDisplayValue = (fieldValue: any) => {
-            console.log({ fieldValue, name })
             if (!fieldValue) return multi ? [] : null
 
             if (multi) {
@@ -285,7 +284,7 @@ export const Select = forwardRef(
                     {...(passValue && fieldValue
                         ? { value: getDisplayValue(fieldValue) }
                         : {})}
-                    value={value}
+                    // value={value}
                     formatOptionLabel={formatOptionLabel}
                     {...(components ? { components } : {})}
                     className={`basic-single w-full ${shadow}`}

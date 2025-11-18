@@ -63,11 +63,8 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
         if (isBrowser()) {
             const parentDiv = document.getElementById('parent-div') // Replace with actual ID
 
-            console.log({ parentDiv })
-
             if (parentDiv) {
                 const detailItem = document.getElementById(`detail-item-${i}`)
-                console.log({ detailItem })
                 if (detailItem) {
                     const detailTop = detailItem.offsetTop // Get detail item's position within the div
                     parentDiv.scrollTo({
@@ -103,7 +100,6 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
 
         // Add AI response
         if (response?.data) {
-            console.log({ hello: response })
             const aiMessage: Message = {
                 id: (Date.now() + 1).toString(),
                 type: 'ai',
@@ -187,7 +183,7 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
                         </div>
                         <div>
                             <Typography variant="subtitle" semibold>
-                                Ask AI About This Student
+                                Ask AI Bunny This Student
                             </Typography>
                             <Typography variant="small" color="text-gray-700">
                                 Get instant insights about placement status,
@@ -245,7 +241,7 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
                                             <div className="flex items-center gap-2 mb-2">
                                                 <Sparkles className="h-4 w-4 text-primaryNew" />
                                                 <span className="text-xs font-semibold text-primaryNew">
-                                                    AI Assistant
+                                                    AI Bunny
                                                 </span>
                                             </div>
                                         )}
@@ -262,7 +258,7 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
                                         <div className="flex items-center gap-2">
                                             <Loader2 className="h-4 w-4 animate-spin text-primaryNew" />
                                             <span className="text-sm text-gray-600">
-                                                Trak AI is thinking...
+                                                Bunny AI is thinking...
                                             </span>
                                         </div>
                                     </div>

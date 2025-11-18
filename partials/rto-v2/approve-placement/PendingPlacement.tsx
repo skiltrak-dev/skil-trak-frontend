@@ -4,9 +4,10 @@ import {
     CollapsibleContent,
     LoadingAnimation,
     TechnicalError,
+    Button,
 } from '@components'
 import { RtoApi } from '@queries'
-import { CheckCircle2 } from 'lucide-react'
+import { CheckCircle2, ChevronDown, Info } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import {
@@ -21,7 +22,6 @@ import {
     WorkplaceType,
     WpEligibilityAssessment,
 } from './components'
-import { ShowMoreAction } from './components/ShowMoreAction'
 
 type MatchingType = 'automation' | 'manual'
 
@@ -146,6 +146,24 @@ export const PendingPlacement = () => {
                                     />
                                 </div>
 
+                                <Button
+                                    variant={
+                                        isExpanded ? 'primaryNew' : 'primary'
+                                    }
+                                    fullWidth
+                                    onClick={() =>
+                                        router.push(
+                                            `/portals/rto/action-required/approve-placement/${approval?.id}`
+                                        )
+                                    }
+                                >
+                                    <span className="flex items-center gap-2">
+                                        <Info className="h-5 w-5" />
+                                        {isExpanded ? 'Hide' : 'Show'} Workplace
+                                        Eligibility Assessment
+                                    </span>
+                                </Button>
+
                                 {/* Expandable Section Toggle */}
                                 <Collapsible
                                     open={isExpanded}
@@ -153,7 +171,7 @@ export const PendingPlacement = () => {
                                         toggleCardExpansion(approval.id)
                                     }
                                 >
-                                    <ShowMoreAction isExpanded={isExpanded} />
+                                    {/* <ShowMoreAction isExpanded={isExpanded} /> */}
 
                                     <CollapsibleContent>
                                         {/* <Separator className="my-4" /> */}

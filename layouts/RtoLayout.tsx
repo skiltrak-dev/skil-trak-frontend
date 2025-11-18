@@ -106,6 +106,10 @@ export const RtoLayout = ({ pageTitle, children }: RtoLayoutProps) => {
         }
     }, [pendingDocuments, router])
 
+    if (!mounted) {
+        return <></>
+    }
+
     return (
         <RedirectUnApprovedUsers
             getRoutePath={getRoutePath}

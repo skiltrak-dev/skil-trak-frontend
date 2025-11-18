@@ -11,7 +11,7 @@ import {
     TechnicalError,
     WorkplaceSection,
 } from '@components'
-import { useGetSubAdminStudentDetailQuery } from '@queries'
+import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 
 export const StudentAiSearchDetail = () => {
@@ -21,7 +21,7 @@ export const StudentAiSearchDetail = () => {
 
     const studentId = Number(router.query?.id)
 
-    const profile = useGetSubAdminStudentDetailQuery(studentId, {
+    const profile = CommonApi.AiAssistant.aiStudentSearchDetail(studentId, {
         skip: !studentId,
         refetchOnMountOrArgChange: 30,
     })
@@ -29,7 +29,6 @@ export const StudentAiSearchDetail = () => {
     return (
         <>
             <div>
-                {' '}
                 <motion.div
                     key="student"
                     initial={{ opacity: 0, y: 20 }}

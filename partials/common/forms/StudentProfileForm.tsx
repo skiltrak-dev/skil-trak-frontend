@@ -105,8 +105,6 @@ export const StudentProfileForm = ({
         }
     }, [courses])
 
-    console.log({ courseValues, courseDefaultOptions })
-
     useEffect(() => {
         if (courses?.data?.length > 0 && courses?.isSuccess) {
             setSectors([

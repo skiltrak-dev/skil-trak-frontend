@@ -20,7 +20,6 @@ export const SupervisorsListBySector = ({
     getSupervisorBySector,
     onCloseModal,
 }: any) => {
-    console.log({ getSupervisorBySector })
     const contextBar = useContextBar()
 
     const qualificationLevel = SupervisorQualification?.find(

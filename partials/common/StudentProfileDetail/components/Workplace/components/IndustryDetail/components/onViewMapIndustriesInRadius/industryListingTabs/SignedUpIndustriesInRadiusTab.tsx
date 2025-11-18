@@ -27,7 +27,7 @@ export const SignedUpIndustriesInRadiusTab = ({
                     limit: itemPerPage,
                 },
             },
-            { skip: !courseId && !workplaceId, refetchOnMountOrArgChange: true }
+            { skip: !courseId && !workplaceId, refetchOnMountOrArgChange: 30 }
         )
     return (
         <div className="h-[25rem] overflow-auto remove-scrollbar space-y-4">

@@ -658,6 +658,7 @@ const {
     // ---- AI ASSISTANT ---- //
     useSearchStudentQuery,
     useAskAiAboutStudentMutation,
+    useAiStudentSearchDetailQuery,
     useStudentWorkplaceRequestQuery,
 } = commonApi
 
@@ -1000,6 +1001,7 @@ export const CommonApi = {
     AiAssistant: {
         searchStudent: useSearchStudentQuery,
         askAiAboutStudent: useAskAiAboutStudentMutation,
+        aiStudentSearchDetail: useAiStudentSearchDetailQuery,
         studentWorkplaceRequest: useStudentWorkplaceRequestQuery,
     },
 }

@@ -1,11 +1,12 @@
-import { TabNavigation, TabProps } from '@components'
 import React from 'react'
+import { RtoApi } from '@queries'
+import { School } from 'lucide-react'
+import { ActionRequiredHeader } from '../components'
+import { TabNavigation, TabProps } from '@components'
 import { PendingPlacement } from './PendingPlacement'
 import { ApprovedPlacement } from './ApprovedPlacement'
 import { RejectedPlacement } from './RejectedPlacement'
-import { ActionRequiredHeader } from '../components'
-import { School } from 'lucide-react'
-import { RtoApi } from '@queries'
+import { PlacementApprovalDetail } from './detail'
 
 export const RtoWpApprovalPlacements = () => {
     const count = RtoApi.Workplace.wpApprovalRequestCount()
@@ -60,7 +61,6 @@ export const RtoWpApprovalPlacements = () => {
                 gradientFrom="primaryNew"
                 gradientTo="primaryNew"
                 iconGradient="from-primaryNew to-primaryNew"
-                
             />
 
             <TabNavigation tabs={tabs}>

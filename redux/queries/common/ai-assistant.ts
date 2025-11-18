@@ -28,6 +28,11 @@ export const aiAssistantEndpoints = (
         }),
         providesTags: ['RTO'],
     }),
+
+    aiStudentSearchDetail: builder.query<Student, number>({
+        query: (id) => `ai/assistant/student/${id}/detail/get`,
+        providesTags: ['RTO'],
+    }),
     studentWorkplaceRequest: builder.query<IWorkplaceIndustries[], number>({
         query: (id) => `rtos/student/${id}/get/workplace-request`,
         providesTags: ['RTO'],

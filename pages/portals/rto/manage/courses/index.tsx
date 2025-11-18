@@ -8,7 +8,6 @@ import { ReactElement } from 'react'
 
 export const Courses = () => {
     const { data, isLoading, isError } = RtoApi.Courses.useRtoCourses()
-    console.log('data', data)
     return (
         <div className="space-y-6">
             <ActionRequiredHeader

@@ -17,9 +17,14 @@ interface RtoLayoutProps {
         iconClasses?: string
         description?: string
     }
+    childrenClasses?: string
 }
 
-export const RtoLayoutV2 = ({ children, titleProps }: RtoLayoutProps) => {
+export const RtoLayoutV2 = ({
+    children,
+    titleProps,
+    childrenClasses,
+}: RtoLayoutProps) => {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [activeView, setActiveView] = useState('Dashboard')
 
@@ -44,7 +49,9 @@ export const RtoLayoutV2 = ({ children, titleProps }: RtoLayoutProps) => {
                     />
                 </div>
                 {/* Main scrollable content */}
-                <main className="flex-1 overflow-y-auto p-4 md:p-6  mx-auto w-full">
+                <main
+                    className={`flex-1 overflow-y-auto p-4 md:p-6 mx-auto w-full ${childrenClasses}`}
+                >
                     <div>{children}</div>
                 </main>
                 <div className="h-[10px]">

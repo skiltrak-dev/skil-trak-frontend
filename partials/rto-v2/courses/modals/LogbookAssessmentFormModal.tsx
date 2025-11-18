@@ -252,7 +252,6 @@ export const LogbookAssessmentForm = ({
         if (status === 'formReady') {
             onStatusChange('inProgress')
         }
-        console.log('Form saved')
     }
 
     const handleSubmit = () => {

@@ -1,4 +1,5 @@
 import { apiSlice } from '../empty.query'
+import { approvalRequestEndpoints } from './approval-request'
 import { availableServicesEndpoints } from './availableServices'
 import { coursesEndPoints } from './courses'
 import { dashboardEndpoints } from './dashboard'
@@ -7,11 +8,12 @@ import { studentsEndpoints } from './students'
 
 export const rtoV2Api = apiSlice.injectEndpoints({
     endpoints: (build) => ({
+        ...coursesEndPoints(build),
         ...studentsEndpoints(build),
         ...dashboardEndpoints(build),
-        ...availableServicesEndpoints(build),
+        ...approvalRequestEndpoints(build),
         ...placementRequestsEndPoints(build),
-        ...coursesEndPoints(build),
+        ...availableServicesEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -52,6 +54,9 @@ const {
     useGetWpForAutoMatchingQuery,
     useAddSingleStudentWithPlacementTypeMutation,
     useRunAutomationForAvailabeleStudentsMutation,
+
+    // ---- Approval Requests ---- //
+    useApprovalRequestDetailQuery,
 } = rtoV2Api
 
 export const RtoV2Api = {
@@ -93,5 +98,8 @@ export const RtoV2Api = {
         addIndividualStudent: useAddSingleStudentWithPlacementTypeMutation,
         runAutomationForAvailabeleStudents:
             useRunAutomationForAvailabeleStudentsMutation,
+    },
+    ApprovalRequest: {
+        approvalRequestDetail: useApprovalRequestDetailQuery,
     },
 }

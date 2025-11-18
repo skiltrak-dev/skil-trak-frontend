@@ -5,12 +5,23 @@ import {
     LoadingAnimation,
     TechnicalError,
 } from '@components'
-import { AssessmentSummary, CoordinatorFinalComment, IndustryInfo, InfoCardsData, PlacementTopSection, ShowMoreAction, WorkplaceDetailAndService, WorkplaceMatchScore, WorkplaceStatus, WorkplaceType, WpEligibilityAssessment } from '@partials/rto-v2/approve-placement/components'
+import {
+    AssessmentSummary,
+    CoordinatorFinalComment,
+    IndustryInfo,
+    InfoCardsData,
+    PlacementTopSection,
+    ShowMoreAction,
+    WorkplaceDetailAndService,
+    WorkplaceMatchScore,
+    WorkplaceStatus,
+    WorkplaceType,
+    WpEligibilityAssessment,
+} from '@partials/rto-v2/approve-placement/components'
 import { RtoApi, SubAdminApi } from '@queries'
 import { CheckCircle2 } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-
 
 type MatchingType = 'automation' | 'manual'
 
@@ -76,15 +87,16 @@ export const PendingWpRequest = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const wpApprovalRequests = SubAdminApi.Workplace.useRtoWpApprovalRequestPendingList(
-        {
-            limit: itemPerPage,
-            skip: itemPerPage * page - itemPerPage,
-        },
-        {
-            refetchOnMountOrArgChange: 30,
-        }
-    )
+    const wpApprovalRequests =
+        SubAdminApi.Workplace.useRtoWpApprovalRequestPendingList(
+            {
+                limit: itemPerPage,
+                skip: itemPerPage * page - itemPerPage,
+            },
+            {
+                refetchOnMountOrArgChange: 30,
+            }
+        )
 
     const toggleCardExpansion = (id: string) => {
         const newExpanded = new Set(expandedCards)
@@ -102,12 +114,10 @@ export const PendingWpRequest = () => {
             {wpApprovalRequests?.isLoading || wpApprovalRequests?.isFetching ? (
                 <LoadingAnimation height="h-[60vh]" />
             ) : wpApprovalRequests?.data &&
-                wpApprovalRequests?.data?.data.length &&
-                wpApprovalRequests?.isSuccess ? (
+              wpApprovalRequests?.data?.data.length &&
+              wpApprovalRequests?.isSuccess ? (
                 wpApprovalRequests?.data?.data?.map((approval: any) => {
                     const isExpanded = expandedCards.has(approval.id)
-
-                    console.log({ mainApp: approval })
 
                     return (
                         <Card
