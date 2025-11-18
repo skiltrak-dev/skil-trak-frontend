@@ -76,10 +76,9 @@ export function ProgramsInfo() {
                                     {qual.skillSets.map((skillSet, index) => (
                                         <Badge
                                             key={index}
+                                            text={skillSet}
                                             className="bg-[#F7A619] text-white"
-                                        >
-                                            {skillSet}
-                                        </Badge>
+                                        />
                                     ))}
                                 </div>
                             </div>
