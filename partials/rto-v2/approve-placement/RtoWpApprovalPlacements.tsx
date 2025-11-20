@@ -1,12 +1,10 @@
-import React from 'react'
+import { TabNavigation, TabProps } from '@components'
 import { RtoApi } from '@queries'
 import { School } from 'lucide-react'
 import { ActionRequiredHeader } from '../components'
-import { TabNavigation, TabProps } from '@components'
-import { PendingPlacement } from './PendingPlacement'
 import { ApprovedPlacement } from './ApprovedPlacement'
+import { PendingPlacement } from './PendingPlacement'
 import { RejectedPlacement } from './RejectedPlacement'
-import { PlacementApprovalDetail } from './detail'
 
 export const RtoWpApprovalPlacements = () => {
     const count = RtoApi.Workplace.wpApprovalRequestCount()

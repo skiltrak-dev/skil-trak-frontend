@@ -20,6 +20,7 @@ import {
     EditIndustryCourseContent,
     IndustryCourseSupervisors,
     UploadCourseFile,
+    AddCourseProgramIndustry,
 } from '../components'
 import {
     getCleanExternalUrl,
@@ -33,14 +34,14 @@ import {
     RejectCourseModal,
     Status,
 } from '@partials/sub-admin'
-import { FaCircleCheck } from 'react-icons/fa6'
 import { MdCancel } from 'react-icons/md'
+import { FaCircleCheck } from 'react-icons/fa6'
 
 export const CourseCard = ({
     data,
     industry,
-    isPreviousCourses = false,
     isPending = false,
+    isPreviousCourses = false,
 }: any) => {
     const approvals = useMemo(
         () =>
@@ -130,7 +131,7 @@ export const CourseCard = ({
                                 >
                                     <div className="border bg-[#95C6FB26] bg-opacity-15">
                                         <div className="px-4 pt-4 flex justify-between gap-x-12 w-full items-center mb-4">
-                                            <div className='space-y-2'>
+                                            <div className="space-y-2">
                                                 <Typography
                                                     variant="small"
                                                     color="text-gray-600"
@@ -172,7 +173,7 @@ export const CourseCard = ({
                                             </div>
                                             <div></div>
 
-                                            <div className="flex items-center gap-x-2">
+                                            <div className="flex flex-col justify-end items-end gap-2">
                                                 {!isPreviousCourses && (
                                                     <>
                                                         {!approval?.isContentVerified &&
@@ -204,65 +205,65 @@ export const CourseCard = ({
                                                                     />
                                                                 </AuthorizedUserComponent>
                                                             )}
-                                                        <>
-                                                            {isPending && (
-                                                                <div className="flex gap-x-1 items-center">
-                                                                    <Modal>
-                                                                        <Modal.Open opens="approveCourseRequest">
-                                                                            <div className="relative group">
-                                                                                <ActionButton
-                                                                                    disabled={
-                                                                                        approval?.status !==
-                                                                                        Status.PENDING
-                                                                                    }
-                                                                                    Icon={
-                                                                                        FaCircleCheck
-                                                                                    }
-                                                                                    variant="success"
-                                                                                />
-                                                                                <Tooltip>
-                                                                                    Approve
-                                                                                    Course
-                                                                                </Tooltip>
-                                                                            </div>
-                                                                        </Modal.Open>
-                                                                        <Modal.Window name="approveCourseRequest">
-                                                                            <ApproveCourseModal
-                                                                                request={
-                                                                                    approval
+                                                        {isPending && (
+                                                            <div className="flex gap-x-1 items-center">
+                                                                <Modal>
+                                                                    <Modal.Open opens="approveCourseRequest">
+                                                                        <div className="relative group">
+                                                                            <ActionButton
+                                                                                disabled={
+                                                                                    approval?.status !==
+                                                                                    Status.PENDING
                                                                                 }
-                                                                            />
-                                                                        </Modal.Window>
-                                                                    </Modal>
-                                                                    <Modal>
-                                                                        <Modal.Open opens="rejectCourseRequest">
-                                                                            <div className="relative group">
-                                                                                <ActionButton
-                                                                                    disabled={
-                                                                                        approval?.status !==
-                                                                                        Status.PENDING
-                                                                                    }
-                                                                                    Icon={
-                                                                                        MdCancel
-                                                                                    }
-                                                                                    variant="error"
-                                                                                />
-                                                                                <Tooltip>
-                                                                                    Reject
-                                                                                    Course
-                                                                                </Tooltip>
-                                                                            </div>
-                                                                        </Modal.Open>
-                                                                        <Modal.Window name="rejectCourseRequest">
-                                                                            <RejectCourseModal
-                                                                                request={
-                                                                                    approval
+                                                                                Icon={
+                                                                                    FaCircleCheck
                                                                                 }
+                                                                                variant="success"
                                                                             />
-                                                                        </Modal.Window>
-                                                                    </Modal>
-                                                                </div>
-                                                            )}
+                                                                            <Tooltip>
+                                                                                Approve
+                                                                                Course
+                                                                            </Tooltip>
+                                                                        </div>
+                                                                    </Modal.Open>
+                                                                    <Modal.Window name="approveCourseRequest">
+                                                                        <ApproveCourseModal
+                                                                            request={
+                                                                                approval
+                                                                            }
+                                                                        />
+                                                                    </Modal.Window>
+                                                                </Modal>
+                                                                <Modal>
+                                                                    <Modal.Open opens="rejectCourseRequest">
+                                                                        <div className="relative group">
+                                                                            <ActionButton
+                                                                                disabled={
+                                                                                    approval?.status !==
+                                                                                    Status.PENDING
+                                                                                }
+                                                                                Icon={
+                                                                                    MdCancel
+                                                                                }
+                                                                                variant="error"
+                                                                            />
+                                                                            <Tooltip>
+                                                                                Reject
+                                                                                Course
+                                                                            </Tooltip>
+                                                                        </div>
+                                                                    </Modal.Open>
+                                                                    <Modal.Window name="rejectCourseRequest">
+                                                                        <RejectCourseModal
+                                                                            request={
+                                                                                approval
+                                                                            }
+                                                                        />
+                                                                    </Modal.Window>
+                                                                </Modal>
+                                                            </div>
+                                                        )}
+                                                        <div className="flex flex-col items-end gap-2">
                                                             {!isPending && (
                                                                 <>
                                                                     <UploadCourseFile
@@ -270,31 +271,38 @@ export const CourseCard = ({
                                                                             approval
                                                                         }
                                                                     />
-                                                                    <EditIndustryCourseContent
+                                                                </>
+                                                            )}
+                                                            <div className="flex items-end gap-2">
+                                                                <EditIndustryCourseContent
+                                                                    approval={
+                                                                        approval
+                                                                    }
+                                                                />
+
+                                                                <AuthorizedUserComponent
+                                                                    roles={[
+                                                                        UserRoles.ADMIN,
+                                                                    ]}
+                                                                    isHod
+                                                                    isAssociatedWithRto={
+                                                                        false
+                                                                    }
+                                                                >
+                                                                    <DeleteIndustryCourse
                                                                         approval={
                                                                             approval
                                                                         }
                                                                     />
-                                                                </>
-                                                            )}
-                                                        </>
-                                                        <AuthorizedUserComponent
-                                                            roles={[
-                                                                UserRoles.ADMIN,
-                                                            ]}
-                                                            isHod
-                                                            isAssociatedWithRto={
-                                                                false
-                                                            }
-                                                        >
-                                                            <DeleteIndustryCourse
-                                                                approval={
-                                                                    approval
-                                                                }
-                                                            />
-                                                        </AuthorizedUserComponent>
+                                                                </AuthorizedUserComponent>
+                                                            </div>{' '}
+                                                        </div>
                                                     </>
                                                 )}
+                                                <AddCourseProgramIndustry
+                                                    approval={approval}
+                                                    industry={industry}
+                                                />
                                                 {isPreviousCourses && (
                                                     <AddContentForOldIndustry
                                                         id={approval?.id}

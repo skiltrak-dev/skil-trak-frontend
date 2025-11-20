@@ -9,7 +9,6 @@ import { UserRoles } from '@constants'
 import { useContextBar } from '@hooks'
 import { SupervisorQualification } from '@partials/common/IndustrySupervisor'
 import { AddSupervisor } from '@partials/common/IndustrySupervisor/form'
-import { IndustryApi } from '@queries'
 import Image from 'next/image'
 
 import { MdModeEdit } from 'react-icons/md'

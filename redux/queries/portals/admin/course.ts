@@ -2,14 +2,12 @@ import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
 import {
-    UserCount,
-    PaginatedResponse,
-    Rto,
-    UserStatus,
-    Sector,
     Course,
-    PaginationWithSearch,
     CourseWithAssessmentEvidence,
+    PaginatedResponse,
+    PaginationValues,
+    PaginationWithSearch,
+    CourseProgramType,
 } from '@types'
 
 const PREFIX = 'admin'
@@ -91,5 +89,40 @@ export const courseEndpoints = (
             method: 'PATCH',
         }),
         invalidatesTags: ['Courses'],
+    }),
+
+    addCourseProgram: builder.mutation<
+        Course,
+        { title: string; course: number }
+    >({
+        query: (body) => ({
+            url: `${PREFIX}/course-program/add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Courses'],
+    }),
+
+    updateCourseProgram: builder.mutation<
+        Course,
+        { title: string; id: number }
+    >({
+        query: ({ id, ...body }) => ({
+            url: `${PREFIX}/course-program/${id}/update`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['Courses'],
+    }),
+
+    courseProgramList: builder.query<
+        PaginatedResponse<CourseProgramType>,
+        PaginationValues & { id: number }
+    >({
+        query: ({ id, ...params }) => ({
+            url: `${PREFIX}/course/${id}/programs/list`,
+            params,
+        }),
+        providesTags: ['Courses'],
     }),
 })

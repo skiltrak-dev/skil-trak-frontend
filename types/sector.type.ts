@@ -74,3 +74,28 @@ export interface CourseDetailType extends Course {
     assessmentEvidence: AssessmentEvidenceFolder[]
     folder: Folder[]
 }
+
+export interface CourseProgramType extends BaseResponse {
+    id: number
+    title: string
+    course: Course
+}
+
+export enum DeliveryMode {
+    ONSITE = 'onsite',
+    ONLINE = 'online',
+    BLENDED = 'blended',
+    SIMULATION = 'simulation',
+}
+
+export interface CourseProgramData extends BaseResponse {
+    id: number
+    deliveryMode: DeliveryMode[]
+    courseProgram: CourseProgramType
+}
+
+export interface IndustrySectorCapacity extends BaseResponse {
+    id: number
+    capacity: string
+    enrolled: string
+}

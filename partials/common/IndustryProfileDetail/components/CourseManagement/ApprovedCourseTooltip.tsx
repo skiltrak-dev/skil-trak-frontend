@@ -1,6 +1,4 @@
-import React from 'react'
 import { Typography } from '@components'
-import { IoCheckmarkDoneOutline } from 'react-icons/io5'
 
 export const ApprovedCourseTooltip = ({ courses }: any) => {
     if (!courses || courses.length === 0) return null

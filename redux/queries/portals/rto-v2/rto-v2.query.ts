@@ -56,7 +56,11 @@ const {
     useRunAutomationForAvailabeleStudentsMutation,
 
     // ---- Approval Requests ---- //
+    useGetWpProgramsQuery,
     useApprovalRequestDetailQuery,
+    useRtoApprovalRequestCourseQuery,
+    useApprovalRequestSupervisorsQuery,
+    useApprovalRequestHighlightedTasksQuery,
 } = rtoV2Api
 
 export const RtoV2Api = {
@@ -100,6 +104,10 @@ export const RtoV2Api = {
             useRunAutomationForAvailabeleStudentsMutation,
     },
     ApprovalRequest: {
+        getWpPrograms: useGetWpProgramsQuery,
         approvalRequestDetail: useApprovalRequestDetailQuery,
+        highlightedTasks: useApprovalRequestHighlightedTasksQuery,
+        rtoApprovalRequestCourse: useRtoApprovalRequestCourseQuery,
+        approvalRequestSupervisors: useApprovalRequestSupervisorsQuery,
     },
 }

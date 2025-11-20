@@ -1,5 +1,6 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
+import { CourseProgramData } from '@types'
 
 const PREFIX = 'rtos/'
 export const approvalRequestEndpoints = (
@@ -7,6 +8,34 @@ export const approvalRequestEndpoints = (
 ) => ({
     approvalRequestDetail: builder.query<any, number>({
         query: (id) => `${PREFIX}workplace-approval/${id}/get-details`,
+        providesTags: ['RTO'],
+    }),
+
+    approvalRequestSupervisors: builder.query<any, number>({
+        query: (id) => `${PREFIX}industry/${id}/supervisors`,
+        providesTags: ['RTO'],
+    }),
+
+    rtoApprovalRequestCourse: builder.query<
+        any,
+        { industryId: number; courseId: number }
+    >({
+        query: ({ industryId, courseId }) =>
+            `${PREFIX}industry/${industryId}/course/${courseId}/requirements`,
+        providesTags: ['RTO'],
+    }),
+
+    approvalRequestHighlightedTasks: builder.query<any, number>({
+        query: (id) => `${PREFIX}course/${id}/tasks`,
+        providesTags: ['RTO'],
+    }),
+
+    getWpPrograms: builder.query<
+        CourseProgramData[],
+        { industryId: number; courseId: number }
+    >({
+        query: ({ industryId, courseId }) =>
+            `${PREFIX}industry/${industryId}/course/${courseId}/programs`,
         providesTags: ['RTO'],
     }),
 })

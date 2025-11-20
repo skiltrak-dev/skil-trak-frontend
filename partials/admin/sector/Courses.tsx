@@ -24,7 +24,12 @@ import { getFilterQuery, isDateWithinLast7Days } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { CourseView } from './contextBar'
-import { DeleteCourseModal, RequirementModal } from './modals'
+import {
+    AddProgramModal,
+    DeleteCourseModal,
+    RequirementModal,
+    ViewProgramModal,
+} from './modals'
 
 const filterKeys = ['code', 'title']
 
@@ -93,6 +98,25 @@ export const Courses = () => {
             />
         )
     }
+
+    const onAddProgram = (course: Course) => {
+        setModal(
+            <AddProgramModal
+                course={course}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
+    const onViewProgram = (course: Course) => {
+        setModal(
+            <ViewProgramModal
+                course={course}
+                onCancel={() => onModalCancelClicked()}
+            />
+        )
+    }
+
     useEffect(() => {
         if (supersedeCourseResult.isSuccess) {
             notification.success({
@@ -116,6 +140,11 @@ export const Courses = () => {
             onClick: (item: any) => {
                 router.push(`/portals/admin/sectors/courses/form/${item.id}`)
             },
+            Icon: FaEdit,
+        },
+        {
+            text: 'Add Program',
+            onClick: (course: Course) => onAddProgram(course),
             Icon: FaEdit,
         },
         {
@@ -201,6 +230,21 @@ export const Courses = () => {
                         }
                     >
                         View File
+                    </ActionButton>
+                )
+            },
+        },
+        {
+            accessorKey: 'program',
+            header: () => <span>Program</span>,
+            cell: (info) => {
+                return (
+                    <ActionButton
+                        variant="link"
+                        simple
+                        onClick={() => onViewProgram(info.row.original)}
+                    >
+                        View Program
                     </ActionButton>
                 )
             },

@@ -44,7 +44,13 @@ export const Modal = ({
     const TitleIcon = titleIcon
 
     return (
-        <GlobalModal>
+        <GlobalModal
+            onCancel={() => {
+                if (onCancelClick) {
+                    onCancelClick()
+                }
+            }}
+        >
             <div className="px-4 py-2 border-b border-secondary-dark flex justify-between items-center">
                 <div>
                     <div className="flex items-center gap-x-2">

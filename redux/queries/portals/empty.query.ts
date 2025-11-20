@@ -36,8 +36,9 @@ const adminTagTypes = [
     'AllowRtoListing',
     'AppointmentTypes',
     'Upload-Blog-Image',
-    'AutoAssignWorkplace',
     'TalentPoolProfiles',
+    'AutoAssignWorkplace',
+    'Industry-Course-Program',
 ]
 
 const subadminTagTypes = [

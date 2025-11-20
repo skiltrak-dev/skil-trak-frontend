@@ -5,6 +5,8 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from '@components/ui'
+import { RtoV2Api } from '@queries'
+import { RtoApprovalWorkplaceRequest } from '@types'
 import {
     CheckCircle2,
     FileCheck,
@@ -14,8 +16,13 @@ import {
     Download,
     ExternalLink,
 } from 'lucide-react'
+import { HighlightedTasks } from './HighlightedTasks'
 
-export function ComplianceDetails() {
+export function ComplianceDetails({
+    approval,
+}: {
+    approval: RtoApprovalWorkplaceRequest
+}) {
     const checklists = [
         {
             title: 'Highlighted Tasks',
@@ -112,6 +119,12 @@ export function ComplianceDetails() {
                     </div>
                 </div>
             </div>
+
+            {/*  */}
+            <HighlightedTasks
+                industry={approval?.industry}
+                coursesId={Number(approval?.workplaceRequest?.courses?.[0]?.id)}
+            />
 
             {checklists.map((checklist, index) => {
                 const Icon = checklist.icon
@@ -242,10 +255,10 @@ export function ComplianceDetails() {
             })}
 
             <Card className="bg-blue-50 border-2 border-blue-200">
-                <div className="pt-5">
+                <div>
                     <Accordion type="single" collapsible>
                         <AccordionItem value="info" className="border-none">
-                            <AccordionTrigger className="text-blue-900 hover:no-underline py-2">
+                            <AccordionTrigger className="text-blue-900 hover:no-underline">
                                 About These Checklists
                             </AccordionTrigger>
                             <AccordionContent className="text-sm text-blue-800 space-y-2 pt-2">

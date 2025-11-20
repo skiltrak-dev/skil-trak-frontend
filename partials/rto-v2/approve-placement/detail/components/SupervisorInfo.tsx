@@ -1,8 +1,28 @@
-import { Badge, Card } from '@components'
+import {
+    Badge,
+    Card,
+    EmptyData,
+    InitialAvatar,
+    LoadingAnimation,
+    TechnicalError,
+} from '@components'
+import { RtoV2Api } from '@queries'
+import { RtoApprovalWorkplaceRequest } from '@types'
 import { User, GraduationCap, Briefcase, Mail, Phone } from 'lucide-react'
 
-export function SupervisorInfo() {
-    const supervisors = [
+export function SupervisorInfo({
+    data,
+}: {
+    data: RtoApprovalWorkplaceRequest
+}) {
+    const supervisors = RtoV2Api.ApprovalRequest.approvalRequestSupervisors(
+        data?.industry?.id,
+        {
+            skip: !data?.industry?.id,
+        }
+    )
+
+    const supervisorss = [
         {
             id: 1,
             name: 'Jennifer Thompson',
@@ -40,113 +60,123 @@ export function SupervisorInfo() {
     ]
 
     return (
-        <div className="space-y-6">
-            {supervisors.map((supervisor) => (
-                <Card
-                    key={supervisor.id}
-                    className="border-2 border-slate-100 hover:border-[#044866]/20 hover:shadow-xl transition-all group"
-                >
-                    <div className="bg-gradient-to-r from-slate-50 to-white">
-                        <div className="flex items-start gap-4">
-                            <div className="w-16 h-16 bg-gradient-to-br from-[#044866] to-[#0D5468] rounded-full flex items-center justify-center text-white flex-shrink-0 shadow-lg group-hover:scale-105 transition-transform">
-                                <span className="text-xl">
-                                    {supervisor.avatar}
-                                </span>
-                            </div>
-                            <div className="flex-1">
-                                <div className="text-[#044866] mb-1">
-                                    {supervisor.name}
-                                </div>
-                                <p className="text-sm text-slate-600">
-                                    {supervisor.role}
-                                </p>
-                                <Badge
-                                    text={`${supervisor.experience} experience`}
-                                    className="mt-2 bg-[#F7A619] text-white"
-                                ></Badge>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="space-y-5 pt-5">
-                        {/* Qualifications */}
-                        <div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <GraduationCap className="w-4 h-4 text-[#0D5468]" />
-                                <h4 className="text-slate-900">
-                                    Qualifications
-                                </h4>
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                                {supervisor.qualifications.map(
-                                    (qual, index) => (
+        <>
+            {supervisors.isError && <TechnicalError />}
+            {supervisors.isLoading ? (
+                <LoadingAnimation height="h-[60vh]" />
+            ) : supervisors?.data &&
+              supervisors?.data?.length > 0 &&
+              supervisors?.isSuccess ? (
+                <div className="space-y-6">
+                    {supervisors?.data?.map((supervisor: any) => (
+                        <Card
+                            key={supervisor?.id}
+                            className="border-2 border-slate-100 hover:border-[#044866]/20 hover:shadow-xl transition-all group"
+                        >
+                            <div className="bg-gradient-to-r from-slate-50 to-white">
+                                <div className="flex items-start gap-4">
+                                    {supervisor?.name && (
+                                        <InitialAvatar
+                                            name={supervisor?.name}
+                                            large
+                                        />
+                                    )}
+                                    <div className="flex-1">
+                                        <div className="text-[#044866] mb-1">
+                                            {supervisor?.name}
+                                        </div>
+                                        <p className="text-sm text-slate-600">
+                                            {supervisor?.role}
+                                        </p>
                                         <Badge
-                                            key={index}
-                                            variant="primaryNew"
-                                            outline
-                                            text={qual}
-                                            className="border-[#044866]/20 text-slate-700"
-                                        ></Badge>
-                                    )
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Experience */}
-                        <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                            <div className="flex items-center gap-2 mb-2">
-                                <Briefcase className="w-4 h-4 text-[#0D5468]" />
-                                <h4 className="text-slate-900">
-                                    Experience & Expertise
-                                </h4>
-                            </div>
-                            <p className="text-sm text-slate-700 leading-relaxed">
-                                {supervisor.experienceDetail}
-                            </p>
-                        </div>
-
-                        {/* Supervision Approach */}
-                        <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
-                            <div className="flex items-center gap-2 mb-2">
-                                <User className="w-4 h-4 text-purple-600" />
-                                <h4 className="text-purple-900">
-                                    Supervision Approach
-                                </h4>
-                            </div>
-                            <p className="text-sm text-purple-800">
-                                {supervisor.supervisionLevel}
-                            </p>
-                        </div>
-
-                        {/* Contact Information */}
-                        <div className="pt-4 border-t border-slate-100">
-                            <h4 className="text-slate-900 mb-3 text-sm">
-                                Contact Information
-                            </h4>
-                            <div className="space-y-2">
-                                <div className="flex items-center gap-3">
-                                    <Mail className="w-4 h-4 text-slate-400" />
-                                    <a
-                                        href={`mailto:${supervisor.email}`}
-                                        className="text-sm text-[#044866] hover:underline"
-                                    >
-                                        {supervisor.email}
-                                    </a>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <Phone className="w-4 h-4 text-slate-400" />
-                                    <span className="text-sm text-slate-700">
-                                        {supervisor.phone}
-                                    </span>
+                                            text={`${supervisor.experience} experience`}
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                            <p className="text-xs text-slate-500 mt-3 italic">
-                                Available for coordination once placement
-                                commences
-                            </p>
-                        </div>
-                    </div>
-                </Card>
-            ))}
-        </div>
+
+                            <div className="space-y-5 pt-5">
+                                {/* Qualifications */}
+                                <div>
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <GraduationCap className="w-4 h-4 text-[#0D5468]" />
+                                        <h4 className="text-slate-900">
+                                            Qualifications
+                                        </h4>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {supervisor?.qualification || '--'}
+                                    </div>
+                                </div>
+
+                                {/* Experience */}
+                                <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <Briefcase className="w-4 h-4 text-[#0D5468]" />
+                                        <h4 className="text-slate-900">
+                                            Experience & Expertise
+                                        </h4>
+                                    </div>
+                                    <p className="text-sm text-slate-700 leading-relaxed">
+                                        {supervisor?.description || '--'}
+                                    </p>
+                                </div>
+
+                                {/* Supervision Approach */}
+                                <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <User className="w-4 h-4 text-purple-600" />
+                                        <h4 className="text-purple-900">
+                                            Supervision Approach
+                                        </h4>
+                                    </div>
+                                    <p className="text-sm text-purple-800">
+                                        {supervisor?.level || '--'}
+                                    </p>
+                                </div>
+
+                                {/* Contact Information */}
+                                <div className="pt-4 border-t border-slate-100">
+                                    <h4 className="text-slate-900 mb-3 text-sm">
+                                        Contact Information
+                                    </h4>
+                                    <div className="space-y-2">
+                                        <div className="flex items-center gap-3">
+                                            <Mail className="w-4 h-4 text-slate-400" />
+                                            <a
+                                                href={`mailto:${supervisor?.email}`}
+                                                className="text-sm text-[#044866] hover:underline"
+                                            >
+                                                {supervisor?.email || '--'}
+                                            </a>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <Phone className="w-4 h-4 text-slate-400" />
+                                            <span className="text-sm text-slate-700">
+                                                {supervisor?.phone || '--'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <p className="text-xs text-slate-500 mt-3 italic">
+                                        Available for coordination once
+                                        placement commences
+                                    </p>
+                                </div>
+                            </div>
+                        </Card>
+                    ))}
+                </div>
+            ) : (
+                supervisors?.isSuccess && (
+                    <EmptyData
+                        title={'No Approved Student!'}
+                        description={
+                            'You have not approved any Student request yet'
+                        }
+                        height={'50vh'}
+                    />
+                )
+            )}
+        </>
     )
 }

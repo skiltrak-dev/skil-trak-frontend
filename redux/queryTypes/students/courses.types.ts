@@ -76,3 +76,4 @@ export interface DataResponse {
     status: string
     file: string
 }
+

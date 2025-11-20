@@ -3,6 +3,8 @@ import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions
 
 import {
     Course,
+    CourseProgramData,
+    DeliveryMode,
     Industry,
     MealTypes,
     PaginatedResponse,
@@ -193,5 +195,41 @@ export const industryEndpoints = (
             'SubAdminCourses',
             'Industries',
         ],
+    }),
+
+    addIndustryCourseProgram: builder.mutation<
+        any,
+        {
+            industry: number
+            courseProgram: number
+            deliveryMode: DeliveryMode[]
+        }
+    >({
+        query: (body) => ({
+            url: `${PREFIX}industry/course-program/add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Industry-Course-Program'],
+    }),
+
+    industryCourseProgramsList: builder.query<
+        CourseProgramData[],
+        {
+            industryId: number
+            courseId: number
+        }
+    >({
+        query: ({ courseId, industryId }) =>
+            `${PREFIX}industry/${industryId}/course/${courseId}/program/list`,
+        providesTags: ['Industry-Course-Program'],
+    }),
+
+    removeCourseProgram: builder.mutation<void, number>({
+        query: (id) => ({
+            url: `${PREFIX}industry/course-program/${id}/remove`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Industry-Course-Program'],
     }),
 })

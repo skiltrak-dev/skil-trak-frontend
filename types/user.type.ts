@@ -6,6 +6,7 @@ import { InvoiceTypeEnum } from '@partials/admin/invoices'
 import {
     AssessmentToolsType,
     Course,
+    IndustrySectorCapacity,
     MealTypes,
     Packages,
     WorkplaceType,
@@ -238,7 +239,7 @@ export interface RtoApprovalWorkplaceRequest extends BaseResponse {
     id: number
     status: string
     isRtoApprovalRequired: boolean
-    rtoApprovalStatus: string
+    rtoApprovalStatus: 'pending' | 'approved' | 'rejected'
     declaration: string
     isAutomated: boolean
     comment: string
@@ -370,6 +371,7 @@ export interface Industry extends BaseResponse {
     courses: Course[]
     branches: Industry[]
     workplaceType: WorkplaceType
+    industrySectorCapacity: IndustrySectorCapacity[]
     createdBy: any
     channel: string
     website: string
