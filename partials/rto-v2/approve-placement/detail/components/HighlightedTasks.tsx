@@ -1,8 +1,8 @@
-import { Badge, Card } from '@components'
-import { RtoV2Api } from '@queries'
-import { Industry } from '@types'
-import { CheckCircle2, FileCheck } from 'lucide-react'
 import React from 'react'
+import { Industry } from '@types'
+import { RtoV2Api } from '@queries'
+import { Badge, Card } from '@components'
+import { CheckCircle2, FileCheck } from 'lucide-react'
 
 export const HighlightedTasks = ({
     coursesId,
@@ -17,10 +17,6 @@ export const HighlightedTasks = ({
             skip: !coursesId,
         }
     )
-
-    console.log({
-        highlightedTasks,
-    })
 
     const getColorClasses = (color: string) => {
         const colors: Record<
@@ -51,6 +47,10 @@ export const HighlightedTasks = ({
 
     const colors = getColorClasses('emerald')
 
+    const data = Array.isArray(highlightedTasks?.data)
+        ? highlightedTasks?.data
+        : []
+
     return (
         <Card
             className={`border-2 ${colors.border} hover:shadow-lg transition-all`}
@@ -77,22 +77,36 @@ export const HighlightedTasks = ({
                 </div>
             </div>
             <div className="space-y-4">
-                {highlightedTasks?.data?.[0].length > 0 && (
+                {highlightedTasks?.data && highlightedTasks?.isSuccess && (
                     <div className="space-y-2.5">
-                        {highlightedTasks?.data?.[0]?.map(
-                            (item: string, itemIndex: number) => (
-                                <div
-                                    key={itemIndex}
-                                    className="flex items-start gap-3"
-                                >
-                                    <CheckCircle2
-                                        className={`w-4 h-4 ${colors.text} mt-0.5 flex-shrink-0`}
-                                    />
-                                    <span className="text-sm text-slate-700">
-                                        {item}
-                                    </span>
-                                </div>
+                        {Array.isArray(highlightedTasks?.data) ? (
+                            highlightedTasks?.data?.[0]?.map(
+                                (item: string, itemIndex: number) => (
+                                    <div
+                                        key={itemIndex}
+                                        className="flex items-start gap-3"
+                                    >
+                                        <CheckCircle2
+                                            className={`w-4 h-4 ${colors.text} mt-0.5 flex-shrink-0`}
+                                        />
+                                        <span className="text-sm text-slate-700">
+                                            {item}
+                                        </span>
+                                    </div>
+                                )
                             )
+                        ) : (
+                            <div className="flex items-start gap-3">
+                                <CheckCircle2
+                                    className={`w-4 h-4 ${colors.text} mt-0.5 flex-shrink-0`}
+                                />
+                                <div
+                                    className="text-sm text-slate-700"
+                                    dangerouslySetInnerHTML={{
+                                        __html: highlightedTasks?.data?.info,
+                                    }}
+                                ></div>
+                            </div>
                         )}
                     </div>
                 )}
@@ -113,39 +127,6 @@ export const HighlightedTasks = ({
                         </div>
                     </div>
                 </div>
-
-                {/* {checklist.hasDocument && (
-                    <div className="mt-4 p-5 bg-gradient-to-br from-slate-50 to-white rounded-xl border-2 border-slate-200 hover:border-[#044866]/30 hover:shadow-md transition-all group">
-                        <div className="flex items-center justify-between gap-4 flex-wrap">
-                            <div className="flex items-center gap-4 flex-1 min-w-0">
-                                <div className="w-12 h-12 bg-gradient-to-br from-slate-100 to-slate-200 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
-                                    <FileText className="w-6 h-6 text-slate-600" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <div className="text-sm text-slate-900 truncate mb-1">
-                                        {checklist.documentName}
-                                    </div>
-                                    <div className="flex items-center gap-2 text-xs text-slate-500">
-                                        <span className="px-2 py-0.5 bg-red-100 text-red-700 rounded">
-                                            PDF
-                                        </span>
-                                        <span>Available for review</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex gap-2 flex-shrink-0">
-                                <Button outline variant="primaryNew">
-                                    <ExternalLink className="w-3.5 h-3.5" />
-                                    View
-                                </Button>
-                                <Button variant="primaryNew">
-                                    <Download className="w-3.5 h-3.5" />
-                                    Download
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                )} */}
             </div>
         </Card>
     )

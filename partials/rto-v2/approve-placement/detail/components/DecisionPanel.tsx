@@ -3,6 +3,7 @@ import { CheckCircle2, XCircle, Info } from 'lucide-react'
 import { PlacementActions } from './PlacementActions'
 import { RtoApprovalWorkplaceRequest } from '@types'
 import { DecisionActions } from './DecisionActions'
+import { RtoV2Api } from '@queries'
 
 interface DecisionPanelProps {
     status: 'waiting' | 'approved' | 'rejected'
@@ -10,12 +11,40 @@ interface DecisionPanelProps {
 }
 
 export function DecisionPanel({ approval, status }: DecisionPanelProps) {
+    const quickReviewRequest = RtoV2Api.ApprovalRequest.quickReviewRequest(
+        {
+            industryId: approval.industry?.id,
+            courseId: approval.workplaceRequest?.courses?.[0]?.id ?? 0,
+        },
+        {
+            skip:
+                !approval.industry?.id ||
+                !approval.workplaceRequest?.courses?.[0]?.id,
+        }
+    )
+
+    const check = (value: boolean) => {
+        return value ? CheckCircle2 : XCircle
+    }
+
     const quickChecks = [
-        { label: 'Compliance', icon: CheckCircle2 },
-        { label: 'Supervisors', icon: CheckCircle2 },
-        { label: 'Capacity', icon: CheckCircle2 },
-        { label: 'Requirements', icon: CheckCircle2 },
+        // {
+        //     label: 'Compliance',
+        //     icon: quickReviewRequest?.data?.compliance ? CheckCircle2 : XCircle,
+        // },
+        {
+            label: 'Supervisors',
+            icon: check(quickReviewRequest?.data?.supervisor || false),
+            key: quickReviewRequest?.data?.supervisor,
+        },
+        {
+            label: 'Capacity',
+            icon: check(quickReviewRequest?.data?.sectorCapacity || false),
+            key: quickReviewRequest?.data?.sectorCapacity,
+        },
     ]
+
+    console.log({ quickReviewRequest })
 
     return (
         <div className="space-y-5">
@@ -43,7 +72,9 @@ export function DecisionPanel({ approval, status }: DecisionPanelProps) {
                             </span>
                             <div className="flex items-center gap-1.5 text-emerald-700">
                                 <check.icon className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                                <span className="text-sm">Complete</span>
+                                <span className="text-sm">
+                                    {check?.key ? '' : 'Not'} Complete
+                                </span>
                             </div>
                         </div>
                     ))}

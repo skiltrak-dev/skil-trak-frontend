@@ -57,8 +57,11 @@ const {
 
     // ---- Approval Requests ---- //
     useGetWpProgramsQuery,
+    useQuickReviewRequestQuery,
     useApprovalRequestDetailQuery,
+    useGetRtoCourseChecklistQuery,
     useRtoApprovalRequestCourseQuery,
+    useGetSkiltrakCourseChecklistQuery,
     useApprovalRequestSupervisorsQuery,
     useApprovalRequestHighlightedTasksQuery,
 } = rtoV2Api
@@ -105,9 +108,12 @@ export const RtoV2Api = {
     },
     ApprovalRequest: {
         getWpPrograms: useGetWpProgramsQuery,
+        quickReviewRequest: useQuickReviewRequestQuery,
         approvalRequestDetail: useApprovalRequestDetailQuery,
+        getRtoCourseChecklist: useGetRtoCourseChecklistQuery,
         highlightedTasks: useApprovalRequestHighlightedTasksQuery,
         rtoApprovalRequestCourse: useRtoApprovalRequestCourseQuery,
+        getSkiltrakCourseChecklist: useGetSkiltrakCourseChecklistQuery,
         approvalRequestSupervisors: useApprovalRequestSupervisorsQuery,
     },
 }

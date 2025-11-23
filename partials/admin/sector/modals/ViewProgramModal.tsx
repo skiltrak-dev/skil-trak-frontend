@@ -39,7 +39,7 @@ export const ViewProgramModal = ({
                 showActions={false}
                 onCancelClick={onCancel}
             >
-                <div className="bg-gray-50 p-4">
+                <div className="bg-gray-50 p-4 max-h-[70vh] overflow-auto">
                     <div className="max-w-2xl mx-auto">
                         {coursePrograms.isError && <TechnicalError />}
                         {coursePrograms.isLoading ? (
@@ -60,9 +60,17 @@ export const ViewProgramModal = ({
                                                 />
                                             ) : (
                                                 <>
-                                                    <span className="text-sm text-gray-700 flex-1">
-                                                        {item?.title}
-                                                    </span>
+                                                    <div className="flex items-center gap-x-2">
+                                                        <span className="text-sm text-gray-700 flex-1 whitespace-pre">
+                                                            {item?.title}
+                                                        </span>
+                                                        {item?.hours && (
+                                                            <span className="text-xs text-gray-400 flex-1">
+                                                                {item?.hours}{' '}
+                                                                Hours
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                     <div className="flex items-center gap-3">
                                                         <span
                                                             className={`w-2 h-2 rounded-full ${

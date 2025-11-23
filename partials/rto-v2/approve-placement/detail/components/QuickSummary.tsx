@@ -42,8 +42,6 @@ export function QuickSummary({ data }: { data: RtoApprovalWorkplaceRequest }) {
             }
         )
 
-    console.log({ industryApprovalCourse })
-
     const detailsData = [
         {
             icon: Building2,
@@ -86,7 +84,7 @@ export function QuickSummary({ data }: { data: RtoApprovalWorkplaceRequest }) {
     ]
 
     return (
-        <div className="space-y-1.5">
+        <div className="space-y-3">
             {/* Organization Info */}
             <Card className="shadow-xl border-2 border-[#044866]/10 hover:shadow-2xl hover:border-[#044866]/20 transition-all overflow-hidden space-y-2.5">
                 <div className="bg-gradient-to-r from-[#044866]/5 via-[#0D5468]/5 to-[#044866]/5 px-5 py-3 border-b-2 border-slate-100">
@@ -196,7 +194,7 @@ export function QuickSummary({ data }: { data: RtoApprovalWorkplaceRequest }) {
 
             {/* Important Note */}
             <Card className="bg-gradient-to-r from-amber-50 via-amber-100/50 to-amber-50 border-2 border-amber-300 shadow-md">
-                <div className="pt-4 pb-4">
+                <div>
                     <div className="flex items-start gap-3">
                         <div className="w-8.5 h-8.5 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-amber-500/30">
                             <Info className="w-4 h-4 text-white" />

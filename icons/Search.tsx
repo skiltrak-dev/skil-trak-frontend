@@ -1,0 +1,18 @@
+import { BaseIcon, IconProps } from './BaseIcon'
+
+export const Search: React.FC<IconProps> = (props) => {
+    return (
+        <BaseIcon
+            {...props}
+            stroke={props.color || 'currentColor'}
+            fill="none"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </BaseIcon>
+    )
+}
+

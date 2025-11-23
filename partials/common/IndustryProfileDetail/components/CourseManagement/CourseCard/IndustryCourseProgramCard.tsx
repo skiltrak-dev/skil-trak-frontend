@@ -19,10 +19,6 @@ export const IndustryCourseProgramCard = ({
         setShowConfirmation(false)
     }
 
-    const handleConfirm = () => {
-        setShowConfirmation(false)
-    }
-
     if (showConfirmation) {
         return (
             <DeleteIndustryCourseProgramCard
@@ -47,6 +43,9 @@ export const IndustryCourseProgramCard = ({
                 <h3 className="font-bold text-gray-900">
                     {program?.courseProgram?.title}
                 </h3>
+                <p className="text-xs text-gray-600">
+                    Hours: {program?.courseProgram?.hours || '--'}
+                </p>
                 <p className="text-xs text-gray-600">
                     Course: {program?.courseProgram?.course?.title}
                 </p>

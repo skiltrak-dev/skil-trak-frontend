@@ -19,6 +19,7 @@ import { supervisorsEndpoints } from './supervisors'
 import { volunteerEndpoints } from './volunteer'
 import { workplaceEndpoints } from './workplace'
 import { insuranceEndpoints } from './insurance'
+import { galleryEndpoints } from './gallery'
 
 export const industryApi = apiSlice.injectEndpoints({
     // export const industryApi = createApi({
@@ -77,6 +78,7 @@ export const industryApi = apiSlice.injectEndpoints({
         ...messageEndpoints(build),
         ...foldersEndpoints(build),
         ...employeeEndpoints(build),
+        ...galleryEndpoints(build),
         ...studentsEndpoints(build),
         ...branchesEndpoints(build),
         ...workplaceEndpoints(build),
@@ -246,6 +248,11 @@ export const {
     // ---- INSURANCE ---- //
     useGetIndustryInsuranceDocsQuery,
     useRequiredIndustryInsuranceTypeMutation,
+
+    // ---- GALLERY ---- //
+    useIndustryGalleryQuery,
+    useAddIndustryGalleryMutation,
+    useRemoveIndustryGalleryMutation,
 } = industryApi
 
 export const IndustryApi = {
@@ -400,5 +407,10 @@ export const IndustryApi = {
     Insurance: {
         industryInsuranceDocs: useGetIndustryInsuranceDocsQuery,
         requiredInduranceDoc: useRequiredIndustryInsuranceTypeMutation,
+    },
+    Gallery: {
+        industryGallery: useIndustryGalleryQuery,
+        addIndustryGallery: useAddIndustryGalleryMutation,
+        removeIndustryGallery: useRemoveIndustryGalleryMutation,
     },
 }

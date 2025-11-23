@@ -10,6 +10,12 @@ interface CourseFolderFormProps {
 export const AddProgramForm = ({ onSubmit }: CourseFolderFormProps) => {
     const validationSchema = yup.object({
         title: yup.string().required('Title is Required'),
+        hours: yup
+            .number()
+            .required('Hour is required')
+            .typeError('Hour must be a number')
+            .positive('Hour must be a positive number')
+            .integer('Hour must be a whole number'),
     })
 
     const methods = useForm({
@@ -25,6 +31,11 @@ export const AddProgramForm = ({ onSubmit }: CourseFolderFormProps) => {
                     name={'title'}
                     placeholder={'Title...'}
                     required
+                />
+                <TextInput
+                    name={'hours'}
+                    label={'Hours'}
+                    placeholder="Add Hours..."
                 />
                 <Button
                     submit

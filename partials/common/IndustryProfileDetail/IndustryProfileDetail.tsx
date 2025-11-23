@@ -1,12 +1,3 @@
-import moment from 'moment'
-import { CommonApi } from '@queries'
-import { UserRoles } from '@constants'
-import { getUserCredentials } from '@utils'
-import { useEffect, useState } from 'react'
-import { Industry, UserStatus } from '@types'
-import { useAlert, useContextBar } from '@hooks'
-import { ProfileAppointments } from '../ProfileAppointments'
-import { MailsCommunication } from '../StudentProfileDetail/components'
 import {
     Alert,
     AuthorizedUserComponent,
@@ -14,6 +5,16 @@ import {
     PageTitle,
     useAuthorizedUserComponent,
 } from '@components'
+import { UserRoles } from '@constants'
+import { useAlert, useContextBar } from '@hooks'
+import { CommonApi } from '@queries'
+import { Industry, UserStatus } from '@types'
+import { getUserCredentials } from '@utils'
+import moment from 'moment'
+import { useEffect, useState } from 'react'
+import { Notes } from '../Notes'
+import { ProfileAppointments } from '../ProfileAppointments'
+import { MailsCommunication } from '../StudentProfileDetail/components'
 import {
     IndustryHistory,
     IndustryProgress,
@@ -24,7 +25,6 @@ import {
 import { CourseManagement } from './components/CourseManagement'
 import { StudentSchedule } from './components/StudentSchedule'
 import { IndustryProfileCB } from './IndustryProfileCB'
-import { Notes } from '../Notes'
 
 export const IndustryProfileDetail = ({
     isHod,

@@ -38,4 +38,27 @@ export const approvalRequestEndpoints = (
             `${PREFIX}industry/${industryId}/course/${courseId}/programs`,
         providesTags: ['RTO'],
     }),
+
+    quickReviewRequest: builder.query<
+        { supervisor: boolean; sectorCapacity: boolean },
+        { industryId: number; courseId: number }
+    >({
+        query: ({ industryId, courseId }) =>
+            `${PREFIX}industry/${industryId}/course/${courseId}/review`,
+        providesTags: ['RTO'],
+    }),
+
+    getRtoCourseChecklist: builder.query<any, number>({
+        query: (id) => `${PREFIX}course/${id}/facility-checklist`,
+        providesTags: ['RTO'],
+    }),
+
+    getSkiltrakCourseChecklist: builder.query<
+        any,
+        { industryUserId: number; courseId: number }
+    >({
+        query: ({ industryUserId, courseId }) =>
+            `${PREFIX}industry/${industryUserId}/course/${courseId}/facility-checklist`,
+        providesTags: ['RTO'],
+    }),
 })

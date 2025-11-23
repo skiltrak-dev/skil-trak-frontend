@@ -16,6 +16,7 @@ import {
     AcceptingStudentModal,
     AddIndustryQuestionsModal,
     AddRplModal,
+    IndustryGalleryListModal,
     ViewIndustryAnswersModal,
 } from '../../modal'
 
@@ -71,6 +72,15 @@ export const ProfileLinks = ({
 
     const onAddRpl = () =>
         setModal(<AddRplModal industry={industry} onCancel={onCancelModal} />)
+
+    const onViewIndustryList = () => {
+        setModal(
+            <IndustryGalleryListModal
+                industry={industry}
+                onCancel={onCancelModal}
+            />
+        )
+    }
 
     const profileLinks = [
         {
@@ -177,6 +187,13 @@ export const ProfileLinks = ({
             Icon: RiEditFill,
             onClick: () => {
                 onAddRpl()
+            },
+        },
+        {
+            text: 'Industry Gallery',
+            Icon: RiEditFill,
+            onClick: () => {
+                onViewIndustryList()
             },
         },
     ]

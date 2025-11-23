@@ -95,11 +95,12 @@ const industryTagTypes = [
     'EmployeeTask',
     'Notifications',
     'AvailableShifts',
+    'TalentPoolCount',
+    'Industry-Gallery',
     'MatchingProfiles',
     'RequestAVolunteer',
     'IndustryWorkplace',
     'IndustryAppointment',
-    'TalentPoolCount',
 ]
 
 const studentTagTypes = [

@@ -11,53 +11,16 @@ import { RtoApprovalWorkplaceRequest } from '@types'
 import { User, GraduationCap, Briefcase, Mail, Phone } from 'lucide-react'
 
 export function SupervisorInfo({
-    data,
+    approval,
 }: {
-    data: RtoApprovalWorkplaceRequest
+    approval: RtoApprovalWorkplaceRequest
 }) {
     const supervisors = RtoV2Api.ApprovalRequest.approvalRequestSupervisors(
-        data?.industry?.id,
+        approval?.industry?.id,
         {
-            skip: !data?.industry?.id,
+            skip: !approval?.industry?.id,
         }
     )
-
-    const supervisorss = [
-        {
-            id: 1,
-            name: 'Jennifer Thompson',
-            role: 'Senior Care Coordinator',
-            qualifications: [
-                'Certificate IV in Ageing Support',
-                'Diploma of Community Services',
-                'Current First Aid & CPR',
-            ],
-            experience: '12 years',
-            experienceDetail:
-                '12 years in aged care and community services, including 8 years in supervisory roles. Experienced in supporting students across Certificate III and IV qualifications.',
-            email: 'j.thompson@sunnydalecare.com.au',
-            phone: '(03) 9876 5433',
-            supervisionLevel:
-                'Direct supervision with regular feedback sessions',
-            avatar: 'JT',
-        },
-        {
-            id: 2,
-            name: 'Marcus Chen',
-            role: 'Disability Support Team Leader',
-            qualifications: [
-                'Certificate IV in Disability',
-                'TAE40116 Certificate IV in Training and Assessment',
-            ],
-            experience: '8 years',
-            experienceDetail:
-                '8 years in disability support services with extensive experience in person-centred practice and complex needs support.',
-            email: 'm.chen@sunnydalecare.com.au',
-            phone: '(03) 9876 5434',
-            supervisionLevel: 'Blended supervision with weekly check-ins',
-            avatar: 'MC',
-        },
-    ]
 
     return (
         <>
@@ -67,14 +30,14 @@ export function SupervisorInfo({
             ) : supervisors?.data &&
               supervisors?.data?.length > 0 &&
               supervisors?.isSuccess ? (
-                <div className="space-y-6">
+                <div className="space-y-[1.32rem]">
                     {supervisors?.data?.map((supervisor: any) => (
                         <Card
                             key={supervisor?.id}
                             className="border-2 border-slate-100 hover:border-[#044866]/20 hover:shadow-xl transition-all group"
                         >
                             <div className="bg-gradient-to-r from-slate-50 to-white">
-                                <div className="flex items-start gap-4">
+                                <div className="flex items-start gap-[0.88rem]">
                                     {supervisor?.name && (
                                         <InitialAvatar
                                             name={supervisor?.name}
@@ -82,10 +45,10 @@ export function SupervisorInfo({
                                         />
                                     )}
                                     <div className="flex-1">
-                                        <div className="text-[#044866] mb-1">
+                                        <div className="text-[#044866] mb-[0.22rem] text-[0.88em]">
                                             {supervisor?.name}
                                         </div>
-                                        <p className="text-sm text-slate-600">
+                                        <p className="text-[0.77em] text-slate-600">
                                             {supervisor?.role}
                                         </p>
                                         <Badge
@@ -95,69 +58,69 @@ export function SupervisorInfo({
                                 </div>
                             </div>
 
-                            <div className="space-y-5 pt-5">
+                            <div className="space-y-2 pt-[1.1rem]">
                                 {/* Qualifications */}
                                 <div>
-                                    <div className="flex items-center gap-2 mb-3">
-                                        <GraduationCap className="w-4 h-4 text-[#0D5468]" />
-                                        <h4 className="text-slate-900">
+                                    <div className="flex items-center gap-[0.44rem] mb-[0.66rem]">
+                                        <GraduationCap className="w-[0.88rem] h-[0.88rem] text-[#0D5468]" />
+                                        <h4 className="text-slate-900 text-[0.88em]">
                                             Qualifications
                                         </h4>
                                     </div>
-                                    <div className="flex flex-wrap gap-2">
+                                    <div className="flex flex-wrap gap-[0.44rem] text-[0.88em]">
                                         {supervisor?.qualification || '--'}
                                     </div>
                                 </div>
 
                                 {/* Experience */}
-                                <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <Briefcase className="w-4 h-4 text-[#0D5468]" />
-                                        <h4 className="text-slate-900">
+                                <div className="bg-slate-50 p-[0.88rem] rounded-lg border border-slate-100">
+                                    <div className="flex items-center gap-[0.44rem] mb-[0.44rem]">
+                                        <Briefcase className="w-[0.88rem] h-[0.88rem] text-[#0D5468]" />
+                                        <h4 className="text-slate-900 text-[0.88em]">
                                             Experience & Expertise
                                         </h4>
                                     </div>
-                                    <p className="text-sm text-slate-700 leading-relaxed">
+                                    <p className="text-[0.77em] text-slate-700 leading-relaxed">
                                         {supervisor?.description || '--'}
                                     </p>
                                 </div>
 
                                 {/* Supervision Approach */}
-                                <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <User className="w-4 h-4 text-purple-600" />
-                                        <h4 className="text-purple-900">
+                                <div className="bg-purple-50 p-[0.88rem] rounded-lg border border-purple-100">
+                                    <div className="flex items-center gap-[0.44rem] mb-[0.44rem]">
+                                        <User className="w-[0.88rem] h-[0.88rem] text-purple-600" />
+                                        <h4 className="text-purple-900 text-[0.88em]">
                                             Supervision Approach
                                         </h4>
                                     </div>
-                                    <p className="text-sm text-purple-800">
+                                    <p className="text-[0.77em] text-purple-800">
                                         {supervisor?.level || '--'}
                                     </p>
                                 </div>
 
                                 {/* Contact Information */}
-                                <div className="pt-4 border-t border-slate-100">
-                                    <h4 className="text-slate-900 mb-3 text-sm">
+                                <div className="pt-[0.88rem] border-t border-slate-100">
+                                    <h4 className="text-slate-900 mb-[0.66rem] text-[0.77em]">
                                         Contact Information
                                     </h4>
-                                    <div className="space-y-2">
-                                        <div className="flex items-center gap-3">
-                                            <Mail className="w-4 h-4 text-slate-400" />
+                                    <div className="space-y-[0.44rem]">
+                                        <div className="flex items-center gap-[0.66rem]">
+                                            <Mail className="w-[0.88rem] h-[0.88rem] text-slate-400" />
                                             <a
                                                 href={`mailto:${supervisor?.email}`}
-                                                className="text-sm text-[#044866] hover:underline"
+                                                className="text-[0.77em] text-[#044866] hover:underline"
                                             >
                                                 {supervisor?.email || '--'}
                                             </a>
                                         </div>
-                                        <div className="flex items-center gap-3">
-                                            <Phone className="w-4 h-4 text-slate-400" />
-                                            <span className="text-sm text-slate-700">
+                                        <div className="flex items-center gap-[0.66rem]">
+                                            <Phone className="w-[0.88rem] h-[0.88rem] text-slate-400" />
+                                            <span className="text-[0.77em] text-slate-700">
                                                 {supervisor?.phone || '--'}
                                             </span>
                                         </div>
                                     </div>
-                                    <p className="text-xs text-slate-500 mt-3 italic">
+                                    <p className="text-[0.66em] text-slate-500 mt-[0.66rem] italic">
                                         Available for coordination once
                                         placement commences
                                     </p>

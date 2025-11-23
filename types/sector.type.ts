@@ -77,6 +77,7 @@ export interface CourseDetailType extends Course {
 
 export interface CourseProgramType extends BaseResponse {
     id: number
+    hours: string
     title: string
     course: Course
 }
@@ -90,6 +91,7 @@ export enum DeliveryMode {
 
 export interface CourseProgramData extends BaseResponse {
     id: number
+
     deliveryMode: DeliveryMode[]
     courseProgram: CourseProgramType
 }

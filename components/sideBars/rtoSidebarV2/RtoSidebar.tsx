@@ -189,7 +189,7 @@ const menuSections = [
                 icon: Building2,
                 label: 'Industries',
                 key: 'Industries',
-                path: '/portals/rto/manage/industries',
+                path: '/portals/rto/manage/industries?tab=your-industries',
                 bg: 'bg-slate-50 border border-slate-200',
                 iconBg: 'bg-slate-500',
                 badgeBg: 'bg-slate-500',

@@ -1,4 +1,10 @@
-import { Button, Select, ShowErrorNotifications, Typography } from '@components'
+import {
+    Button,
+    Select,
+    ShowErrorNotifications,
+    TextInput,
+    Typography,
+} from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
@@ -26,6 +32,7 @@ export const AddIndustryCourseProgramForm = ({
             .string()
             .required('Program is required')
             .typeError('Program is required'),
+
         deliveryMode: yup
             .array()
             .of(

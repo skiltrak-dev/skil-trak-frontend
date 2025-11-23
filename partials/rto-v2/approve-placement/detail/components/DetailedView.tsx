@@ -46,12 +46,12 @@ export function DetailedView({ approval }: DetailedViewProps) {
             icon: Users,
             component: SupervisorInfo,
         },
-        {
-            value: 'requirements',
-            label: 'Requirements',
-            icon: ClipboardList,
-            component: PlacementDetails,
-        },
+        // {
+        //     value: 'requirements',
+        //     label: 'Requirements',
+        //     icon: ClipboardList,
+        //     component: PlacementDetails,
+        // },
         {
             value: 'resources',
             label: 'Resources',
@@ -62,14 +62,14 @@ export function DetailedView({ approval }: DetailedViewProps) {
 
     return (
         <div className="bg-white rounded-2xl shadow-2xl border-2 border-slate-100 overflow-hidden">
-            <div className="bg-gradient-to-r from-[#044866] via-[#0D5468] to-[#044866] p-6 md:p-8 relative overflow-hidden">
+            <div className="bg-gradient-to-r from-[#044866] via-[#0D5468] to-[#044866] p-6 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-3xl"></div>
                     <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#F7A619] rounded-full blur-3xl"></div>
                 </div>
                 <div className="relative">
-                    <Typography color="text-white" className="mb-2">
+                    <Typography color="text-white">
                         Detailed Workplace Information
                     </Typography>
                     <Typography color="text-white">
@@ -79,7 +79,7 @@ export function DetailedView({ approval }: DetailedViewProps) {
             </div>
 
             <Tabs defaultValue="compliance" className="p-4 md:p-6">
-                <TabsList className="grid w-full grid-cols-5 mb-8 bg-slate-100 p-1.5 rounded-xl h-auto gap-1">
+                <TabsList className="grid w-full grid-cols-5 mb-2 bg-slate-100 p-1.5 rounded-xl h-auto gap-1">
                     {tabs.map((tab) => {
                         const Icon = tab.icon
                         return (
