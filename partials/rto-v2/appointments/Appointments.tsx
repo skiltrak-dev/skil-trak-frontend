@@ -8,22 +8,27 @@ import {
     Plus,
     RefreshCw,
     Search,
-    TrendingUp
+    TrendingUp,
 } from 'lucide-react'
 import { useState } from 'react'
 import { Badge } from '../../../components/ui/badge'
 import { Button } from '../../../components/ui/button'
 
+import { Card, Select, TextInput } from '@components'
 import {
-    Card,
-    Select,
-    TextInput
-} from '@components'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs'
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger,
+} from '../../../components/ui/tabs'
 import { ActionRequiredHeader } from '../components'
 import { KPIStatCard } from './KpiStatsCard'
 import { ScheduleAppointmentModal } from './modals'
-import { CancelledAppointments, PastAppointments, UpcomingAppointments } from './tabs'
+import {
+    CancelledAppointments,
+    PastAppointments,
+    UpcomingAppointments,
+} from './tabs'
 import { RtoApi } from '@queries'
 
 interface Appointment {
@@ -271,7 +276,6 @@ const mockAppointments: Appointment[] = [
 ]
 
 export const Appointments = () => {
-
     const [selectedAppointment, setSelectedAppointment] =
         useState<Appointment | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
@@ -279,7 +283,7 @@ export const Appointments = () => {
     const [filterCategory, setFilterCategory] = useState<string>('all')
     const today = new Date().toISOString().split('T')[0]
     const counts = RtoApi.Appointments.useRtoAppointmentsCount()
-    console.log('counts', counts?.data);
+
     const upcomingCount = mockAppointments.filter(
         (a) =>
             a.date >= today &&
@@ -391,7 +395,10 @@ export const Appointments = () => {
                             >
                                 <div className="flex justify-between w-full">
                                     <TabsList className="grid w-full lg:w-auto grid-cols-4 bg-muted/50">
-                                        <TabsTrigger value="cancelled" className="gap-2">
+                                        <TabsTrigger
+                                            value="cancelled"
+                                            className="gap-2"
+                                        >
                                             <Ban className="h-4 w-4" />
                                             cancelled
                                             <Badge
@@ -414,7 +421,10 @@ export const Appointments = () => {
                                                 {counts?.data?.future ?? 0}
                                             </Badge>
                                         </TabsTrigger>
-                                        <TabsTrigger value="past" className="gap-2">
+                                        <TabsTrigger
+                                            value="past"
+                                            className="gap-2"
+                                        >
                                             <History className="h-4 w-4" />
                                             Past
                                             <Badge
@@ -432,7 +442,9 @@ export const Appointments = () => {
                                                 placeholder="Search appointments..."
                                                 value={searchQuery}
                                                 onChange={(e: any) =>
-                                                    setSearchQuery(e.target.value)
+                                                    setSearchQuery(
+                                                        e.target.value
+                                                    )
                                                 }
                                                 className="pl-9 h-9"
                                                 name="search"
@@ -452,12 +464,18 @@ export const Appointments = () => {
                                                     label: 'Placement',
                                                     value: 'placement',
                                                 },
-                                                { label: 'Student', value: 'student' },
+                                                {
+                                                    label: 'Student',
+                                                    value: 'student',
+                                                },
                                                 {
                                                     label: 'Industry',
                                                     value: 'industry',
                                                 },
-                                                { label: 'Admin', value: 'admin' },
+                                                {
+                                                    label: 'Admin',
+                                                    value: 'admin',
+                                                },
                                                 {
                                                     label: 'Training',
                                                     value: 'training',

@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Select, ShowErrorNotifications, TextArea, TextInput } from '@components'
+import {
+    Select,
+    ShowErrorNotifications,
+    TextArea,
+    TextInput,
+} from '@components'
 import {
     Dialog,
     DialogContent,
@@ -13,8 +18,8 @@ import { Label } from '@components/ui/label'
 import { UserRoles } from '@constants'
 import { SearchUserCard } from '@partials/common'
 import { CalendarIcon, Plus, XCircle } from 'lucide-react'
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import {
     RtoAppointmentSearchCard,
@@ -61,7 +66,7 @@ export const ScheduleAppointmentModal = ({
     const [selectedCourse, setSelectedCourse] = useState<any>(null)
 
     const { notification } = useNotification()
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().split('T')[0]
     const [createAppointment, createAppointmentResult] =
         RtoApi.Appointments.useCreateRtoAppointment()
     const appointmentTypes = CommonApi.Appointments.appointmentType(
@@ -92,9 +97,9 @@ export const ScheduleAppointmentModal = ({
     const appointmentTypesOptions =
         appointmentTypes?.data && appointmentTypes?.data?.length > 0
             ? appointmentTypes?.data?.map((type: any) => ({
-                label: type.title,
-                value: type.id,
-            }))
+                  label: type.title,
+                  value: type.id,
+              }))
             : []
 
     const methods = useForm({
@@ -102,11 +107,11 @@ export const ScheduleAppointmentModal = ({
     })
     const onSubmit = (values: any) => {
         // if (!values.date || !values.startTime) return;
-        const { participants, ...rest } = values;
+        const { participants, ...rest } = values
         const course = selectedCourse?.id
         const appointmentFor = selectedUser?.id
-        const fullDateTime = new Date(`${values.date}T${values.startTime}:00`);
-        const date = fullDateTime?.toISOString();
+        const fullDateTime = new Date(`${values.date}T${values.startTime}:00`)
+        const date = fullDateTime?.toISOString()
 
         const payload = {
             ...rest,
@@ -117,12 +122,10 @@ export const ScheduleAppointmentModal = ({
         createAppointment(payload)
     }
 
-    console.log('selectedUser', selectedUser);
-
     return (
         <>
             <ShowErrorNotifications result={createAppointmentResult} />
-            <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen} >
+            <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen}>
                 <DialogTrigger asChild>
                     <Button className="gap-2 bg-gradient-to-r from-primary to-accent hover:shadow-glow-primary transition-all hover-lift">
                         <Plus className="h-4 w-4" />
@@ -162,7 +165,6 @@ export const ScheduleAppointmentModal = ({
                                             ]}
                                             required
                                             onChange={(e: any) => {
-                                                console.log('e', e);
                                                 setParticipantType(
                                                     e ? e.value : ''
                                                 )
@@ -182,7 +184,11 @@ export const ScheduleAppointmentModal = ({
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Date</Label>
-                                    <TextInput name="date" type="date" min={today} />
+                                    <TextInput
+                                        name="date"
+                                        type="date"
+                                        min={today}
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <TextInput
@@ -283,7 +289,14 @@ export const ScheduleAppointmentModal = ({
                                     disabled={createAppointmentResult.isLoading}
                                 >
                                     <CalendarIcon className="h-4 w-4" />
-                                    {createAppointmentResult.isLoading ? <PuffLoader size={24} data-testid="puff-loader" /> : "Schedule Appointment"}
+                                    {createAppointmentResult.isLoading ? (
+                                        <PuffLoader
+                                            size={24}
+                                            data-testid="puff-loader"
+                                        />
+                                    ) : (
+                                        'Schedule Appointment'
+                                    )}
                                 </Button>
                             </div>
                         </form>

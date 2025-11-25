@@ -69,7 +69,6 @@ export const DecisionActions = ({
     approval: RtoApprovalWorkplaceRequest
 }) => {
     const config = STATUS_CONFIG[approval?.rtoApprovalStatus]
-    console.log({ config })
     if (!config) return null
 
     const Icon = config.icon

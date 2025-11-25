@@ -37,14 +37,13 @@ export const OnViewMapTabs = ({
 }: any) => {
     const [activeTab, setActiveTab] = useState<Tab['id']>(tabs[0].id)
 
-    const industryType =
-        selectedBox
-            ? selectedBox.type === "futureIndustry"
-                ? "listing"
-                : selectedBox.type === "branch"
-                    ? "branch"
-                    : "industry"
-            : null;
+    const industryType = selectedBox
+        ? selectedBox.type === 'futureIndustry'
+            ? 'listing'
+            : selectedBox.type === 'branch'
+            ? 'branch'
+            : 'industry'
+        : null
 
     const isStudent = selectedBox?.user?.role === 'student'
 
@@ -52,48 +51,59 @@ export const OnViewMapTabs = ({
     useEffect(() => {
         if (activeIndustryListTab) {
             try {
-                localStorage.setItem(`${STORAGE_KEY}_${workplaceId}`, activeIndustryListTab)
+                localStorage.setItem(
+                    `${STORAGE_KEY}_${workplaceId}`,
+                    activeIndustryListTab
+                )
             } catch (error) {
-                console.error('Failed to save active tab to localStorage:', error)
+                console.error(
+                    'Failed to save active tab to localStorage:',
+                    error
+                )
             }
         }
     }, [activeIndustryListTab, workplaceId])
 
     // Call all hooks unconditionally, use skip to control execution
-    const branchDetailsData = SubAdminApi.Workplace.useSubAdminMapIndustryBranchDetail(
-        {
-            id: selectedBox?.id,
-            params: {
-                wpId: workplaceId,
+    const branchDetailsData =
+        SubAdminApi.Workplace.useSubAdminMapIndustryBranchDetail(
+            {
+                id: selectedBox?.id,
+                params: {
+                    wpId: workplaceId,
+                },
             },
-        },
-        {
-            skip: isStudent || !selectedBox?.id || industryType !== 'branch',
-        }
-    )
+            {
+                skip:
+                    isStudent || !selectedBox?.id || industryType !== 'branch',
+            }
+        )
 
-    const futureIndustryDetailsData = CommonApi.FindWorkplace.useGetFutureIndustryDetail(
-        selectedBox?.id,
-        {
+    const futureIndustryDetailsData =
+        CommonApi.FindWorkplace.useGetFutureIndustryDetail(selectedBox?.id, {
             skip: isStudent || !selectedBox?.id || industryType !== 'listing',
-        }
-    )
+        })
 
-    const suggestedIndustryDetailsData = SubAdminApi.Workplace.useSubAdminMapSuggestedIndustryDetail(
-        { industryId: selectedBox?.id, workplaceId },
-        {
-            skip: isStudent || !selectedBox?.id || industryType === 'branch' || industryType === 'listing',
-        }
-    )
+    const suggestedIndustryDetailsData =
+        SubAdminApi.Workplace.useSubAdminMapSuggestedIndustryDetail(
+            { industryId: selectedBox?.id, workplaceId },
+            {
+                skip:
+                    isStudent ||
+                    !selectedBox?.id ||
+                    industryType === 'branch' ||
+                    industryType === 'listing',
+            }
+        )
 
     // Select the appropriate data based on industryType
     const industryDetailsData =
         industryType === 'branch'
             ? branchDetailsData
             : industryType === 'listing'
-                ? futureIndustryDetailsData
-                : suggestedIndustryDetailsData
-    console.log('industryDetailData', industryDetailsData);
+            ? futureIndustryDetailsData
+            : suggestedIndustryDetailsData
+
     const workplaceCourseId = workplace?.courses?.[0]?.id
 
     const handleTabClick = (tabId: Tab['id']) => {
@@ -103,13 +113,17 @@ export const OnViewMapTabs = ({
     const handleViewIndustriesList = () => {
         // Get the saved tab from localStorage
         try {
-            const savedTab = localStorage.getItem(`${STORAGE_KEY}_${workplaceId}`)
+            const savedTab = localStorage.getItem(
+                `${STORAGE_KEY}_${workplaceId}`
+            )
             if (savedTab && setActiveIndustryListTab) {
-                console.log('savedTab', savedTab);
                 setActiveIndustryListTab(savedTab)
             }
         } catch (error) {
-            console.error('Failed to retrieve active tab from localStorage:', error)
+            console.error(
+                'Failed to retrieve active tab from localStorage:',
+                error
+            )
         }
 
         // Clear the selected box to show the list
@@ -131,11 +145,13 @@ export const OnViewMapTabs = ({
                             role="tab"
                             aria-selected={activeTab === tab.id}
                             aria-controls={`panel-${tab.id}`}
-                            className={`flex items-center justify-center gap-x-2 px-4 py-2 text-sm font-medium transition-colors duration-200 ${activeTab === tab.id
-                                ? 'bg-primaryNew text-white'
-                                : 'text-gray-600 hover:bg-gray-100'
-                                } ${activeTab === 'industries' && 'rounded-tl-md'} ${activeTab === 'interviews' && 'rounded-tr-md'
-                                }`}
+                            className={`flex items-center justify-center gap-x-2 px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                                activeTab === tab.id
+                                    ? 'bg-primaryNew text-white'
+                                    : 'text-gray-600 hover:bg-gray-100'
+                            } ${
+                                activeTab === 'industries' && 'rounded-tl-md'
+                            } ${activeTab === 'interviews' && 'rounded-tr-md'}`}
                             onClick={() => handleTabClick(tab.id)}
                         >
                             <Icon className="w-5 h-5" aria-hidden="true" />
@@ -163,8 +179,12 @@ export const OnViewMapTabs = ({
                                     workplaceId={workplace?.id}
                                     courseId={workplaceCourseId}
                                     setSelectedBox={setSelectedBox}
-                                    activeIndustryListTab={activeIndustryListTab}
-                                    setActiveIndustryListTab={setActiveIndustryListTab}
+                                    activeIndustryListTab={
+                                        activeIndustryListTab
+                                    }
+                                    setActiveIndustryListTab={
+                                        setActiveIndustryListTab
+                                    }
                                 />
                             </>
                         ) : industryType === 'listing' ? (
