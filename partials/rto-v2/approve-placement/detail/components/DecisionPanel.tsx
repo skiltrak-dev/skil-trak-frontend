@@ -1,24 +1,22 @@
 import { Button, Card } from '@components'
-import { CheckCircle2, XCircle, Info } from 'lucide-react'
-import { PlacementActions } from './PlacementActions'
-import { RtoApprovalWorkplaceRequest } from '@types'
-import { DecisionActions } from './DecisionActions'
 import { RtoV2Api } from '@queries'
+import { RtoApprovalWorkplaceRequest } from '@types'
+import { CheckCircle2, Info, XCircle } from 'lucide-react'
+import { DecisionActions } from './DecisionActions'
 
 interface DecisionPanelProps {
-    status: 'waiting' | 'approved' | 'rejected'
     approval: RtoApprovalWorkplaceRequest
 }
 
-export function DecisionPanel({ approval, status }: DecisionPanelProps) {
+export function DecisionPanel({ approval }: DecisionPanelProps) {
     const quickReviewRequest = RtoV2Api.ApprovalRequest.quickReviewRequest(
         {
-            industryId: approval.industry?.id,
+            industryId: approval.industry?.user?.id,
             courseId: approval.workplaceRequest?.courses?.[0]?.id ?? 0,
         },
         {
             skip:
-                !approval.industry?.id ||
+                !approval.industry?.user?.id ||
                 !approval.workplaceRequest?.courses?.[0]?.id,
         }
     )

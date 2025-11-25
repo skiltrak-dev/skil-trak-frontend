@@ -19,8 +19,6 @@ export const IndustryCourseSupervisors = ({
     sectorData: any
     industry: Industry
 }) => {
-    const contextBar = useContextBar()
-
     const getSupervisorBySector = IndustryApi.Supervisor.getSupervisorBySector({
         sectorId: sectorData?.sector?.id,
         indId: industry?.id,

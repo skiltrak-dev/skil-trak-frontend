@@ -11,8 +11,12 @@ export const approvalRequestEndpoints = (
         providesTags: ['RTO'],
     }),
 
-    approvalRequestSupervisors: builder.query<any, number>({
-        query: (id) => `${PREFIX}industry/${id}/supervisors`,
+    approvalRequestSupervisors: builder.query<
+        any,
+        { industryId: number; courseId: number }
+    >({
+        query: ({ industryId, courseId }) =>
+            `${PREFIX}industry/${industryId}/course/${courseId}/supervisors`,
         providesTags: ['RTO'],
     }),
 

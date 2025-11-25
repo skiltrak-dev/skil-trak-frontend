@@ -6,6 +6,7 @@ import {
     LoadingAnimation,
     TechnicalError,
 } from '@components'
+import { SupervisorQualification } from '@partials/common'
 import { RtoV2Api } from '@queries'
 import { RtoApprovalWorkplaceRequest } from '@types'
 import { User, GraduationCap, Briefcase, Mail, Phone } from 'lucide-react'
@@ -16,11 +17,21 @@ export function SupervisorInfo({
     approval: RtoApprovalWorkplaceRequest
 }) {
     const supervisors = RtoV2Api.ApprovalRequest.approvalRequestSupervisors(
-        approval?.industry?.id,
         {
-            skip: !approval?.industry?.id,
+            industryId: approval?.industry?.id,
+            courseId: approval?.workplaceRequest?.courses?.[0]?.id ?? 0,
+        },
+        {
+            skip:
+                !approval?.industry?.id ||
+                !approval?.workplaceRequest?.courses?.[0]?.id,
         }
     )
+
+    console.log({ supervisors })
+
+    const qualificationLevel = (level: any) =>
+        SupervisorQualification?.find((l) => l?.value === level)?.label
 
     return (
         <>
@@ -52,7 +63,7 @@ export function SupervisorInfo({
                                             {supervisor?.role}
                                         </p>
                                         <Badge
-                                            text={`${supervisor.experience} experience`}
+                                            text={`${supervisor.experience} years of experience`}
                                         />
                                     </div>
                                 </div>
@@ -68,7 +79,9 @@ export function SupervisorInfo({
                                         </h4>
                                     </div>
                                     <div className="flex flex-wrap gap-[0.44rem] text-[0.88em]">
-                                        {supervisor?.qualification || '--'}
+                                        {qualificationLevel(
+                                            supervisor?.level
+                                        ) || '--'}
                                     </div>
                                 </div>
 
@@ -94,7 +107,8 @@ export function SupervisorInfo({
                                         </h4>
                                     </div>
                                     <p className="text-[0.77em] text-purple-800">
-                                        {supervisor?.level || '--'}
+                                        Direct supervision with regular feedback
+                                        sessions
                                     </p>
                                 </div>
 
@@ -110,13 +124,18 @@ export function SupervisorInfo({
                                                 href={`mailto:${supervisor?.email}`}
                                                 className="text-[0.77em] text-[#044866] hover:underline"
                                             >
-                                                {supervisor?.email || '--'}
+                                                {supervisor?.email ||
+                                                    approval?.industry?.user
+                                                        ?.email ||
+                                                    '--'}
                                             </a>
                                         </div>
                                         <div className="flex items-center gap-[0.66rem]">
                                             <Phone className="w-[0.88rem] h-[0.88rem] text-slate-400" />
                                             <span className="text-[0.77em] text-slate-700">
-                                                {supervisor?.phone || '--'}
+                                                {approval?.industry
+                                                    ?.contactPersonNumber ||
+                                                    '--'}
                                             </span>
                                         </div>
                                     </div>

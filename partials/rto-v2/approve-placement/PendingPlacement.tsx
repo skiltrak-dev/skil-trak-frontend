@@ -147,9 +147,7 @@ export const PendingPlacement = () => {
                                 </div>
 
                                 <Button
-                                    variant={
-                                        isExpanded ? 'primaryNew' : 'primary'
-                                    }
+                                    variant={'primaryNew'}
                                     fullWidth
                                     onClick={() =>
                                         router.push(

@@ -1,15 +1,14 @@
-import { Badge, Button, Card, NoData } from '@components'
+import { Button, Card, NoData } from '@components'
 import { DocumentsView } from '@hooks'
 import { RtoV2Api } from '@queries'
 import { ellipsisText } from '@utils'
 import {
     CheckCircle2,
     ClipboardCheck,
-    Download,
     ExternalLink,
     FileText,
+    X,
 } from 'lucide-react'
-import React from 'react'
 
 export const RtoChecklistDetail = ({ coursesId }: { coursesId: number }) => {
     const getRtoCourseChecklist =
@@ -78,30 +77,32 @@ export const RtoChecklistDetail = ({ coursesId }: { coursesId: number }) => {
                             text="There is some technical issue!"
                         />
                     ) : null}
-                    {getRtoCourseChecklist?.isSuccess && (
-                        <div className="space-y-2.5">
-                            {[
-                                'Confirmed suitable physical environment',
-                                'Verified access to required client groups',
-                                'Confirmed ability to provide mandated tasks',
-                                'Verified supervision arrangements meet RTO requirements',
-                                'Confirmed understanding of placement expectations',
-                                'Agreed to RTO monitoring processes',
-                            ].map((item, itemIndex) => (
-                                <div
-                                    key={itemIndex}
-                                    className="flex items-start gap-3"
-                                >
-                                    <CheckCircle2
-                                        className={`w-4 h-4 ${colors.text} mt-0.5 flex-shrink-0`}
-                                    />
-                                    <span className="text-sm text-slate-700">
-                                        {item}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+
+                    {getRtoCourseChecklist?.data &&
+                        getRtoCourseChecklist?.isSuccess && (
+                            <div className="space-y-2.5">
+                                {[
+                                    'Confirmed suitable physical environment',
+                                    'Verified access to required client groups',
+                                    'Confirmed ability to provide mandated tasks',
+                                    'Verified supervision arrangements meet RTO requirements',
+                                    'Confirmed understanding of placement expectations',
+                                    'Agreed to RTO monitoring processes',
+                                ].map((item, itemIndex) => (
+                                    <div
+                                        key={itemIndex}
+                                        className="flex items-start gap-3"
+                                    >
+                                        <CheckCircle2
+                                            className={`w-4 h-4 ${colors.text} mt-0.5 flex-shrink-0`}
+                                        />
+                                        <span className="text-sm text-slate-700">
+                                            {item}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
 
                     {getRtoCourseChecklist?.data?.files &&
                     getRtoCourseChecklist?.data?.files?.length > 0 ? (

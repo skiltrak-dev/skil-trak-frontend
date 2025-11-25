@@ -15,6 +15,9 @@ export function ProgramsInfo({
     approval: RtoApprovalWorkplaceRequest
 }) {
     const course = approval?.workplaceRequest?.courses?.[0]
+
+    const extraHours = course?.extraHours
+
     const getWpPrograms = RtoV2Api.ApprovalRequest.getWpPrograms(
         {
             courseId: Number(course?.id),
@@ -27,8 +30,11 @@ export function ProgramsInfo({
 
     const placementDetails = [
         {
-            label: 'Placement Length',
-            value: course?.hours,
+            label: 'Placement Hours',
+            value:
+                extraHours && extraHours?.length > 0
+                    ? extraHours[0]?.hours
+                    : course?.hours,
             icon: Calendar,
             bgColor: 'bg-purple-50',
             borderColor: 'border-purple-100',

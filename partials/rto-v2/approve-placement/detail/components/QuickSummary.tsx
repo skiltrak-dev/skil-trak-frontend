@@ -27,6 +27,36 @@ interface QuickSummaryProps {
     }
 }
 
+const validateAndFixURL = (url: string): string | null => {
+    if (!url || url.trim() === '') {
+        return '#'
+    }
+
+    const trimmedUrl = url.trim()
+
+    // Check if URL already has a protocol
+    const hasProtocol = /^https?:\/\//i.test(trimmedUrl)
+
+    // If it has protocol, return as is
+    if (hasProtocol) {
+        try {
+            new URL(trimmedUrl)
+            return trimmedUrl
+        } catch (e) {
+            return '#'
+        }
+    }
+
+    // If no protocol, add https://
+    const fixedUrl = `https://${trimmedUrl}`
+
+    try {
+        new URL(fixedUrl)
+        return fixedUrl
+    } catch (e) {
+        return '#'
+    }
+}
 export function QuickSummary({ data }: { data: RtoApprovalWorkplaceRequest }) {
     const industry = data?.industry
 
@@ -41,6 +71,10 @@ export function QuickSummary({ data }: { data: RtoApprovalWorkplaceRequest }) {
                     !industry?.id || !data?.workplaceRequest?.courses?.[0]?.id,
             }
         )
+
+    console.log({ industry })
+
+    const validatedWebsite = validateAndFixURL(industry?.website || '') || ''
 
     const detailsData = [
         {
@@ -61,18 +95,18 @@ export function QuickSummary({ data }: { data: RtoApprovalWorkplaceRequest }) {
         {
             icon: Globe,
             label: 'Website',
-            value: industry?.website,
+            value: validatedWebsite,
             isLink: true,
         },
         {
             icon: User,
-            label: 'Primary Contact',
-            value: industry?.phoneNumber,
+            label: 'Contact Person Name',
+            value: industry?.contactPerson,
         },
         {
             icon: Phone,
             label: 'Phone',
-            value: industry?.contactPersonNumber,
+            value: industry?.phoneNumber,
         },
         {
             icon: Mail,

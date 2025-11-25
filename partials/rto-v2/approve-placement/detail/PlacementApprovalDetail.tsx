@@ -38,7 +38,7 @@ export const PlacementApprovalDetail = () => {
         <>
             {approvalRequestDetail.isError && <TechnicalError />}
             {approvalRequestDetail.isLoading ? (
-                <LoadingAnimation height="h-[60vh]" />
+                <LoadingAnimation />
             ) : approvalRequestDetail?.data &&
               approvalRequestDetail?.isSuccess ? (
                 <TooltipProvider>
@@ -114,7 +114,6 @@ export const PlacementApprovalDetail = () => {
                                             approval={
                                                 approvalRequestDetail?.data
                                             }
-                                            status={status}
                                         />
                                     </div>
                                 </div>

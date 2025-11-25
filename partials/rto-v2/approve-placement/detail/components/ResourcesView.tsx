@@ -127,7 +127,7 @@ export function ResourcesView({
                                                 window.open(resource?.file)
                                             }}
                                         >
-                                            <Download className="w-4 h-4 text-slate-400" />
+                                            <Download className="w-4 h-4 text-slate-700" />
                                         </button>
                                     </div>
                                 </div>
