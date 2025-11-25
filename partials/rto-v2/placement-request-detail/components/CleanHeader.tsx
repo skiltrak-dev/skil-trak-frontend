@@ -1,0 +1,398 @@
+import { AnimatePresence, motion } from 'framer-motion'
+import { Button, Badge, Typography } from '@components'
+import { Select } from '@components/inputs/Select'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@components/ui/tooltip'
+import {
+    ArrowLeft,
+    XCircle,
+    Play,
+    Briefcase,
+    Zap,
+    Pause,
+    Ban,
+    StopCircle,
+    Plus,
+    BookOpen,
+    Target,
+    CheckCircle2,
+    Sparkles,
+} from 'lucide-react'
+import { ScrollArea } from '@components/ui/scroll-area'
+import { GlobalModal } from '@components/Modal/GlobalModal'
+import { useState } from 'react'
+
+interface CleanHeaderProps {
+    isCancelled: boolean
+    isPlacementStarted: boolean
+    workplaceType: 'needs' | 'provided' | null
+    canCancelRequest: () => boolean
+    handleQuickAction: (value: string) => void
+    setShowCancelDialog: (show: boolean) => void
+    setShowManualNoteDialog: (show: boolean) => void
+    isWorkflowOpen: boolean
+    setIsWorkflowOpen: (open: boolean) => void
+    workflowStages: any[]
+    currentStatus: string
+    getCurrentStageIndex: () => number
+}
+
+export function CleanHeader({
+    isCancelled,
+    isPlacementStarted,
+    workplaceType,
+    canCancelRequest,
+    handleQuickAction,
+    setShowCancelDialog,
+    setShowManualNoteDialog,
+    isWorkflowOpen,
+    setIsWorkflowOpen,
+    workflowStages,
+    currentStatus,
+    getCurrentStageIndex,
+}: CleanHeaderProps) {
+    const quickActionOptions = [
+        { label: 'On Hold', value: 'On Hold' },
+        { label: 'Cancelled', value: 'Cancelled' },
+        { label: 'Terminated', value: 'Terminated' },
+    ]
+
+    return (
+        <>
+            <motion.div
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                className="bg-white border-b border-gray-200 sticky top-0 z-50"
+            >
+                <div className="px-8 py-4">
+                    <div className="flex items-center justify-between max-w-[1900px] mx-auto">
+                        {/* Left Section */}
+                        <div className="flex items-center gap-6">
+                            <Button
+                                variant="secondary"
+                                onClick={() => {}}
+                                Icon={ArrowLeft}
+                                text="Back"
+                                className="text-gray-600 hover:text-primaryNew"
+                            />
+
+                            <div className="h-8 w-px bg-gray-200"></div>
+
+                            <div>
+                                <Typography
+                                    variant="h3"
+                                    className="text-primaryNew mb-1"
+                                >
+                                    Placement Management
+                                </Typography>
+                                <div className="flex items-center gap-2">
+                                    <Typography
+                                        variant="small"
+                                        className="font-semibold text-gray-900"
+                                    >
+                                        STU-2024-1089
+                                    </Typography>
+                                    <span className="text-gray-300">•</span>
+                                    <Typography
+                                        variant="small"
+                                        className="text-gray-500 text-xs"
+                                    >
+                                        Updated 7 Nov 2025
+                                    </Typography>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Right Section */}
+                        <div className="flex items-center gap-2.5">
+                            {/* Status Badge */}
+                            {isCancelled && (
+                                <Badge
+                                    text="Cancelled"
+                                    variant="error"
+                                    outline
+                                    Icon={XCircle}
+                                    className="h-8 px-3"
+                                />
+                            )}
+                            {isPlacementStarted && !isCancelled && (
+                                <Badge
+                                    text="Active"
+                                    variant="success"
+                                    Icon={Play}
+                                    className="h-8 px-3"
+                                />
+                            )}
+                            {workplaceType &&
+                                !isCancelled &&
+                                !isPlacementStarted && (
+                                    <>
+                                        <Badge
+                                            text={
+                                                workplaceType === 'provided'
+                                                    ? 'Provided'
+                                                    : 'Needs Workplace'
+                                            }
+                                            variant="primaryNew"
+                                            Icon={Briefcase}
+                                            className="h-8 px-3"
+                                        />
+
+                                        {/* Quick Actions */}
+                                        <div className="w-[140px]">
+                                            <Select
+                                                name="quickActions"
+                                                options={quickActionOptions}
+                                                onChange={(val: any) =>
+                                                    handleQuickAction(val)
+                                                }
+                                                placeholder="Quick Actions"
+                                            />
+                                        </div>
+
+                                        {/* Cancel Request */}
+                                        {canCancelRequest() ? (
+                                            <Button
+                                                variant="error"
+                                                outline
+                                                onClick={() =>
+                                                    setShowCancelDialog(true)
+                                                }
+                                                Icon={XCircle}
+                                                text="Cancel"
+                                                className="h-8 border-red-400 text-red-400 hover:bg-red-50"
+                                            />
+                                        ) : (
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <div>
+                                                        <Button
+                                                            variant="secondary"
+                                                            disabled
+                                                            Icon={XCircle}
+                                                            text="Cancel"
+                                                            className="h-8"
+                                                        />
+                                                    </div>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <Typography
+                                                        variant="small"
+                                                        className="text-xs"
+                                                    >
+                                                        Only available within 48
+                                                        hours
+                                                    </Typography>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        )}
+                                    </>
+                                )}
+
+                            {/* Add Note */}
+                            <Button
+                                variant="secondary"
+                                outline
+                                onClick={() => setShowManualNoteDialog(true)}
+                                Icon={Plus}
+                                text="Note"
+                                className="h-8 border-gray-300 hover:border-primaryNew hover:bg-primaryNew/5 hover:text-primaryNew"
+                            />
+
+                            {/* Workflow Guide */}
+                            <Button
+                                variant="primaryNew"
+                                outline
+                                onClick={() => setIsWorkflowOpen(true)}
+                                Icon={BookOpen}
+                                text="Guide"
+                                className="h-8"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+
+            {/* Workflow Guide Modal */}
+            {isWorkflowOpen && (
+                <GlobalModal
+                    onCancel={() => setIsWorkflowOpen(false)}
+                    className="max-w-[700px]"
+                >
+                    <div className="p-6">
+                        {/* Header */}
+                        <div className="flex items-center gap-4 pb-6 border-b border-gray-200">
+                            <div className="p-3 bg-primaryNew rounded-xl">
+                                <BookOpen className="h-6 w-6 text-white" />
+                            </div>
+                            <div>
+                                <Typography
+                                    variant="h2"
+                                    className="text-primaryNew"
+                                >
+                                    Placement Workflow
+                                </Typography>
+                                <Typography
+                                    variant="small"
+                                    className="text-gray-600 mt-1"
+                                >
+                                    Complete guide to placement management
+                                </Typography>
+                            </div>
+                        </div>
+
+                        <ScrollArea className="h-[600px] mt-6">
+                            <div className="space-y-6 pr-4">
+                                {/* Current Workflow */}
+                                <div className="p-4 bg-gray-50 rounded-xl border border-gray-200">
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <div className="p-2 bg-primaryNew rounded-lg">
+                                            <Target className="h-4 w-4 text-white" />
+                                        </div>
+                                        <div>
+                                            <Typography
+                                                variant="label"
+                                                className="text-gray-900"
+                                            >
+                                                Active Workflow
+                                            </Typography>
+                                            <Typography
+                                                variant="small"
+                                                className="text-gray-600 text-xs"
+                                            >
+                                                {workplaceType === 'provided'
+                                                    ? 'Student Has Provided Workplace'
+                                                    : workplaceType === 'needs'
+                                                    ? 'Student Needs Workplace'
+                                                    : 'Not Selected'}
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                    {workplaceType && (
+                                        <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg">
+                                            <Badge
+                                                text={`Stage ${
+                                                    getCurrentStageIndex() + 1
+                                                } of ${workflowStages.length}`}
+                                                variant="primaryNew"
+                                                size="xs"
+                                            />
+                                            <Typography
+                                                variant="small"
+                                                className="text-gray-700"
+                                            >
+                                                {currentStatus}
+                                            </Typography>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Workflow Stages */}
+                                <div className="space-y-3">
+                                    <Typography
+                                        variant="label"
+                                        className="text-gray-900"
+                                    >
+                                        Workflow Stages
+                                    </Typography>
+
+                                    <div className="space-y-2">
+                                        {workflowStages.map((stage, index) => {
+                                            const Icon = stage.icon
+                                            const isCurrent =
+                                                index === getCurrentStageIndex()
+                                            const isPast =
+                                                index < getCurrentStageIndex()
+
+                                            return (
+                                                <div
+                                                    key={stage.id}
+                                                    className={`p-3 rounded-lg border transition-all ${
+                                                        isCurrent
+                                                            ? 'bg-primaryNew/5 border-primaryNew'
+                                                            : isPast
+                                                            ? 'bg-emerald-50 border-emerald-200'
+                                                            : 'bg-white border-gray-200'
+                                                    }`}
+                                                >
+                                                    <div className="flex items-center gap-3">
+                                                        <div
+                                                            className={`p-2 rounded-lg ${
+                                                                isCurrent
+                                                                    ? 'bg-primaryNew'
+                                                                    : isPast
+                                                                    ? 'bg-emerald-500'
+                                                                    : 'bg-gray-300'
+                                                            }`}
+                                                        >
+                                                            <Icon className="h-4 w-4 text-white" />
+                                                        </div>
+                                                        <div className="flex-1 flex items-center justify-between">
+                                                            <Typography
+                                                                variant="small"
+                                                                className={`font-medium ${
+                                                                    isCurrent
+                                                                        ? 'text-primaryNew'
+                                                                        : isPast
+                                                                        ? 'text-emerald-700'
+                                                                        : 'text-gray-600'
+                                                                }`}
+                                                            >
+                                                                {index + 1}.{' '}
+                                                                {stage.name}
+                                                            </Typography>
+                                                            {isCurrent && (
+                                                                <Badge
+                                                                    text="Current"
+                                                                    variant="warning"
+                                                                    size="xs"
+                                                                />
+                                                            )}
+                                                            {isPast && (
+                                                                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+
+                                {/* Tips */}
+                                <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
+                                    <div className="flex items-start gap-3">
+                                        <div className="p-2 bg-amber-500 rounded-lg">
+                                            <Sparkles className="h-4 w-4 text-white" />
+                                        </div>
+                                        <div>
+                                            <Typography
+                                                variant="label"
+                                                className="text-gray-900 mb-2"
+                                            >
+                                                Quick Tips
+                                            </Typography>
+                                            <ul className="space-y-1.5 text-xs text-gray-700">
+                                                <li>
+                                                    • Use Quick Actions for
+                                                    status changes
+                                                </li>
+                                                <li>
+                                                    • Add notes at any stage for
+                                                    tracking
+                                                </li>
+                                                <li>
+                                                    • Monitor compliance checks
+                                                    regularly
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ScrollArea>
+                    </div>
+                </GlobalModal>
+            )}
+        </>
+    )
+}
