@@ -268,7 +268,7 @@ export const LogbookAssessmentForm = ({
     }
 
     const handleGeneratePDF = () => {
-        console.log('Generating PDF for:', courseId)
+        console.log('Generating PDF for::', courseId)
     }
 
     const canStudentEdit =
