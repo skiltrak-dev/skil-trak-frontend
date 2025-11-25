@@ -34,7 +34,7 @@ export const DistanceIndicator = ({
             </div>
 
             <Factory className="text-primary" size={20} />
-            <span className="text-xs text-gray-600">{distance} away</span>
+            <span className="text-xs text-gray-600">{distance} km away</span>
         </div>
     )
 }

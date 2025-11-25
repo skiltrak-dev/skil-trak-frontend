@@ -5,6 +5,7 @@ import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
 import { ShowErrorNotifications } from '@components'
 import { StatusBadge } from './StatusBadge'
+import { X } from 'lucide-react'
 
 export const Actions = ({ contactId, alreadyContacted, int }: any) => {
     const { notification } = useNotification()
@@ -45,7 +46,7 @@ export const Actions = ({ contactId, alreadyContacted, int }: any) => {
         <>
             <ShowErrorNotifications result={interestedResult} />
             <div className="flex items-center gap-2">
-                {alreadyContacted && (int === null || int === undefined) ? (
+                {alreadyContacted?.length > 0 && (int === null || int === undefined) ? (
                     <>
                         <button
                             onClick={() => onClickNotInterested(contactId)}
@@ -56,7 +57,7 @@ export const Actions = ({ contactId, alreadyContacted, int }: any) => {
                             {interestedResult.isLoading ? (
                                 <PuffLoader size={12} color="#ef4444" />
                             ) : (
-                                <IoClose className="w-3 h-3 text-red-600" />
+                                <X className="size-4 text-red-600" />
                             )}
                         </button>
                         <button

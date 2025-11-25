@@ -137,13 +137,14 @@ export const ViewOnMapIndustriesModal = ({
             }
         )
     const workplaceCourseId = workplace?.courses?.[0]?.id
-    // const futureIndustries =
-    //     CommonApi.FindWorkplace.useMapFutureIndustriesInRadius(
-    //         { id: workplaceCourseId, wpId: workplace?.id },
-    //         {
-    //             skip: !workplaceCourseId && !workplace?.id,
-    //         }
-    //     )
+    const futureIndustries =
+
+        SubAdminApi.Workplace.useWorkplaceListedIndustries(
+            { id: workplaceCourseId, wpId: workplace?.id },
+            {
+                skip: !workplaceCourseId && !workplace?.id,
+            }
+        )
     const workplaceCourseIndustries =
         SubAdminApi.Workplace.useWorkplaceCourseIndustries(
             { id: workplaceCourseId, wpId: workplace?.id },
@@ -157,13 +158,12 @@ export const ViewOnMapIndustriesModal = ({
     )
 
     const industriesBranches =
-        workplaceCourseIndustries?.data?.inds?.data?.flatMap(
+        workplaceCourseIndustries?.data?.data?.flatMap(
             (item: any) => item?.locations || []
         )
-
     useEffect(() => {
         if (
-            workplaceCourseIndustries?.data?.inds?.data?.length > 0 ||
+            workplaceCourseIndustries?.data?.data?.length > 0 ||
             workplace?.student?.location ||
             industriesBranches
         ) {
@@ -171,7 +171,7 @@ export const ViewOnMapIndustriesModal = ({
 
             if (workplaceCourseIndustries?.data) {
                 const filteredIndustries =
-                    workplaceCourseIndustries?.data?.inds?.data?.filter(
+                    workplaceCourseIndustries?.data?.data?.filter(
                         (industry: any) =>
                             industry?.location && industry?.location !== 'NA'
                     )
@@ -201,15 +201,15 @@ export const ViewOnMapIndustriesModal = ({
                 markers.push(studentMarker)
             }
             if (
-                workplaceCourseIndustries?.data?.listing?.data &&
-                workplaceCourseIndustries?.data?.listing?.data?.length
+                futureIndustries?.data?.data &&
+                futureIndustries?.data?.data?.length
             ) {
                 const filteredIndustries =
                     workplaceCourseIndustries?.data?.listing?.data?.filter(
                         (industry: any) =>
                             industry.location && industry.location !== 'NA'
                     )
-                const transformedFutureIndustries = filteredIndustries?.map(
+                const transformedFutureIndustries = futureIndustries?.data?.data?.map(
                     (industry: any) => {
                         const [lat, lng] = industry?.location
                             .split(',')
@@ -238,7 +238,7 @@ export const ViewOnMapIndustriesModal = ({
 
             setVisibleMarkers(markers)
         }
-    }, [workplaceCourseIndustries])
+    }, [workplaceCourseIndustries, futureIndustries])
 
     const onBoundChange = useCallback(() => {
         setFutureIndustryId(null)
@@ -286,61 +286,6 @@ export const ViewOnMapIndustriesModal = ({
         } else {
             setSelectedMarkers([marker])
         }
-    }
-
-    const renderDirections = () => {
-        if (selectedMarkers.length === 2) {
-            const origin = new google.maps.LatLng(
-                selectedMarkers[0].lat,
-                selectedMarkers[0].lng
-            )
-            const destination = new google.maps.LatLng(
-                selectedMarkers[1].lat,
-                selectedMarkers[1].lng
-            )
-
-            const directionsService = new google.maps.DirectionsService()
-
-            directionsService.route(
-                {
-                    origin,
-                    destination,
-                    travelMode: google.maps.TravelMode.DRIVING,
-                },
-                (result, status) => {
-                    if (status === google.maps.DirectionsStatus.OK) {
-                        setDirections(result)
-                    } else {
-                        console.error(
-                            `Directions request failed due to ${status}`
-                        )
-                    }
-                }
-            )
-
-            return null // Don't render the DirectionsService component itself
-        }
-        return null
-    }
-    const renderPolyline = () => {
-        if (directions) {
-            const path = directions.routes[0].overview_path.map((p: any) => ({
-                lat: p.lat(),
-                lng: p.lng(),
-            }))
-
-            return (
-                <Polyline
-                    path={path}
-                    options={{
-                        strokeColor: '#FF0000',
-                        strokeOpacity: 1,
-                        strokeWeight: 3,
-                    }}
-                />
-            )
-        }
-        return null
     }
 
     const studentClusterOptions = {
@@ -398,14 +343,14 @@ export const ViewOnMapIndustriesModal = ({
                             onChange={() => {
                                 const [lat, lng] = workplace?.student?.location
                                     ? workplace?.student?.location
-                                          ?.split(',')
-                                          ?.map(Number)
+                                        ?.split(',')
+                                        ?.map(Number)
                                     : []
                                 const [lat2, lng2] = workplace?.student
                                     ?.location2
                                     ? workplace?.student?.location2
-                                          ?.split(',')
-                                          ?.map(Number)
+                                        ?.split(',')
+                                        ?.map(Number)
                                     : []
                                 if (map) {
                                     if (showSecondaryLocation) {
@@ -436,9 +381,9 @@ export const ViewOnMapIndustriesModal = ({
                                 mapContainerStyle={containerStyle}
                                 center={
                                     studentCenter &&
-                                    studentCenter?.location &&
-                                    isFinite(studentCenter?.location?.lat) &&
-                                    isFinite(studentCenter?.location?.lng)
+                                        studentCenter?.location &&
+                                        isFinite(studentCenter?.location?.lat) &&
+                                        isFinite(studentCenter?.location?.lng)
                                         ? studentCenter?.location
                                         : center
                                 }
@@ -446,7 +391,7 @@ export const ViewOnMapIndustriesModal = ({
                                 onLoad={onMapLoad}
                                 onUnmount={onMapUnmount}
                                 options={{ styles: customMapStyles }}
-                                // onBoundsChanged={onBoundChange}
+                            // onBoundsChanged={onBoundChange}
                             >
                                 <MarkerClusterer
                                     options={studentClusterOptions}
@@ -458,7 +403,7 @@ export const ViewOnMapIndustriesModal = ({
                                                     (marker: any) =>
                                                         marker?.user &&
                                                         marker?.user?.role ===
-                                                            UserRoles.STUDENT &&
+                                                        UserRoles.STUDENT &&
                                                         !marker?.department
                                                 )
                                                 .map((marker: any) => {
@@ -470,22 +415,22 @@ export const ViewOnMapIndustriesModal = ({
                                                                         marker
                                                                             ?.user
                                                                             ?.role &&
-                                                                        marker
-                                                                            ?.user
-                                                                            ?.role ===
+                                                                            marker
+                                                                                ?.user
+                                                                                ?.role ===
                                                                             UserRoles.STUDENT
                                                                             ? '/images/icons/student-red-map-pin.png'
                                                                             : indind?.includes(
-                                                                                  marker?.id
-                                                                              )
-                                                                            ? '/images/icons/industryContacted.png'
-                                                                            : marker?.placementStatus ===
-                                                                              IndustryPlacementStatus.ACCEPTING_STUDENTS
-                                                                            ? '/images/icons/industry-pin-map-pin-check.png'
-                                                                            : marker?.placementStatus ===
-                                                                              IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
-                                                                            ? '/images/icons/industry-pin-map-pin-uncheck.png'
-                                                                            : '/images/icons/industry-pin-map-pin.png',
+                                                                                marker?.id
+                                                                            )
+                                                                                ? '/images/icons/industryContacted.png'
+                                                                                : marker?.placementStatus ===
+                                                                                    IndustryPlacementStatus.ACCEPTING_STUDENTS
+                                                                                    ? '/images/icons/industry-pin-map-pin-check.png'
+                                                                                    : marker?.placementStatus ===
+                                                                                        IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
+                                                                                        ? '/images/icons/industry-pin-map-pin-uncheck.png'
+                                                                                        : '/images/icons/industry-pin-map-pin.png',
                                                                     scaledSize:
                                                                         new google.maps.Size(
                                                                             31,
@@ -495,7 +440,7 @@ export const ViewOnMapIndustriesModal = ({
                                                                 key={marker.id}
                                                                 position={
                                                                     marker.location2 &&
-                                                                    showSecondaryLocation
+                                                                        showSecondaryLocation
                                                                         ? marker.location2
                                                                         : marker.location
                                                                 }
@@ -520,10 +465,10 @@ export const ViewOnMapIndustriesModal = ({
                                                                         {
                                                                             ...marker,
                                                                             position:
-                                                                                {
-                                                                                    lat: e.latLng.lat(),
-                                                                                    lng: e.latLng.lng(),
-                                                                                },
+                                                                            {
+                                                                                lat: e.latLng.lat(),
+                                                                                lng: e.latLng.lng(),
+                                                                            },
                                                                         }
                                                                     )
                                                                     setShowInfoBox(
@@ -533,7 +478,7 @@ export const ViewOnMapIndustriesModal = ({
                                                             />
 
                                                             {marker.location2 &&
-                                                            showSecondaryLocation ? (
+                                                                showSecondaryLocation ? (
                                                                 <Circle
                                                                     center={
                                                                         marker.location2
@@ -595,7 +540,7 @@ export const ViewOnMapIndustriesModal = ({
                                                             {selectedBox &&
                                                                 showInfoBox &&
                                                                 selectedBox.id ===
-                                                                    marker.id &&
+                                                                marker.id &&
                                                                 !marker?.department && (
                                                                     <InfoBox
                                                                         position={
@@ -621,9 +566,9 @@ export const ViewOnMapIndustriesModal = ({
                                                                         {marker
                                                                             ?.user
                                                                             ?.role &&
-                                                                        marker
-                                                                            ?.user
-                                                                            ?.role ===
+                                                                            marker
+                                                                                ?.user
+                                                                                ?.role ===
                                                                             'student' ? (
                                                                             <StudentInfoBoxCard
                                                                                 item={
@@ -691,7 +636,7 @@ export const ViewOnMapIndustriesModal = ({
                                                         !marker?.isPartner &&
                                                         marker?.user &&
                                                         marker?.user?.role !==
-                                                            'student' &&
+                                                        'student' &&
                                                         !marker?.department
                                                 )
                                                 .map((marker: any) => (
@@ -701,21 +646,21 @@ export const ViewOnMapIndustriesModal = ({
                                                                 url:
                                                                     marker?.user
                                                                         ?.role &&
-                                                                    marker?.user
-                                                                        ?.role ===
+                                                                        marker?.user
+                                                                            ?.role ===
                                                                         'student'
                                                                         ? '/images/icons/student-red-map-pin.png'
                                                                         : indind?.includes(
-                                                                              marker?.id
-                                                                          )
-                                                                        ? '/images/icons/industryContacted.png'
-                                                                        : marker?.placementStatus ===
-                                                                          IndustryPlacementStatus.ACCEPTING_STUDENTS
-                                                                        ? '/images/icons/industry-pin-map-pin-check.png'
-                                                                        : marker?.placementStatus ===
-                                                                          IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
-                                                                        ? '/images/icons/industry-pin-map-pin-uncheck.png'
-                                                                        : '/images/icons/industry-pin-map-pin.png',
+                                                                            marker?.id
+                                                                        )
+                                                                            ? '/images/icons/industryContacted.png'
+                                                                            : marker?.placementStatus ===
+                                                                                IndustryPlacementStatus.ACCEPTING_STUDENTS
+                                                                                ? '/images/icons/industry-pin-map-pin-check.png'
+                                                                                : marker?.placementStatus ===
+                                                                                    IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
+                                                                                    ? '/images/icons/industry-pin-map-pin-uncheck.png'
+                                                                                    : '/images/icons/industry-pin-map-pin.png',
                                                                 scaledSize:
                                                                     new google.maps.Size(
                                                                         31,
@@ -924,7 +869,7 @@ export const ViewOnMapIndustriesModal = ({
                                                         marker?.isPartner &&
                                                         marker?.user &&
                                                         marker?.user?.role !==
-                                                            'student' &&
+                                                        'student' &&
                                                         !marker?.department
                                                 )
                                                 .map((marker: any) => (
@@ -934,21 +879,21 @@ export const ViewOnMapIndustriesModal = ({
                                                                 url:
                                                                     marker?.user
                                                                         ?.role &&
-                                                                    marker?.user
-                                                                        ?.role ===
+                                                                        marker?.user
+                                                                            ?.role ===
                                                                         'student'
                                                                         ? '/images/icons/student-red-map-pin.png'
                                                                         : indind?.includes(
-                                                                              marker?.id
-                                                                          )
-                                                                        ? '/images/icons/partnerIndustryContacted.png'
-                                                                        : marker?.placementStatus ===
-                                                                          IndustryPlacementStatus.ACCEPTING_STUDENTS
-                                                                        ? '/images/icons/partnered-industry-marker-check.png'
-                                                                        : marker?.placementStatus ===
-                                                                          IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
-                                                                        ? '/images/icons/partnered-industry-marker-uncheck.png'
-                                                                        : '/images/icons/partnered-industry-marker.png',
+                                                                            marker?.id
+                                                                        )
+                                                                            ? '/images/icons/partnerIndustryContacted.png'
+                                                                            : marker?.placementStatus ===
+                                                                                IndustryPlacementStatus.ACCEPTING_STUDENTS
+                                                                                ? '/images/icons/partnered-industry-marker-check.png'
+                                                                                : marker?.placementStatus ===
+                                                                                    IndustryPlacementStatus.NOT_ACCEPTING_STUDENTS
+                                                                                    ? '/images/icons/partnered-industry-marker-uncheck.png'
+                                                                                    : '/images/icons/partnered-industry-marker.png',
                                                                 scaledSize:
                                                                     new google.maps.Size(
                                                                         29,
