@@ -49,8 +49,6 @@ export function DecisionPanel({ approval, status }: DecisionPanelProps) {
         },
     ]
 
-    console.log({ quickReviewRequest })
-
     return (
         <div className="space-y-5">
             {/* Quick Stats */}

@@ -12,7 +12,6 @@ export const CancelRtoAppointmentModal = ({
     appointment: any
     onCancel: () => void
 }) => {
-    console.log('appointment', appointment);
     const { alert } = useAlert()
     const { notification } = useNotification()
     const [changeStatus, changeStatusResult] =
@@ -20,15 +19,12 @@ export const CancelRtoAppointmentModal = ({
 
     const onConfirmClicked = async () => {
         await changeStatus(appointment?.id)
-        if (
-            !isLessThan24HoursDifference(appointment?.date)
-        ) {
+        if (!isLessThan24HoursDifference(appointment?.date)) {
             changeStatus(appointment?.id)
         } else {
             notification.error({
                 title: 'Appointment Cant be cancel',
-                description:
-                    'Appointment Cant cancel before 1 day',
+                description: 'Appointment Cant cancel before 1 day',
             })
         }
     }

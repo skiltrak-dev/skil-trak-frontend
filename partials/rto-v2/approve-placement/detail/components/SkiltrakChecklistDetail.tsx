@@ -58,8 +58,6 @@ export const SkiltrakChecklistDetail = ({
 
     const colors = getColorClasses('blue')
 
-    console.log({ getSkiltrakCourseChecklist })
-
     return (
         <>
             {documentsViewModal}

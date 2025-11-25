@@ -11,7 +11,11 @@ import { debounce } from 'lodash'
 import React, { useCallback, useState } from 'react'
 import { RtoSearchedUserCard } from './RtoSearchedUserCard'
 
-export const RtoAppointmentSearchCard = ({ role, setSelectedUser, selectedUser }: any) => {
+export const RtoAppointmentSearchCard = ({
+    role,
+    setSelectedUser,
+    selectedUser,
+}: any) => {
     const [search, setSearch] = useState('')
     const [searchValue, setSearchValue] = useState<string>('')
     const [page, setPage] = useState(1)
@@ -38,7 +42,6 @@ export const RtoAppointmentSearchCard = ({ role, setSelectedUser, selectedUser }
     const onFilterChange = (value: any) => {
         delayedSearchFor(value)
     }
-    console.log('rtoUsers?.data', rtoUsers?.data)
     return (
         <div>
             {' '}
@@ -52,7 +55,7 @@ export const RtoAppointmentSearchCard = ({ role, setSelectedUser, selectedUser }
                     setSearchValue(e.target.value)
                     onFilterChange(e.target.value)
                 }}
-            // value={searchValue}
+                // value={searchValue}
             />
             {rtoUsers.isError && (
                 <NoData

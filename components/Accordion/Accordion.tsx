@@ -1,6 +1,5 @@
-import { GoPlus } from 'react-icons/go'
-
 import { Typography } from '@components'
+import { GoPlus } from 'react-icons/go'
 
 type AccordionProps = {
     question: string

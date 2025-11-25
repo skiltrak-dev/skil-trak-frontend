@@ -262,7 +262,6 @@ export const LogbookAssessmentForm = ({
 
     const handleSign = () => {
         if (currentRole === 'supervisor' && supervisorSignature) {
-            console.log('Supervisor signed')
         } else if (currentRole === 'assessor' && assessorSignature) {
             onStatusChange('signedLocked')
         }

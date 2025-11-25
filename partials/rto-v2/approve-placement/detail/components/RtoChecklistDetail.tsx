@@ -17,8 +17,6 @@ export const RtoChecklistDetail = ({ coursesId }: { coursesId: number }) => {
 
     const { documentsViewModal, onFileClicked } = DocumentsView()
 
-    console.log({ getRtoCourseChecklist })
-
     const getColorClasses = (color: string) => {
         const colors: Record<
             string,
