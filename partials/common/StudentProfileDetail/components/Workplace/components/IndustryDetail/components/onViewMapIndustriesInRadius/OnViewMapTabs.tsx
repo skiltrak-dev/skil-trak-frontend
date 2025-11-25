@@ -101,9 +101,8 @@ export const OnViewMapTabs = ({
         industryType === 'branch'
             ? branchDetailsData
             : industryType === 'listing'
-            ? futureIndustryDetailsData
-            : suggestedIndustryDetailsData
-
+                ? futureIndustryDetailsData
+                : suggestedIndustryDetailsData
     const workplaceCourseId = workplace?.courses?.[0]?.id
 
     const handleTabClick = (tabId: Tab['id']) => {

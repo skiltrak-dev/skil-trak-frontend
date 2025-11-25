@@ -398,6 +398,19 @@ export const workplaceEndpoints = (
             'SubAdminStudents',
         ],
     }),
+    // course/:id/workplace-request/:wpId/listing/list
+    getWorkplaceListedIndustries: builder.query<any, any>({
+        query: ({ id, wpId, params = {} }) => ({
+            url: `subadmin/course/${id}/workplace-request/${wpId}/listing/list`,
+            params,
+        }),
+        providesTags: [
+            'SubAdminWorkplace',
+            'SubAdminIndustries',
+            'Industries',
+            'SubAdminStudents',
+        ],
+    }),
 
     getMapIndustriesInRadiusCount: builder.query<any, any>({
         query: ({ id, wpId }) =>
