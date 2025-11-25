@@ -104,8 +104,11 @@ export const StudentsNeedWorkplaceTab = () => {
     const tableActionOptions = (student: Student) => [
         {
             text: 'View',
-            onClick: (student: Student) =>
-                router.push(`/portals/rto/students/${student.id}?tab=overview`),
+            onClick: (student: Student) => {
+                router.push(
+                    `/portals/rto/students-and-placements/placement-requests/${student?.id}/detail`
+                )
+            },
             Icon: FaEye,
         },
         // {
@@ -143,7 +146,11 @@ export const StudentsNeedWorkplaceTab = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => (
-                <StudentCellInfo student={info.row.original} call />
+                <StudentCellInfo
+                    link={`/portals/rto/students-and-placements/placement-requests/${info?.row?.original?.id}/detail`}
+                    student={info.row.original}
+                    call
+                />
             ),
             header: () => <span>Student</span>,
         },

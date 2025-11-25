@@ -12,7 +12,9 @@ import { RiErrorWarningFill } from 'react-icons/ri'
 export const StudentCellInfo = ({
     student,
     call,
+    link,
 }: {
+    link?: string
     student: Student
     call?: boolean
 }) => {
@@ -31,7 +33,10 @@ export const StudentCellInfo = ({
 
     const isDateExist = createdAt.isBetween(startDate, endDate, 'day')
     return (
-        <Link legacyBehavior href={`/portals/rto/students/${student?.id}`}>
+        <Link
+            legacyBehavior
+            href={link || `/portals/rto/students/${student?.id}`}
+        >
             <a className="flex items-center gap-x-2">
                 <div className="shadow-inner-image rounded-full">
                     {student?.user?.name && (
