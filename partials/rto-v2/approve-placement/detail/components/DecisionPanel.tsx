@@ -33,6 +33,11 @@ export function DecisionPanel({ approval, status }: DecisionPanelProps) {
         //     icon: quickReviewRequest?.data?.compliance ? CheckCircle2 : XCircle,
         // },
         {
+            label: 'Compliance',
+            icon: check(quickReviewRequest?.data?.compliance || false),
+            key: quickReviewRequest?.data?.compliance,
+        },
+        {
             label: 'Supervisors',
             icon: check(quickReviewRequest?.data?.supervisor || false),
             key: quickReviewRequest?.data?.supervisor,

@@ -1,4 +1,4 @@
-import { Badge, Button, Card } from '@components'
+import { Badge, Button, Card, NoData } from '@components'
 import { DocumentsView } from '@hooks'
 import { RtoV2Api } from '@queries'
 import { ellipsisText } from '@utils'
@@ -68,17 +68,19 @@ export const RtoChecklistDetail = ({ coursesId }: { coursesId: number }) => {
                                 <div className="text-slate-900 mb-2">
                                     RTO Facility Checklist
                                 </div>
-                                <Badge
-                                    Icon={CheckCircle2}
-                                    text="Signed & Complete"
-                                    className={colors.badge}
-                                ></Badge>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="space-y-4">
-                    {true && (
+                    {getRtoCourseChecklist?.isError ? (
+                        <NoData
+                            isError
+                            simple
+                            text="There is some technical issue!"
+                        />
+                    ) : null}
+                    {getRtoCourseChecklist?.isSuccess && (
                         <div className="space-y-2.5">
                             {[
                                 'Confirmed suitable physical environment',
@@ -103,38 +105,8 @@ export const RtoChecklistDetail = ({ coursesId }: { coursesId: number }) => {
                         </div>
                     )}
 
-                    <div
-                        className={`${colors.bg} p-4 rounded-lg border ${colors.border} mt-4`}
-                    >
-                        <div className="grid md:grid-cols-3 gap-3 text-sm">
-                            <div>
-                                <div className="text-xs text-slate-600 mb-1">
-                                    Signed By
-                                </div>
-                                <div className={colors.text}>
-                                    {'checklist.signedBy'}
-                                </div>
-                            </div>
-                            <div>
-                                <div className="text-xs text-slate-600 mb-1">
-                                    Date
-                                </div>
-                                <div className={colors.text}>
-                                    {'checklist.signedDate'}
-                                </div>
-                            </div>
-                            <div>
-                                <div className="text-xs text-slate-600 mb-1">
-                                    Version
-                                </div>
-                                <div className={colors.text}>
-                                    {'checklist.version'}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {true && (
+                    {getRtoCourseChecklist?.data?.files &&
+                    getRtoCourseChecklist?.data?.files?.length > 0 ? (
                         <div className="mt-4 p-5 bg-gradient-to-br from-slate-50 to-white rounded-xl border-2 border-slate-200 hover:border-[#044866]/30 hover:shadow-md transition-all group">
                             <div className="flex items-center justify-between gap-4 flex-wrap">
                                 <div className="flex items-center gap-4 flex-1 min-w-0">
@@ -144,8 +116,8 @@ export const RtoChecklistDetail = ({ coursesId }: { coursesId: number }) => {
                                     <div className="flex-1 min-w-0">
                                         <div className="text-sm text-slate-900 truncate mb-1">
                                             {ellipsisText(
-                                                getRtoCourseChecklist
-                                                    ?.data?.[0],
+                                                getRtoCourseChecklist?.data
+                                                    ?.files?.[0],
                                                 30
                                             )}
                                         </div>
@@ -162,18 +134,39 @@ export const RtoChecklistDetail = ({ coursesId }: { coursesId: number }) => {
                                         outline
                                         variant="primaryNew"
                                         onClick={() => {
-                                            onFileClicked({
-                                                file: getRtoCourseChecklist
-                                                    ?.data?.[0],
-                                                extension: getRtoCourseChecklist
-                                                    ?.data?.[0]
-                                                    ? getRtoCourseChecklist.data?.[0]
-                                                          ?.split('.')
-                                                          ?.pop()
-                                                          ?.split('?')[0]
-                                                    : undefined,
-                                                type: 'all',
-                                            })
+                                            const extension =
+                                                getRtoCourseChecklist.data?.files?.[0]
+                                                    ?.split('.')
+                                                    ?.pop()
+                                                    ?.split('?')[0]
+
+                                            // For DOCX files, open in Google Docs viewer
+                                            if (
+                                                extension === 'docx' ||
+                                                extension === 'doc'
+                                            ) {
+                                                const viewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
+                                                    getRtoCourseChecklist.data
+                                                        ?.files?.[0]
+                                                )}&embedded=true`
+                                                window.open(viewerUrl, '_blank')
+                                            } else {
+                                                onFileClicked({
+                                                    file: getRtoCourseChecklist
+                                                        ?.data?.files?.[0],
+                                                    extension:
+                                                        getRtoCourseChecklist
+                                                            ?.data?.files?.[0]
+                                                            ? getRtoCourseChecklist.data?.files?.[0]
+                                                                  ?.split('.')
+                                                                  ?.pop()
+                                                                  ?.split(
+                                                                      '?'
+                                                                  )[0]
+                                                            : undefined,
+                                                    type: 'all',
+                                                })
+                                            }
                                         }}
                                     >
                                         <ExternalLink className="w-3.5 h-3.5" />
@@ -182,7 +175,9 @@ export const RtoChecklistDetail = ({ coursesId }: { coursesId: number }) => {
                                 </div>
                             </div>
                         </div>
-                    )}
+                    ) : getRtoCourseChecklist?.isSuccess ? (
+                        <NoData simple text="No RTO Facility Checklist found" />
+                    ) : null}
                 </div>
             </Card>
         </>

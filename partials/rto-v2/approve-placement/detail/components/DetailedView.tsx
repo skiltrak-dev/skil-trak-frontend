@@ -1,19 +1,17 @@
+import { Typography } from '@components'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
+import { RtoApprovalWorkplaceRequest } from '@types'
+import {
+    FolderOpen,
+    GraduationCap,
+    LucideIcon,
+    ShieldCheck,
+    Users
+} from 'lucide-react'
 import { ComplianceDetails } from './ComplianceDetails'
-import { SupervisorInfo } from './SupervisorInfo'
-import { PlacementDetails } from './PlacementDetails'
 import { ProgramsInfo } from './ProgramsInfo'
 import { ResourcesView } from './ResourcesView'
-import {
-    ShieldCheck,
-    GraduationCap,
-    Users,
-    ClipboardList,
-    FolderOpen,
-    LucideIcon,
-} from 'lucide-react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
-import { Typography } from '@components'
-import { RtoApprovalWorkplaceRequest } from '@types'
+import { SupervisorInfo } from './SupervisorInfo'
 
 interface DetailedViewProps {
     approval: RtoApprovalWorkplaceRequest

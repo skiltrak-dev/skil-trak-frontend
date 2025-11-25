@@ -40,7 +40,7 @@ export const approvalRequestEndpoints = (
     }),
 
     quickReviewRequest: builder.query<
-        { supervisor: boolean; sectorCapacity: boolean },
+        { supervisor: boolean; sectorCapacity: boolean; compliance: boolean },
         { industryId: number; courseId: number }
     >({
         query: ({ industryId, courseId }) =>

@@ -47,10 +47,6 @@ export const HighlightedTasks = ({
 
     const colors = getColorClasses('emerald')
 
-    const data = Array.isArray(highlightedTasks?.data)
-        ? highlightedTasks?.data
-        : []
-
     return (
         <Card
             className={`border-2 ${colors.border} hover:shadow-lg transition-all`}
@@ -67,11 +63,6 @@ export const HighlightedTasks = ({
                             <div className="text-slate-900 mb-2">
                                 Highlighted Tasks
                             </div>
-                            <Badge
-                                Icon={CheckCircle2}
-                                text="Signed & Complete"
-                                className={colors.badge}
-                            ></Badge>
                         </div>
                     </div>
                 </div>
@@ -110,23 +101,6 @@ export const HighlightedTasks = ({
                         )}
                     </div>
                 )}
-
-                <div
-                    className={`${colors.bg} p-4 rounded-lg border ${
-                        colors.border
-                    } ${highlightedTasks?.data?.[0]?.length > 0 ? 'mt-4' : ''}`}
-                >
-                    <div className="grid md:grid-cols-3 gap-3 text-sm">
-                        <div>
-                            <div className="text-xs text-slate-600 mb-1">
-                                Signed By
-                            </div>
-                            <div className={colors.text}>
-                                {industry?.contactPerson || '---'}
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </Card>
     )
