@@ -12,6 +12,7 @@ interface CardProps {
     className?: string
     borderColor?: string
     fitHeight?: boolean
+    onClick?: any
 }
 
 export const Card = ({
@@ -25,6 +26,7 @@ export const Card = ({
     border,
     borderColor,
     fitHeight,
+    onClick
 }: CardProps) => {
     const classes = classNames({
         'w-full': layout === 'fluid',
@@ -44,7 +46,7 @@ export const Card = ({
         borderColor,
     })
     return (
-        <div className={`${classes} ${shadowColor} ${className}`}>
+        <div onClick={onClick} className={`${classes} ${shadowColor} ${className}`}>
             {children}
         </div>
     )

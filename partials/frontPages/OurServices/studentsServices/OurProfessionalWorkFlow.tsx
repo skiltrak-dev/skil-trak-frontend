@@ -13,7 +13,7 @@ export const OurProfessionalWorkFlow = () => {
             percent: 50,
         },
         {
-            title: 'Paper Work',
+            title: 'Documentation',
             percent: 75,
         },
         {
@@ -46,9 +46,8 @@ export const OurProfessionalWorkFlow = () => {
         const activeColor = 'bg-[#635AD9]'
         const defaultColor = 'bg-primary'
 
-        return `${baseClasses} ${
-            index >= 1 && index <= 3 ? activeColor : defaultColor
-        }`
+        return `${baseClasses} ${index >= 1 && index <= 3 ? activeColor : defaultColor
+            }`
     }
 
     const getStepTitleClasses = (index: number) => {
@@ -67,9 +66,8 @@ export const OurProfessionalWorkFlow = () => {
 
     const getOverlayClasses = (index: number) => {
         const baseClasses = 'absolute top-0 -right-2 h-full w-6 rounded-full'
-        return `${baseClasses} ${
-            index === 1 ? 'bg-transparent' : 'bg-white/90'
-        }`
+        return `${baseClasses} ${index === 1 ? 'bg-transparent' : 'bg-white/90'
+            }`
     }
 
     const renderFinalStepDecorations = () => (

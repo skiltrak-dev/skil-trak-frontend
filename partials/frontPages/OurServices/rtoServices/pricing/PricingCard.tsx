@@ -1,3 +1,6 @@
+import { Typography } from '@components';
+import { BookADemoModal } from '@components/site/v3/hero/BookADemoModal';
+import Modal from '@modals/Modal';
 import { Check, X } from 'lucide-react'
 
 interface PricingCardProps {
@@ -165,11 +168,23 @@ export const PricingCard = ({ variant, title, features }: PricingCardProps) => {
                     </ul>
 
                     <div className="flex justify-center mt-10">
-                        <button
-                            className={`px-6 py-2 rounded-full border font-semibold ${color.button}`}
-                        >
-                            Get Started
-                        </button>
+                        <Modal>
+                            <Modal.Open opens="bookADemo">
+                                <button
+                                    className={`px-6 py-2 rounded-full cursor-pointer border font-semibold ${color.button}`}
+                                >
+                                    Get Started
+                                </button>
+                            </Modal.Open>
+
+                            <Modal.Window
+                                name="bookADemo"
+                                noPadding
+                            >
+                                <BookADemoModal />
+                            </Modal.Window>
+                        </Modal>
+
                     </div>
                 </div>
             </div>

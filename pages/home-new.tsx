@@ -17,16 +17,16 @@ const HomeV3: NextPageWithLayout = ({ featuredBlogs, homepageCounts }: any) => {
     return (
         <>
             <HeroSection />
-            {/* <TrustedByMarquee /> */}
+            <TrustedByMarquee />
             <WhoWeServe />
 
-            {/* ✅ Pass homepageCounts data into CountsSection */}
+
             <CountsSection homepageCounts={homepageCounts} />
 
             <AssuredPlacement />
             <CollaborationAddOns />
 
-            {/* ✅ Pass featuredBlogs as props here */}
+
             <ContactAndBlogs featuredBlogs={featuredBlogs} />
 
             <StudentSuccessStories />

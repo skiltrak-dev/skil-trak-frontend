@@ -27,7 +27,7 @@ export const OurStoryMapSection = () => {
                 </Typography>
                 <div className="md:px-32 px-4 py-2 md:py-4">
                     <Typography variant="body" center>
-                        Our customized map features enables to locate all
+                        Our customised map features enables to locate all
                         nearest industries within the given 20km radius of the
                         provided student location. Select a specific region and
                         see how this works.

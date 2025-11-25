@@ -149,18 +149,20 @@ export const StudentsOnGlobe = () => {
                     </div>
                 </div>
                 <div className="bg-white w-[287px] h-[61px] px-4 py-2 flex items-center gap-x-8  border-[#F7A619] border-2 rounded-2xl">
-                    <Typography>Review Us On</Typography>
-                    <div className="">
-                        <Image
-                            src={
-                                '/images/site/home-page-v3/student-success-stories/google.png'
-                            }
-                            alt={`title line`}
-                            width={100}
-                            height={50}
-                            className="mt-4"
-                        />
-                    </div>
+                    <a href="https://www.google.com/search?sca_esv=7fdc74f9b911297e&si=AMgyJEtREmoPL4P1I5IDCfuA8gybfVI2d5Uj7QMwYCZHKDZ-E0ilo-xLWvJnsfxfIgi1xQ_xFjq9Dcfmi7BlymovN7rZbrwv4HdOo-A7ZuOsAg6NQWB2SmhN5AiihCb0dvdPa6sjCVJh&q=SkilTrak+Reviews&sa=X&ved=2ahUKEwim6L307PqQAxWy_rsIHUl9CpYQ0bkNegQINBAE&biw=1280&bih=559&dpr=1.5" target="_blank" rel="noopener noreferrer">
+                        <div className="flex items-center justify-between gap-x-8">
+                            <Typography>Review Us On</Typography>
+                            <Image
+                                src={
+                                    '/images/site/home-page-v3/student-success-stories/google.png'
+                                }
+                                alt={`title line`}
+                                width={100}
+                                height={50}
+                                className="mt-4"
+                            />
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>

@@ -28,7 +28,7 @@ export const RtoAboutUsSection = () => {
                     deliver work-based Training solutions and support. Our
                     strategic approach ensures VET Standard aligned placements,
                     enhances student outcomes, and supports Training
-                    Organizations in building strong, industry-driven
+                    Organisation in building strong, industry-driven
                     partnerships.
                 </p>
                 <div className="flex gap-10 text-center flex-col md:flex-row">

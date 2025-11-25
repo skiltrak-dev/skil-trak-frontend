@@ -804,7 +804,7 @@ img {
         'M 40 150 C 110 20, 250 20, 320 150 C 390 280, 530 280, 600 150 C 670 20, 810 20, 880 150 C 950 280, 1090 280, 1160 150'
     );
     offset-rotate: 0deg;
-    animation: moveDot 10s linear infinite;
+    animation: moveDot 40s linear infinite;
 }
 
 .float-light-animate {
@@ -819,4 +819,17 @@ img {
     50% {
         transform: translateY(-10px);
     }
+}
+
+.backface-hidden {
+    backface-visibility: hidden;
+}
+.perspective {
+    perspective: 1000px;
+}
+.transform-style {
+    transform-style: preserve-3d;
+}
+.rotate-y-180 {
+    transform: rotateY(180deg);
 }

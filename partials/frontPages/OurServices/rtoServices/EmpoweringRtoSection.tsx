@@ -15,7 +15,7 @@ export const EmpoweringRtoSection = () => {
             <div className="bg-white/10 size-[236px] rotate-45 rounded-br-[50px] absolute -top-28 left-5 md:left-32"></div>
             <div className="max-w-7xl mx-auto py-10">
                 <Typography variant="h1" color={'text-white'} center>
-                    Empowering Training Organizations with Smarter
+                    Empowering Training Organisation with Smarter
                     <br /> Workflows
                 </Typography>
                 <div className="rounded-[314.054px] opacity-[0.58] bg-[rgba(249,163,7,0.96)] blur-[80px] w-72 h-60 absolute top-32 left-64 hidden md:block" />

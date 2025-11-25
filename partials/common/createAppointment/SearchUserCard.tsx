@@ -190,61 +190,7 @@ export const SearchUserCard = ({
                         </div>
                     </div>
                 </div>
-                {/* {selectedAppointment === 'Student' &&
-                    searchAppointment.isSuccess && (
-                        <div>
-                            <div className="mt-5">
-                                <Typography
-                                    variant={'small'}
-                                    color={'text-gray-500'}
-                                >
-                                    Student Workplace
-                                </Typography>
-                                <div className="grid grid-cols-3 gap-x-5 mb-2">
-                                    <TextInput
-                                        label={'Name'}
-                                        name={'name'}
-                                        placeholder={'Name...'}
-                                        validationIcons
-                                    />
-                                    <TextInput
-                                        label={'Email'}
-                                        name={'email'}
-                                        placeholder={'Email...'}
-                                        validationIcons
-                                    />
-                                    <TextInput
-                                        label={'Phone'}
-                                        name={'phone'}
-                                        placeholder={'Phone...'}
-                                        validationIcons
-                                    />
-                                </div>
-                                <TextInput
-                                    label={'Address'}
-                                    name={'address'}
-                                    placeholder={'Address...'}
-                                    validationIcons
-                                />
-                            </div>
-                        </div>
-                    )} */}
-
-                {/*  */}
-                {/* {selectedAppointment === 'Industry' &&
-                    searchAppointment.isSuccess &&
-                    !searchAppointment.data.length && (
-                        <Button
-                            text={
-                                industryNotFound
-                                    ? 'Search Industry'
-                                    : 'Add Industry'
-                            }
-                            onClick={() => {
-                                setIndustryNotFound(!industryNotFound)
-                            }}
-                        />
-                    )} */}
+                
             </Card>
         </div>
     )

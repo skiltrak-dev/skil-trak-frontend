@@ -22,7 +22,7 @@ const SiteButtonV3: React.FC<ButtonProps> = ({
     return (
         <button
             onClick={onClick}
-            className={`px-12 py-4 rounded-2xl text-white font-medium transition-colors duration-200 ${variantClasses[variant]}`}
+            className={`px-12 py-4 rounded-2xl text-white cursor-pointer font-medium transition-colors duration-200 ${variantClasses[variant]}`}
         >
             {text}
         </button>

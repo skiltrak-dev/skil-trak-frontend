@@ -16,7 +16,7 @@ export const RtoHeroSection = () => {
         >
             <div className="md:mx-auto md:max-w-7xl py-6 md:py-10 px-4 md:px-0 h-full relative">
                 <div className="space-y-4 md:space-y-14 w-xl">
-                    <h1 className="text-white font-bold text-2xl md:text-5xl leading-8">
+                    <h1 className="text-white font-bold text-2xl md:text-5xl">
                         Empowering RTOs With Seamless <br /> Placement Solutions
                     </h1>
 

@@ -7,23 +7,29 @@ import FlowingRibbon from './FlowingRibbon'
 import Modal from '@modals/Modal'
 import { WorkbaseQuery } from '@partials/frontPages'
 import { BookADemoModal } from './BookADemoModal'
+import Marquee from 'react-fast-marquee'
 
 export const HeroSection = () => {
     return (
         <div>
             {/* Top notification bar */}
             <div className="bg-gradient-to-r from-[#F9A307] to-[#FFFFFF] px-4 md:px-6 py-2 w-full">
-                <div className="max-w-7xl mx-auto text-center md:text-left">
-                    <p className="text-xs sm:text-sm">
-                        <span className="text-[#9B2000] font-semibold">
-                            SkilTrak Update:{' '}
-                        </span>
-                        <span className="text-black">
-                            AI Matchmaking | Live Placement Tracking | 1-Click
-                            Chatbot | Smart Compliance Tools | Faster Admin,
-                            Better Results!
-                        </span>
-                    </p>
+                <div className="max-w-7xl mx-auto">
+                    <Marquee
+                        speed={40}
+                        gradient={false}
+                        pauseOnHover={true}
+                    >
+                        <p className="text-xs sm:text-sm font-medium mr-10">
+                            <span className="text-[#9B2000] font-semibold">
+                                SkilTrak Update:{' '}
+                            </span>
+                            <span className="text-black">
+                                AI Matchmaking | Live Placement Tracking | 1-Click Chatbot |
+                                Smart Compliance Tools | Faster Admin, Better Results!
+                            </span>
+                        </p>
+                    </Marquee>
                 </div>
             </div>
 
@@ -49,16 +55,26 @@ export const HeroSection = () => {
                     <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex flex-col">
                         {/* Top right help section */}
                         <div className="flex items-center justify-center md:justify-end pt-6 md:pt-8">
-                            <div className="bg-gradient-to-r from-[#044866] to-[#2A5E8F] shadow-[0_4px_80px_rgba(0,0,0,0.05)] rounded-full px-4 py-2 md:px-6 md:py-3 mr-2">
-                                <p
-                                    className="text-sm md:text-lg font-bold text-white"
-                                    style={{
-                                        textShadow: '0 2px 4px rgba(0,0,0,0.4)',
-                                    }}
+
+                            <Modal>
+                                <Modal.Open opens="enquireNow">
+                                    <div className="bg-gradient-to-r from-[#044866] to-[#2A5E8F] shadow-[0_4px_80px_rgba(0,0,0,0.05)] rounded-full px-4 py-2 md:px-6 md:py-3 mr-2">
+                                        <p
+                                            className="text-sm md:text-lg font-bold text-white"
+                                            style={{
+                                                textShadow: '0 2px 4px rgba(0,0,0,0.4)',
+                                            }}
+                                        >
+                                            Here to help!
+                                        </p>
+                                    </div>
+                                </Modal.Open>
+                                <Modal.Window
+                                    name="enquireNow"
                                 >
-                                    Here to help!
-                                </p>
-                            </div>
+                                    <WorkbaseQuery />
+                                </Modal.Window>
+                            </Modal>
                             <Image
                                 src={
                                     '/images/site/home-page-v3/hero/help-here-play-btn.webp'
@@ -73,7 +89,7 @@ export const HeroSection = () => {
                         {/* Main content area */}
                         <div className="flex flex-col md:flex-row justify-between items-center md:items-start flex-1 gap-y-10 md:gap-x-6 lg:gap-x-12 mt-8 md:mt-0">
                             {/* Left side - Text content */}
-                            <div className="flex flex-col justify-start max-w-xl text-center md:text-left">
+                            <div className="flex flex-col justify-start max-w-2xl text-center md:text-left">
                                 <div className="space-y-6 md:space-y-8 mb-6 md:mb-8">
                                     <Typography
                                         variant="h1"
@@ -81,11 +97,9 @@ export const HeroSection = () => {
                                         bold
                                         capitalize
                                     >
-                                        Smart Placements. Simplified
-                                        <br className="hidden md:block" />
-                                        Management.
-                                        <br className="hidden md:block" />
-                                        Real Results.
+                                        Australia’s Smartest
+                                        AI-Integrated Student
+                                        Placement Management Platform
                                     </Typography>
 
                                     <Typography

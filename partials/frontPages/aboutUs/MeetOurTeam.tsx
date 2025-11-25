@@ -24,19 +24,55 @@ export const MeetOurTeam = () => {
             name: 'Julie D. Clarke',
             role: 'Co-Founder/CEO',
             role2: '',
-            image: '/images/site/about-us/julie-clarke.jpg',
+            image: '/images/site/about-us/julie-clarke.jpeg',
             hasLinkedIn: true,
             linkedInLink:
                 'https://www.linkedin.com/in/julie-d-clarke-a06b2b293/',
         },
         {
+            name: 'Harry Thompson',
+            role: 'QA Manager',
+            role2: '',
+            image: '/images/site/about-us/harry.png',
+            hasLinkedIn: true,
+            linkedInLink:
+                'https://www.linkedin.com/in/haroon-aziz-siddiqui-894622275/',
+        },
+        {
             name: 'Qandeel Tanoli',
             role: 'Operations Manager',
             role2: '',
-            image: '/images/site/about-us/qandeel-tanoli.jpeg',
+            image: '/images/site/about-us/qandeel.jpg',
             hasLinkedIn: true,
             linkedInLink:
                 'https://www.linkedin.com/in/qandeel-tanoli-b05bb72b9/',
+        },
+        {
+            name: 'Muhammad Siraj',
+            role: 'Technical Lead',
+            role2: '',
+            image: '/images/site/about-us/siraj.jpg',
+            hasLinkedIn: true,
+            linkedInLink:
+                'https://www.linkedin.com/in/siraj3/',
+        },
+        {
+            name: 'Aroob',
+            role: 'HR',
+            role2: '',
+            image: '/images/site/about-us/aroob.jpg',
+            hasLinkedIn: true,
+            linkedInLink:
+                'https://www.linkedin.com/in/aroob-shehzadi-209b941a9/',
+        },
+        {
+            name: 'Jessica Khanan',
+            role: 'Marketing Manager',
+            role2: '',
+            image: '/images/site/about-us/jessica.jpg',
+            hasLinkedIn: true,
+            linkedInLink:
+                'https://www.linkedin.com/in/narmeen-khanan-499995245/',
         },
     ]
 

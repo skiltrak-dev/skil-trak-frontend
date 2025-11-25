@@ -1,7 +1,5 @@
 import { Typography } from '@components'
 import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
 
 export const TrackYourPlacement = () => {
     return (
@@ -53,7 +51,12 @@ export const TrackYourPlacement = () => {
                         </div>
                     </div>
                     <div className="flex items-center justify-center gap-x-4 mt-8 md:mt-6">
-                        <Link className="cursor-pointer" href="#">
+                        <a
+                            className="cursor-pointer"
+                            href="#"
+                            rel={'noreferrer'}
+                            target="_blank"
+                        >
                             <div>
                                 <Image
                                     src={'/images/google-play-button.svg'}
@@ -62,10 +65,12 @@ export const TrackYourPlacement = () => {
                                     height={47}
                                 />
                             </div>
-                        </Link>
-                        <Link
+                        </a>
+                        <a
                             className="cursor-pointer"
                             href="https://apps.apple.com/pk/app/skiltrak/id6479631404"
+                            rel={'noreferrer'}
+                            target="_blank"
                         >
                             <div>
                                 <Image
@@ -75,11 +80,10 @@ export const TrackYourPlacement = () => {
                                     height={47}
                                 />
                             </div>
-                        </Link>
+                        </a>
                     </div>
                 </div>
             </div>
-            
         </>
     )
 }

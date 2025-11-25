@@ -104,11 +104,12 @@ export const HeroSection = () => {
                     </div>
                 </div>
                 <div className="flex items-center gap-x-4 justify-center absolute -bottom-4 left-1/2 transform -translate-x-1/2">
-                    <Button text="FAST Placement" Icon={IoMdAlarm} />
+                    <Button text="FAST Placement" Icon={IoMdAlarm} className='!cursor-default' />
                     <Button
                         text="End-to-End Support"
                         Icon={GoGift}
                         variant="secondary"
+                        className='!cursor-default'
                     />
                 </div>
             </div>

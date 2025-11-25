@@ -16,7 +16,7 @@ export const TestimonialSectionRtoServices = () => {
         files during work placements and weekly meetings to resolve issues have been invaluable, 
         allowing our trainers to focus more on teaching. Skiltrak’s system also lets us monitor student 
         progress and ensure they are in the correct work sector. We highly recommend Skiltrak to other 
-        organizations seeking similar support, and we look forward to continuing our partnership.`,
+        Organisation seeking similar support, and we look forward to continuing our partnership.`,
         },
         {
             image: '/images/site/services/rto-services/rto-2.png',
@@ -30,12 +30,12 @@ export const TestimonialSectionRtoServices = () => {
         {
             image: '/images/site/services/rto-services/rto-3.png',
             text: `<div>
-    <p class="text-2xl">Work Placement Guarantee*</p>
-    <p>Changing the game of work placement!</p>
-    <p>Alffie’s new Work placement Guarantee, in partnership with SkilTrak, tackles the current delays and limitations in work placement opportunities and support for participants.</p>
-    <p class="text-[13px] mt-2">Typically participants can wait for months to secure real-life placements, disrupting the momentum of their training progress and readiness to work. Whilst we understand this challenge, Alffie believes that on the job practical experience is far superior than virtual alternatives, hence why we have worked hard to find the right solution.</p>
-    <p class="text-[13px]">Now, Alffie guarantees all participants an in-person placement from within three weeks of being considered ‘ready,’ ensuring a seamless transition from training to the workforce, whilst also helping Employment Service Providers meet their obligations.</p>
-</div>`,
+                <p class="text-2xl">Work Placement Guarantee</p>
+                <p>Changing the game of work placement!</p>
+                <p>Alffie’s new Work placement Guarantee, in partnership with SkilTrak, tackles the current delays and limitations in work placement opportunities and support for participants.</p>
+                <p class="text-[13px] mt-2">Typically participants can wait for months to secure real-life placements, disrupting the momentum of their training progress and readiness to work. Whilst we understand this challenge, Alffie believes that on the job practical experience is far superior than virtual alternatives, hence why we have worked hard to find the right solution.</p>
+                <p class="text-[13px]">Now, Alffie guarantees all participants an in-person placement from within three weeks of being considered ‘ready,’ ensuring a seamless transition from training to the workforce, whilst also helping Employment Service Providers meet their obligations.</p>
+                </div>`,
         },
     ]
 

@@ -51,7 +51,7 @@ const OurStory: NextPageWithLayout = () => {
                         placement services in Australia. At SkilTrak, we specialize in
                         providing employment in top-notch industries to individual
                         candidates as well as students affiliated with our partnered
-                        Registered Training Organizations (RTOs).`}
+                        Registered Training Organisation (RTOs).`}
                     key="desc"
                 />
             </Head>

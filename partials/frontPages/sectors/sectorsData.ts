@@ -7,8 +7,7 @@ export const individualSupport = [
 export const communityServices = [
     'CHC32015 Certificate III in Community Services',
     'CHC42021 Certificate IV in Community Services',
-    'CHC30121 Certificate III in Early Childhood',
-    'Education and Care',
+    'CHC30121 Certificate III in Early Childhood Education and Care',
     'CHC43415 Certificate IV in Leisure & Health',
     'CHC52021 Diploma of Community Services',
     'CHC40421 Certificate IV in Youth Work',

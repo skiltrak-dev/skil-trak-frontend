@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 export const FloatingLogos = () => {
     const [balls, setBalls] = useState([])
-    const [explosions, setExplosions] = useState<any>([])
 
     // Initial positions - mix of logo balls and plain colored balls
     const initialBalls: any = [
@@ -43,7 +42,6 @@ export const FloatingLogos = () => {
             x: 120,
             y: 320,
             size: 70,
-            // color: '#3498DB',
             hasLogo: true,
             logoSrc: '/images/site/home-page-v3/assured-placement/logos/raise-log.webp',
             logoText: 'raise',
@@ -53,7 +51,6 @@ export const FloatingLogos = () => {
             x: 350,
             y: 285,
             size: 75,
-            // color: '#FFFFFF',
             hasLogo: true,
             logoSrc: '/images/site/home-page-v3/assured-placement/logos/wesley-logo.webp',
             logoText: 'Wesley',
@@ -98,42 +95,6 @@ export const FloatingLogos = () => {
         { id: 24, x: 160, y: 450, size: 55, color: '#B8441F', hasLogo: false },
     ]
 
-    const createExplosion = (x: any, y: any, color: any, size: any) => {
-        const explosionId = Date.now() + Math.random()
-        const particles: any = []
-
-        // Create multiple particles for explosion
-        for (let i = 0; i < 12; i++) {
-            particles.push({
-                id: `particle-${explosionId}-${i}`,
-                x: x + size / 2,
-                y: y + size / 2,
-                vx: (Math.random() - 0.5) * 8, // Random velocity in x
-                vy: (Math.random() - 0.5) * 8, // Random velocity in y
-                size: Math.random() * 8 + 4,
-                color: color,
-                life: 1,
-                decay: 0.02 + Math.random() * 0.02,
-            })
-        }
-
-        setExplosions((prev: any) => [
-            ...prev,
-            {
-                id: explosionId,
-                particles: particles,
-                startTime: Date.now(),
-            },
-        ])
-
-        // Remove explosion after animation
-        setTimeout(() => {
-            setExplosions((prev: any) =>
-                prev.filter((exp: any) => exp.id !== explosionId)
-            )
-        }, 2000)
-    }
-
     useEffect(() => {
         setBalls(
             initialBalls.map((ball: any) => ({
@@ -152,13 +113,25 @@ export const FloatingLogos = () => {
                 prevBalls.map((ball: any) => {
                     const newY = ball.currentY - ball.speed
 
-                    // Check if ball should explode (trigger explosion earlier, before reaching overflow)
-                    // Changed from -20 to 30 to trigger explosion while ball is still fully visible
-                    if (newY < 30) {
-                        // Create explosion effect
-                        createExplosion(ball.x, newY, ball.color, ball.size)
+                    // Calculate scale and opacity based on proximity to top
+                    // Start scaling up when ball is within 150px of top
+                    const distanceFromTop = newY
+                    let newScale = ball.scale
+                    let newOpacity = ball.opacity
 
-                        // Reset ball to original position
+                    if (distanceFromTop < 150) {
+                        // Scale grows from 1 to 1.8 as it approaches top
+                        const scaleProgress = 1 - (distanceFromTop / 150)
+                        newScale = 1 + (scaleProgress * 0.8)
+
+                        // Opacity fades when very close to top (last 80px)
+                        if (distanceFromTop < 80) {
+                            newOpacity = distanceFromTop / 80
+                        }
+                    }
+
+                    // Reset ball when it's completely faded and off screen
+                    if (newY < -50 || newOpacity <= 0) {
                         const originalBall: any = initialBalls.find(
                             (b: any) => b.id === ball.id
                         )
@@ -171,39 +144,12 @@ export const FloatingLogos = () => {
                         }
                     }
 
-                    return { ...ball, currentY: newY }
+                    return { ...ball, currentY: newY, scale: newScale, opacity: newOpacity }
                 })
             )
         }, 50)
 
         return () => clearInterval(interval)
-    }, [])
-
-    useEffect(() => {
-        // Update explosion particles
-        const explosionInterval = setInterval(() => {
-            setExplosions((prevExplosions: any) =>
-                prevExplosions
-                    .map((explosion: any) => ({
-                        ...explosion,
-                        particles: explosion.particles
-                            .map((particle: any) => ({
-                                ...particle,
-                                x: particle.x + particle.vx,
-                                y: particle.y + particle.vy,
-                                life: Math.max(
-                                    0,
-                                    particle.life - particle.decay
-                                ),
-                                vy: particle.vy + 0.1, // Add gravity
-                            }))
-                            .filter((particle: any) => particle.life > 0),
-                    }))
-                    .filter((explosion: any) => explosion.particles.length > 0)
-            )
-        }, 30)
-
-        return () => clearInterval(explosionInterval)
     }, [])
 
     const renderBallContent = (ball: any) => {
@@ -227,9 +173,8 @@ export const FloatingLogos = () => {
             {balls.map((ball: any) => (
                 <div
                     key={ball.id}
-                    className={`absolute rounded-full transition-all duration-100 ease-out flex items-center justify-center ${
-                        ball.border ? 'border-2 border-gray-300' : ''
-                    }`}
+                    className={`absolute rounded-full flex items-center justify-center ${ball.border ? 'border-2 border-gray-300' : ''
+                        }`}
                     style={{
                         left: `${ball.x}px`,
                         top: `${ball.currentY}px`,
@@ -241,69 +186,14 @@ export const FloatingLogos = () => {
                         boxShadow: ball.hasLogo
                             ? '0 4px 8px rgba(0,0,0,0.2)'
                             : 'none',
+                        transition: 'transform 0.3s ease-out, opacity 0.3s ease-out',
                     }}
                 >
                     {renderBallContent(ball)}
                 </div>
             ))}
-
-            {/* Explosion particles */}
-            {explosions.map((explosion: any) =>
-                explosion.particles.map((particle: any) => (
-                    <div
-                        key={particle.id}
-                        className="absolute rounded-full pointer-events-none"
-                        style={{
-                            left: `${particle.x}px`,
-                            top: `${particle.y}px`,
-                            width: `${particle.size}px`,
-                            height: `${particle.size}px`,
-                            backgroundColor: particle.color,
-                            opacity: particle.life,
-                            transform: `scale(${particle.life})`,
-                            transition: 'none',
-                        }}
-                    />
-                ))
-            )}
-
-            {/* Explosion flash effect */}
-            {explosions.map((explosion: any) => {
-                const age = Date.now() - explosion.startTime
-                const flashOpacity = Math.max(0, 1 - age / 200)
-
-                if (flashOpacity <= 0) return null
-
-                return (
-                    <div
-                        key={`flash-${explosion.id}`}
-                        className="absolute rounded-full pointer-events-none"
-                        style={{
-                            left: `${explosion.particles[0]?.x - 30}px`,
-                            top: `${explosion.particles[0]?.y - 30}px`,
-                            width: '60px',
-                            height: '60px',
-                            background: `radial-gradient(circle, rgba(255,255,255,${flashOpacity}) 0%, rgba(255,255,255,0) 50%, transparent 100%)`,
-                            transform: `scale(${2 + age / 100})`,
-                        }}
-                    />
-                )
-            })}
-
-            <style jsx>{`
-                @keyframes pop {
-                    0% {
-                        transform: scale(1);
-                    }
-                    50% {
-                        transform: scale(1.3);
-                    }
-                    100% {
-                        transform: scale(0);
-                        opacity: 0;
-                    }
-                }
-            `}</style>
         </div>
     )
 }
+
+export default FloatingLogos

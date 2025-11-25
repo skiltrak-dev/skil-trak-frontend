@@ -24,90 +24,111 @@ export const SkiltrakSectors = () => {
                     'At SkilTrak, we help students find eligible industries that align with their career goals, ensuring that your placement is not just a requirement but a launchpad. Through structured documentation, industry connections, and professional mentorship, we support you from your first application to the completion of your placement. With SkilTrak, your journey begins not just with training but with career direction and confidence.'
                 }
             />
-            <ContentSection
-                title="Individual support"
-                content={individualSupport}
-                iconUrl={'individual-support-icon.png'}
-                imageUrl={'individual-support.png'}
-                variant="yellow"
-                direction="right"
-            />
+
+            <div id="individual-support">
+                <ContentSection
+                    title="Individual support"
+                    content={individualSupport}
+                    iconUrl={'individual-support-icon.png'}
+                    imageUrl={'individual-support.png'}
+                    variant="yellow"
+                    direction="right"
+                />
+            </div>
             <ContentSectionSeparator />
-            <ContentSection
-                title="Community Services"
-                content={communityServices}
-                iconUrl={'community-services-icon.png'}
-                imageUrl={'community-services.png'}
-                variant="red"
-            />
+            <div id='community-services'>
+                <ContentSection
+                    title="Community Services"
+                    content={communityServices}
+                    iconUrl={'community-services-icon.png'}
+                    imageUrl={'community-services.png'}
+                    variant="red"
+                />
+            </div>
             <ContentSectionSeparator />
-            <ContentSection
-                title="Business"
-                content={business}
-                iconUrl={'business-icon.png'}
-                imageUrl={'business.png'}
-                variant="blue"
-                direction="right"
-            />
+            <div id='business'>
+                <ContentSection
+                    title="Business"
+                    content={business}
+                    iconUrl={'business-icon.png'}
+                    imageUrl={'business.png'}
+                    variant="blue"
+                    direction="right"
+                />
+            </div>
             <ContentSectionSeparator />
-            <ContentSection
-                title="Allied Health Assistance"
-                content={alliedHealth}
-                iconUrl={'allied-health-icon.png'}
-                imageUrl={'allied-health.png'}
-                variant="yellow"
-            />
+            <div id='allied-health'>
+                <ContentSection
+                    title="Allied Health Assistance"
+                    content={alliedHealth}
+                    iconUrl={'allied-health-icon.png'}
+                    imageUrl={'allied-health.png'}
+                    variant="yellow"
+                />
+            </div>
             <ContentSectionSeparator />
-            <ContentSection
-                title="Beauty"
-                content={beauty}
-                iconUrl={'beauty-icon.png'}
-                imageUrl={'beauty.png'}
-                variant="red"
-                direction="right"
-            />
+            <div id='beauty'>
+                <ContentSection
+                    title="Beauty"
+                    content={beauty}
+                    iconUrl={'beauty-icon.png'}
+                    imageUrl={'beauty.png'}
+                    variant="red"
+                    direction="right"
+                />
+            </div>
             <ContentSectionSeparator />
-            <ContentSection
-                title="Animal Care"
-                content={animalCare}
-                iconUrl={'animal-care-icon.png'}
-                imageUrl={'animal-care.png'}
-                variant="blue"
-            />
+            <div id='animal-care'>
+                <ContentSection
+                    title="Animal Care"
+                    content={animalCare}
+                    iconUrl={'animal-care-icon.png'}
+                    imageUrl={'animal-care.png'}
+                    variant="blue"
+                />
+            </div>
             <ContentSectionSeparator />
-            <ContentSection
-                title="Construction"
-                content={construction}
-                iconUrl={'construction-icon.png'}
-                imageUrl={'construction.png'}
-                variant="yellow"
-                direction="right"
-            />
+            <div id='construction'>
+                <ContentSection
+                    title="Construction"
+                    content={construction}
+                    iconUrl={'construction-icon.png'}
+                    imageUrl={'construction.png'}
+                    variant="yellow"
+                    direction="right"
+                />
+            </div>
             <ContentSectionSeparator />
-            <ContentSection
-                title="Hospitality"
-                content={hospitality}
-                iconUrl={'hospitality-icon.png'}
-                imageUrl={'hospitality.png'}
-                variant="red"
-            />
+            <div id='traffic-management'>
+                <ContentSection
+                    title="Hospitality"
+                    content={hospitality}
+                    iconUrl={'hospitality-icon.png'}
+                    imageUrl={'hospitality.png'}
+                    variant="red"
+                />
+            </div>
             <ContentSectionSeparator />
-            <ContentSection
-                title="Traffic Management"
-                content={trafficManagement}
-                iconUrl={'traffic-icon.png'}
-                imageUrl={'traffic.png'}
-                variant="blue"
-                direction="right"
-            />
+            <div id='traffic-management'>
+                <ContentSection
+                    title="Traffic Management"
+                    content={trafficManagement}
+                    iconUrl={'traffic-icon.png'}
+                    imageUrl={'traffic.png'}
+                    variant="blue"
+                    direction="right"
+                />
+            </div>
             <ContentSectionSeparator />
-            <ContentSection
-                title="Horticulture"
-                content={horticulture}
-                iconUrl={'horticulture-icon.png'}
-                imageUrl={'horticulture.png'}
-                variant="yellow"
-            />
+            <div id="horticulture">
+                <ContentSection
+                    title="Horticulture"
+                    content={horticulture}
+                    iconUrl={'horticulture-icon.png'}
+                    imageUrl={'horticulture.png'}
+                    variant="yellow"
+                />
+            </div>
         </div>
     )
 }

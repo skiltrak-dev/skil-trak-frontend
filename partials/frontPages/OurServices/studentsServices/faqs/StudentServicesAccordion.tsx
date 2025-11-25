@@ -15,10 +15,10 @@ export const StudentServicesAccordion = () => {
                 question: 'What If I Can’t Find A Placement On My Own?',
                 answer: 'No problem – that’s what we’re here for! SkilTrak guarantees placement assistance that is aligned with your course requirements.',
             },
-            {
-                question: 'Is the placement site safe and approved?',
-                answer: 'Yes. Every workplace we work with is verified for compliance, safety, and relevance to your course.',
-            },
+            // {
+            //     question: 'Is the placement site safe and approved?',
+            //     answer: 'Yes. Every workplace we work with is verified for compliance, safety, and relevance to your course.',
+            // },
             {
                 question: 'Will I Receive Any Support During Placement?',
                 answer: 'Absolutely. Our team is available to support you at every step – before, during, and after your placement.',

@@ -39,7 +39,7 @@ export const TrustedByMarquee = () => {
             {/* Heading */}
             <div className="flex justify-end items-center gap-x-4 mb-4">
                 <h2 className="text-center text-[#044866] text-lg md:text-xl font-medium">
-                    Trusted By Leading Organizations
+                    Trusted By Leading Organisations
                 </h2>
                 <div className="bg-[linear-gradient(90deg,#E1E1E1_0%,#044866_100%)] w-[652px] h-0.5"></div>
             </div>
@@ -60,7 +60,7 @@ export const TrustedByMarquee = () => {
                             src={logo.src}
                             alt={logo.alt}
                             width={125}
-                            height={42}
+                            height={36}
                             className="object-contain"
                         />
 

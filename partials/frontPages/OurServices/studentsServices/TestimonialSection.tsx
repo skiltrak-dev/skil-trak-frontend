@@ -17,21 +17,27 @@ export const TestimonialSection = () => {
                         '/images/site/services/student-services/student-features/testimonial-sec-img.png'
                     }
                 />
-                <div className="inline-flex items-center justify-center ml-10 mt-5 gap-x-4 bg-[#156E9A] rounded-lg  px-4 ">
-                    <span className="text-white font-medium ">
-                        Review Us On
-                    </span>
-                    <Image
-                        width={350}
-                        height={64}
-                        // sizes="100vw"
-                        alt="Testimonial Background"
-                        className="h-16 w-auto"
-                        src={
-                            '/images/site/services/student-services/student-features/trustpilot-logo.png'
-                        }
-                    />
-                </div>
+                <a
+                    href="https://www.trustpilot.com/review/skiltrak.com.au"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    <div className="inline-flex items-center justify-center ml-10 mt-5 gap-x-4 bg-[#156E9A] rounded-lg  px-4 ">
+                        <span className="text-white font-medium ">
+                            Review Us On
+                        </span>
+                        <Image
+                            width={350}
+                            height={64}
+                            // sizes="100vw"
+                            alt="Testimonial Background"
+                            className="h-16 w-auto"
+                            src={
+                                '/images/site/services/student-services/student-features/trustpilot-logo.png'
+                            }
+                        />
+                    </div>
+                </a>
             </div>
             <div className="md:flex items-center justify-between block gap-x-14 w-full md:px-0 px-4">
                 <div className="md:w-3/5">

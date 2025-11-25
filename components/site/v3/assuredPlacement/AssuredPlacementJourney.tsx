@@ -320,7 +320,7 @@ export const AssuredPlacementJourney = () => {
                         <div className="bg-black rounded-full size-2"></div>
                     </div>
                 </div>
-                <div className="hidden md:flex flex-col items-center absolute top-[5rem] left-[4.5rem]">
+                {/* <div className="hidden md:flex flex-col items-center absolute top-[5rem] left-[4.5rem]">
                     <div
                         className={`bg-[radial-gradient(50%_50%_at_50%_50%,#044866_90.87%,#0D5468_100%)] shadow-[4px_26px_30px_0_rgba(0,0,0,0.52)] w-52 h-52 rounded-full flex items-center justify-center text-white text-center flex-col `}
                     >
@@ -332,44 +332,127 @@ export const AssuredPlacementJourney = () => {
                         />
                         Student Added
                     </div>
+                </div> */}
+                <div className="hidden md:flex flex-col items-center absolute top-[5rem] left-[4.5rem]">
+                    <div className="group perspective w-52 h-52">
+                        <div className="relative w-full h-full duration-500 transform-style preserve-3d group-hover:rotate-y-180">
+
+                            {/* Front Side */}
+                            <div className="absolute w-full h-full rounded-full flex flex-col items-center justify-center text-white text-center p-4
+                      bg-[radial-gradient(50%_50%_at_50%_50%,#044866_90.87%,#0D5468_100%)]
+                      shadow-[4px_26px_30px_0_rgba(0,0,0,0.52)]
+                      backface-hidden">
+                                <Image
+                                    src="/images/site/home-page-v3/assured-placement/assured-placement-journey-icons/student-added.png"
+                                    alt="student added"
+                                    height={50}
+                                    width={50}
+                                />
+                                <span className="mt-2 font-semibold">Student Added</span>
+                            </div>
+
+                            {/* Back Side */}
+                            <div className="absolute w-full h-full rounded-full flex items-center justify-center text-white text-center p-4
+                      bg-[#0D5468] rotate-y-180 backface-hidden">
+                                <p className="text-sm">
+                                    This step ensures that all students are added successfully into the system and are ready to start their journey.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
+
+
+
                 <div className="hidden md:flex flex-col items-center absolute top-2 left-[22rem]">
-                    <div
-                        className={`bg-[radial-gradient(50%_50%_at_50%_50%,#9B2000_90.87%,#6E1700_100%)] shadow-[4px_26px_30px_0_rgba(0,0,0,0.52)] w-52 h-52 rounded-full flex items-center justify-center text-white text-center `}
-                    >
-                        Case Officer Assigned
+                    <div className="group perspective w-52 h-52">
+                        <div className="relative w-full h-full duration-500 transform-style preserve-3d group-hover:rotate-y-180">
+
+                            {/* Front Side */}
+                            <div className="absolute w-full h-full rounded-full flex items-center justify-center text-white text-center p-4
+                      bg-[radial-gradient(50%_50%_at_50%_50%,#9B2000_90.87%,#6E1700_100%)]
+                      shadow-[4px_26px_30px_0_rgba(0,0,0,0.52)]
+                      backface-hidden">
+                                <span className="font-semibold">Case Officer Assigned</span>
+                            </div>
+
+                            {/* Back Side */}
+                            <div className="absolute w-full h-full rounded-full flex items-center justify-center text-white text-center p-4
+                      bg-[#6E1700] rotate-y-180 backface-hidden">
+                                <p className="text-sm">
+                                    A case officer has been assigned to handle your application and will guide you through the next steps.
+                                </p>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
+
                 <div className="hidden md:flex flex-col items-center absolute top-[5rem] left-[40rem]">
-                    <div
-                        className={`bg-[radial-gradient(50%_50%_at_50%_50%,#044866_90.87%,#0D5468_100%)] shadow-[4px_26px_30px_0_rgba(0,0,0,0.52)] w-52 h-52 rounded-full flex items-center justify-center text-white text-center flex-col`}
-                    >
-                        <Image
-                            src="/images/site/home-page-v3/assured-placement/assured-placement-journey-icons/compliance.png"
-                            alt="student added"
-                            height={50}
-                            width={50}
-                        />
-                        Compliance and Matched via AI
+                    <div className="group perspective w-52 h-52">
+                        <div className="relative w-full h-full duration-500 transform-style preserve-3d group-hover:rotate-y-180">
+
+                            {/* Front Side */}
+                            <div className="absolute w-full h-full rounded-full flex flex-col items-center justify-center text-white text-center p-4
+                      bg-[radial-gradient(50%_50%_at_50%_50%,#044866_90.87%,#0D5468_100%)]
+                      shadow-[4px_26px_30px_0_rgba(0,0,0,0.52)]
+                      backface-hidden">
+                                <Image
+                                    src="/images/site/home-page-v3/assured-placement/assured-placement-journey-icons/compliance.png"
+                                    alt="Compliance and AI matched"
+                                    height={50}
+                                    width={50}
+                                />
+                                <span className="mt-2 font-semibold">Compliance and Matched via AI</span>
+                            </div>
+
+                            {/* Back Side */}
+                            <div className="absolute w-full h-full rounded-full flex items-center justify-center text-white text-center p-4
+                      bg-[#0D5468] rotate-y-180 backface-hidden">
+                                <p className="text-sm">
+                                    Your compliance is verified and matching is optimized using AI to ensure accurate placement and guidance.
+                                </p>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
+
                 <div className="hidden md:flex flex-col items-center absolute top-2 left-[57rem]">
-                    <div
-                        className={`bg-[radial-gradient(50%_50%_at_50%_50%,#044866_90.87%,#0D5468_100%)] shadow-[4px_26px_30px_0_rgba(0,0,0,0.52)] w-52 h-52 rounded-full flex items-center justify-center text-white text-center flex-col`}
-                    >
-                        <Image
-                            src="/images/site/home-page-v3/assured-placement/assured-placement-journey-icons/all-paper-work.png"
-                            alt="student added"
-                            height={50}
-                            width={50}
-                        />
-                        All Paperwork & Follow ups
+                    <div className="group perspective w-52 h-52">
+                        <div className="relative w-full h-full duration-500 transform-style preserve-3d group-hover:rotate-y-180">
+
+                            {/* Front Side */}
+                            <div className="absolute w-full h-full rounded-full flex flex-col items-center justify-center text-white text-center p-4
+                      bg-[radial-gradient(50%_50%_at_50%_50%,#044866_90.87%,#0D5468_100%)]
+                      shadow-[4px_26px_30px_0_rgba(0,0,0,0.52)]
+                      backface-hidden">
+                                <Image
+                                    src="/images/site/home-page-v3/assured-placement/assured-placement-journey-icons/all-paper-work.png"
+                                    alt="All Paperwork & Follow ups"
+                                    height={50}
+                                    width={50}
+                                />
+                                <span className="mt-2 font-semibold">All Paperwork & Follow ups</span>
+                            </div>
+
+                            {/* Back Side */}
+                            <div className="absolute w-full h-full rounded-full flex items-center justify-center text-white text-center p-4
+                      bg-[#0D5468] rotate-y-180 backface-hidden">
+                                <p className="text-sm">
+                                    All paperwork is completed and follow-ups are handled efficiently to ensure a smooth process.
+                                </p>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
+
                 <StudentPlacementSteps />
                 <div
                     className="absolute arc-path hidden md:block"
-                    // style={{ offsetDistance: `${progress}%` }}
+                // style={{ offsetDistance: `${progress}%` }}
                 >
                     <Image
                         src="/images/site/home-page-v3/assured-placement/student-character.webp"

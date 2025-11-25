@@ -33,7 +33,7 @@ export const forIndustries = [
         icon: 'student-icon-2.png',
     },
     {
-        title: 'Customized Selection',
+        title: 'Customised Selection',
         description:
             'Industries can browse through candidate profiles and work experience to identify individuals who align with their specific requirements. From scheduling interviews to conducting assessments, SkilTrak facilitates a seamless selection process that empowers industries to make informed hiring decisions.',
         icon: 'student-icon-3.png',

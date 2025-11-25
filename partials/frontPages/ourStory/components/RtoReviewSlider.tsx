@@ -27,7 +27,7 @@ const rtoReviews = [
         files during work placements and weekly meetings to resolve issues have been invaluable, 
         allowing our trainers to focus more on teaching. Skiltrak’s system also lets us monitor student 
         progress and ensure they are in the correct work sector. We highly recommend Skiltrak to other 
-        organizations seeking similar support, and we look forward to continuing our partnership.`,
+        Organisation seeking similar support, and we look forward to continuing our partnership.`,
     },
     {
         rtoName: 'Alffie',
@@ -116,17 +116,15 @@ export const RtoReviewSlider = () => {
                     ))}
                     <div
                         ref={courseNavigationPrevRef}
-                        className={`${iconClasses} left-0 ${
-                            isBeginning ? disabledClasses : ''
-                        }`}
+                        className={`${iconClasses} left-0 ${isBeginning ? disabledClasses : ''
+                            }`}
                     >
                         <MdKeyboardArrowLeft className="text-2xl text-white" />
                     </div>
                     <div
                         ref={courseNavigationNextRef}
-                        className={`${iconClasses} right-0 ${
-                            isEnd ? disabledClasses : ''
-                        }`}
+                        className={`${iconClasses} right-0 ${isEnd ? disabledClasses : ''
+                            }`}
                     >
                         <MdKeyboardArrowRight className="text-2xl text-white" />
                     </div>

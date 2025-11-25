@@ -11,7 +11,7 @@ export const RtoAccFeatures = () => {
                         Feature
                     </Typography>
                     <Typography variant="h1" bold color={'text-primaryNew'}>
-                        SkilTrak Training Organizations’ Account Features
+                        SkilTrak Training Organisation’ Account Features
                     </Typography>
                     <Typography variant="body">
                         SkilTrak RTOs account provides a streamlined platform to

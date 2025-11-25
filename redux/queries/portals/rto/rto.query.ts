@@ -98,6 +98,10 @@ export const {
     useGetRTOAppointmentsQuery,
     useGetCoordinatorsForRTOQuery,
     useCreateRTOAppointmentMutation,
+    useGetRtoSearchedUsersQuery,
+    useGetRtoSearchedUserCourseQuery,
+    useCreateRtoAppointmentMutation,
+    useGetRtoAppointmentsCountQuery,
 
     //  --- ASSESSMENT TOOLS --- //
     useGetAssessmentToolQuery,
@@ -241,6 +245,12 @@ export const RtoApi = {
         useUpdateCourseHours: useUpdateCourseHoursMutation,
         useAddRtoCustomCourseRequirements:
             useAddRtoCustomCourseRequirementsMutation,
+    },
+    Appointments: {
+        useRtoSearchedUsers: useGetRtoSearchedUsersQuery,
+        useRtoSearchedUserCourse: useGetRtoSearchedUserCourseQuery,
+        useCreateRtoAppointment: useCreateRtoAppointmentMutation,
+        useRtoAppointmentsCount: useGetRtoAppointmentsCountQuery,
     },
     RtoDocument: {
         useGetRtoDocuments: useGetRtoDocumentsQuery,

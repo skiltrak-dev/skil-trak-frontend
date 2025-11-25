@@ -51,7 +51,7 @@ const OurPackages = () => {
                 />
                 <div>
                     <Typography variant={isMobile ? 'title' : 'h2'} center bold>
-                        Our Packages For Training Organizations
+                        Our Packages For Training Organisation
                     </Typography>
                 </div>
 

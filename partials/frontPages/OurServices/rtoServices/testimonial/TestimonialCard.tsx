@@ -14,7 +14,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
     text,
 }) => {
     return (
-        <div className=" flex flex-col items-center rounded-3xl bg-white shadow-[-25px_59px_70px_27px_rgba(0,0,0,0.11),_-4px_-2px_16px_1px_rgba(0,0,0,0.25)_inset,_3px_-1px_8px_0_rgba(0,0,0,0.25)_inset] p-2 w-full max-w-[320px] h-[350px] mx-auto">
+        <div className=" flex flex-col items-center rounded-3xl bg-white shadow-[-25px_59px_70px_27px_rgba(0,0,0,0.11),_-4px_-2px_16px_1px_rgba(0,0,0,0.25)_inset,_3px_-1px_8px_0_rgba(0,0,0,0.25)_inset] p-3 w-full max-w-[320px] h-[350px] mx-auto">
             {/* Paperclip */}
             <div className="absolute -top-2 left-[58%] transform -translate-x-1/2 rotate-12 z-30">
                 <svg

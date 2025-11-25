@@ -41,7 +41,7 @@ export const WorkbaseQuery = ({ onCloseModal }: { onCloseModal?: any }) => {
                     opacity: 1,
                     scale: 1,
                 }}
-                className="lg:border-[10px] border-transparent border-solid h-auto w-full md:max-w-2xl mx-auto lg:py-6 px-5 lg:px-11 flex flex-col gap-y-4 lg:gap-y-7 bg-no-repeat relative -z-10"
+                className="lg:border-[10px] border-transparent border-solid h-auto w-full md:max-w-2xl mx-auto lg:py-6 px-5 lg:px-11 flex flex-col gap-y-4 lg:gap-y-7 bg-no-repeat relative z-10"
                 style={{
                     borderImage:
                         'url(/images/site/services/webbasetraining/formBorder.png) 12 round',

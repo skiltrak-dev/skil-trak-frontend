@@ -54,7 +54,7 @@ export const StudentAiSearchDetail = () => {
                                     className="xl:col-span-1 grid lg:grid-cols-2 grid-cols-1 gap-2"
                                     ref={aiPanelRef}
                                 >
-                                    {/* Host Organizations / Workplaces */}
+                                    {/* Host Organisation / Workplaces */}
                                     <motion.div
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}

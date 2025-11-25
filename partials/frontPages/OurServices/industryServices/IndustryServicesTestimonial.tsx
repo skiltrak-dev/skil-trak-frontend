@@ -4,7 +4,9 @@ import React from 'react'
 import { CgQuote } from 'react-icons/cg'
 import ReactStars from 'react-stars'
 
-{/* <Image src={"/images/site/services/industry-services/our-professional-workflow.svg"} alt="" width={800} height={500} className='w-full' />  */}
+{
+    /* <Image src={"/images/site/services/industry-services/our-professional-workflow.svg"} alt="" width={800} height={500} className='w-full' />  */
+}
 export const IndustryServicesTestimonial = () => {
   return (
     <div className="bg-[#9B2000] flex items-center flex-col md:flex-row gap-5 md:gap-2 md:pb-10 md:!pt-20 w-full ">
@@ -34,15 +36,15 @@ export const IndustryServicesTestimonial = () => {
                         }
                     />
                 </div>
-                 <div
-                        className="size-80 md:flex justify-end items-end absolute top-60 left-40 -z-10 hidden "
-                        style={{
-                            borderRadius: '327.5px',
-                            background:
-                                'linear-gradient(180deg, rgba(249, 163, 7, 0.50) 0%, rgba(255, 255, 255, 0.00) 100%)',
-                            filter: 'blur(50px)',
-                        }}
-                    ></div>
+                <div
+                    className="size-80 md:flex justify-end items-end absolute top-60 left-40 -z-10 hidden "
+                    style={{
+                        borderRadius: '327.5px',
+                        background:
+                            'linear-gradient(180deg, rgba(249, 163, 7, 0.50) 0%, rgba(255, 255, 255, 0.00) 100%)',
+                        filter: 'blur(50px)',
+                    }}
+                ></div>
             </div>
             <div className="md:flex items-center justify-between block gap-x-14 w-full md:px-0 px-4">
                 <div className="md:w-3/5">
@@ -63,9 +65,13 @@ export const IndustryServicesTestimonial = () => {
                                         size={45}
                                     />
                                 </div>
-                            <Typography variant="h1" color='text-white' bold>
-                                Feedbacks That Drive Us Forward
-                            </Typography>
+                                <Typography
+                                    variant="h1"
+                                    color="text-white"
+                                    bold
+                                >
+                                    Feedbacks That Drive Us Forward
+                                </Typography>
                             </div>
                         </div>
                         <Typography variant="body" color='text-white'>

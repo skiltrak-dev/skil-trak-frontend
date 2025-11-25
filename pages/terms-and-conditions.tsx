@@ -1,5 +1,6 @@
 import { Typography } from '@components'
 import { SiteLayout } from '@layouts'
+import { SharedHeroSection } from '@partials/frontPages'
 import Image from 'next/image'
 
 import { BsArrowRightCircle } from 'react-icons/bs'
@@ -255,7 +256,7 @@ const bgColors = [
 const Page = () => {
     return (
         <SiteLayout title={'Terms & Conditions'}>
-            <div className="h-96 bg-gradient-to-r from-[#0a56b0] to-[rgba(52, 91, 135, 0)] w-full">
+            {/* <div className="h-96 bg-gradient-to-r from-[#0a56b0] to-[rgba(52, 91, 135, 0)] w-full">
                 <div className="h-full max-w-3xl mx-auto flex flex-col justify-center items-center">
                     <Typography variant={'h1'} color="text-white">
                         TERMS & Conditions
@@ -271,7 +272,12 @@ const Page = () => {
                         Call us today!
                     </Typography>
                 </div>
-            </div>
+            </div> */}
+            <SharedHeroSection
+                title={'TERMS & Conditions'}
+                description={
+                    "We have knowledgeable and friendly professionals available to schedule an appointment or answer any questions you may have in relation to Work Placement. Call us today!"}
+            />
 
             <div className="w-11/12 my-4 mx-auto">
                 {TERMS.map((t, k) => (
@@ -284,9 +290,8 @@ const Page = () => {
 
                                 {t.text && (
                                     <div
-                                        className={`${
-                                            bgColors[k % bgColors?.length]
-                                        } p-5 rounded-md shadow border border-gray-200`}
+                                        className={`${bgColors[k % bgColors?.length]
+                                            } p-5 rounded-md shadow border border-gray-200`}
                                     >
                                         <Typography variant={'label'}>
                                             <p
@@ -311,9 +316,8 @@ const Page = () => {
 
                                     {ss?.text && (
                                         <div
-                                            className={`${
-                                                bgColors[k % bgColors?.length]
-                                            } p-5 rounded-md shadow border border-gray-200`}
+                                            className={`${bgColors[k % bgColors?.length]
+                                                } p-5 rounded-md shadow border border-gray-200`}
                                         >
                                             <Typography variant={'label'}>
                                                 <p

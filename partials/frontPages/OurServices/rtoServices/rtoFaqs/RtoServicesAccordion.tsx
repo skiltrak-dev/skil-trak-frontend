@@ -13,7 +13,7 @@ export const RtoServicesAccordion = () => {
         general: [
             {
                 question:
-                    'What services does SkilTrak offer to training organizations?',
+                    'What services does SkilTrak offer to training Organisation?',
                 answer: 'SkilTrak assists with sourcing eligible workplaces, coordinating placements, and maintaining a streamlined process that helps your students meet their practical training requirements smoothly and effectively.',
             },
             {
@@ -46,10 +46,10 @@ export const RtoServicesAccordion = () => {
                     'How does SkilTrak ensure my personal information is protected?',
                 answer: 'SkilTrak uses secure, encrypted systems to protect your data. Your personal and academic information is only shared with verified industry partners for placement purposes and only with your consent.',
             },
-            {
-                question: 'Will I be placed in a safe and compliant workplace?',
-                answer: 'Yes, SkilTrak only partners with registered and approved industry hosts. Each workplace is vetted to ensure it meets safety and legal standards before any placement is confirmed.',
-            },
+            // {
+            //     question: 'Will I be placed in a safe and compliant workplace?',
+            //     answer: 'Yes, SkilTrak only partners with registered and approved industry hosts. Each workplace is vetted to ensure it meets safety and legal standards before any placement is confirmed.',
+            // },
         ],
         billing: [
             {
@@ -101,7 +101,7 @@ export const RtoServicesAccordion = () => {
                 {[
                     { key: 'general', label: 'General' },
                     { key: 'safety', label: 'Safety & Security' },
-                    { key: 'billing', label: 'Billing' },
+                    // { key: 'billing', label: 'Billing' },
                 ].map((tab) => (
                     <button
                         key={tab.key}
@@ -111,11 +111,10 @@ export const RtoServicesAccordion = () => {
                             )
                             setActiveIndex(null)
                         }}
-                        className={`font-semibold pb-2 transition-colors duration-200 ${
-                            activeTab === tab.key
+                        className={`font-semibold pb-2 transition-colors duration-200 ${activeTab === tab.key
                                 ? 'text-[#FF9900] border-b-2 border-[#FF9900]'
                                 : 'text-gray-600 hover:text-[#FF9900]'
-                        }`}
+                            }`}
                     >
                         {tab.label}
                     </button>

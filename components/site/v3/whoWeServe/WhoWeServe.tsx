@@ -57,7 +57,7 @@ export const WhoWeServe = () => {
                                     alt="Shapes"
                                     width={80}
                                     height={80}
-                                    className="animate-spin"
+                                    className="animate-float"
                                 />
                             </div>
                             <div className="absolute top-44 right-0 ">
@@ -68,7 +68,7 @@ export const WhoWeServe = () => {
                                     alt="Shapes"
                                     width={50}
                                     height={50}
-                                    className="animate-pulse"
+                                    className="animate-float"
                                 />
                             </div>
                             <div className="absolute top-64 right-16 ">
@@ -79,7 +79,7 @@ export const WhoWeServe = () => {
                                     alt="Shapes"
                                     width={50}
                                     height={50}
-                                    className="animate-bounce"
+                                    className="animate-float"
                                 />
                             </div>
                             <div className="absolute top-70 right-40 ">

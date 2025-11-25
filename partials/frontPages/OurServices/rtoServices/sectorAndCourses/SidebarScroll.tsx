@@ -13,52 +13,62 @@ export const SidebarScroll: React.FC = () => {
 
     const cards = [
         {
+            id: 'community-services',
             title: 'Community Services',
             description:
                 'Empowering communities through practical care, advocacy, and support initiatives.',
         },
         {
+            id: "individual-support",
             title: 'Individual Support',
             description:
                 'Caring for individuals with empathy and professionalism in aged and disability support.',
             image: 'https://picsum.photos/seed/picsum/200/300',
         },
         {
+            id: "business",
             title: 'Business',
             description:
                 'Building future-ready professionals with skills to thrive in the modern business world.',
         },
         {
+            id: "allied-health",
             title: 'Allied Health Assistance',
             description:
                 'Supporting healthcare professionals in delivering high-quality patient care services.',
         },
         {
+            id: "beauty",
             title: 'Beauty',
             description:
                 'Enhancing confidence and creativity through professional beauty and wellness training.',
         },
         {
+            id: "animal-care",
             title: 'Animal Care',
             description:
                 'Nurturing compassion and expertise for the care and welfare of animals.',
         },
         {
+            id: "construction",
             title: 'Construction',
             description:
                 'Building strong foundations for skilled trades and sustainable infrastructure.',
         },
         {
+            id: "hospitality",
             title: 'Hospitality',
             description:
                 'Delivering excellence in service, culinary arts, and hospitality management.',
         },
         {
+            id: "traffic-management",
             title: 'Traffic Management',
             description:
                 'Ensuring safe and efficient road operations through traffic control and management expertise.',
         },
         {
+            id: "horticulture",
             title: 'Horticulture',
             description:
                 'Cultivating skills for a greener future through plant science and sustainable landscaping.',
@@ -298,6 +308,7 @@ export const SidebarScroll: React.FC = () => {
                                     description={card.description}
                                     image={card.image}
                                     active={activeIndex === index}
+                                    sectionId={card.id}
                                 />
                             </div>
                         ))}

@@ -31,7 +31,7 @@ const cards: CardData[] = [
         link: '/who-we-serve/students',
     },
     {
-        title: 'Training Organizations',
+        title: 'Training Organisation',
         subtitle: ' Simplifying Placement & Compliance',
         description:
             'We understand the challenges RTOs face from finding quality placements to managing the administrative load of documentation, student tracking, and LMS transparency.',
@@ -91,7 +91,7 @@ export const WhoWeServeCard: FC = () => {
                             <SiteButtonV3
                                 text={card.button.text}
                                 variant={card.button.variant}
-                                onClick={() => router.push(card?.link || '#')}
+                                onClick={() => router.push(card?.link ?? '#')}
                             />
                         </div>
                     </div>

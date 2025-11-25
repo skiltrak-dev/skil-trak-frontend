@@ -1,6 +1,6 @@
 import { BaseIcon, IconProps } from './BaseIcon'
 
-export const LiaTimesSolid: React.FC<IconProps} = (props) => {
+export const LiaTimesSolid: React.FC<IconProps> = (props) => {
     return (
         <BaseIcon
             {...props}
@@ -14,4 +14,3 @@ export const LiaTimesSolid: React.FC<IconProps} = (props) => {
         </BaseIcon>
     )
 }
-

@@ -16,18 +16,22 @@ export const ContactDetailsFooter = () => {
                         <FiPhone className="text-primaryNew" />
                     </div>
 
-                    <Typography variant="body" color="text-primaryNew">
-                        03-9363-6378
-                    </Typography>
+                    <a href="tel:+03-9363-6378">
+                        <Typography variant="body" color="text-primaryNew">
+                            03-9363-6378
+                        </Typography>
+                    </a>
                 </div>
                 <div className="flex items-center gap-x-2">
                     <div className="">
                         <MdOutlineMailOutline className="text-primaryNew" />
                     </div>
+                    <a href="mailto:info@skiltrak.com.au">
+                        <Typography variant="body" color="text-primaryNew">
+                            info@skiltrak.com.au
+                        </Typography>
+                    </a>
 
-                    <Typography variant="body" color="text-primaryNew">
-                        info@skiltrak.com.au
-                    </Typography>
                 </div>
                 <div className="flex gap-x-2 whitespace-nowrap">
                     <div className="">
@@ -36,10 +40,15 @@ export const ContactDetailsFooter = () => {
                             className="text-primaryNew"
                         />
                     </div>
-
-                    <Typography variant="body" color="text-primaryNew">
-                        101 Collins street Melbourne, 3000
-                    </Typography>
+                    <a
+                        href="https://maps.app.goo.gl/2YkipsSCsdvmbypi9"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <Typography variant="body" color="text-primaryNew">
+                            101 Collins street Melbourne, 3000
+                        </Typography>
+                    </a>
                 </div>
             </div>
         </div>
