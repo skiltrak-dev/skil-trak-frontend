@@ -149,11 +149,21 @@ export const PendingPlacement = () => {
                                 <Button
                                     variant={'primaryNew'}
                                     fullWidth
-                                    onClick={() =>
-                                        router.push(
-                                            `/portals/rto/action-required/approve-placement/${approval?.id}`
-                                        )
-                                    }
+                                    onClick={() => {
+                                        if (
+                                            router.pathname.startsWith(
+                                                '/portals/rto/action-required'
+                                            )
+                                        ) {
+                                            router.push(
+                                                `/portals/rto/action-required/approve-placement/${approval?.id}`
+                                            )
+                                        } else {
+                                            router.push(
+                                                `/portals/rto/approve-placement/${approval?.id}`
+                                            )
+                                        }
+                                    }}
                                 >
                                     <span className="flex items-center gap-2">
                                         <Info className="h-5 w-5" />
