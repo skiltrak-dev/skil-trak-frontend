@@ -117,7 +117,7 @@ export const ActionButton = ({
                     Icon && <Icon />
                 ) : (
                     <>
-                        {Icon && <Icon />}
+                        {Icon && <Icon size={16} />}
                         {text || children}
                     </>
                 )}
