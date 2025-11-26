@@ -124,4 +124,9 @@ export const coursesEndPoints = (
         }),
         invalidatesTags: ['RTOCourses', 'RTO'],
     }),
+
+    setupConfirmationPercentage: builder.query<any, any>({
+        query: (id) => `${PREFIX}course/${id}/setup-confirmation`,
+        providesTags: ['RTOCourses', 'RTO'],
+    }),
 })
