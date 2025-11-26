@@ -1,6 +1,13 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import { Plus, Sparkles } from 'lucide-react'
-import { Button, Select, TextArea, TextInput, Typography, Card } from '@components'
+import {
+    Button,
+    Select,
+    TextArea,
+    TextInput,
+    Typography,
+    Card,
+} from '@components'
 
 interface SingleIndustryFormProps {
     onClose: () => void
@@ -37,7 +44,6 @@ export const SingleIndustryForm = ({ onClose }: SingleIndustryFormProps) => {
     const handleSubmitSingle = methods.handleSubmit((data) => {
         // TODO: Wire this to actual API integration
         // For now, keep the same behaviour (log + close)
-        console.log('Single industry data:', data)
         onClose()
     })
 
@@ -57,8 +63,9 @@ export const SingleIndustryForm = ({ onClose }: SingleIndustryFormProps) => {
                                 Create a new industry partner
                             </Typography>
                             <Typography variant="xs" color="text-muted">
-                                Capture rich details about the partner so your team can
-                                manage placements, capacity and communication with ease.
+                                Capture rich details about the partner so your
+                                team can manage placements, capacity and
+                                communication with ease.
                             </Typography>
                         </div>
                     </div>
@@ -201,5 +208,3 @@ export const SingleIndustryForm = ({ onClose }: SingleIndustryFormProps) => {
         </FormProvider>
     )
 }
-
-
