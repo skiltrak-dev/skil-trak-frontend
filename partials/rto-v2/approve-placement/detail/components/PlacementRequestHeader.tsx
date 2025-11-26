@@ -1,15 +1,18 @@
-import { Badge } from '@components'
+import { Badge, Button } from '@components'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@components/ui/tooltip'
 import { WorkplaceCurrentStatus } from '@utils'
 import { AlertCircle, ArrowLeft, CheckCircle2, Clock, Info } from 'lucide-react'
 import { ProgressIndicator } from './ProgressIndicator'
 import { RtoApprovalWorkplaceRequest } from '@types'
+import { ReactElement, useState } from 'react'
+import { ApprovalPlacementUserGuideModal } from '../modal'
 
 export const PlacementRequestHeader = ({
     approval,
 }: {
     approval: RtoApprovalWorkplaceRequest
 }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
     const StatusBadge = () => {
         switch (approval?.rtoApprovalStatus) {
             case 'pending':
@@ -28,8 +31,15 @@ export const PlacementRequestHeader = ({
         }
     }
 
+    const onUserGuideModal = () => {
+        setModal(
+            <ApprovalPlacementUserGuideModal onCancel={() => setModal(null)} />
+        )
+    }
+
     return (
         <div className="bg-[#044866] text-white sticky top-0 z-50 shadow-2xl border-b-4 border-[#F7A619]">
+            {modal}
             <div className="container mx-auto p-3 space-y-2.5">
                 <div className="flex items-center justify-between flex-wrap gap-2">
                     <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
@@ -63,7 +73,16 @@ export const PlacementRequestHeader = ({
                             </h1>
                         </div>
                     </div>
-                    <StatusBadge />
+                    <div className="flex items-center gap-2">
+                        <StatusBadge />
+
+                        <div
+                            onClick={() => onUserGuideModal()}
+                            className="bg-white rounded-full p-1 cursor-pointer hover:bg-white/90 transition-all"
+                        >
+                            <Info size={15} className="text-primaryNew" />
+                        </div>
+                    </div>
                 </div>
 
                 {/* Progress Indicator */}
