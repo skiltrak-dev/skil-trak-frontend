@@ -4,9 +4,12 @@ import { GlobalModal } from '@components'
 import { useState } from 'react'
 import { MdCancel } from 'react-icons/md'
 
-export const ApprovalPlacementUserGuideModal = () => {
+export const ApprovalPlacementUserGuideModal = ({
+    onCancel,
+}: {
+    onCancel: () => void
+}) => {
     const [activeTab, setActiveTab] = useState('compliance')
-    const [showModal, setShowModal] = useState(true)
 
     const progressSteps = [
         { label: 'Student\nUploaded', status: 'complete' },
@@ -245,12 +248,10 @@ export const ApprovalPlacementUserGuideModal = () => {
         )
     }
 
-    if (!showModal) return null
-
     return (
-        <GlobalModal onCancel={() => setShowModal(false)}>
+        <GlobalModal onCancel={onCancel}>
             <MdCancel
-                onClick={() => setShowModal(false)}
+                onClick={onCancel}
                 className="transition-all duration-500 text-gray-200 hover:text-white text-3xl cursor-pointer hover:rotate-90 absolute top-1.5 right-2 z-10"
             />
 
@@ -802,7 +803,29 @@ export const ApprovalPlacementUserGuideModal = () => {
                         </p>
 
                         <div className="grid md:grid-cols-2 gap-5 mt-5">
-                            <div className="bg-white rounded-lg p-6 border-2 border-green-600">
+                            {impactCards?.map((card) => (
+                                <div className="bg-white rounded-lg p-6 border-2 border-green-600">
+                                    <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white text-2xl mb-4">
+                                        {card?.icon}
+                                    </div>
+                                    <h4 className="text-green-900 font-bold text-lg mb-3">
+                                        {card?.title}
+                                    </h4>
+                                    <p className="text-green-800 leading-relaxed mb-3">
+                                        <strong>{card?.immediateTitle}</strong>
+                                    </p>
+                                    <p className="text-gray-700 leading-relaxed mb-3">
+                                        {card?.immediateText}
+                                    </p>
+                                    <p className="text-green-800 leading-relaxed mb-3">
+                                        <strong>{card?.futureTitle}</strong>
+                                    </p>
+                                    <p className="text-gray-700 leading-relaxed">
+                                        {card?.futureText}
+                                    </p>
+                                </div>
+                            ))}
+                            {/* <div className="bg-white rounded-lg p-6 border-2 border-green-600">
                                 <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white text-2xl mb-4">
                                     ✓
                                 </div>
@@ -848,7 +871,7 @@ export const ApprovalPlacementUserGuideModal = () => {
                                     future students in your organization,
                                     protecting quality standards.
                                 </p>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 

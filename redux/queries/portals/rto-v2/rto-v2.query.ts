@@ -47,6 +47,7 @@ const {
     useRemoveAICourseDifferenceMutation,
     useGetCourseWorkplaceTypesQuery,
     useUpdateSupervisorRequirementsMutation,
+    useSetupConfirmationPercentageQuery,
 
     // ---- Students ---- //
     useRtoStudentHistoryQuery,
@@ -97,6 +98,7 @@ export const RtoV2Api = {
         useCourseWorkplaceTypes: useGetCourseWorkplaceTypesQuery,
         useUpdateSupervisorRequirements:
             useUpdateSupervisorRequirementsMutation,
+        setupConfirmationPercentage: useSetupConfirmationPercentageQuery,
     },
     Students: {
         importStudents: useImportStudentsMutation,
