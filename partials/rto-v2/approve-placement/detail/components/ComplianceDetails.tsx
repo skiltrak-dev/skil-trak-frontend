@@ -50,7 +50,8 @@ export function ComplianceDetails({
             />
 
             <RtoChecklistDetail
-                coursesId={Number(approval?.workplaceRequest?.courses?.[0]?.id)}
+                courseId={Number(approval?.workplaceRequest?.courses?.[0]?.id)}
+                studentId={Number(approval?.student?.id)}
             />
 
             <Card className="bg-blue-50 border-2 border-blue-200 !py-1">

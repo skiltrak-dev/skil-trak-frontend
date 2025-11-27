@@ -1,9 +1,11 @@
-import { Card, LoadingAnimation, NoData } from '@components'
+import { ActionButton, Card, LoadingAnimation, NoData } from '@components'
+import { DocumentsView } from '@hooks'
 import { IndustryApi } from '@queries'
 import { RtoApprovalWorkplaceRequest } from '@types'
 import {
     Construction,
     Download,
+    Eye,
     FileText,
     Image as ImageIcon,
 } from 'lucide-react'
@@ -14,6 +16,8 @@ export function ResourcesView({
 }: {
     approval: RtoApprovalWorkplaceRequest
 }) {
+    const { documentsViewModal, onFileClicked } = DocumentsView()
+
     const gallery = IndustryApi.Gallery.industryGallery(
         {
             userId: Number(approval?.industry?.user?.id),
@@ -44,6 +48,7 @@ export function ResourcesView({
 
     return (
         <div className="space-y-3">
+            {documentsViewModal}
             <div className="bg-gradient-to-r from-amber-50 to-orange-50 p-3 rounded-xl border-2 border-amber-200 hover:shadow-lg transition-shadow">
                 <div className="flex items-start gap-4">
                     <div className="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg shadow-amber-500/30 animate-scale-in">
@@ -120,15 +125,29 @@ export function ResourcesView({
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-3">
-                                        <button
-                                            className="p-2 cursor-pointer hover:bg-slate-100 rounded-lg transition-colors opacity-50 "
-                                            onClick={() => {
+                                    <div className="flex items-center">
+                                        <ActionButton
+                                            simple
+                                            onClick={() =>
+                                                onFileClicked({
+                                                    file: resource?.file,
+                                                    extension: resource?.file
+                                                        ?.split('.')
+                                                        .reverse()[0],
+                                                    type: 'all',
+                                                })
+                                            }
+                                            Icon={Eye}
+                                            variant="info"
+                                        />
+                                        <ActionButton
+                                            simple
+                                            onClick={() =>
                                                 window.open(resource?.file)
-                                            }}
-                                        >
-                                            <Download className="w-4 h-4 text-slate-700" />
-                                        </button>
+                                            }
+                                            Icon={Download}
+                                            variant="dark"
+                                        />
                                     </div>
                                 </div>
                             ))

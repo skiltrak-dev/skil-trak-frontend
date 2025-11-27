@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TabNavigation } from '@components'
+import { ConfigTabs, TabConfig, TabNavigation } from '@components'
 import { IndustryHeader } from './component'
 import { AddIndustryModal } from './modals'
 import {
@@ -17,6 +17,7 @@ import {
     futureIndustriesData,
     pendingIndustriesData,
 } from './data/mockData'
+import { Building2 } from 'lucide-react'
 
 export function RtoUpdatedIndustries() {
     const [addIndustryOpen, setAddIndustryOpen] = useState(false)
@@ -84,7 +85,71 @@ export function RtoUpdatedIndustries() {
         console.log('Export industries')
     }
 
-    const tabs = [
+    const tabs: TabConfig[] = [
+        {
+            value: 'your-industries',
+            label: 'Your Industries',
+            icon: Building2,
+            component: () => (
+                <YourIndustriesTab
+                    data={yourIndustriesData}
+                    getTotalCapacity={getTotalCapacity}
+                    getTotalPlacements={getTotalPlacements}
+                    getAvailablePositions={getAvailablePositions}
+                    onView={handleViewIndustry}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                />
+            ),
+        },
+        {
+            value: 'global-directory',
+            label: 'Global Directory',
+            icon: Building2,
+            component: () => (
+                <GlobalDirectoryTab
+                    data={globalIndustriesData}
+                    getTotalCapacity={getTotalCapacity}
+                    getTotalPlacements={getTotalPlacements}
+                    getAvailablePositions={getAvailablePositions}
+                    onView={handleViewIndustry}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                />
+            ),
+        },
+        {
+            label: 'Future Industries',
+            value: 'future-industries',
+            icon: Building2,
+            component: () => <FutureIndustriesTab />,
+        },
+        {
+            value: 'pending',
+            label: 'Pending',
+            icon: Building2,
+            component: () => (
+                <PendingIndustriesTab
+                    data={pendingIndustriesData}
+                    onView={handleViewPending}
+                    onApproveCourses={handleApproveCourses}
+                />
+            ),
+        },
+        {
+            label: 'Blacklisted',
+            value: 'black-industries',
+            icon: Building2,
+            component: () => (
+                <BlacklistedTab
+                    data={blacklistedIndustriesData}
+                    onView={handleViewBlacklisted}
+                    onUnblock={handleUnblock}
+                />
+            ),
+        },
+    ]
+    const tabss = [
         {
             label: 'Your Industries',
             href: { pathname: 'industries', query: { tab: 'your-industries' } },
@@ -133,7 +198,7 @@ export function RtoUpdatedIndustries() {
             label: 'Pending',
             href: { pathname: 'industries', query: { tab: 'pending' } },
             badge: { text: pendingIndustriesData.length },
-            element: (
+            element: () => (
                 <PendingIndustriesTab
                     data={pendingIndustriesData}
                     onView={handleViewPending}
@@ -167,14 +232,15 @@ export function RtoUpdatedIndustries() {
                 onExport={handleExport}
             />
 
-            <TabNavigation tabs={tabs}>
+            {/* <TabNavigation tabs={tabs}>
                 {({ header, element }: any) => (
                     <div>
                         <div>{header}</div>
                         <div className="mt-4">{element}</div>
                     </div>
                 )}
-            </TabNavigation>
+            </TabNavigation> */}
+            <ConfigTabs tabs={tabs} />
 
             {addIndustryOpen && (
                 <AddIndustryModal onClose={() => setAddIndustryOpen(false)} />

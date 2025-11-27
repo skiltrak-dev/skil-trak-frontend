@@ -4,25 +4,17 @@ import {
     Card,
     EmptyData,
     LoadingAnimation,
-    StudentExpiryDaysLeft,
     Table,
-    TableAction,
-    TableActionOption,
     TechnicalError,
-    UserCreatedAt,
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaCheckCircle, FaEdit, FaEye } from 'react-icons/fa'
+import { FaEdit } from 'react-icons/fa'
 
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
+import { PriorityBadge, ResolveIssuesCompletedModal } from '@partials/rto-v2'
+import { CountCard } from '@partials/rto-v2/cards/CountCard'
 import { RtoApi } from '@queries'
-import { Student, StudentIssue } from '@types'
-import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
-import { SectorCell, StudentCellInfo } from './components'
+import { StudentIssue } from '@types'
+import { ellipsisText } from '@utils'
 import {
     AlertTriangle,
     Building2,
@@ -32,14 +24,13 @@ import {
     GraduationCap,
     User,
 } from 'lucide-react'
-import { CountCard } from '@partials/rto-v2/cards/CountCard'
-import { PriorityBadge, ResolveIssuesCompletedModal } from '@partials/rto-v2'
-import { FaRegCheckCircle } from 'react-icons/fa'
 import moment from 'moment'
-import { ellipsisText } from '@utils'
+import { ReactElement, useState } from 'react'
+import { FaRegCheckCircle } from 'react-icons/fa'
+import { MdBlock } from 'react-icons/md'
+import { StudentCellInfo } from './components'
 
 export const ProblematicStudent = () => {
-    const router = useRouter()
     const [modal, setModal] = useState<ReactElement | null>(null)
 
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -52,14 +43,7 @@ export const ProblematicStudent = () => {
         })
     const count = RtoApi.Students.useRtoResolveIssuesStudentsCount()
     const onModalCancelClicked = () => setModal(null)
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStudentStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
+
     const onClickCompleted = (student: any) => {
         setModal(
             <ResolveIssuesCompletedModal
@@ -68,40 +52,6 @@ export const ProblematicStudent = () => {
             />
         )
     }
-
-    const onDateClick = (student: Student) => {
-        setModal(
-            <EditTimer
-                studentId={student?.user?.id}
-                date={student?.expiryDate}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const tableActionOptions: TableActionOption<Student>[] = [
-        {
-            text: 'View',
-            onClick: (student) =>
-                router.push(`/portals/rto/students/${student.id}?tab=overview`),
-            Icon: FaEye,
-        },
-        {
-            text: 'Change Status',
-            onClick: (student) => onChangeStatus(student),
-            Icon: FaEdit,
-        },
-        {
-            text: 'Change Expiry',
-            onClick: (student) => onDateClick(student),
-            Icon: FaEdit,
-        },
-        // {
-        //     text: 'Completed',
-        //     onClick: () => onClickCompleted(),
-        //     Icon: FaCheckCircle,
-        // },
-    ]
 
     const columns: ColumnDef<StudentIssue>[] = [
         {

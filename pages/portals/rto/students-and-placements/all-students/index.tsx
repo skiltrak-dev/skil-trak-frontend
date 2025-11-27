@@ -3,11 +3,7 @@ import { RtoAllStudents } from '@partials'
 import React, { ReactElement } from 'react'
 
 const AllStudentsPage = () => {
-    return (
-        <div>
-            <RtoAllStudents />
-        </div>
-    )
+    return <RtoAllStudents />
 }
 
 AllStudentsPage.getLayout = (page: ReactElement) => {

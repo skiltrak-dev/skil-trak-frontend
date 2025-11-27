@@ -36,9 +36,12 @@ export const rtosEndpoints = (
         }),
         invalidatesTags: ['RTO', 'RTOCourses', 'Profile', 'RTOS'],
     }),
-    removeRtoWpType: builder.mutation<any, number>({
-        query: (id) => ({
-            url: `rtos/course/workplace-type/${id}/remove`,
+    removeRtoWpType: builder.mutation<
+        any,
+        { courseId: number; wpTypeId: number }
+    >({
+        query: ({ courseId, wpTypeId }) => ({
+            url: `rtos/course/${courseId}/workplace-type/${wpTypeId}/remove`,
             method: 'DELETE',
         }),
         invalidatesTags: ['RTO', 'RTOCourses', 'Profile', 'RTOS'],

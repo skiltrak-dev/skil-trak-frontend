@@ -97,7 +97,7 @@ const menuSections = [
                 label: 'All Students',
                 key: 'All Students',
                 badge: '11',
-                path: '/portals/rto/students-and-placements/all-students?tab=pending',
+                path: '/portals/rto/students-and-placements/all-students?tab=active',
                 bg: 'bg-blue-50 border border-blue-200',
                 iconBg: 'bg-blue-500',
                 badgeBg: 'bg-blue-500',

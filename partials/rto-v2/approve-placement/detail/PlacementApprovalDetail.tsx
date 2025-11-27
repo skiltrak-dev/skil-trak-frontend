@@ -3,8 +3,8 @@ import { useState } from 'react'
 import {
     Button,
     EmptyData,
-    TechnicalError,
     LoadingAnimation,
+    TechnicalError,
 } from '@components'
 import { TooltipProvider } from '@components/ui/tooltip'
 import { RtoV2Api } from '@queries'
@@ -19,9 +19,6 @@ import {
 } from './components'
 
 export const PlacementApprovalDetail = () => {
-    const [status, setStatus] = useState<'waiting' | 'approved' | 'rejected'>(
-        'waiting'
-    )
     const [showDetails, setShowDetails] = useState(true)
 
     const router = useRouter()
