@@ -7,8 +7,10 @@ import { FaTrash } from 'react-icons/fa'
 
 export const DeleteRtoWpTypeModal = ({
     wpType,
+    courseId,
     onCancel,
 }: {
+    courseId: number
     onCancel: () => void
     wpType: WorkplaceTypes
 }) => {
@@ -16,7 +18,10 @@ export const DeleteRtoWpTypeModal = ({
     const [remove, removeResult] = CommonApi.Rtos.removeRtoWpType()
 
     const onConfirmUClicked = async (wpType: WorkplaceTypes) => {
-        const res: any = await remove(Number(wpType?.id))
+        const res: any = await remove({
+            courseId,
+            wpTypeId: wpType?.workplaceType?.id,
+        })
 
         if (res?.data) {
             notification.error({

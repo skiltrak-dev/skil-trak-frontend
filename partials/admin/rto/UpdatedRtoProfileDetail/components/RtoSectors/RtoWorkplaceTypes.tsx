@@ -1,8 +1,7 @@
-import { WorkplaceTypes } from '@types'
-import { TiPlus } from 'react-icons/ti'
-import { ReactElement, useState } from 'react'
-import { AddRTOWpTypeModal, DeleteRtoWpTypeModal } from '../../modals'
 import { Badge } from '@components'
+import { WorkplaceTypes } from '@types'
+import { ReactElement, useState } from 'react'
+import { AddRTOWpTypeModal } from '../../modals'
 
 export const RtoWorkplaceTypes = ({
     workplaceTypes,
@@ -29,11 +28,6 @@ export const RtoWorkplaceTypes = ({
         )
     }
 
-    const onDeleteWpType = (wpType: WorkplaceTypes) => {
-        setModal(<DeleteRtoWpTypeModal wpType={wpType} onCancel={onCancel} />)
-    }
-
-    const TiPlusIcon = () => <TiPlus size={15} />
     return (
         <>
             {modal}
