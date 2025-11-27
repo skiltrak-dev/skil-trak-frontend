@@ -1,9 +1,10 @@
 import type { NextPage } from 'next'
 
 import { Animations } from '@animations'
-import { LottieAnimation, Navbar, Typography } from '@components'
+import { LottieAnimation, Navbar, Typography, PageNotFound } from '@components'
 
-const PageNotFound: NextPage = () => {
+const PageNotFoundPage: NextPage = () => {
+    return <PageNotFound />
     return (
         <div>
             <Navbar />
@@ -29,4 +30,4 @@ export async function getStaticProps() {
     }
 }
 
-export default PageNotFound
+export default PageNotFoundPage
