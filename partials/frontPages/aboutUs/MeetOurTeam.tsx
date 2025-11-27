@@ -30,6 +30,14 @@ export const MeetOurTeam = () => {
                 'https://www.linkedin.com/in/julie-d-clarke-a06b2b293/',
         },
         {
+            name: 'Muhammad Siraj',
+            role: 'Head of Tech Department',
+            role2: '',
+            image: '/images/site/about-us/siraj.jpg',
+            hasLinkedIn: true,
+            linkedInLink: 'https://www.linkedin.com/in/siraj3/',
+        },
+        {
             name: 'Harry Thompson',
             role: 'QA Manager',
             role2: '',
@@ -47,18 +55,10 @@ export const MeetOurTeam = () => {
             linkedInLink:
                 'https://www.linkedin.com/in/qandeel-tanoli-b05bb72b9/',
         },
-        {
-            name: 'Muhammad Siraj',
-            role: 'Technical Lead',
-            role2: '',
-            image: '/images/site/about-us/siraj.jpg',
-            hasLinkedIn: true,
-            linkedInLink:
-                'https://www.linkedin.com/in/siraj3/',
-        },
+
         {
             name: 'Aroob',
-            role: 'HR',
+            role: 'HR Manager',
             role2: '',
             image: '/images/site/about-us/aroob.jpg',
             hasLinkedIn: true,

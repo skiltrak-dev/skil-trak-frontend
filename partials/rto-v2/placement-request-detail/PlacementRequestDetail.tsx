@@ -1,102 +1,78 @@
-import { useState, useEffect, useRef } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import {
-    User,
-    Mail,
-    Phone,
-    MapPin,
-    Calendar,
-    Building2,
-    GraduationCap,
-    FileText,
-    CheckCircle2,
-    Clock,
-    AlertCircle,
-    ArrowLeft,
-    ArrowRight,
-    Save,
-    Users,
-    Briefcase,
-    MapPinned,
-    RefreshCw,
-    XCircle,
-    Eye,
-    Send,
-    UserCheck,
-    CalendarCheck,
-    FileCheck,
-    Play,
-    CheckSquare,
-    BookOpen,
-    Upload,
-    ThumbsUp,
-    ThumbsDown,
-    MessageSquare,
-    FileSignature,
-    ClipboardCheck,
-    Archive,
-    Download,
-    ListChecks,
-    Bell,
-    Settings,
-    ChevronRight,
-    Sparkles,
-    Shield,
-    Target,
-    Zap,
-    TrendingUp,
-    Award,
-    Info,
-    History,
-    Plus,
-    Flag,
-    Pause,
-    Ban,
-    StopCircle,
-} from 'lucide-react'
-import { Card, Badge, Button, InitialAvatar, Typography } from '@components'
+import { Badge, Button, Card, Typography } from '@components'
 import { TextInput } from '@components/inputs/TextInput'
-import { Select } from '@components/inputs/Select'
-import { TextArea } from '@components/inputs/TextArea'
-import { Checkbox } from '@components/inputs/Checkbox'
-import { Checkbox as UICheckbox } from '@components/ui/checkbox'
-import { LinearProgress } from '@components/LinearProgress/LinearProgress'
 import {
     Accordion,
+    AccordionContent,
     AccordionItem,
     AccordionTrigger,
-    AccordionContent,
 } from '@components/ui/accordion'
-import { Separator } from '@components/ui/separator'
+import { Checkbox as UICheckbox } from '@components/ui/checkbox'
 import { ScrollArea } from '@components/ui/scroll-area'
+import { Separator } from '@components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
 import {
     Tooltip,
     TooltipContent,
-    TooltipTrigger,
     TooltipProvider,
+    TooltipTrigger,
 } from '@components/ui/tooltip'
-import { GlobalModal } from '@components/Modal/GlobalModal'
-import { Table } from '@components/Table/Table'
-import { TableAction } from '@components/Table/components/TableAction'
-import { MdCancel } from 'react-icons/md'
-import { FindWorkplaceSection } from './components/FindWorkplaceSection'
-import { CleanHeader } from './components/CleanHeader'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
-    AppointmentModal,
+    AlertCircle,
+    Award,
+    Briefcase,
+    Building2,
+    Calendar,
+    CalendarCheck,
+    CheckCircle2,
+    CheckSquare,
+    ChevronRight,
+    ClipboardCheck,
+    Clock,
+    Download,
+    Eye,
+    FileCheck,
+    FileSignature,
+    FileText,
+    Flag,
+    GraduationCap,
+    Info,
+    ListChecks,
+    Mail,
+    MapPin,
+    MapPinned,
+    MessageSquare,
+    Phone,
+    Play,
+    Shield,
+    Sparkles,
+    Target,
+    ThumbsDown,
+    ThumbsUp,
+    TrendingUp,
+    Upload,
+    User,
+    XCircle,
+    Zap,
+} from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Progressbar } from '../components'
+import { CleanHeader } from './components/CleanHeader'
+import { FindWorkplaceSection } from './components/FindWorkplaceSection'
+import {
     AgreementModal,
-    ScheduleModal,
-    RejectionModal,
-    StatusNotesModal,
-    PlacementProgramsModal,
+    AppointmentModal,
     CancelRequestModal,
     ManualNoteModal,
-    QuickActionsModal,
-    ProvidedWorkplaceModal,
+    PlacementProgramsModal,
     ProofUploadModal,
+    ProvidedWorkplaceModal,
+    QuickActionsModal,
+    RejectionModal,
+    ScheduleModal,
+    StatusNotesModal,
 } from './modal'
-import { FormProvider, useForm } from 'react-hook-form'
-import { Progressbar } from '../components'
+import { WorkplaceProgressbar } from './components/header'
 
 interface StatusNote {
     status: string
@@ -1965,132 +1941,7 @@ export const PlacementRequestDetail = () => {
                     </div>
 
                     {/* Workflow Progress Bar */}
-                    {workplaceType && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 mb-8"
-                        >
-                            <div className="flex items-center justify-between mb-6">
-                                <div className="flex items-center gap-3">
-                                    <Badge
-                                        Icon={Briefcase}
-                                        text={
-                                            workplaceType === 'provided'
-                                                ? 'Provided Workplace'
-                                                : 'Needs Workplace'
-                                        }
-                                        className={`${
-                                            workplaceType === 'provided'
-                                                ? 'bg-gradient-to-r from-purple-500 to-indigo-500 shadow-purple-500/30'
-                                                : 'bg-gradient-to-r from-[#044866] to-[#0D5468] shadow-[#044866]/30'
-                                        } text-white border-0 shadow-lg px-3 py-1.5`}
-                                    ></Badge>
-                                    <span className="text-sm text-slate-600">
-                                        Stage {getCurrentStageIndex() + 1} of{' '}
-                                        {workflowStages.length}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Progress Bar */}
-                            <div className="relative h-2 bg-slate-100 rounded-full overflow-hidden">
-                                <motion.div
-                                    initial={{ width: 0 }}
-                                    animate={{
-                                        width: `${
-                                            ((getCurrentStageIndex() + 1) /
-                                                workflowStages.length) *
-                                            100
-                                        }%`,
-                                    }}
-                                    transition={{
-                                        duration: 0.8,
-                                        ease: 'easeOut',
-                                    }}
-                                    className={`absolute inset-y-0 left-0 ${
-                                        workplaceType === 'provided'
-                                            ? 'bg-gradient-to-r from-purple-500 to-indigo-500'
-                                            : 'bg-gradient-to-r from-[#044866] to-[#0D5468]'
-                                    } rounded-full`}
-                                />
-                            </div>
-
-                            {/* Stages */}
-                            <div className="grid grid-cols-6 lg:grid-cols-12 gap-2 mt-4">
-                                {workflowStages.map((stage, index) => {
-                                    const isActive =
-                                        index === getCurrentStageIndex()
-                                    const isCompleted =
-                                        index < getCurrentStageIndex()
-
-                                    return (
-                                        <TooltipProvider key={index}>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <div
-                                                        className={`flex flex-col items-center gap-1.5 p-2 rounded-lg transition-all cursor-pointer ${
-                                                            isActive
-                                                                ? workplaceType ===
-                                                                  'provided'
-                                                                    ? 'bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-300'
-                                                                    : 'bg-gradient-to-br from-[#044866]/5 to-[#0D5468]/5 border-2 border-[#044866]/30'
-                                                                : isCompleted
-                                                                ? 'bg-emerald-50 border border-emerald-200'
-                                                                : 'bg-slate-50 border border-slate-200'
-                                                        }`}
-                                                    >
-                                                        <div
-                                                            className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                                                                isActive
-                                                                    ? workplaceType ===
-                                                                      'provided'
-                                                                        ? 'bg-gradient-to-br from-purple-500 to-indigo-500 text-white'
-                                                                        : 'bg-gradient-to-br from-[#044866] to-[#0D5468] text-white'
-                                                                    : isCompleted
-                                                                    ? 'bg-emerald-500 text-white'
-                                                                    : 'bg-slate-300 text-white'
-                                                            }`}
-                                                        >
-                                                            {isCompleted ? (
-                                                                <CheckCircle2 className="h-4 w-4" />
-                                                            ) : (
-                                                                <span className="text-xs font-bold">
-                                                                    {index + 1}
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                        <span
-                                                            className={`text-xs text-center font-medium hidden lg:block ${
-                                                                isActive
-                                                                    ? workplaceType ===
-                                                                      'provided'
-                                                                        ? 'text-purple-700'
-                                                                        : 'text-[#044866]'
-                                                                    : isCompleted
-                                                                    ? 'text-emerald-700'
-                                                                    : 'text-slate-500'
-                                                            }`}
-                                                        >
-                                                            {stage.name
-                                                                .split(' ')
-                                                                .slice(0, 2)
-                                                                .join(' ')}
-                                                        </span>
-                                                    </div>
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    <p className="font-semibold">
-                                                        {stage.name}
-                                                    </p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    )
-                                })}
-                            </div>
-                        </motion.div>
-                    )}
+                    <WorkplaceProgressbar currentStatus={currentStatus} />
                 </div>
             </div>
 
