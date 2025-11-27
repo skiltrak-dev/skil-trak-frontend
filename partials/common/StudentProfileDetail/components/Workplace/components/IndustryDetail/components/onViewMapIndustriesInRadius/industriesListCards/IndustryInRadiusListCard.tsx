@@ -18,7 +18,7 @@ export const IndustryInRadiusListCard = ({
     branch = false,
     isLocked = false,
 }: IndustryInRadiusListCardProps) => {
-    
+
     return (
         <div
             className={`flex items-center justify-between bg-white border rounded-2xl shadow-sm p-4 w-full ${isLocked ? 'opacity-50 cursor-not-allowed' : ''

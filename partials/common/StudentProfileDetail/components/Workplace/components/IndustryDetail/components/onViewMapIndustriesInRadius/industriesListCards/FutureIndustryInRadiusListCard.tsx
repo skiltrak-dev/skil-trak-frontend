@@ -92,12 +92,12 @@ export const FutureIndustryInRadiusListCard = ({
             ) : (
                 <div className="flex flex-col gap-y-2 justify-center items-end">
                     <Actions
-                        alreadyContacted={item?.alreadyContacted}
-                        int={item?.intrested}
-                        contactId={item?.contactId}
+                        alreadyContacted={item?.studentIndustryContact}
+                        int={item?.studentIndustryContact?.[0]?.intrested}
+                        contactId={item?.studentIndustryContact?.[0]?.id}
                     />
                     <div className="flex items-center gap-x-2">
-                        {item?.alreadyContacted ? (
+                        {item?.studentIndustryContact?.length > 0 ? (
                             <span className="text-[9px] font-medium bg-green-100 text-green-500 px-3 py-1 rounded-lg">
                                 Contacted
                             </span>
