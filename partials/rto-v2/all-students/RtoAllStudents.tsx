@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useState } from 'react'
 //Layouts
+import { StudentsFilterType } from '@types'
 import debounce from 'lodash/debounce'
-import { StudentsFilterType, UserStatus } from '@types'
 
 //components
 import {
     Card,
+    ConfigTabs,
     Filter,
     LoadingAnimation,
     SetDetaultQueryFilteres,
     StudentFilters,
-    TabNavigation,
-    TabProps,
+    TabConfig,
     TechnicalError,
     TextInput,
 } from '@components'
@@ -69,6 +69,9 @@ export const RtoAllStudents = () => {
     }, [router])
 
     const count = RtoApi.Students.useCount()
+
+    console.log({ count })
+
     const filteredStudents = useGetRtoStudentsQuery(
         {
             search: `${JSON.stringify({
@@ -92,84 +95,55 @@ export const RtoAllStudents = () => {
         }
     )
 
-    const tabs: TabProps[] = [
+    const tabs: TabConfig[] = [
         {
+            value: 'pending',
             label: 'Pending',
-            href: {
-                pathname: 'all-students',
-                query: { tab: UserStatus.Pending },
-            },
-            badge: {
-                text: count?.data?.pending,
-                loading: count.isLoading,
-            },
-            element: <PendingStudent />,
+            icon: Users,
+            count: count?.data?.pending,
+            component: PendingStudent,
         },
         {
+            value: 'active',
             label: 'Active',
-            badge: {
-                text: count?.data?.approved,
-                loading: count.isLoading,
-            },
-            href: { pathname: 'all-students', query: { tab: 'active' } },
-            element: <ApprovedStudent />,
+            icon: Users,
+            count: count?.data?.approved,
+            component: ApprovedStudent,
         },
         {
+            value: 'incomplete-submission',
             label: 'Incomplete Submission',
-            badge: {
-                text: count?.data?.inCompleteSubmissions,
-                loading: count.isLoading,
-            },
-            href: {
-                pathname: 'all-students',
-                query: { tab: 'incomplete-submission' },
-            },
-            element: <IncompleteSubmissionStudent />,
+            icon: Users,
+            count: count?.data?.inCompleteSubmissions,
+            component: IncompleteSubmissionStudent,
         },
         {
+            value: 'rejected',
             label: 'Rejected',
-            badge: {
-                text: count?.data?.rejected,
-                loading: count.isLoading,
-            },
-            href: {
-                pathname: 'all-students',
-                query: { tab: UserStatus.Rejected },
-            },
-            element: <RejectedStudent />,
+            icon: Users,
+            count: count?.data?.rejected,
+            component: RejectedStudent,
         },
         {
+            value: 'blocked',
             label: 'Blocked',
-            badge: {
-                text: count?.data?.blocked,
-                loading: count.isLoading,
-            },
-            href: {
-                pathname: 'all-students',
-                query: { tab: UserStatus.Blocked },
-            },
-            element: <BlockedStudent />,
+            icon: Users,
+            count: count?.data?.blocked,
+            component: BlockedStudent,
         },
         {
+            value: 'archived',
             label: 'Archived',
-            badge: {
-                text: count?.data?.archived,
-                loading: count.isLoading,
-            },
-            href: {
-                pathname: 'all-students',
-                query: { tab: UserStatus.Archived },
-            },
-            element: <ArchivedStudent />,
+            icon: Users,
+            count: count?.data?.archived,
+            component: ArchivedStudent,
         },
         {
+            value: 'completed',
             label: 'Completed',
-            badge: {
-                text: count?.data?.completed,
-                loading: count.isLoading,
-            },
-            href: { pathname: 'all-students', query: { tab: 'completed' } },
-            element: <CompletedStudents />,
+            icon: Users,
+            count: count?.data?.completed,
+            component: CompletedStudents,
         },
     ]
 
@@ -282,16 +256,25 @@ export const RtoAllStudents = () => {
                         ) : null}
 
                         {!filteredDataLength && (
-                            <TabNavigation tabs={tabs}>
-                                {({ header, element }: any) => {
-                                    return (
-                                        <div>
-                                            <div>{header}</div>
-                                            <div className="p-4">{element}</div>
-                                        </div>
-                                    )
-                                }}
-                            </TabNavigation>
+                            <>
+                                {/* <TabNavigation tabs={tabs}>
+                                        {({ header, element }: any) => {
+                                            return (
+                                                <div>
+                                                    <div>{header}</div>
+                                                    <div className="p-4">
+                                                        {element}
+                                                    </div>
+                                                </div>
+                                            )
+                                        }}
+                                    </TabNavigation> */}
+                                <ConfigTabs
+                                    defaultValue={tabs[1].value}
+                                    tabs={tabs}
+                                    props={{ filter }}
+                                />
+                            </>
                         )}
                     </div>
                 </Card>

@@ -8,7 +8,7 @@ export const ProfileStatsCardSkeleton = () => {
                 <div className="flex relative items-center justify-end">
                     <div className="absolute bottom-10 left-0">
                         <SkeletonLoader width="w-14" height="h-12" />
-                    </div>
+                    </div> 
                     <div className="text-right">
                         <SkeletonLoader
                             width="w-12"

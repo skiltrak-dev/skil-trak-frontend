@@ -16,7 +16,10 @@ export const EligibleWpTypeCard = ({
     const { notification } = useNotification()
 
     const onRemove = async () => {
-        const res: any = await remove(courseId)
+        const res: any = await remove({
+            courseId,
+            wpTypeId: type?.workplaceType?.id,
+        })
 
         if (res?.data) {
             notification.error({

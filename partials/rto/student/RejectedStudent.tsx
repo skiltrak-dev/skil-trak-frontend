@@ -1,6 +1,5 @@
 import {
     ActionButton,
-    Button,
     Card,
     CaseOfficerAssignedStudent,
     EmptyData,
@@ -13,13 +12,13 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 
 import { useGetRtoStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
 import { studentsListWorkplace } from '@utils'
+import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import { IndustryCell, SectorCell, StudentCellInfo } from './components'
 import { AcceptModal, DeleteModal } from './modals'
@@ -29,6 +28,8 @@ export const RejectedStudent = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    const router = useRouter()
 
     const { isLoading, data, isError } = useGetRtoStudentsQuery({
         search: `status:${UserStatus.Rejected}`,
@@ -53,7 +54,11 @@ export const RejectedStudent = () => {
     const tableActionOptions: TableActionOption<Student>[] = [
         {
             text: 'View',
-            onClick: () => {},
+            onClick: (student) => {
+                router.push(
+                    `/portals/rto/students-and-placements/all-students/${student.id}/detail`
+                )
+            },
             Icon: FaEye,
         },
         {
@@ -77,7 +82,12 @@ export const RejectedStudent = () => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => <StudentCellInfo student={info.row.original} />,
+            cell: (info) => (
+                <StudentCellInfo
+                    link={`/portals/rto/students-and-placements/all-students/${info.row.original.id}/detail`}
+                    student={info.row.original}
+                />
+            ),
             header: () => <span>Student</span>,
         },
         {

@@ -1,12 +1,11 @@
-import { Typography } from '@components'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
+import { ConfigTabs, Typography } from '@components'
 import { RtoApprovalWorkplaceRequest } from '@types'
 import {
     FolderOpen,
     GraduationCap,
     LucideIcon,
     ShieldCheck,
-    Users
+    Users,
 } from 'lucide-react'
 import { ComplianceDetails } from './ComplianceDetails'
 import { ProgramsInfo } from './ProgramsInfo'
@@ -76,7 +75,8 @@ export function DetailedView({ approval }: DetailedViewProps) {
                 </div>
             </div>
 
-            <Tabs defaultValue="compliance" className="p-4 md:p-6">
+            <ConfigTabs tabs={tabs} props={{ approval }} />
+            {/* <Tabs defaultValue={tabs?.[0]?.value} className="p-4 md:p-6">
                 <TabsList className="grid w-full grid-cols-5 mb-2 bg-slate-100 p-1.5 rounded-xl h-auto gap-1">
                     {tabs.map((tab) => {
                         const Icon = tab.icon
@@ -107,7 +107,7 @@ export function DetailedView({ approval }: DetailedViewProps) {
                         </TabsContent>
                     )
                 })}
-            </Tabs>
+            </Tabs> */}
         </div>
     )
 }

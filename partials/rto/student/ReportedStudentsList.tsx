@@ -13,14 +13,13 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaComment, FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
+import { FaComment, FaEdit, FaEye } from 'react-icons/fa'
 
 import Modal from '@modals/Modal'
 import { RtoApi } from '@queries'
 import { Student } from '@types'
-import { getUserCredentials, isBrowser, studentsListWorkplace } from '@utils'
+import { getUserCredentials, studentsListWorkplace } from '@utils'
 import { saveAs } from 'file-saver'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
@@ -118,8 +117,11 @@ export const ReportedStudentsList = () => {
     ): TableActionOption<Student>[] => [
         {
             text: 'View',
-            onClick: (student) =>
-                router.push(`/portals/rto/students/${student.id}?tab=overview`),
+            onClick: (student) => {
+                router.push(
+                    `/portals/rto/students-and-placements/all-students/${student.id}/detail`
+                )
+            },
             Icon: FaEye,
         },
 
@@ -136,7 +138,11 @@ export const ReportedStudentsList = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => (
-                <StudentCellInfo student={info.row.original} call />
+                <StudentCellInfo
+                    link={`/portals/rto/students-and-placements/all-students/${info.row.original.id}/detail`}
+                    student={info.row.original}
+                    call
+                />
             ),
             header: () => <span>Student</span>,
         },

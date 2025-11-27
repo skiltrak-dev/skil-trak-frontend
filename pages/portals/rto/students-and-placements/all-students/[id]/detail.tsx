@@ -4,11 +4,7 @@ import { User } from 'lucide-react'
 import { ReactElement } from 'react'
 
 const RtoStudentDetailPage = () => {
-    return (
-        <div>
-            <RtoStudentDetail />
-        </div>
-    )
+    return <RtoStudentDetail />
 }
 
 RtoStudentDetailPage.getLayout = (page: ReactElement) => {

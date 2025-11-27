@@ -55,7 +55,9 @@ export const FilteredStudents = ({
         {
             text: 'View',
             onClick: (student) => {
-                router.push(`/portals/admin/student/${student?.id}/detail`)
+                router.push(
+                    `/portals/rto/students-and-placements/all-students/${student.id}/detail`
+                )
             },
             Icon: FaEye,
         },
@@ -81,7 +83,10 @@ export const FilteredStudents = ({
             accessorKey: 'user.name',
             cell: (info) =>
                 info.row.original?.user ? (
-                    <StudentCellInfo student={info.row.original} />
+                    <StudentCellInfo
+                        link={`/portals/rto/students-and-placements/all-students/${info.row.original.id}/detail`}
+                        student={info.row.original}
+                    />
                 ) : (
                     ''
                 ),

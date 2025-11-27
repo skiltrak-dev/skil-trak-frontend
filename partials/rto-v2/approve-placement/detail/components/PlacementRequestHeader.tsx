@@ -6,6 +6,7 @@ import { ProgressIndicator } from './ProgressIndicator'
 import { RtoApprovalWorkplaceRequest } from '@types'
 import { ReactElement, useState } from 'react'
 import { ApprovalPlacementUserGuideModal } from '../modal'
+import { useRouter } from 'next/router'
 
 export const PlacementRequestHeader = ({
     approval,
@@ -13,6 +14,9 @@ export const PlacementRequestHeader = ({
     approval: RtoApprovalWorkplaceRequest
 }) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const router = useRouter()
+
     const StatusBadge = () => {
         switch (approval?.rtoApprovalStatus) {
             case 'pending':
@@ -45,7 +49,10 @@ export const PlacementRequestHeader = ({
                     <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <button className="p-2.5 hover:bg-white/20 rounded-lg transition-all hover:scale-105 flex-shrink-0 border border-white/20">
+                                <button
+                                    onClick={() => router.back()}
+                                    className="cursor-pointer p-2.5 hover:bg-white/20 rounded-lg transition-all hover:scale-105 flex-shrink-0 border border-white/20"
+                                >
                                     <ArrowLeft className="w-5 h-5" />
                                 </button>
                             </TooltipTrigger>
