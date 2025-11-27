@@ -53,7 +53,7 @@ import {
     Upload,
     User,
     XCircle,
-    Zap
+    Zap,
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Progressbar } from '../components'
@@ -72,7 +72,7 @@ import {
     ScheduleModal,
     StatusNotesModal,
 } from './modal'
-import { WorkplaceProgressbar } from './components'
+import { WorkplaceProgressbar } from './components/header'
 
 interface StatusNote {
     status: string
@@ -1942,7 +1942,6 @@ export const PlacementRequestDetail = () => {
 
                     {/* Workflow Progress Bar */}
                     <WorkplaceProgressbar currentStatus={currentStatus} />
-                    
                 </div>
             </div>
 
