@@ -113,7 +113,11 @@ export const AddRTOWpTypeModal = ({
                         )}
                         <div className="flex flex-col gap-y-1 gap-x-1">
                             {workplaceTypes?.map((wpType: WorkplaceTypes) => (
-                                <RTOWpType key={wpType?.id} wpType={wpType} />
+                                <RTOWpType
+                                    key={wpType?.id}
+                                    courseId={courseId}
+                                    wpType={wpType}
+                                />
                             ))}
                         </div>
                     </div>

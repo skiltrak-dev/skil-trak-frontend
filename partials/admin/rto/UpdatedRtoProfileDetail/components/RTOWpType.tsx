@@ -6,7 +6,13 @@ import React, { useState } from 'react'
 import { FaTrash } from 'react-icons/fa'
 import { MdDelete } from 'react-icons/md'
 
-export const RTOWpType = ({ wpType }: { wpType: WorkplaceTypes }) => {
+export const RTOWpType = ({
+    wpType,
+    courseId,
+}: {
+    wpType: WorkplaceTypes
+    courseId: number
+}) => {
     const [isDelete, setIsDelete] = useState(false)
     const [deletedId, setDeletedId] = useState<number | null>(null)
 
@@ -15,7 +21,10 @@ export const RTOWpType = ({ wpType }: { wpType: WorkplaceTypes }) => {
     const [remove, removeResult] = CommonApi.Rtos.removeRtoWpType()
 
     const onConfirmUClicked = async (wpType: WorkplaceTypes) => {
-        const res: any = await remove(Number(wpType?.id))
+        const res: any = await remove({
+            courseId,
+            wpTypeId: wpType?.workplaceType?.id,
+        })
 
         if (res?.data) {
             setDeletedId(wpType?.id)
