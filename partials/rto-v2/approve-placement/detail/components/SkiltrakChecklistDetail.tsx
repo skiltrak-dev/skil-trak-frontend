@@ -58,6 +58,16 @@ export const SkiltrakChecklistDetail = ({
 
     const colors = getColorClasses('blue')
 
+    const file =
+        getSkiltrakCourseChecklist?.data?.file?.file ||
+        getSkiltrakCourseChecklist?.data?.file
+
+    const extension = file
+        ? file?.split('.')?.pop()?.split('?')?.[0]
+        : undefined
+
+    const signer = getSkiltrakCourseChecklist?.data?.document?.signers?.[0]
+
     return (
         <>
             {documentsViewModal}
@@ -81,9 +91,7 @@ export const SkiltrakChecklistDetail = ({
                                 <Badge
                                     Icon={CheckCircle2}
                                     text={
-                                        getSkiltrakCourseChecklist?.data
-                                            ?.document?.signers?.[0]?.status ===
-                                        'signed'
+                                        signer?.status === 'signed' || file
                                             ? 'Signed & Complete'
                                             : 'Pending'
                                     }
@@ -107,9 +115,7 @@ export const SkiltrakChecklistDetail = ({
                                         Signed By
                                     </div>
                                     <div className={colors.text}>
-                                        {getSkiltrakCourseChecklist?.data
-                                            ?.document?.signers?.[0]?.user
-                                            ?.name || '---'}
+                                        {signer?.user?.name || '---'}
                                     </div>
                                 </div>
                                 {/* <div>
@@ -123,7 +129,7 @@ export const SkiltrakChecklistDetail = ({
                             </div>
                         </div>
 
-                        {getSkiltrakCourseChecklist?.data?.file && (
+                        {file && (
                             <div className="mt-4 p-5 bg-gradient-to-br from-slate-50 to-white rounded-xl border-2 border-slate-200 hover:border-[#044866]/30 hover:shadow-md transition-all group">
                                 <div className="flex items-center justify-between gap-4 flex-wrap">
                                     <div className="flex items-center gap-4 flex-1 min-w-0">
@@ -132,15 +138,11 @@ export const SkiltrakChecklistDetail = ({
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="text-sm text-slate-900 truncate mb-1">
-                                                {ellipsisText(
-                                                    getSkiltrakCourseChecklist
-                                                        ?.data?.file?.file,
-                                                    35
-                                                )}
+                                                {ellipsisText(file, 35)}
                                             </div>
                                             <div className="flex items-center gap-2 text-xs text-slate-500">
-                                                <span className="px-2 py-0.5 bg-red-100 text-red-700 rounded">
-                                                    PDF
+                                                <span className="px-2 py-0.5 uppercase bg-red-100 text-red-700 rounded">
+                                                    {extension}
                                                 </span>
                                                 <span>
                                                     Available for review
@@ -151,24 +153,9 @@ export const SkiltrakChecklistDetail = ({
                                     <div className="flex gap-2 flex-shrink-0">
                                         <Button
                                             onClick={() => {
-                                                console.log(
-                                                    'Saad',
-                                                    getSkiltrakCourseChecklist
-                                                        ?.data?.file?.file
-                                                )
                                                 onFileClicked({
-                                                    file: getSkiltrakCourseChecklist
-                                                        ?.data?.file?.file,
-                                                    extension:
-                                                        getSkiltrakCourseChecklist
-                                                            ?.data?.file?.file
-                                                            ? getSkiltrakCourseChecklist.data?.file?.file
-                                                                  ?.split('.')
-                                                                  ?.pop()
-                                                                  ?.split(
-                                                                      '?'
-                                                                  )[0]
-                                                            : undefined,
+                                                    file,
+                                                    extension,
                                                     type: 'all',
                                                 })
                                             }}

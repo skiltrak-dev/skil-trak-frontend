@@ -115,3 +115,5 @@ export * from './PaymentModal'
 export * from './Skeleton'
 
 export * from './Dropdown'
+
+export * from './ConfigTabs'

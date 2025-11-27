@@ -52,8 +52,12 @@ export const approvalRequestEndpoints = (
         providesTags: ['RTO'],
     }),
 
-    getRtoCourseChecklist: builder.query<any, number>({
-        query: (id) => `${PREFIX}course/${id}/facility-checklist`,
+    getRtoCourseChecklist: builder.query<
+        any,
+        { courseId: number; studentId: number }
+    >({
+        query: ({ courseId, studentId }) =>
+            `${PREFIX}course/${courseId}/student/${studentId}/facility-checklist`,
         providesTags: ['RTO'],
     }),
 

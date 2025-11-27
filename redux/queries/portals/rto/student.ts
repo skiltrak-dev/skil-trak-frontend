@@ -7,7 +7,20 @@ const STATISTICS = 'statistics'
 export const studentEndpoints = (
     builder: EndpointBuilder<BaseQueryFn, string, string>
 ) => ({
-    studentsCount: builder.query<any, void>({
+    studentsCount: builder.query<
+        {
+            approved: number
+            pending: number
+            problematicStudents: number
+            reported: number
+            inCompleteSubmissions: number
+            completed: number
+            blocked: number
+            rejected: number
+            archived: number
+        },
+        void
+    >({
         query: () => `${PREFIX}/students/count`,
         providesTags: ['Rto-Students'],
     }),
@@ -293,7 +306,20 @@ export const studentEndpoints = (
         invalidatesTags: ['Rto-Students'],
     }),
     // counts
-    getRtoResolveIssuesStudentsCount: builder.query<any, void>({
+    getRtoResolveIssuesStudentsCount: builder.query<
+        {
+            totalResolved: number
+            criticalResolved: number
+            thisMonth: number
+            openIssues: number
+            criticalPriority: number
+            highPriority: number
+            studentsEffected: number
+            openWithoutResolutionDate: number
+            averageResolutionDays: number
+        },
+        void
+    >({
         query: () => {
             return {
                 url: `${PREFIX}/reported-students/count`,

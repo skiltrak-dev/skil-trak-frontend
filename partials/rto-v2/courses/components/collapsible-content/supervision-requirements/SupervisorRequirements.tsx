@@ -49,7 +49,13 @@ export const SupervisorRequirements: React.FC<SupervisorRequirementsProps> = ({
     }, [updateSupervisorReqResult.isSuccess])
 
     const handleSave = async () => {
-        if (!selectedQualification.trim()) return
+        if (!selectedQualification) {
+            notification.error({
+                title: 'Qualification is required',
+                description: 'Please select a qualification',
+            })
+            return
+        }
 
         await updateSupervisorReq({
             course: course.id,
@@ -115,8 +121,7 @@ export const SupervisorRequirements: React.FC<SupervisorRequirementsProps> = ({
                                         onClick={handleSave}
                                         className="bg-success hover:bg-success/90 flex items-center gap-1"
                                         disabled={
-                                            updateSupervisorReqResult.isLoading ||
-                                            !supervisionQualifications.trim()
+                                            updateSupervisorReqResult.isLoading
                                         }
                                     >
                                         <Save className="h-3.5 w-3.5" />

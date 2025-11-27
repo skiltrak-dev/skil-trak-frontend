@@ -49,7 +49,9 @@ export const PendingStudent = () => {
         {
             text: 'View',
             onClick: (student) => {
-                router.push(`/portals/rto/students/${student.id}`)
+                router.push(
+                    `/portals/rto/students-and-placements/all-students/${student.id}/detail`
+                )
             },
             Icon: FaEye,
         },
@@ -68,7 +70,12 @@ export const PendingStudent = () => {
     const columns: ColumnDef<Student>[] = [
         {
             accessorKey: 'user.name',
-            cell: (info) => <StudentCellInfo student={info.row.original} />,
+            cell: (info) => (
+                <StudentCellInfo
+                    link={`/portals/rto/students-and-placements/all-students/${info.row.original.id}/detail`}
+                    student={info.row.original}
+                />
+            ),
             header: () => <span>Student</span>,
         },
         {

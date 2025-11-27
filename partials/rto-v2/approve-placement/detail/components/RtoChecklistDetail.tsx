@@ -10,9 +10,21 @@ import {
     X,
 } from 'lucide-react'
 
-export const RtoChecklistDetail = ({ coursesId }: { coursesId: number }) => {
+export const RtoChecklistDetail = ({
+    courseId,
+    studentId,
+}: {
+    courseId: number
+    studentId: number
+}) => {
+    console.log({ courseId, studentId })
     const getRtoCourseChecklist =
-        RtoV2Api.ApprovalRequest.getRtoCourseChecklist(coursesId)
+        RtoV2Api.ApprovalRequest.getRtoCourseChecklist(
+            { courseId, studentId },
+            {
+                skip: !courseId || !studentId,
+            }
+        )
 
     const { documentsViewModal, onFileClicked } = DocumentsView()
 
@@ -115,14 +127,21 @@ export const RtoChecklistDetail = ({ coursesId }: { coursesId: number }) => {
                                     <div className="flex-1 min-w-0">
                                         <div className="text-sm text-slate-900 truncate mb-1">
                                             {ellipsisText(
-                                                getRtoCourseChecklist?.data
-                                                    ?.files?.[0],
+                                                getRtoCourseChecklist.data
+                                                    ?.title ||
+                                                    getRtoCourseChecklist?.data
+                                                        ?.files?.[0],
                                                 30
                                             )}
                                         </div>
                                         <div className="flex items-center gap-2 text-xs text-slate-500">
                                             <span className="px-2 py-0.5 bg-red-100 text-red-700 rounded">
-                                                PDF
+                                                {
+                                                    getRtoCourseChecklist.data?.files?.[0]
+                                                        ?.split('.')
+                                                        ?.pop()
+                                                        ?.split('?')[0]
+                                                }
                                             </span>
                                             <span>Available for review</span>
                                         </div>

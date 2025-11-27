@@ -1,14 +1,24 @@
 import { Badge } from '@components/ui/badge'
 import { Progress } from '@components/ui/progress'
+import { RtoV2Api } from '@queries'
 import { CheckCircle2, Clock, FileText, Target } from 'lucide-react'
 import React from 'react'
+import { PulseLoader } from 'react-spinners'
 
 export const CourseHeaderStats = ({ course }: any) => {
+    const setupConfirmationPercentage =
+        RtoV2Api.Courses.setupConfirmationPercentage(course?.id, {
+            skip: !course?.id,
+        })
+
+    console.log({ setupConfirmationPercentage })
+
     const getCompletionColor = (progress: number) => {
         if (progress >= 80) return 'text-success'
         if (progress >= 50) return 'text-warning'
         return 'text-destructive'
     }
+
     const filesUploaded = course?.rtoCourseFiles?.length || 0
     return (
         <div className="grid grid-cols-3 gap-3">
@@ -19,7 +29,9 @@ export const CourseHeaderStats = ({ course }: any) => {
                 </div>
                 <div className="flex items-baseline gap-1">
                     <span className={`text-lg font-semibold  text-success`}>
-                        {course?.extraHours && course?.extraHours?.length > 0 ? course?.extraHours?.[0]?.hours : course?.hours ?? 0}
+                        {course?.extraHours && course?.extraHours?.length > 0
+                            ? course?.extraHours?.[0]?.hours
+                            : course?.hours ?? 0}
                     </span>
                     <span className="text-xs text-muted-foreground">hours</span>
                 </div>
@@ -70,7 +82,11 @@ export const CourseHeaderStats = ({ course }: any) => {
                         )}`}
                     >
                         {/* {currentProgress} */}
-                        85
+                        {setupConfirmationPercentage?.isLoading ? (
+                            <PulseLoader size={5} color={'#044866'} />
+                        ) : (
+                            setupConfirmationPercentage?.data ?? 0
+                        )}
                     </span>
                     <span className="text-xs text-muted-foreground">%</span>
                 </div>

@@ -30,7 +30,9 @@ export const YourIndustriesTab = ({
     const filterIndustries = (industries: Industry[]) => {
         return industries.filter((industry) => {
             const matchesSearch =
-                industry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                industry.name
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase()) ||
                 industry.location
                     .toLowerCase()
                     .includes(searchTerm.toLowerCase()) ||
@@ -68,8 +70,10 @@ export const YourIndustriesTab = ({
         const averageComplianceScore =
             totalIndustries > 0
                 ? Math.round(
-                      industries.reduce((sum, i) => sum + i.complianceScore, 0) /
-                          totalIndustries
+                      industries.reduce(
+                          (sum, i) => sum + i.complianceScore,
+                          0
+                      ) / totalIndustries
                   )
                 : 0
         const averageRating =
@@ -106,8 +110,6 @@ export const YourIndustriesTab = ({
 
     return (
         <div className="space-y-4">
-            <IndustryKPIStats {...stats} />
-
             <IndustryFilterBar
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
@@ -145,4 +147,3 @@ export const YourIndustriesTab = ({
         </div>
     )
 }
-

@@ -117,15 +117,6 @@ export const IncompleteSubmissionStudent = () => {
         )
     }
 
-    const onRemoveCoordinatorClicked = (student: Student) => {
-        setModal(
-            <RemoveCoordinator
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
     const onAddMultiStudentsCoordinatorClicked = (ids: number[]) => {
         setModal(
             <AssignMultipleCoordinatorModal
@@ -140,8 +131,11 @@ export const IncompleteSubmissionStudent = () => {
     ): TableActionOption<Student>[] => [
         {
             text: 'View',
-            onClick: (student) =>
-                router.push(`/portals/rto/students/${student.id}?tab=overview`),
+            onClick: (student) => {
+                router.push(
+                    `/portals/rto/students-and-placements/all-students/${student.id}/detail`
+                )
+            },
             Icon: FaEye,
         },
         {
@@ -179,7 +173,11 @@ export const IncompleteSubmissionStudent = () => {
         {
             accessorKey: 'user.name',
             cell: (info) => (
-                <StudentCellInfo student={info.row.original} call />
+                <StudentCellInfo
+                    link={`/portals/rto/students-and-placements/all-students/${info.row.original.id}/detail`}
+                    student={info.row.original}
+                    call
+                />
             ),
             header: () => <span>Student</span>,
         },
