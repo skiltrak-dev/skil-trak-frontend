@@ -2,11 +2,11 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { StudentProfileContent, StudentProfileHeader } from './components'
 import {
+    useStudentAlerts,
+    useWorkplaceData,
+    useStudentProfile,
     useContextBarSetup,
     useProfileNavigation,
-    useStudentAlerts,
-    useStudentProfile,
-    useWorkplaceData,
 } from './hooks'
 import { useSubadminProfile } from '@hooks'
 import { WorkplaceHookProvider } from './components/Workplace/hooks'
@@ -32,8 +32,8 @@ export const StudentProfileDetail = () => {
 
     // Navigation and section highlighting
     const {
-        setSelectedId,
         quickSearch,
+        setSelectedId,
         setQuickSearch,
         handleSectionClick,
         getActiveBorder,

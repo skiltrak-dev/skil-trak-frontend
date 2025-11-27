@@ -59,10 +59,13 @@ export const BlockedStudent = () => {
     const tableActionOptions: TableActionOption<any>[] = [
         {
             text: 'View',
+            // onClick: (student: Student) => {
+            //     router.push(
+            //         `/portals/rto/students-and-placements/all-students/${student?.id}/detail`
+            //     )
+            // },
             onClick: (student: Student) => {
-                router.push(
-                    `/portals/rto/students-and-placements/all-students/${student?.id}/detail`
-                )
+                router.push(`/portals/rto/students/${student.id}`)
             },
             Icon: FaEye,
         },
@@ -85,7 +88,7 @@ export const BlockedStudent = () => {
             accessorKey: 'user.name',
             cell: (info) => (
                 <StudentCellInfo
-                    link={`/portals/rto/students-and-placements/all-students/${info.row.original.id}/detail`}
+                    // link={`/portals/rto/students-and-placements/all-students/${info.row.original.id}/detail`}
                     student={info.row.original}
                 />
             ),
