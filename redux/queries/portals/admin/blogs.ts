@@ -62,7 +62,10 @@ export const blogsEndpoints = (
         providesTags: ['Tags'],
     }),
     getCategories: builder.query<any, any>({
-        query: () => `${PREFIX}/category`,
+        query: (params) => ({
+            url: `${PREFIX}/category`,
+            params,
+        }),
         providesTags: ['Blog', 'BlogCategories'],
     }),
     getBlogDetail: builder.query<any, any>({

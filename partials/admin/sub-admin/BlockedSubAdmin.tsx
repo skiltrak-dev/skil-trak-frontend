@@ -14,7 +14,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaEye, FaFileExport, FaTrash } from 'react-icons/fa'
 
 import { UserRoles } from '@constants'
-import { useActionModal } from '@hooks'
+import { useActionModal, useContextBar } from '@hooks'
 import { AdminApi } from '@queries'
 import { SubAdmin, UserStatus } from '@types'
 import { getUserCredentials } from '@utils'
@@ -23,6 +23,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { RtoCell, SectorCell, SubAdminCell } from './components'
 import { AcceptModal, DeleteModal } from './modals'
+import { AddSubAdminCB } from './contextBar'
 
 export const BlockedSubAdmin = () => {
     const router = useRouter()
@@ -30,6 +31,8 @@ export const BlockedSubAdmin = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
+
+    const contextBar = useContextBar()
 
     useEffect(() => {
         setPage(Number(router.query.page || 1))
@@ -58,6 +61,13 @@ export const BlockedSubAdmin = () => {
             />
         )
     }
+
+    const onEditSubAdmin = (subAdmin: SubAdmin) => {
+        contextBar.show()
+        contextBar.setTitle('Edit SubAdmin')
+        contextBar.setContent(<AddSubAdminCB edit subAdmin={subAdmin} />)
+    }
+
     const onDeleteClicked = (subAdmin: SubAdmin) => {
         setModal(
             <DeleteModal
@@ -89,10 +99,8 @@ export const BlockedSubAdmin = () => {
             },
             {
                 text: 'Edit',
-                onClick: (student: any) => {
-                    router.push(
-                        `/portals/admin/industry/edit-industry/${student.id}`
-                    )
+                onClick: (subAdmin: any) => {
+                    onEditSubAdmin(subAdmin)
                 },
                 Icon: FaEdit,
             },
