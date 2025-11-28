@@ -9,6 +9,7 @@ import {
     IndustrySectorCapacity,
     MealTypes,
     Packages,
+    Supervisor,
     WorkplaceType,
 } from '@types'
 
@@ -371,6 +372,7 @@ export interface Industry extends BaseResponse {
     courses: Course[]
     branches: Industry[]
     workplaceType: WorkplaceType
+    supervisors: Supervisor[]
     industrySectorCapacity: IndustrySectorCapacity[]
     createdBy: any
     channel: string

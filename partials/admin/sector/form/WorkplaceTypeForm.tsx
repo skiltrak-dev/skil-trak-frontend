@@ -25,7 +25,11 @@ export const WorkplaceTypeForm = ({
     edit,
     initialValues,
 }: WPTypeFormProps) => {
-    const sectors = AdminApi.Sectors.useListQuery(undefined)
+    const sectors = AdminApi.Sectors.useListQuery({
+        skip: 0,
+        limit: 100,
+        search: '',
+    })
     // const courses = AdminApi.Courses.useListQuery(undefined)
 
     const [selectedSector, setSelectedSector] = useState<number[] | null>(null)

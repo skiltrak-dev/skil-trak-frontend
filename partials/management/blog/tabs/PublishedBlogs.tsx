@@ -11,7 +11,7 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { adminApi } from '@queries'
+import { adminApi, AdminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { checkListLength, removeEmptyValues } from '@utils'
 import moment from 'moment'
@@ -192,7 +192,7 @@ export const PublishedBlogs = () => {
         setItemPerPage(Number(router.query.pageSize || 50))
     }, [router])
 
-    const blogsCategories = adminApi.useGetCategoriesQuery({
+    const blogsCategories = AdminApi.Blogs.categoriesList({
         skip: 0,
         limit: 99999,
     })

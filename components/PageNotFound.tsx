@@ -35,20 +35,13 @@ export const PageNotFound = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                     <button
                         onClick={() => router.back()}
                         className="inline-flex items-center justify-center px-6 py-3 rounded-lg cursor-pointer bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:border-gray-400 hover:bg-gray-50 transition-all duration-200"
                     >
                         ← Go Back
                     </button>
-
-                    <Link href="/dashboard">
-                        <button className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primaryNew text-white font-semibold  transition-all duration-200">
-                            <MdSpaceDashboard className="mr-2 text-lg" />
-                            Dashboard
-                        </button>
-                    </Link>
                 </div>
             </div>
         </div>
