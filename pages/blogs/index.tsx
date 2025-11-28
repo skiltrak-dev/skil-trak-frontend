@@ -15,11 +15,9 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
 const Blogs: NextPageWithLayout = ({ data }: any) => {
-    const [itemPerPage, setItemPerPage] = useState(50)
-    const [currentItems, setCurrentItems] = useState([])
-    const [page, setPage] = useState(1)
-    const [fetchedData, setFetchedData] = useState<any>([])
     const router = useRouter()
+    const [currentItems, setCurrentItems] = useState([])
+    const [fetchedData, setFetchedData] = useState<any>([])
     const categoryId = router?.query?.category ? router?.query?.category : null
 
     useEffect(() => {
@@ -27,7 +25,7 @@ const Blogs: NextPageWithLayout = ({ data }: any) => {
     }, [data])
 
     const filterPublishedBlogs = fetchedData?.filter(
-        (item: any) => item?.isPublished === true && !item?.isFeatured
+        (item: any) => item?.isPublished === true
     )
     const filterFeaturedBlogs = fetchedData?.filter(
         (item: any) => item?.isFeatured
