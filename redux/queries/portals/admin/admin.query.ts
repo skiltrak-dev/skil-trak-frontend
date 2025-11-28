@@ -833,6 +833,7 @@ export const AdminApi = {
     Blogs: {
         useBlogsCount: useGetBlogsCountQuery,
         uploadImage: useUploadImageMutation,
+        categoriesList: useGetCategoriesQuery,
     },
     GenerateKey: {
         getKeys: useGetKeysQuery,
