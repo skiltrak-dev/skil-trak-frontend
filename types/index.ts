@@ -6,6 +6,7 @@ export * from './file-data.type'
 export * from './option.type'
 export * from './layout.type'
 export * from './response.type'
+export * from './supervisor.type'
 
 export * from './user.type'
 export * from './subscriber.type'

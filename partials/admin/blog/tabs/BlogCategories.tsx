@@ -12,7 +12,7 @@ import {
     TechnicalError,
     Typography,
 } from '@components'
-import { adminApi } from '@queries'
+import { AdminApi, adminApi } from '@queries'
 import { ColumnDef } from '@tanstack/react-table'
 import { checkListLength } from '@utils'
 import moment from 'moment'
@@ -34,7 +34,7 @@ export const BlogCategories = () => {
 
     const router = useRouter()
     const { data, isLoading, isError, isFetching } =
-        adminApi.useGetCategoriesQuery({
+        AdminApi.Blogs.categoriesList({
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
