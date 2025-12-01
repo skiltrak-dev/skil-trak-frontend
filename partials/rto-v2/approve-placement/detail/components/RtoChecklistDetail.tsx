@@ -13,16 +13,18 @@ import {
 export const RtoChecklistDetail = ({
     courseId,
     studentId,
+    industryUserId,
 }: {
+    industryUserId: number
     courseId: number
     studentId: number
 }) => {
     console.log({ courseId, studentId })
     const getRtoCourseChecklist =
         RtoV2Api.ApprovalRequest.getRtoCourseChecklist(
-            { courseId, studentId },
+            { courseId, studentId, industryUserId },
             {
-                skip: !courseId || !studentId,
+                skip: !courseId || !studentId || !industryUserId,
             }
         )
 
@@ -57,6 +59,13 @@ export const RtoChecklistDetail = ({
 
     const colors = getColorClasses('purple')
 
+    const file =
+        getRtoCourseChecklist?.data?.url ||
+        getRtoCourseChecklist?.data?.studentResponse?.[0]?.files?.[0]?.file ||
+        getRtoCourseChecklist?.data?.files?.[0]
+
+    const extension = file?.split('.')?.pop()?.split('?')[0]
+    console.log({ file: getRtoCourseChecklist?.data?.files })
     return (
         <>
             {documentsViewModal}
@@ -116,8 +125,7 @@ export const RtoChecklistDetail = ({
                             </div>
                         )}
 
-                    {getRtoCourseChecklist?.data?.files &&
-                    getRtoCourseChecklist?.data?.files?.length > 0 ? (
+                    {file ? (
                         <div className="mt-4 p-5 bg-gradient-to-br from-slate-50 to-white rounded-xl border-2 border-slate-200 hover:border-[#044866]/30 hover:shadow-md transition-all group">
                             <div className="flex items-center justify-between gap-4 flex-wrap">
                                 <div className="flex items-center gap-4 flex-1 min-w-0">
@@ -128,20 +136,13 @@ export const RtoChecklistDetail = ({
                                         <div className="text-sm text-slate-900 truncate mb-1">
                                             {ellipsisText(
                                                 getRtoCourseChecklist.data
-                                                    ?.title ||
-                                                    getRtoCourseChecklist?.data
-                                                        ?.files?.[0],
+                                                    ?.title || file,
                                                 30
                                             )}
                                         </div>
                                         <div className="flex items-center gap-2 text-xs text-slate-500">
                                             <span className="px-2 py-0.5 bg-red-100 text-red-700 rounded">
-                                                {
-                                                    getRtoCourseChecklist.data?.files?.[0]
-                                                        ?.split('.')
-                                                        ?.pop()
-                                                        ?.split('?')[0]
-                                                }
+                                                {extension}
                                             </span>
                                             <span>Available for review</span>
                                         </div>
@@ -152,36 +153,18 @@ export const RtoChecklistDetail = ({
                                         outline
                                         variant="primaryNew"
                                         onClick={() => {
-                                            const extension =
-                                                getRtoCourseChecklist.data?.files?.[0]
-                                                    ?.split('.')
-                                                    ?.pop()
-                                                    ?.split('?')[0]
-
-                                            // For DOCX files, open in Google Docs viewer
                                             if (
                                                 extension === 'docx' ||
                                                 extension === 'doc'
                                             ) {
                                                 const viewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
-                                                    getRtoCourseChecklist.data
-                                                        ?.files?.[0]
+                                                    file
                                                 )}&embedded=true`
                                                 window.open(viewerUrl, '_blank')
                                             } else {
                                                 onFileClicked({
-                                                    file: getRtoCourseChecklist
-                                                        ?.data?.files?.[0],
-                                                    extension:
-                                                        getRtoCourseChecklist
-                                                            ?.data?.files?.[0]
-                                                            ? getRtoCourseChecklist.data?.files?.[0]
-                                                                  ?.split('.')
-                                                                  ?.pop()
-                                                                  ?.split(
-                                                                      '?'
-                                                                  )[0]
-                                                            : undefined,
+                                                    file,
+                                                    extension,
                                                     type: 'all',
                                                 })
                                             }
