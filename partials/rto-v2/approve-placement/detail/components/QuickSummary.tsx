@@ -72,8 +72,6 @@ export function QuickSummary({ data }: { data: RtoApprovalWorkplaceRequest }) {
             }
         )
 
-    console.log({ industry })
-
     const validatedWebsite = validateAndFixURL(industry?.website || '') || ''
 
     const detailsData = [
