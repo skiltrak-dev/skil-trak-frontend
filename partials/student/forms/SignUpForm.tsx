@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useReducer } from 'react'
 import 'react-phone-number-input/style.css'
 
-import _debounce from 'lodash/debounce'
+import debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
 import { useNotification } from '@hooks'
@@ -28,154 +28,89 @@ import {
     Typography,
 } from '@components'
 import { Course, OptionType, StudentFormType } from '@types'
-import debounce from 'lodash/debounce'
 import { fromAddress, geocode, GeocodeOptions, setKey } from 'react-geocode'
 import { FormProvider, useForm } from 'react-hook-form'
+import { CustomRtoSearch } from './components/CustomRtoSearch'
 
 interface RtoOption {
     label: string
     value: number
 }
+
 type CustomRtoSelectType = RtoOption | { value: null; customText: string }
-interface CustomRtoSearchProps {
-    label: string
-    onSearch: (query: string) => void
-    options: { label: string; value: number }[]
-    loading?: boolean
-    onSelect: (option: CustomRtoSelectType) => void
-    value?: any
-    formMethods?: any
-    selectedRto: any
+
+// Form State Interface
+interface FormState {
+    searchRto: string
+    selectedRto: number | null | undefined
+    selectedSector: any
+    removedCourses: number[] | null
+    courseOptions: SelectOption[]
+    courseLoading: boolean
+    courseValues: number[]
+    storedData: any
+    lastEnteredEmail: string
 }
 
-export const CustomRtoSearch = ({
-    label,
-    onSearch,
-    options,
-    loading,
-    onSelect,
-    value,
-    formMethods,
-    selectedRto,
-}: CustomRtoSearchProps) => {
-    const [input, setInput] = useState('')
-    const [isOpen, setIsOpen] = useState(false)
-    const dropdownRef = useRef<any>(null)
-    const justSelectedRef = useRef(false)
+// Action Types
+type FormAction =
+    | { type: 'SET_SEARCH_RTO'; payload: string }
+    | { type: 'SET_SELECTED_RTO'; payload: number | null | undefined }
+    | { type: 'SET_SELECTED_SECTOR'; payload: any }
+    | { type: 'SET_REMOVED_COURSES'; payload: number[] | null }
+    | { type: 'SET_COURSE_OPTIONS'; payload: SelectOption[] }
+    | { type: 'SET_COURSE_LOADING'; payload: boolean }
+    | { type: 'SET_COURSE_VALUES'; payload: number[] }
+    | { type: 'SET_STORED_DATA'; payload: any }
+    | { type: 'SET_LAST_ENTERED_EMAIL'; payload: string }
+    | {
+          type: 'INITIALIZE_STORED_DATA'
+          payload: { storedData: any; courseOptions: SelectOption[] }
+      }
 
-    useEffect(() => {
-        const handleClickOutside = (event: any) => {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current?.contains(event.target)
-            ) {
-                setIsOpen(false)
+// Initial State
+const initialState: FormState = {
+    searchRto: '',
+    selectedRto: undefined,
+    selectedSector: null,
+    removedCourses: null,
+    courseOptions: [],
+    courseLoading: false,
+    courseValues: [],
+    storedData: null,
+    lastEnteredEmail: '',
+}
+
+// Reducer Function
+const formReducer = (state: FormState, action: FormAction): FormState => {
+    switch (action.type) {
+        case 'SET_SEARCH_RTO':
+            return { ...state, searchRto: action.payload }
+        case 'SET_SELECTED_RTO':
+            return { ...state, selectedRto: action.payload }
+        case 'SET_SELECTED_SECTOR':
+            return { ...state, selectedSector: action.payload }
+        case 'SET_REMOVED_COURSES':
+            return { ...state, removedCourses: action.payload }
+        case 'SET_COURSE_OPTIONS':
+            return { ...state, courseOptions: action.payload }
+        case 'SET_COURSE_LOADING':
+            return { ...state, courseLoading: action.payload }
+        case 'SET_COURSE_VALUES':
+            return { ...state, courseValues: action.payload }
+        case 'SET_STORED_DATA':
+            return { ...state, storedData: action.payload }
+        case 'SET_LAST_ENTERED_EMAIL':
+            return { ...state, lastEnteredEmail: action.payload }
+        case 'INITIALIZE_STORED_DATA':
+            return {
+                ...state,
+                storedData: action.payload.storedData,
+                courseOptions: action.payload.courseOptions,
             }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [])
-
-    useEffect(() => {
-        if (value?.value) {
-            setInput(value?.label)
-            formMethods.setValue('rto', value?.value)
-            formMethods.setValue('rtoInfo', '')
-        }
-    }, [value])
-
-    const handleInputChange = (e: any) => {
-        const value = e?.target?.value
-        setInput(value)
-        setIsOpen(true)
-        onSearch(value)
-        onSelect({ value: null, customText: e.target.value })
+        default:
+            return state
     }
-
-    const handleBlur = () => {
-        setTimeout(() => {
-            if (justSelectedRef.current) {
-                justSelectedRef.current = false
-                return
-            }
-
-            const trimmedInput = input.trim()
-            if (!hasMatch && trimmedInput.length > 2) {
-                onSelect({ value: null, customText: trimmedInput }) // latest input
-            }
-
-            setIsOpen(false)
-        }, 200)
-    }
-
-    const handleSelect = (option: any) => {
-        justSelectedRef.current = true
-        if (option === 'other') {
-            onSelect({ value: null, customText: input })
-        } else {
-            setInput(option.label)
-            onSelect({ value: option.value, label: option.label })
-        }
-        setIsOpen(false)
-    }
-
-    const hasMatch = options?.some(
-        (opt) => opt?.label?.toLowerCase() === input?.toLowerCase()
-    )
-
-    return (
-        <div ref={dropdownRef} className="relative w-full">
-            <label className="block mb-1 text-sm text-gray-700">{label}</label>
-            <input {...formMethods.register('rto')} type="hidden" />
-            <input {...formMethods.register('rtoInfo')} type="hidden" />
-            <input
-                type="text"
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-                value={input}
-                onChange={handleInputChange}
-                onFocus={() => setIsOpen(true)}
-                onBlur={
-                    selectedRto !== null || undefined ? handleBlur : undefined
-                }
-                placeholder="Search or type RTO..."
-            />
-
-            {isOpen && (
-                <ul className="absolute z-10 bg-white border w-full shadow mt-1 max-h-60 overflow-auto rounded">
-                    {loading ? (
-                        <li className="px-4 py-2 text-sm text-gray-500">
-                            Loading...
-                        </li>
-                    ) : options.length ? (
-                        options.map((option) => (
-                            <li
-                                key={option.value}
-                                onClick={() => handleSelect(option)}
-                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-                            >
-                                {option.label}
-                            </li>
-                        ))
-                    ) : (
-                        <li className="px-4 py-2 text-sm text-gray-500">
-                            No RTO found.
-                        </li>
-                    )}
-                    {!hasMatch && input?.length > 2 && (
-                        <li
-                            onClick={() => handleSelect('other')}
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-blue-600"
-                        >
-                            Add Custom RTO: "{input}"
-                        </li>
-                    )}
-                </ul>
-            )}
-        </div>
-    )
 }
 
 export const StudentSignUpForm = ({
@@ -184,91 +119,111 @@ export const StudentSignUpForm = ({
     onSubmit: (values: StudentFormType) => void
 }) => {
     const router = useRouter()
-
     const { notification } = useNotification()
 
-    const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
-    const [searchRto, setSearchRto] = useState<string>('')
-    const [selectedRto, setSelectedRto] = useState<number | null | undefined>(
-        undefined
-    )
-    const [selectedSector, setSelectedSector] = useState<any>(null)
-    const [removedCourses, setRemovedCourses] = useState<number[] | null>(null)
-    const [courseOptions, setCourseOptions] = useState<SelectOption[]>([])
-    const [courseLoading, setCourseLoading] = useState(false)
-    const [courseValues, setCourseValues] = useState<number[]>([])
+    // Centralized state management
+    const [formState, dispatch] = useReducer(formReducer, initialState)
+
+    // API calls
     const rtoResponse = AuthApi.useSearchRtos(
-        { search: searchRto },
-        {
-            skip: !searchRto,
-        }
+        { search: formState.searchRto },
+        { skip: !formState.searchRto }
     )
 
-    const sectorResponse = AuthApi.useSectorsByRto(Number(selectedRto), {
-        skip: !selectedRto,
-    })
-
-    const hader = router?.pathname?.split('/')?.[4]
-
-    useEffect(() => {
-        if (hader) {
-            setSearchRto(hader)
+    const sectorResponse = AuthApi.useSectorsByRto(
+        Number(formState.selectedRto),
+        {
+            skip: !formState.selectedRto,
         }
-    }, [hader])
-
-    useEffect(() => {
-        if (hader) {
-            setSelectedRto(rtoResponse?.data?.[0]?.id)
-        }
-    }, [hader, rtoResponse?.data])
-
-    const sectorsDetails = getSectorsDetail(sectorResponse?.data)
+    )
 
     const [checkEmailExists, emailCheckResult] = AuthApi.useEmailCheck()
 
+    // Extract header parameter from URL
+    const rtoName = router?.query?.rtoName
+
+    // Form setup
+    const formMethods = useForm({
+        mode: 'all',
+        defaultValues: SignUpUtils.getEditingMode()
+            ? SignUpUtils.getValuesFromStorage()
+            : {},
+    })
+
+    // Initialize geocoding API
+    useEffect(() => {
+        setKey(process.env.NEXT_PUBLIC_MAP_KEY as string)
+    }, [])
+
+    // Load stored data on component mount
+    useEffect(() => {
+        if (SignUpUtils.getEditingMode()) {
+            const values = SignUpUtils.getValuesFromStorage()
+            dispatch({
+                type: 'INITIALIZE_STORED_DATA',
+                payload: {
+                    storedData: values,
+                    courseOptions: values?.courses,
+                },
+            })
+        }
+    }, [])
+
+    // Auto-select RTO from header parameter
+    useEffect(() => {
+        if (rtoName) {
+            dispatch({ type: 'SET_SEARCH_RTO', payload: rtoName + '' })
+        }
+    }, [rtoName])
+
+    useEffect(() => {
+        if (rtoName && rtoResponse?.data?.length) {
+            dispatch({
+                type: 'SET_SELECTED_RTO',
+                payload: rtoResponse.data[0].id,
+            })
+        }
+    }, [rtoName, rtoResponse?.data])
+
+    // Handle email existence check
+    useEffect(() => {
+        if (emailCheckResult.isError) {
+            notification.error({
+                title: 'Email Exists',
+                description: `'${formState.lastEnteredEmail}' is already being used.`,
+            })
+        }
+    }, [emailCheckResult, formState.lastEnteredEmail, notification])
+
+    // Prepare dropdown options
+    const sectorsDetails = getSectorsDetail(sectorResponse?.data)
     const sectorOptions = sectorsDetails?.length
-        ? sectorsDetails?.map((sector: any) => ({
+        ? sectorsDetails.map((sector: any) => ({
               label: sector.name,
               value: sector.id,
           }))
         : []
 
     const rtoOptions = rtoResponse.data?.length
-        ? rtoResponse?.data?.map((rto: any) => ({
+        ? rtoResponse.data.map((rto: any) => ({
               label: rto.user.name,
               value: rto.id,
           }))
         : []
 
-    const [storedData, setStoredData] = useState<any>(null)
-
-    const [lastEnteredEmail, setLastEnteredEmail] = useState('')
-
+    // Handle email validation with debounce
     const onEmailChange = (e: any) => {
-        _debounce(() => {
-            // Regex for email, only valid mail should be sent
-            const email = e.target.value
-            if (isEmailValid(email)) {
-                checkEmailExists({ email })
-                setLastEnteredEmail(email)
-            }
-        }, 300)()
+        const email = e.target.value
+        if (isEmailValid(email)) {
+            checkEmailExists({ email })
+            dispatch({ type: 'SET_LAST_ENTERED_EMAIL', payload: email })
+        }
     }
 
-    // const {
-    //     courseLoading,
-    //     courseOptions,
-    //     onCourseChange,
-    //     onSectorChanged,
-    //     sectorOptions,
-    //     courseValues,
-    //     setCourseOptions,
-    //     sectorLoading,
-    // } = useSectorsAndCoursesOptions()
-
+    // Handle sector change and update course options
     const onSectorChanged = (sectors: any) => {
-        setSelectedSector(sectors)
-        setCourseLoading(true)
+        dispatch({ type: 'SET_SELECTED_SECTOR', payload: sectors })
+        dispatch({ type: 'SET_COURSE_LOADING', payload: true })
 
         const newCourseOptions = sectorResponse?.data
             ?.filter((course: Course) =>
@@ -282,232 +237,34 @@ export const StudentSignUpForm = ({
                 item: course,
             }))
 
-        // const newCourseOptions = sectorsCoursesOptions(sectors, sectorsDetails)
-        setCourseOptions(newCourseOptions)
+        dispatch({ type: 'SET_COURSE_OPTIONS', payload: newCourseOptions })
 
         const newSelectedCoursesOptions = courseOptionsWhenSectorChange(
             newCourseOptions,
-            removedCourses as number[]
+            formState.removedCourses as number[]
         )
-        setCourseValues(newCourseOptions)
-        setCourseLoading(false)
+        dispatch({
+            type: 'SET_COURSE_VALUES',
+            payload: newSelectedCoursesOptions,
+        })
+        dispatch({ type: 'SET_COURSE_LOADING', payload: false })
     }
 
+    // Handle course selection
     const onCourseChange = (e: number[]) => {
-        setCourseValues(e)
-        // const removedValue = getRemovedCoursesFromList(courseOptions, e)
-        // setRemovedCourses(removedValue)
-    }
-    // const onRtoChange = (rto: any) => {
-    //    const filteredCourses = rto.map((selectedRto: any) => {
-    //       const rtoExisting = rtoResponse.data?.find(
-    //          (rto: any) => rto.id === selectedRto.value
-    //       )
-    //       if (rtoExisting && rtoExisting?.courses?.length) {
-    //          return rtoExisting.courses
-    //       }
-    //    })
-    // }
-
-    const validationSchema = yup.object({
-        // Profile Information
-        name: yup
-            .string()
-            // .matches(onlyAlphabets(), 'Please enter valid name')
-            .required('Must provide your name'),
-
-        email: yup
-            .string()
-            .email('Invalid Email')
-            .required('Must provide email'),
-        password: yup
-            .string()
-            // .matches(
-            // 	strongPassword(),
-            // 	"Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-            // )
-            .required('Must provide password'),
-        confirmPassword: yup
-            .string()
-            .oneOf([yup.ref('password'), null], 'Passwords must match')
-            .required('Must confirm entered password'),
-
-        // rto: yup.number().required('Must provide RTO'),
-        rto: yup.mixed().nullable(), // optional if 'other' is selected
-        rtoInfo: yup.string().when('rto', {
-            is: (val: any) => !val || val === 'other',
-            then: (schema) => schema.required('Must provide custom RTO'),
-            otherwise: (schema) => schema.notRequired(),
-        }),
-        // dob: yup.date().nullable(true).required('Must provide Date of Birth'),
-
-        phone: yup
-            .string()
-            .nullable(true)
-            .min(12, 'Phone Number must be 9 number')
-            .required('Must provide phone number'),
-
-        // Sector Information
-        // sectors: yup.array().min(1, 'Must select at least 1 sector'),
-        // courses: yup.array().min(1, 'Must select at least 1 course'),
-        courseDescription: yup
-            .string()
-            .required('Must list at least one course'),
-
-        // Contact Person Information
-        contactPersonName: yup
-            .string()
-            .matches(onlyAlphabets(), 'Must be a valid name'),
-        contactPersonEmail: yup.string().email('Must be a valid email'),
-        contactPersonNumber: yup.string(),
-
-        // Address Information
-        addressLine1: yup.string().required('Must provide address'),
-        // state: yup.string().required('Must provide name of state'),
-        // suburb: yup.string().required('Must provide suburb name'),
-        zipCode: yup.string().required('Must provide zip code for your state'),
-
-        agreedWithPrivacyPolicy: yup
-            .boolean()
-            .oneOf(
-                [true],
-                'Please check if you agree with our terms & policies'
-            ),
-    })
-
-    useEffect(() => {
-        if (SignUpUtils.getEditingMode()) {
-            const values = SignUpUtils.getValuesFromStorage()
-            setStoredData(values)
-            setCourseOptions(values?.courses)
-        }
-    }, [])
-
-    // useEffect For Email
-    useEffect(() => {
-        if (emailCheckResult.isError) {
-            notification.error({
-                title: 'Email Exist',
-                description: `'${lastEnteredEmail}' is already being used.`,
-            })
-        }
-    }, [emailCheckResult])
-
-    const onBackToReview = () => {
-        SignUpUtils.setEditingMode(false)
-        router.push({ query: { step: 'review-info' } })
-    }
-    useEffect(() => {
-        setKey(process.env.NEXT_PUBLIC_MAP_KEY as string)
-    }, [])
-
-    const formMethods = useForm({
-        mode: 'all',
-        defaultValues: SignUpUtils.getEditingMode()
-            ? SignUpUtils.getValuesFromStorage()
-            : {},
-        // resolver: yupResolver(validationSchema),
-    })
-
-    // useEffect(() => {
-    //     if (courseOptions && courseOptions?.length > 0) {
-    //         formMethods.setValue('courses', courseOptions)
-    //     }
-    // }, [courseOptions])
-
-    // const onHandleSubmit = (values: any) => {
-    //     if (!onSuburbClicked) {
-    //         notification.error({
-    //             title: 'You must select on Address Dropdown',
-    //             description: 'You must select on Address Dropdown',
-    //         })
-    //     } else if (onSuburbClicked) {
-    //         onSubmit({ ...values, suburb: 'N/A' })
-    //     }
-    // }
-    const onHandleSubmit = (values: any) => {
-        if (!values.addressLine1 || values.addressLine1.trim().length < 5) {
-            notification.error({
-                title: 'Invalid Address',
-                description: 'Please enter a valid address',
-            })
-            return
-        }
-        if (!values?.sectors && values?.courseDescription?.trim().length < 5) {
-            notification.error({
-                title: 'Enter Course Description',
-                description: 'Please enter a course description',
-            })
-            return
-        }
-        if (!values?.phone) {
-            notification.error({
-                title: 'Invalid Phone Number',
-                description: 'Please enter a valid phone number',
-            })
-            return
-        }
-        if (values?.rto && !values?.sectors) {
-            notification.error({
-                title: 'Select Sector',
-                description: 'Please select at least one sector for the RTO',
-            })
-            return
-        }
-        if (!values?.rto && !values?.rtoInfo?.trim()) {
-            notification.error({
-                title: 'RTO Required',
-                description: 'Please select or enter a valid RTO',
-            })
-            return
-        }
-
-        // Continue with the submission
-        onSubmit({ ...values, suburb: 'N/A' })
+        dispatch({ type: 'SET_COURSE_VALUES', payload: e })
     }
 
-    const debounceValue = useCallback(
-        debounce((query) => setSearchRto(query), 700),
+    // Debounced RTO search
+    const debounceRtoSearch = useCallback(
+        debounce((query) => {
+            dispatch({ type: 'SET_SEARCH_RTO', payload: query })
+        }, 700),
         []
     )
 
-    const addressValue = formMethods.watch('addressLine1')
-    // useEffect(() => {
-    //     if (addressValue) {
-    //         formMethods.setValue('addressLine1', addressValue, {
-    //             shouldValidate: true,
-    //             shouldDirty: true,
-    //         })
-    //         if (!onSuburbClicked) {
-    //             formMethods.setError('addressLine1', {
-    //                 type: 'manual',
-    //                 message: 'Please select an address from the dropdown',
-    //             })
-    //         } else {
-    //             formMethods.clearErrors('addressLine1')
-    //         }
-    //     }
-    // }, [onSuburbClicked, addressValue])
-    useEffect(() => {
-        if (addressValue !== undefined) {
-            formMethods.setValue('addressLine1', addressValue, {
-                shouldValidate: true,
-                shouldDirty: true,
-            })
-
-            if (!addressValue || addressValue.trim().length < 5) {
-                formMethods.setError('addressLine1', {
-                    type: 'manual',
-                    message: 'Please enter a valid address',
-                })
-            } else {
-                formMethods.clearErrors('addressLine1')
-            }
-        }
-    }, [addressValue])
-
+    // Handle address change and geocoding
     const handleAddressChange = (e: any) => {
-        setOnSuburbClicked(false) // optional, you can remove this entirely
         const value = e?.target?.value
 
         if (value?.length > 4) {
@@ -538,56 +295,125 @@ export const StudentSignUpForm = ({
         }
     }
 
-    // const handleAddressChange = (e: any) => {
-    //     setOnSuburbClicked(false)
-    //     // formMethods.setValue('addressLine1', e?.target?.value)
+    // Form validation schema
+    const validationSchema = yup.object({
+        name: yup.string().required('Must provide your name'),
+        email: yup
+            .string()
+            .email('Invalid Email')
+            .required('Must provide email'),
+        password: yup.string().required('Must provide password'),
+        confirmPassword: yup
+            .string()
+            .oneOf([yup.ref('password'), null], 'Passwords must match')
+            .required('Must confirm entered password'),
+        rto: yup.mixed().nullable(),
+        rtoInfo: yup.string().when('rto', {
+            is: (val: any) => !val || val === 'other',
+            then: (schema) => schema.required('Must provide custom RTO'),
+            otherwise: (schema) => schema.notRequired(),
+        }),
+        phone: yup
+            .string()
+            .nullable(true)
+            .min(12, 'Phone Number must be 9 numbers')
+            .required('Must provide phone number'),
+        courseDescription: yup
+            .string()
+            .required('Must list at least one course'),
+        contactPersonName: yup
+            .string()
+            .matches(onlyAlphabets(), 'Must be a valid name'),
+        contactPersonEmail: yup.string().email('Must be a valid email'),
+        contactPersonNumber: yup.string(),
+        addressLine1: yup.string().required('Must provide address'),
+        zipCode: yup.string().required('Must provide zip code for your state'),
+        agreedWithPrivacyPolicy: yup
+            .boolean()
+            .oneOf(
+                [true],
+                'Please check if you agree with our terms & policies'
+            ),
+    })
 
-    //     // if (!onSuburbClicked) {
-    //     //     formMethods.setError('addressLine1', {
-    //     //         type: 'manual',
-    //     //         message: 'Please select an address from the dropdown',
-    //     //     })
-    //     // }
-    //     if (e?.target?.value?.length > 4) {
-    //         fromAddress(e?.target?.value)
-    //             .then(({ results }: any) => {
-    //                 const { lat, lng } = results[0].geometry.location
-    //                 geocode('latlng', `${lat},${lng}`, {
-    //                     key: process.env.NEXT_PUBLIC_MAP_KEY,
-    //                 } as GeocodeOptions)
-    //                     .then((response) => {
-    //                         const addressComponents =
-    //                             response.results[0].address_components
+    // Validation logic
+    const validateSubmission = (values: any): boolean => {
+        if (!values.addressLine1 || values.addressLine1.trim().length < 5) {
+            notification.error({
+                title: 'Invalid Address',
+                description: 'Please enter a valid address',
+            })
+            return false
+        }
 
-    //                         const state = addressComponents.find(
-    //                             (component: any) =>
-    //                                 component.types.includes(
-    //                                     'administrative_area_level_1'
-    //                                 )
-    //                         )?.long_name
+        if (!values?.sectors && values?.courseDescription?.trim().length < 5) {
+            notification.error({
+                title: 'Enter Course Description',
+                description: 'Please enter a course description',
+            })
+            return false
+        }
 
-    //                         formMethods.setValue('state', state || 'N/A')
+        if (!values?.phone) {
+            notification.error({
+                title: 'Invalid Phone Number',
+                description: 'Please enter a valid phone number',
+            })
+            return false
+        }
 
-    //                         for (let component of addressComponents) {
-    //                             if (component.types.includes('postal_code')) {
-    //                                 formMethods.setValue(
-    //                                     'zipCode',
-    //                                     component.long_name
-    //                                 )
+        if (values?.rto && !values?.sectors) {
+            notification.error({
+                title: 'Select Sector',
+                description: 'Please select at least one sector for the RTO',
+            })
+            return false
+        }
 
-    //                                 break
-    //                             }
-    //                         }
-    //                     })
-    //                     .catch((error) => {
-    //                         console.error({
-    //                             error,
-    //                         })
-    //                     })
-    //             })
-    //             .catch(console.error)
-    //     }
-    // }
+        if (!values?.rto && !values?.rtoInfo?.trim()) {
+            notification.error({
+                title: 'RTO Required',
+                description: 'Please select or enter a valid RTO',
+            })
+            return false
+        }
+
+        return true
+    }
+
+    // Form submission handler
+    const onHandleSubmit = (values: any) => {
+        if (!validateSubmission(values)) {
+            return
+        }
+        onSubmit({ ...values, suburb: 'N/A' })
+    }
+
+    // Navigation handler
+    const onBackToReview = () => {
+        SignUpUtils.setEditingMode(false)
+        router.push({ query: { step: 'review-info' } })
+    }
+
+    // Watch address value for validation
+    const addressValue = formMethods.watch('addressLine1')
+    useEffect(() => {
+        if (addressValue !== undefined) {
+            formMethods.setValue('addressLine1', addressValue, {
+                shouldValidate: true,
+                shouldDirty: true,
+            })
+
+            if (!addressValue || addressValue.trim().length < 5) {
+                formMethods.setError('addressLine1', {
+                    type: 'manual',
+                    message: 'Please enter a valid address',
+                })
+            } else {
+                formMethods.clearErrors('addressLine1')
+            }
+        }
+    }, [addressValue, formMethods])
 
     return (
         <FormProvider {...formMethods}>
@@ -595,7 +421,7 @@ export const StudentSignUpForm = ({
                 className="flex flex-col gap-y-4"
                 onSubmit={formMethods.handleSubmit(onHandleSubmit)}
             >
-                {/* Personal Information */}
+                {/* Student Information Section */}
                 <div className="w-full">
                     <Typography variant={'subtitle'} color={'text-gray-500'}>
                         Student Information
@@ -605,6 +431,7 @@ export const StudentSignUpForm = ({
                         transparent
                     </p>
                 </div>
+
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t py-4">
                     <div className="w-full">
                         <TextInput
@@ -616,14 +443,6 @@ export const StudentSignUpForm = ({
                         />
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                            {/* <TextInput
-                                label={'Family Name'}
-                                name={'familyName'}
-                                placeholder={'Family Name...'}
-                                validationIcons
-                                required
-                            /> */}
-
                             <PhoneInputWithCountry
                                 label={'Phone'}
                                 required
@@ -634,84 +453,52 @@ export const StudentSignUpForm = ({
                                 placeholder={'Enter your number'}
                             />
 
-                            {/* <Select
-                                label={'Search Training Organization'}
-                                {...(storedData
-                                    ? {
-                                          defaultValue: storedData.sectors,
-                                      }
-                                    : {})}
-                                onInputChange={(e: any) => {
-                                    debounceValue(e)
-                                }}
-                                name={'rto'}
-                                placeholder={'Search Rtos...'}
-                                loading={rtoResponse.isLoading}
-                                options={[
-                                    ...rtoOptions,
-                                    { label: 'Other', value: 'other' },
-                                ]}
-                                onChange={(e: any) => {
-                                    if (e === 'other') {
-                                        setSelectedRto(null)
-                                    } else {
-                                        setSelectedRto(e)
-                                    }
-                                }}
-                                validationIcons
-                                onlyValue
-                                {...(hader ? { value: rtoOptions?.[0] } : {})}
-                            />
-                            {selectedRto === null && (
-                                <TextInput
-                                    label="RTO Info"
-                                    name="rto"
-                                    placeholder="Enter custom RTO name"
-                                    required
-                                    validationIcons
-                                />
-                            )} */}
                             <CustomRtoSearch
                                 label="Search Training Organization"
-                                onSearch={(val) => debounceValue(val)}
+                                onSearch={(val) => debounceRtoSearch(val)}
                                 options={rtoOptions}
                                 loading={rtoResponse.isLoading}
                                 onSelect={(selected: any) => {
                                     if (selected.value === null) {
-                                        // It's a custom RTO
-                                        setSelectedRto(null)
+                                        dispatch({
+                                            type: 'SET_SELECTED_RTO',
+                                            payload: null,
+                                        })
                                         formMethods.setValue('rto', null)
                                         formMethods.setValue(
                                             'rtoInfo',
                                             selected.customText ?? ''
-                                        ) // ✅ Set rtoInfo
+                                        )
                                     } else {
-                                        setSelectedRto(selected.value)
+                                        dispatch({
+                                            type: 'SET_SELECTED_RTO',
+                                            payload: selected.value,
+                                        })
                                         formMethods.setValue(
                                             'rto',
                                             selected.value
                                         )
-                                        formMethods.setValue('rtoInfo', '') // Clear custom RTO field
+                                        formMethods.setValue('rtoInfo', '')
                                     }
                                 }}
                                 formMethods={formMethods}
                                 value={
-                                    hader && selectedRto
+                                    rtoName && formState.selectedRto
                                         ? {
-                                              value: selectedRto,
+                                              value: formState.selectedRto,
                                               label:
                                                   rtoOptions.find(
                                                       (opt: any) =>
                                                           opt?.value ===
-                                                          selectedRto
+                                                          formState.selectedRto
                                                   )?.label || '',
                                           }
                                         : undefined
                                 }
-                                selectedRto={selectedRto}
+                                selectedRto={formState.selectedRto}
                             />
 
-                            {selectedRto === null && (
+                            {formState.selectedRto === null && (
                                 <TextInput
                                     label="RTO Info"
                                     name="rtoInfo"
@@ -724,32 +511,36 @@ export const StudentSignUpForm = ({
                     </div>
                 </div>
 
-                {/* Sector Information */}
-                {selectedRto !== null && selectedRto !== undefined && (
-                    <div className="w-full">
-                        <Typography
-                            variant={'subtitle'}
-                            color={'text-gray-500'}
-                        >
-                            Sector Information
-                        </Typography>
-                        <p className="text-gray-400 text-sm leading-6">
-                            Select your eligible sectors, and related courses.
-                        </p>
-                    </div>
-                )}
+                {/* Sector Information Section */}
+                {formState.selectedRto !== null &&
+                    formState.selectedRto !== undefined && (
+                        <div className="w-full">
+                            <Typography
+                                variant={'subtitle'}
+                                color={'text-gray-500'}
+                            >
+                                Sector Information
+                            </Typography>
+                            <p className="text-gray-400 text-sm leading-6">
+                                Select your eligible sectors, and related
+                                courses.
+                            </p>
+                        </div>
+                    )}
+
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t py-4">
                     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
                         <div>
-                            {selectedRto !== null &&
-                            selectedRto !== undefined ? (
+                            {formState.selectedRto !== null &&
+                            formState.selectedRto !== undefined ? (
                                 <>
                                     <Select
                                         label={'Sector'}
-                                        {...(storedData
+                                        {...(formState.storedData
                                             ? {
                                                   defaultValue:
-                                                      storedData.sectors,
+                                                      formState.storedData
+                                                          .sectors,
                                               }
                                             : {})}
                                         name={'sectors'}
@@ -764,25 +555,18 @@ export const StudentSignUpForm = ({
                                     <Select
                                         label={'Courses'}
                                         name={'courses'}
-                                        defaultValue={courseOptions}
-                                        // value={courseOptions?.filter(
-                                        //     (course: OptionType) =>
-                                        //         courseValues?.includes(
-                                        //             course?.value as number
-                                        //         )
-                                        // )}
-                                        value={courseValues}
-                                        options={courseOptions}
-                                        loading={courseLoading}
+                                        defaultValue={formState.courseOptions}
+                                        value={formState.courseValues}
+                                        options={formState.courseOptions}
+                                        loading={formState.courseLoading}
                                         disabled={
-                                            storedData
-                                                ? storedData?.courses
+                                            formState.storedData
+                                                ? formState.storedData?.courses
                                                       ?.length === 0
-                                                : courseOptions?.length === 0
+                                                : formState.courseOptions
+                                                      ?.length === 0
                                         }
-                                        onChange={(e: any) => {
-                                            onCourseChange(e)
-                                        }}
+                                        onChange={onCourseChange}
                                         multi
                                         validationIcons
                                         components={{
@@ -792,7 +576,7 @@ export const StudentSignUpForm = ({
                                     />
                                 </>
                             ) : (
-                                selectedRto === null && (
+                                formState.selectedRto === null && (
                                     <TextInput
                                         label="Course Info"
                                         name="courseDescription"
@@ -806,7 +590,7 @@ export const StudentSignUpForm = ({
                     </div>
                 </div>
 
-                {/* Profile Information */}
+                {/* Profile Information Section */}
                 <div className="w-full">
                     <Typography variant={'subtitle'} color={'text-gray-500'}>
                         Profile Information
@@ -815,6 +599,7 @@ export const StudentSignUpForm = ({
                         This will be your information used as account login.
                     </p>
                 </div>
+
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t py-4">
                     <div className="w-full">
                         <TextInput
@@ -850,7 +635,7 @@ export const StudentSignUpForm = ({
                     </div>
                 </div>
 
-                {/* Address Information */}
+                {/* Address Information Section */}
                 <div className="w-full">
                     <Typography variant={'subtitle'} color={'text-gray-500'}>
                         Address Information
@@ -859,6 +644,7 @@ export const StudentSignUpForm = ({
                         This will help us to find out about your nearby sites
                     </p>
                 </div>
+
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t lg:py-4 pt-4 lg:pt-0">
                     <div className="w-full">
                         <div className="grid grid-cols-4 gap-x-3 mt-5">
@@ -869,12 +655,10 @@ export const StudentSignUpForm = ({
                                     placeholder={'Your Primary Address...'}
                                     validationIcons
                                     placesSuggetions
-                                    onChange={(e: any) =>
-                                        handleAddressChange(e)
-                                    }
+                                    onChange={handleAddressChange}
                                     onPlaceSuggetions={{
-                                        placesSuggetions: onSuburbClicked,
-                                        setIsPlaceSelected: setOnSuburbClicked,
+                                        placesSuggetions: true,
+                                        setIsPlaceSelected: () => {},
                                     }}
                                 />
                             </div>
@@ -888,6 +672,7 @@ export const StudentSignUpForm = ({
                     </div>
                 </div>
 
+                {/* Checkbox and Submit Buttons */}
                 <div className="w-full">
                     <div className="mb-6">
                         <Checkbox
