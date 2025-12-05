@@ -141,6 +141,20 @@ export const AddSupervisor = ({
                             validationIcons
                             required
                         />
+                        <TextInput
+                            label={'Phone'}
+                            name={'phone'}
+                            placeholder={'Your Phone Here...'}
+                            validationIcons
+                            required
+                        />
+                        <TextInput
+                            label={'Email'}
+                            name={'email'}
+                            placeholder={'Your Email Here...'}
+                            validationIcons
+                            required
+                        />
                     </div>
 
                     <div className="mt-4 flex items-center justify-between">
