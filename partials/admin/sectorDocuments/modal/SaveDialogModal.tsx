@@ -27,7 +27,7 @@ export const SaveDialogModal = ({
     sectors,
 }: {
     selectedSector: string
-    selectedFolders: number[]
+    selectedFolders: { id: number; isMandatory: boolean }[]
     selectedCourses: number[]
     courses: OptionType[]
     mandatoryChecks: number
@@ -52,10 +52,7 @@ export const SaveDialogModal = ({
     const handleSave = async () => {
         const res: any = await addCourseMultipleIndustryChecks({
             courses: selectedCourses,
-            documents: selectedFolders?.map((id) => ({
-                id,
-                isMandatory: true,
-            })),
+            documents: selectedFolders,
         })
         if (res?.data) {
             notification.success({

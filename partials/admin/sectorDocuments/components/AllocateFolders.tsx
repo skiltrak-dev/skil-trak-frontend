@@ -1,21 +1,14 @@
 import { Badge, Button, Card, Select, Switch, Typography } from '@components'
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from '@components/ui/collapsible'
 import { ScrollArea } from '@components/ui/scroll-area'
-import { useNotification, useSectorsAndCoursesOptions } from '@hooks'
+import { useSectorsAndCoursesOptions } from '@hooks'
 import { AdminApi } from '@queries'
 import { OptionType } from '@types'
 import {
-    Calendar,
     CheckCircle2,
     Clock,
     FileCheck,
     FolderOpen,
     GraduationCap,
-    History,
     Info,
     ListChecks,
     Save,
@@ -124,15 +117,31 @@ export const AllocateFolders = () => {
         setSelectedCourses([])
     }
 
-    const [selectedFolders, setSelectedFolders] = useState<number[]>([])
+    const [selectedFolders, setSelectedFolders] = useState<
+        { id: number; isMandatory: boolean }[]
+    >([])
 
     const toggleFolderRequired = (folderId: number) => {
         setSelectedFolders((prev) =>
-            prev.includes(folderId)
-                ? prev.filter((id) => id !== folderId)
-                : [...prev, folderId]
+            prev?.find((folder) => folder.id === folderId)
+                ? prev.filter((folder) => folder.id !== folderId)
+                : [...prev, { id: folderId, isMandatory: false }]
         )
     }
+
+    const toggleFolderMandatory = (folderId: number) => {
+        setSelectedFolders((prev) =>
+            prev?.find((folder) => folder.id === folderId)
+                ? prev.map((folder) =>
+                      folder.id === folderId
+                          ? { ...folder, isMandatory: !folder.isMandatory }
+                          : folder
+                  )
+                : [...prev, { id: folderId, isMandatory: true }]
+        )
+    }
+
+    console.log({ selectedFolders })
 
     const confirmSave = () => {
         setShowSaveDialog(true)
@@ -514,9 +523,12 @@ export const AllocateFolders = () => {
                                             {defaultDocuments?.data?.data?.map(
                                                 (folder) => {
                                                     const allocation =
-                                                        selectedFolders.includes(
-                                                            folder.id
+                                                        selectedFolders?.find(
+                                                            (f) =>
+                                                                f.id ===
+                                                                folder.id
                                                         )
+
                                                     const isEnabled = allocation
 
                                                     return (
@@ -530,9 +542,9 @@ export const AllocateFolders = () => {
                                                         >
                                                             <input
                                                                 type="checkbox"
-                                                                checked={
-                                                                    isEnabled
-                                                                }
+                                                                // checked={
+                                                                //     isEnabled
+                                                                // }
                                                                 onChange={() =>
                                                                     toggleFolderRequired(
                                                                         folder.id
@@ -549,18 +561,40 @@ export const AllocateFolders = () => {
                                                             >
                                                                 {folder.name}
                                                             </span>
+
                                                             {isEnabled && (
-                                                                <Badge
-                                                                    variant="primaryNew"
-                                                                    text="Mandatory"
-                                                                    className="bg-blue-600 text-white"
-                                                                ></Badge>
+                                                                <div className="flex gap-2">
+                                                                    <Switch
+                                                                        name="isMandatory"
+                                                                        customStyleClass={
+                                                                            'profileSwitch'
+                                                                        }
+                                                                        onChange={() => {
+                                                                            toggleFolderMandatory(
+                                                                                folder?.id
+                                                                            )
+                                                                        }}
+                                                                        // defaultChecked={
+                                                                        //     isHighPriority
+                                                                        // }
+                                                                        // loading={
+                                                                        //     makeAsHighPriorityResult.isLoading
+                                                                        // }
+                                                                        // disabled={
+                                                                        //     makeAsHighPriorityResult.isLoading ||
+                                                                        //     disabled
+                                                                        // }
+                                                                        showError={
+                                                                            false
+                                                                        }
+                                                                    />
+                                                                    <Badge
+                                                                        variant="primaryNew"
+                                                                        text="Mandatory"
+                                                                        className="bg-blue-600 text-white"
+                                                                    ></Badge>
+                                                                </div>
                                                             )}
-                                                            <Switch
-                                                                name={
-                                                                    'isMandatory'
-                                                                }
-                                                            />
                                                         </label>
                                                     )
                                                 }
