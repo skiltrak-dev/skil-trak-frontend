@@ -4,11 +4,7 @@ import { NextPageWithLayout } from '@types'
 import React, { ReactElement } from 'react'
 
 const SectorDocumentsPage: NextPageWithLayout = () => {
-    return (
-        <div>
-            <SectorDocuments />
-        </div>
-    )
+    return <SectorDocuments />
 }
 SectorDocumentsPage.getLayout = (page: ReactElement) => {
     return <AdminLayout>{page}</AdminLayout>

@@ -30,7 +30,7 @@ import {
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setStudentDetail } from 'redux'
+import { setStudentDetail } from '@redux'
 import { AllWorkplaces } from './components/AllWorkplaces/AllWorkplaces'
 
 export const RtoStudentDetail = () => {

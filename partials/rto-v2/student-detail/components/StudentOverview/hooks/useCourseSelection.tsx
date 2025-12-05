@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { AssessmentCourseType, Course, Sector, Student } from '@types'
 import { useStudentAssessmentCoursesQuery, SubAdminApi } from '@queries'
 import { useDispatch } from 'react-redux'
-import { setSelectedCourse } from 'redux'
+import { setSelectedCourse } from '@redux'
 import { useSelector } from 'react-redux'
 
 export const useCourseSelection = () => {

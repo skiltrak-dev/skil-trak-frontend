@@ -16,7 +16,7 @@ import {
 import moment from 'moment'
 import { useMemo } from 'react'
 import { useDispatch } from 'react-redux'
-import { setSelectedWorkplace } from 'redux'
+import { setSelectedWorkplace } from '@redux'
 import {
     IWorkplaceIndustries,
     WorkplaceWorkIndustriesType,

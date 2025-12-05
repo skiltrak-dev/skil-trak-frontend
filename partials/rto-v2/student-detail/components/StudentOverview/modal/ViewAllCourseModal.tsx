@@ -8,7 +8,7 @@ import {
 import { Course } from '@types'
 import { CourseCard } from '../card'
 import { useDispatch } from 'react-redux'
-import { setSelectedCourse } from 'redux'
+import { setSelectedCourse } from '@redux'
 
 interface ViewAllCourseModalProps {
     open: boolean

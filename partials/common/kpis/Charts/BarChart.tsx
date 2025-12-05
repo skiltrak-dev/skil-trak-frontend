@@ -11,7 +11,6 @@ import {
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
 import { RiUserLine } from 'react-icons/ri'
-import { AdminApi } from 'redux'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 

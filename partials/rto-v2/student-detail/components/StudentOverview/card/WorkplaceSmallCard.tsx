@@ -1,7 +1,7 @@
 import { Badge } from '@components'
 import { ChevronRight, Clock, MapPin } from 'lucide-react'
 import { useDispatch } from 'react-redux'
-import { setSelectedWorkplace } from 'redux'
+import { setSelectedWorkplace } from '@redux'
 import {
     IWorkplaceIndustries,
     WorkplaceWorkIndustriesType,
