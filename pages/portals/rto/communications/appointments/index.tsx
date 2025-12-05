@@ -4,11 +4,7 @@ import { RtoLayoutV2 } from '@layouts'
 import { BiEnvelope } from 'react-icons/bi'
 
 const AppointmentPage = () => {
-    return (
-        <div>
-            <Appointments />
-        </div>
-    )
+    return <Appointments />
 }
 
 AppointmentPage.getLayout = (page: ReactElement) => {

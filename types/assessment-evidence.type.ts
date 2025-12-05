@@ -14,6 +14,7 @@ export interface AssessmentEvidenceFolder extends BaseResponse {
     positiveComment: string
     negativeComment: string
     notAssessed: boolean
+    isMandatory: boolean
     isAgreement: boolean
     studentResponse: StudentResponseType[]
     isFacilityCheckList: boolean

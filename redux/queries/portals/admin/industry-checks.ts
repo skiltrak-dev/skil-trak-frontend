@@ -6,6 +6,7 @@ import {
     PaginationWithSearch,
     IndustryCheck,
     IndustryCheckFilterType,
+    Sector,
 } from '@types'
 
 const PREFIX = 'admin'
@@ -71,5 +72,51 @@ export const industryChecksEndpoints = (
             method: 'DELETE',
         }),
         invalidatesTags: ['IndustryChecks'],
+    }),
+
+    addSectorIndustryCheck: builder.mutation<
+        any,
+        { sectorId: number; defaultDocumentId: number }
+    >({
+        query: ({ sectorId, defaultDocumentId }) => ({
+            url: `${PREFIX}/sector/${sectorId}/industry-check-name/${defaultDocumentId}/add`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['IndustryChecks', 'Folders', 'Courses'],
+    }),
+
+    getSectorIndustryChecks: builder.query<any, number>({
+        query: (sectorId) => ({
+            url: `${PREFIX}/sector/${sectorId}/industry-checks/list`,
+        }),
+        providesTags: ['IndustryChecks'],
+    }),
+
+    addCourseIndustryCheck: builder.mutation<
+        any,
+        { courseId: number; defaultDocumentId: number }
+    >({
+        query: ({ courseId, defaultDocumentId }) => ({
+            url: `${PREFIX}/course/${courseId}/industry-check-name/${defaultDocumentId}/add`,
+            method: 'POST',
+        }),
+        invalidatesTags: ['IndustryChecks', 'Folders', 'Courses'],
+    }),
+
+    addCourseMultipleIndustryChecks: builder.mutation<
+        any,
+        { courses: number[]; documents: { id: number; isMandatory: boolean }[] }
+    >({
+        query: (body) => ({
+            url: `${PREFIX}/courses/industry-check/add`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['IndustryChecks', 'Folders', 'Courses'],
+    }),
+
+    listAllFoldersForCourses: builder.query<Sector[], void>({
+        query: () => `${PREFIX}/courses/industry-checks/list`,
+        providesTags: ['IndustryChecks', 'Folders', 'Courses'],
     }),
 })

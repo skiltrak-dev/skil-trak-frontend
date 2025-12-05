@@ -128,16 +128,9 @@ export const mailsEndpoints = (
             method: 'POST',
             body: body,
         }),
-        invalidatesTags: ['Mails'],
+        invalidatesTags: ['Mails', 'AllCommunications'],
     }),
-    // sendMessage: builder.mutation({
-    //     query: (body) => ({
-    //         url: `${PREFIX}/email`,
-    //         method: 'POST',
-    //         body: body,
-    //     }),
-    //     invalidatesTags: ['Mails'],
-    // }),
+
     getAllMails: builder.query<any, void>({
         query: () => `${PREFIX}/list/all`,
         providesTags: ['Mails'],

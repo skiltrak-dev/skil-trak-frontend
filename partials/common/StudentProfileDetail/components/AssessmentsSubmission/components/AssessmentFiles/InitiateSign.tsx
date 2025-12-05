@@ -12,10 +12,10 @@ export const InitiateSign = ({
     courseId,
     eSignDocument,
 }: {
-    folder: AssessmentEvidenceDetailType | null
     student: Student
     eSignDocument: any
     courseId: number | undefined
+    folder: AssessmentEvidenceDetailType | null
 }) => {
     const { workplaceRto } = useWorkplace()
 

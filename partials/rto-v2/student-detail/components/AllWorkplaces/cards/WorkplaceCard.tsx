@@ -1,0 +1,286 @@
+import { Badge, Button, InitialAvatar } from '@components'
+import { Progressbar } from '@partials/rto-v2/components/Progressbar'
+import { getStatusCategory } from '@partials/rto-v2/student-detail/utils'
+import {
+    AlertCircle,
+    Award,
+    Building2,
+    Calendar,
+    CheckCircle2,
+    Hourglass,
+    Mail,
+    MapPin,
+    Phone,
+    XCircle,
+} from 'lucide-react'
+import moment from 'moment'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
+
+export const WorkplaceCard = ({
+    workplace,
+}: {
+    workplace: IWorkplaceIndustries
+}) => {
+    const status = getStatusCategory(workplace?.currentStatus || '')
+
+    const getStatusBadge = (status: string) => {
+        switch (status) {
+            case 'active':
+                return (
+                    <Badge
+                        variant="success"
+                        text="Active Placement"
+                        Icon={CheckCircle2}
+                        className="gap-[1.35px] border  border-emerald-300"
+                        size="xs"
+                    />
+                )
+            case 'completed':
+                return (
+                    <Badge
+                        variant="info"
+                        text="Completed"
+                        Icon={CheckCircle2}
+                        className="gap-[1.35px] border border-blue-300"
+                        size="xs"
+                    />
+                )
+            case 'pending':
+                return (
+                    <Badge
+                        variant="warning"
+                        text="Pending Approval"
+                        Icon={Hourglass}
+                        className="gap-[1.35px] !bg-white !font-semibold border border-amber-300"
+                        size="xs"
+                    />
+                )
+            case 'withdrawn':
+                return (
+                    <Badge
+                        variant="muted"
+                        text="Withdrawn"
+                        Icon={XCircle}
+                        className="gap-[1.35px] border border-slate-300"
+                        size="xs"
+                    />
+                )
+            default:
+                return null
+        }
+    }
+
+    const getStatusIcon = (status: string) => {
+        switch (status) {
+            case 'active':
+                return 'from-emerald-500 to-emerald-600'
+            case 'completed':
+                return 'from-blue-500 to-blue-600'
+            case 'pending':
+                return 'from-amber-500 to-amber-600'
+            case 'withdrawn':
+                return 'from-slate-400 to-slate-500'
+            default:
+                return 'from-[#044866] to-[#0D5468]'
+        }
+    }
+
+    const industry = workplace?.industries?.[0]?.industry
+    const supervisor = industry?.supervisors?.[0]
+    const workplaceType = industry?.workplaceType
+
+    return (
+        <div className="group bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 shadow-lg hover:shadow-2xl transition-all overflow-hidden">
+            {/* Header Banner */}
+            <div
+                className={`bg-gradient-to-r ${getStatusIcon(
+                    status
+                )} px-5 py-3 flex items-center justify-between`}
+            >
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                        <Building2 className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                        <h4 className="text-white">{industry?.user?.name}</h4>
+                        <p className="text-white/80 text-sm">
+                            {workplaceType?.name}
+                        </p>
+                    </div>
+                </div>
+                {getStatusBadge(status)}
+            </div>
+
+            {/* Content */}
+            <div className="p-5">
+                {/* Key Info Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div className="flex items-start gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-[#044866]/10 flex items-center justify-center flex-shrink-0">
+                            <MapPin className="w-4 h-4 text-[#044866]" />
+                        </div>
+                        <div>
+                            <p className="text-xs text-slate-500 mb-0.5">
+                                Address
+                            </p>
+                            <p className="text-sm text-slate-900">
+                                {industry?.addressLine1}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-[#0D5468]/10 flex items-center justify-center flex-shrink-0">
+                            <Award className="w-4 h-4 text-[#0D5468]" />
+                        </div>
+                        <div>
+                            <p className="text-xs text-slate-500 mb-0.5">
+                                Service Type
+                            </p>
+                            <p className="text-sm text-slate-900">
+                                {workplaceType?.name}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-[#F7A619]/10 flex items-center justify-center flex-shrink-0">
+                            <Calendar className="w-4 h-4 text-[#F7A619]" />
+                        </div>
+                        <div>
+                            <p className="text-xs text-slate-500 mb-0.5">
+                                {/* {workplace.status === 'pending'
+                                    ? 'Requested'
+                                    : 'Period'} */}
+                                Requested
+                            </p>
+                            <p className="text-sm text-slate-900">
+                                {moment(workplace?.createdAt)
+                                    .tz('Australia/Melbourne')
+                                    .format('ddd DD, MMM, yyyy [at] hh:mm A')}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Supervisor Info */}
+                <div className="bg-gradient-to-br from-slate-50 to-blue-50/30 rounded-xl p-4 mb-4">
+                    <div className="flex items-center gap-3">
+                        {supervisor?.name && (
+                            <InitialAvatar name={supervisor?.name} />
+                        )}
+                        <div className="flex-1">
+                            <p className="text-sm text-slate-900 mb-0.5">
+                                {supervisor?.name}
+                            </p>
+                            <p className="text-xs text-slate-600">
+                                {supervisor?.qualification}
+                            </p>
+                        </div>
+                        <div className="flex gap-2">
+                            <a
+                                href={`tel:${supervisor?.phone}`}
+                                className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center hover:border-[#044866] hover:bg-[#044866]/5 transition-all"
+                            >
+                                <Phone className="w-3.5 h-3.5 text-[#044866]" />
+                            </a>
+                            <a
+                                href={`mailto:${supervisor?.email}`}
+                                className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center hover:border-[#044866] hover:bg-[#044866]/5 transition-all"
+                            >
+                                <Mail className="w-3.5 h-3.5 text-[#044866]" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Progress Bar for Active/Completed */}
+                {/* {(workplace.status === 'active' ||
+                    workplace.status === 'completed') &&
+                    workplace.hoursCompleted &&
+                    workplace.hoursRequired && (
+                        <div className="bg-white border border-slate-200 rounded-xl p-4">
+                            <div className="flex items-center justify-between mb-2">
+                                <p className="text-sm text-slate-700">
+                                    Hours Progress
+                                </p>
+                                <p className="text-sm text-slate-900">
+                                    {workplace.hoursCompleted} /{' '}
+                                    {workplace.hoursRequired} hours
+                                </p>
+                            </div>
+                            <Progressbar
+                                value={
+                                    (workplace.hoursCompleted /
+                                        workplace.hoursRequired) *
+                                    100
+                                }
+                                variant={
+                                    workplace.status === 'active'
+                                        ? 'success'
+                                        : 'info'
+                                }
+                                size="sm"
+                                className="h-[7.2px]"
+                            />
+                            <p className="text-xs text-slate-500 mt-2">
+                                {workplace.status === 'active'
+                                    ? `${
+                                          workplace.hoursRequired -
+                                          workplace.hoursCompleted
+                                      } hours remaining`
+                                    : 'Placement completed successfully'}
+                            </p>
+                        </div>
+                    )} */}
+
+                {/* Pending Status Info */}
+                {/* {workplace.status === 'pending' && workplace.requestStatus && (
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                        <div className="flex items-center gap-2">
+                            <AlertCircle className="w-4 h-4 text-amber-600" />
+                            <p className="text-sm text-amber-900">
+                                <span className="font-medium">Status:</span>{' '}
+                                {workplace.requestStatus}
+                            </p>
+                        </div>
+                        <p className="text-xs text-amber-700 mt-2">
+                            Requires {workplace.hoursRequired} hours of
+                            placement
+                        </p>
+                    </div>
+                )} */}
+
+                {/* Actions */}
+                {/* <div className="flex items-center gap-2 mt-4">
+                    <Button
+                        variant="secondary"
+                        outline
+                        className="flex-1 border-slate-300 hover:border-[#044866] hover:text-[#044866] hover:bg-[#044866]/5 px-[7.2px] py-[1.8px] text-[9.9px]"
+                        text="View Details"
+                    />
+                    {workplace.status === 'active' && (
+                        <Button
+                            variant="primaryNew"
+                            className="flex-1 bg-gradient-to-r from-[#044866] to-[#0D5468] hover:from-[#0D5468] hover:to-[#044866] text-white px-[7.2px] py-[1.8px] text-[9.9px]"
+                            text="Log Hours"
+                        />
+                    )}
+                    {workplace.status === 'pending' && (
+                        <Button
+                            className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-[7.2px] py-[1.8px] text-[9.9px]"
+                            text="Check Status"
+                        />
+                    )}
+                    {workplace.status === 'completed' && (
+                        <Button
+                            variant="info"
+                            className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-[7.2px] py-[1.8px] text-[9.9px]"
+                            text="View Certificate"
+                        />
+                    )}
+                </div> */}
+            </div>
+        </div>
+    )
+}

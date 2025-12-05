@@ -2,32 +2,38 @@ import { Student } from '@types'
 import { Award, Clock } from 'lucide-react'
 import moment from 'moment'
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-export const StudentQuickInfo = ({ student }: { student: Student }) => {
+export const StudentQuickInfo = () => {
+    const { selectedCourse, studentDetail } = useSelector(
+        (state: any) => state.student
+    )
     const studentInfoCards = [
         {
             id: 'primary-course',
             title: 'Primary Course',
-            mainText: 'CHC33021',
-            subText: 'Cert III Individual Support',
+            mainText: selectedCourse?.code,
+            subText: selectedCourse?.title,
             icon: Award,
             iconType: 'lucide' as const,
             gradient: 'from-[#044866] to-[#0D5468]',
         },
-        {
-            id: 'active-workplace',
-            title: 'Active Workplace',
-            mainText: 'Hale Foundation',
-            subText: 'Marangaroo, WA',
-            icon: '🏢',
-            iconType: 'emoji' as const,
-            gradient: 'from-[#0D5468] to-[#044866]',
-        },
+        // {
+        //     id: 'active-workplace',
+        //     title: 'Active Workplace',
+        //     mainText: 'Hale Foundation',
+        //     subText: 'Marangaroo, WA',
+        //     icon: '🏢',
+        //     iconType: 'emoji' as const,
+        //     gradient: 'from-[#0D5468] to-[#044866]',
+        // },
         {
             id: 'coordinator',
             title: 'Coordinator',
-            mainText: student?.subadmin ? student?.subadmin?.user?.name : '---',
-            subText: 'Assigned Nov 4, 2025',
+            mainText: studentDetail?.subadmin
+                ? studentDetail?.subadmin?.user?.name
+                : '---',
+            // subText: 'Assigned Nov 4, 2025',
             icon: '👤',
             iconType: 'emoji' as const,
             gradient: 'from-[#044866] to-[#0D5468]',
@@ -35,11 +41,11 @@ export const StudentQuickInfo = ({ student }: { student: Student }) => {
         {
             id: 'student-since',
             title: 'Student Since',
-            mainText: student?.createdAt
-                ? moment(student?.createdAt).format('MMMM YYYY')
+            mainText: studentDetail?.createdAt
+                ? moment(studentDetail?.createdAt).format('MMMM YYYY')
                 : '',
-            subText: student?.createdAt
-                ? moment(student?.createdAt).fromNow()
+            subText: studentDetail?.createdAt
+                ? moment(studentDetail?.createdAt).fromNow()
                 : '',
             icon: Clock,
             iconType: 'lucide' as const,
@@ -47,7 +53,7 @@ export const StudentQuickInfo = ({ student }: { student: Student }) => {
         },
     ]
     return (
-        <div className="grid grid-cols-4 gap-2.5">
+        <div className="grid grid-cols-3 gap-2.5">
             {studentInfoCards.map((card) => (
                 <div
                     key={card.id}

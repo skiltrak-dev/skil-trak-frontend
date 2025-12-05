@@ -427,6 +427,7 @@ export interface CallLog extends BaseResponse {
     id: number
     isExpired: boolean
     isAnswered: boolean
+    calledBy: User
 }
 export interface ApiCallResult {
     isLoading: any

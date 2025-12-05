@@ -52,4 +52,47 @@ export const studentsEndpoints = (
         }),
         invalidatesTags: ['RTO-WORKPLACE'],
     }),
+
+    getStudentTicketsCount: builder.query<
+        {
+            all: number
+            open: number
+            reopened: number
+            closed: number
+        },
+        number
+    >({
+        query: (studentId) => `students/${studentId}/tickets-count`,
+        providesTags: ['RTO'],
+    }),
+
+    getStudentAppointmentsCount: builder.query<
+        {
+            completed: number
+            future: number
+            total: number
+            week: number
+        },
+        number
+    >({
+        query: (studentId) => `students/${studentId}/appointments-count`,
+        providesTags: ['RTO'],
+    }),
+
+    studentInfoMessage: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `admin/student-message/create`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RTO'],
+    }),
+
+    getStudentInfoMessages: builder.query<any, { userId: number }>({
+        query: (params) => ({
+            url: `students/message/by-admin`,
+            params,
+        }),
+        providesTags: ['RTO'],
+    }),
 })

@@ -1,20 +1,9 @@
-import {
-    Phone,
-    Mail,
-    MoreVertical,
-    Clock,
-    MapPin,
-    Star,
-    Award,
-    Smartphone,
-} from 'lucide-react'
-import { Button, Badge } from '@components'
 import { Student } from '@types'
-import { BsThreeDotsVertical } from 'react-icons/bs'
 import { maskText } from '@utils'
-import moment from 'moment'
-import { StudentTimeline } from './StudentTimeline'
+import { Mail, MapPin, Phone, Smartphone } from 'lucide-react'
+import { HeaderQuickActions } from './HeaderQuickActions'
 import { StudentQuickInfo } from './StudentQuickInfo'
+import { StudentTimeline } from './StudentTimeline'
 
 export const StudentHeader = ({ student }: { student: Student }) => {
     const studentContactInfo = [
@@ -178,27 +167,7 @@ export const StudentHeader = ({ student }: { student: Student }) => {
                             </div>
 
                             {/* Right: Action Buttons */}
-                            <div className="flex items-center gap-2.5">
-                                <Button className="bg-gradient-to-r from-[#044866] to-[#0D5468] hover:from-[#0D5468] hover:to-[#044866] text-white shadow-xl shadow-[#044866]/25 hover:shadow-2xl hover:scale-105 transition-all px-5 py-2">
-                                    <Phone className="w-3.5 h-3.5 mr-2" />
-                                    Call
-                                </Button>
-                                <Button
-                                    outline
-                                    variant="secondary"
-                                    className="bg-white border-2 border-slate-200 hover:border-[#044866] hover:text-[#044866] shadow-lg hover:shadow-xl hover:scale-105 transition-all px-5 py-2"
-                                >
-                                    <Mail className="w-3.5 h-3.5 mr-2" />
-                                    Email
-                                </Button>
-                                <Button
-                                    outline
-                                    Icon={BsThreeDotsVertical}
-                                    variant="secondary"
-                                    mini
-                                    className="bg- border-2 border-slate-200 hover:border-[#044866] shadow-lg hover:shadow-xl hover:scale-105 transition-all w-9 h-9"
-                                />
-                            </div>
+                            <HeaderQuickActions student={student} />
                         </div>
 
                         {/* Contact Info Pills */}
@@ -235,7 +204,7 @@ export const StudentHeader = ({ student }: { student: Student }) => {
 
                     {/* Bottom Section - Info Cards */}
                     <div className="bg-white">
-                        <StudentQuickInfo student={student} />
+                        <StudentQuickInfo />
 
                         {/* Timeline Banner */}
                         <StudentTimeline />

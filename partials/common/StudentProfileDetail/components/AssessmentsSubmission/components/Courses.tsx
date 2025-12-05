@@ -48,7 +48,12 @@ export const Courses: React.FC<CoursesProps> = ({
         getOtherDocAssessmentResponse,
         eSignDocument,
         onSelectFolder,
-    } = useAssessmentData(student, selectedCourse, appliedIndustry, isEntered)
+    } = useAssessmentData(
+        student,
+        selectedCourse,
+        appliedIndustry ?? '',
+        isEntered
+    )
 
     const {
         result,

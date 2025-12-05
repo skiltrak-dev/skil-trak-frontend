@@ -18,13 +18,12 @@ export const RtoAppointmentSearchCard = ({
 }: any) => {
     const [search, setSearch] = useState('')
     const [searchValue, setSearchValue] = useState<string>('')
-    const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(10)
+
     // RTK query call
     const rtoUsers = RtoApi.Appointments.useRtoSearchedUsers(
         {
             search,
-            role: role,
+            role,
             // skip: itemPerPage * page - itemPerPage,
             // limit: itemPerPage,
         },

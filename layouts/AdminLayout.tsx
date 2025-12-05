@@ -243,6 +243,11 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             Icon: FaClipboardList,
         },
         {
+            text: 'Sector Documents',
+            path: getRoutePath('/sector-documents'),
+            Icon: HiOutlineDocumentText,
+        },
+        {
             text: 'Countries & States',
             path: getRoutePath('/countries?tab=countries&page=1&pageSize=50'),
             Icon: FaMapMarkedAlt,

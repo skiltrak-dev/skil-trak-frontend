@@ -28,6 +28,7 @@ import { industryChecksEndpoints } from './industry-checks'
 import { invoiceEndpoints } from './invoice'
 import { rtoEnquiryEndpoints } from './rto-enquiry'
 import { rtoMessageCenterEndpoints } from './rto-message-center'
+import { defaultDocumentsEndpoints } from './default-documents'
 
 const PREFIX = 'admin'
 export const adminApi = apiSlice.injectEndpoints({
@@ -98,6 +99,7 @@ export const adminApi = apiSlice.injectEndpoints({
         ...notesTemplatesEndpoints(build),
         ...appointmentTypeEndpoints(build),
         ...rtoMessageCenterEndpoints(build),
+        ...defaultDocumentsEndpoints(build),
     }),
     // overrideExisting: false,
 })
@@ -323,6 +325,11 @@ const {
     useAddIndustryCheckMutation,
     useUpdateIndustryCheckMutation,
     useRemoveIndustryCheckMutation,
+    useGetSectorIndustryChecksQuery,
+    useAddCourseIndustryCheckMutation,
+    useAddSectorIndustryCheckMutation,
+    useListAllFoldersForCoursesQuery,
+    useAddCourseMultipleIndustryChecksMutation,
 
     // ------ SUBSCRIBERS ------ //
     useListSubscribersQuery,
@@ -497,6 +504,13 @@ const {
     useGetRtoMessagesListingQuery,
     useChangeMessageStatusMutation,
     useGetRtosListForMesssagesQuery,
+
+    // ---- DEFAULT DOCUMENTS ---- //
+    useDefaultDocumentsQuery,
+    useAddDefaultDocumentMutation,
+    useDefaultDocumentDetailQuery,
+    useUpdateDefaultDocumentMutation,
+    useRemoveDefaultDocumentMutation,
 } = adminApi
 
 export const AdminApi = {
@@ -780,11 +794,17 @@ export const AdminApi = {
 
     IndustryChecks: {
         industryChecks: useIndustryChecksQuery,
-        industryChecksBySector: useIndustryChecksBySectorQuery,
         addIndustryCheck: useAddIndustryCheckMutation,
         industryCheckDetail: useIndustryCheckDetailQuery,
         updateIndustryCheck: useUpdateIndustryCheckMutation,
         removeIndustryCheck: useRemoveIndustryCheckMutation,
+        industryChecksBySector: useIndustryChecksBySectorQuery,
+        getSectorIndustryChecks: useGetSectorIndustryChecksQuery,
+        addCourseIndustryCheck: useAddCourseIndustryCheckMutation,
+        addSectorIndustryCheck: useAddSectorIndustryCheckMutation,
+        addCourseMultipleIndustryChecks:
+            useAddCourseMultipleIndustryChecksMutation,
+        listAllFoldersForCourses: useListAllFoldersForCoursesQuery,
     },
 
     Folders: {
@@ -891,5 +911,12 @@ export const AdminApi = {
         messagesList: useGetRtoMessagesListingQuery,
         getRtosList: useGetRtosListForMesssagesQuery,
         changeMessageStatus: useChangeMessageStatusMutation,
+    },
+    DefaultDocuments: {
+        defaultDocuments: useDefaultDocumentsQuery,
+        addDefaultDocument: useAddDefaultDocumentMutation,
+        defaultDocumentDetail: useDefaultDocumentDetailQuery,
+        updateDefaultDocument: useUpdateDefaultDocumentMutation,
+        removeDefaultDocument: useRemoveDefaultDocumentMutation,
     },
 }

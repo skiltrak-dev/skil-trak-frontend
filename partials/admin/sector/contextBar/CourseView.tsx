@@ -6,7 +6,7 @@ import { ReactElement, useState } from 'react'
 
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
-import { CourseFolders } from '../components'
+import { CourseFolders, CourseIndustryCheckFolder } from '../components'
 import { RequirementModal } from '../modals'
 import { TabsStyle } from './style'
 
@@ -66,30 +66,31 @@ export const CourseView = ({ course }: { course: Course }) => {
                 <TabsStyle>
                     <Tabs>
                         <TabList>
-                            {/* <Tab>Industry Checks</Tab> */}
                             <Tab>Assessment Evidence</Tab>
+                            <Tab>Industry Checks</Tab>
                         </TabList>
 
-                        {/* <TabPanel>
-                            {courseDetail.isLoading ? (
-                                <ContextBarLoading />
-                            ) : (
-                                <CourseFolders
-                                    course={courseDetail.data}
-                                    category={FolderCategoryEnum.IndustryCheck}
-                                    folders={courseDetail.data?.folders.filter(
-                                        (f: Folder) =>
-                                            f.category ===
-                                            FolderCategoryEnum.IndustryCheck
-                                    )}
-                                />
-                            )}
-                        </TabPanel> */}
                         <TabPanel>
                             {courseDetail.isLoading ? (
                                 <ContextBarLoading />
                             ) : (
                                 <CourseFolders
+                                    course={courseDetail.data}
+                                    category={
+                                        FolderCategoryEnum.AssessmentEvidence
+                                    }
+                                    folders={
+                                        courseDetail.data?.assessmentEvidence
+                                    }
+                                />
+                            )}
+                        </TabPanel>
+
+                        <TabPanel>
+                            {courseDetail.isLoading ? (
+                                <ContextBarLoading />
+                            ) : (
+                                <CourseIndustryCheckFolder
                                     course={courseDetail.data}
                                     category={
                                         FolderCategoryEnum.AssessmentEvidence
