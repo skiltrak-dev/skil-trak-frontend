@@ -9,12 +9,10 @@ import {
 import { OptionType, Sector } from '@types'
 
 export const useSectorsAndCoursesOptions = () => {
-    const [selectedSector, setSelectedSector] = useState<any>(null)
+    const [selectedSector, setSelectedSector] = useState<any>([])
     const [courseOptions, setCourseOptions] = useState([])
     const [courseLoading, setCourseLoading] = useState(false)
-    const [selectedCourses, setSelectedCourses] = useState<number[] | null>(
-        null
-    )
+    const [selectedCourses, setSelectedCourses] = useState<number[] | null>([])
     const [removedCourses, setRemovedCourses] = useState<number[] | null>(null)
 
     const sectorResponse = AuthApi.useSectors({})
@@ -56,7 +54,10 @@ export const useSectorsAndCoursesOptions = () => {
             sectorResponse?.data
         )
 
-        const addedCourses = getSectors(sectorsWithCourses)
+        const addedCourses =
+            sectorsWithCourses && sectorsWithCourses?.length > 0
+                ? getSectors(sectorsWithCourses)
+                : []
 
         const getAssignedCourses = sectorsWithCourses
             ? Object.values(addedCourses)

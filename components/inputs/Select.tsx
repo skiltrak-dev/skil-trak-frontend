@@ -113,7 +113,7 @@ export const Select = forwardRef(
                         return fieldValue
                     }
                 } else {
-                    if (typeof fieldValue === 'object') {
+                    if (typeof fieldValue?.[0] === 'object') {
                         return fieldValue?.map((f: OptionType) => ({
                             label: f?.label,
                             value: f?.value,

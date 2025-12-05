@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
 import {
+    Button,
     Select,
     ShowErrorNotifications,
     TextArea,
@@ -12,57 +12,28 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@components/ui'
-import { Badge } from '@components/ui/badge'
-import { Button } from '@components/ui/button'
 import { Label } from '@components/ui/label'
 import { UserRoles } from '@constants'
-import { SearchUserCard } from '@partials/common'
-import { CalendarIcon, Plus, XCircle } from 'lucide-react'
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FormProvider, useForm } from 'react-hook-form'
-import {
-    RtoAppointmentSearchCard,
-    RtoSearchedUserCard,
-    SearchedUserCourseCard,
-} from '../card'
-import { CommonApi, RtoApi } from '@queries'
-import { AppointmentUserEnum } from '@types'
 import { useNotification } from '@hooks'
-import { getUserCredentials } from '@utils'
+import { CommonApi, RtoApi } from '@queries'
+import { CalendarIcon, Plus } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import { PuffLoader } from 'react-spinners'
-const mockStudents = [
-    'Emily Watson',
-    'Marcus Chen',
-    'Sarah Johnson',
-    'David Lee',
-    'Jessica Brown',
-    'Michael Smith',
-    'Lisa Anderson',
-    'James Wilson',
-]
-const mockCoordinators = [
-    'Julie Anderson',
-    'Mark Thompson',
-    'Emma Chen',
-    'Sarah Mitchell',
-    'Peter Rodriguez',
-    'Amanda Foster',
-]
-const mockIndustries = [
-    'Melbourne Aged Care Manager',
-    'Healthcare NSW Manager',
-    'Industry Partner Representative',
-    'Sydney Community Services',
-    'Brisbane Disability Support',
-    'Perth Healthcare Group',
-]
+import { RtoAppointmentSearchCard, SearchedUserCourseCard } from '../card'
+
 export const ScheduleAppointmentModal = ({
     scheduleOpen,
     setScheduleOpen,
+    defaultSelectedUser,
+    defaultSelectedParicipantType,
 }: any) => {
-    const [participantType, setParticipantType] = useState<string>('')
-    const [selectedUser, setSelectedUser] = useState<any>(null)
+    const [participantType, setParticipantType] = useState<string>(
+        defaultSelectedParicipantType || ''
+    )
+    const [selectedUser, setSelectedUser] = useState<any>(
+        defaultSelectedUser || null
+    )
     const [selectedCourse, setSelectedCourse] = useState<any>(null)
 
     const { notification } = useNotification()
@@ -127,7 +98,7 @@ export const ScheduleAppointmentModal = ({
             <ShowErrorNotifications result={createAppointmentResult} />
             <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen}>
                 <DialogTrigger asChild>
-                    <Button className="gap-2 bg-gradient-to-r from-primary to-accent hover:shadow-glow-primary transition-all hover-lift">
+                    <Button variant="primaryNew">
                         <Plus className="h-4 w-4" />
                         Schedule Appointment
                     </Button>
@@ -148,6 +119,7 @@ export const ScheduleAppointmentModal = ({
                                     <div className="space-y-3">
                                         <Select
                                             name="participants"
+                                            value={participantType}
                                             options={[
                                                 {
                                                     label: 'Student',
@@ -278,14 +250,14 @@ export const ScheduleAppointmentModal = ({
                             </div>
                             <div className="flex justify-end gap-2 pt-2">
                                 <Button
-                                    variant="outline"
+                                    variant="action"
                                     onClick={() => setScheduleOpen(false)}
                                 >
                                     Cancel
                                 </Button>
                                 <Button
-                                    type="submit"
-                                    className="gap-2 bg-gradient-to-r from-primary to-accent hover:shadow-glow-primary"
+                                    submit
+                                    variant="primaryNew"
                                     disabled={createAppointmentResult.isLoading}
                                 >
                                     <CalendarIcon className="h-4 w-4" />

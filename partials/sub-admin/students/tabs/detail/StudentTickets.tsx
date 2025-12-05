@@ -27,9 +27,12 @@ export const StudentTickets = ({ student }: { student: Student }) => {
     const router = useRouter()
 
     const { isLoading, isFetching, data, isError } =
-        CommonApi.Tickets.useStudentTicketsList(student?.id, {
-            refetchOnMountOrArgChange: true,
-        })
+        CommonApi.Tickets.useStudentTicketsList(
+            { id: student?.id, search: '' },
+            {
+                refetchOnMountOrArgChange: true,
+            }
+        )
 
     const onCancel = () => {
         setModal(null)

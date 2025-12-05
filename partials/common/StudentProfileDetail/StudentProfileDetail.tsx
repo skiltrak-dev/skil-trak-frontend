@@ -99,9 +99,9 @@ export const StudentProfileDetail = () => {
             {profile?.data && profile?.isSuccess && (
                 <WorkplaceHookProvider student={profile.data}>
                     <StudentProfileContent
-                        profile={profile.data}
                         role={role}
                         subadmin={subadmin}
+                        profile={profile.data}
                         workplaceLength={workplaceLength}
                         getWorkplaceLength={getWorkplaceLength}
                         getActiveBorder={getActiveBorder}

@@ -17,10 +17,13 @@ import { Waypoint } from 'react-waypoint'
 
 export const Tickets = ({ studentId }: { studentId: number }) => {
     const [isEntered, setIsEntered] = useState<boolean>(false)
-    const tickets = CommonApi.Tickets.useStudentTicketsList(studentId, {
-        skip: !isEntered,
-        refetchOnMountOrArgChange: 300,
-    })
+    const tickets = CommonApi.Tickets.useStudentTicketsList(
+        { id: studentId, search: '' },
+        {
+            skip: !isEntered,
+            refetchOnMountOrArgChange: 300,
+        }
+    )
 
     const router = useRouter()
 
@@ -74,11 +77,13 @@ export const Tickets = ({ studentId }: { studentId: number }) => {
 
                     <div className="px-4">
                         <div className="py-2.5 flex justify-end">
-                            {tickets?.data?.data?.length > 0 && (
-                                <Typography variant="small" medium>
-                                    {tickets?.data?.data?.length} Record Found
-                                </Typography>
-                            )}
+                            {tickets?.data?.data &&
+                                tickets?.data?.data?.length > 0 && (
+                                    <Typography variant="small" medium>
+                                        {tickets?.data?.data?.length} Record
+                                        Found
+                                    </Typography>
+                                )}
                         </div>
 
                         <div className="h-[calc(600px-120px)] custom-scrollbar overflow-auto">

@@ -17,7 +17,6 @@ interface CourseFolderFormProps {
     onSubmit: (values: AddFolderFormType) => void
     edit?: boolean
     onCancel?: () => void
-    result: any
 }
 
 export const CourseFolderForm = ({
@@ -25,7 +24,6 @@ export const CourseFolderForm = ({
     edit,
     initialValues,
     onCancel,
-    result,
 }: CourseFolderFormProps) => {
     const [selectedType, setSelectedType] = useState<string | null>(null)
     const [isIndustryCheck, setIsIndustryCheck] = useState<boolean>(false)
@@ -113,7 +111,7 @@ export const CourseFolderForm = ({
                             validationIcons
                         />
 
-                        <Checkbox label={'Is Agreement'} name="isAgreement" />
+                        {/* <Checkbox label={'Is Agreement'} name="isAgreement" />
                         <Checkbox
                             label={'Is Facility Checklist'}
                             name="isFacilityCheckList"
@@ -126,15 +124,15 @@ export const CourseFolderForm = ({
                                 setIsIndustryCheck(e?.target?.checked)
                             }
                         />
-                        <Checkbox name="isRequired" label={'Required'} />
+                        <Checkbox name="isRequired" label={'Required'} /> */}
                     </div>
 
                     <div className="mt-2 flex gap-x-2">
                         <Button
                             variant={edit ? 'info' : 'primary'}
                             submit
-                            loading={result.isLoading}
-                            disabled={result.isLoading}
+                            loading={methods?.formState?.isSubmitting}
+                            disabled={methods?.formState?.isSubmitting}
                         >
                             {edit ? 'Update Folder' : 'Add Folder'}
                         </Button>

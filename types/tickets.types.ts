@@ -1,10 +1,10 @@
+import { BaseResponse } from './base.type'
 import { Course } from './sector.type'
 import { Student, User } from './user.type'
 
-export interface TicketTypes {
+export interface TicketTypes extends BaseResponse {
     id: number
-    createdAt: Date
-    updatedAt: Date
+    message: string
     subject: string
     status: string
     priority: string
@@ -15,4 +15,14 @@ export interface TicketTypes {
     course: Course
     replies: number
     closedAt: Date
+    responses: TicketMessage[]
+}
+
+export interface TicketMessage extends BaseResponse {
+    id: number
+    ticketNumber: number
+    message: string
+    read: boolean
+    pin: boolean
+    action: string
 }

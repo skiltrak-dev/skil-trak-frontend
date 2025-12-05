@@ -1,5 +1,4 @@
 import { Course, GetSectorsType, OptionType } from '@types'
-import { newline_toDos } from 'jsrsasign'
 
 export const getSectors = (courses: Course[]) => {
     if (!courses) return {}

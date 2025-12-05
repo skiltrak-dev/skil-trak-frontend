@@ -123,6 +123,8 @@ export const AddTicketForm = ({
                 (s: OptionType) => s?.value === selectedStudent
             )?.item?.courses?.[0]?.id
             setSelectedCourse(stdCourse)
+            formMethods.setValue('student', selectedStudent)
+            formMethods.setValue('course', stdCourse)
         }
     }, [selectedStudent, studentsOptions])
 
@@ -197,10 +199,7 @@ export const AddTicketForm = ({
                                 name={'student'}
                                 placeholder={'Link Student (Optional)'}
                                 options={studentsOptions}
-                                value={studentsOptions?.find(
-                                    (std: OptionType) =>
-                                        std?.value === selectedStudent
-                                )}
+                                value={selectedStudent}
                                 onChange={(e: any) => {
                                     setSelectedStudent(e)
                                 }}

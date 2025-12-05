@@ -10,25 +10,28 @@ import { AdminApi } from '@queries'
 import { Sector } from '@types'
 import { useState } from 'react'
 import { IndustryCheckFolder } from '../components'
-import { AddSectoIndustryChecksForm } from '../form'
+import { CourseIndustryCheckForm } from '../form'
 
 export const SectorViewCB = ({ sector }: { sector: Sector }) => {
     const { notification } = useNotification()
 
     const [isAddFolder, setIsAddFolder] = useState<boolean>(false)
 
-    const industryChecks = AdminApi.IndustryChecks.industryChecksBySector(
-        sector?.id
+    const industryChecks = AdminApi.IndustryChecks.getSectorIndustryChecks(
+        sector?.id,
+        {
+            skip: !sector?.id,
+        }
     )
-    const [addIndustryChecks, addIndustryChecksResult] =
-        AdminApi.IndustryChecks.addIndustryCheck()
+
+    const [addSectorIndustryCheck, addSectorIndustryCheckResult] =
+        AdminApi.IndustryChecks.addSectorIndustryCheck()
 
     const onSubmit = async (values: any) => {
-        const res: any = await addIndustryChecks({
-            sector: sector?.id,
-            ...values,
+        const res: any = await addSectorIndustryCheck({
+            sectorId: sector?.id,
+            defaultDocumentId: Number(values?.defaultDocument),
         })
-
         if (res?.data) {
             notification.success({
                 title: 'Industry Check Added',
@@ -40,7 +43,7 @@ export const SectorViewCB = ({ sector }: { sector: Sector }) => {
 
     return (
         <div>
-            <ShowErrorNotifications result={addIndustryChecksResult} />
+            <ShowErrorNotifications result={addSectorIndustryCheckResult} />
             <div>
                 <Typography variant={'muted'} color={'text-gray-400'}>
                     Title
@@ -64,11 +67,9 @@ export const SectorViewCB = ({ sector }: { sector: Sector }) => {
                     <Typography variant={'muted'} color={'text-gray-400'}>
                         Add Industry Checks
                     </Typography>
-                    <AddSectoIndustryChecksForm
+                    <CourseIndustryCheckForm
                         onSubmit={onSubmit}
-                        result={addIndustryChecksResult}
                         onCancel={() => setIsAddFolder(false)}
-                        sectorId={sector?.id}
                     />
                 </div>
             ) : (

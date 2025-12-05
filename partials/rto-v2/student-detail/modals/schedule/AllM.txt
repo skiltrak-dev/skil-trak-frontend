@@ -1,0 +1,1212 @@
+import React from 'react'
+
+export const AllM = () => {
+    return (
+        <div>
+            {/* Create Schedule Dialog */}
+            <Dialog
+                open={showCreateSchedule}
+                onOpenChange={setShowCreateSchedule}
+            >
+                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle>Create New Placement Schedule</DialogTitle>
+                        <DialogDescription>
+                            Choose your schedule type and configure your
+                            placement shifts
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="space-y-6">
+                        {/* Schedule Type Selection */}
+                        <div>
+                            <Label className="mb-3 block">Schedule Type</Label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <button
+                                    onClick={() => setScheduleType('fixed')}
+                                    className={`p-4 rounded-xl border-2 transition-all text-left ${scheduleType === 'fixed'
+                                            ? 'border-[#044866] bg-[#044866]/5'
+                                            : 'border-slate-200 hover:border-slate-300'
+                                        }`}
+                                >
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <RefreshCw className="w-5 h-5 text-[#044866]" />
+                                        <h4 className="text-slate-900">
+                                            Fixed Schedule
+                                        </h4>
+                                    </div>
+                                    <p className="text-sm text-slate-600">
+                                        Set a repeating weekly pattern that
+                                        continues until your placement is
+                                        complete
+                                    </p>
+                                    <div className="mt-2 text-xs text-slate-500">
+                                        ✓ Best for consistent weekly routines
+                                    </div>
+                                </button>
+
+                                <button
+                                    onClick={() => setScheduleType('flexible')}
+                                    className={`p-4 rounded-xl border-2 transition-all text-left ${scheduleType === 'flexible'
+                                            ? 'border-[#044866] bg-[#044866]/5'
+                                            : 'border-slate-200 hover:border-slate-300'
+                                        }`}
+                                >
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <Calendar className="w-5 h-5 text-[#044866]" />
+                                        <h4 className="text-slate-900">
+                                            Flexible Schedule
+                                        </h4>
+                                    </div>
+                                    <p className="text-sm text-slate-600">
+                                        Plan shifts week-by-week with different
+                                        schedules each week
+                                    </p>
+                                    <div className="mt-2 text-xs text-slate-500">
+                                        ✓ Best for variable work patterns
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Start Date */}
+                        <div>
+                            <Label htmlFor="startDate">
+                                Placement Start Date
+                            </Label>
+                            <Input
+                                id="startDate"
+                                type="date"
+                                className="mt-1.5"
+                                min={new Date().toISOString().split('T')[0]}
+                                max={config.studentStatus.portalExpiryDate}
+                            />
+                            <p className="text-xs text-slate-500 mt-1">
+                                Must be before portal expiry:{' '}
+                                {new Date(
+                                    config.studentStatus.portalExpiryDate
+                                ).toLocaleDateString()}
+                            </p>
+                        </div>
+
+                        {/* Fixed Schedule Configuration */}
+                        {scheduleType === 'fixed' && (
+                            <div className="space-y-4 p-4 bg-slate-50 rounded-xl">
+                                <h4 className="text-sm text-slate-900">
+                                    Weekly Pattern Configuration
+                                </h4>
+
+                                <div className="space-y-3">
+                                    {[
+                                        'Monday',
+                                        'Tuesday',
+                                        'Wednesday',
+                                        'Thursday',
+                                        'Friday',
+                                    ].map((day) => (
+                                        <div
+                                            key={day}
+                                            className="flex items-center gap-4"
+                                        >
+                                            <Checkbox id={day} />
+                                            <Label
+                                                htmlFor={day}
+                                                className="flex-1"
+                                            >
+                                                {day}
+                                            </Label>
+                                            <Input
+                                                type="time"
+                                                className="w-32"
+                                                placeholder="Start Time"
+                                            />
+                                            <div className="flex items-center gap-2 text-sm text-slate-600">
+                                                <Clock className="w-4 h-4" />
+                                                <span>
+                                                    Auto: +
+                                                    {config.shiftDuration}h
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                                    <div className="flex items-start gap-2">
+                                        <Info className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                                        <div className="text-xs text-blue-700">
+                                            <p className="mb-1">
+                                                This pattern will repeat until
+                                                you complete:
+                                            </p>
+                                            <ul className="list-disc list-inside space-y-0.5">
+                                                <li>
+                                                    {config.requiredShifts}{' '}
+                                                    shifts
+                                                </li>
+                                                <li>
+                                                    {config.totalRequiredHours}{' '}
+                                                    hours
+                                                </li>
+                                                <li>
+                                                    Each shift is exactly{' '}
+                                                    {config.shiftDuration} hours
+                                                </li>
+                                                <li>
+                                                    Minimum 2 shifts per week
+                                                    required
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Flexible Schedule Configuration */}
+                        {scheduleType === 'flexible' && (
+                            <div className="space-y-4 p-4 bg-slate-50 rounded-xl">
+                                <h4 className="text-sm text-slate-900">
+                                    Week-by-Week Configuration
+                                </h4>
+
+                                <div className="space-y-3">
+                                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                        <Calendar className="w-5 h-5 text-[#044866]" />
+                                        <div className="flex-1">
+                                            <p className="text-sm text-slate-900">
+                                                Week 1: Dec 2-8, 2025
+                                            </p>
+                                            <p className="text-xs text-slate-600">
+                                                Add shifts individually
+                                            </p>
+                                        </div>
+                                        <Button size="sm" variant="outline">
+                                            <Plus className="w-4 h-4 mr-1" />
+                                            Add Shift
+                                        </Button>
+                                    </div>
+                                </div>
+
+                                <div className="mt-4 p-3 bg-amber-50 rounded-lg border border-amber-200">
+                                    <div className="flex items-start gap-2">
+                                        <Info className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                                        <div className="text-xs text-amber-700">
+                                            <p>
+                                                You'll add shifts week-by-week.
+                                                Each shift must be{' '}
+                                                {config.shiftDuration} hours.
+                                                Minimum 2 shifts per week
+                                                required.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Multi-Workplace Option */}
+                        <div className="p-4 bg-purple-50 rounded-xl border border-purple-200">
+                            <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-start gap-2">
+                                    <MapPin className="w-5 h-5 text-purple-600 flex-shrink-0" />
+                                    <div>
+                                        <h4 className="text-sm text-slate-900">
+                                            Split Placement Across Multiple
+                                            Workplaces
+                                        </h4>
+                                        <p className="text-xs text-slate-600 mt-1">
+                                            Divide your placement hours between
+                                            two workplaces (optional)
+                                        </p>
+                                    </div>
+                                </div>
+                                <Checkbox
+                                    checked={multipleWorkplaces}
+                                    onCheckedChange={(checked) => {
+                                        setMultipleWorkplaces(
+                                            checked as boolean
+                                        )
+                                        if (checked) {
+                                            // Default to 50/50 split
+                                            setWorkplace1Hours(
+                                                config.totalRequiredHours / 2
+                                            )
+                                            setWorkplace2Hours(
+                                                config.totalRequiredHours / 2
+                                            )
+                                        }
+                                    }}
+                                />
+                            </div>
+
+                            {multipleWorkplaces && (
+                                <div className="space-y-4 mt-4">
+                                    {/* Workplace 1 */}
+                                    <div className="p-3 bg-white rounded-lg border border-purple-200">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="w-6 h-6 rounded bg-emerald-600 text-white flex items-center justify-center text-xs">
+                                                1
+                                            </div>
+                                            <Label className="text-sm text-slate-900">
+                                                {config.workplace.name}
+                                            </Label>
+                                        </div>
+                                        <div>
+                                            <Label
+                                                htmlFor="wp1hours"
+                                                className="text-xs text-slate-600"
+                                            >
+                                                Allocated Hours
+                                            </Label>
+                                            <Input
+                                                id="wp1hours"
+                                                type="number"
+                                                className="mt-1.5"
+                                                value={workplace1Hours}
+                                                onChange={(e) => {
+                                                    const val =
+                                                        parseInt(
+                                                            e.target.value
+                                                        ) || 0
+                                                    setWorkplace1Hours(val)
+                                                    setWorkplace2Hours(
+                                                        config.totalRequiredHours -
+                                                        val
+                                                    )
+                                                }}
+                                                max={config.totalRequiredHours}
+                                                min={0}
+                                            />
+                                            <p className="text-xs text-slate-500 mt-1">
+                                                {(
+                                                    workplace1Hours /
+                                                    config.shiftDuration
+                                                ).toFixed(0)}{' '}
+                                                shifts × {config.shiftDuration}h
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Workplace 2 */}
+                                    <div className="p-3 bg-white rounded-lg border border-purple-200">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="w-6 h-6 rounded bg-purple-600 text-white flex items-center justify-center text-xs">
+                                                2
+                                            </div>
+                                            <Label className="text-sm text-slate-900">
+                                                {config.workplace2.name}
+                                            </Label>
+                                        </div>
+                                        <div>
+                                            <Label
+                                                htmlFor="wp2hours"
+                                                className="text-xs text-slate-600"
+                                            >
+                                                Allocated Hours
+                                            </Label>
+                                            <Input
+                                                id="wp2hours"
+                                                type="number"
+                                                className="mt-1.5"
+                                                value={workplace2Hours}
+                                                onChange={(e) => {
+                                                    const val =
+                                                        parseInt(
+                                                            e.target.value
+                                                        ) || 0
+                                                    setWorkplace2Hours(val)
+                                                    setWorkplace1Hours(
+                                                        config.totalRequiredHours -
+                                                        val
+                                                    )
+                                                }}
+                                                max={config.totalRequiredHours}
+                                                min={0}
+                                            />
+                                            <p className="text-xs text-slate-500 mt-1">
+                                                {(
+                                                    workplace2Hours /
+                                                    config.shiftDuration
+                                                ).toFixed(0)}{' '}
+                                                shifts × {config.shiftDuration}h
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Total Validation */}
+                                    <div
+                                        className={`p-3 rounded-lg border ${workplace1Hours +
+                                                workplace2Hours ===
+                                                config.totalRequiredHours
+                                                ? 'bg-emerald-50 border-emerald-200'
+                                                : 'bg-amber-50 border-amber-200'
+                                            }`}
+                                    >
+                                        <div className="flex items-center justify-between text-sm">
+                                            <span className="text-slate-700">
+                                                Total Hours:
+                                            </span>
+                                            <span
+                                                className={
+                                                    workplace1Hours +
+                                                        workplace2Hours ===
+                                                        config.totalRequiredHours
+                                                        ? 'text-emerald-700'
+                                                        : 'text-amber-700'
+                                                }
+                                            >
+                                                {workplace1Hours +
+                                                    workplace2Hours}{' '}
+                                                / {config.totalRequiredHours}h
+                                            </span>
+                                        </div>
+                                        {workplace1Hours + workplace2Hours !==
+                                            config.totalRequiredHours && (
+                                                <p className="text-xs text-amber-700 mt-1">
+                                                    Hours must add up to exactly{' '}
+                                                    {config.totalRequiredHours}
+                                                </p>
+                                            )}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Geolocation Notice */}
+                        {config.studentStatus.geolocationEnabled && (
+                            <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                                <div className="flex items-start gap-2">
+                                    <Navigation className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                                    <div>
+                                        <h4 className="text-sm text-slate-900">
+                                            Geolocation Tracking Enabled
+                                        </h4>
+                                        <p className="text-xs text-slate-600 mt-1">
+                                            You'll need to check-in and
+                                            check-out within 100m of the
+                                            workplace. GPS location will be
+                                            recorded for each shift.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowCreateSchedule(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button className="bg-gradient-to-r from-[#044866] to-[#0D5468] hover:from-[#0D5468] hover:to-[#044866] text-white">
+                            <Save className="w-4 h-4 mr-2" />
+                            Create Schedule
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* Edit/Reschedule Shift Dialog */}
+            <Dialog open={showEditShift} onOpenChange={setShowEditShift}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Edit Shift</DialogTitle>
+                        <DialogDescription>
+                            Reschedule or modify shift details
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    {selectedShift && (
+                        <div className="space-y-4">
+                            <div>
+                                <Label htmlFor="editDate">Shift Date</Label>
+                                <Input
+                                    id="editDate"
+                                    type="date"
+                                    className="mt-1.5"
+                                    defaultValue={selectedShift.dateShort}
+                                />
+                            </div>
+
+                            <div>
+                                <Label htmlFor="editStartTime">
+                                    Start Time
+                                </Label>
+                                <Input
+                                    id="editStartTime"
+                                    type="time"
+                                    className="mt-1.5"
+                                    defaultValue={selectedShift.startTime}
+                                />
+                                <p className="text-xs text-slate-500 mt-1">
+                                    End time will be auto-set to{' '}
+                                    {config.shiftDuration} hours later
+                                </p>
+                            </div>
+
+                            <div>
+                                <Label htmlFor="editWorkplace">Workplace</Label>
+                                <Select defaultValue={selectedShift.workplace}>
+                                    <SelectTrigger className="mt-1.5">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem
+                                            value={config.workplace.name}
+                                        >
+                                            {config.workplace.name}
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div>
+                                <Label htmlFor="rescheduleReason">
+                                    Reason for Change (Required)
+                                </Label>
+                                <Textarea
+                                    id="rescheduleReason"
+                                    className="mt-1.5"
+                                    placeholder="Please provide a reason for rescheduling..."
+                                    rows={3}
+                                />
+                            </div>
+
+                            <div className="p-3 bg-amber-50 rounded-lg border border-amber-200">
+                                <div className="flex items-start gap-2">
+                                    <Bell className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                                    <p className="text-xs text-amber-700">
+                                        Your RTO coordinator will be notified of
+                                        this change and it will be logged in
+                                        your communication history.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowEditShift(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button className="bg-gradient-to-r from-[#044866] to-[#0D5468] hover:from-[#0D5468] hover:to-[#044866] text-white">
+                            <Save className="w-4 h-4 mr-2" />
+                            Save Changes
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* Task Completion Dialog */}
+            <Dialog open={showTaskDialog} onOpenChange={setShowTaskDialog}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Complete Shift Tasks</DialogTitle>
+                        <DialogDescription>
+                            Confirm the tasks you completed during this shift
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="space-y-4">
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2">
+                                <Checkbox id="task1" />
+                                <Label htmlFor="task1">
+                                    Personal care assistance provided
+                                </Label>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Checkbox id="task2" />
+                                <Label htmlFor="task2">
+                                    Client medication administered
+                                </Label>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Checkbox id="task3" />
+                                <Label htmlFor="task3">
+                                    Activity coordination completed
+                                </Label>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Checkbox id="task4" />
+                                <Label htmlFor="task4">
+                                    Documentation updated
+                                </Label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <Label htmlFor="taskNotes">
+                                Additional Notes (Optional)
+                            </Label>
+                            <Textarea
+                                id="taskNotes"
+                                className="mt-1.5"
+                                placeholder="Add any additional comments about this shift..."
+                                rows={3}
+                            />
+                        </div>
+
+                        <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                            <div className="flex items-start gap-2">
+                                <Info className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                                <p className="text-xs text-blue-700">
+                                    Task completion is part of your placement
+                                    evidence and will be reviewed by your
+                                    supervisor and RTO coordinator.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowTaskDialog(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white">
+                            <CheckSquare className="w-4 h-4 mr-2" />
+                            Submit Tasks
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* Submit Workplace Log Dialog */}
+            <Dialog open={showWorkplaceLog} onOpenChange={setShowWorkplaceLog}>
+                <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                        <DialogTitle>Submit Workplace Log</DialogTitle>
+                        <DialogDescription>
+                            Document your shift activities and observations
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="space-y-4">
+                        <div>
+                            <Label htmlFor="logDate">Shift Date</Label>
+                            <Input
+                                id="logDate"
+                                type="date"
+                                className="mt-1.5"
+                                defaultValue={
+                                    new Date().toISOString().split('T')[0]
+                                }
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <Label htmlFor="logStartTime">Start Time</Label>
+                                <Input
+                                    id="logStartTime"
+                                    type="time"
+                                    className="mt-1.5"
+                                />
+                            </div>
+                            <div>
+                                <Label htmlFor="logEndTime">End Time</Label>
+                                <Input
+                                    id="logEndTime"
+                                    type="time"
+                                    className="mt-1.5"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <Label htmlFor="logActivities">
+                                Activities Performed
+                            </Label>
+                            <Textarea
+                                id="logActivities"
+                                className="mt-1.5"
+                                placeholder="Describe the activities and tasks you performed during this shift..."
+                                rows={4}
+                            />
+                        </div>
+
+                        <div>
+                            <Label htmlFor="logReflection">
+                                Reflection & Learning
+                            </Label>
+                            <Textarea
+                                id="logReflection"
+                                className="mt-1.5"
+                                placeholder="What did you learn? Any challenges or achievements?"
+                                rows={3}
+                            />
+                        </div>
+
+                        <div>
+                            <Label htmlFor="logSupervisor">
+                                Supervisor Present
+                            </Label>
+                            <Input
+                                id="logSupervisor"
+                                className="mt-1.5"
+                                defaultValue={config.workplace.supervisor}
+                            />
+                        </div>
+
+                        <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                            <div className="flex items-start gap-2">
+                                <Info className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                                <p className="text-xs text-blue-700">
+                                    Your workplace log will be shared with your
+                                    supervisor and RTO coordinator for review
+                                    and feedback.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowWorkplaceLog(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button className="bg-gradient-to-r from-[#044866] to-[#0D5468] hover:from-[#0D5468] hover:to-[#044866] text-white">
+                            <Save className="w-4 h-4 mr-2" />
+                            Submit Log
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* View Full Calendar Dialog */}
+            <Dialog open={showFullCalendar} onOpenChange={setShowFullCalendar}>
+                <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle>
+                            Full Placement Calendar - {config.courseName}
+                        </DialogTitle>
+                        <DialogDescription>
+                            Complete view of all your scheduled shifts
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="space-y-4">
+                        {/* Calendar Month Header */}
+                        <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[#044866] to-[#0D5468] rounded-xl">
+                            <Button
+                                variant="ghost"
+                                className="text-white hover:bg-white/20"
+                            >
+                                <ChevronRight className="w-5 h-5 rotate-180" />
+                            </Button>
+                            <h3 className="text-white">November 2025</h3>
+                            <Button
+                                variant="ghost"
+                                className="text-white hover:bg-white/20"
+                            >
+                                <ChevronRight className="w-5 h-5" />
+                            </Button>
+                        </div>
+
+                        {/* Calendar Grid */}
+                        <div className="grid grid-cols-7 gap-2">
+                            {[
+                                'Sun',
+                                'Mon',
+                                'Tue',
+                                'Wed',
+                                'Thu',
+                                'Fri',
+                                'Sat',
+                            ].map((day) => (
+                                <div
+                                    key={day}
+                                    className="p-2 text-center text-sm text-slate-600 font-medium"
+                                >
+                                    {day}
+                                </div>
+                            ))}
+
+                            {/* Example calendar days */}
+                            {[...Array(30)].map((_, i) => {
+                                const hasShift = [24, 25, 26, 28].includes(
+                                    i + 1
+                                )
+                                return (
+                                    <div
+                                        key={i}
+                                        className={`p-3 rounded-lg border text-center cursor-pointer transition-all ${hasShift
+                                                ? 'bg-emerald-50 border-emerald-200 hover:bg-emerald-100'
+                                                : 'bg-white border-slate-200 hover:bg-slate-50'
+                                            }`}
+                                    >
+                                        <p className="text-sm text-slate-900">
+                                            {i + 1}
+                                        </p>
+                                        {hasShift && (
+                                            <div className="mt-1 w-2 h-2 rounded-full bg-emerald-600 mx-auto"></div>
+                                        )}
+                                    </div>
+                                )
+                            })}
+                        </div>
+
+                        {/* Legend */}
+                        <div className="flex items-center gap-4 p-3 bg-slate-50 rounded-lg">
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-emerald-600"></div>
+                                <span className="text-xs text-slate-600">
+                                    Shift Scheduled
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-amber-600"></div>
+                                <span className="text-xs text-slate-600">
+                                    Pending Confirmation
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-blue-600"></div>
+                                <span className="text-xs text-slate-600">
+                                    Completed
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Summary Stats */}
+                        <div className="grid grid-cols-3 gap-4">
+                            <div className="p-3 bg-gradient-to-br from-emerald-50 to-white rounded-lg border border-emerald-200">
+                                <p className="text-xs text-slate-600 mb-1">
+                                    This Month
+                                </p>
+                                <p className="text-xl text-slate-900">
+                                    16 shifts
+                                </p>
+                            </div>
+                            <div className="p-3 bg-gradient-to-br from-blue-50 to-white rounded-lg border border-blue-200">
+                                <p className="text-xs text-slate-600 mb-1">
+                                    Total Hours
+                                </p>
+                                <p className="text-xl text-slate-900">
+                                    {16 * config.shiftDuration}h
+                                </p>
+                            </div>
+                            <div className="p-3 bg-gradient-to-br from-purple-50 to-white rounded-lg border border-purple-200">
+                                <p className="text-xs text-slate-600 mb-1">
+                                    Completion
+                                </p>
+                                <p className="text-xl text-slate-900">
+                                    {progressPercentage.toFixed(0)}%
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowFullCalendar(false)}
+                        >
+                            Close
+                        </Button>
+                        <Button className="bg-gradient-to-r from-[#044866] to-[#0D5468] hover:from-[#0D5468] hover:to-[#044866] text-white">
+                            <FileText className="w-4 h-4 mr-2" />
+                            Export Calendar
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* Track Hours Dialog */}
+            <Dialog open={showTrackHours} onOpenChange={setShowTrackHours}>
+                <DialogContent className="max-w-3xl">
+                    <DialogHeader>
+                        <DialogTitle>Track Placement Hours</DialogTitle>
+                        <DialogDescription>
+                            Monitor your progress towards course completion
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="space-y-6">
+                        {/* Overall Progress */}
+                        <div className="p-4 bg-gradient-to-br from-[#044866] to-[#0D5468] rounded-xl text-white">
+                            <div className="flex items-center justify-between mb-3">
+                                <div>
+                                    <p className="text-sm opacity-90">
+                                        Overall Progress
+                                    </p>
+                                    <p className="text-2xl mt-1">
+                                        {totalHoursCompleted} /{' '}
+                                        {config.totalRequiredHours} hours
+                                    </p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-sm opacity-90">
+                                        Completion
+                                    </p>
+                                    <p className="text-2xl mt-1">
+                                        {progressPercentage.toFixed(1)}%
+                                    </p>
+                                </div>
+                            </div>
+                            <Progress
+                                value={progressPercentage}
+                                className="h-3 bg-white/20"
+                            />
+                        </div>
+
+                        {/* Breakdown by Status */}
+                        <div className="grid grid-cols-3 gap-4">
+                            <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <CheckCircle className="w-4 h-4 text-blue-600" />
+                                    <p className="text-xs text-slate-600">
+                                        Completed
+                                    </p>
+                                </div>
+                                <p className="text-2xl text-slate-900">
+                                    {totalHoursCompleted}h
+                                </p>
+                                <p className="text-xs text-slate-500 mt-1">
+                                    {completedShifts} shifts
+                                </p>
+                            </div>
+
+                            <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Clock className="w-4 h-4 text-emerald-600" />
+                                    <p className="text-xs text-slate-600">
+                                        Scheduled
+                                    </p>
+                                </div>
+                                <p className="text-2xl text-slate-900">
+                                    {totalHoursThisWeek + totalHoursNextWeek}h
+                                </p>
+                                <p className="text-xs text-slate-500 mt-1">
+                                    {thisWeekShifts.length +
+                                        nextWeekShifts.length}{' '}
+                                    shifts
+                                </p>
+                            </div>
+
+                            <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Target className="w-4 h-4 text-amber-600" />
+                                    <p className="text-xs text-slate-600">
+                                        Remaining
+                                    </p>
+                                </div>
+                                <p className="text-2xl text-slate-900">
+                                    {remainingHours}h
+                                </p>
+                                <p className="text-xs text-slate-500 mt-1">
+                                    {remainingShifts} shifts
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Weekly Breakdown */}
+                        <div>
+                            <h4 className="text-sm text-slate-900 mb-3">
+                                Recent Weeks
+                            </h4>
+                            <div className="space-y-2">
+                                {[
+                                    { week: 'Nov 18-24', hours: 16, shifts: 4 },
+                                    { week: 'Nov 11-17', hours: 12, shifts: 3 },
+                                    { week: 'Nov 4-10', hours: 16, shifts: 4 },
+                                    {
+                                        week: 'Oct 28-Nov 3',
+                                        hours: 8,
+                                        shifts: 2,
+                                    },
+                                ].map((week, index) => (
+                                    <div
+                                        key={index}
+                                        className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200"
+                                    >
+                                        <div>
+                                            <p className="text-sm text-slate-900">
+                                                {week.week}
+                                            </p>
+                                            <p className="text-xs text-slate-600">
+                                                {week.shifts} shifts completed
+                                            </p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-sm text-slate-900">
+                                                {week.hours} hours
+                                            </p>
+                                            <p className="text-xs text-emerald-600">
+                                                ✓ Verified
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Estimated Completion */}
+                        <div className="p-4 bg-purple-50 rounded-xl border border-purple-200">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Calendar className="w-5 h-5 text-purple-600" />
+                                <h4 className="text-sm text-slate-900">
+                                    Estimated Completion
+                                </h4>
+                            </div>
+                            <p className="text-slate-700">
+                                Based on your current schedule, you'll complete
+                                your placement by{' '}
+                                <span className="font-medium">
+                                    March 15, 2026
+                                </span>
+                            </p>
+                            <p className="text-xs text-slate-600 mt-1">
+                                Averaging{' '}
+                                {(totalHoursThisWeek + totalHoursNextWeek) / 2}{' '}
+                                hours per week
+                            </p>
+                        </div>
+                    </div>
+
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowTrackHours(false)}
+                        >
+                            Close
+                        </Button>
+                        <Button className="bg-gradient-to-r from-[#044866] to-[#0D5468] hover:from-[#0D5468] hover:to-[#044866] text-white">
+                            <FileText className="w-4 h-4 mr-2" />
+                            Download Report
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* Notification Settings Dialog */}
+            <Dialog
+                open={showNotificationSettings}
+                onOpenChange={setShowNotificationSettings}
+            >
+                <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                        <DialogTitle>Notification Settings</DialogTitle>
+                        <DialogDescription>
+                            Manage how and when you receive placement reminders
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="space-y-6">
+                        {/* Shift Reminders */}
+                        <div>
+                            <h4 className="text-sm text-slate-900 mb-3">
+                                Shift Reminders
+                            </h4>
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                    <div className="flex items-center gap-3">
+                                        <Bell className="w-4 h-4 text-[#044866]" />
+                                        <div>
+                                            <p className="text-sm text-slate-900">
+                                                Shift Start Reminder
+                                            </p>
+                                            <p className="text-xs text-slate-600">
+                                                Get notified before your shift
+                                                starts
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <Checkbox defaultChecked />
+                                </div>
+
+                                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                    <div className="flex items-center gap-3">
+                                        <Clock className="w-4 h-4 text-[#044866]" />
+                                        <div>
+                                            <p className="text-sm text-slate-900">
+                                                Shift End Reminder
+                                            </p>
+                                            <p className="text-xs text-slate-600">
+                                                Reminder to check out and
+                                                complete tasks
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <Checkbox defaultChecked />
+                                </div>
+
+                                <div className="ml-7 p-3 bg-white rounded-lg border border-slate-200">
+                                    <Label
+                                        htmlFor="reminderTime"
+                                        className="text-xs text-slate-600"
+                                    >
+                                        Remind me
+                                    </Label>
+                                    <Select defaultValue="30">
+                                        <SelectTrigger className="mt-1.5 w-full">
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="15">
+                                                15 minutes before
+                                            </SelectItem>
+                                            <SelectItem value="30">
+                                                30 minutes before
+                                            </SelectItem>
+                                            <SelectItem value="60">
+                                                1 hour before
+                                            </SelectItem>
+                                            <SelectItem value="120">
+                                                2 hours before
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Task Reminders */}
+                        <div>
+                            <h4 className="text-sm text-slate-900 mb-3">
+                                Task & Log Reminders
+                            </h4>
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                    <div className="flex items-center gap-3">
+                                        <CheckSquare className="w-4 h-4 text-[#044866]" />
+                                        <div>
+                                            <p className="text-sm text-slate-900">
+                                                Task Completion Reminder
+                                            </p>
+                                            <p className="text-xs text-slate-600">
+                                                Remind me to complete shift
+                                                tasks
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <Checkbox defaultChecked />
+                                </div>
+
+                                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                    <div className="flex items-center gap-3">
+                                        <FileText className="w-4 h-4 text-[#044866]" />
+                                        <div>
+                                            <p className="text-sm text-slate-900">
+                                                Workplace Log Reminder
+                                            </p>
+                                            <p className="text-xs text-slate-600">
+                                                Remind me to submit workplace
+                                                logs
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <Checkbox defaultChecked />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Geolocation Reminders */}
+                        {config.studentStatus.geolocationEnabled && (
+                            <div>
+                                <h4 className="text-sm text-slate-900 mb-3">
+                                    Geolocation Reminders
+                                </h4>
+                                <div className="space-y-3">
+                                    <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                        <div className="flex items-center gap-3">
+                                            <Navigation className="w-4 h-4 text-[#044866]" />
+                                            <div>
+                                                <p className="text-sm text-slate-900">
+                                                    Check-In Reminder
+                                                </p>
+                                                <p className="text-xs text-slate-600">
+                                                    Remind me to check in with
+                                                    GPS
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <Checkbox defaultChecked />
+                                    </div>
+
+                                    <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                        <div className="flex items-center gap-3">
+                                            <MapPin className="w-4 h-4 text-[#044866]" />
+                                            <div>
+                                                <p className="text-sm text-slate-900">
+                                                    Check-Out Reminder
+                                                </p>
+                                                <p className="text-xs text-slate-600">
+                                                    Remind me to check out with
+                                                    GPS
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <Checkbox defaultChecked />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Communication Preferences */}
+                        <div>
+                            <h4 className="text-sm text-slate-900 mb-3">
+                                Communication Preferences
+                            </h4>
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                    <div className="flex items-center gap-3">
+                                        <Bell className="w-4 h-4 text-[#044866]" />
+                                        <p className="text-sm text-slate-900">
+                                            Push Notifications
+                                        </p>
+                                    </div>
+                                    <Checkbox defaultChecked />
+                                </div>
+
+                                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                    <div className="flex items-center gap-3">
+                                        <FileText className="w-4 h-4 text-[#044866]" />
+                                         <p className="text-sm text-slate-900">
+                                            Email Notifications
+                                        </p>
+                                    </div>
+                                    <Checkbox defaultChecked />
+                                </div>
+
+                                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                    <div className="flex items-center gap-3">
+                                        <Bell className="w-4 h-4 text-[#044866]" />
+                                        <p className="text-sm text-slate-900">
+                                            SMS Notifications
+                                        </p>
+                                    </div>
+                                    <Checkbox />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowNotificationSettings(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button className="bg-gradient-to-r from-[#044866] to-[#0D5468] hover:from-[#0D5468] hover:to-[#044866] text-white">
+                            <Save className="w-4 h-4 mr-2" />
+                            Save Settings
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+        </div>
+    )
+}

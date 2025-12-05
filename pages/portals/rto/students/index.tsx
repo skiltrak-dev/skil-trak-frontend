@@ -371,7 +371,6 @@ const RtoStudents: NextPageWithLayout = (props: Props) => {
                                     itemPerPage={itemPerPage}
                                     student={filteredStudents}
                                     setItemPerPage={setItemPerPage}
-                                    filter={filter}
                                 />
                             )
                         )

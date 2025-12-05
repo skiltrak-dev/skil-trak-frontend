@@ -1,12 +1,7 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
-import {
-    PaginatedResponse,
-    PaginationWithSearch,
-    SectorDocument,
-    SectorDocumentFilterType,
-} from '@types'
+import { PaginatedResponse, PaginationWithSearch, SectorDocument } from '@types'
 
 const PREFIX = 'admin'
 export const sectorDocumentsEndpoints = (

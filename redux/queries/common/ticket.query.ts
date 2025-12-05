@@ -1,7 +1,7 @@
 import { TicketStatus } from '@partials/common/Tickets'
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import { PaginatedResponse, PaginationWithSearch } from '@types'
+import { PaginatedResponse, PaginationWithSearch, TicketTypes } from '@types'
 
 const PREFIX = 'tickets'
 export const ticketEndpoints = (
@@ -90,9 +90,15 @@ export const ticketEndpoints = (
         }),
         invalidatesTags: ['Tickets'],
     }),
-    getStudentTicketsList: builder.query<any, number>({
-        query: (id) => `students/tickets/list/${id}`,
-        providesTags: ['SubAdminStudents'],
+    getStudentTicketsList: builder.query<
+        PaginatedResponse<TicketTypes>,
+        { id: number; search: string }
+    >({
+        query: ({ id, ...params }) => ({
+            url: `students/tickets/list/${id}`,
+            params,
+        }),
+        providesTags: ['SubAdminStudents', 'Tickets'],
     }),
     getTicketsListByUser: builder.query<any, number>({
         query: (id) => `tickets/list/by-user/${id}`,

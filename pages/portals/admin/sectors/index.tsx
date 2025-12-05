@@ -4,10 +4,9 @@ import { TabNavigation, TabProps } from '@components'
 import { AdminLayout } from '@layouts'
 import {
     Courses,
-    Sectors,
-    WorkplaceTypes,
     SectorDocuments,
-    IndustryChecks,
+    Sectors,
+    WorkplaceTypes
 } from '@partials/admin/sector'
 import { NextPageWithLayout } from '@types'
 
@@ -45,14 +44,6 @@ const SectorList: NextPageWithLayout = () => {
             },
             element: <SectorDocuments />,
         },
-        // {
-        //     label: 'Industry Checks',
-        //     href: {
-        //         pathname: 'sectors',
-        //         query: { tab: 'industry-checks', page: 1, pageSize: 50 },
-        //     },
-        //     element: <IndustryChecks />,
-        // },
     ]
 
     return (

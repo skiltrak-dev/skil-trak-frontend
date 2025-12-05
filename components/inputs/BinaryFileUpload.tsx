@@ -15,7 +15,7 @@ import {
 import { FileData } from '@types'
 import {
     FileFormat,
-    getFileExtension,
+    getFileExtensionByUrl,
     getMimeTypes,
     SupportedDocumentFormats,
     SupportedImageFormats,

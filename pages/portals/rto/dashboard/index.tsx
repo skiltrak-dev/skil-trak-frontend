@@ -4,11 +4,7 @@ import { PanelLeftDashed } from 'lucide-react'
 import React, { ReactElement } from 'react'
 
 export const Dashboard = () => {
-    return (
-        <div className="">
-            <RtoDashboardV2 />
-        </div>
-    )
+    return <RtoDashboardV2 />
 }
 
 Dashboard.getLayout = (page: ReactElement) => {
