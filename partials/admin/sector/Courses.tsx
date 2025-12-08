@@ -81,6 +81,7 @@ export const Courses = () => {
     const onCourseClick = (course: Course) => {
         contextBar.setTitle('Course Detail')
         contextBar.setContent(<CourseView course={course} />)
+        contextBar.setContextWidth('w-[380px] p-3')
         contextBar.show()
     }
 

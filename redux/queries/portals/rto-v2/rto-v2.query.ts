@@ -4,7 +4,9 @@ import { availableServicesEndpoints } from './availableServices'
 import { coursesEndPoints } from './courses'
 import { dashboardEndpoints } from './dashboard'
 import { placementRequestsEndPoints } from './placementRequests'
+import { studentDocumentsEndpoints } from './student-documents'
 import { studentsEndpoints } from './students'
+import { studentsWorkplaceEndpoints } from './students-workplace'
 
 export const rtoV2Api = apiSlice.injectEndpoints({
     endpoints: (build) => ({
@@ -12,8 +14,10 @@ export const rtoV2Api = apiSlice.injectEndpoints({
         ...studentsEndpoints(build),
         ...dashboardEndpoints(build),
         ...approvalRequestEndpoints(build),
+        ...studentDocumentsEndpoints(build),
         ...placementRequestsEndPoints(build),
         ...availableServicesEndpoints(build),
+        ...studentsWorkplaceEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -53,8 +57,17 @@ const {
     useRtoStudentHistoryQuery,
     useImportStudentsMutation,
     useGetWpForAutoMatchingQuery,
+    useStudentInfoMessageMutation,
+    useGetStudentInfoMessagesQuery,
+    useGetStudentTicketsCountQuery,
+    useGetStudentAppointmentsCountQuery,
     useAddSingleStudentWithPlacementTypeMutation,
     useRunAutomationForAvailabeleStudentsMutation,
+
+    // ---- Students Workplace ---- //
+    useGetStudentWorkplaceListQuery,
+    useGetStudentWorkplaceCountQuery,
+    useGetStudentWorkplacesByCourseQuery,
 
     // ---- Approval Requests ---- //
     useGetWpProgramsQuery,
@@ -65,6 +78,14 @@ const {
     useGetSkiltrakCourseChecklistQuery,
     useApprovalRequestSupervisorsQuery,
     useApprovalRequestHighlightedTasksQuery,
+
+    // ---- Student Documents ---- //
+    useFileStatusChangeMutation,
+    useAllFilesStatusChangeMutation,
+    useGetStudentDocumentsListQuery,
+    useGetStudentDocumentFilesQuery,
+    useGetStudentDocumentsCountQuery,
+    useUploadStudentDocumentFileMutation,
 } = rtoV2Api
 
 export const RtoV2Api = {
@@ -103,10 +124,19 @@ export const RtoV2Api = {
     Students: {
         importStudents: useImportStudentsMutation,
         rtoStudentHistory: useRtoStudentHistoryQuery,
+        studentInfoMessage: useStudentInfoMessageMutation,
         getWpForAutoMatching: useGetWpForAutoMatchingQuery,
+        getStudentInfoMessages: useGetStudentInfoMessagesQuery,
+        getStudentTicketsCount: useGetStudentTicketsCountQuery,
+        getStudentAppointmentsCount: useGetStudentAppointmentsCountQuery,
         addIndividualStudent: useAddSingleStudentWithPlacementTypeMutation,
         runAutomationForAvailabeleStudents:
             useRunAutomationForAvailabeleStudentsMutation,
+    },
+    StudentsWorkplace: {
+        getStudentWorkplaceList: useGetStudentWorkplaceListQuery,
+        getStudentWorkplaceCount: useGetStudentWorkplaceCountQuery,
+        getStudentWorkplacesByCourse: useGetStudentWorkplacesByCourseQuery,
     },
     ApprovalRequest: {
         getWpPrograms: useGetWpProgramsQuery,
@@ -117,5 +147,13 @@ export const RtoV2Api = {
         rtoApprovalRequestCourse: useRtoApprovalRequestCourseQuery,
         getSkiltrakCourseChecklist: useGetSkiltrakCourseChecklistQuery,
         approvalRequestSupervisors: useApprovalRequestSupervisorsQuery,
+    },
+    StudentDocuments: {
+        fileStatusChange: useFileStatusChangeMutation,
+        allFilesStatusChange: useAllFilesStatusChangeMutation,
+        getStudentDocumentsList: useGetStudentDocumentsListQuery,
+        getStudentDocumentFiles: useGetStudentDocumentFilesQuery,
+        getStudentDocumentsCount: useGetStudentDocumentsCountQuery,
+        uploadStudentDocumentFile: useUploadStudentDocumentFileMutation,
     },
 }

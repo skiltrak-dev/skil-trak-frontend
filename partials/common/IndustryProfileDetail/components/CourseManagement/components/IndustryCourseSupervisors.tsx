@@ -1,7 +1,7 @@
 import { ActionButton, AuthorizedUserComponent } from '@components'
 import { UserRoles } from '@constants'
 import { Industry } from '@types'
-import React from 'react'
+import React, { useState } from 'react'
 import Modal from '@modals/Modal'
 import { TbEyeUp } from 'react-icons/tb'
 import { SupervisorsListBySector } from '../modal'
@@ -19,6 +19,8 @@ export const IndustryCourseSupervisors = ({
     sectorData: any
     industry: Industry
 }) => {
+    const [isAddSupervisor, setIsAddSupervisor] = useState(false)
+
     const getSupervisorBySector = IndustryApi.Supervisor.getSupervisorBySector({
         sectorId: sectorData?.sector?.id,
         indId: industry?.id,
@@ -34,7 +36,8 @@ export const IndustryCourseSupervisors = ({
                         {getSupervisorBySector?.isLoading ? (
                             <PuffLoader size={24} />
                         ) : getSupervisorBySector?.isSuccess &&
-                          getSupervisorBySector?.data ? (
+                          getSupervisorBySector?.data &&
+                          !isAddSupervisor ? (
                             <div>
                                 <Modal>
                                     <Modal.Open opens="addDepartmentCourse">
@@ -52,6 +55,9 @@ export const IndustryCourseSupervisors = ({
                                     </Modal.Open>
                                     <Modal.Window name="addDepartmentCourse">
                                         <SupervisorsListBySector
+                                            setIsAddSupervisor={
+                                                setIsAddSupervisor
+                                            }
                                             industry={industry}
                                             getSupervisorBySector={
                                                 getSupervisorBySector
@@ -61,8 +67,8 @@ export const IndustryCourseSupervisors = ({
                                     </Modal.Window>
                                 </Modal>
                             </div>
-                        ) : getSupervisorBySector?.isSuccess &&
-                          !getSupervisorBySector?.data &&
+                        ) : (getSupervisorBySector?.isSuccess ||
+                              isAddSupervisor) &&
                           userRole !== UserRoles.RTO ? (
                             <Modal>
                                 <Modal.Open opens="addCourseSupervisor">

@@ -101,3 +101,12 @@ export interface IndustrySectorCapacity extends BaseResponse {
     capacity: string
     enrolled: string
 }
+
+export interface DefaultDocumentsType extends BaseResponse {
+    id: number
+    name: string
+    capacity: number
+    type: string
+    description: string
+    link: string
+}

@@ -1,50 +1,20 @@
-import { SubAdminStudentsFilterType, UserStatus } from '@types'
-import debounce from 'lodash/debounce'
-import { ReactElement, useCallback, useEffect, useState } from 'react'
+import { ReactElement } from 'react'
 
 //components
-import {
-    Filter,
-    LoadingAnimation,
-    MyStudentQuickFilters,
-    SubAdminStudentFilters,
-    TabNavigation,
-    TabProps,
-    TechnicalError,
-    TextInput,
-} from '@components'
-import {
-    AgreementPendingStudents,
-    AllStudents,
-    ArchivedStudents,
-    BlockedStudents,
-    CompletedStudents,
-    FilteredStudents,
-    HighPriorityStudentsList,
-    MyStudents,
-    NonContactableStudents,
-    PendingStudents,
-    PlacementStartedStudents,
-    RejectedStudents,
-    ScheduleCompleted,
-    StudentScheduleEndedList,
-    StudentWeeklyCallList,
-    UnAssignedStudents,
-    UpcomingAppointmentsStudents,
-    UrgentStudents,
-} from '@partials/sub-admin/students'
+import { TabNavigation, TabProps } from '@components'
 
 // query
-import { SubAdminApi, useGetSubAdminStudentsQuery } from '@queries'
+import { SubAdminApi } from '@queries'
 
 // hooks
 
 //Layouts
-import { useSubadminProfile } from '@hooks'
-import { checkFilteredDataLength, getCountData, getFilterQuery } from '@utils'
-import { useRouter } from 'next/router'
 import { SubAdminLayout } from '@layouts'
-import { ApprovedPlacement, PendingWpRequest, RejectedPlacementRequest } from '@partials/sub-admin/wp-approval-request'
+import {
+    ApprovedPlacement,
+    PendingWpRequest,
+    RejectedPlacementRequest,
+} from '@partials/sub-admin/wp-approval-request'
 
 type Props = {}
 
@@ -113,16 +83,11 @@ export const RtoWpApprovalRequest = () => {
             element: <RejectedPlacementRequest />,
             isAssociatedWithRto: true,
         },
-
     ]
-
-
 
     return (
         <>
-            <TabNavigation
-                tabs={tabs}
-            >
+            <TabNavigation tabs={tabs}>
                 {({ header, element }: any) => {
                     return (
                         <div>
@@ -132,7 +97,6 @@ export const RtoWpApprovalRequest = () => {
                     )
                 }}
             </TabNavigation>
-
         </>
     )
 }

@@ -1,9 +1,8 @@
-import { Industry } from '@types'
 import React from 'react'
+import { Industry } from '@types'
+import { CourseCard } from '../CourseCard'
 import { useCourseManagement } from '../hooks'
 import { LoadingAnimation, NoData } from '@components'
-import { CourseCard } from '../CourseCard'
-
 export const RenderCourseList = ({ industry }: { industry: Industry }) => {
     const { approvedCourses, computedData, pendingCourses, previousCourses } =
         useCourseManagement()

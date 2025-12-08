@@ -3,17 +3,10 @@ import {
     Badge,
     NoData,
     ShowErrorNotifications,
-    Typography,
 } from '@components'
 import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
-import {
-    AddFolderFormType,
-    Course,
-    Folder,
-    FolderCategoryEnum,
-    TypeOptionsEnum,
-} from '@types'
+import { AddFolderFormType, Course, Folder, FolderCategoryEnum } from '@types'
 import { useEffect, useState } from 'react'
 import { CourseFolderForm } from '../../form'
 import { CourseFolder } from './CourseFolder'
@@ -43,10 +36,6 @@ export const CourseFolders = ({
 
     const [addAssessmentEvidence, addAssessmentEvidenceResult] =
         AdminApi.Folders.useAssessMentEvidence()
-
-    // const folders: Folder[] | undefined = course?.folders?.filter(
-    //     (f) => f.category === category
-    // )
 
     const getFoldersTitle = () => {
         switch (category) {
@@ -126,21 +115,6 @@ export const CourseFolders = ({
                     <CourseFolderForm
                         onSubmit={onSubmit}
                         onCancel={onFormCancel}
-                        // initialValues={
-                        //     {
-                        //         name: '',
-                        //         capacity: 0,
-                        //         type: TypeOptionsEnum.Documents,
-                        //         category,
-                        //         description: '',
-                        //         isRequired: false,
-                        //     } as Folder
-                        // }
-                        result={
-                            category === FolderCategoryEnum.IndustryCheck
-                                ? addFolderResult
-                                : addAssessmentEvidenceResult
-                        }
                     />
                 )}
 
@@ -164,7 +138,7 @@ export const CourseFolders = ({
                                         ))}
                                     </div>
                                 )}
-                                {industryCheckFolders.length > 0 && (
+                                {/* {industryCheckFolders.length > 0 && (
                                     <div>
                                         <Badge text="Industry Checks" />
                                         {industryCheckFolders.map(
@@ -181,7 +155,7 @@ export const CourseFolders = ({
                                             )
                                         )}
                                     </div>
-                                )}
+                                )} */}
                             </div>
                         ) : (
                             <NoData text="No Folder Here" />

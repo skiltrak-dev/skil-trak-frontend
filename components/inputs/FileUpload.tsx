@@ -10,7 +10,7 @@ import { HelpText, RequiredStar, Tooltip } from './components'
 import { FileData } from '@types'
 import {
     FileFormat,
-    getFileExtension,
+    getFileExtensionByUrl,
     getMimeTypes,
     SupportedDocumentFormats,
     SupportedImageFormats,
@@ -43,7 +43,7 @@ export const isFileTypeSelectable = (fileType: string, types: string[]) => {
 }
 
 export type FileUploadProps = InputProps & {
-    acceptTypes?: typeof AcceptMimeTypes[number][]
+    acceptTypes?: (typeof AcceptMimeTypes)[number][]
 }
 
 export const FileUpload = ({

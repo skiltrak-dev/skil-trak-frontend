@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
-
+import studentReducer from './slice/student.slice'
 import {
     apiSlice,
     authApi,
@@ -12,6 +12,7 @@ import {
 export const store = configureStore({
     reducer: {
         // Add the generated reducer as a specific top-level slice
+        student: studentReducer,
         [authApi.reducerPath]: authApi.reducer,
         [apiSlice.reducerPath]: industryApi.reducer,
         [stripeApi.reducerPath]: stripeApi.reducer,

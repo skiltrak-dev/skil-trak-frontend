@@ -1,38 +1,23 @@
 import {
-    Card,
-    Table,
-    Button,
-    EmptyData,
-    Typography,
-    TableAction,
     ActionButton,
-    UserCreatedAt,
-    TechnicalError,
+    Card,
+    EmptyData,
     LoadingAnimation,
-    StudentExpiryDaysLeft,
-    CaseOfficerAssignedStudent,
-    TableActionOption,
+    Table,
+    TechnicalError,
 } from '@components'
-import { PageHeading } from '@components/headings'
-import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport, FaUserPlus } from 'react-icons/fa'
+import { FaEdit } from 'react-icons/fa'
 
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
-import { RtoApi, useGetRtoStudentsQuery } from '@queries'
-import { Student, UserStatus } from '@types'
-import { getUserCredentials, isBrowser, studentsListWorkplace } from '@utils'
+import { RtoApi } from '@queries'
+import { Student } from '@types'
+import { getUserCredentials } from '@utils'
 import { saveAs } from 'file-saver'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdBlock, MdChangeCircle } from 'react-icons/md'
-import { SectorCell, StudentCellInfo } from './components'
-import { IndustryCell } from './components/IndustryCell'
-import { AssignCoordinatorModal, BlockModal, RemoveCoordinator } from './modals'
-import { AssignMultipleCoordinatorModal } from './modals/AssignMultipleCoordinatorModal'
+import { useColumns } from './hooks'
 export const IncompleteSubmissionStudent = () => {
     const router = useRouter()
-    const [modal, setModal] = useState<ReactElement | null>(null)
     const [isExcelDownload, setIsExcelDownload] = useState<boolean>(false)
     const userId = getUserCredentials()?.id
 
@@ -46,10 +31,9 @@ export const IncompleteSubmissionStudent = () => {
 
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
-    // incompleteSubmissionStudents
+
     const { isLoading, data, isError, refetch } =
         RtoApi.Students.incompleteSubmissionStudents({
-            // search: `status:${UserStatus.Approved}`,
             skip: itemPerPage * page - itemPerPage,
             limit: itemPerPage,
         })
@@ -72,203 +56,17 @@ export const IncompleteSubmissionStudent = () => {
         }
     }, [exportList?.isError])
 
-    const handleDownloadExcel = () => {
-        setIsExcelDownload(true)
-    }
+    const {
+        getTableConfig,
+        modal,
+        onBlockClicked,
+        onAssignCoordinatorClicked,
+        onAddMultiStudentsCoordinatorClicked,
+    } = useColumns()
 
-    const onModalCancelClicked = () => setModal(null)
-
-    const onBlockClicked = (student: Student) => {
-        setModal(
-            <BlockModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
-
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStudentStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onDateClick = (student: Student) => {
-        setModal(
-            <EditTimer
-                studentId={student?.user?.id}
-                date={student?.expiryDate}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onAssignCoordinatorClicked = (student: Student) => {
-        setModal(
-            <AssignCoordinatorModal
-                studentId={student?.id}
-                studentUser={student?.user}
-                rtoCoordinatorId={student?.rtoCoordinator?.id}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onAddMultiStudentsCoordinatorClicked = (ids: number[]) => {
-        setModal(
-            <AssignMultipleCoordinatorModal
-                ids={ids}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const tableActionOptions = (
-        student: Student
-    ): TableActionOption<Student>[] => [
-        {
-            text: 'View',
-            // onClick: (student) => {
-            //     router.push(
-            //         `/portals/rto/students-and-placements/all-students/${student.id}/detail`
-            //     )
-            // },
-            onClick: (student: Student) => {
-                router.push(`/portals/rto/students/${student.id}`)
-            },
-            Icon: FaEye,
-        },
-        {
-            text: 'Edit',
-            onClick: (student) =>
-                router.push(`portals/rto/students/${student.id}/edit-student`),
-            Icon: FaEye,
-        },
-        {
-            text: student?.rtoCoordinator
-                ? 'Change Coordinator'
-                : 'Assign Coordinator',
-            onClick: (student) => onAssignCoordinatorClicked(student),
-            Icon: FaUserPlus,
-        },
-        {
-            text: 'Block',
-            onClick: (student) => onBlockClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Change Status',
-            onClick: (student) => onChangeStatus(student),
-            Icon: FaEdit,
-        },
-        {
-            text: 'Change Expiry',
-            onClick: (student) => onDateClick(student),
-            Icon: FaEdit,
-        },
-    ]
-
-    const columns: ColumnDef<Student>[] = [
-        {
-            accessorKey: 'user.name',
-            cell: (info) => (
-                <StudentCellInfo
-                    // link={`/portals/rto/students-and-placements/all-students/${info.row.original.id}/detail`}
-                    student={info.row.original}
-                    call
-                />
-            ),
-            header: () => <span>Student</span>,
-        },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info) => {
-                const industry = info.row.original?.industries
-
-                const appliedIndustry = studentsListWorkplace(
-                    info.row.original?.workplace
-                )
-
-                return industry && industry?.length > 0 ? (
-                    <IndustryCell industry={industry[0]} />
-                ) : info.row.original?.workplace &&
-                  info.row.original?.workplace?.length > 0 &&
-                  appliedIndustry ? (
-                    <IndustryCell industry={appliedIndustry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
-            },
-        },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => <SectorCell student={info.row.original} />,
-        },
-        {
-            accessorKey: 'expiry',
-            header: () => <span>Expiry Countdown</span>,
-            cell: (info) => (
-                <StudentExpiryDaysLeft
-                    expiryDate={info.row.original?.expiryDate}
-                />
-            ),
-        },
-        {
-            accessorKey: 'progress',
-            header: () => <span>Progress</span>,
-            cell: ({ row }) => (
-                <CaseOfficerAssignedStudent student={row.original} />
-            ),
-        },
-        {
-            accessorKey: 'assigned',
-            header: () => <span>Assigned Coordinator</span>,
-            cell: ({ row }: any) =>
-                row.original?.rtoCoordinator ? (
-                    <div>
-                        <Typography variant="label">
-                            {row.original?.rtoCoordinator?.user?.name}
-                        </Typography>
-                        <Typography variant="small" color={'text-gray-400'}>
-                            {row.original?.rtoCoordinator?.user?.email}
-                        </Typography>
-                        <Typography variant="small" color={'text-gray-400'}>
-                            {row.original?.rtoCoordinator?.phone}
-                        </Typography>
-                    </div>
-                ) : (
-                    '----'
-                ),
-        },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: ({ row }) => (
-                <UserCreatedAt createdAt={row.original?.createdAt} />
-            ),
-        },
-        {
-            accessorKey: 'action',
-            header: () => <span>Action</span>,
-            cell: (info) => {
-                const tableActionOption = tableActionOptions(info.row.original)
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOption}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
-        },
-    ]
+    const { columns } = getTableConfig({
+        actionKeys: ['assign', 'block', 'changeStatus', 'changeExpiry'],
+    })
 
     const quickActionsElements = {
         id: 'id',
@@ -323,7 +121,7 @@ export const IncompleteSubmissionStudent = () => {
 
     return (
         <>
-            {modal && modal}
+            {modal}
             <div className="flex flex-col gap-y-3">
                 {/* <PageHeading
                     title={'Approved Students'}

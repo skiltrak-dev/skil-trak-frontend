@@ -1,8 +1,6 @@
 import { LoadingAnimation, NoData, Typography } from '@components'
 import { AssessmentEvidenceDetailType, Course, Student } from '@types'
 import { FolderCard } from '../../Cards'
-import { SubAdminApi } from 'redux'
-import { useMemo } from 'react'
 
 export const AssessmentsFolders = ({
     getFolders,

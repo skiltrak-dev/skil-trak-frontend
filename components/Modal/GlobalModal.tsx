@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Portal } from '@components/Portal'
 import OutsideClickHandler from 'react-outside-click-handler'
+import { MdCancel } from 'react-icons/md'
 
 export const GlobalModal = ({
     children,
@@ -20,9 +21,15 @@ export const GlobalModal = ({
                     }}
                 >
                     <div
-                        className={`bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md md:w-auto md:min-w-[450px] ${className}`}
+                        className={`relative bg-white rounded-2xl modal-animation flex flex-col justify-between shadow-md md:w-auto md:min-w-[450px] ${className}`}
                         style={{ zIndex: 99999, position: 'relative' }}
                     >
+                        {onCancel && (
+                            <MdCancel
+                                onClick={onCancel}
+                                className="transition-all absolute top-2 right-2 duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
+                            />
+                        )}
                         {children}
                     </div>
                 </OutsideClickHandler>

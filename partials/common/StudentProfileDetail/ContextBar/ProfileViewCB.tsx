@@ -29,11 +29,11 @@ import {
     StudentExpireTime,
     StudentStatus,
 } from '../ContextBarComponents'
-import { ViewPlacementFeedbackModal } from '../feedbackForm'
+import { ViewPaymentDetailsModal } from '../modals'
 import { FeedbackButton } from '../feedbackForm/components'
 import { FeedbackForm } from '../feedbackForm/FeedbackForm'
+import { ViewPlacementFeedbackModal } from '../feedbackForm'
 import { processSubmission } from '../feedbackForm/utils/getAnswersWithQuestions'
-import { ViewPaymentDetailsModal } from '../modals'
 
 export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     const [modal, setModal] = useState<any>(null)
@@ -53,6 +53,7 @@ export const ProfileViewCB = ({ profile }: { profile: Student }) => {
     )
 
     const processedFeedback = processSubmission(getPlacementFeedback?.data)
+
     const eligibleCourses =
         data?.courses?.filter(
             (course: any) => course.message === 'eligible for feedback'

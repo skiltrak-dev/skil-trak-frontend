@@ -87,7 +87,7 @@ export const RtoEmails = () => {
         }
     }
 
-    const onCancelComposeMail = useCallback(() => {
+    const onComposeMail = useCallback(() => {
         setIsComposeMail(!isComposeMail)
     }, [isComposeMail])
 
@@ -123,7 +123,7 @@ export const RtoEmails = () => {
                         <Button
                             Icon={Edit3}
                             text="Compose"
-                            onClick={onCancelComposeMail}
+                            onClick={onComposeMail}
                         />
                     </div>
                 </div>
@@ -155,7 +155,7 @@ export const RtoEmails = () => {
                         isComposeMail ? 'block' : 'hidden'
                     }`}
                 >
-                    <ComposeMail onCancelComposeMail={onCancelComposeMail} />
+                    <ComposeMail onCancelComposeMail={onComposeMail} />
                 </div>
             </div>
         </Card>

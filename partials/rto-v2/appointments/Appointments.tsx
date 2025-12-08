@@ -1,11 +1,9 @@
 import {
     Ban,
-    CalendarDays,
     Calendar as CalendarIcon,
     CheckCircle,
     Clock,
     History,
-    Plus,
     RefreshCw,
     Search,
     TrendingUp,
@@ -15,13 +13,13 @@ import { Badge } from '../../../components/ui/badge'
 import { Button } from '../../../components/ui/button'
 
 import { Card, Select, TextInput } from '@components'
+import { RtoApi } from '@queries'
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger,
 } from '../../../components/ui/tabs'
-import { ActionRequiredHeader } from '../components'
 import { KPIStatCard } from './KpiStatsCard'
 import { ScheduleAppointmentModal } from './modals'
 import {
@@ -29,7 +27,6 @@ import {
     PastAppointments,
     UpcomingAppointments,
 } from './tabs'
-import { RtoApi } from '@queries'
 
 interface Appointment {
     id: string
@@ -48,258 +45,12 @@ interface Appointment {
     notes?: string
 }
 
-const mockAppointments: Appointment[] = [
-    {
-        id: '1',
-        title: 'Student Placement Site Visit',
-        description:
-            'Visit Melbourne Aged Care facility to assess placement suitability for CHC33021 students',
-        date: '2025-11-13',
-        time: '10:00 AM',
-        duration: '2 hours',
-        type: 'site-visit',
-        status: 'confirmed',
-        participants: [
-            'Julie Anderson',
-            'Sarah Mitchell',
-            'Melbourne Aged Care Manager',
-        ],
-        location: '123 Care Street, Melbourne VIC 3000',
-        category: 'placement',
-        priority: 'high',
-        notes: 'Bring placement agreement documents and facility checklist',
-    },
-    {
-        id: '2',
-        title: 'Weekly Team Meeting',
-        description:
-            'Discuss current student placements and upcoming deadlines',
-        date: '2025-11-13',
-        time: '2:00 PM',
-        duration: '1 hour',
-        type: 'video',
-        status: 'confirmed',
-        participants: [
-            'Julie Anderson',
-            'Mark Thompson',
-            'Emma Chen',
-            'Sarah Mitchell',
-        ],
-        meetingLink: 'https://meet.skiltrak.com/team-weekly',
-        category: 'admin',
-        priority: 'normal',
-    },
-    {
-        id: '3',
-        title: 'Student Progress Review - Emily Watson',
-        description: 'Review placement progress and address any concerns',
-        date: '2025-11-14',
-        time: '11:00 AM',
-        duration: '30 minutes',
-        type: 'phone',
-        status: 'confirmed',
-        participants: ['Julie Anderson', 'Emily Watson'],
-        category: 'student',
-        priority: 'normal',
-    },
-    {
-        id: '4',
-        title: 'Industry Partner Consultation',
-        description:
-            'Discuss new placement opportunities and requirements with industry partner',
-        date: '2025-11-14',
-        time: '3:00 PM',
-        duration: '1 hour',
-        type: 'meeting',
-        status: 'pending',
-        participants: ['Julie Anderson', 'Industry Partner Representative'],
-        location: 'SkilTrak Office, Meeting Room 2',
-        category: 'industry',
-        priority: 'high',
-    },
-    {
-        id: '5',
-        title: 'TGA Compliance Audit Preparation',
-        description: 'Prepare documentation and review compliance requirements',
-        date: '2025-11-15',
-        time: '9:00 AM',
-        duration: '3 hours',
-        type: 'meeting',
-        status: 'confirmed',
-        participants: ['Julie Anderson', 'Compliance Officer', 'Admin Team'],
-        location: 'SkilTrak Office, Conference Room',
-        category: 'admin',
-        priority: 'high',
-        notes: 'Review all course documentation and placement records',
-    },
-    {
-        id: '6',
-        title: 'Student Orientation - New Cohort',
-        description: 'Welcome and orient new students starting CHC43015',
-        date: '2025-11-16',
-        time: '10:00 AM',
-        duration: '2 hours',
-        type: 'meeting',
-        status: 'confirmed',
-        participants: ['Julie Anderson', 'New Students (8)', 'Training Team'],
-        location: 'SkilTrak Training Center',
-        category: 'training',
-        priority: 'normal',
-    },
-    {
-        id: '7',
-        title: 'Placement Agreement Signing',
-        description: 'Final placement agreement signing with industry partner',
-        date: '2025-11-17',
-        time: '2:00 PM',
-        duration: '45 minutes',
-        type: 'meeting',
-        status: 'pending',
-        participants: ['Julie Anderson', 'Industry Manager', 'Legal Team'],
-        location: 'Industry Partner Office',
-        category: 'placement',
-        priority: 'high',
-    },
-    {
-        id: '8',
-        title: 'Student Skill Assessment - Marcus Chen',
-        description:
-            'Conduct mid-placement skills assessment and provide feedback on practical competencies',
-        date: '2025-11-20',
-        time: '1:30 PM',
-        duration: '1 hour',
-        type: 'video',
-        status: 'confirmed',
-        participants: ['Julie Anderson', 'Marcus Chen', 'Industry Supervisor'],
-        meetingLink: 'https://meet.skiltrak.com/assessment-marcus',
-        category: 'student',
-        priority: 'normal',
-        notes: 'Review logbook entries and practical demonstration videos before meeting',
-    },
-    {
-        id: '9',
-        title: 'Industry Partner Site Audit - Healthcare NSW',
-        description:
-            'Quarterly compliance audit and site inspection for healthcare placement facilities',
-        date: '2025-11-22',
-        time: '9:30 AM',
-        duration: '3 hours',
-        type: 'site-visit',
-        status: 'confirmed',
-        participants: [
-            'Julie Anderson',
-            'Compliance Team',
-            'Healthcare NSW Manager',
-            'Safety Officer',
-        ],
-        location: 'Healthcare NSW, 456 Medical Drive, Sydney NSW 2000',
-        category: 'industry',
-        priority: 'high',
-        notes: 'Bring audit checklist, safety equipment logs, and placement facility accreditation documents',
-    },
-    // Past appointments
-    {
-        id: '10',
-        title: 'Monthly Performance Review',
-        description: 'Review team performance metrics and discuss improvements',
-        date: '2025-11-01',
-        time: '10:00 AM',
-        duration: '1 hour',
-        type: 'meeting',
-        status: 'completed',
-        participants: ['Julie Anderson', 'Mark Thompson', 'Emma Chen'],
-        location: 'SkilTrak Office, Conference Room',
-        category: 'admin',
-        priority: 'normal',
-    },
-    {
-        id: '11',
-        title: 'Student Placement - David Lee',
-        description: 'Initial placement meeting with industry supervisor',
-        date: '2025-11-05',
-        time: '2:00 PM',
-        duration: '45 minutes',
-        type: 'site-visit',
-        status: 'completed',
-        participants: ['Julie Anderson', 'David Lee', 'Industry Supervisor'],
-        location: 'Brisbane Disability Support',
-        category: 'placement',
-        priority: 'high',
-    },
-    {
-        id: '12',
-        title: 'Training Workshop - Assessment Methods',
-        description:
-            'Professional development session on modern assessment techniques',
-        date: '2025-11-07',
-        time: '9:00 AM',
-        duration: '4 hours',
-        type: 'meeting',
-        status: 'completed',
-        participants: [
-            'Julie Anderson',
-            'Training Team',
-            'External Facilitator',
-        ],
-        location: 'SkilTrak Training Center',
-        category: 'training',
-        priority: 'normal',
-    },
-    {
-        id: '13',
-        title: 'Student Check-in - Jessica Brown',
-        description: 'Routine check-in to discuss placement progress',
-        date: '2025-10-28',
-        time: '11:00 AM',
-        duration: '30 minutes',
-        type: 'phone',
-        status: 'completed',
-        participants: ['Sarah Mitchell', 'Jessica Brown'],
-        category: 'student',
-        priority: 'normal',
-    },
-    {
-        id: '14',
-        title: 'Industry Partnership Meeting',
-        description: 'Discuss expanding partnership opportunities',
-        date: '2025-10-15',
-        time: '3:00 PM',
-        duration: '1 hour',
-        type: 'video',
-        status: 'cancelled',
-        participants: ['Julie Anderson', 'Perth Healthcare Group'],
-        meetingLink: 'https://meet.skiltrak.com/partnership',
-        category: 'industry',
-        priority: 'normal',
-        notes: 'Rescheduled to next month',
-    },
-]
-
 export const Appointments = () => {
-    const [selectedAppointment, setSelectedAppointment] =
-        useState<Appointment | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
     const [scheduleOpen, setScheduleOpen] = useState(false)
     const [filterCategory, setFilterCategory] = useState<string>('all')
     const today = new Date().toISOString().split('T')[0]
     const counts = RtoApi.Appointments.useRtoAppointmentsCount()
-
-    const upcomingCount = mockAppointments.filter(
-        (a) =>
-            a.date >= today &&
-            a.status !== 'completed' &&
-            a.status !== 'cancelled'
-    ).length
-    const todayCount = mockAppointments.filter((a) => a.date === today).length
-    const pastCount = mockAppointments.filter(
-        (a) =>
-            a.date < today ||
-            a.status === 'completed' ||
-            a.status === 'cancelled'
-    ).length
-    const completedCount = mockAppointments.filter(
-        (a) => a.status === 'completed'
-    ).length
 
     return (
         <div className="min-h-screen bg-background container mx-auto space-y-4">

@@ -57,10 +57,8 @@ export const RtoAllStudents = () => {
 
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
-    const [showDropDown, setShowDropDown] = useState(false)
     const [studentId, setStudentId] = useState<any | null>(null)
     const [studentName, setStudentName] = useState<any | null>(null)
-    const [studentIdValue, setStudentIdValue] = useState<string>('')
     const [studentNameValue, setStudentNameValue] = useState<string>('')
 
     useEffect(() => {
@@ -249,7 +247,6 @@ export const RtoAllStudents = () => {
                                         itemPerPage={itemPerPage}
                                         student={filteredStudents}
                                         setItemPerPage={setItemPerPage}
-                                        filter={filter}
                                     />
                                 )
                             )

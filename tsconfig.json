@@ -37,6 +37,8 @@
             "@utils": ["./utils"],
             "@queries": ["./redux/queries"],
             "@queries/*": ["./redux/queries/*"],
+            "@redux": ["./redux"],
+            "@redux/*": ["./redux/*"],
             "@constants": ["./constants"],
             "@constants/*": ["./constants/*"],
             "@hoc": ["./hoc"],

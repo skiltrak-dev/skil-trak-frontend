@@ -1,46 +1,16 @@
 import {
-    ActionButton,
-    Button,
     Card,
     EmptyData,
     LoadingAnimation,
-    StudentExpiryDaysLeft,
-    StudentStatusProgressCell,
     Table,
-    TableAction,
-    TableActionOption,
     TableChildrenProps,
     TechnicalError,
-    Typography,
-    UserCreatedAt,
 } from '@components'
-import { PageHeading } from '@components/headings'
-import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
 import { RtoApi } from '@queries'
-import { Student } from '@types'
-import {
-    WorkplaceCurrentStatus,
-    checkStudentStatus,
-    getStudentWorkplaceAppliedIndustry,
-    getUserCredentials,
-    studentsListWorkplace,
-} from '@utils'
-import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
-import { SectorCell, StudentCellInfo } from './components'
-import { IndustryCell } from './components/IndustryCell'
-import { BlockModal } from './modals'
+import { useState } from 'react'
+import { useColumns } from './hooks'
 export const CompletedStudents = () => {
-    const router = useRouter()
-    const [modal, setModal] = useState<ReactElement | null>(null)
-
-    const userId = getUserCredentials()?.id
-
     const [itemPerPage, setItemPerPage] = useState(50)
     const [page, setPage] = useState(1)
     const { isLoading, data, isError, refetch } =
@@ -49,235 +19,23 @@ export const CompletedStudents = () => {
             limit: itemPerPage,
         })
 
-    const onModalCancelClicked = () => {
-        setModal(null)
-    }
-    const onBlockClicked = (student: Student) => {
-        setModal(
-            <BlockModal
-                item={student}
-                onCancel={() => onModalCancelClicked()}
-            />
-        )
-    }
+    const { getTableConfig, modal } = useColumns()
 
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStudentStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onDateClick = (student: Student) => {
-        setModal(
-            <EditTimer
-                studentId={student?.user?.id}
-                date={student?.expiryDate}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const tableActionOptions: TableActionOption<Student>[] = [
-        {
-            text: 'View',
-            // onClick: (student) => {
-            //     router.push(
-            //         `/portals/rto/students-and-placements/all-students/${student.id}/detail`
-            //     )
-            // },
-            onClick: (student: Student) => {
-                router.push(`/portals/rto/students/${student.id}`)
-            },
-            Icon: FaEye,
-        },
-        {
-            text: 'Block',
-            onClick: (student) => onBlockClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Change Status',
-            onClick: (student) => onChangeStatus(student),
-            Icon: FaEdit,
-        },
-        {
-            text: 'Change Expiry',
-            onClick: (student) => onDateClick(student),
-            Icon: FaEdit,
-        },
-    ]
-
-    const columns: ColumnDef<Student>[] = [
-        {
-            accessorKey: 'user.name',
-            cell: (info) => (
-                <StudentCellInfo
-                    // link={`/portals/rto/students-and-placements/all-students/${info.row.original.id}/detail`}
-                    student={info.row.original}
-                    call
-                />
-            ),
-            header: () => <span>Student</span>,
-        },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info) => {
-                const industry = info.row.original?.industries
-
-                const appliedIndustry = studentsListWorkplace(
-                    info.row.original?.workplace
-                )
-
-                return industry && industry?.length > 0 ? (
-                    <IndustryCell industry={industry[0]} />
-                ) : info.row.original?.workplace &&
-                  info.row.original?.workplace?.length > 0 &&
-                  appliedIndustry ? (
-                    <IndustryCell industry={appliedIndustry} />
-                ) : (
-                    <Typography center>N/A</Typography>
-                )
-            },
-        },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => <SectorCell student={info.row.original} />,
-        },
-        {
-            accessorKey: 'batch',
-            header: () => <span>Batch</span>,
-            cell: ({ row }) => (
-                <Typography whiteSpacePre variant="small" medium>
-                    {row?.original?.batch}
-                </Typography>
-            ),
-        },
-        {
-            accessorKey: 'expiry',
-            header: () => <span>Expiry Countdown</span>,
-            cell: (info) => (
-                <StudentExpiryDaysLeft
-                    expiryDate={info.row.original?.expiryDate}
-                />
-            ),
-        },
-        {
-            accessorKey: 'progress',
-            header: () => <span>Progress</span>,
-            cell: ({ row }) => {
-                const student = row.original
-                const workplace = student?.workplace
-                    ?.filter(
-                        (w: any) =>
-                            w?.currentStatus !==
-                            WorkplaceCurrentStatus.Cancelled
-                    )
-                    ?.reduce(
-                        (a: any, b: any) =>
-                            a?.createdAt > b?.createdAt ? a : b,
-                        {
-                            currentStatus: WorkplaceCurrentStatus.NotRequested,
-                        }
-                    )
-
-                const studentStatus = checkStudentStatus(student?.studentStatus)
-                const appliedIndustry = getStudentWorkplaceAppliedIndustry(
-                    workplace?.industries
-                )
-
-                return (
-                    <StudentStatusProgressCell
-                        assigned={workplace?.assignedTo || student?.subadmin}
-                        studentId={student?.id}
-                        step={studentStatus}
-                        appliedIndustry={appliedIndustry}
-                    />
-                )
-            },
-        },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: ({ row }) => (
-                <UserCreatedAt createdAt={row.original?.createdAt} />
-            ),
-        },
-        {
-            accessorKey: 'action',
-            header: () => <span>Action</span>,
-            cell: (info) => (
-                <div className="flex gap-x-1 items-center">
-                    <TableAction
-                        options={tableActionOptions}
-                        rowItem={info.row.original}
-                    />
-                </div>
-            ),
-        },
-    ]
-
-    const quickActionsElements = {
-        id: 'id',
-        individual: (id: Student) => (
-            <div className="flex gap-x-2">
-                <ActionButton Icon={FaEdit}>Edit</ActionButton>
-                <ActionButton>Sub Admins</ActionButton>
-                <ActionButton Icon={MdBlock} variant="error">
-                    Block
-                </ActionButton>
-            </div>
-        ),
-        common: (ids: Student[]) => (
-            <ActionButton Icon={MdBlock} variant="error">
-                Block
-            </ActionButton>
-        ),
-    }
+    const { columns } = getTableConfig({
+        actionKeys: ['changeStatus', 'changeExpiry'],
+        removeColumnKeys: ['assigned'],
+    })
 
     return (
         <>
             {modal}
             <div className="flex flex-col gap-y-4">
-                {/* <PageHeading
-                    title={'Completed Students'}
-                    subtitle={'List of Completed Students'}
-                >
-                    {data && data?.data.length ? (
-                        <>
-                            <a
-                                href={`${process.env.NEXT_PUBLIC_END_POINT}/rtos/students-list/download/${userId}?status=active
-                        `}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {' '}
-                                <Button
-                                    text={'Export'}
-                                    variant={'action'}
-                                    Icon={FaFileExport}
-                                />
-                            </a>
-                        </>
-                    ) : null}
-                </PageHeading> */}
-
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading ? (
                         <LoadingAnimation height="h-[60vh]" />
                     ) : data && data?.data.length ? (
-                        <Table
-                            columns={columns}
-                            data={data.data}
-                            quickActions={quickActionsElements}
-                            // enableRowSelection
-                        >
+                        <Table columns={columns} data={data.data}>
                             {({
                                 table,
                                 pagination,

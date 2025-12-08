@@ -1,23 +1,15 @@
 import {
-    StudentHeader,
-    ActionBanner,
-    PlacementRequest,
-    CourseOverview,
-    CourseProgress,
-    CurrentStatus,
-    WorkplaceBio,
-    WorkplaceDetails,
-    PlacementWorkflow,
-    Communications,
-    Schedule,
-    Documents,
     Appointments,
-    Tickets,
+    Communications,
     RtoInfo,
+    Schedule,
+    StudentAssessmentDocuments,
+    StudentHeader,
+    StudentInfoMessage,
+    StudentOverview,
+    Tickets,
 } from './components'
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
-import { AllWorkplaces } from './components/AllWorkplaces'
 import {
     ConfigTabs,
     EmptyData,
@@ -25,6 +17,8 @@ import {
     TabConfig,
     TechnicalError,
 } from '@components'
+import { useGetSubAdminStudentDetailQuery } from '@queries'
+import { Student } from '@types'
 import {
     Book,
     Building2,
@@ -33,32 +27,50 @@ import {
     MessageSquare,
     Ticket,
 } from 'lucide-react'
-import { useGetSubAdminStudentDetailQuery } from '@queries'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setStudentDetail } from '@redux'
+import { AllWorkplaces } from './components/AllWorkplaces/AllWorkplaces'
 
 export const RtoStudentDetail = () => {
     const router = useRouter()
+
+    const dispatch = useDispatch()
+
     const studentId = Number(router.query?.id)
     const profile = useGetSubAdminStudentDetailQuery(studentId, {
         skip: !studentId,
         refetchOnMountOrArgChange: 30,
     })
+
+    const studentDetail = useSelector(
+        (state: any) => state?.student?.studentDetail
+    )
+
+    useEffect(() => {
+        if (profile?.data) {
+            dispatch(setStudentDetail(profile?.data))
+        }
+    }, [profile?.data])
+
     const tabs: TabConfig[] = [
         {
             value: 'overview',
             label: 'Overview',
             icon: Book,
-            component: () => (
-                <div className="space-y-[19.87px] mt-[19.87px]">
-                    <CourseOverview />
-                    <CourseProgress />
-                    <PlacementRequest />
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-[19.87px]">
-                        <WorkplaceBio />
-                        <CurrentStatus />
-                    </div>
-                </div>
-            ),
+            // component: () => (
+            //     <div className="space-y-[19.87px] mt-[19.87px]">
+            //         <CourseOverview />
+            //         <CourseProgress />
+            //         <PlacementRequest />
+            //         <div className="grid grid-cols-1 lg:grid-cols-2 gap-[19.87px]">
+            //             <WorkplaceBio />
+            //             <CurrentStatus />
+            //         </div>
+            //     </div>
+            // ),
+            component: () => <StudentOverview />,
         },
         {
             value: 'workplace',
@@ -66,8 +78,7 @@ export const RtoStudentDetail = () => {
             label: 'Workplace',
             component: () => (
                 <div className="space-y-[19.87px] mt-[19.87px]">
-                    <AllWorkplaces />
-                    {/* <PlacementWorkflow /> */}
+                    <AllWorkplaces studentId={studentId} />
                 </div>
             ),
         },
@@ -76,31 +87,29 @@ export const RtoStudentDetail = () => {
             icon: MessageSquare,
             label: 'Communications',
             component: () => (
-                <div className="mt-[19.87px]">
-                    <Communications />
-                </div>
+                <Communications student={profile?.data as Student} />
             ),
         },
         {
+            label: 'Schedule',
             value: 'schedule',
             icon: CalendarCheck,
-            label: 'Schedule',
             component: () => (
-                <div className="mt-[19.87px]">
-                    <Schedule
-                        selectedCourseId={profile?.data?.courses?.[0]?.id?.toString() || ''}
-                    />
-                </div>
+                <Schedule
+                    selectedCourseId={
+                        profile?.data?.courses?.[0]?.id?.toString() || ''
+                    }
+                />
             ),
         },
         {
-            value: 'documents',
             icon: File,
+            value: 'documents',
             label: 'Documents',
             component: () => (
-                <div className="mt-[19.87px]">
-                    <Documents />
-                </div>
+                <StudentAssessmentDocuments
+                    student={profile?.data as Student}
+                />
             ),
         },
         {
@@ -108,9 +117,7 @@ export const RtoStudentDetail = () => {
             icon: CalendarCheck,
             label: 'Appointments',
             component: () => (
-                <div className="mt-[19.87px]">
-                    <Appointments />
-                </div>
+                <Appointments student={profile?.data as Student} />
             ),
         },
         {
@@ -118,8 +125,8 @@ export const RtoStudentDetail = () => {
             label: 'Tickets',
             icon: Ticket,
             component: () => (
-                <div className="mt-[19.87px]">
-                    <Tickets />
+                <div>
+                    <Tickets student={profile?.data as Student} />
                 </div>
             ),
         },
@@ -132,17 +139,18 @@ export const RtoStudentDetail = () => {
             {profile?.isLoading || profile?.isFetching ? (
                 <LoadingAnimation />
             ) : profile?.data && profile?.isSuccess ? (
-                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
+                <div className="bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
                     {/* Header */}
                     <RtoInfo />
 
-                    <main className="max-w-7xl mx-auto px-[13.25px] sm:px-[19.87px] lg:px-[26.5px] py-[19.87px]">
+                    <main className="max-w-7xl mx-auto px-[13.25px] sm:px-[19.87px] lg:px-[26.5px] py-[19.87px] space-y-4">
                         <StudentHeader student={profile?.data} />
-                        <ActionBanner />
+                        <StudentInfoMessage
+                            studentUserId={profile?.data?.user?.id}
+                        />
 
                         <ConfigTabs
                             tabs={tabs}
-                            className="mt-4"
                             tabsClasses="bg-white"
                             tabsTriggerClasses="!py-2 data-[state=active]:!bg-primaryNew data-[state=active]:!text-white !text-[13px]"
                         />

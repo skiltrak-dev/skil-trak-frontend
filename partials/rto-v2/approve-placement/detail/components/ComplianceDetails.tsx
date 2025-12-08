@@ -46,6 +46,7 @@ export function ComplianceDetails({
 
             <SkiltrakChecklistDetail
                 industryUserId={approval?.industry?.user?.id}
+                industryName={approval?.industry?.user?.name}
                 courseId={Number(approval?.workplaceRequest?.courses?.[0]?.id)}
             />
 

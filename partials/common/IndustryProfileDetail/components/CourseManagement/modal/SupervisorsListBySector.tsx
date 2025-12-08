@@ -1,7 +1,10 @@
 import {
     ActionButton,
     AuthorizedUserComponent,
+    Badge,
+    Card,
     EmptyData,
+    InitialAvatar,
     NoData,
     Typography,
 } from '@components'
@@ -10,34 +13,44 @@ import { useContextBar } from '@hooks'
 import { SupervisorQualification } from '@partials/common/IndustrySupervisor'
 import { AddSupervisor } from '@partials/common/IndustrySupervisor/form'
 import Image from 'next/image'
-
+import { useState } from 'react'
 import { MdModeEdit } from 'react-icons/md'
+import { GraduationCap, Briefcase, User, Mail, Phone } from 'lucide-react'
 
 export const SupervisorsListBySector = ({
     sector,
     industry,
-    getSupervisorBySector,
     onCloseModal,
+    getSupervisorBySector,
 }: any) => {
+    const [isAddSupervisor, setIsAddSupervisor] = useState(false)
     const contextBar = useContextBar()
 
-    const qualificationLevel = SupervisorQualification?.find(
-        (level) => level.value === getSupervisorBySector?.data?.level
-    )
+    const supervisors = getSupervisorBySector?.data
+
+    if (isAddSupervisor) {
+        return <AddSupervisor industry={industry} sector={sector} />
+    }
 
     return (
         <>
-            <div className="flex justify-center flex-col gap-y-2 px-8 py-4 w-96">
-                <div className="flex flex-col gap-y-2 items-center">
-                    <Image
-                        src={'/images/industry/add-course-icon.svg'}
-                        width={50}
-                        height={50}
-                        alt="course icon"
-                    />
-                    <Typography variant="subtitle" semibold>
-                        Supervisor
+            <div className="flex justify-between items-center pt-7 pb-3">
+                <div className="bg-gradient-to-r from-slate-50 to-white">
+                    <Typography
+                        variant="title"
+                        semibold
+                        className="text-[#044866]"
+                    >
+                        Supervisors
                     </Typography>
+                </div>
+
+                <div>
+                    <ActionButton
+                        variant="dark"
+                        text="Add Supervisor"
+                        onClick={() => setIsAddSupervisor(true)}
+                    />
                 </div>
             </div>
 
@@ -45,137 +58,168 @@ export const SupervisorsListBySector = ({
                 <NoData isError text={'There is some technical issue!'} />
             ) : null}
 
-            {getSupervisorBySector?.data && getSupervisorBySector?.isSuccess ? (
-                <div className="h-auto bg-gradient-to-br from-blue-50 to-indigo-100 ">
-                    <div className="container mx-auto px-4 py-8">
-                        {/* Supervisor Grid */}
-                        <div className="">
-                            <div className="relative bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 cursor-pointer transform hover:scale-105">
-                                <div className="absolute top-1 right-1">
-                                    <AuthorizedUserComponent
-                                        roles={[
-                                            UserRoles.ADMIN,
-                                            UserRoles.SUBADMIN,
-                                        ]}
-                                        isAssociatedWithRto={false}
-                                    >
-                                        <ActionButton
-                                            variant="info"
-                                            Icon={MdModeEdit}
-                                            onClick={() => {
-                                                contextBar.setTitle(
-                                                    'Edit Supervisor'
-                                                )
-                                                contextBar.show()
-                                                contextBar.setContent(
-                                                    <AddSupervisor
-                                                        edit
-                                                        sector={sector}
-                                                        industry={industry}
-                                                        initialValues={
-                                                            getSupervisorBySector?.data
-                                                        }
+            {supervisors &&
+            supervisors?.length > 0 &&
+            getSupervisorBySector?.isSuccess ? (
+                <div className="h-auto bg-gradient-to-br from-blue-50 to-indigo-100 w-[600px]">
+                    <div className="container mx-auto p-2">
+                        <div className=" space-y-2">
+                            {supervisors?.map((supervisor: any) => {
+                                const qualificationLevel =
+                                    SupervisorQualification?.find(
+                                        (level) =>
+                                            level.value === supervisor?.level
+                                    )
+                                return (
+                                    <Card className="relative border-2 border-slate-100 hover:border-[#044866]/20 hover:shadow-xl transition-all group">
+                                        {/* Edit Button */}
+                                        <div className="absolute top-4 right-4 z-10">
+                                            <AuthorizedUserComponent
+                                                roles={[
+                                                    UserRoles.ADMIN,
+                                                    UserRoles.SUBADMIN,
+                                                ]}
+                                                isAssociatedWithRto={false}
+                                            >
+                                                <ActionButton
+                                                    variant="info"
+                                                    Icon={MdModeEdit}
+                                                    onClick={() => {
+                                                        contextBar.setTitle(
+                                                            'Edit Supervisor'
+                                                        )
+                                                        contextBar.show()
+                                                        contextBar.setContent(
+                                                            <AddSupervisor
+                                                                edit
+                                                                sector={sector}
+                                                                industry={
+                                                                    industry
+                                                                }
+                                                                initialValues={
+                                                                    supervisor
+                                                                }
+                                                            />
+                                                        )
+                                                        onCloseModal()
+                                                    }}
+                                                />
+                                            </AuthorizedUserComponent>
+                                        </div>
+
+                                        {/* Header Section */}
+                                        <div className="bg-gradient-to-r from-slate-50 to-white">
+                                            <div className="flex items-start gap-[0.88rem]">
+                                                {supervisor?.name && (
+                                                    <InitialAvatar
+                                                        name={supervisor.name}
+                                                        large
                                                     />
-                                                )
-                                                onCloseModal()
-                                            }}
-                                        />
-                                    </AuthorizedUserComponent>
-                                </div>{' '}
-                                <div className="flex items-center mb-4">
-                                    <div className="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                                        {getSupervisorBySector?.data?.name.charAt(
-                                            0
-                                        )}
-                                    </div>
-                                    <div className="ml-4">
-                                        <Typography variant="subtitle">
-                                            {getSupervisorBySector?.data?.name}
-                                        </Typography>
-                                    </div>
-                                </div>
-                                <div className="border-t pt-4">
-                                    <Typography variant="label">
-                                        Qualification:
-                                    </Typography>
-                                    <Typography variant="subtitle">
-                                        {qualificationLevel?.label}
-                                    </Typography>
-                                </div>
-                                <div className="border-t mt-3">
-                                    <Typography variant="label">
-                                        Course Title:
-                                    </Typography>
-                                    <Typography variant="subtitle">
-                                        {getSupervisorBySector?.data?.title}
-                                    </Typography>
-                                </div>
-                                <div className="border-t mt-3">
-                                    <Typography variant="label">
-                                        Experiance:
-                                    </Typography>
-                                    <Typography variant="subtitle">
-                                        {getSupervisorBySector?.data
-                                            ?.experience || '---'}
-                                    </Typography>
-                                </div>
-                                {/* <div className="mt-4 text-right">
-                                    <span className="text-indigo-500 text-sm font-medium hover:text-indigo-700">
-                                        View Details →
-                                    </span>
-                                </div> */}
-                            </div>
+                                                )}
+                                                <div className="flex-1">
+                                                    <div className="text-[#044866] mb-[0.22rem] text-[0.88em] font-semibold">
+                                                        {supervisor?.name}
+                                                    </div>
+                                                    <p className="text-[0.77em] text-slate-600">
+                                                        {supervisor?.title ||
+                                                            'Industry Supervisor'}
+                                                    </p>
+                                                    <Badge
+                                                        text={`${
+                                                            supervisor?.experience ||
+                                                            '---'
+                                                        }`}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2 pt-[1.1rem]">
+                                            {/* Qualifications */}
+                                            <div>
+                                                <div className="flex items-center gap-[0.44rem] mb-[0.66rem]">
+                                                    <GraduationCap className="w-[0.88rem] h-[0.88rem] text-[#0D5468]" />
+                                                    <h4 className="text-slate-900 text-[0.88em] font-semibold">
+                                                        Qualifications
+                                                    </h4>
+                                                </div>
+                                                <div className="flex flex-wrap gap-[0.44rem] text-[0.88em]">
+                                                    {qualificationLevel?.label ||
+                                                        '--'}
+                                                </div>
+                                            </div>
+
+                                            {/* Experience */}
+                                            <div className="bg-slate-50 p-[0.88rem] rounded-lg border border-slate-100">
+                                                <div className="flex items-center gap-[0.44rem] mb-[0.44rem]">
+                                                    <Briefcase className="w-[0.88rem] h-[0.88rem] text-[#0D5468]" />
+                                                    <h4 className="text-slate-900 text-[0.88em] font-semibold">
+                                                        Experience & Expertise
+                                                    </h4>
+                                                </div>
+                                                <p className="text-[0.77em] text-slate-700 leading-relaxed">
+                                                    {supervisor?.description ||
+                                                        supervisor?.title ||
+                                                        'Experienced industry professional providing guidance and supervision.'}
+                                                </p>
+                                            </div>
+
+                                            {/* Supervision Approach */}
+                                            <div className="bg-purple-50 p-[0.88rem] rounded-lg border border-purple-100">
+                                                <div className="flex items-center gap-[0.44rem] mb-[0.44rem]">
+                                                    <User className="w-[0.88rem] h-[0.88rem] text-purple-600" />
+                                                    <h4 className="text-purple-900 text-[0.88em] font-semibold">
+                                                        Supervision Approach
+                                                    </h4>
+                                                </div>
+                                                <p className="text-[0.77em] text-purple-800">
+                                                    Direct supervision with
+                                                    regular feedback sessions
+                                                </p>
+                                            </div>
+
+                                            {/* Contact Information */}
+                                            <div className="pt-[0.88rem] border-t border-slate-100">
+                                                <h4 className="text-slate-900 mb-[0.66rem] text-[0.77em] font-semibold">
+                                                    Contact Information
+                                                </h4>
+                                                <div className="space-y-[0.44rem]">
+                                                    <div className="flex items-center gap-[0.66rem]">
+                                                        <Mail className="w-[0.88rem] h-[0.88rem] text-slate-400" />
+                                                        <a
+                                                            href={`mailto:${
+                                                                supervisor?.email ||
+                                                                industry?.user
+                                                                    ?.email
+                                                            }`}
+                                                            className="text-[0.77em] text-[#044866] hover:underline"
+                                                        >
+                                                            {supervisor?.email ||
+                                                                industry?.user
+                                                                    ?.email ||
+                                                                '--'}
+                                                        </a>
+                                                    </div>
+                                                    <div className="flex items-center gap-[0.66rem]">
+                                                        <Phone className="w-[0.88rem] h-[0.88rem] text-slate-400" />
+                                                        <span className="text-[0.77em] text-slate-700">
+                                                            {supervisor?.phone ||
+                                                                industry?.contactPersonNumber ||
+                                                                '--'}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <p className="text-[0.66em] text-slate-500 mt-[0.66rem] italic">
+                                                    Available for coordination
+                                                    once placement commences
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                )
+                            })}
                         </div>
                     </div>
-
-                    {/* {selectedSupervisor && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-2xl font-bold text-gray-800">
-                                    Supervisor Details
-                                </h2>
-                                <button
-                                    onClick={() => setSelectedSupervisor(null)}
-                                    className="text-gray-500 hover:text-gray-700 text-2xl"
-                                >
-                                    ×
-                                </button>
-                            </div>
-
-                            <div className="space-y-4">
-                                <div className="flex items-center">
-                                    <div className="w-16 h-16 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                                        {selectedSupervisor.name.charAt(0)}
-                                    </div>
-                                    <div className="ml-4">
-                                        <h3 className="text-xl font-semibold text-gray-800">
-                                            {selectedSupervisor.name}
-                                        </h3>
-                                    </div>
-                                </div>
-
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <p className="text-sm text-gray-600 font-medium mb-2">
-                                        Qualification:
-                                    </p>
-                                    <p className="text-gray-800 text-lg">
-                                        {selectedSupervisor.qualification}
-                                    </p>
-                                </div>
-
-                                <div className="flex space-x-3 mt-6">
-                                    <button className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
-                                        Contact
-                                    </button>
-                                    <button className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors">
-                                        View Profile
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )} */}
                 </div>
             ) : getSupervisorBySector?.isSuccess ? (
                 <EmptyData />

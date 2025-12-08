@@ -12,7 +12,9 @@ import {
 export const SkiltrakChecklistDetail = ({
     courseId,
     industryUserId,
+    industryName,
 }: {
+    industryName: string
     courseId: number
     industryUserId: number
 }) => {
@@ -115,7 +117,7 @@ export const SkiltrakChecklistDetail = ({
                                         Signed By
                                     </div>
                                     <div className={colors.text}>
-                                        {signer?.user?.name || '---'}
+                                        {signer?.user?.name || industryName}
                                     </div>
                                 </div>
                                 {/* <div>

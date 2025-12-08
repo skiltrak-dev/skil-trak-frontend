@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // Icons
-import { FaBriefcase } from 'react-icons/fa'
 import { AiFillRedEnvelope } from 'react-icons/ai'
-import { ImPhone, ImLocation } from 'react-icons/im'
+import { FaBriefcase } from 'react-icons/fa'
+import { ImLocation } from 'react-icons/im'
 import { MdPhone } from 'react-icons/md'
 
 // components
-import { Card, Typography, DescriptiveInfo } from '@components'
+import { Card, DescriptiveInfo, Typography } from '@components'
 
 export const Workplaces = ({ workplaces }: any) => {
     const [workplace, setWorkplace] = useState<any | null>(null)

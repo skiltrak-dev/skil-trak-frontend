@@ -2,10 +2,9 @@
 
 import {
     ContextBar,
+    RtoNavbarV2,
     DisplayAlerts,
     DisplayNotifications,
-    PageTitleProps,
-    RtoNavbarV2,
 } from '@components'
 import { RtoSidebar } from '@components/sideBars/rtoSidebarV2'
 import { AccessNewPortalOnPermission } from '@partials'

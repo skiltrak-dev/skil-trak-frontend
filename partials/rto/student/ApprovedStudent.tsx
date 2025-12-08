@@ -1,31 +1,22 @@
 import {
     ActionButton,
     Card,
-    CaseOfficerAssignedStudent,
     EmptyData,
     LoadingAnimation,
-    StudentExpiryDaysLeft,
     Table,
-    TableAction,
     TableChildrenProps,
-    TechnicalError,
-    Typography,
-    UserCreatedAt,
+    TechnicalError
 } from '@components'
-import { ColumnDef } from '@tanstack/react-table'
-import { FaEdit, FaEye, FaUserPlus } from 'react-icons/fa'
+import { FaEdit } from 'react-icons/fa'
 
-import { EditTimer } from '@components/StudentTimer/EditTimer'
-import { SubadminStudentIndustries } from '@partials/sub-admin/students'
-import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
 import { RtoApi, useGetRtoStudentsQuery } from '@queries'
 import { Student, UserStatus } from '@types'
-import { getUserCredentials, studentsListWorkplace } from '@utils'
+import { getUserCredentials } from '@utils'
 import { saveAs } from 'file-saver'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import { MdBlock, MdChangeCircle } from 'react-icons/md'
-import { SectorCell, StudentCellInfo } from './components'
+import { useColumns } from './hooks'
 import { AssignCoordinatorModal, BlockModal } from './modals'
 import { AssignMultipleCoordinatorModal } from './modals/AssignMultipleCoordinatorModal'
 
@@ -34,6 +25,12 @@ export const ApprovedStudent = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [isExcelDownload, setIsExcelDownload] = useState<boolean>(false)
     const userId = getUserCredentials()?.id
+
+    const { getTableConfig, modal: newModal } = useColumns()
+
+    const { columns } = getTableConfig({
+        actionKeys: ['assign', 'block', 'changeStatus', 'changeExpiry'],
+    })
 
     const exportList = RtoApi.Students.useExportStudentList(
         {
@@ -80,25 +77,6 @@ export const ApprovedStudent = () => {
         )
     }
 
-    const onChangeStatus = (student: Student) => {
-        setModal(
-            <ChangeStudentStatusModal
-                student={student}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
-    const onDateClick = (student: Student) => {
-        setModal(
-            <EditTimer
-                studentId={student?.user?.id}
-                date={student?.expiryDate}
-                onCancel={onModalCancelClicked}
-            />
-        )
-    }
-
     const onAssignCoordinatorClicked = (student: Student) => {
         setModal(
             <AssignCoordinatorModal
@@ -118,159 +96,6 @@ export const ApprovedStudent = () => {
             />
         )
     }
-
-    const tableActionOptions = (student: Student) => [
-        {
-            text: 'View',
-            onClick: (student: Student) => {
-                router.push(`/portals/rto/students/${student.id}`)
-            },
-            Icon: FaEye,
-        },
-        {
-            text: 'Edit',
-            onClick: (student: Student) =>
-                router.push(`/portals/rto/students/${student.id}/edit-student`),
-            Icon: FaEye,
-        },
-        {
-            text: student?.rtoCoordinator
-                ? 'Change Coordinator'
-                : 'Assign Coordinator',
-            onClick: (student: Student) => onAssignCoordinatorClicked(student),
-            Icon: FaUserPlus,
-        },
-        {
-            text: 'Block',
-            onClick: (student: Student) => onBlockClicked(student),
-            Icon: MdBlock,
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        {
-            text: 'Change Status',
-            onClick: (student: Student) => onChangeStatus(student),
-            Icon: FaEdit,
-        },
-        {
-            text: 'Change Expiry',
-            onClick: (student: Student) => onDateClick(student),
-            Icon: FaEdit,
-        },
-    ]
-
-    const columns: ColumnDef<Student>[] = [
-        {
-            accessorKey: 'user.name',
-            cell: (info) => (
-                <StudentCellInfo
-                    // link={`/portals/rto/students-and-placements/all-students/${info.row.original.id}/detail`}
-                    student={info.row.original}
-                    call
-                />
-            ),
-            header: () => <span>Student</span>,
-        },
-        {
-            accessorKey: 'industry',
-            header: () => <span>Industry</span>,
-            cell: (info: any) => {
-                const industry = info.row.original?.industries
-
-                const appliedIndustry = studentsListWorkplace(
-                    info.row.original?.workplace
-                )
-
-                return industry && industry?.length > 0 ? (
-                    <SubadminStudentIndustries
-                        workplace={info.row.original?.workplace}
-                        industries={info.row.original?.industries}
-                    />
-                ) : info.row.original?.workplace &&
-                  info.row.original?.workplace?.length > 0 &&
-                  appliedIndustry ? (
-                    <SubadminStudentIndustries
-                        workplace={info.row.original?.workplace}
-                        industries={info.row.original?.industries}
-                    />
-                ) : (
-                    <Typography center>---</Typography>
-                )
-            },
-        },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => <SectorCell student={info.row.original} />,
-        },
-        {
-            accessorKey: 'expiry',
-            header: () => <span>Day Left</span>,
-            cell: (info) => (
-                <StudentExpiryDaysLeft
-                    expiryDate={info.row.original?.expiryDate}
-                />
-            ),
-        },
-        {
-            accessorKey: 'batch',
-            header: () => <span>Batch</span>,
-            cell: ({ row }) => (
-                <Typography whiteSpacePre variant="small" medium>
-                    {' '}
-                    {row?.original?.batch}{' '}
-                </Typography>
-            ),
-        },
-        {
-            accessorKey: 'progress',
-            header: () => <span>Progress</span>,
-            cell: ({ row }) => (
-                <CaseOfficerAssignedStudent student={row.original} />
-            ),
-        },
-        {
-            accessorKey: 'assigned',
-            header: () => <span>Assigned Coordinator</span>,
-            cell: ({ row }: any) =>
-                row.original?.rtoCoordinator ? (
-                    <div>
-                        <Typography variant="label">
-                            {row.original?.rtoCoordinator?.user?.name}
-                        </Typography>
-                        <Typography variant="small" color={'text-gray-400'}>
-                            {row.original?.rtoCoordinator?.user?.email}
-                        </Typography>
-                        <Typography variant="small" color={'text-gray-400'}>
-                            {row.original?.rtoCoordinator?.phone}
-                        </Typography>
-                    </div>
-                ) : (
-                    '----'
-                ),
-        },
-        {
-            accessorKey: 'createdAt',
-            header: () => <span>Created At</span>,
-            cell: ({ row }: any) => (
-                <UserCreatedAt createdAt={row.original?.createdAt} />
-            ),
-        },
-        {
-            accessorKey: 'action',
-            header: () => <span>Action</span>,
-            cell: (info) => {
-                const tableActionOption = tableActionOptions(info.row.original)
-                return (
-                    <div className="flex gap-x-1 items-center">
-                        <TableAction
-                            options={tableActionOption}
-                            rowItem={info.row.original}
-                        />
-                    </div>
-                )
-            },
-        },
-    ]
 
     const quickActionsElements = {
         id: 'id',
@@ -326,6 +151,7 @@ export const ApprovedStudent = () => {
     return (
         <>
             {modal && modal}
+            {newModal}
             <div className="flex flex-col gap-y-3">
                 {/* <PageHeading
                     title={'Approved Students'}

@@ -12,6 +12,7 @@ import {
     UserStatus,
     WorkplaceTypes,
 } from '@types'
+import { IWorkplaceIndustries } from 'redux/queryTypes'
 
 const PREFIX = 'subadmin'
 export const studentsEndpoints = (
@@ -330,7 +331,7 @@ export const studentsEndpoints = (
         ],
     }),
 
-    getWorkplaceForSchedule: builder.query<any, number>({
+    getWorkplaceForSchedule: builder.query<IWorkplaceIndustries[], number>({
         query: (id) => `${PREFIX}/student/${id}/industries`,
         providesTags: [
             'SubAdminStudents',

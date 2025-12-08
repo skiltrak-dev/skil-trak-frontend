@@ -1,0 +1,44 @@
+import { UserRoles } from '@constants'
+import { ScheduleAppointmentModal } from '@partials/rto-v2/appointments'
+import { useGetSubAdminStudentDetailQuery } from '@queries'
+import { Calendar, Sparkles } from 'lucide-react'
+import { useRouter } from 'next/router'
+
+export const AppointmentHeader = () => {
+    const router = useRouter()
+    const studentId = Number(router.query?.id)
+    const profile = useGetSubAdminStudentDetailQuery(studentId, {
+        skip: !studentId,
+        refetchOnMountOrArgChange: 30,
+    })
+    return (
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 shadow-xl p-3">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#044866] to-[#0D5468] flex items-center justify-center shadow-lg shadow-[#044866]/20">
+                        <Calendar className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                        <h3 className="text-slate-900 flex items-center gap-2">
+                            Appointments
+                            <Sparkles className="w-5 h-5 text-[#F7A619]" />
+                        </h3>
+                        <p className="text-slate-600 text-sm">
+                            Manage and track student appointments
+                        </p>
+                    </div>
+                </div>
+
+                {/*  */}
+                <ScheduleAppointmentModal
+                    defaultSelectedParicipantType={UserRoles.STUDENT}
+                    defaultSelectedUser={profile?.data}
+                />
+                {/* <Button className="flex-shrink-0 bg-gradient-to-r from-[#044866] to-[#0D5468] hover:from-[#0D5468] hover:to-[#044866] shadow-lg hover:shadow-xl hover:scale-105 transition-all">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Schedule New
+                </Button> */}
+            </div>
+        </div>
+    )
+}
