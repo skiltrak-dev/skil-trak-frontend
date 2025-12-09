@@ -51,8 +51,10 @@ export const CourseCard = ({
         [data, isPreviousCourses]
     )
     const { notification } = useNotification()
+
     const [confirmContent, confirmContentResult] =
         SubAdminApi.Industry.useConfirmCourseDescription()
+
     const onConfirmContent = (courseId: string) => {
         confirmContent(courseId).then((res: any) => {
             if (res.data) {
@@ -306,10 +308,12 @@ export const CourseCard = ({
                                                         </div>
                                                     </>
                                                 )}
-                                                <AddCourseProgramIndustry
-                                                    approval={approval}
-                                                    industry={industry}
-                                                />
+                                                {!isPreviousCourses && (
+                                                    <AddCourseProgramIndustry
+                                                        approval={approval}
+                                                        industry={industry}
+                                                    />
+                                                )}
                                                 {isPreviousCourses && (
                                                     <AddContentForOldIndustry
                                                         id={approval?.id}

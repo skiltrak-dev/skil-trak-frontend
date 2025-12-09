@@ -16,15 +16,20 @@ export const AddIndustryProgramModal = ({
 }) => {
     const [addProgram, setAddProgram] = useState(false)
 
-    const industryProgram = AdminApi.Industries.industryCourseProgramsList({
-        courseId: approval?.course?.id,
-        industryId: industry?.id,
-    })
+    const industryProgram = AdminApi.Industries.industryCourseProgramsList(
+        {
+            courseId: approval?.course?.id,
+            industryId: industry?.id,
+        },
+        {
+            skip: !approval?.course?.id || !industry?.id,
+        }
+    )
 
     return (
         <div>
             <Modal
-                title={'Industry Course Program'}
+                title={'Industry Course Streams (Blocks)'}
                 subtitle={''}
                 showActions={false}
                 onCancelClick={onCancel}

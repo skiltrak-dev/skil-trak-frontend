@@ -1,20 +1,10 @@
-import {
-    Check,
-    Clock,
-    Sparkles,
-    TrendingUp,
-    X,
-    AlertTriangle,
-    Ban,
-    MoreVertical,
-} from 'lucide-react'
-import { Badge, Button, TableAction } from '@components'
-import { WorkplaceCurrentStatus } from '@utils'
+import { Badge } from '@components'
 import {
     IWorkplaceIndustries,
     WorkplaceWorkIndustriesType,
 } from 'redux/queryTypes'
 import { useStatusInfo } from '../hooks/useStatusInfo'
+import { Check, Clock, Sparkles, TrendingUp } from 'lucide-react'
 
 export function CurrentStatus({
     workplace,
@@ -53,48 +43,6 @@ export function CurrentStatus({
                             {completedCount} of {totalCount} steps
                         </p>
                     </div>
-
-                    {/* Workflow Actions Menu */}
-                    {/* <TableAction
-                        rowItem={{}}
-                        options={[
-                            {
-                                text: 'Mark as On Hold',
-                                Icon: AlertTriangle,
-                                onClick: () => {},
-                                color: 'text-warning',
-                            },
-                            {
-                                text: 'Cancel Request',
-                                Icon: Ban,
-                                onClick: () => {},
-                                color: 'text-red-400',
-                            },
-                            {
-                                text: 'Terminate Placement',
-                                Icon: X,
-                                onClick: () => {},
-                                color: 'text-red-400',
-                            },
-                            {
-                                text: 'Request Extension',
-                                Icon: Clock,
-                                onClick: () => {},
-                            },
-                            {
-                                text: 'Mark Complete Early',
-                                Icon: Check,
-                                onClick: () => {},
-                            },
-                        ]}
-                    >
-                        <Button
-                            variant="primaryNew"
-                            outline
-                            mini
-                            Icon={MoreVertical}
-                        />
-                    </TableAction> */}
                 </div>
             </div>
 

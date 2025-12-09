@@ -1,6 +1,10 @@
 import { Badge, Button, InitialAvatar } from '@components'
 import { Progressbar } from '@partials/rto-v2/components/Progressbar'
-import { getStatusCategory } from '@partials/rto-v2/student-detail/utils'
+import {
+    getStatusCategory,
+    latestWpApprovalRequest,
+} from '@partials/rto-v2/student-detail/utils'
+import { WorkplaceCurrentStatus, WorkplaceStatusLabels } from '@utils'
 import {
     AlertCircle,
     Award,
@@ -14,13 +18,20 @@ import {
     XCircle,
 } from 'lucide-react'
 import moment from 'moment'
+import { ReactElement, useMemo, useState } from 'react'
 import { IWorkplaceIndustries } from 'redux/queryTypes'
+import { ComposeEmailModal } from '../../Communications'
+import { useRouter } from 'next/router'
 
 export const WorkplaceCard = ({
     workplace,
 }: {
     workplace: IWorkplaceIndustries
 }) => {
+    const [modal, setModal] = useState<ReactElement | null>(null)
+
+    const router = useRouter()
+
     const status = getStatusCategory(workplace?.currentStatus || '')
 
     const getStatusBadge = (status: string) => {
@@ -85,12 +96,34 @@ export const WorkplaceCard = ({
         }
     }
 
-    const industry = workplace?.industries?.[0]?.industry
+    const latestWorkplaceApprovaleRequest = useMemo(() => {
+        return latestWpApprovalRequest(
+            workplace?.workplaceApprovaleRequest || []
+        )
+    }, [workplace?.workplaceApprovaleRequest])
+
+    const industry =
+        latestWorkplaceApprovaleRequest?.industry ||
+        workplace?.industries?.[0]?.industry
+
     const supervisor = industry?.supervisors?.[0]
     const workplaceType = industry?.workplaceType
 
+    const onCancelClicked = () => setModal(null)
+
+    const onComposeMailClicked = () => {
+        setModal(
+            <ComposeEmailModal
+                user={industry?.user}
+                onCancel={onCancelClicked}
+            />
+        )
+    }
+
     return (
         <div className="group bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 shadow-lg hover:shadow-2xl transition-all overflow-hidden">
+            {modal}
+
             {/* Header Banner */}
             <div
                 className={`bg-gradient-to-r ${getStatusIcon(
@@ -135,7 +168,7 @@ export const WorkplaceCard = ({
                         </div>
                         <div>
                             <p className="text-xs text-slate-500 mb-0.5">
-                                Service Type
+                                Workplace Type
                             </p>
                             <p className="text-sm text-slate-900">
                                 {workplaceType?.name}
@@ -184,12 +217,12 @@ export const WorkplaceCard = ({
                             >
                                 <Phone className="w-3.5 h-3.5 text-[#044866]" />
                             </a>
-                            <a
-                                href={`mailto:${supervisor?.email}`}
+                            <div
+                                onClick={onComposeMailClicked}
                                 className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center hover:border-[#044866] hover:bg-[#044866]/5 transition-all"
                             >
                                 <Mail className="w-3.5 h-3.5 text-[#044866]" />
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -235,21 +268,41 @@ export const WorkplaceCard = ({
                     )} */}
 
                 {/* Pending Status Info */}
-                {/* {workplace.status === 'pending' && workplace.requestStatus && (
+                {status === 'pending' && (
                     <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
                         <div className="flex items-center gap-2">
                             <AlertCircle className="w-4 h-4 text-amber-600" />
                             <p className="text-sm text-amber-900">
                                 <span className="font-medium">Status:</span>{' '}
-                                {workplace.requestStatus}
+                                {
+                                    WorkplaceStatusLabels[
+                                        workplace?.currentStatus
+                                    ]
+                                }
                             </p>
                         </div>
-                        <p className="text-xs text-amber-700 mt-2">
+                        {/* <p className="text-xs text-amber-700 mt-2">
                             Requires {workplace.hoursRequired} hours of
                             placement
-                        </p>
+                        </p> */}
                     </div>
-                )} */}
+                )}
+
+                {workplace?.currentStatus ===
+                    WorkplaceCurrentStatus.AwaitingRtoResponse && (
+                    <Button
+                        outline
+                        fullWidth
+                        variant="primaryNew"
+                        text="View Details"
+                        className="mt-3"
+                        onClick={() =>
+                            router.push(
+                                `/portals/rto/action-required/approve-placement/${latestWorkplaceApprovaleRequest?.id}`
+                            )
+                        }
+                    />
+                )}
 
                 {/* Actions */}
                 {/* <div className="flex items-center gap-2 mt-4">

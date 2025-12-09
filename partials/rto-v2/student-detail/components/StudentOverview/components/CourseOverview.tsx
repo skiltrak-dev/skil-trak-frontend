@@ -1,14 +1,14 @@
-import { Badge, Button, LoadingAnimation, NoData } from '@components'
-import { Course, Student } from '@types'
-import { ArrowRight, BookOpen } from 'lucide-react'
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { Badge, LoadingAnimation, NoData } from '@components'
+import { setSelectedCourse } from '@redux'
+import { Course } from '@types'
+import { cn } from '@utils'
+import { BookOpen } from 'lucide-react'
+import { useDispatch, useSelector } from 'react-redux'
 import { CourseCard } from '../card'
 import { useCourseSelection } from '../hooks'
-import { ViewAllCourseModal } from '../modal'
 
 export const CourseOverview = () => {
-    const [modalOpen, setModalOpen] = useState(false)
+    const dispatch = useDispatch()
 
     const { studentCourses } = useCourseSelection()
 
@@ -16,7 +16,9 @@ export const CourseOverview = () => {
         (state: any) => state?.student?.selectedCourse
     )
 
-    console.log({ selectedCourse })
+    const onSelectCourse = (course: Course) => {
+        dispatch(setSelectedCourse(course))
+    }
 
     return (
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 shadow-xl shadow-slate-200/50 p-4.5 hover:shadow-2xl transition-all">
@@ -30,7 +32,9 @@ export const CourseOverview = () => {
                             My Courses
                             <Badge
                                 variant="primaryNew"
-                                text="3 Active"
+                                text={`${
+                                    studentCourses?.data?.length || 0
+                                } Active`}
                                 size="xs"
                                 className="border border-[#044866]/20"
                             />
@@ -40,7 +44,7 @@ export const CourseOverview = () => {
                         </p>
                     </div>
                 </div>
-                <Button
+                {/* <Button
                     outline
                     variant="secondary"
                     onClick={() => setModalOpen(true)}
@@ -48,15 +52,15 @@ export const CourseOverview = () => {
                 >
                     View All Courses ({(studentCourses?.data?.length || 1) - 1}{' '}
                     more) <ArrowRight className="w-3 h-3 ml-2" />
-                </Button>
+                </Button> */}
             </div>
 
-            <ViewAllCourseModal
+            {/* <ViewAllCourseModal
                 open={modalOpen}
                 onOpenChange={setModalOpen}
                 courses={studentCourses?.data || []}
                 isLoading={studentCourses?.isLoading}
-            />
+            /> */}
 
             {studentCourses?.isError ? (
                 <NoData isError text="There is some technical error!" />
@@ -69,7 +73,22 @@ export const CourseOverview = () => {
             ) : studentCourses?.isSuccess &&
               studentCourses?.data &&
               studentCourses?.data?.length > 0 ? (
-                <CourseCard selectedCourse={selectedCourse as Course} />
+                <div
+                    className={cn('grid grid-cols-1 md:grid-cols-2 gap-2', {
+                        'h-40 overflow-auto custom-scrollbar':
+                            studentCourses?.data?.length > 2,
+                        'md:!grid-cols-1': studentCourses?.data?.length === 1,
+                    })}
+                >
+                    {studentCourses?.data?.map((course: any) => (
+                        <CourseCard
+                            key={course?.id}
+                            selectedCourse={course}
+                            onClick={() => onSelectCourse(course)}
+                            isActive={selectedCourse?.id === course?.id}
+                        />
+                    ))}
+                </div>
             ) : (
                 studentCourses?.isSuccess && (
                     <NoData text="No Call Logs Found!" />

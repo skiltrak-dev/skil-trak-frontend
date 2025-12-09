@@ -42,11 +42,15 @@ export const ViewAllCourseModal = ({
                     {courses && courses.length > 0 ? (
                         courses.map((course) => (
                             <CourseCard
-                                selectedCourse={course}
+                                key={course?.id}
+                                selectedCourse={
+                                    course as Course & {
+                                        coursePrograms: number
+                                    }
+                                }
                                 onClick={() => {
                                     onSelectCourse(course)
                                 }}
-                                key={course.id}
                             />
                         ))
                     ) : (
