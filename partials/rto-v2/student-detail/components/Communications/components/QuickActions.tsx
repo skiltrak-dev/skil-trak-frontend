@@ -18,7 +18,10 @@ export const QuickActions = ({ student }: { student: Student }) => {
 
     const onComposeMailClicked = () => {
         setModal(
-            <ComposeEmailModal onCancel={onCancelClicked} student={student} />
+            <ComposeEmailModal
+                onCancel={onCancelClicked}
+                user={student?.user}
+            />
         )
     }
 

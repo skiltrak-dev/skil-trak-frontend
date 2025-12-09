@@ -52,11 +52,11 @@ export function AllWorkplaces({ studentId }: { studentId: number }) {
                                     </p>
                                 </div>
                             </div>
-                            <Button
+                            {/* <Button
                                 variant="primaryNew"
                                 className="bg-gradient-to-r from-[#044866] to-[#0D5468] hover:from-[#0D5468] hover:to-[#044866] text-white shadow-lg shadow-[#044866]/30 px-[11.9px] py-[1.8px] text-[9.9px]"
                                 text="+ Request New Placement"
-                            />
+                            /> */}
                         </div>
                     </div>
 

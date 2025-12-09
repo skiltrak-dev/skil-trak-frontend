@@ -1,23 +1,22 @@
+import { User } from '@types'
 import { GlobalModal } from '@components'
 import { ComposeMail } from '@partials/common/MailsListing'
-import { Student } from '@types'
-import React from 'react'
 
 export const ComposeEmailModal = ({
     onCancel,
-    student,
+    user,
     parentId,
 }: {
-    student: Student
-    onCancel: () => void
+    user: User
     parentId?: number
+    onCancel: () => void
 }) => {
     return (
         <GlobalModal>
             <ComposeMail
                 parentId={parentId}
                 onCancelComposeMail={onCancel}
-                senderEmail={student?.user?.email}
+                senderEmail={user?.email}
             />
         </GlobalModal>
     )

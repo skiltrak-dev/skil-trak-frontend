@@ -22,6 +22,30 @@ export enum WorkplaceCurrentStatus {
     Rejected = 'rejected',
     Terminated = 'terminated',
 }
+
+export const WorkplaceStatusLabels: Record<WorkplaceCurrentStatus, string> = {
+    [WorkplaceCurrentStatus.NotRequested]: 'Not Requested',
+    [WorkplaceCurrentStatus.Applied]: 'Applied',
+    [WorkplaceCurrentStatus.CaseOfficerAssigned]: 'Case Officer Assigned',
+    [WorkplaceCurrentStatus.Interview]: 'Interview Scheduled',
+    [WorkplaceCurrentStatus.IndustryEligibility]: 'Industry Eligibility Check',
+    [WorkplaceCurrentStatus.AwaitingWorkplaceResponse]:
+        'Awaiting Workplace Response',
+    [WorkplaceCurrentStatus.AwaitingStudentResponse]:
+        'Awaiting Student Response',
+    [WorkplaceCurrentStatus.AwaitingRtoResponse]: 'Awaiting RTO Response',
+    [WorkplaceCurrentStatus.AppointmentBooked]: 'Appointment Booked',
+    [WorkplaceCurrentStatus.AwaitingAgreementSigned]:
+        'Awaiting Agreement Signature',
+    [WorkplaceCurrentStatus.AgreementSigned]: 'Agreement Signed',
+    [WorkplaceCurrentStatus.PlacementStarted]: 'Placement Started',
+    [WorkplaceCurrentStatus.Cancelled]: 'Cancelled',
+    [WorkplaceCurrentStatus.Completed]: 'Completed',
+    [WorkplaceCurrentStatus.NoResponse]: 'No Response',
+    [WorkplaceCurrentStatus.Rejected]: 'Rejected',
+    [WorkplaceCurrentStatus.Terminated]: 'Terminated',
+}
+
 export const checkWorkplaceStatus = (currentStatus: WorkplaceCurrentStatus) => {
     const requestTypeActions = [
         'notRequested',

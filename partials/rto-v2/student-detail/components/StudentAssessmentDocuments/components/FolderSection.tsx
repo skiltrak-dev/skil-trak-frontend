@@ -13,6 +13,7 @@ interface FolderSectionProps {
 
     course: Course
     filterKey: string
+    documents: Folder[]
 }
 
 export const FolderSection = ({
@@ -20,6 +21,7 @@ export const FolderSection = ({
     title,
     stats,
     filterKey,
+    documents,
     sectionType,
     description,
 }: FolderSectionProps) => {
@@ -27,16 +29,17 @@ export const FolderSection = ({
         (state: any) => state?.student?.studentDetail
     )
 
-    const documents = RtoV2Api.StudentDocuments.getStudentDocumentsList(
-        {
-            search: `${filterKey}:true`,
-            studentId,
-            courseId: course?.id,
-        },
-        {
-            skip: !studentId || !course.id,
-        }
-    )
+    // const documents = RtoV2Api.StudentDocuments.getStudentDocumentsList(
+    //     {
+    //         // search: `${filterKey}:true`,
+    //         studentId,
+    //         courseId: course?.id,
+    //     },
+    //     {
+    //         skip: !studentId || !course.id,
+    //     }
+    // )
+    console.log({ filterKey, documents })
 
     return (
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden">
@@ -46,7 +49,31 @@ export const FolderSection = ({
                 courseStats={stats}
             />
 
-            {documents.isError && (
+            {documents && documents?.length > 0 ? (
+                <div
+                    className={`p-3 space-y-${
+                        sectionType === 'industry' ? '3' : '2'
+                    }`}
+                >
+                    {documents?.map((folder: Folder) => {
+                        const config = getStatusConfig(
+                            folder?.studentResponse?.[0]?.status
+                        )
+
+                        return (
+                            <FolderCard
+                                key={folder.id}
+                                folder={folder}
+                                config={config}
+                            />
+                        )
+                    })}
+                </div>
+            ) : (
+                <NoData text="There is no document list" />
+            )}
+
+            {/* {documents.isError && (
                 <NoData text={'There is some technical issue!'} isError />
             )}
             {documents.isLoading || documents.isFetching ? (
@@ -79,7 +106,7 @@ export const FolderSection = ({
                 documents.isSuccess && (
                     <NoData text="There is no document list" />
                 )
-            )}
+            )} */}
         </div>
     )
 }

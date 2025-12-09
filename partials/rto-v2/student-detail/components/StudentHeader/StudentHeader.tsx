@@ -4,8 +4,10 @@ import { Mail, MapPin, Phone, Smartphone } from 'lucide-react'
 import { HeaderQuickActions } from './HeaderQuickActions'
 import { StudentQuickInfo } from './StudentQuickInfo'
 import { StudentTimeline } from './StudentTimeline'
+import { StudentSnoozeAlert } from './StudentSnoozeAlert'
 
 export const StudentHeader = ({ student }: { student: Student }) => {
+    console.log({ student })
     const studentContactInfo = [
         {
             id: 'email',
@@ -82,8 +84,8 @@ export const StudentHeader = ({ student }: { student: Student }) => {
     return (
         <div className="relative">
             {/* Main Card with Gradient Border Effect */}
-            <div className="relative bg-gradient-to-r from-[#044866] via-[#0D5468] to-[#044866] p-0.5 rounded-3xl shadow-2xl">
-                <div className="bg-white rounded-3xl overflow-hidden space-y-4 p-3">
+            <div className="relative bg-gradient-to-r from-[#044866] via-[#0D5468] to-[#044866] p-0.5 rounded-xl shadow-2xl">
+                <div className="bg-white rounded-xl overflow-hidden space-y-4 p-3">
                     {/* Top Section - Profile & Contact */}
                     <div className="relative bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
                         <div className="flex items-center justify-between">
@@ -203,7 +205,10 @@ export const StudentHeader = ({ student }: { student: Student }) => {
                     </div>
 
                     {/* Bottom Section - Info Cards */}
-                    <div className="bg-white">
+                    <div className="bg-white space-y-4">
+                        {student?.isSnoozed && (
+                            <StudentSnoozeAlert student={student} />
+                        )}
                         <StudentQuickInfo />
 
                         {/* Timeline Banner */}

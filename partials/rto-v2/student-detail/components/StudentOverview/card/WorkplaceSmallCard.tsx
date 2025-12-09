@@ -7,6 +7,9 @@ import {
     WorkplaceWorkIndustriesType,
 } from 'redux/queryTypes'
 import { useStatusInfo } from '../hooks/useStatusInfo'
+import { useMemo } from 'react'
+import { WorkplaceStatusLabels } from '@utils'
+import { latestWpApprovalRequest } from '@partials/rto-v2'
 export const WorkplaceSmallCard = ({
     request,
     index,
@@ -16,26 +19,26 @@ export const WorkplaceSmallCard = ({
 }) => {
     const dispatch = useDispatch()
 
+    const latestWorkplaceApprovaleRequest = useMemo(() => {
+        return latestWpApprovalRequest(request?.workplaceApprovaleRequest || [])
+    }, [request?.workplaceApprovaleRequest])
+
     const isActive = true
     const workIndustry = request?.industries?.[0]
-    const industry = workIndustry?.industry
+    const industry =
+        workIndustry?.industry || latestWorkplaceApprovaleRequest?.industry
 
     const onSelectWorkplace = () => {
         dispatch(setSelectedWorkplace(request))
     }
 
-    const {
-        statuses,
-        progressPercent,
-        completedCount,
-        totalCount,
-        nextStep,
-        previousStep,
-        currentStep,
-    } = useStatusInfo({
+    const { progressPercent } = useStatusInfo({
         workplace: request,
         workIndustry: workIndustry as WorkplaceWorkIndustriesType,
     })
+
+    const course = request?.courses?.[0]
+    const extraHours = course?.extraHours?.[0]
 
     return (
         <div
@@ -71,15 +74,10 @@ export const WorkplaceSmallCard = ({
                             isActive ? 'text-slate-900' : 'text-slate-600'
                         }`}
                     >
-                        {request?.industries?.[0]?.industry?.user?.name}
+                        {industry?.user?.name ||
+                            'Workplace Option Not Provided yet'}
                     </span>
-                    <Badge
-                        variant="secondary"
-                        outline
-                        text={request.id + ''}
-                        size="xs"
-                        className="!h-4 !text-[10px]"
-                    />
+
                     {/* {isActive && (
                         <Badge
                             variant="warning"
@@ -94,26 +92,28 @@ export const WorkplaceSmallCard = ({
                 <div className="mb-1.5">
                     <Badge
                         variant={true ? 'primaryNew' : 'secondary'}
-                        text={request?.currentStatus}
+                        text={WorkplaceStatusLabels[request?.currentStatus]}
                         Icon={Clock}
                         size="xs"
                         className="!h-5"
                     />
                 </div>
 
-                <div
-                    className={`flex items-center gap-2 text-[10px] ${
-                        isActive ? 'text-slate-600' : 'text-slate-500'
-                    }`}
-                >
-                    <span className="flex items-center gap-0.5">
-                        <MapPin className="w-2.5 h-2.5" />
-                        {industry?.addressLine1}
-                    </span>
+                {industry && (
+                    <div
+                        className={`flex items-center gap-2 text-[10px] ${
+                            isActive ? 'text-slate-600' : 'text-slate-500'
+                        }`}
+                    >
+                        <span className="flex items-center gap-0.5">
+                            <MapPin className="w-2.5 h-2.5" />
+                            {industry?.addressLine1}
+                        </span>
 
-                    <span>•</span>
-                    <span>{request?.courses?.[0]?.hours} hours</span>
-                </div>
+                        <span>•</span>
+                        <span>{extraHours?.hours || course?.hours} hours</span>
+                    </div>
+                )}
             </div>
 
             {/* Progress Circle */}

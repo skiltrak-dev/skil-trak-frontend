@@ -95,16 +95,13 @@ export const StudentTimeline = () => {
     const timeInfo = calculateTimeRemaining(expiryDate)
     const statusInfo = getStudentStatus(expiryDate)
 
-    console.log({ studentDetailstudentDetail: studentDetail })
-    console.log({ timeInfo, statusInfo })
-
     return (
-        <div className="mt-4 rounded-2xl bg-gradient-to-r from-[#044866]/5 via-[#0D5468]/5 to-transparent border border-[#044866]/20 p-3.5 shadow-sm">
+        <div className="rounded-lg bg-gradient-to-r from-[#044866]/5 via-[#0D5468]/5 to-transparent border border-[#044866]/20 p-3.5 shadow-sm">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <div className="relative">
                         <div
-                            className="w-9 h-9 rounded-xl flex items-center justify-center shadow-lg"
+                            className="w-9 h-9 rounded-lg flex items-center justify-center shadow-lg"
                             style={{
                                 background: `linear-gradient(to bottom right, ${statusInfo.color}, ${statusInfo.color}dd)`,
                                 boxShadow: `0 10px 15px -3px ${statusInfo.color}40`,
@@ -144,10 +141,13 @@ export const StudentTimeline = () => {
                                 </>
                             )}
                         </p>
+                        <p className="text-sm text-slate-600">
+                            Course completion deadline
+                        </p>
                     </div>
                 </div>
                 <div
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl shadow-sm border"
+                    className="flex items-center gap-2 px-4 py-2 rounded shadow-sm border"
                     style={{
                         backgroundColor: statusInfo.bgColor,
                         borderColor: `${statusInfo.color}33`,

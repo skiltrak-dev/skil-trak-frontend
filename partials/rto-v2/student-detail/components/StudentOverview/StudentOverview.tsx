@@ -1,5 +1,6 @@
 import { RtoV2Api } from '@queries'
 import {
+    ApplyWorkplaceOverview,
     CourseOverview,
     CurrentStatus,
     PlacementRequest,
@@ -25,17 +26,17 @@ export const StudentOverview = () => {
 
     const firstWorkplace = selectedWorkplace || studentWorkplaces?.data?.[0]
 
-    console.log({ firstWorkplace })
-
     return (
         <div className="space-y-4">
             <CourseOverview />
             <PlacementRequest studentWorkplaces={studentWorkplaces} />
-            {firstWorkplace && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-[19.87px]">
+            {firstWorkplace ? (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <WorkplaceBio workplace={firstWorkplace} />
                     <CurrentStatus workplace={firstWorkplace} />
                 </div>
+            ) : (
+                <ApplyWorkplaceOverview />
             )}
         </div>
     )

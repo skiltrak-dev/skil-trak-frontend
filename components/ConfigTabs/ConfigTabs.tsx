@@ -31,7 +31,7 @@ export const ConfigTabs = ({
             className={` ${className}`}
         >
             <TabsList
-                className={`border border-gray-300 shadow grid w-full grid-cols-5 mb-2 bg-slate-100 p-1.5 rounded-xl h-auto gap-1 ${tabsClasses}`}
+                className={`border border-gray-300 shadow w-full  mb-2 bg-slate-100 p-1.5 rounded-xl h-auto gap-1 ${tabsClasses}`}
             >
                 {tabs.map((tab) => {
                     const Icon = tab?.icon

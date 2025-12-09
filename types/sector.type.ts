@@ -1,6 +1,7 @@
 import { AssessmentEvidenceFolder } from './assessment-evidence.type'
 import { BaseResponse } from './base.type'
 import { Folder } from './folder.type'
+import { User } from './user.type'
 
 export interface CourseExtraHours extends BaseResponse {
     id: number
@@ -35,6 +36,23 @@ export interface CourseInfo extends BaseResponse {
     info: string
 }
 
+export interface IndustryCourseApproval extends BaseResponse {
+    id: number
+    status: string
+    description: string
+    hodComment: string
+    isVerifiedByHod: boolean
+    isContentVerified: boolean
+    note: string
+    file: string
+    reference: string[]
+    isPreviousCourse: boolean
+    isCoordinatorAdded: boolean
+    addedBy: User
+    actionBy: User
+    course: Course
+}
+
 export interface Course extends BaseResponse {
     id: number
     code: string
@@ -56,6 +74,7 @@ export interface Course extends BaseResponse {
     assessmentEvidence: AssessmentEvidenceFolder[]
     workplaceTypes: WorkplaceTypes[]
     courseInfo: CourseInfo[]
+    approvals: IndustryCourseApproval[]
 }
 
 export interface Sector extends BaseResponse {
