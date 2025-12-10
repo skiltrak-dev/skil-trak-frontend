@@ -29,8 +29,14 @@ export const approvalRequestEndpoints = (
         providesTags: ['RTO'],
     }),
 
-    approvalRequestHighlightedTasks: builder.query<any, number>({
-        query: (id) => `${PREFIX}course/${id}/tasks`,
+    approvalRequestHighlightedTasks: builder.query<
+        any,
+        { courseId: number; userId: number }
+    >({
+        query: ({ courseId, ...params }) => ({
+            url: `${PREFIX}course/${courseId}/tasks`,
+            params,
+        }),
         providesTags: ['RTO'],
     }),
 
@@ -45,10 +51,13 @@ export const approvalRequestEndpoints = (
 
     quickReviewRequest: builder.query<
         { supervisor: boolean; sectorCapacity: boolean; compliance: boolean },
-        { industryId: number; courseId: number }
+        { industryId: number; courseId: number; userId: number }
     >({
-        query: ({ industryId, courseId }) =>
-            `${PREFIX}industry/${industryId}/course/${courseId}/review`,
+        query: ({ industryId, courseId, ...params }) => ({
+            url: `${PREFIX}industry/${industryId}/course/${courseId}/review`,
+            params,
+        }),
+
         providesTags: ['RTO'],
     }),
 

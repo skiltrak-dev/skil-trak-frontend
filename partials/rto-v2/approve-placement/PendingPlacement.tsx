@@ -1,78 +1,9 @@
-import {
-    Card,
-    Collapsible,
-    CollapsibleContent,
-    LoadingAnimation,
-    TechnicalError,
-    Button,
-} from '@components'
+import { Card, LoadingAnimation, TechnicalError } from '@components'
 import { RtoApi } from '@queries'
-import { CheckCircle2, ChevronDown, Info } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import {
-    AssessmentSummary,
-    CoordinatorFinalComment,
-    IndustryInfo,
-    InfoCardsData,
-    PlacementTopSection,
-    WorkplaceDetailAndService,
-    WorkplaceMatchScore,
-    WorkplaceStatus,
-    WorkplaceType,
-    WpEligibilityAssessment,
-} from './components'
-
-type MatchingType = 'automation' | 'manual'
-
-interface WorkplaceEligibility {
-    approvalStatus: 'Approved' | 'Pending' | 'Conditional'
-    approvedBy: string
-    approvedByRole: string
-    approvedDate: string
-    workplaceType: string
-    requiredIndustryChecks: string[]
-    courseHours: number
-    checklistAttached: boolean
-    websiteLink: string
-    supervisorName: string
-    supervisorQualifications: string[]
-    workplaceFullAddress: string
-    assessmentSummary: string
-    programsAndServices: string[]
-    branchesAndLocations: string[]
-    activitiesOffered: string[]
-    eligibilityJustification: string
-    hodFinalComment: string
-    combinedWorkplaceDetails?: string // Combined details for all programs, branches, activities
-}
-
-export interface PlacementApproval {
-    id: string
-    studentName: string
-    studentId: string
-    course: string
-    courseCode: string
-    industry: string
-    location: string
-    workplaceSupervisor: string
-    supervisorEmail: string
-    startDate: string
-    duration: string
-    hours: number
-    submittedDate: string
-    daysWaiting: number
-    matchScore: number
-    matchingType: MatchingType
-    studentApprovedDate: string
-    requirements: string[]
-    studentExpectations: string[]
-    eligibilityCriteria: {
-        criterion: string
-        met: boolean
-    }[]
-    workplaceEligibility: WorkplaceEligibility
-}
+import { PendingPlacementCard } from './card'
 
 export const PendingPlacement = () => {
     const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set())
@@ -115,137 +46,12 @@ export const PendingPlacement = () => {
             ) : wpApprovalRequests?.data &&
               wpApprovalRequests?.data?.data.length &&
               wpApprovalRequests?.isSuccess ? (
-                wpApprovalRequests?.data?.data?.map((approval: any) => {
-                    const isExpanded = expandedCards.has(approval.id)
-
-                    return (
-                        <Card
-                            key={approval.id}
-                            className="border border-border/60 shadow-sm hover:shadow-xl hover:border-primaryNew/30 transition-all overflow-hidden"
-                        >
-                            {/* Top Section - Always Visible */}
-                            <PlacementTopSection approval={approval} />
-                            {/* Quick Actions */}
-
-                            {/* Key Info Row */}
-                            <div className="p-4 bg-background border-t border-border/50">
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                                    {/* Industry */}
-                                    <IndustryInfo
-                                        industry={approval?.industry}
-                                    />
-
-                                    {/* Match Score */}
-                                    <WorkplaceMatchScore approval={approval} />
-
-                                    {/* Workplace Status */}
-                                    <WorkplaceStatus
-                                        workplaceRequest={
-                                            approval?.workplaceRequest
-                                        }
-                                    />
-                                </div>
-
-                                <Button
-                                    variant={'primaryNew'}
-                                    fullWidth
-                                    onClick={() => {
-                                        if (
-                                            router.pathname.startsWith(
-                                                '/portals/rto/action-required'
-                                            )
-                                        ) {
-                                            router.push(
-                                                `/portals/rto/action-required/approve-placement/${approval?.id}`
-                                            )
-                                        } else {
-                                            router.push(
-                                                `/portals/rto/approve-placement/${approval?.id}`
-                                            )
-                                        }
-                                    }}
-                                >
-                                    <span className="flex items-center gap-2">
-                                        <Info className="h-5 w-5" />
-                                        {isExpanded ? 'Hide' : 'Show'} Workplace
-                                        Eligibility Assessment
-                                    </span>
-                                </Button>
-
-                                {/* Expandable Section Toggle */}
-                                <Collapsible
-                                    open={isExpanded}
-                                    onOpenChange={() =>
-                                        toggleCardExpansion(approval.id)
-                                    }
-                                >
-                                    {/* <ShowMoreAction isExpanded={isExpanded} /> */}
-
-                                    <CollapsibleContent>
-                                        {/* <Separator className="my-4" /> */}
-                                        <div className="my-4 border border-gray-300" />
-
-                                        {/* Comprehensive Workplace Eligibility Assessment */}
-                                        <div className="space-y-4">
-                                            {/* Header with Status */}
-                                            <WpEligibilityAssessment
-                                                approval={approval}
-                                                courseInfo={
-                                                    approval?.industry
-                                                        ?.industryCourseApprovals?.[0]
-                                                }
-                                            />
-
-                                            {/* Workplace Type & Address */}
-                                            <WorkplaceType
-                                                industry={approval?.industry}
-                                            />
-
-                                            {/* Quick Stats Grid */}
-                                            <InfoCardsData
-                                                courseInfo={
-                                                    approval?.industry
-                                                        ?.industryCourseApprovals?.[0]
-                                                }
-                                                supervisor={
-                                                    approval?.industry
-                                                        ?.supervisors?.[0]
-                                                }
-                                            />
-
-                                            {/* Assessment Summary */}
-                                            <AssessmentSummary
-                                                course={
-                                                    approval?.industry
-                                                        ?.industryCourseApprovals?.[0]
-                                                        ?.course
-                                                }
-                                            />
-
-                                            {/* Combined Workplace Details or Separate Sections */}
-                                            <WorkplaceDetailAndService
-                                                description={
-                                                    approval?.industry
-                                                        ?.industryCourseApprovals?.[0]
-                                                        ?.description
-                                                }
-                                            />
-
-                                            {/* Coordinator Final Comment */}
-                                            <CoordinatorFinalComment
-                                                hodComment={
-                                                    approval?.industry
-                                                        ?.industryCourseApprovals?.[0]
-                                                        ?.hodComment
-                                                }
-                                            />
-                                        </div>
-                                    </CollapsibleContent>
-                                </Collapsible>
-                            </div>
-                        </Card>
-                    )
-                })
+                wpApprovalRequests?.data?.data?.map((approval: any) => (
+                    <PendingPlacementCard
+                        key={approval.id}
+                        approval={approval}
+                    />
+                ))
             ) : (
                 !wpApprovalRequests?.isError && (
                     <Card className="border-border/60">

@@ -6,16 +6,12 @@ import {
     ShieldCheck,
     User,
 } from 'lucide-react'
-import React from 'react'
-import { PlacementApproval } from '../PendingPlacement'
 import moment from 'moment'
 
 export const WpEligibilityAssessment = ({
-    approval,
     courseInfo,
 }: {
     courseInfo: any
-    approval: PlacementApproval
 }) => {
     return (
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primaryNew/5 via-primaryNew/5 to-transparent border-2 border-primaryNew/20 p-6 mb-6">

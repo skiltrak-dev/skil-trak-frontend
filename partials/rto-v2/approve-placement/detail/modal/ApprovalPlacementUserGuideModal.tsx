@@ -876,23 +876,6 @@ export const ApprovalPlacementUserGuideModal = ({
                         </div>
                     </div>
 
-                    {/* Help Section */}
-                    <div className="bg-white rounded-lg p-6 text-center border border-gray-200 mt-8">
-                        <div className="w-12 h-12 bg-[#044866] rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">
-                            ?
-                        </div>
-                        <h3 className="text-gray-900 text-xl font-bold mb-2">
-                            Need Help?
-                        </h3>
-                        <p className="text-gray-500 mb-4 leading-relaxed">
-                            Contact Skiltrak support for clarification about any
-                            information in this profile.
-                        </p>
-                        <button className="bg-white border-2 border-[#044866] text-[#044866] px-6 py-2 rounded-lg font-semibold cursor-pointer transition-all hover:bg-[#044866] hover:text-white uppercase tracking-wide">
-                            CONTACT SUPPORT
-                        </button>
-                    </div>
-
                     {/* Footer */}
                     <div className="bg-gradient-to-br from-[#044866] to-[#0d5468] text-white p-8 text-center rounded-xl mt-8">
                         <h3 className="text-xl mb-3">
