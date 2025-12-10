@@ -40,7 +40,7 @@ export function ComplianceDetails({
 
             {/*  */}
             <HighlightedTasks
-                industry={approval?.industry}
+                rtoUserId={approval?.student?.rto?.user?.id}
                 coursesId={Number(approval?.workplaceRequest?.courses?.[0]?.id)}
             />
 

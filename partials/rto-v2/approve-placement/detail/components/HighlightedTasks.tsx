@@ -5,14 +5,14 @@ import { Badge, Card } from '@components'
 import { CheckCircle2, FileCheck } from 'lucide-react'
 
 export const HighlightedTasks = ({
+    rtoUserId,
     coursesId,
-    industry,
 }: {
+    rtoUserId: number
     coursesId: number
-    industry: Industry
 }) => {
     const highlightedTasks = RtoV2Api.ApprovalRequest.highlightedTasks(
-        Number(coursesId),
+        { courseId: Number(coursesId), userId: rtoUserId },
         {
             skip: !coursesId,
         }

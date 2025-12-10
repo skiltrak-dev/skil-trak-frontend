@@ -3,6 +3,7 @@ import { RtoV2Api } from '@queries'
 import { RtoApprovalWorkplaceRequest } from '@types'
 import { CheckCircle2, Info, XCircle } from 'lucide-react'
 import { DecisionActions } from './DecisionActions'
+import { PulseLoader } from 'react-spinners'
 
 interface DecisionPanelProps {
     approval: RtoApprovalWorkplaceRequest
@@ -11,6 +12,7 @@ interface DecisionPanelProps {
 export function DecisionPanel({ approval }: DecisionPanelProps) {
     const quickReviewRequest = RtoV2Api.ApprovalRequest.quickReviewRequest(
         {
+            userId: approval.student?.rto?.user?.id,
             industryId: approval.industry?.user?.id,
             courseId: approval.workplaceRequest?.courses?.[0]?.id ?? 0,
         },
@@ -71,12 +73,17 @@ export function DecisionPanel({ approval }: DecisionPanelProps) {
                             <span className="text-sm text-slate-700">
                                 {check.label}
                             </span>
-                            <div className="flex items-center gap-1.5 text-emerald-700">
-                                <check.icon className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                                <span className="text-sm">
-                                    {check?.key ? '' : 'Not'} Complete
-                                </span>
-                            </div>
+                            {quickReviewRequest?.isLoading ? (
+                                <PulseLoader size={5} color="green" />
+                            ) : (
+                                <div className="flex items-center gap-1.5 text-emerald-700">
+                                    <check.icon className="w-4 h-4 group-hover:scale-110 transition-transform" />
+
+                                    <span className="text-sm">
+                                        {check?.key ? '' : 'Not'} Complete
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
