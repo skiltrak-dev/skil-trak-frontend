@@ -48,7 +48,7 @@ export const ApproveAllFiles = ({
                 variant="success"
                 className="!py-1"
                 onClick={() => setIsOpen(true)}
-                text="Approve All"
+                text="Approve"
             />
 
             <ApproveFileModal

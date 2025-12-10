@@ -24,7 +24,11 @@ export const SectorDocumentForm = ({
     edit,
     initialValues,
 }: SectorDocumentFormProps) => {
-    const sectors = AdminApi.Sectors.useListQuery(undefined)
+    const sectors = AdminApi.Sectors.useListQuery({
+        limit: 100,
+        skip: 0,
+        search: '',
+    })
     const [selectedSector, setSelectedSector] = useState<number | null>(null)
 
     const methods = useForm({

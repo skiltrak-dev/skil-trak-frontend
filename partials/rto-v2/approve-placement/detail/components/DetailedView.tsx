@@ -33,7 +33,7 @@ export function DetailedView({ approval }: DetailedViewProps) {
         },
         {
             value: 'programs',
-            label: 'Programs',
+            label: 'Stream (Blocks)',
             icon: GraduationCap,
             component: ProgramsInfo,
         },
