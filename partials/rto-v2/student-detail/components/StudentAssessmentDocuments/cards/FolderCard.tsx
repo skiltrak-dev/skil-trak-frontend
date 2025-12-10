@@ -1,16 +1,14 @@
-import { Badge, Button } from '@components'
+import { Badge } from '@components'
+import { Folder as FolderType } from '@types'
+import { cn } from '@utils'
 import {
     AlertCircle,
-    Calendar,
+    CheckCircle,
     ChevronDown,
     ChevronRight,
-    Clock,
     FileText,
     Folder,
     FolderOpen,
-    ThumbsDown,
-    ThumbsUp,
-    Upload,
 } from 'lucide-react'
 import { useState } from 'react'
 import {
@@ -19,7 +17,6 @@ import {
     RejectAllFile,
     UploadDocument,
 } from '../components'
-import { Folder as FolderType } from '@types'
 
 export const FolderCard = ({
     folder,
@@ -40,7 +37,7 @@ export const FolderCard = ({
             className={`border-2 ${config.border} rounded-lg overflow-hidden hover:shadow-lg transition-all bg-gradient-to-r ${config.bg} to-white`}
         >
             <div className="p-2.5">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-4 flex-1">
                         <button
                             onClick={() => setIsOpened(!isOpened)}
@@ -88,23 +85,40 @@ export const FolderCard = ({
                                     Icon={StatusIcon}
                                 />
                             </div>
-                            {/* {folder.rejectionReason && (
-                                <div className="flex items-start gap-2 mt-2 p-2 bg-red-50 border border-red-200 rounded-lg">
-                                    <AlertCircle className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
-                                    <p className="text-sm text-red-700">
-                                        {folder.rejectionReason}
+                            {response?.comment && (
+                                <div
+                                    className={cn(
+                                        'flex items-start gap-2 mt-2 p-2 border rounded-lg',
+                                        {
+                                            'bg-red-50 border-red-200':
+                                                folderStatus === 'rejected',
+                                            'bg-green-50 border-green-200':
+                                                folderStatus === 'approved',
+                                        }
+                                    )}
+                                >
+                                    {folderStatus === 'rejected' ? (
+                                        <AlertCircle className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
+                                    ) : (
+                                        <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                                    )}
+                                    <p
+                                        className={cn('text-sm', {
+                                            'text-red-700':
+                                                folderStatus === 'rejected',
+                                            'text-green-700':
+                                                folderStatus === 'approved',
+                                        })}
+                                    >
+                                        {response?.comment}
                                     </p>
                                 </div>
-                            )} */}
+                            )}
                             <div className="flex items-center gap-4 mt-2 text-sm text-slate-600">
                                 <div className="flex items-center gap-1.5">
                                     <FileText className="w-3.5 h-3.5" />
                                     <span>
-                                        {
-                                            folder?.studentResponse?.[0]?.files
-                                                ?.length
-                                        }{' '}
-                                        files
+                                        {response?.filesCount || 0} files
                                     </span>
                                 </div>
                                 {/* <div className="flex items-center gap-1.5">

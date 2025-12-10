@@ -1,6 +1,7 @@
 import { CheckCircle2, ShieldCheck } from 'lucide-react'
 import React from 'react'
 import { Badge } from '@components'
+import { WorkplaceStatusLabels } from '@utils'
 
 export const WorkplaceStatus = ({
     workplaceRequest,
@@ -17,7 +18,11 @@ export const WorkplaceStatus = ({
             </div>
             <Badge
                 Icon={CheckCircle2}
-                text={workplaceRequest?.currentStatus}
+                text={
+                    WorkplaceStatusLabels[
+                        workplaceRequest?.currentStatus as keyof typeof WorkplaceStatusLabels
+                    ]
+                }
                 shape="pill"
                 variant="primaryNew"
                 outline

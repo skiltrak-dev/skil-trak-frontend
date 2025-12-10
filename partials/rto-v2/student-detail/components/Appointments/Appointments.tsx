@@ -10,7 +10,7 @@ export const Appointments = ({ student }: { student: Student }) => {
     return (
         <div className="space-y-3">
             {/* Stats Overview */}
-            <AppointmentsCount studentId={student?.id} />
+            <AppointmentsCount studentUserId={student?.user?.id} />
 
             {/* Header */}
             <AppointmentHeader />

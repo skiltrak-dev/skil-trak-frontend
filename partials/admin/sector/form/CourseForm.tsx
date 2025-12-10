@@ -33,7 +33,11 @@ export const CourseForm = ({
     requirementFile,
     setRequirementFile,
 }: CourseFormProps) => {
-    const { data, isLoading } = AdminApi.Sectors.useListQuery(undefined)
+    const { data, isLoading } = AdminApi.Sectors.useListQuery({
+        limit: 100,
+        skip: 0,
+        search: '',
+    })
 
     const [level, setLevel] = useState<number | null>(null)
 

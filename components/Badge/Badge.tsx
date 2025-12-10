@@ -1,10 +1,11 @@
-import { Typography } from '@components/Typography'
 import classNames from 'classnames'
+import { ReactNode } from 'react'
 import { PulseLoader } from 'react-spinners'
 
 interface BadgeProps {
     className?: string
-    text: string
+    children?: ReactNode
+    text?: string
     Icon?: any
     variant?:
         | 'primary'
@@ -45,6 +46,7 @@ export const Badge = ({
     outline,
     Icon,
     className,
+    children,
 }: BadgeProps) => {
     const classes = classNames({
         'px-2 py-0.5 inline-block uppercase': true,
@@ -108,7 +110,7 @@ export const Badge = ({
             ) : (
                 <div className="flex items-center gap-x-1">
                     {Icon && <Icon className="text-xs" size={12} />}{' '}
-                    <span>{text}</span>
+                    <span>{text || children}</span>
                 </div>
             )}
         </div>

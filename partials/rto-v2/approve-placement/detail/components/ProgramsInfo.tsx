@@ -63,12 +63,12 @@ export function ProgramsInfo({
                     </div>
                     <div>
                         <h3 className="text-indigo-900 mb-1.5">
-                            Program Verified & Supported
+                            Stream (Blocks) Verified & Supported
                         </h3>
                         <p className="text-[12.3px] text-indigo-800 leading-relaxed">
-                            qualification programs confirmed with verified
-                            capacity and unit support through SkilTrak's
-                            internal verification process.
+                            qualification Stream (Blocks) confirmed with
+                            verified capacity and unit support through
+                            SkilTrak's internal verification process.
                         </p>
                     </div>
                 </div>
@@ -100,7 +100,7 @@ export function ProgramsInfo({
                         {/* Units of Competency */}
                         <div className="flex items-center gap-1.5">
                             <BookOpen className="w-[14px] h-[14px] text-[#0D5468]" />
-                            <h4 className="text-slate-900">Programs</h4>
+                            <h4 className="text-slate-900">Stream (Blocks)</h4>
                         </div>
                         <div className="space-y-1.5">
                             {getWpPrograms?.data?.map((getWpProgram) => (
@@ -173,13 +173,13 @@ export function ProgramsInfo({
                 </Card>
             ) : (
                 getWpPrograms.isSuccess && (
-                    <NoData simple text="No program was found!" />
+                    <NoData simple text="No Stream (Blocks) was found!" />
                 )
             )}
 
             <Card className="bg-blue-50 border-[1.76px] border-blue-200">
                 <p className="text-[12.3px] text-blue-900 leading-relaxed">
-                    This program information is drawn from SkilTrak's
+                    This Stream (Blocks) information is drawn from SkilTrak's
                     discussions with the employer and internal verification
                     process. It supports your assessment of whether the site can
                     effectively support your learners in line with their

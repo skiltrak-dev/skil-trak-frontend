@@ -12,7 +12,11 @@ export const IndustryCheckFilters = ({
     filter,
     onFilterChange,
 }: IndustryCheckFiltersProps) => {
-    const sectors = AdminApi.Sectors.useListQuery(undefined)
+    const sectors = AdminApi.Sectors.useListQuery({
+        limit: 100,
+        skip: 0,
+        search: '',
+    })
 
     const sectorOptions = sectors.data?.data?.map((sector: any) => ({
         label: sector?.name,

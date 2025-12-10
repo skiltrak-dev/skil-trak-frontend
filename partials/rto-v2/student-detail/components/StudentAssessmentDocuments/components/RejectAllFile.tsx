@@ -42,7 +42,7 @@ export const RejectAllFile = ({ folder }: { folder: StudentResponseType }) => {
 
             <Button
                 variant="error"
-                text="Reject All"
+                text="Reject"
                 Icon={ThumbsDown}
                 className="!py-1"
                 onClick={() => setIsOpen(true)}

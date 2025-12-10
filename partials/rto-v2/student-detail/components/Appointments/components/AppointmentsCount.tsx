@@ -2,11 +2,15 @@ import { Calendar, CheckCircle, Clock, TrendingUp } from 'lucide-react'
 import { CountCard } from '../../cards'
 import { RtoV2Api } from '@queries'
 
-export const AppointmentsCount = ({ studentId }: { studentId: number }) => {
+export const AppointmentsCount = ({
+    studentUserId,
+}: {
+    studentUserId: number
+}) => {
     const appointmentsCount = RtoV2Api.Students.getStudentAppointmentsCount(
-        studentId,
+        studentUserId,
         {
-            skip: !studentId,
+            skip: !studentUserId,
         }
     )
 
@@ -17,6 +21,7 @@ export const AppointmentsCount = ({ studentId }: { studentId: number }) => {
             id: 'total',
             label: 'Total',
             value: appointmentsCount?.data?.total || 0,
+            loading: appointmentsCount?.isLoading,
             icon: Calendar,
             gradientFrom: '#044866',
             gradientTo: '#0D5468',
@@ -26,6 +31,7 @@ export const AppointmentsCount = ({ studentId }: { studentId: number }) => {
         {
             id: 'upcoming',
             label: 'Upcoming',
+            loading: appointmentsCount?.isLoading,
             value: appointmentsCount?.data?.future || 0,
             icon: Clock,
             gradientFrom: '#3b82f6',
@@ -36,6 +42,7 @@ export const AppointmentsCount = ({ studentId }: { studentId: number }) => {
         {
             id: 'completed',
             label: 'Completed',
+            loading: appointmentsCount?.isLoading,
             value: appointmentsCount?.data?.completed || 0,
             icon: CheckCircle,
             gradientFrom: '#10b981',
@@ -48,6 +55,7 @@ export const AppointmentsCount = ({ studentId }: { studentId: number }) => {
             label: 'This Week',
             value: appointmentsCount?.data?.week || 0,
             icon: TrendingUp,
+            loading: appointmentsCount?.isLoading,
             gradientFrom: '#F7A619',
             gradientTo: 'rgba(247, 166, 25, 0.8)',
             borderHoverColor: 'hover:border-[#F7A619]/30',
@@ -57,7 +65,10 @@ export const AppointmentsCount = ({ studentId }: { studentId: number }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {appointmentStats.map((card) => (
-                <CountCard key={card.id} card={card} />
+                <CountCard
+                    key={card.id}
+                    card={card}
+                />
             ))}
         </div>
     )

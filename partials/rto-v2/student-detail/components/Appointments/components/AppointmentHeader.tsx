@@ -3,8 +3,11 @@ import { ScheduleAppointmentModal } from '@partials/rto-v2/appointments'
 import { useGetSubAdminStudentDetailQuery } from '@queries'
 import { Calendar, Sparkles } from 'lucide-react'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 export const AppointmentHeader = () => {
+    const [scheduleOpen, setScheduleOpen] = useState(false)
+
     const router = useRouter()
     const studentId = Number(router.query?.id)
     const profile = useGetSubAdminStudentDetailQuery(studentId, {
@@ -33,6 +36,8 @@ export const AppointmentHeader = () => {
                 <ScheduleAppointmentModal
                     defaultSelectedParicipantType={UserRoles.STUDENT}
                     defaultSelectedUser={profile?.data}
+                    scheduleOpen={scheduleOpen}
+                    setScheduleOpen={setScheduleOpen}
                 />
                 {/* <Button className="flex-shrink-0 bg-gradient-to-r from-[#044866] to-[#0D5468] hover:from-[#0D5468] hover:to-[#044866] shadow-lg hover:shadow-xl hover:scale-105 transition-all">
                     <Calendar className="w-4 h-4 mr-2" />
