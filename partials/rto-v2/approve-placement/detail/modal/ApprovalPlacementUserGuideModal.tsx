@@ -135,14 +135,14 @@ export const ApprovalPlacementUserGuideModal = ({
 
     const tabs = [
         { id: 'compliance', icon: '🛡️', label: 'Compliance' },
-        { id: 'programs', icon: '🎓', label: 'Programs' },
+        { id: 'stream-blocks', icon: '🎓', label: 'Stream (Blocks)' },
         { id: 'supervisors', icon: '👥', label: 'Supervisors' },
         { id: 'resources', icon: '📂', label: 'Resources' },
     ]
 
     const checklistItems = [
         {
-            title: 'Programs and Services Offered',
+            title: 'Stream (Blocks) and Services Offered',
             content:
                 'The organization specializes in software development and related services.',
         },
@@ -493,7 +493,8 @@ export const ApprovalPlacementUserGuideModal = ({
                             Step 4: Review Detailed Information
                         </h2>
                         <p className="text-gray-500 text-sm mb-6">
-                            Compliance, Programs, Supervisors, and Resources
+                            Compliance, Stream (Blocks), Supervisors, and
+                            Resources
                         </p>
 
                         {/* Tabs */}
@@ -727,7 +728,7 @@ export const ApprovalPlacementUserGuideModal = ({
                     {/* Programs Overview */}
                     <div className="bg-white rounded-xl p-8 shadow-md mb-6">
                         <h2 className="text-2xl text-gray-900 mb-1.5 font-extrabold">
-                            Programs & Services Overview
+                            Stream (Blocks) & Services Overview
                         </h2>
                         <p className="text-gray-500 text-sm mb-6">
                             What this workplace offers

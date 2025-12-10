@@ -22,7 +22,7 @@ export const ApproveFileModal = ({
     selectedItem: any
     handleApprove: (reason: string) => void
 }) => {
-    const [rejectionReason, setRejectionReason] = useState<string>('')
+    const [approvalComment, setApprovalComment] = useState<string>('')
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent className="sm:max-w-md">
@@ -52,12 +52,12 @@ export const ApproveFileModal = ({
 
                 <div>
                     <TextArea
-                        label={'Rejection Reason'}
+                        label={'Approval Comment'}
                         name="reason"
-                        placeholder="e.g., Document quality insufficient, incorrect format, expired..."
-                        value={rejectionReason}
+                        placeholder="e.g., Document quality sufficient, correct format, valid..."
+                        value={approvalComment}
                         onChange={(e: any) =>
-                            setRejectionReason(e.target.value)
+                            setApprovalComment(e.target.value)
                         }
                         className="mt-2"
                         rows={4}
@@ -70,7 +70,7 @@ export const ApproveFileModal = ({
                     </Button>
                     <Button
                         variant="success"
-                        onClick={() => handleApprove(rejectionReason)}
+                        onClick={() => handleApprove(approvalComment)}
                         loading={result?.isLoading}
                         disabled={result?.isLoading}
                     >

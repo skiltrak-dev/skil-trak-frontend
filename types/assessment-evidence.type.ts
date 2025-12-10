@@ -61,6 +61,7 @@ export interface FileType extends BaseResponse {
 
 export interface StudentResponseType extends BaseResponse {
     id: number
+    filesCount: number
     skiltrakId: number
     comment: string
     status: string

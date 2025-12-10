@@ -18,6 +18,7 @@ import {
     TechnicalError,
 } from '@components'
 import { useGetSubAdminStudentDetailQuery } from '@queries'
+import { setStudentDetail } from '@redux'
 import { Student } from '@types'
 import {
     Book,
@@ -29,8 +30,7 @@ import {
 } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setStudentDetail } from '@redux'
+import { useDispatch } from 'react-redux'
 import { AllWorkplaces } from './components/AllWorkplaces/AllWorkplaces'
 
 export const RtoStudentDetail = () => {
@@ -43,10 +43,6 @@ export const RtoStudentDetail = () => {
         skip: !studentId,
         refetchOnMountOrArgChange: 30,
     })
-
-    const studentDetail = useSelector(
-        (state: any) => state?.student?.studentDetail
-    )
 
     useEffect(() => {
         if (profile?.data) {
@@ -76,11 +72,7 @@ export const RtoStudentDetail = () => {
             value: 'workplace',
             icon: Building2,
             label: 'Workplace',
-            component: () => (
-                <div className="space-y-[19.87px] mt-[19.87px]">
-                    <AllWorkplaces studentId={studentId} />
-                </div>
-            ),
+            component: () => <AllWorkplaces studentId={studentId} />,
         },
         {
             value: 'communications',
@@ -136,14 +128,14 @@ export const RtoStudentDetail = () => {
         <>
             {profile?.isError ? <TechnicalError /> : null}
 
-            {profile?.isLoading || profile?.isFetching ? (
+            {profile?.isLoading ? (
                 <LoadingAnimation />
             ) : profile?.data && profile?.isSuccess ? (
                 <div className="bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
                     {/* Header */}
                     <RtoInfo />
 
-                    <main className="max-w-7xl mx-auto px-[13.25px] sm:px-[19.87px] lg:px-[26.5px] py-[19.87px] space-y-4">
+                    <main className="w-full mx-auto px-[13.25px] sm:px-[19.87px] lg:px-[26.5px] py-[19.87px] space-y-4">
                         <StudentHeader student={profile?.data} />
                         <StudentInfoMessage
                             studentUserId={profile?.data?.user?.id}

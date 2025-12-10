@@ -11,7 +11,11 @@ export const Courses = ({
 }: {
     setSelectedCourse: (value: number) => void
 }) => {
-    const { data, isSuccess } = AdminApi.Courses.useListQuery(undefined)
+    const { data, isSuccess } = AdminApi.Courses.useListQuery({
+        limit: 100,
+        skip: 0,
+        search: '',
+    })
     const courseOptions = isSuccess
         ? data?.data?.map((course: Course) => ({
               label: course?.title,

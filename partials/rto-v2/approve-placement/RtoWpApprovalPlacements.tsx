@@ -54,7 +54,7 @@ export const RtoWpApprovalPlacements = () => {
                 title="Placement Approvals"
                 description="Review student-approved placements and verify workplace eligibility"
                 urgentCount={count?.data?.pending || 0}
-                urgentLabel="Awaiting RTO Approval"
+                urgentLabel="Waiting For RTO Approval"
                 warningMessage="<strong>Your Task:</strong> Students have already approved these placements. Review workplace eligibility and course requirements before sending to industry for interview arrangement."
                 gradientFrom="primaryNew"
                 gradientTo="primaryNew"

@@ -13,7 +13,7 @@ export const appointmentsEndpoints = (
                 body,
             }
         },
-        invalidatesTags: ['RTOAppointment'],
+        invalidatesTags: ['RTOAppointment', 'Appointments'],
     }),
     getRTOAppointments: builder.query<any, any>({
         query: (params) => ({
@@ -49,7 +49,7 @@ export const appointmentsEndpoints = (
             method: 'POST',
             body,
         }),
-        invalidatesTags: ['RTOAppointment'],
+        invalidatesTags: ['RTOAppointment', 'Appointments'],
     }),
     //appointments/count/v2/for-rto
     getRtoAppointmentsCount: builder.query<any, void>({

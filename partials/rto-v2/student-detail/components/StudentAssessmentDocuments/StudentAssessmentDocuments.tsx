@@ -1,10 +1,11 @@
 import { RtoV2Api } from '@queries'
 import { Course, Student } from '@types'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { CourseOverview } from '../StudentOverview'
 import { DocumentFilter, DocumentHeader } from './components'
 import { FolderSection } from './components/FolderSection'
 import { useSelector } from 'react-redux'
+import { LoadingAnimation, NoData } from '@components'
 
 interface DocumentsProps {
     student: Student
@@ -26,6 +27,17 @@ export function StudentAssessmentDocuments({ student }: DocumentsProps) {
         courseId: selectedCourse?.id ?? 0,
     })
 
+    const documents = RtoV2Api.StudentDocuments.getStudentDocumentsList(
+        {
+            // search: `${filterKey}:true`,
+            studentId: student.id,
+            courseId: selectedCourse?.id ?? 0,
+        },
+        {
+            skip: !student.id || !selectedCourse?.id,
+        }
+    )
+
     const industryStats = {
         pending: count?.data?.pendingIndustryCheck,
         approved: count?.data?.approvedDocuments,
@@ -36,6 +48,19 @@ export function StudentAssessmentDocuments({ student }: DocumentsProps) {
         pending: count?.data?.pendingCourseDocuments,
     }
 
+    const getIndustryDocuments = useMemo(
+        () => (checkIndustryCheck: boolean) => {
+            return documents?.data?.filter(
+                (document: any) =>
+                    document?.isIndustryCheck === checkIndustryCheck
+            )
+        },
+        [documents]
+    )
+
+    const industryDocuments = getIndustryDocuments(true)
+    const courseDocuments = getIndustryDocuments(false)
+
     // Section configuration array
     const sections = [
         {
@@ -43,12 +68,14 @@ export function StudentAssessmentDocuments({ student }: DocumentsProps) {
             title: 'Industry Checks & Clearances',
             description: 'Required compliance documents',
             stats: industryStats,
+            documents: industryDocuments,
             filterKey: 'industryCheck',
         },
         {
             filterKey: 'courseDocument',
             type: 'course' as const,
             title: 'Course Documents',
+            documents: courseDocuments,
             description: 'Placement records, assessments, and course materials',
             stats: courseStats,
         },
@@ -69,24 +96,36 @@ export function StudentAssessmentDocuments({ student }: DocumentsProps) {
                 setStatusFilter={setStatusFilter}
             />
 
-            {/* Dynamic Sections */}
-            {sections.map((section) => {
-                const shouldRender =
-                    selectedView === 'all' || selectedView === section.type
-                return (
-                    shouldRender && (
-                        <FolderSection
-                            key={section.type}
-                            course={selectedCourse ?? ({ id: 0 } as Course)}
-                            title={section.title}
-                            description={section.description}
-                            stats={section.stats}
-                            sectionType={section.type}
-                            filterKey={section.filterKey}
-                        />
+            {documents.isError && (
+                <NoData text={'There is some technical issue!'} isError />
+            )}
+            {documents.isLoading || documents.isFetching ? (
+                <div className="min-h-[inherit] flex justify-center items-center">
+                    <LoadingAnimation />
+                </div>
+            ) : (
+                documents?.isSuccess &&
+                sections.map((section) => {
+                    const shouldRender =
+                        selectedView === 'all' || selectedView === section.type
+                    return (
+                        shouldRender && (
+                            <FolderSection
+                                key={section.type}
+                                course={selectedCourse ?? ({ id: 0 } as Course)}
+                                title={section.title}
+                                description={section.description}
+                                stats={section.stats}
+                                sectionType={section.type}
+                                filterKey={section.filterKey}
+                                documents={section?.documents ?? []}
+                            />
+                        )
                     )
-                )
-            })}
+                })
+            )}
+
+            {/* Dynamic Sections */}
 
             {/* Approval Dialog */}
             {/* <ApproveFileModal

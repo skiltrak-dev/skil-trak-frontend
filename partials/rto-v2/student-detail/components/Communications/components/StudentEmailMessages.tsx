@@ -44,7 +44,7 @@ export const StudentEmailMessages = ({ student }: { student: Student }) => {
         setModal(
             <ComposeEmailModal
                 onCancel={onCancelClicked}
-                student={student}
+                user={student?.user}
                 parentId={parentId}
             />
         )
@@ -122,12 +122,15 @@ export const StudentEmailMessages = ({ student }: { student: Student }) => {
                                     <div className="text-right ml-4">
                                         <p className="text-sm text-slate-500">
                                             {moment(
-                                                communication.createdAt
+                                                communication?.createdAt
                                             ).format('DD MMM, YYYY HH:mm a')}
                                         </p>
                                         <Badge
                                             variant="secondary"
-                                            text={communication.type.toUpperCase()}
+                                            text={
+                                                communication?.type?.toUpperCase() ||
+                                                '---'
+                                            }
                                             className="mt-2 text-xs"
                                         />
                                     </div>

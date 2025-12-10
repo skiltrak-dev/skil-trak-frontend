@@ -80,7 +80,7 @@ export const ScheduleAppointmentModal = ({
         // if (!values.date || !values.startTime) return;
         const { participants, ...rest } = values
         const course = selectedCourse?.id
-        const appointmentFor = selectedUser?.id
+        const appointmentFor = selectedUser?.user?.id
         const fullDateTime = new Date(`${values.date}T${values.startTime}:00`)
         const date = fullDateTime?.toISOString()
 

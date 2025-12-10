@@ -23,11 +23,22 @@ export const AssignSectorForm = ({
     initialValues,
     result,
 }: FormProps) => {
-    const sectors = AdminApi.Sectors.useListQuery(undefined, {
-        refetchOnMountOrArgChange: true,
-    })
+    const sectors = AdminApi.Sectors.useListQuery(
+        {
+            limit: 100,
+            skip: 0,
+            search: '',
+        },
+        {
+            refetchOnMountOrArgChange: true,
+        }
+    )
 
-    const courses = AdminApi.Courses.useListQuery(undefined)
+    const courses = AdminApi.Courses.useListQuery({
+        limit: 100,
+        skip: 0,
+        search: '',
+    })
     const [selectableCourses, setSelectableCourses] = useState<Course[]>([])
 
     const {

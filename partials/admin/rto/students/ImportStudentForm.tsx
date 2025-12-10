@@ -39,7 +39,11 @@ export const ImportStudentForm = ({
         if (!mount) setMount(true)
     }, [])
 
-    const courses = AdminApi.Courses.useListQuery(undefined)
+    const courses = AdminApi.Courses.useListQuery({
+        limit: 100,
+        skip: 0,
+        search: '',
+    })
     const [courseOptions, setCourseOptions] = useState<any>([])
 
     const onSectorSelect = (options: any) => {

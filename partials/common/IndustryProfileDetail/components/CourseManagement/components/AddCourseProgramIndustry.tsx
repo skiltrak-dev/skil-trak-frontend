@@ -29,7 +29,7 @@ export const AddCourseProgramIndustry = ({
             {modal}
             <Button
                 onClick={onAddIndustryCourseProgram}
-                text="Programs"
+                text="Streams (Blocks)"
                 variant="info"
                 className="!py-1 !rounded-sm"
             />

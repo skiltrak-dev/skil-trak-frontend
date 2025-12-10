@@ -1,4 +1,5 @@
 import React from 'react'
+import { PulseLoader } from 'react-spinners'
 
 export const CountCard = ({ card }: { card: any }) => {
     return (
@@ -7,16 +8,18 @@ export const CountCard = ({ card }: { card: any }) => {
         >
             <div className="flex items-center gap-3">
                 <div
-                    className={`w-11 h-11 rounded-xl flex items-center justify-center shadow-lg ${card.shadowColor} group-hover:scale-110 transition-transform`}
+                    className={`w-11 h-11 rounded-xl flex items-center justify-center shadow-lg ${card?.shadowColor} group-hover:scale-110 transition-transform`}
                     style={{
-                        background: `linear-gradient(to bottom right, ${card.gradientFrom}, ${card.gradientTo})`,
+                        background: `linear-gradient(to bottom right, ${card?.gradientFrom}, ${card?.gradientTo})`,
                     }}
                 >
                     <card.icon className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                    <p className="text-slate-600 text-xs">{card.label}</p>
-                    <p className="text-2xl text-slate-900">{card.value}</p>
+                    <p className="text-slate-600 text-xs">{card?.label}</p>
+                    <p className="text-2xl text-slate-900">
+                        {card?.loading ? <PulseLoader size={4} /> : card?.value}
+                    </p>
                 </div>
             </div>
         </div>

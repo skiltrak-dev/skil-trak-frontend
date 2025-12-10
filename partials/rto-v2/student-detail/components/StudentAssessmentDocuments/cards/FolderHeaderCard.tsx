@@ -34,11 +34,11 @@ export const FolderHeaderCard = ({
                 <div className="flex items-center gap-4 text-white/90 text-sm">
                     <div className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4" />
-                        <span>{courseStats.approved} Approved</span>
+                        <span>{courseStats?.approved} Approved</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4" />
-                        <span>{courseStats.pending} Pending</span>
+                        <span>{courseStats?.pending} Pending</span>
                     </div>
                 </div>
             </div>

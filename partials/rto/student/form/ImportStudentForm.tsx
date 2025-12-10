@@ -22,10 +22,19 @@ export const ImportStudentForm = ({
     onStudentFound,
     setEmailExistList,
 }: FormProps) => {
-    const sectors = AdminApi.Sectors.useListQuery(undefined)
+    const sectors = AdminApi.Sectors.useListQuery({
+        limit: 100,
+        skip: 0,
+        search: '',
+    })
     const [checkEmail, checkEmailResult] = AdminApi.Rtos.useCheckStudentEmail()
 
-    const courses = AdminApi.Courses.useListQuery(undefined)
+    const courses = AdminApi.Courses.useListQuery({
+        limit: 100,
+        skip: 0,
+        search: '',
+    })
+
     const [selectableCourses, setSelectableCourses] = useState<Course[]>([])
     const [emailExists, setEmailExists] = useState<any>([])
 

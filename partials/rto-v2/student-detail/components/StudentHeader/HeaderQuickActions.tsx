@@ -18,7 +18,10 @@ export const HeaderQuickActions = ({ student }: { student: Student }) => {
 
     const onComposeMailClicked = () => {
         setModal(
-            <ComposeEmailModal onCancel={onCancelClicked} student={student} />
+            <ComposeEmailModal
+                user={student?.user}
+                onCancel={onCancelClicked}
+            />
         )
     }
 

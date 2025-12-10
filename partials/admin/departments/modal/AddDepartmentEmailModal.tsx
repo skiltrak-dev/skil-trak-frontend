@@ -30,7 +30,11 @@ export const AddDepartmentEmailModal = ({
 
     const [selectedSectors, setSelectedSectors] = useState<number[]>([])
 
-    const sectors = AdminApi.Sectors.useListQuery(undefined)
+    const sectors = AdminApi.Sectors.useListQuery({
+        limit: 100,
+        skip: 0,
+        search: '',
+    })
     const sectotsadded = AdminApi.Department.getSectorsAddingList(
         Number(router?.query?.id),
         {

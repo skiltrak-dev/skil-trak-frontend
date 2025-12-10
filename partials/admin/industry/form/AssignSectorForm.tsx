@@ -22,9 +22,17 @@ export const AssignSectorForm = ({
     result,
     sectorsWithCourses,
 }: FormProps) => {
-    const sectors = AdminApi.Sectors.useListQuery(undefined)
+    const sectors = AdminApi.Sectors.useListQuery({
+        limit: 100,
+        skip: 0,
+        search: '',
+    })
 
-    const courses = AdminApi.Courses.useListQuery(undefined)
+    const courses = AdminApi.Courses.useListQuery({
+        limit: 100,
+        skip: 0,
+        search: '',
+    })
     const [selectableCourses, setSelectableCourses] = useState<Course[]>([])
 
     const onSectorSelect = (options: any) => {

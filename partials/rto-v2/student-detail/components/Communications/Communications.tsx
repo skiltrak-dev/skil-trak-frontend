@@ -1,17 +1,7 @@
-import {
-    MessageSquare,
-    Mail,
-    Phone,
-    Video,
-    Send,
-    Calendar,
-    Paperclip,
-    Filter,
-} from 'lucide-react'
-import { Button, Badge, TextArea } from '@components'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
+import { MailsCommunication } from '@partials/common/StudentProfileDetail/components'
 import { Student } from '@types'
-import { CallLogTab, QuickActions, StudentEmailMessages } from './components'
+import { CallLogTab, QuickActions } from './components'
 
 const messages = [
     {
@@ -108,22 +98,16 @@ export function Communications({ student }: { student: Student }) {
             {/* Communications Tabs */}
 
             <Tabs defaultValue="messages" className="space-y-6">
-                <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-                    <div className="flex items-center justify-between mb-6">
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-3.5 space-y-2">
+                    <div className="flex items-center justify-between">
                         <div>
                             <h3 className="text-slate-900">
                                 Communication History
                             </h3>
-                            <p className="text-sm text-slate-600 mt-1">
+                            <p className="text-sm text-slate-600">
                                 View and manage all communications
                             </p>
                         </div>
-                        <Button
-                            variant="secondary"
-                            outline
-                            text="Filter"
-                            Icon={Filter}
-                        />
                     </div>
 
                     <TabsList className="w-full justify-start bg-slate-100">
@@ -136,102 +120,9 @@ export function Communications({ student }: { student: Student }) {
 
                 {/* Messages Tab */}
                 <TabsContent value="messages" className="space-y-4">
-                    <StudentEmailMessages student={student} />
-                    {messages.map((msg) => (
-                        <div
-                            key={msg.id}
-                            className={`bg-white rounded-xl border shadow-sm p-6 transition-all hover:shadow-md ${
-                                !msg.read
-                                    ? 'border-[#F7A619] bg-[#F7A619]/5'
-                                    : 'border-slate-200'
-                            }`}
-                        >
-                            <div className="flex items-start justify-between mb-4">
-                                <div className="flex items-start gap-4 flex-1">
-                                    <div
-                                        className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                                            msg.type === 'email'
-                                                ? 'bg-[#044866]/10'
-                                                : msg.type === 'sms'
-                                                ? 'bg-[#F7A619]/10'
-                                                : 'bg-[#0D5468]/10'
-                                        }`}
-                                    >
-                                        {msg.type === 'email' ? (
-                                            <Mail
-                                                className={`w-6 h-6 ${
-                                                    msg.type === 'email'
-                                                        ? 'text-[#044866]'
-                                                        : 'text-slate-600'
-                                                }`}
-                                            />
-                                        ) : msg.type === 'sms' ? (
-                                            <MessageSquare className="w-6 h-6 text-[#F7A619]" />
-                                        ) : (
-                                            <Phone className="w-6 h-6 text-[#0D5468]" />
-                                        )}
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-3 mb-2">
-                                            <h4 className="text-slate-900">
-                                                {msg.from}
-                                            </h4>
-                                            <Badge
-                                                variant="secondary"
-                                                text={msg.role}
-                                                className="text-xs"
-                                            />
-                                            {!msg.read && (
-                                                <Badge
-                                                    variant="warning"
-                                                    text="Unread"
-                                                    className="text-xs"
-                                                />
-                                            )}
-                                            {msg.priority === 'high' && (
-                                                <Badge
-                                                    variant="error"
-                                                    text="High Priority"
-                                                    className="text-xs"
-                                                />
-                                            )}
-                                        </div>
-                                        <p className="text-slate-900 mb-2">
-                                            {msg.subject}
-                                        </p>
-                                        <p className="text-slate-600 leading-relaxed">
-                                            {msg.message}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="text-right ml-4">
-                                    <p className="text-sm text-slate-500">
-                                        {msg.timestamp}
-                                    </p>
-                                    <Badge
-                                        variant="secondary"
-                                        text={msg.type.toUpperCase()}
-                                        className="mt-2 text-xs"
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2 pt-4 border-t border-slate-100">
-                                <Button
-                                    variant="primaryNew"
-                                    outline
-                                    text="Reply"
-                                    Icon={MessageSquare}
-                                    mini
-                                />
-                                <Button
-                                    variant="secondary"
-                                    outline
-                                    text="Archive"
-                                    mini
-                                />
-                            </div>
-                        </div>
-                    ))}
+                    <div>
+                        <MailsCommunication user={student} />
+                    </div>
                 </TabsContent>
 
                 {/* Call History Tab */}

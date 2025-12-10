@@ -1,4 +1,11 @@
-import { AuthorizedUserComponent, Badge, Button, Typography } from '@components'
+import {
+    AuthorizedUserComponent,
+    Badge,
+    Button,
+    Portal,
+    Typography,
+    useAuthorizedUserComponent,
+} from '@components'
 import { UserRoles } from '@constants'
 import { CreateStudentNote } from '@partials/common/Notes/forms'
 import { ComposeMailModal } from '@partials/common/StudentProfileDetail/modals'
@@ -6,6 +13,7 @@ import { ReactElement, useState } from 'react'
 import { WorkplaceHistory } from '../../Workplace'
 import { useWorkplaceQueries } from '../../Workplace/hooks/useWorkplaceQueries.hook'
 import { ShowAllCommunicationModal } from '../modal'
+import clsx from 'clsx'
 
 interface CommunicationHeaderProps {
     user?: any
@@ -32,18 +40,31 @@ export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
         )
     }
 
+    const isSubadminOrAdmin = useAuthorizedUserComponent({
+        roles: [UserRoles.SUBADMIN, UserRoles.ADMIN],
+    })
+
     const onAddNote = () => {
         setModal(
-            <div
-                className={`bg-[#00000050]  w-[calc(100%-80%)]
-                 h-full flex items-center justify-center gap-x-2 fixed top-[4.4rem] right-0 z-40`}
-            >
-                <CreateStudentNote
-                    studentId={user?.id}
-                    onCancel={onCancelClicked}
-                    receiverId={Number(user?.user?.id)}
-                />
-            </div>
+            <Portal>
+                <div
+                    className={clsx(
+                        'bg-[#00000050] flex items-center justify-center gap-x-2 fixed  right-0 z-40',
+                        {
+                            '!w-[calc(320px)] !h-full top-[4.4rem]':
+                                isSubadminOrAdmin,
+                            'w-full h-screen top-0 overflow-auto':
+                                !isSubadminOrAdmin,
+                        }
+                    )}
+                >
+                    <CreateStudentNote
+                        studentId={user?.id}
+                        onCancel={onCancelClicked}
+                        receiverId={Number(user?.user?.id)}
+                    />
+                </div>
+            </Portal>
         )
     }
 
@@ -62,24 +83,30 @@ export const CommunicationHeader = ({ user }: CommunicationHeaderProps) => {
                         onClick={onShowFullCommunication}
                     />
                     {user?.user?.role === UserRoles.STUDENT && (
-                        <AuthorizedUserComponent
-                            roles={[
-                                UserRoles.SUBADMIN,
-                                UserRoles.ADMIN,
-                                UserRoles.RTO,
-                            ]}
-                        >
-                            <WorkplaceHistory
-                                wpId={Number(selectedWorkplace?.id)}
-                            />
-                            <Button
-                                onClick={() => {
-                                    onAddNote()
-                                }}
+                        <>
+                            <AuthorizedUserComponent
+                                roles={[UserRoles.SUBADMIN, UserRoles.ADMIN]}
                             >
-                                + Add Note
-                            </Button>
-                        </AuthorizedUserComponent>
+                                <WorkplaceHistory
+                                    wpId={Number(selectedWorkplace?.id)}
+                                />
+                            </AuthorizedUserComponent>
+                            <AuthorizedUserComponent
+                                roles={[
+                                    UserRoles.SUBADMIN,
+                                    UserRoles.ADMIN,
+                                    UserRoles.RTO,
+                                ]}
+                            >
+                                <Button
+                                    onClick={() => {
+                                        onAddNote()
+                                    }}
+                                >
+                                    + Add Note
+                                </Button>
+                            </AuthorizedUserComponent>
+                        </>
                     )}
                     <Button
                         variant="info"

@@ -81,7 +81,8 @@ export function SupervisorInfo({
                                     <div className="flex flex-wrap gap-[0.44rem] text-[0.88em]">
                                         {qualificationLevel(
                                             supervisor?.level
-                                        ) || '--'}
+                                        ) || '--'}{' '}
+                                        ({supervisor?.title})
                                     </div>
                                 </div>
 

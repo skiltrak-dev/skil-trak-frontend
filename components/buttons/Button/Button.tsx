@@ -32,6 +32,7 @@ export const ButtonVariantOptions = [
 ] as const
 
 interface ButtonProps {
+    title?: string
     iconSize?: number
     variant?: (typeof ButtonVariantOptions)[number]
     className?: string
@@ -68,6 +69,7 @@ export const Button = ({
     fullHeight,
     className,
     mini,
+    title,
     iconSize = 13,
 }: ButtonProps) => {
     const buttonClass = `text-[11px] 2xl:text-xs font-medium uppercase transition-all duration-300 border px-4 py-2 shadow focus:outline-none focus:ring-4 cursor-pointer ${
@@ -93,6 +95,7 @@ export const Button = ({
     return (
         <button
             disabled={disabled}
+            title={title}
             type={submit ? 'submit' : 'button'}
             className={`${currentClass} ${className}`}
             {...(!submit ? { onClick: (e) => onClick && onClick(e) } : {})}
