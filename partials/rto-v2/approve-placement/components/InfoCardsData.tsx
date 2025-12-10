@@ -1,16 +1,14 @@
 import { Button } from '@components'
-import {
-    User,
-    Eye,
-    Clock,
-    FileCheck,
-    ExternalLink,
-    CheckCircle2,
-} from 'lucide-react'
-import React from 'react'
-import { InfoCard } from '../card'
-import { PlacementApproval } from '../PendingPlacement'
 import { DocumentsView } from '@hooks'
+import {
+    CheckCircle2,
+    Clock,
+    ExternalLink,
+    Eye,
+    FileCheck,
+    User,
+} from 'lucide-react'
+import { InfoCard } from '../card'
 
 export const InfoCardsData = ({
     courseInfo,
