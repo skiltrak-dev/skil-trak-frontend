@@ -29,7 +29,7 @@ export const AddIndustryProgramModal = ({
     return (
         <div>
             <Modal
-                title={'Industry Course Streams (Blocks)'}
+                title={'Industry Course Streams'}
                 subtitle={''}
                 showActions={false}
                 onCancelClick={onCancel}

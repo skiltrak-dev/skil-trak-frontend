@@ -6,10 +6,9 @@ import {
     Typography,
 } from '@components'
 import { SubAdminApi } from '@queries'
-import React, { useEffect, useMemo, useState } from 'react'
-import { FutureIndustryInRadiusListCard } from '../industriesListCards'
 import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
+import { useEffect, useMemo, useState } from 'react'
+import { FutureIndustryInRadiusListCard } from '../industriesListCards'
 
 export const FutureIndustriesInRadiusTab = ({
     workplaceId,

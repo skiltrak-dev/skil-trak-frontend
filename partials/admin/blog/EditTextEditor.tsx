@@ -69,7 +69,10 @@ TextEditorProps) {
 
     const [updateBlog, updateBlogResult] = adminApi.useUpdateBlogMutation()
     const [uploadImage, uploadImageResult] = AdminApi.Blogs.uploadImage()
-    const { data, isLoading } = adminApi.useGetCategoriesQuery(undefined)
+    const { data, isLoading } = AdminApi.Blogs.categoriesList({
+        skip: 0,
+        limit: 20,
+    })
 
     // const initialFaqList = blogData?.blogQuestions.map(
     //     (question: any, index: any) => ({

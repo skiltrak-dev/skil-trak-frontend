@@ -19,7 +19,7 @@ import {
 } from './data/mockData'
 import { Building2 } from 'lucide-react'
 
-export function RtoUpdatedIndustries() {
+export const RtoUpdatedIndustries = () => {
     const [addIndustryOpen, setAddIndustryOpen] = useState(false)
 
     // Helper functions
@@ -90,17 +90,7 @@ export function RtoUpdatedIndustries() {
             value: 'your-industries',
             label: 'Your Industries',
             icon: Building2,
-            component: () => (
-                <YourIndustriesTab
-                    data={yourIndustriesData}
-                    getTotalCapacity={getTotalCapacity}
-                    getTotalPlacements={getTotalPlacements}
-                    getAvailablePositions={getAvailablePositions}
-                    onView={handleViewIndustry}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                />
-            ),
+            component: () => <YourIndustriesTab />,
         },
         {
             value: 'global-directory',
@@ -240,7 +230,12 @@ export function RtoUpdatedIndustries() {
                     </div>
                 )}
             </TabNavigation> */}
-            <ConfigTabs tabs={tabs} />
+            <ConfigTabs
+                tabs={tabs}
+                className="!rounded-none"
+                tabsClasses="!rounded-md !p-1"
+                tabsTriggerClasses="py-1.5 !rounded-md"
+            />
 
             {addIndustryOpen && (
                 <AddIndustryModal onClose={() => setAddIndustryOpen(false)} />

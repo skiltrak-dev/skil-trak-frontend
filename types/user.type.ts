@@ -361,6 +361,7 @@ export interface Industry extends BaseResponse {
     phoneNumber: string
     dob: Date
     contactPerson: string
+    snoozedAt: Date
     snoozedDate: Date
     isSnoozed: boolean
     missingAttributes: string[]
@@ -407,6 +408,7 @@ export interface PendingIndustry extends Industry {
 }
 
 export interface IndustryBranchesAddressType extends BaseResponse {
+    id: number
     address: string
     contactPerson: string
     contactPersonPhone: string

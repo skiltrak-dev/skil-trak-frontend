@@ -1,7 +1,7 @@
 import { Clock, Star } from 'lucide-react'
 import moment from 'moment'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@redux/hooks'
 
 // Function 1: Calculate time remaining from expiry date using moment
 const calculateTimeRemaining = (expiryDate: string) => {
@@ -86,14 +86,14 @@ const getStudentStatus = (expiryDate: string) => {
 }
 
 export const StudentTimeline = () => {
-    const { studentDetail } = useSelector((state: any) => state.student)
+    const { studentDetail } = useAppSelector((state) => state?.student)
 
     // Get expiry date from student detail
     const expiryDate = studentDetail?.expiryDate
 
     // Calculate time remaining
-    const timeInfo = calculateTimeRemaining(expiryDate)
-    const statusInfo = getStudentStatus(expiryDate)
+    const timeInfo = calculateTimeRemaining(expiryDate + '')
+    const statusInfo = getStudentStatus(expiryDate + '')
 
     return (
         <div className="rounded-lg bg-gradient-to-r from-[#044866]/5 via-[#0D5468]/5 to-transparent border border-[#044866]/20 p-3.5 shadow-sm">

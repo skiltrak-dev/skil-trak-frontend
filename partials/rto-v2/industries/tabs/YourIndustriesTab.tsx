@@ -1,8 +1,15 @@
+import {
+    Card,
+    EmptyData,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+} from '@components'
+import { RtoV2Api } from '@redux'
 import { useState } from 'react'
-import { Card, EmptyData, Table, TableChildrenProps } from '@components'
-import { IndustryKPIStats, IndustryFilterBar } from '../component'
+import { IndustryFilterBar } from '../component'
 import { createYourIndustriesColumns } from '../component/columns'
-import { Industry } from '../types'
+import { Industry } from '@types'
 
 interface YourIndustriesTabProps {
     data: Industry[]
@@ -14,99 +21,21 @@ interface YourIndustriesTabProps {
     onDelete: (industry: Industry) => void
 }
 
-export const YourIndustriesTab = ({
-    data,
-    getTotalCapacity,
-    getTotalPlacements,
-    getAvailablePositions,
-    onView,
-    onEdit,
-    onDelete,
-}: YourIndustriesTabProps) => {
+export const YourIndustriesTab = () => {
     const [searchTerm, setSearchTerm] = useState('')
     const [filterSector, setFilterSector] = useState('all')
     const [filterStatus, setFilterStatus] = useState('all')
 
-    const filterIndustries = (industries: Industry[]) => {
-        return industries.filter((industry) => {
-            const matchesSearch =
-                industry.name
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase()) ||
-                industry.location
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase()) ||
-                industry.abn.toLowerCase().includes(searchTerm.toLowerCase())
+    const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(50)
 
-            const matchesSector =
-                filterSector === 'all' || industry.sector === filterSector
-            const matchesStatus =
-                filterStatus === 'all' || industry.status === filterStatus
-
-            return matchesSearch && matchesSector && matchesStatus
-        })
-    }
-
-    const calculateStats = (industries: Industry[]) => {
-        const totalIndustries = industries.length
-        const verifiedIndustries = industries.filter(
-            (i) => i.status === 'verified'
-        ).length
-        const pendingIndustries = industries.filter(
-            (i) => i.status === 'pending'
-        ).length
-        const totalCapacity = industries.reduce(
-            (sum, i) => sum + getTotalCapacity(i),
-            0
-        )
-        const totalPlacements = industries.reduce(
-            (sum, i) => sum + getTotalPlacements(i),
-            0
-        )
-        const totalAvailablePositions = industries.reduce(
-            (sum, i) => sum + getAvailablePositions(i),
-            0
-        )
-        const averageComplianceScore =
-            totalIndustries > 0
-                ? Math.round(
-                      industries.reduce(
-                          (sum, i) => sum + i.complianceScore,
-                          0
-                      ) / totalIndustries
-                  )
-                : 0
-        const averageRating =
-            totalIndustries > 0
-                ? (
-                      industries.reduce((sum, i) => sum + i.rating, 0) /
-                      totalIndustries
-                  ).toFixed(1)
-                : '0.0'
-
-        return {
-            totalIndustries,
-            verifiedIndustries,
-            pendingIndustries,
-            totalCapacity,
-            totalPlacements,
-            totalAvailablePositions,
-            averageComplianceScore,
-            averageRating,
-        }
-    }
-
-    const filteredData = filterIndustries(data)
-    const stats = calculateStats(data)
-
-    const columns = createYourIndustriesColumns({
-        getTotalCapacity,
-        getTotalPlacements,
-        getAvailablePositions,
-        onView,
-        onEdit,
-        onDelete,
+    const industries = RtoV2Api.Industries.getRtoIndustries({
+        search: searchTerm,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
     })
+
+    const columns = createYourIndustriesColumns()
 
     return (
         <div className="space-y-4">
@@ -124,24 +53,55 @@ export const YourIndustriesTab = ({
             />
 
             <Card noPadding>
-                {filteredData.length > 0 ? (
-                    <Table columns={columns} data={filteredData}>
+                {industries?.isError && <TechnicalError />}
+                {industries?.isLoading || industries?.isFetching ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : industries &&
+                  industries?.data?.data &&
+                  industries?.data?.data?.length ? (
+                    <Table<Industry>
+                        columns={columns}
+                        data={industries?.data?.data}
+                    >
                         {({
                             table,
                             pagination,
                             pageSize,
-                        }: TableChildrenProps) => (
-                            <div>
-                                <div>{table}</div>
-                            </div>
-                        )}
+                            quickActions,
+                        }: any) => {
+                            return (
+                                <div>
+                                    <div className="p-6 mb-2 flex justify-between">
+                                        {pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            industries?.data?.data?.length
+                                        )}
+                                        <div className="flex gap-x-2">
+                                            {quickActions}
+                                            {pagination(
+                                                industries?.data?.pagination,
+                                                setPage
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="px-6 w-full overflow-x-scroll remove-scrollbar">
+                                        {table}
+                                    </div>
+                                </div>
+                            )
+                        }}
                     </Table>
                 ) : (
-                    <EmptyData
-                        title="No industries found"
-                        description="Try adjusting your search or filters"
-                        height="50vh"
-                    />
+                    !industries?.isError && (
+                        <EmptyData
+                            title={'No Approved RTO!'}
+                            description={
+                                'You have not approved any RTO request yet'
+                            }
+                            height={'50vh'}
+                        />
+                    )
                 )}
             </Card>
         </div>

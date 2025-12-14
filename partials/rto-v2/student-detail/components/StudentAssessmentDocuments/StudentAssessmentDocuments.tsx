@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import { CourseOverview } from '../StudentOverview'
 import { DocumentFilter, DocumentHeader } from './components'
 import { FolderSection } from './components/FolderSection'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@redux/hooks'
 import { LoadingAnimation, NoData } from '@components'
 
 interface DocumentsProps {
@@ -18,8 +18,8 @@ export function StudentAssessmentDocuments({ student }: DocumentsProps) {
         'all' | 'industry' | 'course'
     >('all')
 
-    const selectedCourse = useSelector(
-        (state: any) => state?.student?.selectedCourse
+    const selectedCourse = useAppSelector(
+        (state) => state.student.selectedCourse
     )
 
     const count = RtoV2Api.StudentDocuments.getStudentDocumentsCount({

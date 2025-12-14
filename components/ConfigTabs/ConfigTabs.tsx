@@ -1,6 +1,7 @@
 import { Badge } from '@components/Badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
 import { LucideIcon } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 export interface TabConfig {
     value: string
@@ -25,47 +26,63 @@ export const ConfigTabs = ({
     tabsClasses?: string
     tabsTriggerClasses?: string
 }) => {
+    const [width, setWidth] = useState<number | null>(null)
+
+    const ref = useRef<any>(null)
+
+    useEffect(() => {
+        if (ref?.current) {
+            setWidth(ref?.current?.offsetWidth)
+        }
+    }, [ref])
+
     return (
-        <Tabs
-            defaultValue={defaultValue || tabs?.[0]?.value}
-            className={` ${className}`}
-        >
-            <TabsList
-                className={`border border-gray-300 shadow w-full  mb-2 bg-slate-100 p-1.5 rounded-xl h-auto gap-1 ${tabsClasses}`}
+        <div className="w-full" ref={ref}>
+            <Tabs
+                defaultValue={defaultValue || tabs?.[0]?.value}
+                className={`${className}`}
             >
+                <TabsList
+                    style={{
+                        maxWidth: width ? `${width}px` : '100%',
+                        boxSizing: 'border-box',
+                    }}
+                    className={`w-full overflow-x-auto border border-gray-300 shadow mb-2 bg-slate-100 p-1.5 rounded-xl h-auto gap-1 flex justify-start ${tabsClasses}`}
+                >
+                    {tabs.map((tab) => {
+                        const Icon = tab?.icon
+                        return (
+                            <TabsTrigger
+                                key={tab.value}
+                                value={tab.value}
+                                className={`whitespace-nowrap data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-[#044866] transition-all py-3 rounded-lg flex flex-col md:flex-row items-center gap-1 md:gap-2 ${tabsTriggerClasses}`}
+                            >
+                                {Icon && <Icon className="w-4 h-4" />}
+                                <span>{tab.label}</span>
+                                {tab.count && (
+                                    <Badge
+                                        variant="primaryNew"
+                                        text={tab.count.toString()}
+                                    />
+                                )}
+                            </TabsTrigger>
+                        )
+                    })}
+                </TabsList>
+
                 {tabs.map((tab) => {
-                    const Icon = tab?.icon
+                    const Component = tab.component
                     return (
-                        <TabsTrigger
+                        <TabsContent
                             key={tab.value}
                             value={tab.value}
-                            className={`data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-[#044866] transition-all py-3 rounded-lg flex flex-col md:flex-row items-center gap-1 md:gap-2 ${tabsTriggerClasses}`}
+                            className="mt-0 animate-fade-in"
                         >
-                            {Icon && <Icon className="w-4 h-4" />}
-                            <span>{tab.label}</span>
-                            {tab.count && (
-                                <Badge
-                                    variant="primaryNew"
-                                    text={tab.count.toString()}
-                                />
-                            )}
-                        </TabsTrigger>
+                            <Component {...props} />
+                        </TabsContent>
                     )
                 })}
-            </TabsList>
-
-            {tabs.map((tab) => {
-                const Component = tab.component
-                return (
-                    <TabsContent
-                        key={tab.value}
-                        value={tab.value}
-                        className="mt-0 animate-fade-in"
-                    >
-                        <Component {...props} />
-                    </TabsContent>
-                )
-            })}
-        </Tabs>
+            </Tabs>
+        </div>
     )
 }

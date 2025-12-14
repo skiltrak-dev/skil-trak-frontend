@@ -3,6 +3,7 @@ import { approvalRequestEndpoints } from './approval-request'
 import { availableServicesEndpoints } from './availableServices'
 import { coursesEndPoints } from './courses'
 import { dashboardEndpoints } from './dashboard'
+import { industriesEndpoints } from './industries'
 import { placementRequestsEndPoints } from './placementRequests'
 import { studentDocumentsEndpoints } from './student-documents'
 import { studentsEndpoints } from './students'
@@ -13,6 +14,7 @@ export const rtoV2Api = apiSlice.injectEndpoints({
         ...coursesEndPoints(build),
         ...studentsEndpoints(build),
         ...dashboardEndpoints(build),
+        ...industriesEndpoints(build),
         ...approvalRequestEndpoints(build),
         ...studentDocumentsEndpoints(build),
         ...placementRequestsEndPoints(build),
@@ -86,6 +88,17 @@ const {
     useGetStudentDocumentFilesQuery,
     useGetStudentDocumentsCountQuery,
     useUploadStudentDocumentFileMutation,
+
+    // ---- Industries ---- //
+    useGetRtoIndustriesQuery,
+    useSnoozeIndustryMutation,
+    useGetRtoIndustryDetailQuery,
+    useIndustryStudentsListQuery,
+    useIndustryStudentStatsQuery,
+    useAddSingleRtoIndustryMutation,
+    useCreateAvailabilityMutation,
+    useAddBulkRtoIndustriesMutation,
+    useIndustryUserStatusChangeMutation,
 } = rtoV2Api
 
 export const RtoV2Api = {
@@ -155,5 +168,16 @@ export const RtoV2Api = {
         getStudentDocumentFiles: useGetStudentDocumentFilesQuery,
         getStudentDocumentsCount: useGetStudentDocumentsCountQuery,
         uploadStudentDocumentFile: useUploadStudentDocumentFileMutation,
+    },
+    Industries: {
+        snoozeIndustry: useSnoozeIndustryMutation,
+        industryStudentsList: useIndustryStudentsListQuery,
+        getRtoIndustries: useGetRtoIndustriesQuery,
+        getRtoIndustryDetail: useGetRtoIndustryDetailQuery,
+        industryStudentStats: useIndustryStudentStatsQuery,
+        addSingleRtoIndustry: useAddSingleRtoIndustryMutation,
+        createAvailability: useCreateAvailabilityMutation,
+        addBulkRtoIndustries: useAddBulkRtoIndustriesMutation,
+        industryUserStatusChange: useIndustryUserStatusChangeMutation,
     },
 }

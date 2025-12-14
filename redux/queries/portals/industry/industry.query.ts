@@ -251,6 +251,7 @@ export const {
 
     // ---- GALLERY ---- //
     useIndustryGalleryQuery,
+    useIndustryGalleryCountQuery,
     useAddIndustryGalleryMutation,
     useRemoveIndustryGalleryMutation,
 } = industryApi
@@ -411,6 +412,7 @@ export const IndustryApi = {
     Gallery: {
         industryGallery: useIndustryGalleryQuery,
         addIndustryGallery: useAddIndustryGalleryMutation,
+        industryGalleryCount: useIndustryGalleryCountQuery,
         removeIndustryGallery: useRemoveIndustryGalleryMutation,
     },
 }

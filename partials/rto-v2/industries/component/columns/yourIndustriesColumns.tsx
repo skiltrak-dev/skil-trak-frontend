@@ -1,41 +1,32 @@
-import { ColumnDef } from '@tanstack/react-table'
 import {
-    MapPin,
-    Mail,
-    Phone,
+    Badge,
+    InitialAvatar,
+    TableAction,
+    TableActionOption,
+} from '@components'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@components/ui/tooltip'
+import { ColumnDef } from '@tanstack/react-table'
+import { Industry, User, UserStatus } from '@types'
+import {
     CheckCircle2,
     Clock,
-    XCircle,
-    Globe,
-    Eye,
     Edit,
+    Eye,
+    Globe,
+    Mail,
+    MapPin,
+    Phone,
     Trash2,
+    XCircle,
 } from 'lucide-react'
-import { Badge, InitialAvatar, TableAction, TableActionOption } from '@components'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@components/ui/tooltip'
-import { Progressbar } from '@partials/rto-v2/components/Progressbar'
-import { Industry } from '../../types'
+import { useRouter } from 'next/router'
 
-interface ColumnOptions {
-    getTotalCapacity: (industry: Industry) => number
-    getTotalPlacements: (industry: Industry) => number
-    getAvailablePositions: (industry: Industry) => number
-    onView: (industry: Industry) => void
-    onEdit: (industry: Industry) => void
-    onDelete: (industry: Industry) => void
-}
+export const createYourIndustriesColumns = (): ColumnDef<Industry>[] => {
+    const router = useRouter()
 
-export const createYourIndustriesColumns = ({
-    getTotalCapacity,
-    getTotalPlacements,
-    getAvailablePositions,
-    onView,
-    onEdit,
-    onDelete,
-}: ColumnOptions): ColumnDef<Industry>[] => {
-    const getStatusBadge = (status: Industry['status']) => {
+    const getStatusBadge = (status: User['status']) => {
         switch (status) {
-            case 'verified':
+            case UserStatus.Approved:
                 return (
                     <div className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-success/10 text-success border border-success/20">
                         <CheckCircle2 className="h-3 w-3" />
@@ -49,7 +40,7 @@ export const createYourIndustriesColumns = ({
                         <span className="text-xs font-medium">Pending</span>
                     </div>
                 )
-            case 'inactive':
+            case UserStatus.Archived:
                 return (
                     <div className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-muted/50 text-muted-foreground border border-border">
                         <XCircle className="h-3 w-3" />
@@ -69,7 +60,7 @@ export const createYourIndustriesColumns = ({
                     View Details
                 </div>
             ),
-            onClick: () => onView(industry),
+            onClick: () => {},
         },
         {
             text: (
@@ -78,7 +69,7 @@ export const createYourIndustriesColumns = ({
                     Edit
                 </div>
             ),
-            onClick: () => onEdit(industry),
+            onClick: () => {},
         },
         {
             text: (
@@ -87,7 +78,7 @@ export const createYourIndustriesColumns = ({
                     Delete
                 </div>
             ),
-            onClick: () => onDelete(industry),
+            onClick: () => {},
             color: 'text-red-600',
         },
     ]
@@ -113,14 +104,21 @@ export const createYourIndustriesColumns = ({
                                     </TooltipContent>
                                 </Tooltip>
                             )}
-                            <InitialAvatar name={industry.name} small />
+                            <InitialAvatar name={industry?.user?.name} small />
                         </div>
-                        <div>
+                        <div
+                            onClick={() => {
+                                router.push(
+                                    `/portals/rto/manage/industries/${industry.id}/detail`
+                                )
+                            }}
+                            className="cursor-pointer"
+                        >
                             <p className="font-semibold text-sm">
-                                {industry.name}
+                                {industry?.user?.name}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                                {industry.abn}
+                                {industry?.abn}
                             </p>
                         </div>
                     </div>
@@ -130,7 +128,13 @@ export const createYourIndustriesColumns = ({
         {
             accessorKey: 'sector',
             header: () => <span>Sector</span>,
-            cell: ({ row }) => <Badge text={row.original.sector} />,
+            cell: ({ row }) => (
+                <Badge
+                    text={row.original?.courses
+                        ?.map((course) => course?.name)
+                        .join(', ')}
+                />
+            ),
         },
         {
             accessorKey: 'location',
@@ -145,64 +149,9 @@ export const createYourIndustriesColumns = ({
         {
             accessorKey: 'status',
             header: () => <span>Status</span>,
-            cell: ({ row }) => getStatusBadge(row.original.status),
+            cell: ({ row }) => getStatusBadge(row.original?.user?.status),
         },
-        {
-            accessorKey: 'capacity',
-            header: () => <span>Capacity</span>,
-            cell: ({ row }) => {
-                const industry = row.original
-                const totalCapacity = getTotalCapacity(industry)
-                const totalPlacements = getTotalPlacements(industry)
-                const availablePositions = getAvailablePositions(industry)
 
-                return (
-                    <div className="space-y-1 min-w-[120px]">
-                        <div className="flex items-center justify-between text-xs">
-                            <span className="text-muted-foreground">
-                                {totalPlacements}/{totalCapacity}
-                            </span>
-                            <span className="font-semibold text-success">
-                                {availablePositions} available
-                            </span>
-                        </div>
-                        <Progressbar
-                            variant="success"
-                            value={totalPlacements}
-                            max={totalCapacity}
-                            size="xs"
-                        />
-                    </div>
-                )
-            },
-        },
-        {
-            accessorKey: 'performance',
-            header: () => <span>Performance</span>,
-            cell: ({ row }) => {
-                const industry = row.original
-                return (
-                    <div className="flex items-center gap-2">
-                        <Tooltip>
-                            <TooltipTrigger>
-                                <div className="text-xs font-semibold">
-                                    {industry.complianceScore}%
-                                </div>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>Compliance Score</p>
-                            </TooltipContent>
-                        </Tooltip>
-                        <div className="flex items-center gap-0.5 text-xs">
-                            <span>⭐</span>
-                            <span className="font-semibold">
-                                {industry.rating}
-                            </span>
-                        </div>
-                    </div>
-                )
-            },
-        },
         {
             accessorKey: 'contact',
             header: () => <span>Contact</span>,
@@ -213,13 +162,13 @@ export const createYourIndustriesColumns = ({
                         <div className="flex items-center gap-1.5">
                             <Mail className="h-3 w-3 text-muted-foreground" />
                             <span className="truncate max-w-[150px]">
-                                {industry.contactEmail}
+                                {industry?.user?.email}
                             </span>
                         </div>
-                        {industry.contactPhone && (
+                        {industry?.phoneNumber && (
                             <div className="flex items-center gap-1.5">
                                 <Phone className="h-3 w-3 text-muted-foreground" />
-                                <span>{industry.contactPhone}</span>
+                                <span>{industry?.phoneNumber}</span>
                             </div>
                         )}
                     </div>
@@ -241,4 +190,3 @@ export const createYourIndustriesColumns = ({
         },
     ]
 }
-

@@ -27,4 +27,19 @@ export const galleryEndpoints = (
         }),
         providesTags: ['Industry-Gallery'],
     }),
+
+    industryGalleryCount: builder.query<
+        {
+            total: number
+            images: number
+            documents: number
+        },
+        { userId?: number }
+    >({
+        query: (params) => ({
+            url: `industries/gallery/data-count`,
+            params,
+        }),
+        providesTags: ['Industry-Gallery'],
+    }),
 })

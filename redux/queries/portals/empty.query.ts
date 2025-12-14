@@ -83,6 +83,8 @@ const rtoTagTypes = [
     'RtoAssessmentToolsList',
 ]
 
+const rtoV2TagTypes = []
+
 const industryTagTypes = [
     'RPL',
     'Job',
@@ -192,6 +194,7 @@ export const apiSlice = createApi({
     }),
     tagTypes: [
         ...rtoTagTypes,
+        ...rtoV2TagTypes,
         ...adminTagTypes,
         ...commonTagTypes,
         ...studentTagTypes,

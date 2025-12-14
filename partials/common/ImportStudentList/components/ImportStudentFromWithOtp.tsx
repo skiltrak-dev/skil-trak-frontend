@@ -22,7 +22,7 @@ export const ImportStudentFromWithOtp = ({
     rtoCourses: any
 }) => {
     const [checkMails, checkMailsResult] =
-        AdminApi.Rtos.useRtoStudentAccountCheck()
+        AdminApi.Rtos.useUserExistingEmailCheck()
 
     const [studentList, setStudentList] = useState<any>([])
     const [emailExistList, setEmailExistList] = useState<any | null>(null)

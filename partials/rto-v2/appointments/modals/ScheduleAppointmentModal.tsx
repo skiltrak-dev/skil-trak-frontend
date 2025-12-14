@@ -34,6 +34,7 @@ export const ScheduleAppointmentModal = ({
     const [selectedUser, setSelectedUser] = useState<any>(
         defaultSelectedUser || null
     )
+    console.log({ selectedUser })
     const [selectedCourse, setSelectedCourse] = useState<any>(null)
 
     const { notification } = useNotification()

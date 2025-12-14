@@ -1,0 +1,198 @@
+import { Calendar, CheckCircle } from 'lucide-react'
+import { Button, ConfigTabs, TabConfig } from '@components'
+import { useState } from 'react'
+import { WeeklySchedule, DaySchedule } from './WeeklySchedule'
+import { MonthlySchedule, MonthlyScheduleData } from './MonthlySchedule'
+import { RtoV2Api } from '@queries/portals/rto-v2/rto-v2.query'
+import { useNotification } from '@hooks/useNotification'
+import { useAppSelector } from '@redux/hooks'
+
+export function InterviewAvailability() {
+    const [createAvailability, { isLoading }] =
+        RtoV2Api.Industries.createAvailability()
+
+    const industryDetail = useAppSelector(
+        (state) => state.industry.industryDetail
+    )
+
+    const [availabilityType, setAvailabilityType] = useState<
+        'weekly' | 'monthly'
+    >('weekly')
+
+    // Initial State for Weekly
+    const [weeklySchedule, setWeeklySchedule] = useState<DaySchedule[]>([
+        {
+            day: 'monday',
+            isActive: true,
+            slots: [{ startTime: '09:00', endTime: '17:00' }],
+        },
+        {
+            day: 'tuesday',
+            isActive: true,
+            slots: [{ startTime: '09:00', endTime: '17:00' }],
+        },
+        {
+            day: 'wednesday',
+            isActive: true,
+            slots: [{ startTime: '09:00', endTime: '17:00' }],
+        },
+        {
+            day: 'thursday',
+            isActive: true,
+            slots: [{ startTime: '09:00', endTime: '17:00' }],
+        },
+        {
+            day: 'friday',
+            isActive: true,
+            slots: [{ startTime: '09:00', endTime: '17:00' }],
+        },
+        { day: 'saturday', isActive: false, slots: [] },
+        { day: 'sunday', isActive: false, slots: [] },
+    ])
+
+    // Initial State for Monthly
+    const [monthlyData, setMonthlyData] = useState<MonthlyScheduleData>({
+        startDate: '',
+        endDate: '',
+        slots: [{ startTime: '09:00', endTime: '17:00' }],
+    })
+
+    const { notification } = useNotification()
+
+    const handleSave = async () => {
+        try {
+            let payload: any = {}
+
+            if (availabilityType === 'weekly') {
+                const activeDays = weeklySchedule.filter((d) => d.isActive)
+                if (activeDays.length === 0) {
+                    notification.error({
+                        title: 'Error',
+                        description: 'Please select at least one day.',
+                    })
+                    return
+                }
+
+                // Flatten slots for payload
+                const slots = activeDays.flatMap((day) =>
+                    day.slots.map((slot) => ({
+                        day: day.day,
+                        startTime: slot.startTime,
+                        endTime: slot.endTime,
+                    }))
+                )
+
+                payload = {
+                    type: 'weekly',
+                    slots,
+                    userId: industryDetail?.user?.id,
+                }
+            } else {
+                if (!monthlyData.startDate || !monthlyData.endDate) {
+                    notification.error({
+                        title: 'Error',
+                        description: 'Please select start and end dates.',
+                    })
+                    return
+                }
+                if (monthlyData.slots.length === 0) {
+                    notification.error({
+                        title: 'Error',
+                        description: 'Please add at least one time slot.',
+                    })
+                    return
+                }
+
+                payload = {
+                    type: 'monthly',
+                    slots: monthlyData.slots,
+                    endDate: monthlyData.endDate,
+                    startDate: monthlyData.startDate,
+                    userId: industryDetail?.user?.id,
+                }
+            }
+
+            await createAvailability(payload).unwrap()
+            notification.success({
+                title: 'Success',
+                description: 'Availability updated successfully!',
+            })
+        } catch (error) {
+            console.error('Failed to save availability', error)
+            notification.error({
+                title: 'Error',
+                description: 'Failed to update availability. Please try again.',
+            })
+        }
+    }
+    const tabs: TabConfig[] = [
+        {
+            value: 'weekly',
+            label: 'Weekly Active Mode',
+            // icon: Users,
+            // count: count?.data?.pending,
+            component: () => (
+                <WeeklySchedule
+                    schedule={weeklySchedule}
+                    onChange={setWeeklySchedule}
+                />
+            ),
+        },
+        {
+            value: 'monthly',
+            label: 'Monthly Range Mode',
+            // icon: Users,
+            // count: count?.data?.pending,
+            component: () => (
+                <MonthlySchedule data={monthlyData} onChange={setMonthlyData} />
+            ),
+        },
+    ]
+
+    return (
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-[#044866] to-[#0D5468] p-4 flex items-center justify-between">
+                <h3 className="text-white flex items-center gap-2 text-sm font-semibold tracking-wide">
+                    <Calendar className="w-4 h-4" />
+                    Interview Availability
+                </h3>
+                <div className="flex items-center gap-2 bg-white/20 px-2 py-1 rounded-full backdrop-blur-sm">
+                    <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
+                    <span className="text-[10px] text-white font-medium uppercase tracking-wide">
+                        Active
+                    </span>
+                </div>
+            </div>
+
+            <div className="p-4 space-y-6">
+                <ConfigTabs
+                    tabs={tabs}
+                    className={'!rounded'}
+                    tabsClasses="!p-1 !rounded-md"
+                    tabsTriggerClasses="!py-1.5 !rounded-md"
+                />
+
+                {/* Action Footer */}
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <div className="flex items-start gap-2 max-w-[70%]">
+                        <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-slate-500 text-xs leading-relaxed">
+                            Changes will be immediately reflected in the student
+                            booking portal.
+                        </p>
+                    </div>
+
+                    <Button
+                        onClick={handleSave}
+                        variant="primary"
+                        className="bg-[#044866] hover:bg-[#03364d] text-white px-6 py-2 rounded-lg text-xs font-semibold shadow-lg shadow-[#044866]/20 transition-all hover:scale-105 active:scale-95"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Saving...' : 'Save Availability'}
+                    </Button>
+                </div>
+            </div>
+        </div>
+    )
+}
