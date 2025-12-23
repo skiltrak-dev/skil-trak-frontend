@@ -1,0 +1,111 @@
+import { TableAction, TableActionOption } from "@components"
+import { ColumnDef } from "@tanstack/react-table"
+import { format } from "date-fns"
+import { Tags } from "lucide-react"
+import { FaTrash } from "react-icons/fa"
+
+interface SupportTeamItem {
+    id: number
+    name: string
+    membersCount: number
+    tags: string[]
+    createdAt: string
+    updatedAt: string
+    isActive: boolean
+    description?: string
+}
+
+interface UseSupportTeamColumnsProps {
+    onDeleteClicked: (item: SupportTeamItem) => void
+}
+
+export function useSupportTeamColumns({
+    onDeleteClicked,
+}: UseSupportTeamColumnsProps) {
+    
+    const tableActionOptions: TableActionOption<SupportTeamItem>[] = [
+        {
+            text: "Delete",
+            onClick: (item) => onDeleteClicked(item),
+            Icon: FaTrash,
+            color: "text-red-500 hover:bg-red-100 hover:border-red-200",
+        },
+    ]
+
+    // 👉 Table columns
+    const columns: ColumnDef<SupportTeamItem>[] = [
+        {
+            header: () => <span>Name</span>,
+            accessorKey: "name",
+            cell: ({ row }) => {
+                const { name } = row.original
+                return <span className="font-semibold">{name}</span>
+            },
+        },
+        {
+            header: () => <span>Members</span>,
+            accessorKey: "membersCount",
+            cell: ({ row }) => row.original.membersCount ?? 0,
+        },
+        {
+            header: () => <span>Tags</span>,
+            accessorKey: "tags",
+            cell: ({ row }) => {
+                const { tags } = row.original
+                return (
+                    <div className="flex items-center gap-2 flex-wrap">
+                        {tags?.length ? (
+                            tags.map((tag: string, index: number) => (
+                                <div
+                                    key={index}
+                                    className="px-2 py-1 text-xs rounded-md bg-gray-100 border flex items-center gap-x-2"
+                                >
+                                    <div className="">
+                                        <Tags size={10} />
+                                    </div>
+                                   <span> {tag}</span>
+                                </div>
+                            ))
+                        ) : (
+                            <span>---</span>
+                        )}
+                    </div>
+                )
+            },
+        },
+        {
+            header: () => <span>Created</span>,
+            accessorKey: "createdAt",
+            cell: ({ row }) => {
+                const { createdAt } = row.original
+                return createdAt
+                    ? format(new Date(createdAt), "dd MMM yyyy")
+                    : "---"
+            },
+        },
+        // {
+        //     header: () => <span>Date</span>,
+        //     accessorKey: "updatedAt",
+        //     cell: ({ row }) => {
+        //         const { updatedAt } = row.original
+        //         return updatedAt
+        //             ? format(new Date(updatedAt), "dd MMM yyyy")
+        //             : "---"
+        //     },
+        // },
+        {
+            header: () => <span>Actions</span>,
+            accessorKey: "actions",
+            cell: ({ row }) => (
+                <div className="flex gap-x-1 items-center">
+                    <TableAction
+                        options={tableActionOptions}
+                        rowItem={row.original}
+                    />
+                </div>
+            ),
+        },
+    ]
+
+    return { columns, tableActionOptions }
+}

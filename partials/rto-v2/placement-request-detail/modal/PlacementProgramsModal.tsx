@@ -41,7 +41,7 @@ export function PlacementProgramsModal({
                     <div>
                         <Typography variant="h3" className="text-[#044866] flex items-center gap-2">
                             <ListChecks className="h-6 w-6" />
-                            Placement Programs Details
+                            Placement Streams (Blocks)
                         </Typography>
                         <Typography variant="small" className="text-gray-600 mt-1">
                             Complete breakdown of all placement programs and
@@ -54,7 +54,7 @@ export function PlacementProgramsModal({
                     />
                 </div>
 
-                <ScrollArea className="flex-1 pr-4">
+                <ScrollArea className="flex-1 pr-4 overflow-auto">
                     <div className="space-y-6 py-4">
                         {/* Overview Section */}
                         <div className="p-5 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-[#044866]/20 rounded-xl">

@@ -1,49 +1,31 @@
-
 import {
     ActionButton,
-    Button,
     Card,
-    CaseOfficerAssignedStudent,
     EmptyData,
-    LoadingAnimation,
-    StudentExpiryDaysLeft,
     Table,
     TableAction,
-    TableActionOption,
+    TableSkeleton,
     TechnicalError,
     Typography,
     UserCreatedAt,
 } from '@components'
-import { PageHeading } from '@components/headings'
 import { ColumnDef } from '@tanstack/react-table'
-import { FaCheckCircle, FaEdit, FaEye } from 'react-icons/fa'
+import { FaEdit, FaEye } from 'react-icons/fa'
 
 import { EditTimer } from '@components/StudentTimer/EditTimer'
+import { Badge } from '@components/ui/badge'
+import { CreateStudentNote } from '@partials/common/Notes/forms'
+import { ResolveIssuesCompletedModal } from '@partials/rto-v2'
+import { StudentCellInfo } from '@partials/rto/student/components'
 import { ChangeStudentStatusModal } from '@partials/sub-admin/students/modals'
 import { RtoApi, RtoV2Api } from '@queries'
-import { Student, StudentIssue } from '@types'
+import { Student } from '@types'
+import { BookOpen } from 'lucide-react'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
-import { MdBlock } from 'react-icons/md'
-import {
-    AlertTriangle,
-    Building2,
-    Calendar,
-    Clock,
-    Flag,
-    GraduationCap,
-    MessageSquare,
-    User,
-} from 'lucide-react'
-import { CountCard } from '@partials/rto-v2/cards/CountCard'
-import { PriorityBadge, ResolveIssuesCompletedModal } from '@partials/rto-v2'
-import { FaRegCheckCircle } from 'react-icons/fa'
-import moment from 'moment'
-import { ellipsisText, studentsListWorkplace } from '@utils'
-import { SectorCell, StudentCellInfo } from '@partials/rto/student/components'
-import { SubadminStudentIndustries } from '@partials/sub-admin/students'
-import { CreateStudentNote } from '@partials/common/Notes/forms'
+import { ReactElement, useState } from 'react'
 import { LuMessageSquare } from 'react-icons/lu'
+import { MdBlock } from 'react-icons/md'
+import { statusConfig } from '../components/placementHelpers'
 
 export const StudentsNeedWorkplaceTab = () => {
     const router = useRouter()
@@ -86,7 +68,7 @@ export const StudentsNeedWorkplaceTab = () => {
                     studentId={student?.id}
                     onCancel={onModalCancelClicked}
                     receiverId={student?.user?.id}
-                /> 
+                />
             </div>
         )
     }
@@ -142,13 +124,13 @@ export const StudentsNeedWorkplaceTab = () => {
         },
     ]
 
-    const columns: ColumnDef<Student>[] = [
+    const columns: ColumnDef<any>[] = [
         {
             accessorKey: 'user.name',
             cell: (info) => (
                 <StudentCellInfo
-                    link={`/portals/rto/students-and-placements/placement-requests/${info?.row?.original?.id}/detail`}
-                    student={info.row.original}
+                    link={`/portals/rto/students-and-placements/placement-requests/${info?.row?.original?.id}/${info?.row?.original?.student?.id}`}
+                    student={info.row?.original?.student}
                     call
                 />
             ),
@@ -157,62 +139,90 @@ export const StudentsNeedWorkplaceTab = () => {
         {
             accessorKey: 'progress',
             header: () => <span>Status</span>,
-            cell: ({ row }) => (
-                <CaseOfficerAssignedStudent student={row.original} />
-            ),
+            cell: ({ row }) => {
+                const config = statusConfig[row?.original?.currentStatus]
+                const StatusIcon = config?.icon
+                return (
+                    <>
+                        <Badge
+                            className={`${config?.bgColor} ${config?.color} ${config?.borderColor} border-2 whitespace-nowrap px-2.5 py-1 shadow-sm hover:shadow-md transition-all font-semibold text-xs w-fit`}
+                        >
+                            <StatusIcon className="h-3.5 w-3.5 mr-1.5" />
+                            {config?.label}
+                        </Badge>
+                    </>
+                )
+            },
         },
+        // {
+        //     accessorKey: 'sectors',
+        //     header: () => <span>Sectors</span>,
+        //     cell: (info) => <SectorCell student={info.row.original} />,
+        // },
         {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => <SectorCell student={info.row.original} />,
+            accessorKey: 'Course',
+            header: () => (
+                <div className="flex items-center gap-x-2">
+                    <BookOpen className="h-3.5 w-3.5 text-primaryNew/60" />
+                    <span className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">
+                        Course
+                    </span>
+                </div>
+            ),
+            cell: ({ row }: any) => (
+                <div className="flex flex-col gap-1.5 min-w-0 col-span-1 sm:col-span-1 lg:col-span-1">
+                    <span
+                        className="text-sm font-semibold text-foreground/90 leading-tight truncate"
+                        title={row?.original?.student?.courses?.[0]?.title}
+                    >
+                        {row?.original?.student?.courses?.[0]?.title}
+                    </span>
+                </div>
+            ),
         },
         {
             accessorKey: 'industry',
             header: () => <span>Industry</span>,
             cell: (info: any) => {
-                const industry = info.row.original?.industries
+                // const industry = info.row.original?.industries
 
-                const appliedIndustry = studentsListWorkplace(
-                    info.row.original?.workplace
-                )
+                // const appliedIndustry = studentsListWorkplace(
+                //     info.row.original?.workplace
+                // )
 
-                return industry && industry?.length > 0 ? (
-                    <SubadminStudentIndustries
-                        workplace={info.row.original?.workplace}
-                        industries={info.row.original?.industries}
-                    />
-                ) : info.row.original?.workplace &&
-                    info.row.original?.workplace?.length > 0 &&
-                    appliedIndustry ? (
-                    <SubadminStudentIndustries
-                        workplace={info.row.original?.workplace}
-                        industries={info.row.original?.industries}
-                    />
-                ) : (
-                    <Typography center>---</Typography>
+                // return industry && industry?.length > 0 ? (
+                //     <SubadminStudentIndustries
+                //         workplace={info.row.original?.workplace}
+                //         industries={info.row.original?.industries}
+                //     />
+                // ) : info.row.original?.workplace &&
+                //   info.row.original?.workplace?.length > 0 &&
+                //   appliedIndustry ? (
+                //     <SubadminStudentIndustries
+                //         workplace={info.row.original?.workplace}
+                //         industries={info.row.original?.industries}
+                //     />
+                // ) : (
+                //     <Typography center>---</Typography>
+                // )
+                return (
+                    <>
+                        {info?.row?.original?.industries &&
+                        info?.row?.original?.industries.length > 0 ? (
+                            <>
+                                {
+                                    info?.row?.original?.industries?.[0]
+                                        ?.industry?.user?.name
+                                }
+                            </>
+                        ) : (
+                            <Typography center>---</Typography>
+                        )}
+                    </>
                 )
             },
         },
-        {
-            accessorKey: 'assigned',
-            header: () => <span>Assigned Coordinator</span>,
-            cell: ({ row }: any) =>
-                row.original?.rtoCoordinator ? (
-                    <div>
-                        <Typography variant="label">
-                            {row.original?.rtoCoordinator?.user?.name}
-                        </Typography>
-                        <Typography variant="small" color={'text-gray-400'}>
-                            {row.original?.rtoCoordinator?.user?.email}
-                        </Typography>
-                        <Typography variant="small" color={'text-gray-400'}>
-                            {row.original?.rtoCoordinator?.phone}
-                        </Typography>
-                    </div>
-                ) : (
-                    '----'
-                ),
-        },
+
         {
             accessorKey: 'createdAt',
             header: () => <span>Created At</span>,
@@ -224,7 +234,9 @@ export const StudentsNeedWorkplaceTab = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info) => {
-                const tableActionOption = tableActionOptions(info.row.original)
+                const tableActionOption = tableActionOptions(
+                    info?.row?.original
+                )
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction
@@ -239,7 +251,7 @@ export const StudentsNeedWorkplaceTab = () => {
 
     const quickActionsElements = {
         id: 'id',
-        individual: (id: Student) => (
+        individual: (id: any) => (
             <div className="flex gap-x-2">
                 <ActionButton Icon={FaEdit}>Edit</ActionButton>
                 <ActionButton>Sub Admins</ActionButton>
@@ -248,30 +260,27 @@ export const StudentsNeedWorkplaceTab = () => {
                 </ActionButton>
             </div>
         ),
-        common: (ids: Student[]) => (
+        common: (ids: any) => (
             <ActionButton Icon={MdBlock} variant="error">
                 Block
             </ActionButton>
         ),
     }
 
-
     return (
         <>
             {modal && modal}
             <div className="flex flex-col gap-y-4 mb-32">
-
-
                 <Card noPadding>
                     {isError && <TechnicalError />}
                     {isLoading ? (
-                        <LoadingAnimation height="h-[60vh]" />
+                        <TableSkeleton arrayLength={8} />
                     ) : data && data?.data.length ? (
                         <Table
                             columns={columns}
                             data={data.data}
                             quickActions={quickActionsElements}
-                        // enableRowSelection
+                            // enableRowSelection
                         >
                             {({
                                 table,

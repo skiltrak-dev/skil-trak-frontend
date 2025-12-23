@@ -286,7 +286,7 @@ export const AppointmentCard = ({
                                                     {appointment?.note ?? 'NA'}
                                                 </p>
                                             </div>
-                                            {(!appointment?.isCancelled || !isPast) && (
+                                            {/* {appointment?.isCancelled || !isPast && (
                                                 <Dropdown>
                                                     <DropdownTrigger>
                                                         <Button
@@ -307,22 +307,7 @@ export const AppointmentCard = ({
                                                             <Edit className="h-4 w-4" />
                                                             Reschedule
                                                         </DropdownItem>
-                                                        {/* {appointment.status !== "completed" && (
-                                                        <DropdownItem className="gap-2">
-                                                            <CheckCircle2 className="h-4 w-4" />
-                                                            Mark as Completed
-                                                        </DropdownItem>
-                                                    )}
-                                                    {appointment.status === "completed" && (
-                                                        <DropdownItem className="gap-2">
-                                                            <Repeat className="h-4 w-4" />
-                                                            Create Similar
-                                                        </DropdownItem>
-                                                    )} */}
-                                                        {/* <DropdownItem className="gap-2">
-                                                        <Bell className="h-4 w-4" />
-                                                        Set Reminder
-                                                    </DropdownItem> */}
+                                                        
                                                         <DropdownSeparator />
                                                         {appointment.status !==
                                                             'cancelled' && (
@@ -337,13 +322,9 @@ export const AppointmentCard = ({
                                                                     Appointment
                                                                 </DropdownItem>
                                                             )}
-                                                        {/* <DropdownItem className="gap-2 text-destructive">
-                                                        <Trash2 className="h-4 w-4" />
-                                                        Delete
-                                                    </DropdownItem> */}
                                                     </DropdownContent>
                                                 </Dropdown>
-                                            )}
+                                            )} */}
                                         </div>
 
                                         <Separator />
@@ -359,29 +340,30 @@ export const AppointmentCard = ({
                                                 </span>
                                             </div>
 
-                                            <div className="flex items-center gap-2">
+                                            {/* <div className="flex items-center gap-2">
                                                 <MapPin className="h-4 w-4 text-muted-foreground shrink-0" />
                                                 <span className="truncate text-muted-foreground">
                                                     {appointment?.address ??
                                                         'Not Provided'}
                                                 </span>
-                                            </div>
-
-                                            <div className="flex items-center gap-2 md:col-span-2">
-                                                <Link2 className="h-4 w-4 text-muted-foreground shrink-0" />
-                                                <a
-                                                    href={
-                                                        appointment?.joinUrl ??
-                                                        '#'
-                                                    }
-                                                    className="text-primary hover:underline truncate"
-                                                    onClick={(e) =>
-                                                        e.stopPropagation()
-                                                    }
-                                                >
-                                                    Join Meeting
-                                                </a>
-                                            </div>
+                                            </div> */}
+                                            {appointment?.joinUrl !== null && (
+                                                <div className="flex items-center gap-2 md:col-span-2">
+                                                    <Link2 className="h-4 w-4 text-muted-foreground shrink-0" />
+                                                    <a
+                                                        href={
+                                                            appointment?.joinUrl ??
+                                                            '#'
+                                                        }
+                                                        className="text-primary hover:underline truncate"
+                                                        onClick={(e) =>
+                                                            e.stopPropagation()
+                                                        }
+                                                    >
+                                                        Join Meeting
+                                                    </a>
+                                                </div>
+                                            )}
                                         </div>
 
                                         {/* Participants */}
@@ -427,7 +409,7 @@ export const AppointmentCard = ({
                                                     Join Now
                                                 </Button>
                                             )}
-                                            {(!appointment?.isCancelled || !isPast) && (
+                                            {appointment?.isCancelled || !isPast && (
                                                 <>
                                                     <Button
                                                         variant="destructive"

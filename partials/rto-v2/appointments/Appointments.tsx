@@ -89,14 +89,14 @@ export const Appointments = () => {
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Button
+                        {/* <Button
                             variant="outline"
                             size="sm"
                             className="gap-2 hover-lift"
                         >
                             <RefreshCw className="h-4 w-4" />
                             Refresh
-                        </Button>
+                        </Button> */}
                         <ScheduleAppointmentModal
                             scheduleOpen={scheduleOpen}
                             setScheduleOpen={setScheduleOpen}

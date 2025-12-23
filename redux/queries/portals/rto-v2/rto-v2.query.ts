@@ -36,6 +36,15 @@ const {
     // Student Placement Requests
     useGetStudentPlacementRequestListQuery,
     useGetStudentPlacementRequestStatsQuery,
+    useGetStudentPlacementProfileDetailsQuery,
+    useGetStudentPlacementDetailsQuery,
+    useGetStudentPlacementProgressQuery,
+    useGetStudentPlacementIndustryDetailsQuery,
+    useGetStudentPlacementCourseQuery,
+    useGetIndustryPlacementHighlightedTasksQuery,
+    useGetStudentPlacementComplianceQuery,
+    useGetStudentPlacementCourseProgramsQuery,
+    useGetStudentPlacementStatusCheckNotesQuery,
 
     // Courses
     useRtoCoursesQuery,
@@ -103,6 +112,21 @@ export const RtoV2Api = {
         useStudentPlacementRequestList: useGetStudentPlacementRequestListQuery,
         useStudentPlacementRequestStats:
             useGetStudentPlacementRequestStatsQuery,
+        // Details
+        useStudentPlacementProfileDetails:
+            useGetStudentPlacementProfileDetailsQuery,
+        useStudentPlacementDetails: useGetStudentPlacementDetailsQuery,
+        useStudentPlacementProgress: useGetStudentPlacementProgressQuery,
+        useStudentPlacementIndustryDetails:
+            useGetStudentPlacementIndustryDetailsQuery,
+        useStudentPlacementCourse: useGetStudentPlacementCourseQuery,
+        useIndustryPlacementHighlightedTasks:
+            useGetIndustryPlacementHighlightedTasksQuery,
+        useStudentPlacementCompliance: useGetStudentPlacementComplianceQuery,
+        useStudentPlacementCoursePrograms:
+            useGetStudentPlacementCourseProgramsQuery,
+        useStudentPlacementStatusCheckNotes:
+            useGetStudentPlacementStatusCheckNotesQuery,
     },
     Courses: {
         rtoCourses: useRtoCoursesQuery,
