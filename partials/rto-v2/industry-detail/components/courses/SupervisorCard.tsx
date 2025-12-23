@@ -1,6 +1,6 @@
-import { Clock, Award, Phone, Mail, Edit2, CheckCircle } from 'lucide-react'
+import { Supervisor } from '@types'
 import { motion } from 'framer-motion'
-import { Supervisor } from './types'
+import { Clock, Award, Phone, Mail, Edit2, CheckCircle } from 'lucide-react'
 
 interface SupervisorCardProps {
     supervisor: Supervisor

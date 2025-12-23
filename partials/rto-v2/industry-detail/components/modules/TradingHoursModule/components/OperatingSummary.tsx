@@ -1,16 +1,21 @@
 import { Clock } from 'lucide-react'
 import { Card } from '@components'
 import { DayHours } from './DayCard'
+import { useFormContext } from 'react-hook-form'
 
 interface OperatingSummaryProps {
-    hours: Record<string, DayHours>
     daysOfWeek: string[]
 }
 
-export function OperatingSummary({ hours, daysOfWeek }: OperatingSummaryProps) {
-    const openDaysCount = daysOfWeek.filter((day) => hours[day].open).length
-    const standardStart = hours.Monday?.start || '09:00'
-    const standardEnd = hours.Monday?.end || '17:00'
+export function OperatingSummary({ daysOfWeek }: OperatingSummaryProps) {
+    const { watch } = useFormContext()
+    const hours = watch('hours') as Record<string, DayHours>
+
+    const openDaysCount = daysOfWeek.filter(
+        (day) => hours?.[day]?.open
+    ).length
+    const standardStart = hours?.monday?.start || '09:00'
+    const standardEnd = hours?.monday?.end || '17:00'
 
     return (
         <Card className="bg-gradient-to-br from-[#E8F4F8] to-[#D1E7F0] p-3 border border-[#B8D9E8]">

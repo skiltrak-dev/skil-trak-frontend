@@ -20,7 +20,6 @@ const timeSlotPresets: OptionType[] = [
     { label: 'Morning (9:00 AM - 12:00 PM)', value: 'morning' },
     { label: 'Afternoon (1:00 PM - 5:00 PM)', value: 'afternoon' },
     { label: 'All Day (9:00 AM - 5:00 PM)', value: 'allday' },
-    { label: 'Custom Time', value: 'custom' },
 ]
 
 export function MonthlySchedule({ data, onChange }: MonthlyScheduleProps) {

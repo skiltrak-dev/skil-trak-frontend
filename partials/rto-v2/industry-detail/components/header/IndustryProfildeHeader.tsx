@@ -1,3 +1,4 @@
+import { useAppSelector } from '@redux/hooks'
 import { useState } from 'react'
 import { ContactBiographyModal } from '../ContactBiographyModal'
 import {
@@ -8,14 +9,11 @@ import {
 } from './components'
 import { companyLocation, companyName, industryEmail } from './data'
 import {
-    BranchLocationsDialog,
     CapacityDatePickerDialog,
     EditProfileModal,
     EmailVerificationDialog,
-    IndustryStatusChangeModal,
 } from './modals'
 import { BadgeState, IndustryStatus } from './types'
-import { useAppSelector } from '@redux/hooks'
 
 export function IndustryProfildeHeader() {
     const [showMenu, setShowMenu] = useState(false)
@@ -31,7 +29,6 @@ export function IndustryProfildeHeader() {
     const [snoozedEndDate, setSnoozedEndDate] = useState('')
     const [showCapacityDatePicker, setShowCapacityDatePicker] = useState(false)
     const [capacityAvailableDate, setCapacityAvailableDate] = useState('')
-    const [showStatusChangeModal, setShowStatusChangeModal] = useState(false)
 
     const profileCompletion = 85
     const isPlacementReady = profileCompletion >= 90
@@ -120,10 +117,8 @@ export function IndustryProfildeHeader() {
 
     return (
         <div className="relative">
-            {/* Glassmorphic Card with Gradient Border */}
-            <div className="relative bg-white rounded-2xl shadow-xl border border-[#E2E8F0] overflow-hidden group hover:shadow-2xl transition-all duration-500">
-                {/* Animated Background Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#044866]/3 via-transparent to-[#F7A619]/3 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            {/* Clean Card Design */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
 
                 {/* Premium Status Banner */}
                 <StatusBanner
@@ -136,8 +131,8 @@ export function IndustryProfildeHeader() {
                 />
 
                 {/* Main Header Content */}
-                <div className="relative px-2 py-2">
-                    <div className="flex items-start justify-between">
+                <div className="p-4">
+                    <div className="flex items-start justify-between gap-4">
                         {/* Left: Company Info */}
                         <CompanyInfo
                             companyName={companyName}
@@ -152,7 +147,7 @@ export function IndustryProfildeHeader() {
                             industryStatus={industryStatus}
                             showAddMenu={showAddMenu}
                             showMenu={showMenu}
-                            branchLocationsCount={0} // Updated to 0 or dynamic if we want, but keeping it simple for now as we removed static data access here
+                            branchLocationsCount={0}
                             onEmailVerificationClick={() =>
                                 setShowEmailVerificationModal(true)
                             }

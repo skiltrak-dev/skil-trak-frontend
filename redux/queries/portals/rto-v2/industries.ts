@@ -2,6 +2,7 @@ import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import {
     Industry,
+    IndustryCourseApproval,
     PaginatedResponse,
     PaginationWithSearch,
     Student,
@@ -57,7 +58,25 @@ export const industriesEndpoints = (
         providesTags: ['RTOIndustries'],
     }),
 
-    snoozeIndustry: builder.mutation<
+    getRtoIndustryDataCount: builder.query<
+        {
+            coursesCount: number
+            totalStudents: number
+            pending: number
+            interview: number
+            overAllRating: number
+            totalEnrolledStudents: number
+            totalSectorCapacity: number
+        },
+        number
+    >({
+        query: (id) => ({
+            url: `${INDUSTRIESPREFIX}${id}/data-count`,
+        }),
+        providesTags: ['RTOIndustries'],
+    }),
+
+    snoozeIndustryById: builder.mutation<
         any,
         { id: number; startDate?: Date; endDate?: Date }
     >({
@@ -79,6 +98,11 @@ export const industriesEndpoints = (
             params: { status },
         }),
         invalidatesTags: ['RTOIndustries'],
+    }),
+
+    getIndutryAvailableWorkingHours: builder.query<any, number>({
+        query: (id) => `${INDUSTRIESPREFIX}${id}/working-hours/list`,
+        providesTags: ['RTOIndustries'],
     }),
 
     industryStudentsList: builder.query<
@@ -104,5 +128,58 @@ export const industriesEndpoints = (
         query: ({ industryId, sectorId }) =>
             `${INDUSTRIESPREFIX}${industryId}/sector/${sectorId}/students-count`,
         providesTags: ['RTOIndustries'],
+    }),
+
+    industryCoursesDetails: builder.query<
+        IndustryCourseApproval[],
+        { userId?: number }
+    >({
+        query: (params) => ({
+            url: `${INDUSTRIESPREFIX}courses-details`,
+            params,
+        }),
+        providesTags: ['RTOIndustries'],
+    }),
+
+    industryRtoChecklistList: builder.query<
+        any,
+        { industryId: number; sectorId: number }
+    >({
+        query: ({ industryId, sectorId }) =>
+            `${INDUSTRIESPREFIX}${industryId}/sector/${sectorId}/facility-checklist`,
+        providesTags: ['RTOIndustries'],
+    }),
+
+    // Industry Courses
+    statusChangeCourseFacilityChecklist: builder.mutation<
+        any,
+        { id: number; status: 'approved' | 'rejected' }
+    >({
+        query: (params) => ({
+            url: `department/course-request-industry/status`,
+            method: 'PATCH',
+            params,
+        }),
+        invalidatesTags: ['RTOIndustries'],
+    }),
+
+    getAllIndustriesList: builder.query<any, PaginationWithSearch>({
+        query: (params) => ({
+            url: `${PREFIX}industries`,
+            params,
+        }),
+        providesTags: ['RTOIndustries'],
+    }),
+
+    updateInterestedType: builder.mutation<
+        any,
+        { industryId: number; status: 'interested' | 'notInterested' }
+    >({
+        query: ({ industryId, ...params }) => ({
+            url: `${PREFIX}industry/${industryId}/update`,
+            method: 'PATCH',
+            params,
+        }),
+        invalidatesTags: ['RTOIndustries'],
     }),
 })

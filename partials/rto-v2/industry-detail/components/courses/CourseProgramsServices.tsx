@@ -1,6 +1,6 @@
-import { Settings, MapPin, CheckCircle } from 'lucide-react'
+import { Course } from '@types'
 import { motion } from 'framer-motion'
-import { Course } from './types'
+import { Settings, MapPin, CheckCircle } from 'lucide-react'
 
 interface CourseProgramsServicesProps {
     course: Course

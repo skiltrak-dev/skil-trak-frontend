@@ -1,5 +1,5 @@
-import { Sparkles, Users, FileText } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { Sparkles, Users, FileText } from 'lucide-react'
 
 export function CourseActionButtons() {
     return (

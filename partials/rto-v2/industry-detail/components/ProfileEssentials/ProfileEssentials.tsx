@@ -35,8 +35,8 @@ export function ProfileEssentials() {
 
                 {/* Right Column */}
                 <div className="space-y-3 flex flex-col h-full">
+                    {/* <QuickNotes /> */}
                     <AssignedAgent />
-                    <QuickNotes />
                     <PremiumFeatures />
                 </div>
             </div>

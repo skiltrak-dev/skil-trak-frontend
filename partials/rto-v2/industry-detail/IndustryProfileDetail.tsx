@@ -1,14 +1,14 @@
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { RtoV2Api, setIndustryDetail, setNavigationTarget } from '@redux'
+import { useAppDispatch, useAppSelector } from '@redux/hooks'
+import { scrollToSection } from '@utils'
 import { useRouter } from 'next/router'
-import { useAppDispatch } from '@redux/hooks'
-import { PlacementReadinessModal } from './modal'
 import { useEffect, useRef, useState } from 'react'
-import { RtoV2Api, setIndustryDetail } from '@redux'
 import { IndustryProfildeHeader } from './components'
 import { AnalyticsDashboard } from './components/AnalyticsDashboard'
 import { OperationalModules } from './components/OperationalModules'
 import { PlacementChecklist } from './components/PlacementChecklist'
 import { ProfileEssentials } from './components/ProfileEssentials'
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 
 export const IndustryProfileDetail = () => {
     const operationalModulesRef = useRef<HTMLDivElement>(null)
@@ -32,19 +32,43 @@ export const IndustryProfileDetail = () => {
         }
     }, [industryDetail?.isSuccess, industryDetail?.data])
 
-    const handleScrollToSection = (section: string) => {
-        if (operationalModulesRef.current) {
-            operationalModulesRef.current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-            })
-            // Trigger tab change after scrolling
-            setTimeout(() => {
-                const event = new CustomEvent('changeTab', { detail: section })
-                window.dispatchEvent(event)
-            }, 500)
+    const navigationTarget = useAppSelector(
+        (state) => state.industry.navigationTarget
+    )
+
+    useEffect(() => {
+        if (navigationTarget) {
+            const { tab, section } = navigationTarget
+
+            if (tab) {
+                // Scroll to operational modules first if a tab is specified
+                if (operationalModulesRef.current) {
+                    operationalModulesRef.current.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                    })
+                }
+            }
+
+            if (section) {
+                // Wait for potential tab switch animation/render
+                setTimeout(
+                    () => {
+                        scrollToSection(section)
+                        // Clear the target after small delay to allow re-navigation if clicked again
+                        dispatch(setNavigationTarget(null))
+                    },
+                    tab ? 500 : 100
+                )
+            } else if (tab) {
+                // If only tab, clear after scroll
+                setTimeout(() => {
+                    dispatch(setNavigationTarget(null))
+                }, 500)
+            }
         }
-    }
+    }, [navigationTarget, dispatch])
+
 
     return (
         <div>
@@ -56,16 +80,10 @@ export const IndustryProfileDetail = () => {
                     <IndustryProfildeHeader />
                     <AnalyticsDashboard />
                     <ProfileEssentials />
-                    <PlacementChecklist
-                        onNavigateToSection={handleScrollToSection}
-                    />
+                    <PlacementChecklist />
                     <div ref={operationalModulesRef}>
                         <OperationalModules />
                     </div>
-                    <PlacementReadinessModal
-                        isOpen={showReadinessModal}
-                        onClose={() => setShowReadinessModal(false)}
-                    />
                 </div>
             ) : (
                 <EmptyData

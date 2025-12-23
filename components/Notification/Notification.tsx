@@ -110,9 +110,8 @@ export const Notification = ({
 
     return (
         <div
-            className={`${
-                !dismissing ? 'slide-in' : 'slide-out'
-            } bg-white w-72 md:w-[365px] min-h-20 md:min-h-24 shadow-lg hover:shadow-xl rounded-2xl overflow-hidden flex relative z-50`}
+            className={`${!dismissing ? 'slide-in' : 'slide-out'
+                } bg-white w-72 md:w-[365px] min-h-20 md:min-h-24 shadow-lg hover:shadow-xl rounded-2xl overflow-hidden flex relative z-50`}
             style={{ zIndex: 99999 }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
@@ -123,9 +122,8 @@ export const Notification = ({
             />
 
             <div
-                className={`px-5 md:px-6 h-[inherit] flex justify-center items-center ${
-                    (theme as any)[variant].icon.bg
-                }`}
+                className={`px-5 md:px-6 h-[inherit] flex justify-center items-center ${(theme as any)[variant].icon.bg
+                    }`}
             >
                 {avatar ? (
                     <img
@@ -136,9 +134,8 @@ export const Notification = ({
                 ) : (
                     Icon && (
                         <Icon
-                            className={`${
-                                (theme as any)[variant].icon.color
-                            } text-xl md:text-3xl`}
+                            className={`${(theme as any)[variant].icon.color
+                                } text-xl md:text-3xl`}
                         />
                     )
                 )}

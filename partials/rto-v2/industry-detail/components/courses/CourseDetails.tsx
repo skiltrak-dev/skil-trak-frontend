@@ -1,15 +1,30 @@
 import { motion } from 'framer-motion'
-import { Course } from './types'
 import { CourseProgramsServices } from './CourseProgramsServices'
 import { CourseAgentNote } from './CourseAgentNote'
 import { CourseMetadata } from './CourseMetadata'
 import { CourseActionButtons } from './CourseActionButtons'
+import { HighlightedTasks } from './HighlightedTasks'
+import { Course } from '@types'
 
 interface CourseDetailsProps {
     course: Course
+    onConfirmTask?: (
+        courseId: number,
+        taskId: number,
+        method: 'industry' | 'sourcing' | 'direct'
+    ) => void
 }
 
-export function CourseDetails({ course }: CourseDetailsProps) {
+export function CourseDetails({ course, onConfirmTask }: CourseDetailsProps) {
+    const handleConfirmTask = (
+        taskId: number,
+        method: 'industry' | 'sourcing' | 'direct'
+    ) => {
+        if (onConfirmTask) {
+            onConfirmTask(course.id, taskId, method)
+        }
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -30,6 +45,15 @@ export function CourseDetails({ course }: CourseDetailsProps) {
                     requestedBy={course.requestedBy}
                     referenceUrl={course.referenceUrl}
                 />
+
+                {/* Highlighted Tasks */}
+                {course.highlightedTasks &&
+                    course.highlightedTasks.length > 0 && (
+                        <HighlightedTasks
+                            tasks={course.highlightedTasks}
+                            onConfirmTask={handleConfirmTask}
+                        />
+                    )}
 
                 {/* Action Buttons - Premium Enhanced */}
                 <CourseActionButtons />

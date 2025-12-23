@@ -367,6 +367,7 @@ export interface Industry extends BaseResponse {
     missingAttributes: string[]
     contactPersonNumber: string
     isPartner: boolean
+    isInterested: boolean
     isPremium: boolean
     PartneredBy: User
     studentCapacity: number | null
@@ -400,6 +401,9 @@ export interface Industry extends BaseResponse {
     partnerRemovalRequests: PartnerRemovalRequests[]
     industryCourseApprovals: IndustryCourseApprovals[]
     profileCompletionPercentage: string
+    totalEnrolled: number
+    totalCapacity: number
+    isRtoAssociated: boolean
 }
 
 export interface PendingIndustry extends Industry {

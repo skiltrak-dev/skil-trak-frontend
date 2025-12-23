@@ -20,6 +20,8 @@ import {
 } from '@components/ui/collapsible'
 import { Button } from '@components'
 import { Student } from '@types'
+import { useStatusInfo } from '@partials/rto-v2/student-detail/components/StudentOverview/hooks/useStatusInfo'
+import { WorkplaceWorkIndustriesType } from '@redux/queryTypes'
 
 interface StudentCardProps {
     student: Student
@@ -36,7 +38,19 @@ function getStatusCounts(workflow: WorkflowStep[]) {
 export function StudentCard({ student }: StudentCardProps) {
     const [isOpen, setIsOpen] = useState(false)
     const [showActionsMenu, setShowActionsMenu] = useState(false)
-    const statusCounts = getStatusCounts(student.workflow)
+    // const statusCounts = getStatusCounts(student.workflow)
+
+    const {
+        statuses,
+        progressPercent,
+        completedCount,
+        totalCount,
+        statusArrays,
+    } = useStatusInfo({
+        workplace: student?.workplace?.[0],
+        workIndustry: student?.workplace?.[0]
+            ?.industries?.[0] as WorkplaceWorkIndustriesType,
+    })
 
     return (
         <Collapsible
@@ -62,7 +76,7 @@ export function StudentCard({ student }: StudentCardProps) {
                                 {student?.user?.name}
                             </h3>
                             <p className="text-[10px] text-[#64748B] mb-0.5">
-                                {student?.courses?.[0]?.name}
+                                {student?.workplace?.[0]?.courses?.[0]?.title}
                             </p>
                             <div className="flex items-center gap-1">
                                 <span className="text-[10px] text-[#64748B]">
@@ -81,14 +95,13 @@ export function StudentCard({ student }: StudentCardProps) {
                         <div className="text-right">
                             <div className="flex items-center gap-1.5 justify-end mb-0.5">
                                 <span className="text-[10px] font-bold text-[#044866]">
-                                    {student.completedSteps} of{' '}
-                                    {student.totalSteps} steps
+                                    {completedCount} of {totalCount} steps
                                 </span>
                                 <span className="text-[10px] font-bold text-[#64748B]">
                                     •
                                 </span>
                                 <span className="text-[10px] font-bold text-[#044866]">
-                                    {student.progress}%
+                                    {progressPercent}%
                                 </span>
                             </div>
                             <p className="text-[9px] text-[#64748B]">
@@ -137,7 +150,7 @@ export function StudentCard({ student }: StudentCardProps) {
                     <div className="h-1.5 bg-[#E8F4F8] rounded-full overflow-hidden shadow-sm">
                         <div
                             className="h-full bg-gradient-to-r from-[#044866] to-[#0D5468] rounded-full transition-all duration-1000"
-                            style={{ width: `${student.progress}%` }}
+                            style={{ width: `${progressPercent}%` }}
                         />
                     </div>
                 </div>
@@ -146,20 +159,16 @@ export function StudentCard({ student }: StudentCardProps) {
                 <div className="flex items-center gap-1 mb-2">
                     <div className="flex items-center gap-1 bg-[#D1FAE5] text-[#065F46] px-2 py-0.5 rounded-md text-[10px] font-medium border border-[#10B981]/20">
                         <CheckCircle className="w-2.5 h-2.5" />
-                        <span>{statusCounts.completed} Completed</span>
+                        <span>{completedCount} Completed</span>
                     </div>
-                    {statusCounts.inProgress > 0 && (
-                        <div className="flex items-center gap-1 bg-[#FEF3C7] text-[#92400E] px-2 py-0.5 rounded-md text-[10px] font-medium border border-[#F7A619]/20">
-                            <Clock className="w-2.5 h-2.5" />
-                            <span>{statusCounts.inProgress} In Progress</span>
-                        </div>
-                    )}
-                    {statusCounts.remaining > 0 && (
-                        <div className="flex items-center gap-1 bg-[#F8FAFB] text-[#64748B] px-2 py-0.5 rounded-md text-[10px] font-medium border border-[#E2E8F0]">
-                            <Circle className="w-2.5 h-2.5" />
-                            <span>{statusCounts.remaining} Remaining</span>
-                        </div>
-                    )}
+                    <div className="flex items-center gap-1 bg-[#FEF3C7] text-[#92400E] px-2 py-0.5 rounded-md text-[10px] font-medium border border-[#F7A619]/20">
+                        <Clock className="w-2.5 h-2.5" />
+                        <span>1 In Progress</span>
+                    </div>
+                    <div className="flex items-center gap-1 bg-[#F8FAFB] text-[#64748B] px-2 py-0.5 rounded-md text-[10px] font-medium border border-[#E2E8F0]">
+                        <Circle className="w-2.5 h-2.5" />
+                        <span>{statusArrays?.pending?.length} Remaining</span>
+                    </div>
                 </div>
 
                 {/* Expand Button */}
@@ -186,7 +195,7 @@ export function StudentCard({ student }: StudentCardProps) {
 
             {/* Expanded Workflow Details */}
             <CollapsibleContent>
-                <StudentDetails workflow={student.workflow} />
+                <StudentDetails workflow={statuses} />
             </CollapsibleContent>
         </Collapsible>
     )

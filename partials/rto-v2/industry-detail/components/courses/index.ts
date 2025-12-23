@@ -1,6 +1,5 @@
 // Types and Data
-export * from './types'
-export * from './data'
+// Removed local types and data as we are using global types and API data
 
 // Header Components
 export { CoursesHeaderSection } from './header/CoursesHeaderSection'
@@ -26,14 +25,16 @@ export { CourseAgentNote } from './CourseAgentNote'
 export { CourseMetadata } from './CourseMetadata'
 export { CourseActionButtons } from './CourseActionButtons'
 export { CourseDetails } from './CourseDetails'
-export { CourseCard } from './CourseCard'
-export { CoursesSection } from './CoursesSection'
+export * from './courseCard'
+export { HighlightedTasks } from './HighlightedTasks'
 
 // Sector
-export { SectorCard } from './SectorCard'
+export * from './SectorCard'
 
 // Modals
 export { EditSectorMetricsDialog } from './modals/EditSectorMetricsDialog'
 export { EditCourseCapacityDialog } from './modals/EditCourseCapacityDialog'
+export { FacilityChecklistDialog } from './modals/FacilityChecklistDialog'
 
-export * from './IndustryCourses'
+export * from './IndustryCoursesSection'
+export * from './courseCard'

@@ -13,6 +13,8 @@ export interface TabConfig {
 
 export const ConfigTabs = ({
     defaultValue,
+    value,
+    onValueChange,
     tabs,
     props,
     className,
@@ -20,6 +22,8 @@ export const ConfigTabs = ({
     tabsTriggerClasses,
 }: {
     defaultValue?: string
+    value?: string
+    onValueChange?: (value: string) => void
     props?: any
     className?: string
     tabs: TabConfig[]
@@ -40,6 +44,8 @@ export const ConfigTabs = ({
         <div className="w-full" ref={ref}>
             <Tabs
                 defaultValue={defaultValue || tabs?.[0]?.value}
+                value={value}
+                onValueChange={onValueChange}
                 className={`${className}`}
             >
                 <TabsList

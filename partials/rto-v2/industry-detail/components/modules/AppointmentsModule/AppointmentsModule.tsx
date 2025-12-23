@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { Card } from '@components'
+import { Card, LoadingAnimation, NoData } from '@components'
 import {
     AppointmentsHeader,
     AppointmentsList,
     type ViewType,
     type StatusFilter,
+    AppointmentsControls,
 } from './components'
 import { CommonApi } from '@queries'
 import { useAppSelector } from '@redux/hooks'
@@ -12,33 +13,46 @@ import { ScheduleAppointmentModal } from '@partials/rto-v2/appointments'
 import { UserRoles } from '@constants'
 import { AppointmentViewModal } from '@components/Appointment/AppointmentModal/AppointmentViewModal'
 import moment from 'moment'
+import { removeEmptyValues } from '@utils'
+import { Appointment } from '@types'
 
 export function AppointmentsModule() {
     const [showNewAppointment, setShowNewAppointment] = useState(false)
     const [selectedAppointmentId, setSelectedAppointmentId] = useState<
         number | null
     >(null)
+    const [activeView, setActiveView] = useState<ViewType>('list')
+    const [filterStatus, setFilterStatus] = useState<StatusFilter>('all')
 
     const industryDetail = useAppSelector(
         (state) => state.industry.industryDetail
     )
 
     // Fetch Appointments
-    const { data: appointmentsData, isLoading } =
-        CommonApi.Appointments.useBookedAppointments(
-            {
-                userId: industryDetail?.user?.id,
-                // status: 'all', // Fetch all and filter locally or relies on API
-            },
-            {
-                skip: !industryDetail?.user?.id,
-                refetchOnMountOrArgChange: true,
-            }
-        )
+    const {
+        data: appointmentsData,
+        isLoading,
+        isError,
+    } = CommonApi.Appointments.useBookedAppointments(
+        removeEmptyValues({
+            userId: industryDetail?.user?.id,
+            status: filterStatus === 'all' ? '' : filterStatus, // Fetch all and filter locally or relies on API
+        }),
+        {
+            skip: !industryDetail?.user?.id,
+            refetchOnMountOrArgChange: true,
+        }
+    )
+
+    const appointments = Array.isArray(appointmentsData)
+        ? appointmentsData
+        : appointmentsData?.data || []
+
+    console.log({ filterStatus })
 
     // Map API data to Local Component Data
     const mappedAppointments =
-        appointmentsData?.map((apt: any) => ({
+        appointments?.map((apt: Appointment) => ({
             id: apt.id,
             title: apt?.type?.title || 'Appointment',
             date: moment(apt.date).format('MMMM DD, YYYY'),
@@ -61,9 +75,7 @@ export function AppointmentsModule() {
             attachments: 0, // API doesn't seem to return attachment count in list?
         })) || []
 
-    const upcomingCount =
-        mappedAppointments.filter((a: any) => a.status === 'upcoming').length ||
-        0
+    const upcomingCount = mappedAppointments?.length || 0
 
     return (
         <div className="space-y-4">
@@ -75,20 +87,32 @@ export function AppointmentsModule() {
                 />
 
                 {/* Controls - (Optional, keeping commented out as per original) */}
-                {/* <AppointmentsControls ... /> */}
+                <AppointmentsControls
+                    activeView={activeView}
+                    filterStatus={filterStatus}
+                    upcomingCount={upcomingCount}
+                    onViewChange={setActiveView}
+                    onFilterChange={setFilterStatus}
+                />
+
+                {isError ? (
+                    <NoData text="There is Some technical issue" isError />
+                ) : null}
 
                 {/* Appointments List */}
                 {isLoading ? (
                     <div className="p-8 text-center text-slate-500">
-                        Loading appointments...
+                        <LoadingAnimation />
                     </div>
-                ) : (
+                ) : mappedAppointments && mappedAppointments.length > 0 ? (
                     <AppointmentsList
                         appointments={mappedAppointments}
                         onAppointmentClick={(apt) =>
                             setSelectedAppointmentId(apt.id)
                         }
                     />
+                ) : (
+                    <NoData text="No appointments found" />
                 )}
             </Card>
 
@@ -97,7 +121,7 @@ export function AppointmentsModule() {
                 scheduleOpen={showNewAppointment}
                 setScheduleOpen={setShowNewAppointment}
                 defaultSelectedParicipantType={UserRoles.INDUSTRY}
-                defaultSelectedUser={industryDetail?.user}
+                defaultSelectedUser={industryDetail}
             />
 
             {/* Appointment Details Modal */}

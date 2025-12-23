@@ -71,9 +71,7 @@ export const AllocateFolders = () => {
     >([])
 
     const {
-        courseLoading,
         courseOptions,
-        courseValues,
         selectedCourses,
         onCourseChange,
         onSectorChanged,
@@ -278,6 +276,8 @@ export const AllocateFolders = () => {
                         <Select
                             required
                             name="sector"
+                            loading={sectorLoading}
+                            disabled={sectorLoading}
                             options={sectorOptions}
                             value={selectedSector}
                             onChange={(option: any) =>

@@ -1,9 +1,9 @@
 import {
     Badge,
     Button,
+    Typography,
     LoadingAnimation,
     ShowErrorNotifications,
-    Typography,
 } from '@components'
 import { useNotification } from '@hooks'
 import { DocumentView } from '@partials/sub-admin'

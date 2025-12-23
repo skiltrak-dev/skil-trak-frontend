@@ -22,7 +22,6 @@ export function AllWorkplaces({ studentId }: { studentId: number }) {
     return (
         <>
             {workplaces?.isError ? <TechnicalError /> : null}
-
             {workplaces?.isLoading ? (
                 <LoadingAnimation />
             ) : workplaces?.data &&

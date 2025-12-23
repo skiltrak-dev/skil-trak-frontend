@@ -1,3 +1,4 @@
+import { ConfigTabs } from '@components/ConfigTabs/ConfigTabs'
 import {
     Ban,
     Calendar as CalendarIcon,
@@ -9,17 +10,10 @@ import {
     TrendingUp,
 } from 'lucide-react'
 import { useState } from 'react'
-import { Badge } from '../../../components/ui/badge'
 import { Button } from '../../../components/ui/button'
 
 import { Card, Select, TextInput } from '@components'
 import { RtoApi } from '@queries'
-import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-} from '../../../components/ui/tabs'
 import { KPIStatCard } from './KpiStatsCard'
 import { ScheduleAppointmentModal } from './modals'
 import {
@@ -52,38 +46,76 @@ export const Appointments = () => {
     const today = new Date().toISOString().split('T')[0]
     const counts = RtoApi.Appointments.useRtoAppointmentsCount()
 
-    return (
-        <div className="min-h-screen bg-background container mx-auto space-y-4">
-            {/* <ActionRequiredHeader
-                icon={CalendarDays}
-                title="Appointments"
-                description="Manage all your students appointments"
-                urgentCount={0}
-                UrgentIcon={CalendarDays}
-                urgentLabel="Total Appointments"
-                warningMessage="<strong>Quick Tip:</strong> Click on any appointment to view details or reschedule. Use the calendar view to see upcoming appointments, and set reminders to ensure you never miss a meeting with your students."
-                gradientFrom="primaryNew"
-                gradientTo="primaryNew"
-                iconGradient="from-primaryNew to-primaryNew"
-                actionButton={{
-                    label: 'Create Appointment',
-                    icon: Plus,
-                }}
-            /> */}
+    // 1. Stats Configuration
+    const statsConfig = [
+        {
+            id: 'cancelled',
+            label: 'Cancelled',
+            value: counts?.data?.cancelled ?? 0,
+            icon: Clock,
+            subtitle: 'Cancelled Appointments',
+            variant: 'warning' as const,
+        },
+        {
+            id: 'upcoming',
+            label: 'Upcoming',
+            value: counts?.data?.future ?? 0,
+            icon: TrendingUp,
+            subtitle: 'In the future',
+            variant: 'default' as const,
+        },
+        {
+            id: 'past',
+            label: 'Past',
+            value: counts?.data?.past ?? 0,
+            icon: CheckCircle,
+            subtitle: 'Past Appointments',
+            variant: 'success' as const,
+        },
+    ]
 
-            <div className="space-y-6 animate-fade-in">
-                {/* Header */}
+    // 2. Tabs Configuration
+    const tabsConfig = [
+        {
+            value: 'cancelled',
+            label: 'Cancelled',
+            icon: Ban,
+            count: counts?.data?.cancelled ?? 0,
+            component: CancelledAppointments,
+        },
+        {
+            value: 'upcoming',
+            label: 'Upcoming',
+            icon: TrendingUp,
+            count: counts?.data?.future ?? 0,
+            component: UpcomingAppointments,
+        },
+        {
+            value: 'past',
+            label: 'Past',
+            icon: History,
+            count: counts?.data?.past ?? 0,
+            component: PastAppointments,
+        },
+    ]
+
+    return (
+        <div className="min-h-screen bg-background container mx-auto space-y-5">
+            <div className="space-y-3.5 animate-fade-in">
+                {/* Header - Compact */}
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-3">
                         <div className="relative group">
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity"></div>
-                            <div className="relative h-14 w-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-premium">
-                                <CalendarIcon className="h-7 w-7 text-white" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#044866] to-[#0D5468] rounded-lg blur-lg opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                            <div className="relative h-11 w-11 rounded-lg bg-gradient-to-br from-[#044866] to-[#0D5468] flex items-center justify-center shadow-lg ring-1 ring-white/20">
+                                <CalendarIcon className="h-5 w-5 text-white" />
                             </div>
                         </div>
                         <div>
-                            <h1 className="text-3xl">Appointments</h1>
-                            <p className="text-sm text-muted-foreground">
+                            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+                                Appointments
+                            </h1>
+                            <p className="text-xs text-slate-500 font-medium">
                                 Manage your schedule and meetings efficiently
                             </p>
                         </div>
@@ -92,9 +124,9 @@ export const Appointments = () => {
                         <Button
                             variant="outline"
                             size="sm"
-                            className="gap-2 hover-lift"
+                            className="gap-2 h-8 text-xs font-medium hover:bg-slate-50"
                         >
-                            <RefreshCw className="h-4 w-4" />
+                            <RefreshCw className="h-3.5 w-3.5" />
                             Refresh
                         </Button>
                         <ScheduleAppointmentModal
@@ -104,150 +136,60 @@ export const Appointments = () => {
                     </div>
                 </div>
 
-                {/* KPI Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {/* <KPIStatCard
-                        label="Total Appointments"
-                        value={counts?.data.past}
-                        icon={CalendarIcon}
-                        trend={{ value: 12, isPositive: true }}
-                        variant="primary"
-                    /> */}
-                    <KPIStatCard
-                        label="Cancelled"
-                        value={counts?.data?.cancelled ?? 0}
-                        icon={Clock}
-                        subtitle="Cancelled Appointments"
-                        variant="warning"
-                    />
-                    <KPIStatCard
-                        label="Upcoming"
-                        value={counts?.data?.future ?? 0}
-                        icon={TrendingUp}
-                        subtitle="In the future"
-                        variant="default"
-                    />
-                    <KPIStatCard
-                        label="Past"
-                        value={counts?.data?.past ?? 0}
-                        icon={CheckCircle}
-                        subtitle="Past Appointments"
-                        variant="success"
-                    />
+                {/* KPI Stats - Mapped */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {statsConfig.map((stat) => (
+                        <KPIStatCard
+                            key={stat.id}
+                            label={stat.label}
+                            value={stat.value}
+                            icon={stat.icon}
+                            subtitle={stat.subtitle}
+                            variant={stat.variant}
+                        />
+                    ))}
                 </div>
 
-                {/* Main Content */}
-                <Card className="border-border/40 shadow-premium-lg">
-                    <div className="border-b bg-gradient-to-r from-white to-primary/5">
-                        <div className="">
-                            <Tabs
-                                defaultValue="upcoming"
-                                className="w-full lg:w-auto"
-                            >
-                                <div className="flex justify-between w-full">
-                                    <TabsList className="grid w-full lg:w-auto grid-cols-4 bg-muted/50">
-                                        <TabsTrigger
-                                            value="cancelled"
-                                            className="gap-2"
-                                        >
-                                            <Ban className="h-4 w-4" />
-                                            cancelled
-                                            <Badge
-                                                variant="default"
-                                                className="ml-1 h-5 min-w-[20px] px-1.5 text-[10px]"
-                                            >
-                                                {counts?.data?.cancelled ?? 0}
-                                            </Badge>
-                                        </TabsTrigger>
-                                        <TabsTrigger
-                                            value="upcoming"
-                                            className="gap-2"
-                                        >
-                                            <TrendingUp className="h-4 w-4" />
-                                            Upcoming
-                                            <Badge
-                                                variant="default"
-                                                className="ml-1 h-5 min-w-[20px] px-1.5 text-[10px]"
-                                            >
-                                                {counts?.data?.future ?? 0}
-                                            </Badge>
-                                        </TabsTrigger>
-                                        <TabsTrigger
-                                            value="past"
-                                            className="gap-2"
-                                        >
-                                            <History className="h-4 w-4" />
-                                            Past
-                                            <Badge
-                                                variant="default"
-                                                className="ml-1 h-5 min-w-[20px] px-1.5 text-[10px]"
-                                            >
-                                                {counts?.data?.past ?? 0}
-                                            </Badge>
-                                        </TabsTrigger>
-                                    </TabsList>
-                                    <div className="flex items-center gap-2">
-                                        <div className="relative flex-1 lg:w-64">
-                                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                            <TextInput
-                                                placeholder="Search appointments..."
-                                                value={searchQuery}
-                                                onChange={(e: any) =>
-                                                    setSearchQuery(
-                                                        e.target.value
-                                                    )
-                                                }
-                                                className="pl-9 h-9"
-                                                name="search"
-                                            />
-                                        </div>
-
-                                        <Select
-                                            value={filterCategory}
-                                            onChange={setFilterCategory}
-                                            name="category"
-                                            options={[
-                                                {
-                                                    label: 'All Categories',
-                                                    value: 'all',
-                                                },
-                                                {
-                                                    label: 'Placement',
-                                                    value: 'placement',
-                                                },
-                                                {
-                                                    label: 'Student',
-                                                    value: 'student',
-                                                },
-                                                {
-                                                    label: 'Industry',
-                                                    value: 'industry',
-                                                },
-                                                {
-                                                    label: 'Admin',
-                                                    value: 'admin',
-                                                },
-                                                {
-                                                    label: 'Training',
-                                                    value: 'training',
-                                                },
-                                            ]}
-                                        />
-                                    </div>
-                                </div>
-                                <TabsContent value="cancelled">
-                                    <CancelledAppointments />
-                                </TabsContent>
-                                <TabsContent value="upcoming">
-                                    <UpcomingAppointments />
-                                </TabsContent>
-                                <TabsContent value="past">
-                                    <PastAppointments />
-                                </TabsContent>
-                            </Tabs>
+                {/* Filters Toolbar */}
+                <Card className="border border-slate-200 shadow-sm p-2 flex flex-wrap items-center justify-between gap-3 bg-white rounded-lg">
+                    <div className="flex items-center gap-2 flex-1">
+                        <div className="relative flex-1 max-w-xs">
+                            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                            <TextInput
+                                placeholder="Search..."
+                                value={searchQuery}
+                                onChange={(e: any) =>
+                                    setSearchQuery(e.target.value)
+                                }
+                                className="pl-8 h-8 text-xs border-slate-200 bg-slate-50/50 focus:bg-white transition-all w-full"
+                                name="search"
+                            />
                         </div>
+                        <Select
+                            value={filterCategory}
+                            onChange={setFilterCategory}
+                            name="category"
+                            className="h-8 text-xs border-slate-200 w-40"
+                            options={[
+                                { label: 'All Categories', value: 'all' },
+                                { label: 'Placement', value: 'placement' },
+                                { label: 'Student', value: 'student' },
+                                { label: 'Industry', value: 'industry' },
+                                { label: 'Admin', value: 'admin' },
+                                { label: 'Training', value: 'training' },
+                            ]}
+                        />
                     </div>
                 </Card>
+
+                {/* Main Content with ConfigTabs */}
+                <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <ConfigTabs
+                        tabs={tabsConfig}
+                        defaultValue="upcoming"
+                        tabsClasses="bg-slate-50/50 border-b border-slate-100 p-1 gap-2 rounded-t-xl rounded-b-none"
+                    />
+                </div>
             </div>
         </div>
     )

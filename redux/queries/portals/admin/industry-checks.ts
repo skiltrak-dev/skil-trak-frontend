@@ -105,7 +105,11 @@ export const industryChecksEndpoints = (
 
     addCourseMultipleIndustryChecks: builder.mutation<
         any,
-        { courses: number[]; documents: { id: number; isMandatory: boolean }[] }
+        {
+            sectorId: number
+            courses: number[]
+            documents: { id: number; isMandatory: boolean }[]
+        }
     >({
         query: (body) => ({
             url: `${PREFIX}/courses/industry-check/add`,

@@ -22,6 +22,7 @@ interface BadgeProps {
     disabled?: boolean
     loading?: boolean
     outline?: boolean
+    title?: string
     onClick?: (e: any) => void
 }
 
@@ -47,6 +48,7 @@ export const Badge = ({
     Icon,
     className,
     children,
+    title,
 }: BadgeProps) => {
     const classes = classNames({
         'px-2 py-0.5 inline-block uppercase': true,
@@ -98,6 +100,7 @@ export const Badge = ({
     })
     return (
         <div
+            title={title}
             className={`${classes} ${className}`}
             {...(onClick ? { onClick: (e) => onClick(e) } : {})}
         >

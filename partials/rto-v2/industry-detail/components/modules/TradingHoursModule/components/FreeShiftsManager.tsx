@@ -1,87 +1,99 @@
 import { Button, TextInput } from '@components'
 import { Plus, Trash2 } from 'lucide-react'
-import { ChangeEvent } from 'react'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 
 export type Shift = {
+    shiftId?: number
     start: string
     end: string
-    break?: string
+    studentCapacity: string
 }
 
 interface FreeShiftsManagerProps {
-    shifts: Shift[]
-    onAddShift: () => void
-    onRemoveShift: (index: number) => void
-    onUpdateShift: (index: number, field: keyof Shift, value: string) => void
+    name: string
+    onDeleteShift: (id: number) => Promise<boolean>
 }
 
 export function FreeShiftsManager({
-    shifts,
-    onAddShift,
-    onRemoveShift,
-    onUpdateShift,
+    name,
+    onDeleteShift,
 }: FreeShiftsManagerProps) {
+    const { control } = useFormContext()
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name,
+    })
+
+    const handleRemove = async (index: number) => {
+        const shiftToDelete = fields[index] as unknown as Shift
+        if (shiftToDelete.shiftId) {
+            const success = await onDeleteShift(shiftToDelete.shiftId)
+            if (success) {
+                remove(index)
+            }
+        } else {
+            remove(index)
+        }
+    }
+
     return (
         <div className="w-full space-y-1.5">
             {/* Free Shifts List */}
-            {shifts.map((shift, index) => (
+            {fields.map((field, index) => (
                 <div
-                    key={index}
-                    className="flex items-center gap-1.5 bg-gradient-to-br from-[#F0FDF4] to-[#DCFCE7] p-2 rounded-lg border border-[#10B981]/20"
+                    key={field.id}
+                    className="grid grid-cols-3 gap-1.5 bg-gradient-to-br from-[#F0FDF4] to-[#DCFCE7] p-2 rounded-lg border border-[#10B981]/20"
                 >
-                    <span className="text-[10px] font-bold text-[#10B981] w-12">
-                        Shift {index + 1}
-                    </span>
-                    <TextInput
-                        name="start"
-                        type="time"
-                        showError={false}
-                        value={shift.start}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                            onUpdateShift(index, 'start', e.target.value)
-                        }
-                    />
-                    <span className="text-[10px] text-[#64748B] font-medium">
-                        to
-                    </span>
-                    <TextInput
-                        name="end"
-                        type="time"
-                        showError={false}
-                        value={shift.end}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                            onUpdateShift(index, 'end', e.target.value)
-                        }
-                    />
-                    <div className="flex items-center gap-1.5 ml-1">
-                        <span className="text-[10px] font-medium text-[#64748B]">
-                            Break:
+                    <div>
+                        <span className="text-[10px] font-bold text-[#10B981] w-12">
+                            Shift {index + 1}
                         </span>
                         <TextInput
-                            name="break"
-                            type="text"
-                            showError={false}
-                            placeholder="12:00-13:00"
-                            value={shift.break || ''}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                onUpdateShift(index, 'break', e.target.value)
-                            }
-                            className="px-1.5 py-1 bg-white text-[10px] w-24"
+                            label={``}
+                            type="time"
+                            name={`${name}.${index}.start`}
                         />
                     </div>
-                    <Button
-                        variant="error"
-                        onClick={() => onRemoveShift(index)}
-                        className="ml-auto text-[10px] font-medium text-[#EF4444] hover:bg-[#FEE2E2]"
-                    >
-                        <Trash2 className="w-3 h-3" />
-                    </Button>
+                    <div>
+                        <span className="text-[10px] text-[#64748B] font-medium">
+                            to
+                        </span>
+                        <TextInput
+                            type="time"
+                            name={`${name}.${index}.end`}
+                        />
+                    </div>
+                    <div className="flex gap-1.5">
+                        <div className="w-full">
+                            <span className="text-[10px] font-medium text-[#64748B]">
+                                Student Capacity:
+                            </span>
+                            <TextInput
+                                type="number"
+                                placeholder="0"
+                                className="px-1.5 py-1 bg-white text-[10px] w-16"
+                                name={`${name}.${index}.studentCapacity`}
+                            />
+                        </div>
+                        <Button
+                            variant="error"
+                            mini
+                            Icon={Trash2}
+                            onClick={() => handleRemove(index)}
+                        ></Button>
+                    </div>
                 </div>
             ))}
 
             {/* Add Shift Button */}
             <Button
-                onClick={onAddShift}
+                onClick={() =>
+                    append({
+                        start: '09:00',
+                        end: '17:00',
+                        studentCapacity: '0',
+                    })
+                }
                 variant={'success'}
                 outline
                 fullWidth
@@ -91,7 +103,7 @@ export function FreeShiftsManager({
                 Add New Shift
             </Button>
 
-            {shifts.length === 0 && (
+            {fields.length === 0 && (
                 <div className="text-center py-3 text-[10px] text-[#64748B] italic">
                     No shifts added yet. Click above to add your first shift.
                 </div>

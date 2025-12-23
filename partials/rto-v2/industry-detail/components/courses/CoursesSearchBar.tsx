@@ -1,6 +1,6 @@
-import { TextInput } from '@components'
-import { AnimatePresence, motion } from 'framer-motion'
 import { Search } from 'lucide-react'
+import { TextInput } from '@components'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface CoursesSearchBarProps {
     showSearch: boolean
@@ -26,7 +26,7 @@ export function CoursesSearchBar({
                     <div className="relative mb-3">
                         <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-[#64748B] z-10" />
                         <TextInput
-                            name="search"
+                            name={'search'}
                             placeholder="Search courses, programs, or supervisors..."
                             value={searchQuery}
                             onChange={(e: any) =>

@@ -14,9 +14,12 @@ export const GlobalModal = ({
 }) => {
     return (
         <Portal>
-            <div className="bg-[#00000050] w-full h-screen  flex items-center justify-center fixed top-0 left-0 px-2 z-40">
+            <div className="bg-[#00000050] w-full h-screen  flex items-center justify-center fixed top-0 left-0 px-2 z-[99999]">
                 <OutsideClickHandler
-                    onOutsideClick={() => {
+                    onOutsideClick={(e) => {
+                        const target = e.target as HTMLElement
+                        if (target.closest('.modal-animation')) return
+                        e.stopPropagation()
                         onCancel && onCancel()
                     }}
                 >

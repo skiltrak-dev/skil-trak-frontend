@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Card, EmptyData, Table, TableChildrenProps } from '@components'
-import { IndustryKPIStats, IndustryFilterBar } from '../component'
-import { createYourIndustriesColumns } from '../component/columns'
-import { Industry } from '../types'
+import { IndustryFilterBar } from '../component'
+import { useYourIndustriesColumns } from '../component/columns'
+import { Industry } from '@types'
 
 interface GlobalDirectoryTabProps {
     data: Industry[]
@@ -27,89 +27,41 @@ export const GlobalDirectoryTab = ({
     const [filterSector, setFilterSector] = useState('all')
     const [filterStatus, setFilterStatus] = useState('all')
 
+    const { getTableConfig, modal } = useYourIndustriesColumns()
+    // We can pass specific action keys if needed, but default is fine for now
+    const { columns } = getTableConfig()
+
     const filterIndustries = (industries: Industry[]) => {
         return industries.filter((industry) => {
             const matchesSearch =
-                industry.name
+                (industry.businessName || industry.user?.name || '')
                     .toLowerCase()
                     .includes(searchTerm.toLowerCase()) ||
-                industry.location
+                (industry.location || '')
                     .toLowerCase()
                     .includes(searchTerm.toLowerCase()) ||
-                industry.abn.toLowerCase().includes(searchTerm.toLowerCase())
+                (industry.abn || '').toLowerCase().includes(searchTerm.toLowerCase())
 
+            // Note: 'sector' might need mapping from industry.courses or industrySectorCapacity
             const matchesSector =
-                filterSector === 'all' || industry.sector === filterSector
+                filterSector === 'all' ||
+                industry.courses?.some(c => c.name === filterSector) ||
+                (industry.industrySectorCapacity as any)?.some(
+                    (s: any) => s.sector === filterSector
+                )
+
             const matchesStatus =
-                filterStatus === 'all' || industry.status === filterStatus
+                filterStatus === 'all' || (industry.user?.status as string) === filterStatus
 
             return matchesSearch && matchesSector && matchesStatus
         })
     }
 
-    const calculateStats = (industries: Industry[]) => {
-        const totalIndustries = industries.length
-        const verifiedIndustries = industries.filter(
-            (i) => i.status === 'verified'
-        ).length
-        const pendingIndustries = industries.filter(
-            (i) => i.status === 'pending'
-        ).length
-        const totalCapacity = industries.reduce(
-            (sum, i) => sum + getTotalCapacity(i),
-            0
-        )
-        const totalPlacements = industries.reduce(
-            (sum, i) => sum + getTotalPlacements(i),
-            0
-        )
-        const totalAvailablePositions = industries.reduce(
-            (sum, i) => sum + getAvailablePositions(i),
-            0
-        )
-        const averageComplianceScore =
-            totalIndustries > 0
-                ? Math.round(
-                      industries.reduce(
-                          (sum, i) => sum + i.complianceScore,
-                          0
-                      ) / totalIndustries
-                  )
-                : 0
-        const averageRating =
-            totalIndustries > 0
-                ? (
-                      industries.reduce((sum, i) => sum + i.rating, 0) /
-                      totalIndustries
-                  ).toFixed(1)
-                : '0.0'
-
-        return {
-            totalIndustries,
-            verifiedIndustries,
-            pendingIndustries,
-            totalCapacity,
-            totalPlacements,
-            totalAvailablePositions,
-            averageComplianceScore,
-            averageRating,
-        }
-    }
-
     const filteredData = filterIndustries(data)
-    const stats = calculateStats(data)
-
-    const columns = createYourIndustriesColumns({
-        getTotalCapacity,
-        getTotalPlacements,
-        getAvailablePositions,
-        onView,
-        onEdit,
-        onDelete,
-    })
 
     return (
         <div className="space-y-4">
+            {modal}
             <IndustryFilterBar
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}

@@ -10,11 +10,16 @@ import {
     MoreVertical,
     X,
     UserCog,
+    FileText,
 } from 'lucide-react'
 import { Button } from '@components'
 import { IndustryStatus } from '../types'
 import { AddMenuDropdown, MoreMenuDropdown } from '../dropdowns'
-import { BranchLocationsDialog, IndustryStatusChangeModal } from '../modals'
+import {
+    BranchLocationsDialog,
+    IndustryNoteModal,
+    IndustryStatusChangeModal,
+} from '../modals'
 import { useState } from 'react'
 import { useAppSelector } from '@redux/hooks'
 
@@ -46,6 +51,7 @@ export function ActionButtons({
     onCloseAddMenu,
     onCloseMenu,
 }: ActionButtonsProps) {
+    const [showNoteAddModal, setShowNoteAddModal] = useState(false)
     const [showStatusChangeModal, setShowStatusChangeModal] = useState(false)
     const [showBranchLocationsDialog, setShowBranchLocationsDialog] =
         useState(false)
@@ -53,9 +59,16 @@ export function ActionButtons({
     const industryId = useAppSelector(
         (state) => state.industry.industryDetail?.id
     )
+    const industryUserId = useAppSelector(
+        (state) => state.industry.industryDetail?.user?.id
+    )
 
     const onStatusChangeClick = () => {
         setShowStatusChangeModal(true)
+    }
+
+    const onAddNote = () => {
+        setShowNoteAddModal(true)
     }
 
     const onBranchLocationsClick = () => {
@@ -114,6 +127,15 @@ export function ActionButtons({
                 <Ban className="w-2.5 h-2.5" />
                 Blocked
             </Button>
+            <Button
+                onClick={onAddNote}
+                variant="primary"
+                outline
+                className="flex items-center gap-1"
+            >
+                <FileText className="w-2.5 h-2.5" />
+                Note
+            </Button>
 
             {/* Add Menu Dropdown */}
             {showAddMenu && <AddMenuDropdown onClose={onCloseAddMenu} />}
@@ -147,6 +169,12 @@ export function ActionButtons({
 
                 {showMenu && <MoreMenuDropdown onClose={onCloseMenu} />}
             </div>
+
+            <IndustryNoteModal
+                open={showNoteAddModal}
+                industryUserId={industryUserId!}
+                onOpenChange={setShowNoteAddModal}
+            />
 
             <IndustryStatusChangeModal
                 industryId={industryId!}

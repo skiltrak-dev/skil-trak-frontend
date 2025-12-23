@@ -34,7 +34,7 @@ export const ScheduleAppointmentModal = ({
     const [selectedUser, setSelectedUser] = useState<any>(
         defaultSelectedUser || null
     )
-    console.log({ selectedUser })
+    console.log({ selectedUser: selectedUser?.id })
     const [selectedCourse, setSelectedCourse] = useState<any>(null)
 
     const { notification } = useNotification()
@@ -56,6 +56,9 @@ export const ScheduleAppointmentModal = ({
             skip: !selectedUser?.id,
         }
     )
+
+    console.log({ searchedUserCourses: searchedUserCourses?.data })
+
     useEffect(() => {
         if (createAppointmentResult.isSuccess) {
             notification.success({
@@ -178,25 +181,7 @@ export const ScheduleAppointmentModal = ({
                                     />
                                 </div>
 
-                                {!selectedUser?.id ? (
-                                    <>
-                                        {participantType && (
-                                            <div className="space-y-2 col-span-2">
-                                                <div className="border rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
-                                                    <RtoAppointmentSearchCard
-                                                        role={participantType}
-                                                        setSelectedUser={
-                                                            setSelectedUser
-                                                        }
-                                                        selectedUser={
-                                                            selectedUser
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                        )}
-                                    </>
-                                ) : (
+                                {selectedUser ? (
                                     <>
                                         <div className="flex justify-end col-span-2 pt-4 border-t">
                                             <button
@@ -237,6 +222,24 @@ export const ScheduleAppointmentModal = ({
                                                     )
                                                 )}
                                         </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        {participantType && (
+                                            <div className="space-y-2 col-span-2">
+                                                <div className="border rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
+                                                    <RtoAppointmentSearchCard
+                                                        role={participantType}
+                                                        setSelectedUser={
+                                                            setSelectedUser
+                                                        }
+                                                        selectedUser={
+                                                            selectedUser
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
                                     </>
                                 )}
 

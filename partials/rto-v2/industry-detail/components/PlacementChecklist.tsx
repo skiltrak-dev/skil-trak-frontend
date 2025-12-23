@@ -1,6 +1,5 @@
 import {
     CheckCircle,
-    AlertCircle,
     FileText,
     UserCheck,
     Clock,
@@ -10,100 +9,179 @@ import {
     HelpCircle,
     Users,
     Sparkles,
-    Rocket,
     Target,
     ChevronDown,
+    Heart,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import {
+    ChecklistTask,
+    PlacementReadinessModal,
+} from '../modal/PlacementReadinessModal'
+import { SubAdminApi } from '@queries'
+import { setNavigationTarget } from '@redux'
+import { useAppDispatch, useAppSelector } from '@redux/hooks'
 
-const checklistItems = [
-    {
-        title: 'Basic Information',
-        description: 'ABN, address, contact details verified',
-        status: 'done',
-        icon: FileText,
-        color: '#044866',
-        sectionId: null,
-    },
-    {
-        title: 'Supervisor Added',
-        description: 'Qualified supervisor registered',
-        status: 'done',
-        icon: UserCheck,
-        color: '#10B981',
-        sectionId: null,
-    },
-    {
-        title: 'Trading Hours Set',
-        description: 'Schedule and slots configured',
-        status: 'done',
-        icon: Clock,
-        color: '#8B5CF6',
-        sectionId: 'hours',
-    },
-    {
-        title: 'Required Documents',
-        description: 'Document requirements defined',
-        status: 'done',
-        icon: Shield,
-        color: '#14B8A6',
-        sectionId: 'documents',
-    },
-    {
-        title: 'Insurance Documents',
-        description: 'Optional but recommended',
-        status: 'pending',
-        icon: Shield,
-        optional: true,
-        color: '#F7A619',
-        sectionId: 'documents',
-    },
-    {
-        title: 'Courses Configured',
-        description: 'Programs and activities defined',
-        status: 'pending',
-        icon: BookOpen,
-        color: '#EC4899',
-        sectionId: 'courses',
-    },
-    {
-        title: 'Facility Checklist',
-        description: 'PDF reviewed and e-signed',
-        status: 'pending',
-        icon: ClipboardCheck,
-        color: '#F59E0B',
-        sectionId: 'courses',
-    },
-    {
-        title: 'EQ Questions',
-        description: 'Qualification questions answered',
-        status: 'pending',
-        icon: HelpCircle,
-        color: '#6366F1',
-        sectionId: 'courses',
-    },
-    {
-        title: 'Capacity Added',
-        description: 'Partner capacity configured',
-        status: 'done',
-        icon: Users,
-        partnerOnly: true,
-        color: '#0D5468',
-        sectionId: null,
-    },
-]
+const getChecklistItems = (data: any, isRtoAssociated: boolean = false) => {
+    // For RTO industries, we only validate these specific items
+    // All others are considered "done" automatically
+    const rtoRequiredItems = [
+        'Workplace Type',
+        'Courses Configured',
+        'Capacity',
+    ]
 
-export function PlacementChecklist({
-    onNavigateToSection,
-}: {
-    onNavigateToSection?: (section: string) => void
-}) {
+    const getStatus = (
+        title: string,
+        dataKey: boolean,
+        isRto: boolean
+    ): 'done' | 'pending' => {
+        if (isRto) {
+            // If it's an RTO and the item is NOT in the required list, it's auto-done
+            if (!rtoRequiredItems.includes(title)) return 'done'
+            // Otherwise check the actual data
+            return dataKey ? 'done' : 'pending'
+        }
+        // Non-RTO checks everything normally
+        return dataKey ? 'done' : 'pending'
+    }
+
+    return [
+        {
+            title: 'Basic Information',
+            description: 'ABN, address, contact details verified',
+            status: getStatus(
+                'Basic Information',
+                data?.ProfileUpdated,
+                isRtoAssociated
+            ),
+            icon: FileText,
+            color: '#044866',
+            targetSection: 'basic-details',
+        },
+        {
+            title: 'Trading Hours Set',
+            description: 'Schedule and slots configured',
+            status: getStatus(
+                'Trading Hours Set',
+                data?.trading_hours_and_shifts,
+                isRtoAssociated
+            ),
+            icon: Clock,
+            color: '#8B5CF6',
+            targetTab: 'hours',
+        },
+        {
+            title: 'Courses Configured',
+            description: 'Programs and activities defined',
+            status: getStatus(
+                'Courses Configured',
+                data?.courseAdded,
+                isRtoAssociated
+            ),
+            icon: BookOpen,
+            color: '#EC4899',
+            targetTab: 'courses',
+        },
+        {
+            title: 'Capacity',
+            description: 'Partner capacity configured',
+            status: getStatus(
+                'Capacity',
+                data?.CapacityUpdated,
+                isRtoAssociated
+            ),
+            icon: Users,
+            color: '#0D5468',
+            targetTab: 'courses',
+            targetSection: 'capacity',
+        },
+        {
+            title: 'Interview Availability',
+            description: 'Interview schedule and availability set',
+            status: getStatus(
+                'Interview Availability',
+                data?.interviewAvailabilities,
+                isRtoAssociated
+            ),
+            icon: ClipboardCheck,
+            color: '#F59E0B',
+            targetSection: 'interview-availability',
+        },
+        {
+            title: 'Primary Contact',
+            description: 'Primary contact person assigned',
+            status: getStatus(
+                'Primary Contact',
+                data?.contactPerson,
+                isRtoAssociated
+            ),
+            icon: UserCheck,
+            color: '#10B981',
+            targetSection: 'contact-details',
+        },
+        {
+            title: 'Workplace Type',
+            description: 'Industry sector and workplace type defined',
+            status: getStatus(
+                'Workplace Type',
+                data?.hasWorkplaceType,
+                isRtoAssociated
+            ),
+            icon: Shield,
+            color: '#14B8A6',
+            targetTab: 'courses',
+        },
+    ]
+}
+
+export function PlacementChecklist() {
     const [showProgress, setShowProgress] = useState(false)
-    const completedItems = checklistItems.filter(
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const dispatch = useAppDispatch()
+    const { industryDetail } = useAppSelector((state) => state.industry)
+
+    const { data: progressData, isLoading } =
+        SubAdminApi.Industry.industryProgress(industryDetail?.id!, {
+            skip: !industryDetail?.id,
+        })
+
+    const checklistItems = getChecklistItems(
+        progressData || {},
+        !!industryDetail?.isRtoAssociated
+    )
+
+    const relevantItems = checklistItems
+
+    const completedItems = relevantItems.filter(
         (item) => item.status === 'done'
     ).length
-    const totalItems = checklistItems.length
-    const progressPercentage = (completedItems / totalItems) * 100
+    const totalItems = relevantItems.length
+
+    // Use API percentage
+    const progressPercentage =
+        Number(((Number(completedItems) * 100) / totalItems).toFixed(2)) || 0
+
+    useEffect(() => {
+        if (progressData && progressPercentage < 100) {
+            setIsModalOpen(true)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [progressData, progressPercentage])
+
+    const checklistTasks: ChecklistTask[] = relevantItems.map((item) => ({
+        id: item.title,
+        title: item.title,
+        description: item.description,
+        completed: item.status === 'done',
+        optional: false,
+        icon: item.icon,
+        color: item.color,
+        targetTab: (item as any).targetTab,
+        targetSection: (item as any).targetSection,
+    }))
+
+    if (isLoading) return null // Or a loader if preferred
 
     return (
         <div className="bg-white rounded-2xl shadow-xl border border-[#E2E8F0] overflow-hidden">
@@ -164,7 +242,7 @@ export function PlacementChecklist({
                                 >
                                     {progressPercentage > 25 && (
                                         <span className="text-white text-[9px] font-bold drop-shadow-lg">
-                                            {Math.round(progressPercentage)}%
+                                            {progressPercentage}%
                                         </span>
                                     )}
                                 </div>
@@ -180,9 +258,8 @@ export function PlacementChecklist({
                         >
                             {showProgress ? 'Hide Details' : 'View Details'}
                             <ChevronDown
-                                className={`w-3 h-3 transition-transform ${
-                                    showProgress ? 'rotate-180' : ''
-                                }`}
+                                className={`w-3 h-3 transition-transform ${showProgress ? 'rotate-180' : ''
+                                    }`}
                             />
                         </button>
                     </div>
@@ -222,22 +299,20 @@ export function PlacementChecklist({
                         {/* Checklist Grid */}
                         <div className="p-5 animate-in fade-in slide-in-from-top-2 duration-300">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                                {checklistItems.map((item, index) => {
+                                {relevantItems.map((item, index) => {
                                     const Icon = item.icon
                                     const isDone = item.status === 'done'
 
                                     return (
                                         <div
                                             key={index}
-                                            className={`relative group overflow-hidden rounded-xl transition-all duration-300 ${
-                                                isDone
-                                                    ? 'bg-gradient-to-br from-[#10B981]/10 to-transparent border border-[#10B981]/30 hover:border-[#10B981]/50 hover:shadow-lg'
-                                                    : 'bg-white border border-[#E2E8F0] hover:border-[#044866]/30 hover:shadow-xl hover:scale-105'
-                                            }`}
+                                            className={`relative group overflow-hidden rounded-xl transition-all duration-300 ${isDone
+                                                ? 'bg-gradient-to-br from-[#10B981]/10 to-transparent border border-[#10B981]/30 hover:border-[#10B981]/50 hover:shadow-lg'
+                                                : 'bg-white border border-[#E2E8F0] hover:border-[#044866]/30 hover:shadow-xl hover:scale-105'
+                                                }`}
                                             style={{
-                                                animationDelay: `${
-                                                    index * 50
-                                                }ms`,
+                                                animationDelay: `${index * 50
+                                                    }ms`,
                                             }}
                                         >
                                             {/* Gradient Glow */}
@@ -249,11 +324,10 @@ export function PlacementChecklist({
                                                 <div className="flex items-start gap-2 mb-2">
                                                     {/* Icon */}
                                                     <div
-                                                        className={`relative w-8 h-8 rounded-lg flex items-center justify-center shadow-lg transition-all duration-300 ${
-                                                            isDone
-                                                                ? 'bg-gradient-to-br from-[#10B981] to-[#059669] group-hover:scale-110 group-hover:rotate-6'
-                                                                : 'bg-gradient-to-br from-[#E8F4F8] to-[#F8FAFB] group-hover:scale-110'
-                                                        }`}
+                                                        className={`relative w-8 h-8 rounded-lg flex items-center justify-center shadow-lg transition-all duration-300 ${isDone
+                                                            ? 'bg-gradient-to-br from-[#10B981] to-[#059669] group-hover:scale-110 group-hover:rotate-6'
+                                                            : 'bg-gradient-to-br from-[#E8F4F8] to-[#F8FAFB] group-hover:scale-110'
+                                                            }`}
                                                     >
                                                         {isDone ? (
                                                             <CheckCircle
@@ -269,38 +343,22 @@ export function PlacementChecklist({
                                                             <div className="absolute inset-0 rounded-lg bg-[#10B981] animate-ping opacity-20" />
                                                         )}
                                                     </div>
-
-                                                    {/* Badges */}
-                                                    <div className="flex flex-wrap gap-1">
-                                                        {item.optional && (
-                                                            <span className="text-[10px] text-[#64748B] bg-[#F8FAFB] px-1.5 py-0.5 rounded-full border border-[#E2E8F0] font-medium">
-                                                                Optional
-                                                            </span>
-                                                        )}
-                                                        {item.partnerOnly && (
-                                                            <span className="text-[10px] text-[#044866] bg-[#044866]/10 px-1.5 py-0.5 rounded-full border border-[#044866]/20 font-medium">
-                                                                Partner
-                                                            </span>
-                                                        )}
-                                                    </div>
                                                 </div>
 
                                                 <div>
                                                     <h4
-                                                        className={`text-xs font-semibold mb-1 ${
-                                                            isDone
-                                                                ? 'text-[#10B981]'
-                                                                : 'text-[#1A2332]'
-                                                        }`}
+                                                        className={`text-xs font-semibold mb-1 ${isDone
+                                                            ? 'text-[#10B981]'
+                                                            : 'text-[#1A2332]'
+                                                            }`}
                                                     >
                                                         {item.title}
                                                     </h4>
                                                     <p
-                                                        className={`text-[10px] mb-2 ${
-                                                            isDone
-                                                                ? 'text-[#059669]'
-                                                                : 'text-[#64748B]'
-                                                        }`}
+                                                        className={`text-[10px] mb-2 ${isDone
+                                                            ? 'text-[#059669]'
+                                                            : 'text-[#64748B]'
+                                                            }`}
                                                     >
                                                         {item.description}
                                                     </p>
@@ -314,10 +372,20 @@ export function PlacementChecklist({
                                                         <button
                                                             className="text-[10px] text-[#044866] hover:text-[#0D5468] font-medium flex items-center gap-1.5 group-hover:gap-2 transition-all"
                                                             onClick={() =>
-                                                                onNavigateToSection &&
-                                                                item.sectionId &&
-                                                                onNavigateToSection(
-                                                                    item.sectionId
+                                                                dispatch(
+                                                                    setNavigationTarget(
+                                                                        {
+                                                                            tab: (
+                                                                                item as any
+                                                                            )
+                                                                                .targetTab,
+                                                                            section:
+                                                                                (
+                                                                                    item as any
+                                                                                )
+                                                                                    .targetSection,
+                                                                        }
+                                                                    )
                                                                 )
                                                             }
                                                         >
@@ -366,8 +434,8 @@ export function PlacementChecklist({
                                         <div className="w-8 h-8 bg-white/20 backdrop-blur-md rounded-lg flex items-center justify-center flex-shrink-0 shadow-xl">
                                             <Target className="w-4 h-4 text-white" />
                                         </div>
-                                        <div className="flex-1">
-                                            <h4 className="text-white text-sm font-bold mb-1.5 flex items-center gap-1.5">
+                                        <div className="flex-1 space-y-1">
+                                            <h4 className="text-white text-sm font-bold flex items-center gap-1.5">
                                                 Almost There!
                                                 <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full">
                                                     {totalItems -
@@ -375,20 +443,12 @@ export function PlacementChecklist({
                                                     left
                                                 </span>
                                             </h4>
-                                            <p className="text-white/95 mb-3 text-xs">
+                                            <p className="text-white/95 text-xs">
                                                 Complete the remaining tasks to
                                                 unlock full placement
                                                 capabilities. Our guided wizard
                                                 makes it quick and easy!
                                             </p>
-                                            <div className="flex items-center gap-2">
-                                                <button className="px-3 py-1.5 bg-white hover:bg-white/90 text-[#F7A619] rounded-lg transition-all shadow-lg hover:shadow-xl text-xs font-medium">
-                                                    Start Guided Setup
-                                                </button>
-                                                <button className="px-3 py-1.5 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white border border-white/30 rounded-lg transition-all text-xs font-medium">
-                                                    Learn More
-                                                </button>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -421,6 +481,13 @@ export function PlacementChecklist({
                     </>
                 )}
             </div>
+            {isModalOpen && (
+                <PlacementReadinessModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    tasks={checklistTasks}
+                />
+            )}
         </div>
     )
 }

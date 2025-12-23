@@ -91,14 +91,21 @@ const {
 
     // ---- Industries ---- //
     useGetRtoIndustriesQuery,
-    useSnoozeIndustryMutation,
+    useSnoozeIndustryByIdMutation,
+    useIndustryCoursesDetailsQuery,
     useGetRtoIndustryDetailQuery,
     useIndustryStudentsListQuery,
+    useGetAllIndustriesListQuery,
     useIndustryStudentStatsQuery,
-    useAddSingleRtoIndustryMutation,
     useCreateAvailabilityMutation,
+    useAddSingleRtoIndustryMutation,
+    useIndustryRtoChecklistListQuery,
     useAddBulkRtoIndustriesMutation,
     useIndustryUserStatusChangeMutation,
+    useGetIndutryAvailableWorkingHoursQuery,
+    useStatusChangeCourseFacilityChecklistMutation,
+    useUpdateInterestedTypeMutation,
+    useGetRtoIndustryDataCountQuery,
 } = rtoV2Api
 
 export const RtoV2Api = {
@@ -170,14 +177,22 @@ export const RtoV2Api = {
         uploadStudentDocumentFile: useUploadStudentDocumentFileMutation,
     },
     Industries: {
-        snoozeIndustry: useSnoozeIndustryMutation,
-        industryStudentsList: useIndustryStudentsListQuery,
         getRtoIndustries: useGetRtoIndustriesQuery,
+        snoozeIndustry: useSnoozeIndustryByIdMutation,
+        createAvailability: useCreateAvailabilityMutation,
+        industryStudentsList: useIndustryStudentsListQuery,
+        getAllIndustriesList: useGetAllIndustriesListQuery,
         getRtoIndustryDetail: useGetRtoIndustryDetailQuery,
         industryStudentStats: useIndustryStudentStatsQuery,
         addSingleRtoIndustry: useAddSingleRtoIndustryMutation,
-        createAvailability: useCreateAvailabilityMutation,
         addBulkRtoIndustries: useAddBulkRtoIndustriesMutation,
+        industryCoursesDetails: useIndustryCoursesDetailsQuery,
+        industryRtoChecklistList: useIndustryRtoChecklistListQuery,
         industryUserStatusChange: useIndustryUserStatusChangeMutation,
+        useGetIndutryAvailableHours: useGetIndutryAvailableWorkingHoursQuery,
+        statusChangeCourseFacilityChecklist:
+            useStatusChangeCourseFacilityChecklistMutation,
+        updateInterestedType: useUpdateInterestedTypeMutation,
+        getRtoIndustryDataCount: useGetRtoIndustryDataCountQuery,
     },
 }

@@ -1,6 +1,16 @@
-import { Send, FileSignature, CheckCircle, Eye } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { ESignature } from './types'
+import { Send, FileSignature, CheckCircle, Eye } from 'lucide-react'
+
+export interface ESignature {
+    status: 'sent' | 'signed' | 'approved' | 'pending'
+    sentDate: string
+    sentBy: string
+    signedDate: string | null
+    signedBy: string | null
+    approvedDate: string | null
+    approvedBy: string | null
+    documentUrl: string
+}
 
 interface ESignatureTimelineProps {
     eSignature: ESignature
@@ -21,11 +31,10 @@ export function ESignatureTimeline({ eSignature }: ESignatureTimelineProps) {
                         <div className="flex flex-col items-center">
                             <motion.div
                                 whileHover={{ scale: 1.1 }}
-                                className={`w-8 h-8 rounded-lg flex items-center justify-center shadow-md ${
-                                    eSignature.sentDate
+                                className={`w-8 h-8 rounded-lg flex items-center justify-center shadow-md ${eSignature.sentDate
                                         ? 'bg-gradient-to-br from-[#10B981] to-[#059669] text-white'
                                         : 'bg-[#E2E8F0] text-[#94A3B8]'
-                                }`}
+                                    }`}
                             >
                                 <Send className="w-4 h-4" />
                             </motion.div>
@@ -64,19 +73,18 @@ export function ESignatureTimeline({ eSignature }: ESignatureTimelineProps) {
                             <div className="flex flex-col items-center">
                                 <motion.div
                                     whileHover={{ scale: 1.1 }}
-                                    className={`w-8 h-8 rounded-lg flex items-center justify-center shadow-md ${
-                                        eSignature.status === 'signed' ||
-                                        eSignature.status === 'approved'
+                                    className={`w-8 h-8 rounded-lg flex items-center justify-center shadow-md ${eSignature.status === 'signed' ||
+                                            eSignature.status === 'approved'
                                             ? 'bg-gradient-to-br from-[#10B981] to-[#059669] text-white'
                                             : 'bg-[#E2E8F0] text-[#94A3B8]'
-                                    }`}
+                                        }`}
                                 >
                                     <FileSignature className="w-4 h-4" />
                                 </motion.div>
                                 {(eSignature.status === 'signed' ||
                                     eSignature.status === 'approved') && (
-                                    <div className="w-0.5 h-6 bg-[#E2E8F0]"></div>
-                                )}
+                                        <div className="w-0.5 h-6 bg-[#E2E8F0]"></div>
+                                    )}
                             </div>
                             <div className="flex-1 pt-0.5">
                                 <div className="flex items-center justify-between mb-0.5">

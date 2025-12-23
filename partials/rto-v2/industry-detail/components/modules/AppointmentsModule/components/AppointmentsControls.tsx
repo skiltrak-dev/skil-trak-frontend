@@ -13,8 +13,9 @@ interface AppointmentsControlsProps {
 
 const statusFilterOptions: OptionType[] = [
     { label: 'All Status', value: 'all' },
-    { label: 'Upcoming', value: 'upcoming' },
-    { label: 'Completed', value: 'completed' },
+    { label: 'Upcoming', value: 'future' },
+    { label: 'Completed', value: 'past' },
+    { label: 'Cancelled', value: 'cancelled' },
 ]
 
 export function AppointmentsControls({
@@ -29,7 +30,7 @@ export function AppointmentsControls({
             <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                     {/* View Toggle */}
-                    <div className="flex bg-white border border-[#E2E8F0] rounded-lg p-0.5 shadow-sm">
+                    {/* <div className="flex bg-white border border-[#E2E8F0] rounded-lg p-0.5 shadow-sm">
                         <Button
                             onClick={() => onViewChange('list')}
                             variant="info"
@@ -52,19 +53,22 @@ export function AppointmentsControls({
                         >
                             Calendar
                         </Button>
-                    </div>
+                    </div> */}
 
                     {/* Status Filter */}
-                    <Select
-                        name="statusFilter"
-                        options={statusFilterOptions}
-                        value={filterStatus}
-                        onChange={(e: OptionType) =>
-                            onFilterChange(e.value as StatusFilter)
-                        }
-                        className="hover:border-[#8B5CF6]/30 focus:ring-[#8B5CF6]/20"
-                        placeholder="Select Status"
-                    />
+                    <div className="w-72">
+                        <Select
+                            showError={false}
+                            name="statusFilter"
+                            value={filterStatus}
+                            options={statusFilterOptions}
+                            onChange={(e: OptionType) =>
+                                onFilterChange(e.value as StatusFilter)
+                            }
+                            className="hover:border-[#8B5CF6]/30 focus:ring-[#8B5CF6]/20"
+                            placeholder="Select Status"
+                        />
+                    </div>
                 </div>
 
                 <div className="flex items-center gap-2 text-xs text-[#64748B]">

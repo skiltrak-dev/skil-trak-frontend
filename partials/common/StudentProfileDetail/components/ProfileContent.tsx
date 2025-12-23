@@ -6,6 +6,7 @@ import { MailsCommunication } from './MailsCommunication'
 import { Schedule } from './Schedule'
 import { Tickets } from './Tickets'
 import { Workplace } from './Workplace'
+import { StudentProfileNotes } from '@partials/common/Notes'
 
 export const WorkplaceNotesSection: React.FC<any> = ({
     profile,

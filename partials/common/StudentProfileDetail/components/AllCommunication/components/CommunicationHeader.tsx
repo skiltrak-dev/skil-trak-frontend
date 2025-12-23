@@ -9,11 +9,11 @@ import {
 import { UserRoles } from '@constants'
 import { CreateStudentNote } from '@partials/common/Notes/forms'
 import { ComposeMailModal } from '@partials/common/StudentProfileDetail/modals'
+import clsx from 'clsx'
 import { ReactElement, useState } from 'react'
 import { WorkplaceHistory } from '../../Workplace'
 import { useWorkplaceQueries } from '../../Workplace/hooks/useWorkplaceQueries.hook'
 import { ShowAllCommunicationModal } from '../modal'
-import clsx from 'clsx'
 
 interface CommunicationHeaderProps {
     user?: any

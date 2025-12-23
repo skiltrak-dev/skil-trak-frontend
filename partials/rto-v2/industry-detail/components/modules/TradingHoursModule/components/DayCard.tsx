@@ -2,41 +2,52 @@ import { ModeSelector } from './ModeSelector'
 import { FixedHoursInput } from './FixedHoursInput'
 import { FreeShiftsManager, Shift } from './FreeShiftsManager'
 import { Card, Switch } from '@components'
+import { Controller, useFormContext } from 'react-hook-form'
+import { useRemoveShiftMutation } from '@queries'
+import { useNotification } from '@hooks/useNotification'
 
 export type DayHours = {
     open: boolean
     mode: 'fixed' | 'free-shifts'
     start: string
     end: string
-    break: string
+    break?: string
+    breakStart?: string
+    breakEnd?: string
     shifts: Shift[]
 }
 
 interface DayCardProps {
     day: string
-    hours: DayHours
-    onToggleOpen: () => void
-    onModeChange: (mode: 'fixed' | 'free-shifts') => void
-    onStartChange: (value: string) => void
-    onEndChange: (value: string) => void
-    onBreakChange: (value: string) => void
-    onAddShift: () => void
-    onRemoveShift: (index: number) => void
-    onUpdateShift: (index: number, field: keyof Shift, value: string) => void
+    dayKey: string
 }
 
-export function DayCard({
-    day,
-    hours,
-    onToggleOpen,
-    onModeChange,
-    onStartChange,
-    onEndChange,
-    onBreakChange,
-    onAddShift,
-    onRemoveShift,
-    onUpdateShift,
-}: DayCardProps) {
+export function DayCard({ day, dayKey }: DayCardProps) {
+    const { control, watch } = useFormContext()
+    const isOpen = watch(`hours.${dayKey}.open`)
+    const mode = watch(`hours.${dayKey}.mode`)
+
+    const [removeShift] = useRemoveShiftMutation()
+    const { notification } = useNotification()
+
+    const handleDeleteShift = async (id: number) => {
+        try {
+            await removeShift(id).unwrap()
+            notification.success({
+                title: 'Success',
+                description: 'Shift deleted successfully',
+            })
+            return true
+        } catch (error) {
+            console.error('Failed to delete shift', error)
+            notification.error({
+                title: 'Error',
+                description: 'Failed to delete shift. Please try again.',
+            })
+            return false
+        }
+    }
+
     return (
         <Card className="p-3 hover:border-[#044866]/20 hover:shadow-md transition-all duration-300">
             <div className="flex items-center gap-3 flex-wrap">
@@ -45,36 +56,39 @@ export function DayCard({
                     <span className="text-sm font-medium text-[#1A2332]">
                         {day}
                     </span>
-                    <Switch
-                        name={day}
-                        isChecked={hours.open}
-                        onChange={() => onToggleOpen()}
-                        customStyleClass="profileSwitch"
+                    <Controller
+                        name={`hours.${dayKey}.open`}
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                            <Switch
+                                name={dayKey}
+                                isChecked={value}
+                                onChange={onChange}
+                                customStyleClass="profileSwitch"
+                            />
+                        )}
                     />
                 </div>
 
-                {hours.open ? (
+                {isOpen ? (
                     <>
-                        <ModeSelector
-                            mode={hours.mode}
-                            onModeChange={onModeChange}
+                        <Controller
+                            name={`hours.${dayKey}.mode`}
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                                <ModeSelector
+                                    mode={value}
+                                    onModeChange={onChange}
+                                />
+                            )}
                         />
 
-                        {hours.mode === 'fixed' ? (
-                            <FixedHoursInput
-                                start={hours.start}
-                                end={hours.end}
-                                break={hours.break}
-                                onStartChange={onStartChange}
-                                onEndChange={onEndChange}
-                                onBreakChange={onBreakChange}
-                            />
+                        {mode === 'fixed' ? (
+                            <FixedHoursInput basePath={`hours.${dayKey}`} />
                         ) : (
                             <FreeShiftsManager
-                                shifts={hours.shifts}
-                                onAddShift={onAddShift}
-                                onRemoveShift={onRemoveShift}
-                                onUpdateShift={onUpdateShift}
+                                name={`hours.${dayKey}.shifts`}
+                                onDeleteShift={handleDeleteShift}
                             />
                         )}
                     </>

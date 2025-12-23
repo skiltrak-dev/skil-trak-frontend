@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
     RTOAccessNotice,
     ChecklistStats,
@@ -6,30 +6,53 @@ import {
     ChecklistItemsList,
     checklistItems,
 } from './components'
+import { IndustryApi, RtoV2Api } from '@redux'
+import { useAppSelector } from '@redux/hooks'
+import { Sector } from '@types'
 
 export function RTOChecklistModule() {
     const [selectedCategory, setSelectedCategory] = useState<string>('all')
     const [uploadingId, setUploadingId] = useState<string | null>(null)
+    const [selectedSector, setSelectedSector] = useState<number | null>(null)
 
-    const categories = [
-        'all',
-        ...Array.from(new Set(checklistItems.map((item) => item.category))),
-    ]
+    const industryDetail = useAppSelector(
+        (state) => state.industry.industryDetail
+    )
 
-    const filteredItems =
-        selectedCategory === 'all'
-            ? checklistItems
-            : checklistItems.filter(
-                  (item) => item.category === selectedCategory
-              )
+    const checklist = RtoV2Api.Industries.industryRtoChecklistList(
+        {
+            industryId: industryDetail?.user?.id!,
+            sectorId: selectedSector!,
+        },
+        {
+            skip: !selectedSector || !industryDetail?.user?.id,
+        }
+    )
 
-    const stats = {
-        total: checklistItems.length,
-        completed: checklistItems.filter((i) => i.status === 'completed')
-            .length,
-        pending: checklistItems.filter((i) => i.status === 'pending').length,
-        required: checklistItems.filter((i) => i.status === 'required').length,
-    }
+    // 1. Fetch Sectors
+    const { data: sectorsData, isLoading: isLoadingSectors } =
+        IndustryApi.Courses.useGetIndustrySectorsQuery(
+            Number(industryDetail?.user?.id),
+            {
+                skip: !industryDetail?.user?.id,
+            }
+        )
+
+    const sectorOptions: Sector[] = useMemo(
+        () =>
+            sectorsData?.map((sector: any) => ({
+                id: sector?.id,
+                name: sector?.name,
+            })) || [],
+        [sectorsData]
+    )
+
+    // Select first sector by default
+    useEffect(() => {
+        if (sectorOptions.length > 0 && !selectedSector) {
+            setSelectedSector(sectorOptions[0].id)
+        }
+    }, [sectorOptions, selectedSector])
 
     const handleFileUpload = (itemId: string) => {
         setUploadingId(itemId)
@@ -42,14 +65,14 @@ export function RTOChecklistModule() {
     return (
         <div className="space-y-4 px-4">
             <RTOAccessNotice />
-            <ChecklistStats stats={stats} />
             <CategoryFilter
-                categories={categories}
-                selectedCategory={selectedCategory}
-                onCategoryChange={setSelectedCategory}
+                sectors={sectorOptions}
+                activeSector={selectedSector}
+                onSectorChange={setSelectedSector}
             />
+
             <ChecklistItemsList
-                items={filteredItems}
+                items={checklist.data || []}
                 uploadingId={uploadingId}
                 onFileUpload={handleFileUpload}
             />

@@ -8,8 +8,8 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@components/ui/dialog'
-import { Button, TextInput, Typography } from '@components'
-import { Course } from '../types'
+import { Button, TextInput } from '@components'
+import { Course } from '@types'
 
 interface EditCourseCapacityDialogProps {
     open: boolean
@@ -69,16 +69,16 @@ export function EditCourseCapacityDialog({
                     {/* Students Input */}
                     <div className="space-y-2">
                         <TextInput
-                            name="course-students"
                             label={'Current Students'}
+                            name="students"
                             type="number"
                             value={values.students}
-                            onChange={(e: any) => {
+                            onChange={(e: any) =>
                                 setValues({
                                     ...values,
                                     students: parseInt(e.target.value) || 0,
                                 })
-                            }}
+                            }
                             className="w-full border-[#E2E8F0] focus-visible:border-[#044866] focus-visible:ring-[#044866]"
                         />
                     </div>
@@ -86,28 +86,25 @@ export function EditCourseCapacityDialog({
                     {/* Capacity Input */}
                     <div className="space-y-2">
                         <TextInput
-                            name="course-capacity"
                             label={'Maximum Capacity'}
+                            name="capacity"
                             type="number"
                             value={values.capacity}
-                            onChange={(e: any) => {
+                            onChange={(e: any) =>
                                 setValues({
                                     ...values,
                                     capacity: parseInt(e.target.value) || 0,
                                 })
-                            }}
+                            }
                             className="w-full border-[#E2E8F0] focus-visible:border-[#044866] focus-visible:ring-[#044866]"
                         />
                     </div>
 
                     {/* Capacity Preview */}
                     <div className="bg-gradient-to-br from-[#F8FAFB] to-[#E8F4F8] rounded-lg p-3 border border-[#E2E8F0]">
-                        <Typography
-                            variant={'label'}
-                            className="text-xs text-[#64748B] mb-1"
-                        >
+                        <p className="text-xs text-[#64748B] mb-1">
                             Capacity Preview
-                        </Typography>
+                        </p>
                         <div className="flex items-center gap-2">
                             <div className="flex-1 bg-[#E2E8F0] rounded-full h-2 overflow-hidden">
                                 <motion.div
@@ -158,7 +155,7 @@ export function EditCourseCapacityDialog({
                 {/* Action Buttons */}
                 <div className="flex items-center gap-2 justify-end pt-4 border-t border-[#E2E8F0]">
                     <Button
-                        variant="action"
+                        variant="secondary"
                         onClick={() => onOpenChange(false)}
                         className="px-4 py-2 text-sm text-[#64748B] hover:bg-[#F8FAFB] hover:text-[#1A2332] transition-all"
                     >

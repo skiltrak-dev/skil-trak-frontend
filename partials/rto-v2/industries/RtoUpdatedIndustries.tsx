@@ -1,48 +1,52 @@
+import { ConfigTabs, TabConfig } from '@components'
+import { Building2 } from 'lucide-react'
 import { useState } from 'react'
-import { ConfigTabs, TabConfig, TabNavigation } from '@components'
 import { IndustryHeader } from './component'
+import { yourIndustriesData } from './data/mockData'
 import { AddIndustryModal } from './modals'
 import {
-    YourIndustriesTab,
-    GlobalDirectoryTab,
+    ArchivedIndustries,
+    NonPartnerIndustries,
     PendingIndustriesTab,
-    BlacklistedTab,
-    FutureIndustriesTab,
+    SkiltrakNetwork,
+    YourIndustriesTab,
+    YourPartnerIndustries,
 } from './tabs'
-import { Industry, PendingIndustryFull, BlacklistedIndustry } from './types'
-import {
-    yourIndustriesData,
-    globalIndustriesData,
-    blacklistedIndustriesData,
-    futureIndustriesData,
-    pendingIndustriesData,
-} from './data/mockData'
-import { Building2 } from 'lucide-react'
+import { BlacklistedIndustry, Industry } from './types'
 
 export const RtoUpdatedIndustries = () => {
     const [addIndustryOpen, setAddIndustryOpen] = useState(false)
 
     // Helper functions
-    const getTotalCapacity = (industry: Industry) =>
-        industry.sectorCapacities.reduce((sum, sc) => sum + sc.capacity, 0)
+    const getTotalCapacity = (industry: any) =>
+        (
+            industry.sectorCapacities ||
+            industry.industrySectorCapacity ||
+            []
+        ).reduce((sum: number, sc: any) => sum + (Number(sc.capacity) || 0), 0)
 
-    const getTotalPlacements = (industry: Industry) =>
-        industry.sectorCapacities.reduce(
-            (sum, sc) => sum + sc.currentPlacements,
+    const getTotalPlacements = (industry: any) =>
+        (
+            industry.sectorCapacities ||
+            industry.industrySectorCapacity ||
+            []
+        ).reduce(
+            (sum: number, sc: any) =>
+                sum + (Number(sc.currentPlacements || sc.enrolled) || 0),
             0
         )
 
-    const getAvailablePositions = (industry: Industry) =>
+    const getAvailablePositions = (industry: any) =>
         getTotalCapacity(industry) - getTotalPlacements(industry)
 
     // Calculate header stats
-    const calculateHeaderStats = (data: Industry[]) => {
+    const calculateHeaderStats = (data: any[]) => {
         const totalIndustries = data.length
         const verifiedIndustries = data.filter(
-            (i) => i.status === 'verified'
+            (i) => i.status === 'verified' || i.user?.status === 'approved'
         ).length
         const pendingIndustries = data.filter(
-            (i) => i.status === 'pending'
+            (i) => i.status === 'pending' || i.user?.status === 'pending'
         ).length
 
         return {
@@ -53,28 +57,12 @@ export const RtoUpdatedIndustries = () => {
     }
 
     // Action handlers
-    const handleViewIndustry = (industry: Industry) => {
+    const handleViewIndustry = (industry: any) => {
         console.log('View industry:', industry)
-    }
-
-    const handleViewPending = (industry: PendingIndustryFull) => {
-        console.log('View pending industry:', industry)
     }
 
     const handleViewBlacklisted = (industry: BlacklistedIndustry) => {
         console.log('View blacklisted industry:', industry)
-    }
-
-    const handleEdit = (industry: Industry) => {
-        console.log('Edit industry:', industry)
-    }
-
-    const handleDelete = (industry: Industry) => {
-        console.log('Delete industry:', industry)
-    }
-
-    const handleApproveCourses = (industry: PendingIndustryFull) => {
-        console.log('Approve courses for:', industry)
     }
 
     const handleUnblock = (industry: BlacklistedIndustry) => {
@@ -87,129 +75,36 @@ export const RtoUpdatedIndustries = () => {
 
     const tabs: TabConfig[] = [
         {
-            value: 'your-industries',
-            label: 'Your Industries',
+            value: 'non-partner-industries',
+            label: 'Non-Partner Industries',
             icon: Building2,
-            component: () => <YourIndustriesTab />,
+            component: () => <NonPartnerIndustries />,
         },
         {
-            value: 'global-directory',
-            label: 'Global Directory',
+            value: 'partner-industries',
+            label: 'Your Partner Industries',
             icon: Building2,
-            component: () => (
-                <GlobalDirectoryTab
-                    data={globalIndustriesData}
-                    getTotalCapacity={getTotalCapacity}
-                    getTotalPlacements={getTotalPlacements}
-                    getAvailablePositions={getAvailablePositions}
-                    onView={handleViewIndustry}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                />
-            ),
+            component: () => <YourPartnerIndustries />,
         },
         {
-            label: 'Future Industries',
-            value: 'future-industries',
+            value: 'pending-industries',
+            label: 'Pending Industries',
             icon: Building2,
-            component: () => <FutureIndustriesTab />,
+            component: () => <PendingIndustriesTab />,
         },
         {
-            value: 'pending',
-            label: 'Pending',
+            value: 'skiltrak-network',
+            label: 'Skiltrak Network',
             icon: Building2,
-            component: () => (
-                <PendingIndustriesTab
-                    data={pendingIndustriesData}
-                    onView={handleViewPending}
-                    onApproveCourses={handleApproveCourses}
-                />
-            ),
+            component: () => <SkiltrakNetwork />,
         },
         {
-            label: 'Blacklisted',
-            value: 'black-industries',
+            value: 'archived-industries',
+            label: 'Archived Industries',
             icon: Building2,
-            component: () => (
-                <BlacklistedTab
-                    data={blacklistedIndustriesData}
-                    onView={handleViewBlacklisted}
-                    onUnblock={handleUnblock}
-                />
-            ),
+            component: () => <ArchivedIndustries />,
         },
     ]
-    const tabss = [
-        {
-            label: 'Your Industries',
-            href: { pathname: 'industries', query: { tab: 'your-industries' } },
-            badge: { text: yourIndustriesData.length },
-            element: (
-                <YourIndustriesTab
-                    data={yourIndustriesData}
-                    getTotalCapacity={getTotalCapacity}
-                    getTotalPlacements={getTotalPlacements}
-                    getAvailablePositions={getAvailablePositions}
-                    onView={handleViewIndustry}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                />
-            ),
-        },
-        {
-            label: 'Global Directory',
-            href: {
-                pathname: 'industries',
-                query: { tab: 'global-directory' },
-            },
-            badge: { text: globalIndustriesData.length },
-            element: (
-                <GlobalDirectoryTab
-                    data={globalIndustriesData}
-                    getTotalCapacity={getTotalCapacity}
-                    getTotalPlacements={getTotalPlacements}
-                    getAvailablePositions={getAvailablePositions}
-                    onView={handleViewIndustry}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                />
-            ),
-        },
-        {
-            label: 'Future Industries',
-            href: {
-                pathname: 'industries',
-                query: { tab: 'future-industries' },
-            },
-            badge: { text: futureIndustriesData.length },
-            element: <FutureIndustriesTab />,
-        },
-        {
-            label: 'Pending',
-            href: { pathname: 'industries', query: { tab: 'pending' } },
-            badge: { text: pendingIndustriesData.length },
-            element: () => (
-                <PendingIndustriesTab
-                    data={pendingIndustriesData}
-                    onView={handleViewPending}
-                    onApproveCourses={handleApproveCourses}
-                />
-            ),
-        },
-        {
-            label: 'Blacklisted',
-            href: { pathname: 'industries', query: { tab: 'blacklisted' } },
-            badge: { text: blacklistedIndustriesData.length },
-            element: (
-                <BlacklistedTab
-                    data={blacklistedIndustriesData}
-                    onView={handleViewBlacklisted}
-                    onUnblock={handleUnblock}
-                />
-            ),
-        },
-    ]
-
     const stats = calculateHeaderStats(yourIndustriesData)
 
     return (

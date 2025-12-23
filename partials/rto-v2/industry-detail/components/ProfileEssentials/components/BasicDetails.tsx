@@ -52,7 +52,10 @@ export function BasicDetails() {
     )
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border border-[#E2E8F0] hover:shadow-md transition-all flex-1">
+        <div
+            id="basic-details"
+            className="bg-white rounded-xl shadow-sm border border-[#E2E8F0] hover:shadow-md transition-all flex-1"
+        >
             <div className="p-2.5">
                 <div className="flex items-center justify-between mb-1.5">
                     <h3 className="text-[#1A2332] flex items-center gap-1 text-xs">
@@ -106,9 +109,8 @@ export function BasicDetails() {
                             ? 'Hide Contact Information'
                             : 'Show Contact Information'}
                         <span
-                            className={`text-[10px] transition-transform ${
-                                showContactInfo ? 'rotate-180' : ''
-                            }`}
+                            className={`text-[10px] transition-transform ${showContactInfo ? 'rotate-180' : ''
+                                }`}
                         >
                             ▼
                         </span>

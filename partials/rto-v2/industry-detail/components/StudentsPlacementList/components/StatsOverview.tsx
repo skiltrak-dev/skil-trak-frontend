@@ -26,7 +26,7 @@ function StatCard({
     loading,
 }: StatCardProps) {
     return (
-        <Card className={`${bgGradient} rounded-lg p-2 border ${borderColor}`}>
+        <Card className={`${bgGradient} !rounded-md p-2 border ${borderColor}`}>
             <div className="flex items-center gap-2">
                 <div
                     className={`w-6 h-6 ${iconBgGradient} rounded-md flex items-center justify-center shadow-sm`}

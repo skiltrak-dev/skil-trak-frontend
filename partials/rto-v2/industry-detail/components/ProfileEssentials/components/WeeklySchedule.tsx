@@ -27,7 +27,6 @@ const timeSlotPresets: OptionType[] = [
     { label: 'Morning (9:00 AM - 12:00 PM)', value: 'morning' },
     { label: 'Afternoon (1:00 PM - 5:00 PM)', value: 'afternoon' },
     { label: 'All Day (9:00 AM - 5:00 PM)', value: 'allday' },
-    { label: 'Custom Time', value: 'custom' },
 ]
 
 export function WeeklySchedule({ schedule, onChange }: WeeklyScheduleProps) {
@@ -110,9 +109,9 @@ export function WeeklySchedule({ schedule, onChange }: WeeklyScheduleProps) {
     }
 
     return (
-        <div className="space-y-6 animate-in fade-in duration-500">
+        <div className="space-y-3 animate-in fade-in duration-500">
             {/* Day Selector - Horizontal Strip */}
-            <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+            <div className="bg-white px-4 py-2 rounded border border-slate-100 shadow-sm">
                 <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider mb-3 block flex items-center gap-2">
                     <CalendarDays className="w-4 h-4 text-emerald-500" />
                     Select Working Days
@@ -127,7 +126,7 @@ export function WeeklySchedule({ schedule, onChange }: WeeklyScheduleProps) {
                                 key={day.key}
                                 onClick={() => handleToggleDay(day.key)}
                                 className={`
-                                    flex-1 h-8 rounded flex flex-col items-center justify-center transition-all duration-200 border
+                                    flex-1 h-6 rounded-sm flex flex-col items-center justify-center transition-all duration-200 border
                                     ${
                                         isSelected
                                             ? 'bg-emerald-500 border-emerald-500 text-white shadow-emerald-200 shadow-lg scale-105'
@@ -145,7 +144,7 @@ export function WeeklySchedule({ schedule, onChange }: WeeklyScheduleProps) {
             </div>
 
             {/* Active Days Slots */}
-            <div className="space-y-4">
+            <div className="space-y-2">
                 {schedule
                     .filter((d) => d.isActive)
                     .map((day) => {
@@ -166,7 +165,7 @@ export function WeeklySchedule({ schedule, onChange }: WeeklyScheduleProps) {
                         return (
                             <div
                                 key={day.day}
-                                className="bg-white rounded-xl border border-slate-200 px-4 py-2 shadow-sm hover:shadow-md transition-shadow duration-300"
+                                className="bg-white rounded border border-slate-200 px-4 py-1 shadow-sm hover:shadow-md transition-shadow duration-300"
                             >
                                 <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                                     <div className="flex items-center gap-3 w-32">

@@ -1,6 +1,6 @@
 import { User, Plus } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { Supervisor } from './types'
+import { Supervisor } from '@types'
 import { SupervisorCard } from './SupervisorCard'
 
 interface SupervisorsSectionProps {

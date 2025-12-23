@@ -8,20 +8,24 @@ import {
     Eye,
 } from 'lucide-react'
 import { ChecklistItem } from './types'
+import { DocumentsView } from '@hooks'
+import { getFileExtensionByUrl } from '@utils'
 
 interface ChecklistItemCardProps {
     item: ChecklistItem
-    index: number
+    index?: number
     uploadingId: string | null
     onFileUpload: (itemId: string) => void
 }
 
 export function ChecklistItemCard({
     item,
-    index,
+    index = 0,
     uploadingId,
     onFileUpload,
 }: ChecklistItemCardProps) {
+    const { onFileClicked, documentsViewModal } = DocumentsView()
+
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'completed':
@@ -49,35 +53,39 @@ export function ChecklistItemCard({
     }
 
     return (
-        <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className="bg-white rounded-lg border border-[#E2E8F0] hover:shadow-lg transition-all overflow-hidden"
-        >
-            <div className="p-3">
-                <div className="flex items-start gap-2.5">
-                    {/* Status Icon */}
-                    <div
-                        className={`w-8 h-8 bg-gradient-to-br ${getStatusColor(
-                            item.status
-                        )} rounded-lg flex items-center justify-center flex-shrink-0 text-white shadow-md`}
-                    >
-                        {getStatusIcon(item.status)}
-                    </div>
+        <>
+            {documentsViewModal}
+            <motion.div
+                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, x: -20 }}
+                transition={{ delay: index * 0.05 }}
+                className="bg-white rounded-lg border border-[#E2E8F0] hover:shadow-lg transition-all overflow-hidden"
+            >
+                <div className="p-3">
+                    <div className="flex items-start gap-2.5">
+                        {/* Status Icon */}
+                        <div
+                            className={`w-8 h-8 bg-gradient-to-br ${getStatusColor(
+                                item.status
+                            )} rounded-lg flex items-center justify-center flex-shrink-0 text-white shadow-md`}
+                        >
+                            {getStatusIcon(item.status)}
+                        </div>
 
-                    {/* Content */}
-                    <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-2 mb-1">
-                            <div className="flex-1">
-                                <h4 className="text-xs font-bold text-[#1A2332] mb-0.5">
-                                    {item.title}
-                                </h4>
-                                <p className="text-[10px] text-[#64748B]">
-                                    {item.description}
-                                </p>
-                            </div>
-                            <div className="flex items-center gap-1">
+                        {/* Content */}
+                        <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between gap-2 mb-1">
+                                <div className="flex-1">
+                                    <h4 className="text-xs font-bold text-[#1A2332] mb-0.5">
+                                        {item?.documentName}
+                                    </h4>
+
+                                    <p className="text-[10px] text-[#64748B]">
+                                        Initiated by:{' '}
+                                        <strong>{item?.initiatedBy}</strong>
+                                    </p>
+                                </div>
+                                {/* <div className="flex items-center gap-1">
                                 <span
                                     className={`px-2 py-0.5 rounded-full text-[9px] font-medium ${
                                         item.status === 'completed'
@@ -87,67 +95,63 @@ export function ChecklistItemCard({
                                             : 'bg-[#EF4444]/10 text-[#EF4444]'
                                     }`}
                                 >
-                                    {item.status.charAt(0).toUpperCase() +
-                                        item.status.slice(1)}
+                                    {item.status}Saad
                                 </span>
+                            </div> */}
                             </div>
-                        </div>
 
-                        {/* Category & Due Date */}
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="text-[9px] px-1.5 py-0.5 bg-[#E8F4F8] text-[#044866] rounded-md font-medium">
-                                {item.category}
-                            </span>
-                            {item.dueDate && (
-                                <span className="text-[9px] text-[#64748B]">
-                                    Due:{' '}
-                                    {new Date(item.dueDate).toLocaleDateString(
-                                        'en-AU',
-                                        { month: 'short', day: 'numeric' }
-                                    )}
+                            {/* Category & Due Date */}
+                            <div className="flex items-center gap-2 mb-2">
+                                <span className="text-[9px] px-1.5 py-0.5 bg-[#E8F4F8] text-[#044866] rounded-md font-medium">
+                                    {item?.rtoName}
                                 </span>
-                            )}
-                        </div>
+                                {item.dueDate && (
+                                    <span className="text-[9px] text-[#64748B]">
+                                        Due:{' '}
+                                        {new Date(
+                                            item.dueDate
+                                        ).toLocaleDateString('en-AU', {
+                                            month: 'short',
+                                            day: 'numeric',
+                                        })}
+                                    </span>
+                                )}
+                            </div>
 
-                        {/* Action Buttons */}
-                        <div className="flex items-center gap-1.5">
-                            <motion.button
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                onClick={() => onFileUpload(item.id)}
-                                disabled={uploadingId === item.id}
-                                className="flex items-center gap-1 px-2.5 py-1 bg-[#044866] hover:bg-[#0D5468] text-white rounded-md text-[9px] font-medium transition-all disabled:opacity-50"
-                            >
-                                <Upload className="w-2.5 h-2.5" />
-                                {uploadingId === item.id
-                                    ? 'Uploading...'
-                                    : 'Upload'}
-                            </motion.button>
-
-                            {item.status === 'completed' && (
-                                <>
-                                    <motion.button
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        className="flex items-center gap-1 px-2.5 py-1 bg-[#F8FAFB] hover:bg-[#E8F4F8] text-[#044866] rounded-md text-[9px] font-medium transition-all border border-[#E2E8F0]"
-                                    >
-                                        <Eye className="w-2.5 h-2.5" />
-                                        View
-                                    </motion.button>
-                                    <motion.button
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        className="flex items-center gap-1 px-2.5 py-1 bg-[#F8FAFB] hover:bg-[#E8F4F8] text-[#044866] rounded-md text-[9px] font-medium transition-all border border-[#E2E8F0]"
-                                    >
-                                        <Download className="w-2.5 h-2.5" />
-                                        Download
-                                    </motion.button>
-                                </>
-                            )}
+                            {/* Action Buttons */}
+                            <div className="flex items-center gap-1.5">
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={() =>
+                                        onFileClicked({
+                                            file: item?.url,
+                                            extension: getFileExtensionByUrl(
+                                                item?.url
+                                            ),
+                                        })
+                                    }
+                                    className="cursor-pointer flex items-center gap-1 px-2.5 py-1 bg-[#F8FAFB] hover:bg-[#E8F4F8] text-[#044866] rounded-md text-[9px] font-medium transition-all border border-[#E2E8F0]"
+                                >
+                                    <Eye className="w-2.5 h-2.5" />
+                                    View
+                                </motion.button>
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={() =>
+                                        window.open(item?.url, '_blank')
+                                    }
+                                    className="cursor-pointer flex items-center gap-1 px-2.5 py-1 bg-[#F8FAFB] hover:bg-[#E8F4F8] text-[#044866] rounded-md text-[9px] font-medium transition-all border border-[#E2E8F0]"
+                                >
+                                    <Download className="w-2.5 h-2.5" />
+                                    Download
+                                </motion.button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </motion.div>
+            </motion.div>
+        </>
     )
 }

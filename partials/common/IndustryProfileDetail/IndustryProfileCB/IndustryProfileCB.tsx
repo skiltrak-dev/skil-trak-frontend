@@ -71,6 +71,7 @@ export const IndustryProfileCB = ({
             { id: id?.toString() },
             { skip: !id }
         )
+
     const onCancelModal = () => {
         setModal(null)
     }

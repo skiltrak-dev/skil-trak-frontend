@@ -8,18 +8,8 @@ import {
 import { RtoV2Api } from '@redux'
 import { useState } from 'react'
 import { IndustryFilterBar } from '../component'
-import { createYourIndustriesColumns } from '../component/columns'
+import { useYourIndustriesColumns } from '../component/columns'
 import { Industry } from '@types'
-
-interface YourIndustriesTabProps {
-    data: Industry[]
-    getTotalCapacity: (industry: Industry) => number
-    getTotalPlacements: (industry: Industry) => number
-    getAvailablePositions: (industry: Industry) => number
-    onView: (industry: Industry) => void
-    onEdit: (industry: Industry) => void
-    onDelete: (industry: Industry) => void
-}
 
 export const YourIndustriesTab = () => {
     const [searchTerm, setSearchTerm] = useState('')
@@ -35,10 +25,12 @@ export const YourIndustriesTab = () => {
         limit: itemPerPage,
     })
 
-    const columns = createYourIndustriesColumns()
+    const { getTableConfig, modal } = useYourIndustriesColumns()
+    const { columns } = getTableConfig()
 
     return (
         <div className="space-y-4">
+            {modal}
             <IndustryFilterBar
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
@@ -57,8 +49,8 @@ export const YourIndustriesTab = () => {
                 {industries?.isLoading || industries?.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : industries &&
-                  industries?.data?.data &&
-                  industries?.data?.data?.length ? (
+                    industries?.data?.data &&
+                    industries?.data?.data?.length ? (
                     <Table<Industry>
                         columns={columns}
                         data={industries?.data?.data}

@@ -1,4 +1,5 @@
 export * from './EditProfildeModal'
+export * from './IndustryNoteModal'
 export * from './BranchLocationsDialog'
 export * from './IndustryUnsnoozedModal'
 export * from './EmailVerificationDialog'

@@ -6,7 +6,7 @@ import { LucideIcon } from 'lucide-react'
 interface AnalyticsCardProps {
     card: {
         title: string
-        value: string
+        value: string | number
         change: string
         changeText: string
         icon: LucideIcon
@@ -24,6 +24,8 @@ interface AnalyticsCardProps {
     onClick: () => void
 }
 
+// ... (keeping previous imports)
+
 export function AnalyticsCard({
     card,
     index,
@@ -40,16 +42,16 @@ export function AnalyticsCard({
         >
             {/* Gradient Glow Effect on Hover */}
             <div
-                className={`absolute -inset-0.5 bg-gradient-to-r ${card.gradient} rounded-xl opacity-0 group-hover:opacity-20 blur transition-all duration-300`}
+                className={`absolute -inset-px bg-gradient-to-r ${card.gradient} rounded-xl opacity-0 group-hover:opacity-10 blur-sm transition-all duration-300`}
             />
 
             {/* Card Content */}
             <div
                 onClick={onClick}
-                className="relative w-full bg-white rounded-xl shadow-sm border border-[#E2E8F0] p-2.5 hover:shadow-lg transition-all duration-300 group-hover:scale-[1.02] card-hover overflow-hidden cursor-pointer text-left h-auto"
+                className="relative w-full bg-white rounded-md shadow-md border border-slate-100 p-2 hover:shadow-md transition-all duration-300 group-hover:-translate-y-0.5 overflow-hidden cursor-pointer text-left h-full flex flex-col justify-between"
             >
                 {/* Background Pattern */}
-                <div className="absolute top-0 right-0 w-16 h-16 opacity-5">
+                <div className="absolute top-0 right-0 w-12 h-12 opacity-[0.03]">
                     <div
                         className={`absolute inset-0 bg-gradient-to-br ${card.gradient}`}
                         style={{
@@ -58,104 +60,84 @@ export function AnalyticsCard({
                     />
                 </div>
 
-                <div className="relative">
-                    <div className="flex items-start justify-between mb-1.5">
-                        {/* Icon with Gradient */}
-                        <div
-                            className={`w-7 h-7 bg-gradient-to-br ${card.gradient} rounded-lg flex items-center justify-center shadow-md group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}
-                        >
-                            <Icon className="w-3.5 h-3.5 text-white" />
+                <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                            {/* Icon with Gradient */}
+                            <div
+                                className={`w-5 h-5 bg-gradient-to-br ${card.gradient} bg-opacity-10 rounded flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 ring-1 ring-white/50`}
+                            >
+                                <Icon
+                                    className="w-3 h-3 text-white"
+                                    strokeWidth={2.5}
+                                />
+                            </div>
+
+                            {/* Title */}
+                            <Typography
+                                variant="label"
+                                className="font-semibold text-slate-500 uppercase leading-none"
+                            >
+                                {card.title}
+                            </Typography>
                         </div>
 
                         {/* Trend Badge */}
                         {card.trend === 'up' && (
-                            <div className="flex items-center gap-0.5 bg-[#10B981]/10 text-[#10B981] px-1 py-0.5 rounded text-[8px] font-semibold border border-[#10B981]/20">
-                                <ArrowUp className="w-2 h-2" />
+                            <div className="flex items-center gap-0.5 bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded-full text-[8px] font-bold border border-emerald-100/50 shadow-sm">
+                                <ArrowUp className="w-2 h-2" strokeWidth={3} />
                                 <span>{card.percentage}%</span>
                             </div>
                         )}
 
                         {/* Urgent Badge */}
                         {card.trend === 'urgent' && (
-                            <div className="flex items-center gap-0.5 bg-[#EF4444]/10 text-[#EF4444] px-1 py-0.5 rounded text-[8px] font-semibold border border-[#EF4444]/20 animate-pulse">
+                            <div className="flex items-center gap-0.5 bg-rose-50 text-rose-600 px-1.5 py-0.5 rounded-full text-[8px] font-bold border border-rose-100/50 animate-pulse">
                                 <span>Urgent</span>
                             </div>
                         )}
                     </div>
 
-                    <div className="flex items-end justify-between">
-                        <div>
-                            <Typography variant="xs" color="text-[#64748B]">
-                                {card.title}
-                            </Typography>
-                            <Typography variant="h4" color="text-[#1A2332]">
+                    <div className="space-y-0.5">
+                        <div className="flex items-baseline gap-2">
+                            <span className="text-lg font-bold text-slate-800 tracking-tight">
                                 {card.value}
-                            </Typography>
-                        </div>
-                        <div className="flex items-center gap-1 text-[10px]">
-                            <span className="text-[#044866] font-semibold">
-                                {card.change}
                             </span>
-                            <span className="text-[#94A3B8]">•</span>
-                            <span className="text-[#94A3B8]">
-                                {card.changeText}
-                            </span>
+                            <div className="flex items-center gap-1 text-[11px] font-medium">
+                                <span
+                                    className={
+                                        card.trend === 'up'
+                                            ? 'text-emerald-600'
+                                            : 'text-slate-600'
+                                    }
+                                >
+                                    {card.change}
+                                </span>
+                                <span className="text-slate-300">•</span>
+                                <span className="text-slate-400  truncate max-w-[80px]">
+                                    {card.changeText}
+                                </span>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Mini Chart */}
-                    {card.showChart && (
-                        <div className="mt-1.5 h-7 -mx-1">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <AreaChart data={weeklyData}>
-                                    <defs>
-                                        <linearGradient
-                                            id={`gradient-${index}`}
-                                            x1="0"
-                                            y1="0"
-                                            x2="0"
-                                            y2="1"
-                                        >
-                                            <stop
-                                                offset="0%"
-                                                stopColor={card.color}
-                                                stopOpacity={0.3}
-                                            />
-                                            <stop
-                                                offset="100%"
-                                                stopColor={card.color}
-                                                stopOpacity={0}
-                                            />
-                                        </linearGradient>
-                                    </defs>
-                                    <Area
-                                        type="monotone"
-                                        dataKey="value"
-                                        stroke={card.color}
-                                        strokeWidth={1}
-                                        fill={`url(#gradient-${index})`}
-                                        dot={false}
-                                    />
-                                </AreaChart>
-                            </ResponsiveContainer>
-                        </div>
-                    )}
-
                     {/* Progress Bar */}
                     {card.showBar && (
-                        <div className="mt-1.5">
+                        <div className="mt-2">
                             <div className="flex items-center justify-between mb-0.5">
-                                <span className="text-[7px] text-[#64748B] font-medium">
-                                    Usage
+                                <span className="text-[8px] text-slate-500 font-semibold tracking-wide">
+                                    USAGE
                                 </span>
-                                <span className="text-[7px] text-[#044866] font-bold">
-                                    65%
+                                <span className="text-[8px] text-slate-700 font-bold">
+                                    {card.percentage || 0}%
                                 </span>
                             </div>
-                            <div className="h-1 bg-[#E8F4F8] rounded-full overflow-hidden">
+                            <div className="h-1 bg-slate-100 rounded-full overflow-hidden border border-slate-50">
                                 <div
                                     className={`h-full bg-gradient-to-r ${card.gradient} rounded-full transition-all duration-1000`}
-                                    style={{ width: '65%' }}
+                                    style={{
+                                        width: `${card.percentage || 0}%`,
+                                    }}
                                 />
                             </div>
                         </div>
@@ -163,7 +145,7 @@ export function AnalyticsCard({
 
                     {/* Action Button */}
                     {card.showButton && (
-                        <div className="mt-1.5 w-full px-2.5 py-1.5 bg-gradient-to-r from-[#F7A619] to-[#EA580C] text-white rounded-lg transition-all text-[10px] font-medium shadow-sm text-center">
+                        <div className="mt-2 w-full px-2 py-1 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-md transition-all text-[9px] font-bold shadow-sm text-center hover:shadow-md hover:from-amber-600 hover:to-orange-700 active:scale-95 cursor-pointer">
                             {card.buttonText}
                         </div>
                     )}
