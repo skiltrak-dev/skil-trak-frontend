@@ -305,10 +305,21 @@ export function PlacementChecklist() {
 
                                     return (
                                         <div
+                                            onClick={() =>
+                                                !isDone &&
+                                                dispatch(
+                                                    setNavigationTarget({
+                                                        tab: (item as any)
+                                                            .targetTab,
+                                                        section: (item as any)
+                                                            .targetSection,
+                                                    })
+                                                )
+                                            }
                                             key={index}
                                             className={`relative group overflow-hidden rounded-xl transition-all duration-300 ${isDone
-                                                ? 'bg-gradient-to-br from-[#10B981]/10 to-transparent border border-[#10B981]/30 hover:border-[#10B981]/50 hover:shadow-lg'
-                                                : 'bg-white border border-[#E2E8F0] hover:border-[#044866]/30 hover:shadow-xl hover:scale-105'
+                                                    ? 'bg-gradient-to-br from-[#10B981]/10 to-transparent border border-[#10B981]/30 hover:border-[#10B981]/50 hover:shadow-lg'
+                                                    : 'bg-white border border-[#E2E8F0] hover:border-[#044866]/30 hover:shadow-xl hover:scale-105'
                                                 }`}
                                             style={{
                                                 animationDelay: `${index * 50
@@ -325,8 +336,8 @@ export function PlacementChecklist() {
                                                     {/* Icon */}
                                                     <div
                                                         className={`relative w-8 h-8 rounded-lg flex items-center justify-center shadow-lg transition-all duration-300 ${isDone
-                                                            ? 'bg-gradient-to-br from-[#10B981] to-[#059669] group-hover:scale-110 group-hover:rotate-6'
-                                                            : 'bg-gradient-to-br from-[#E8F4F8] to-[#F8FAFB] group-hover:scale-110'
+                                                                ? 'bg-gradient-to-br from-[#10B981] to-[#059669] group-hover:scale-110 group-hover:rotate-6'
+                                                                : 'bg-gradient-to-br from-[#E8F4F8] to-[#F8FAFB] group-hover:scale-110'
                                                             }`}
                                                     >
                                                         {isDone ? (
@@ -348,16 +359,16 @@ export function PlacementChecklist() {
                                                 <div>
                                                     <h4
                                                         className={`text-xs font-semibold mb-1 ${isDone
-                                                            ? 'text-[#10B981]'
-                                                            : 'text-[#1A2332]'
+                                                                ? 'text-[#10B981]'
+                                                                : 'text-[#1A2332]'
                                                             }`}
                                                     >
                                                         {item.title}
                                                     </h4>
                                                     <p
                                                         className={`text-[10px] mb-2 ${isDone
-                                                            ? 'text-[#059669]'
-                                                            : 'text-[#64748B]'
+                                                                ? 'text-[#059669]'
+                                                                : 'text-[#64748B]'
                                                             }`}
                                                     >
                                                         {item.description}
@@ -369,26 +380,7 @@ export function PlacementChecklist() {
                                                             Completed
                                                         </div>
                                                     ) : (
-                                                        <button
-                                                            className="text-[10px] text-[#044866] hover:text-[#0D5468] font-medium flex items-center gap-1.5 group-hover:gap-2 transition-all"
-                                                            onClick={() =>
-                                                                dispatch(
-                                                                    setNavigationTarget(
-                                                                        {
-                                                                            tab: (
-                                                                                item as any
-                                                                            )
-                                                                                .targetTab,
-                                                                            section:
-                                                                                (
-                                                                                    item as any
-                                                                                )
-                                                                                    .targetSection,
-                                                                        }
-                                                                    )
-                                                                )
-                                                            }
-                                                        >
+                                                        <button className="text-[10px] text-[#044866] hover:text-[#0D5468] font-medium flex items-center gap-1.5 group-hover:gap-2 transition-all">
                                                             <span>
                                                                 Complete Task
                                                             </span>

@@ -101,7 +101,10 @@ export const industriesEndpoints = (
     }),
 
     getIndutryAvailableWorkingHours: builder.query<any, number>({
-        query: (id) => `${INDUSTRIESPREFIX}${id}/working-hours/list`,
+        query: (id) => ({
+            url: `${INDUSTRIESPREFIX}working-hours/list`,
+            params: { userId: id },
+        }),
         providesTags: ['RTOIndustries'],
     }),
 

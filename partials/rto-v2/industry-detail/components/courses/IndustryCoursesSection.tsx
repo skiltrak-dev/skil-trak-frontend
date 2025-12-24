@@ -8,6 +8,7 @@ import { EditCourseCapacityDialog } from '../courses/modals/EditCourseCapacityDi
 import { EditSectorMetricsDialog } from '../courses/modals/EditSectorMetricsDialog'
 import { SectorCard } from '../courses/SectorCard'
 import { IndustrySectorGroup, useCoursesData } from './hooks'
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 
 export function IndustryCoursesSection() {
     const [searchQuery, setSearchQuery] = useState('')
@@ -36,7 +37,7 @@ export function IndustryCoursesSection() {
         }
     }, [sectorCapacityData, dispatch])
 
-    const { data: coursesDetails } = RtoV2Api.Industries.industryCoursesDetails(
+    const coursesDetails = RtoV2Api.Industries.industryCoursesDetails(
         {
             userId: industry?.user?.id,
         },
@@ -46,7 +47,9 @@ export function IndustryCoursesSection() {
     )
 
     // Use API data directly without transformation
-    const coursesData = coursesDetails ? groupBySector(coursesDetails) : []
+    const coursesData = coursesDetails?.data
+        ? groupBySector(coursesDetails?.data)
+        : []
 
     const saveSectorMetrics = (
         sectorId: number,
@@ -93,7 +96,7 @@ export function IndustryCoursesSection() {
     }).length
 
     return (
-        <div id="courses" className="space-y-5">
+        <div id="courses" className="space-y-5 px-4">
             {/* Premium Header Section */}
             <CoursesHeaderSection
                 showSearch={showSearch}
@@ -110,13 +113,26 @@ export function IndustryCoursesSection() {
 
             {/* Sector Cards - Enhanced Design */}
             <div id="capacity" className="space-y-3">
-                {coursesData.map((group, sectorIndex) => (
-                    <SectorCard
-                        key={group.sector.id}
-                        sector={group}
-                        sectorIndex={sectorIndex}
+                {coursesDetails?.isError && <TechnicalError />}
+                {coursesDetails?.isLoading || coursesDetails?.isFetching ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : coursesDetails?.isSuccess &&
+                    coursesDetails?.data &&
+                    coursesDetails?.data?.length > 0 ? (
+                    coursesData.map((group, sectorIndex) => (
+                        <SectorCard
+                            key={group.sector.id}
+                            sector={group}
+                            sectorIndex={sectorIndex}
+                        />
+                    ))
+                ) : (
+                    <EmptyData
+                        height="40vh"
+                        title="No courses found"
+                        description="No courses found for this industry"
                     />
-                ))}
+                )}
             </div>
 
             {/* Edit Dialogs */}

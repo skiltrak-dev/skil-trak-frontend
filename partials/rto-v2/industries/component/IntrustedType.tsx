@@ -12,7 +12,7 @@ export const IntrustedType = ({
     industryId,
     initialValue,
 }: IntrustedTypeProps) => {
-    const [value, setValue] = useState(
+    const [value, setValue] = useState<'interested' | 'notInterested'>(
         initialValue ? 'interested' : 'notInterested'
     )
     const [updateInterestedType, { isLoading }] =
@@ -24,7 +24,7 @@ export const IntrustedType = ({
         { label: 'Not Interested', value: 'notInterested' },
     ]
 
-    const handleChange = async (val: string) => {
+    const handleChange = async (val: 'interested' | 'notInterested') => {
         setValue(val)
         try {
             await updateInterestedType({
@@ -41,7 +41,7 @@ export const IntrustedType = ({
                 description: 'Failed to update interest status',
             })
             // Revert value on error
-            setValue(initialValue || 'interested')
+            setValue(initialValue ? 'interested' : 'notInterested')
         }
     }
 

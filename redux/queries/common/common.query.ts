@@ -311,6 +311,7 @@ export const commonApi = apiSlice.injectEndpoints({
                 'Industries',
                 'SubAdminRtos',
                 'SubAdminStudents',
+                'RTOIndustries',
             ],
         }),
 

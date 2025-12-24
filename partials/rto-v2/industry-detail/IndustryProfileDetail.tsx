@@ -43,10 +43,20 @@ export const IndustryProfileDetail = () => {
             if (tab) {
                 // Scroll to operational modules first if a tab is specified
                 if (operationalModulesRef.current) {
-                    operationalModulesRef.current.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start',
-                    })
+                    // Find the scrollable container
+                    const scrollContainer = document.getElementById('main-content-scroll')
+
+                    if (scrollContainer) {
+                        const containerRect = scrollContainer.getBoundingClientRect()
+                        const elementRect = operationalModulesRef.current.getBoundingClientRect()
+                        const relativeTop = elementRect.top - containerRect.top
+                        const scrollOffset = 100 // Offset for navbar
+
+                        scrollContainer.scrollTo({
+                            top: scrollContainer.scrollTop + relativeTop - scrollOffset,
+                            behavior: 'smooth',
+                        })
+                    }
                 }
             }
 

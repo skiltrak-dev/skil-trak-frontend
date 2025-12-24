@@ -80,10 +80,9 @@ const rtoTagTypes = [
     'RTOAppointment',
     'ContactPersons',
     'Rto-Coordinators',
+    'RTOIndustryCredits',
     'RtoAssessmentToolsList',
 ]
-
-const rtoV2TagTypes = []
 
 const industryTagTypes = [
     'RPL',
@@ -194,7 +193,6 @@ export const apiSlice = createApi({
     }),
     tagTypes: [
         ...rtoTagTypes,
-        ...rtoV2TagTypes,
         ...adminTagTypes,
         ...commonTagTypes,
         ...studentTagTypes,

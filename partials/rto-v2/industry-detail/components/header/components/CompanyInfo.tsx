@@ -5,19 +5,7 @@ import { BadgeState } from '../types'
 import { Typography } from '@components'
 import { useAppSelector } from '@redux/hooks'
 
-interface CompanyInfoProps {
-    companyName: string
-    location: string
-    badges: BadgeState
-    onToggleBadge: (badgeType: 'verified' | 'premium' | 'topRated') => void
-}
-
-export function CompanyInfo({
-    companyName,
-    location,
-    badges,
-    onToggleBadge,
-}: CompanyInfoProps) {
+export function CompanyInfo() {
     const industryDetail = useAppSelector(
         (state) => state.industry.industryDetail
     )
@@ -33,7 +21,7 @@ export function CompanyInfo({
                     <TrendingUp className="w-2.5 h-2.5 text-[#10B981]" />
                 </div>
 
-                <CompanyBadges badges={badges} onToggleBadge={onToggleBadge} />
+                <CompanyBadges industry={industryDetail!} />
 
                 <Typography
                     variant="small"

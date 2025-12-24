@@ -21,7 +21,7 @@ export const useCourseSelection = () => {
     )
 
     const studentWorkplace = SubAdminApi.Student.getWorkplaceForSchedule(
-        studentDetail?.id,
+        Number(studentDetail?.id),
         {
             skip: !studentDetail,
         }

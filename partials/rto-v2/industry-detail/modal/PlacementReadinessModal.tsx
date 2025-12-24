@@ -11,6 +11,8 @@ import {
 import { Dialog, DialogContent } from '@components/ui/dialog'
 import { Button } from '@components'
 import { ScrollArea } from '@components/ui/scroll-area'
+import { useAppDispatch } from '@redux/hooks'
+import { setNavigationTarget } from '@redux'
 
 export interface ChecklistTask {
     id: string
@@ -22,6 +24,8 @@ export interface ChecklistTask {
     icon?: any
     color?: string
     status?: string
+    targetTab?: string
+    targetSection?: string
 }
 
 
@@ -36,6 +40,7 @@ export function PlacementReadinessModal({
     onClose,
     tasks,
 }: PlacementReadinessModalProps) {
+    const dispatch = useAppDispatch()
     const [showDetails, setShowDetails] = useState(true)
     const [taskList, setTaskList] = useState(tasks || [])
 
@@ -43,12 +48,16 @@ export function PlacementReadinessModal({
     const totalTasks = taskList.length
     const progressPercentage = (completedTasks / totalTasks) * 100
 
-    const handleCompleteTask = (taskId: string) => {
-        setTaskList(
-            taskList.map((task) =>
-                task.id === taskId ? { ...task, completed: true } : task
-            )
+    const handleCompleteTask = (task: ChecklistTask) => {
+        // Navigate to the section/tab
+        dispatch(
+            setNavigationTarget({
+                tab: task.targetTab,
+                section: task.targetSection,
+            })
         )
+        // Close the modal
+        onClose()
     }
 
     return (
@@ -290,9 +299,18 @@ export function PlacementReadinessModal({
                                                                 )}
                                                             </h4>
                                                             {task.completed ? (
-                                                                <span className="px-2 py-0.5 bg-[#10B981]/20 text-[#059669] rounded-full text-xs font-medium whitespace-nowrap">
-                                                                    Completed
-                                                                </span>
+                                                                <Button
+                                                                    variant="secondary"
+                                                                    outline
+                                                                    onClick={() =>
+                                                                        handleCompleteTask(
+                                                                            task
+                                                                        )
+                                                                    }
+                                                                    className="px-3 py-1 text-[10px] h-auto rounded-lg border-[#10B981]/30 text-[#059669] hover:bg-[#10B981]/10"
+                                                                >
+                                                                    View Section
+                                                                </Button>
                                                             ) : (
                                                                 <motion.button
                                                                     whileHover={{
@@ -303,7 +321,7 @@ export function PlacementReadinessModal({
                                                                     }}
                                                                     onClick={() =>
                                                                         handleCompleteTask(
-                                                                            task.id
+                                                                            task
                                                                         )
                                                                     }
                                                                     className="px-3 py-1 bg-gradient-to-br from-[#044866] to-[#0D5468] text-white rounded-lg text-xs font-medium hover:shadow-md transition-all whitespace-nowrap"

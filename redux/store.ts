@@ -26,6 +26,7 @@ export const store = configureStore({
         getDefaultMiddleware().concat([
             authApi.middleware,
             apiSlice.middleware,
+            stripeApi.middleware,
             refreshTokenApi.middleware,
         ]),
 })

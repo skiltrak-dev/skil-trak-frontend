@@ -32,15 +32,6 @@ export function EditCourseCapacityDialog({
         capacity: 0,
     })
 
-    useEffect(() => {
-        if (course) {
-            setValues({
-                students: course.students,
-                capacity: course.capacity,
-            })
-        }
-    }, [course])
-
     const handleSave = () => {
         if (course) {
             onSave(course.id, values)

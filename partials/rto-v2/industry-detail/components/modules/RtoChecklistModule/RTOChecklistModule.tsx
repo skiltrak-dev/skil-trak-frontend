@@ -1,18 +1,14 @@
-import { useEffect, useMemo, useState } from 'react'
-import {
-    RTOAccessNotice,
-    ChecklistStats,
-    CategoryFilter,
-    ChecklistItemsList,
-    checklistItems,
-} from './components'
 import { IndustryApi, RtoV2Api } from '@redux'
 import { useAppSelector } from '@redux/hooks'
 import { Sector } from '@types'
+import { useEffect, useMemo, useState } from 'react'
+import {
+    CategoryFilter,
+    ChecklistItemsList,
+    RTOAccessNotice,
+} from './components'
 
 export function RTOChecklistModule() {
-    const [selectedCategory, setSelectedCategory] = useState<string>('all')
-    const [uploadingId, setUploadingId] = useState<string | null>(null)
     const [selectedSector, setSelectedSector] = useState<number | null>(null)
 
     const industryDetail = useAppSelector(
@@ -54,14 +50,6 @@ export function RTOChecklistModule() {
         }
     }, [sectorOptions, selectedSector])
 
-    const handleFileUpload = (itemId: string) => {
-        setUploadingId(itemId)
-        // Simulate upload
-        setTimeout(() => {
-            setUploadingId(null)
-        }, 1500)
-    }
-
     return (
         <div className="space-y-4 px-4">
             <RTOAccessNotice />
@@ -71,11 +59,7 @@ export function RTOChecklistModule() {
                 onSectorChange={setSelectedSector}
             />
 
-            <ChecklistItemsList
-                items={checklist.data || []}
-                uploadingId={uploadingId}
-                onFileUpload={handleFileUpload}
-            />
+            <ChecklistItemsList items={checklist.data || []} />
         </div>
     )
 }

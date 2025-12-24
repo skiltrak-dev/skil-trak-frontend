@@ -5,33 +5,29 @@ import { useAppSelector } from '@redux/hooks'
 import { UserStatus } from '@types'
 
 interface StatusBannerProps {
-    industryStatus: IndustryStatus
     profileCompletion: number
     isPlacementReady: boolean
-    snoozedStartDate: string
-    snoozedEndDate: string
-    capacityAvailableDate: string
 }
 
 export function StatusBanner({
-    industryStatus,
     profileCompletion,
     isPlacementReady,
-    snoozedStartDate,
-    snoozedEndDate,
-    capacityAvailableDate,
 }: StatusBannerProps) {
     const industryDetail = useAppSelector(
         (state) => state.industry.industryDetail
     )
+
+    const isBlocked = industryDetail?.user?.status === UserStatus.Blocked
+    const isSnoozed = industryDetail?.isSnoozed
+    const snoozedStartDate = industryDetail?.snoozedAt
+    const snoozedEndDate = industryDetail?.snoozedDate
+
     return (
         <div
             className={`relative px-4 py-2 overflow-hidden ${
-                industryDetail?.user?.status === UserStatus.Blocked
+                isBlocked
                     ? 'bg-gradient-to-r from-[#EF4444] via-[#DC2626] to-[#EF4444]'
-                    : industryStatus.noCapacity
-                    ? 'bg-gradient-to-r from-[#8B5CF6] via-[#7C3AED] to-[#8B5CF6]'
-                    : industryStatus.snoozed
+                    : isSnoozed
                     ? 'bg-gradient-to-r from-[#F7A619] via-[#EA580C] to-[#F7A619]'
                     : isPlacementReady
                     ? 'bg-gradient-to-r from-[#10B981] via-[#059669] to-[#10B981]'
@@ -45,11 +41,9 @@ export function StatusBanner({
                 <div className="flex items-center gap-2">
                     <div className="relative">
                         <div className="w-6 h-6 bg-white/20 backdrop-blur-md rounded-lg flex items-center justify-center shadow-2xl border border-white/30">
-                            {industryStatus.blocked ? (
+                            {isBlocked ? (
                                 <Ban className="w-3 h-3 text-white" />
-                            ) : industryStatus.noCapacity ? (
-                                <XCircle className="w-3 h-3 text-white" />
-                            ) : industryStatus.snoozed ? (
+                            ) : isSnoozed ? (
                                 <Clock className="w-3 h-3 text-white" />
                             ) : isPlacementReady ? (
                                 <svg
@@ -72,30 +66,18 @@ export function StatusBanner({
                     </div>
                     <div>
                         <Typography variant="title" color={'text-white'} bold>
-                            {industryStatus.blocked
+                            {isBlocked
                                 ? '🚫 Industry Blocked'
-                                : industryStatus.noCapacity
-                                ? '⭕ No Capacity Available'
-                                : industryStatus.snoozed
+                                : isSnoozed
                                 ? '💤 Industry Snoozed'
                                 : isPlacementReady
                                 ? '✓ Placement Ready'
                                 : '⚡ Complete Your Profile'}
                         </Typography>
                         <Typography variant="label" color={'text-white/95'}>
-                            {industryStatus.blocked
+                            {isBlocked
                                 ? 'This industry is currently blocked and cannot accept placements'
-                                : industryStatus.noCapacity
-                                ? capacityAvailableDate
-                                    ? `No capacity available until ${new Date(
-                                          capacityAvailableDate
-                                      ).toLocaleDateString('en-US', {
-                                          month: 'short',
-                                          day: 'numeric',
-                                          year: 'numeric',
-                                      })}`
-                                    : 'This industry has no capacity to accept new students at this time'
-                                : industryStatus.snoozed
+                                : isSnoozed
                                 ? snoozedStartDate && snoozedEndDate
                                     ? `Snoozed from ${new Date(
                                           snoozedStartDate
@@ -118,45 +100,43 @@ export function StatusBanner({
                 </div>
 
                 {/* Circular Progress Ring - Only show when not in special states */}
-                {!industryStatus.blocked &&
-                    !industryStatus.noCapacity &&
-                    !industryStatus.snoozed && (
-                        <div className="relative w-7 h-7">
-                            <svg className="w-7 h-7 transform -rotate-90">
-                                <circle
-                                    cx="14"
-                                    cy="14"
-                                    r="11"
-                                    stroke="white"
-                                    strokeOpacity="0.2"
-                                    strokeWidth="2"
-                                    fill="none"
-                                />
-                                <circle
-                                    cx="14"
-                                    cy="14"
-                                    r="11"
-                                    stroke="white"
-                                    strokeWidth="2"
-                                    fill="none"
-                                    strokeDasharray={`${2 * Math.PI * 11}`}
-                                    strokeDashoffset={`${
-                                        2 *
-                                        Math.PI *
-                                        11 *
-                                        (1 - profileCompletion / 100)
-                                    }`}
-                                    strokeLinecap="round"
-                                    className="transition-all duration-1000 drop-shadow-lg"
-                                />
-                            </svg>
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="text-white font-bold text-[8px]">
-                                    {profileCompletion}%
-                                </span>
-                            </div>
+                {!isBlocked && !isSnoozed && (
+                    <div className="relative w-7 h-7">
+                        <svg className="w-7 h-7 transform -rotate-90">
+                            <circle
+                                cx="14"
+                                cy="14"
+                                r="11"
+                                stroke="white"
+                                strokeOpacity="0.2"
+                                strokeWidth="2"
+                                fill="none"
+                            />
+                            <circle
+                                cx="14"
+                                cy="14"
+                                r="11"
+                                stroke="white"
+                                strokeWidth="2"
+                                fill="none"
+                                strokeDasharray={`${2 * Math.PI * 11}`}
+                                strokeDashoffset={`${
+                                    2 *
+                                    Math.PI *
+                                    11 *
+                                    (1 - profileCompletion / 100)
+                                }`}
+                                strokeLinecap="round"
+                                className="transition-all duration-1000 drop-shadow-lg"
+                            />
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="text-white font-bold text-[8px]">
+                                {profileCompletion}%
+                            </span>
                         </div>
-                    )}
+                    </div>
+                )}
             </div>
         </div>
     )

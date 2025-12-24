@@ -1,32 +1,25 @@
-import { motion } from 'framer-motion'
-import {
-    Check,
-    AlertCircle,
-    FileText,
-    Upload,
-    Download,
-    Eye,
-} from 'lucide-react'
-import { ChecklistItem } from './types'
 import { DocumentsView } from '@hooks'
+import { motion } from 'framer-motion'
 import { getFileExtensionByUrl } from '@utils'
+import { AlertCircle, Check, Download, Eye, FileText } from 'lucide-react'
 
 interface ChecklistItemCardProps {
-    item: ChecklistItem
+    item: {
+        isExist: boolean
+        documentName: string
+        initiatedBy: string
+        rtoName: string
+        dueDate: string
+        url: string
+        status: 'completed' | 'pending' | 'required'
+    }
     index?: number
-    uploadingId: string | null
-    onFileUpload: (itemId: string) => void
 }
 
-export function ChecklistItemCard({
-    item,
-    index = 0,
-    uploadingId,
-    onFileUpload,
-}: ChecklistItemCardProps) {
+export function ChecklistItemCard({ item, index = 0 }: ChecklistItemCardProps) {
     const { onFileClicked, documentsViewModal } = DocumentsView()
 
-    const getStatusColor = (status: string) => {
+    const getStatusColor = (status: 'completed' | 'pending' | 'required') => {
         switch (status) {
             case 'completed':
                 return 'from-[#10B981] to-[#059669]'
@@ -39,7 +32,7 @@ export function ChecklistItemCard({
         }
     }
 
-    const getStatusIcon = (status: string) => {
+    const getStatusIcon = (status: 'completed' | 'pending' | 'required') => {
         switch (status) {
             case 'completed':
                 return <Check className="w-3 h-3" />
@@ -50,6 +43,27 @@ export function ChecklistItemCard({
             default:
                 return <FileText className="w-3 h-3" />
         }
+    }
+
+    console.log({ item })
+
+    if (!item?.isExist) {
+        return (
+            <div className="bg-white rounded-lg border border-[#E2E8F0] hover:shadow-lg transition-all overflow-hidden">
+                <div className="p-3">
+                    <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 bg-gradient-to-br from-[#64748B] to-[#475569] rounded-lg flex items-center justify-center flex-shrink-0 text-white shadow-md">
+                            <FileText className="w-3 h-3" />
+                        </div>
+                        <div className="flex-1">
+                            <h4 className="text-xs font-bold text-[#1A2332] mb-0.5">
+                                No Checklist Found
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     return (

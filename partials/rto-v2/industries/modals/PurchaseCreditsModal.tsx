@@ -1,16 +1,25 @@
-import React from 'react'
-import { Zap, Sparkles, Star, Info } from 'lucide-react'
+import { Badge, Button, Card, Typography } from '@components'
+import { Alert, AlertDescription } from '@components/ui/alert'
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogDescription,
-    DialogFooter,
 } from '@components/ui/dialog'
-import { Card, Button, Badge } from '@components'
-import { Alert, AlertDescription } from '@components/ui/alert'
+import { ScrollArea } from '@components/ui/scroll-area'
 import { useNotification } from '@hooks'
+import { Info, Sparkles, Star, Zap } from 'lucide-react'
+import React, { useState } from 'react'
+import { RtoPurchaseCreditCard } from '../card'
+import { StripePaymentFlow } from './components/StripePaymentFlow'
+import { PaymentStatus } from './components/PaymentStatus'
+
+export interface CreditPackage {
+    credits: number
+    price: number
+    popular: boolean
+}
 
 interface PurchaseCreditsModalProps {
     open: boolean
@@ -19,6 +28,12 @@ interface PurchaseCreditsModalProps {
     onPurchase: (amount: number) => void
 }
 
+const CREDIT_PACKAGES: CreditPackage[] = [
+    { credits: 10, price: 99, popular: false },
+    { credits: 50, price: 449, popular: true },
+    { credits: 100, price: 799, popular: false },
+]
+
 export const PurchaseCreditsModal = ({
     open,
     onOpenChange,
@@ -26,117 +41,125 @@ export const PurchaseCreditsModal = ({
     onPurchase,
 }: PurchaseCreditsModalProps) => {
     const { notification } = useNotification()
+    const [clientSecret, setClientSecret] = useState<string | null>(null)
+    const [selectedPkg, setSelectedPkg] = useState<CreditPackage | null>(null)
+    const [showSuccess, setShowSuccess] = useState(false)
+
+    const resetPaymentState = () => {
+        setClientSecret(null)
+        setSelectedPkg(null)
+        setShowSuccess(false)
+    }
+
+    const handleSuccess = () => {
+        if (selectedPkg) {
+            onPurchase(selectedPkg.credits)
+            setShowSuccess(true)
+        }
+    }
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                    <DialogTitle className="text-xl flex items-center gap-2">
-                        <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-accent to-warning flex items-center justify-center">
-                            <Zap className="h-4 w-4 text-white" />
-                        </div>
-                        Purchase Workplace Request Credits
-                    </DialogTitle>
-                    <DialogDescription>
-                        Each credit = 1 AI-matched workplace request from the
-                        SkilTrak Network
-                    </DialogDescription>
-                </DialogHeader>
+        <Dialog
+            open={open}
+            onOpenChange={(val) => {
+                onOpenChange(val)
+                if (!val) {
+                    // Slight delay to avoid layout jump during exit animation
+                    setTimeout(resetPaymentState, 300)
+                }
+            }}
+        >
+            <DialogContent className="!max-w-2xl !w-full max-h-[90vh] flex flex-col p-0 overflow-hidden border-primary/20 bg-white shadow-premium-lg">
+                {!showSuccess && (
+                    <DialogHeader className="p-4 pb-0">
+                        <DialogTitle className="text-lg flex items-center gap-2 text-primaryNew">
+                            <div className="h-8 w-8 rounded-lg bg-primaryNew flex items-center justify-center shadow-premium">
+                                <Zap className="h-4 w-4 text-white" />
+                            </div>
+                            {clientSecret
+                                ? 'Secure Checkout'
+                                : 'Purchase Credits'}
+                        </DialogTitle>
+                        <DialogDescription className="text-xs text-muted-foreground mt-1">
+                            {clientSecret
+                                ? `Complete your purchase for ${selectedPkg?.credits} credits`
+                                : 'Each credit = 1 AI-matched workplace request from the SkilTrak Network'}
+                        </DialogDescription>
+                    </DialogHeader>
+                )}
 
-                <div className="space-y-5 py-3">
-                    <Alert className="border-primary/40 bg-primary/5">
-                        <Sparkles className="h-4 w-4 text-primary" />
-                        <AlertDescription className="ml-2 text-sm">
-                            <p className="font-semibold mb-0.5">
-                                Current Balance: {workplaceCredits} credits
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                                Purchase more credits to access the SkilTrak
-                                Shareable Network
-                            </p>
-                        </AlertDescription>
-                    </Alert>
-
-                    <div className="grid md:grid-cols-3 gap-3">
-                        {[
-                            { credits: 10, price: 99, popular: false },
-                            { credits: 50, price: 449, popular: true },
-                            { credits: 100, price: 799, popular: false },
-                        ].map((pkg) => (
-                            <Card
-                                key={pkg.credits}
-                                className={`relative ${
-                                    pkg.popular
-                                        ? 'border-primary/50 shadow-premium ring-2 ring-primary/20'
-                                        : 'border-border/60'
-                                }`}
-                            >
-                                {pkg.popular && (
-                                    <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
-                                        <Badge className="bg-gradient-to-r from-primary to-secondary text-white px-2.5 py-0.5">
-                                            <Star className="h-3 w-3 mr-1" />
-                                            Popular
-                                        </Badge>
+                <ScrollArea className="flex-1 px-4 max-h-[450px] overflow-y-auto">
+                    <div className="space-y-4 py-4">
+                        {showSuccess ? (
+                            <PaymentStatus
+                                status="success"
+                                title="Payment Successful!"
+                                description={`Successfully added ${selectedPkg?.credits} credits to your account. You can now use them to match with industry partners.`}
+                                action={{
+                                    text: 'Awesome, Thanks!',
+                                    onClick: () => onOpenChange(false),
+                                }}
+                            />
+                        ) : !clientSecret ? (
+                            <>
+                                <div className="relative overflow-hidden rounded-xl bg-primary/5 border border-primary/10 p-3.5 group transition-all duration-300 hover:bg-primary/10">
+                                    <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl -mr-12 -mt-12 group-hover:bg-primary/20 transition-colors"></div>
+                                    <div className="relative flex items-center gap-3">
+                                        <div className="h-10 w-10 rounded-lg bg-white/50 backdrop-blur-sm flex items-center justify-center shadow-sm">
+                                            <Sparkles className="h-5 w-5 text-primary" />
+                                        </div>
+                                        <div>
+                                            <Typography
+                                                variant="label"
+                                                className="text-primaryNew font-bold text-[10px] uppercase tracking-wider"
+                                            >
+                                                Current Balance
+                                            </Typography>
+                                            <h2 className="text-2xl font-black text-primary leading-none mt-0.5">
+                                                {workplaceCredits}{' '}
+                                                <span className="text-[10px] font-medium opacity-60 uppercase">
+                                                    Credits
+                                                </span>
+                                            </h2>
+                                        </div>
                                     </div>
-                                )}
-                                <div className="p-5 text-center space-y-3">
-                                    <div>
-                                        <p className="text-2xl mb-0.5">
-                                            {pkg.credits}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground">
-                                            Credits
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="text-xl mb-0.5">
-                                            ${pkg.price}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground">
-                                            $
-                                            {(pkg.price / pkg.credits).toFixed(
-                                                2
-                                            )}{' '}
-                                            per credit
-                                        </p>
-                                    </div>
-                                    <Button
-                                        outline={!pkg.popular}
-                                        variant={'primaryNew'}
-                                        onClick={() => {
-                                            onPurchase(pkg.credits)
-                                            onOpenChange(false)
-                                            notification.success({
-                                                title: 'Success',
-                                                description: `Successfully purchased ${pkg.credits} credits!`,
-                                            })
-                                        }}
-                                    >
-                                        Purchase
-                                    </Button>
                                 </div>
-                            </Card>
-                        ))}
+
+                                <div className="grid md:grid-cols-3 gap-3">
+                                    {CREDIT_PACKAGES.map((pkg) => (
+                                        <RtoPurchaseCreditCard
+                                            pkg={pkg}
+                                            key={pkg.credits}
+                                            onSecretReceived={(secret, p) => {
+                                                setClientSecret(secret)
+                                                setSelectedPkg(p)
+                                            }}
+                                        />
+                                    ))}
+                                </div>
+
+                                <Alert className="border-border/50 bg-secondary/5 rounded-lg border-dashed p-3">
+                                    <Info className="h-3.5 w-3.5 text-secondary mt-0.5" />
+                                    <AlertDescription className="text-[10px] text-muted-foreground leading-relaxed ml-1">
+                                        <span className="font-bold text-gray-500 mr-1">
+                                            Expert Tip:
+                                        </span>
+                                        Credits never expire. Each credit
+                                        provides one high-quality matched
+                                        workplace option.
+                                    </AlertDescription>
+                                </Alert>
+                            </>
+                        ) : (
+                            <StripePaymentFlow
+                                clientSecret={clientSecret}
+                                amount={selectedPkg?.price || 0}
+                                onSuccess={handleSuccess}
+                                onCancel={resetPaymentState}
+                            />
+                        )}
                     </div>
-
-                    <Alert className="border-secondary/40 bg-secondary/5">
-                        <Info className="h-4 w-4 text-secondary" />
-                        <AlertDescription className="ml-2 text-xs">
-                            Credits never expire and can be used at any time.
-                            Each credit provides one matched workplace option
-                            through our 19-point matching system.
-                        </AlertDescription>
-                    </Alert>
-                </div>
-
-                <DialogFooter>
-                    <Button
-                        variant="secondary"
-                        onClick={() => onOpenChange(false)}
-                    >
-                        Close
-                    </Button>
-                </DialogFooter>
+                </ScrollArea>
             </DialogContent>
         </Dialog>
     )

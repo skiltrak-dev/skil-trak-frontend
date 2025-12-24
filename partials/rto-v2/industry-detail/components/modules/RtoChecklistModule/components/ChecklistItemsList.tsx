@@ -1,17 +1,19 @@
-import { ChecklistItem } from './types'
 import { ChecklistItemCard } from './ChecklistItemCard'
 
 interface ChecklistItemsListProps {
-    items: ChecklistItem[]
-    uploadingId: string | null
-    onFileUpload: (itemId: string) => void
+    items: {
+        id: number
+        isExist: boolean
+        documentName: string
+        initiatedBy: string
+        rtoName: string
+        dueDate: string
+        url: string
+        status: 'completed' | 'pending' | 'required'
+    }[]
 }
 
-export function ChecklistItemsList({
-    items,
-    uploadingId,
-    onFileUpload,
-}: ChecklistItemsListProps) {
+export function ChecklistItemsList({ items }: ChecklistItemsListProps) {
     if (Array.isArray(items)) {
         return (
             <div className="space-y-2.5">
@@ -20,8 +22,6 @@ export function ChecklistItemsList({
                         key={item.id}
                         item={item}
                         index={index}
-                        uploadingId={uploadingId}
-                        onFileUpload={onFileUpload}
                     />
                 ))}
             </div>
@@ -29,11 +29,7 @@ export function ChecklistItemsList({
     }
     return (
         <div className="space-y-2.5">
-            <ChecklistItemCard
-                item={items}
-                uploadingId={uploadingId}
-                onFileUpload={onFileUpload}
-            />
+            <ChecklistItemCard item={items} />
         </div>
     )
 }

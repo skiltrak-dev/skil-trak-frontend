@@ -10,7 +10,7 @@ import {
 } from '@components/ui/dialog'
 import { Button } from '@components'
 import { TextInput } from '@components'
-import { IndustrySectorGroup } from '../../_courses/hooks/useCoursesData'
+import { IndustrySectorGroup } from '../hooks'
 
 interface EditSectorMetricsDialogProps {
     open: boolean

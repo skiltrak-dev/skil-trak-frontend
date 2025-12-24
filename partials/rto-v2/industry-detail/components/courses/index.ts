@@ -14,17 +14,10 @@ export { CoursesSearchBar } from './CoursesSearchBar'
 // E-Signature
 export { ESignatureTimeline } from './ESignatureTimeline'
 
-// Supervisors
-export { SupervisorCard } from './SupervisorCard'
-export { SupervisorsSection } from './SupervisorsSection'
-
 // Courses
-export { CourseHeader } from './CourseHeader'
-export { CourseProgramsServices } from './CourseProgramsServices'
 export { CourseAgentNote } from './CourseAgentNote'
 export { CourseMetadata } from './CourseMetadata'
 export { CourseActionButtons } from './CourseActionButtons'
-export { CourseDetails } from './CourseDetails'
 export * from './courseCard'
 export { HighlightedTasks } from './HighlightedTasks'
 

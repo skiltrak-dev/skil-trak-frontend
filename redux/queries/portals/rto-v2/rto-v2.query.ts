@@ -5,6 +5,7 @@ import { coursesEndPoints } from './courses'
 import { dashboardEndpoints } from './dashboard'
 import { industriesEndpoints } from './industries'
 import { placementRequestsEndPoints } from './placementRequests'
+import { rtoIndustryCreditsEndpoints } from './rto-credits'
 import { studentDocumentsEndpoints } from './student-documents'
 import { studentsEndpoints } from './students'
 import { studentsWorkplaceEndpoints } from './students-workplace'
@@ -20,6 +21,7 @@ export const rtoV2Api = apiSlice.injectEndpoints({
         ...placementRequestsEndPoints(build),
         ...availableServicesEndpoints(build),
         ...studentsWorkplaceEndpoints(build),
+        ...rtoIndustryCreditsEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -106,6 +108,9 @@ const {
     useStatusChangeCourseFacilityChecklistMutation,
     useUpdateInterestedTypeMutation,
     useGetRtoIndustryDataCountQuery,
+
+    // ---- RTO Credits ---- //
+    useCreateIndustryCreditMutation,
 } = rtoV2Api
 
 export const RtoV2Api = {
@@ -194,5 +199,8 @@ export const RtoV2Api = {
             useStatusChangeCourseFacilityChecklistMutation,
         updateInterestedType: useUpdateInterestedTypeMutation,
         getRtoIndustryDataCount: useGetRtoIndustryDataCountQuery,
+    },
+    RtoCredits: {
+        createIndustryCredit: useCreateIndustryCreditMutation,
     },
 }

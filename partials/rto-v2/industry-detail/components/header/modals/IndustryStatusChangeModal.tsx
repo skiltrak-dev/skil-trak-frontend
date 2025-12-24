@@ -16,27 +16,31 @@ interface IndustryStatusChangeModalProps {
     open: boolean
     onOpenChange: (open: boolean) => void
     industryId: number
+    isBlocked?: boolean
 }
 
 export function IndustryStatusChangeModal({
     open,
     industryId,
     onOpenChange,
+    isBlocked = false,
 }: IndustryStatusChangeModalProps) {
     const [changeStatus, changeStatusResult] =
         RtoV2Api.Industries.industryUserStatusChange()
     const { notification } = useNotification()
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = async () => {
         const result: any = await changeStatus({
             id: industryId,
-            status: UserStatus.Blocked,
+            status: isBlocked ? UserStatus.Approved : UserStatus.Blocked,
         })
 
         if (result?.data) {
             notification.success({
-                title: 'Industry Blocked',
-                description: 'Industry blocked successfully',
+                title: isBlocked ? 'Industry Unblocked' : 'Industry Blocked',
+                description: isBlocked
+                    ? 'Industry unblocked successfully'
+                    : 'Industry blocked successfully',
             })
             onOpenChange(false)
         }
@@ -54,7 +58,7 @@ export function IndustryStatusChangeModal({
                             </div>
                             <div>
                                 <DialogTitle className="text-white font-bold">
-                                    Block Industry
+                                    {isBlocked ? 'Unblock Industry' : 'Block Industry'}
                                 </DialogTitle>
                             </div>
                         </div>
@@ -62,7 +66,8 @@ export function IndustryStatusChangeModal({
 
                     <div className="p-6">
                         <DialogDescription className="text-[#1A2332] text-sm mb-6">
-                            Are you sure you want to block this industry?
+                            Are you sure you want to {isBlocked ? 'unblock' : 'block'} this
+                            industry?
                         </DialogDescription>
 
                         <DialogFooter className="flex gap-3 sm:justify-end">
@@ -77,10 +82,10 @@ export function IndustryStatusChangeModal({
                                 onClick={onSubmit}
                                 loading={changeStatusResult.isLoading}
                                 disabled={changeStatusResult.isLoading}
-                                variant="error"
+                                variant={isBlocked ? 'primary' : 'error'}
                                 className="flex-1"
                             >
-                                Update Status
+                                {isBlocked ? 'Confirm Unblock' : 'Confirm Block'}
                             </Button>
                         </DialogFooter>
                     </div>
