@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { industrySlice, studentSlice } from './slice'
+import { industrySlice, studentSlice, rtoSlice } from './slice'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import { studentReducer, industryReducer } from './reducer'
+import { studentReducer, industryReducer, rtoReducer } from './reducer'
 import {
     apiSlice,
     authApi,
@@ -15,6 +15,7 @@ export const store = configureStore({
         // Add the generated reducer as a specific top-level slice
         student: studentReducer,
         industry: industryReducer,
+        rto: rtoReducer,
         [authApi.reducerPath]: authApi.reducer,
         [apiSlice.reducerPath]: industryApi.reducer,
         [stripeApi.reducerPath]: stripeApi.reducer,
@@ -42,9 +43,11 @@ export type AppDispatch = typeof store.dispatch
 // Using the slice's getInitialState return type for better type inference
 type StudentState = ReturnType<typeof studentSlice.getInitialState>
 type IndustryState = ReturnType<typeof industrySlice.getInitialState>
+type RtoState = ReturnType<typeof rtoSlice.getInitialState>
 export interface RootState {
     student: StudentState
     industry: IndustryState
+    rto: RtoState
     // RTK Query API slices (these are added dynamically)
     [authApi.reducerPath]: ReturnType<typeof authApi.reducer>
     [apiSlice.reducerPath]: ReturnType<typeof apiSlice.reducer>

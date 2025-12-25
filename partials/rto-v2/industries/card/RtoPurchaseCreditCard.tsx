@@ -17,7 +17,6 @@ export const RtoPurchaseCreditCard = ({
     const onPurchaseClicked = async (pkg: CreditPackage) => {
         const res: any = await createIndustryCredit({
             cost: pkg.price,
-            network: 'shareable',
             token: pkg.credits.toString(),
         })
         if (res?.data) {
@@ -33,10 +32,11 @@ export const RtoPurchaseCreditCard = ({
             <ShowErrorNotifications result={createIndustryCreditResult} />
             <Card
                 key={pkg.credits}
-                className={`border relative group transition-all duration-300 hover:scale-[1.02] p-0 overflow-hidden ${pkg.popular
+                className={`border relative group transition-all duration-300 hover:scale-[1.02] p-0 overflow-hidden ${
+                    pkg.popular
                         ? 'border-primaryNew/40 bg-white shadow-premium ring-2 ring-primaryNew/5'
                         : '!border-gray-200 bg-white/50 hover:bg-white'
-                    }`}
+                }`}
             >
                 {pkg.popular && (
                     <div className="absolute top-0 left-0 right-0 h-1 bg-primaryNew"></div>

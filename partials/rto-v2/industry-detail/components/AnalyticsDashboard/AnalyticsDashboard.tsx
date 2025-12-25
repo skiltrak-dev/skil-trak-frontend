@@ -26,8 +26,6 @@ export function AnalyticsDashboard() {
         }
     )
 
-    console.log({ industryindustryindustryindustry: industry })
-
     const overAllRating =
         CommonApi.Feedback.useOverAllIndustryRatingsFromStudent(
             { id: industry?.id || 0 },
@@ -50,7 +48,7 @@ export function AnalyticsDashboard() {
         },
         {
             title: 'Pending',
-            value: '18',
+            value: counts?.pending || 0,
             change: '5 urgent',
             changeText: 'needs attention',
             icon: Clock,
@@ -60,7 +58,7 @@ export function AnalyticsDashboard() {
         },
         {
             title: 'Interviews',
-            value: '12',
+            value: counts?.interview || 0,
             change: 'Next 7 days',
             changeText: '3 this week',
             icon: Calendar,
@@ -117,15 +115,10 @@ export function AnalyticsDashboard() {
     const [selectedCard, setSelectedCard] = useState<
         (typeof analyticsCards)[0] | null
     >(null)
-    const [editedValue, setEditedValue] = useState('')
 
     const handleCardClick = (card: (typeof analyticsCards)[0]) => {
         // setSelectedCard(card)
         // setEditedValue(card.value)
-    }
-
-    const handleCloseModal = () => {
-        setSelectedCard(null)
     }
 
     return (

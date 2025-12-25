@@ -39,8 +39,11 @@ import { IntrustedType } from '../IntrustedType'
 import { Progressbar } from '@partials/rto-v2/components/Progressbar'
 import { PendingIndustryFull } from '../../types'
 import { ComposeEmailModal } from '@partials/rto-v2/student-detail/components/Communications/modal/ComposeEmailModal'
+import { EditProfileModal } from '../../../industry-detail/components/header/modals/EditProfildeModal'
+import { useAppDispatch } from '@redux/hooks'
+import { setIndustryDetail } from '@redux/slice/industry.slice'
 
-type ActionKey = 'view' | 'edit' | 'delete' | 'approveCourses' | 'sendReminder'
+type ActionKey = 'view' | 'edit'
 
 type ColumnKey =
     | 'name'
@@ -80,6 +83,7 @@ export const useYourIndustriesColumns = () => {
     const router = useRouter()
     const { notification } = useNotification()
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const dispatch = useAppDispatch()
 
     const onModalCancelClicked = (): void => {
         setModal(null)
@@ -202,11 +206,13 @@ export const useYourIndustriesColumns = () => {
                     row.original.industrySectorCapacity || []
 
                 const totalCapacity = industrySectorCapacity.reduce(
-                    (acc: number, curr: any) => acc + Number(curr.capacity || 0),
+                    (acc: number, curr: any) =>
+                        acc + Number(curr.capacity || 0),
                     0
                 )
                 const totalEnrolled = industrySectorCapacity.reduce(
-                    (acc: number, curr: any) => acc + Number(curr.enrolled || 0),
+                    (acc: number, curr: any) =>
+                        acc + Number(curr.enrolled || 0),
                     0
                 )
 
@@ -235,7 +241,17 @@ export const useYourIndustriesColumns = () => {
                     industry?.industryCourseApprovals || []
                 )?.some((approval: any) => approval?.status === 'approved')
 
-                const hasCapacity = industry?.totalCapacity > 0
+                // logic updated based on user request to use industrySectorCapacity
+                const industrySectorCapacity =
+                    industry.industrySectorCapacity || []
+
+                const calculatedTotalCapacity = industrySectorCapacity.reduce(
+                    (acc: number, curr: any) =>
+                        acc + Number(curr.capacity || 0),
+                    0
+                )
+
+                const hasCapacity = calculatedTotalCapacity > 0
 
                 const hasWorkplaceType = !!industry?.workplaceType?.name
 
@@ -440,31 +456,15 @@ export const useYourIndustriesColumns = () => {
         edit: {
             text: 'Edit',
             Icon: Edit,
-            onClick: () => { },
-        },
-        delete: {
-            text: 'Delete',
-            Icon: Trash2,
-            onClick: () => { },
-            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-        },
-        approveCourses: {
-            text: 'Approve Courses',
-            Icon: CheckCircle2,
-            onClick: () => { },
-        },
-        sendReminder: {
-            text: (
-                <div className="flex items-center gap-2">
-                    <Send className="h-4 w-4 text-primary" />
-                    <span>Send Reminder</span>
-                </div>
-            ),
-            onClick: () =>
-                notification.success({
-                    title: 'Reminder Sent',
-                    description: 'Reminder email sent to complete setup',
-                }),
+            onClick: () => {
+                dispatch(setIndustryDetail(industry))
+                setModal(
+                    <EditProfileModal
+                        isOpen={true}
+                        onClose={onModalCancelClicked}
+                    />
+                )
+            },
         },
     })
 

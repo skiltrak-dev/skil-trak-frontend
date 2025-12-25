@@ -4,12 +4,28 @@ import { Card } from '@components/cards'
 import { Button } from '@components/buttons'
 import { Alert, AlertDescription } from '@components/ui/alert'
 import { PurchaseCreditsModal } from '../modals/PurchaseCreditsModal'
+import { RtoV2Api } from '@redux'
+import { Badge } from '@components'
 
-export const SkiltrakNetwork = () => {
-    // --- State ---
+interface SkiltrakNetworkProps {
+    searchTerm: string
+    courseId: string
+    filterStatus: string
+    stateFilter: string
+}
+
+export const SkiltrakNetwork: React.FC<SkiltrakNetworkProps> = ({
+    searchTerm,
+    courseId,
+    filterStatus,
+    stateFilter,
+}) => {
     const [showCreditPurchaseDialog, setShowCreditPurchaseDialog] =
         useState(false)
-    const [workplaceCredits, setWorkplaceCredits] = useState(45)
+
+    const { data: rtoCredits } = RtoV2Api.RtoCredits.getRtoCredits()
+    const { data: wpStats } = RtoV2Api.Dashboard.autoWpCount()
+
     // Defaulting to 50km for display purposes as props are removed
     const [sharedNetworkRadius, setSharedNetworkRadius] = useState<
         '10km' | '25km' | '50km' | 'statewide' | 'australia-wide' | null
@@ -43,7 +59,9 @@ export const SkiltrakNetwork = () => {
                     <AlertDescription className="ml-2 text-sm">
                         <span className="font-semibold">Privacy Notice:</span>{' '}
                         You can only see the number of available industries (
-                        {sharedNetworkRadius === '50km' ? '1,247' : '5,000+'}),
+                        {sharedNetworkRadius === '50km'
+                            ? wpStats?.automatic || '1,247'
+                            : '5,000+'}),
                         not the detailed list. Each workplace request uses 1
                         credit and returns the best matched option through our
                         19-point matching system.
@@ -59,7 +77,7 @@ export const SkiltrakNetwork = () => {
                             <Globe className="h-10 w-10 text-primaryNew mx-auto mb-2" />
                             <p className="text-2xl font-semibold mb-0.5">
                                 {sharedNetworkRadius === '50km'
-                                    ? '1,247'
+                                    ? wpStats?.automatic || '1,247'
                                     : '5,000+'}
                             </p>
                             <p className="text-sm text-muted-foreground">
@@ -152,9 +170,13 @@ export const SkiltrakNetwork = () => {
 
                 <div className="flex items-center justify-between p-4 rounded-xl bg-primary-light border border-accent/20">
                     <div>
-                        <p className="font-semibold text-sm mb-0.5">
-                            Need more credits?
-                        </p>
+                        <div className="flex items-center gap-2 mb-0.5">
+                            <p className="font-semibold text-sm">
+                                Need more credits?
+                            </p>
+
+                            <Badge className="bg-white" Icon={Plus} text={`${rtoCredits?.token || 0} BALANCE`} />
+                        </div>
                         <p className="text-xs text-muted-foreground">
                             Purchase additional workplace request credits
                         </p>
@@ -172,10 +194,7 @@ export const SkiltrakNetwork = () => {
             <PurchaseCreditsModal
                 open={showCreditPurchaseDialog}
                 onOpenChange={setShowCreditPurchaseDialog}
-                workplaceCredits={workplaceCredits}
-                onPurchase={(amount) =>
-                    setWorkplaceCredits((prev) => prev + amount)
-                }
+                workplaceCredits={rtoCredits?.token!}
             />
         </Card>
     )

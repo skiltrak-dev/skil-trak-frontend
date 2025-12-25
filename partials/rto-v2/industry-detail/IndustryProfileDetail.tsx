@@ -4,15 +4,14 @@ import { useAppDispatch, useAppSelector } from '@redux/hooks'
 import { scrollToSection } from '@utils'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
-import { IndustryProfildeHeader } from './components'
 import { AnalyticsDashboard } from './components/AnalyticsDashboard'
 import { OperationalModules } from './components/OperationalModules'
 import { PlacementChecklist } from './components/PlacementChecklist'
 import { ProfileEssentials } from './components/ProfileEssentials'
+import { IndustryProfileHeader } from './components'
 
 export const IndustryProfileDetail = () => {
     const operationalModulesRef = useRef<HTMLDivElement>(null)
-    const [showReadinessModal, setShowReadinessModal] = useState(true)
 
     const dispatch = useAppDispatch()
 
@@ -44,16 +43,23 @@ export const IndustryProfileDetail = () => {
                 // Scroll to operational modules first if a tab is specified
                 if (operationalModulesRef.current) {
                     // Find the scrollable container
-                    const scrollContainer = document.getElementById('main-content-scroll')
+                    const scrollContainer = document.getElementById(
+                        'main-content-scroll'
+                    )
 
                     if (scrollContainer) {
-                        const containerRect = scrollContainer.getBoundingClientRect()
-                        const elementRect = operationalModulesRef.current.getBoundingClientRect()
+                        const containerRect =
+                            scrollContainer.getBoundingClientRect()
+                        const elementRect =
+                            operationalModulesRef.current.getBoundingClientRect()
                         const relativeTop = elementRect.top - containerRect.top
                         const scrollOffset = 100 // Offset for navbar
 
                         scrollContainer.scrollTo({
-                            top: scrollContainer.scrollTop + relativeTop - scrollOffset,
+                            top:
+                                scrollContainer.scrollTop +
+                                relativeTop -
+                                scrollOffset,
                             behavior: 'smooth',
                         })
                     }
@@ -79,7 +85,6 @@ export const IndustryProfileDetail = () => {
         }
     }, [navigationTarget, dispatch])
 
-
     return (
         <div>
             {industryDetail?.isError && <TechnicalError />}
@@ -87,7 +92,7 @@ export const IndustryProfileDetail = () => {
                 <LoadingAnimation height={'h-[70vh]'} />
             ) : industryDetail?.isSuccess && industryDetail?.data ? (
                 <div className="w-full mx-auto space-y-8">
-                    <IndustryProfildeHeader />
+                    <IndustryProfileHeader />
                     <AnalyticsDashboard />
                     <ProfileEssentials />
                     <PlacementChecklist />

@@ -99,6 +99,7 @@ const {
     useIndustryStudentsListQuery,
     useGetAllIndustriesListQuery,
     useIndustryStudentStatsQuery,
+    useGetIndustriesCountsQuery,
     useCreateAvailabilityMutation,
     useAddSingleRtoIndustryMutation,
     useIndustryRtoChecklistListQuery,
@@ -110,7 +111,10 @@ const {
     useGetRtoIndustryDataCountQuery,
 
     // ---- RTO Credits ---- //
+    useGetRtoCreditsQuery,
+    useChangeRtoNetworkMutation,
     useCreateIndustryCreditMutation,
+    useConfirmRtoWorkplacePaymentMutation,
 } = rtoV2Api
 
 export const RtoV2Api = {
@@ -184,6 +188,7 @@ export const RtoV2Api = {
     Industries: {
         getRtoIndustries: useGetRtoIndustriesQuery,
         snoozeIndustry: useSnoozeIndustryByIdMutation,
+        getIndustriesCounts: useGetIndustriesCountsQuery,
         createAvailability: useCreateAvailabilityMutation,
         industryStudentsList: useIndustryStudentsListQuery,
         getAllIndustriesList: useGetAllIndustriesListQuery,
@@ -201,6 +206,9 @@ export const RtoV2Api = {
         getRtoIndustryDataCount: useGetRtoIndustryDataCountQuery,
     },
     RtoCredits: {
+        getRtoCredits: useGetRtoCreditsQuery,
+        changeRtoNetwork: useChangeRtoNetworkMutation,
+        confirmPayment: useConfirmRtoWorkplacePaymentMutation,
         createIndustryCredit: useCreateIndustryCreditMutation,
     },
 }

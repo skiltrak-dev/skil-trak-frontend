@@ -1,36 +1,51 @@
+import { Badge, Button } from '@components'
+import { RtoV2Api, useAppSelector } from '@redux'
 import {
     Building2,
-    Plus,
-    Download,
-    Globe,
     FileCheck,
-    Zap,
+    Lock,
+    Globe,
+    Plus,
     Settings,
+    Zap,
 } from 'lucide-react'
-import { Badge, Button } from '@components'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
     AddIndustryModal,
     IndustryTermsModal,
     PurchaseCreditsModal,
 } from '../modals'
-import { ChoosePlacementNetwork } from './ChoosePlacementNetwork'
+import { ChoosePlacementNetworkModal } from '../modals'
+
+
 
 export const IndustryHeader = () => {
+    const rto = useAppSelector((state) => state.rto.rtoDetail)
+
     // --- State ---
-    const [networkType, setNetworkType] = useState<'private' | 'shared' | null>(
-        'private'
+    const [networkType, setNetworkType] = useState<'private' | 'shared'>(
+        rto?.rtoNetwork === 'shareable' ? 'shared' : 'private'
     )
+
     const [addIndustryOpen, setAddIndustryOpen] = useState(false)
     const [showTermsDialog, setShowTermsDialog] = useState(false)
     const [showCreditPurchaseDialog, setShowCreditPurchaseDialog] =
         useState(false)
-    const [workplaceCredits, setWorkplaceCredits] = useState(45)
     const [showChooseNetworkModal, setShowChooseNetworkModal] = useState(false)
+
+    const { data: rtoCredits } = RtoV2Api.RtoCredits.getRtoCredits()
+
+    useEffect(() => {
+        if (rto?.rtoNetwork) {
+            setNetworkType(
+                rto.rtoNetwork === 'shareable' ? 'shared' : 'private'
+            )
+        }
+    }, [rto?.rtoNetwork])
 
     return (
         <div className="space-y-4">
-            <div className="relative overflow-hidden rounded-2xl bg-primaryNew p-8 shadow-premium-lg">
+            <div className="relative overflow-hidden rounded-2xl bg-primaryNew p-6 shadow-premium-lg">
                 {/* Decorative Background Elements */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
                 <div className="absolute bottom-0 left-0 w-72 h-72 bg-secondary/20 rounded-full blur-3xl"></div>
@@ -56,14 +71,23 @@ export const IndustryHeader = () => {
 
                             {/* Network Status Badges */}
                             <div className="flex items-center gap-2.5 flex-wrap">
-                                <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 shadow-sm">
-                                    <div className="h-2.5 w-2.5 rounded-full bg-success shadow-sm shadow-success/50 animate-pulse"></div>
-                                    <span className="text-white font-medium">
-                                        {networkType === 'private'
+                                <Badge
+                                    Icon={
+                                        networkType === 'private' ? Lock : Globe
+                                    }
+                                    className="bg-white/20 text-white border-white/40 backdrop-blur-sm px-3 py-1.5"
+                                    text={
+                                        networkType === 'private'
                                             ? 'Private Network'
-                                            : 'Shared Network'}
-                                    </span>
-                                </div>
+                                            : 'Shared Network'
+                                    }
+                                >
+                                    <div className="h-2.5 w-2.5 rounded-full bg-success shadow-sm shadow-success/50 animate-pulse"></div>
+                                    {networkType === 'private'
+                                        ? 'Private Network'
+                                        : 'Shared Network'}
+                                </Badge>
+
                                 {networkType === 'shared' && (
                                     <Badge
                                         Icon={Globe}
@@ -106,7 +130,7 @@ export const IndustryHeader = () => {
                                                 Credits
                                             </p>
                                             <p className="font-bold text-white leading-none">
-                                                {workplaceCredits}
+                                                {rtoCredits?.token || 0}
                                             </p>
                                         </div>
                                         <Button
@@ -167,34 +191,18 @@ export const IndustryHeader = () => {
             <PurchaseCreditsModal
                 open={showCreditPurchaseDialog}
                 onOpenChange={setShowCreditPurchaseDialog}
-                workplaceCredits={workplaceCredits}
-                onPurchase={(amount) =>
-                    setWorkplaceCredits((prev) => prev + amount)
-                }
+                workplaceCredits={rtoCredits?.token!}
             />
 
-            {showChooseNetworkModal && (
-                <div className="fixed inset-0 z-50 overflow-y-auto bg-background/80 backdrop-blur-sm">
-                    <div className="flex min-h-full items-center justify-center p-4">
-                        <div className="relative w-full max-w-5xl bg-card rounded-2xl shadow-premium border border-border overflow-hidden">
-                            <Button
-                                variant="secondary"
-                                outline
-                                className="absolute top-4 right-4 z-10 !min-w-[40px] p-0 h-8 w-8"
-                                onClick={() => setShowChooseNetworkModal(false)}
-                            >
-                                <Plus className="h-5 w-5 rotate-45" />
-                            </Button>
-                            <ChoosePlacementNetwork
-                                onSelect={(type) => {
-                                    setNetworkType(type)
-                                    setShowChooseNetworkModal(false)
-                                }}
-                            />
-                        </div>
-                    </div>
-                </div>
-            )}
+            <ChoosePlacementNetworkModal
+                open={showChooseNetworkModal}
+                onOpenChange={setShowChooseNetworkModal}
+                credits={rtoCredits?.token || 0}
+                onSelect={(type) => {
+                    setNetworkType(type)
+                }}
+                onPurchaseCredits={() => setShowCreditPurchaseDialog(true)}
+            />
         </div>
     )
 }

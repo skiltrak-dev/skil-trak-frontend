@@ -1,3 +1,4 @@
+import { useIndustryProgress } from '../../hooks'
 import {
     ActionButtons,
     CompanyInfo,
@@ -5,9 +6,8 @@ import {
     StatusControls,
 } from './components'
 
-export function IndustryProfildeHeader() {
-    const profileCompletion = 85
-    const isPlacementReady = profileCompletion >= 90
+export function IndustryProfileHeader() {
+    const { progressPercentage, isPlacementReady } = useIndustryProgress()
 
     return (
         <div className="relative">
@@ -16,7 +16,7 @@ export function IndustryProfildeHeader() {
                 {/* Premium Status Banner */}
                 <StatusBanner
                     isPlacementReady={isPlacementReady}
-                    profileCompletion={profileCompletion}
+                    profileCompletion={progressPercentage}
                 />
 
                 {/* Main Header Content */}

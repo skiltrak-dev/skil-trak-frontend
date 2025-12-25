@@ -67,7 +67,7 @@ export const industryApi = apiSlice.injectEndpoints({
                 params: { industry: id },
                 body,
             }),
-            invalidatesTags: ['Industries'],
+            invalidatesTags: ['Industries', 'RTOIndustries'],
         }),
         // get industry fav by coordinator
 

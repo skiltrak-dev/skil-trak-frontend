@@ -13,6 +13,12 @@ import {
     WorkplaceType,
 } from '@types'
 
+export enum WorkplaceTokenPlan {
+    BASIC = 'basic',
+    PREMIUM = 'premium',
+    STANDARD = 'standard',
+}
+
 export enum StudentStatusEnum {
     ACTIVE = 'active',
     TERMINATED = 'terminated',
@@ -118,6 +124,7 @@ export interface Rto extends BaseResponse {
     addressLine2: string
     studentsCount: string
     zipCode: string
+    rtoNetwork: 'private' | 'shareable'
     allowUpdate: boolean
     canAddOwnWorkplace: boolean
     allowAutoComplete: boolean
@@ -484,4 +491,11 @@ export interface Targets {
     AgreementByStudent: number
     AgreementByWorkplace: number
     completed: number
+}
+
+export interface RtoPlan extends BaseResponse {
+    id: number
+    cost: string
+    token: string
+    plan: string
 }

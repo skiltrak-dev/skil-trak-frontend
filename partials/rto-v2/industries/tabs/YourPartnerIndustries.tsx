@@ -6,21 +6,31 @@ import {
     TechnicalError,
 } from '@components'
 import { RtoV2Api } from '@redux'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { IndustryFilterBar } from '../component'
 import { useYourIndustriesColumns } from '../component/columns'
 import { Industry } from '@types'
 
-export const YourPartnerIndustries = () => {
-    const [searchTerm, setSearchTerm] = useState('')
-    const [filterSector, setFilterSector] = useState('all')
-    const [filterStatus, setFilterStatus] = useState('all')
+interface YourPartnerIndustriesProps {
+    searchTerm: string
+    courseId: string
+    filterStatus: string
+    stateFilter: string
+}
 
+export const YourPartnerIndustries: React.FC<YourPartnerIndustriesProps> = ({
+    searchTerm,
+    courseId,
+    filterStatus,
+    stateFilter,
+}) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
     const industries = RtoV2Api.Industries.getAllIndustriesList({
-        search: `isPartner:${true}`,
+        search: `isPartner:${true}${searchTerm ? `,name:${searchTerm}` : ''}${courseId !== 'all' ? `,courseId:${courseId}` : ''
+            }${filterStatus !== 'all' ? `,status:${filterStatus}` : ''}${stateFilter !== 'all' ? `,state:${stateFilter}` : ''
+            }`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -40,26 +50,14 @@ export const YourPartnerIndustries = () => {
     return (
         <div className="space-y-4">
             {modal}
-            <IndustryFilterBar
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                filterSector={filterSector}
-                onSectorChange={(option: any) =>
-                    setFilterSector(option?.value || 'all')
-                }
-                filterStatus={filterStatus}
-                onStatusChange={(option: any) =>
-                    setFilterStatus(option?.value || 'all')
-                }
-            />
 
             <Card noPadding>
                 {industries?.isError && <TechnicalError />}
                 {industries?.isLoading || industries?.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : industries &&
-                  industries?.data?.data &&
-                  industries?.data?.data?.length ? (
+                    industries?.data?.data &&
+                    industries?.data?.data?.length ? (
                     <Table<Industry>
                         columns={columns}
                         data={industries?.data?.data}

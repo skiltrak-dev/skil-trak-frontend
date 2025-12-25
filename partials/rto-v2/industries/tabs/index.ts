@@ -1,5 +1,3 @@
-export * from './YourIndustriesTab'
-export * from './GlobalDirectoryTab'
 export * from './PendingIndustriesTab'
 export * from './FutureIndustriesTab'
 export * from './SkiltrakNetwork'

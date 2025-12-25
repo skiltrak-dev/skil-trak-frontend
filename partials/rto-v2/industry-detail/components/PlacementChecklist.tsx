@@ -1,173 +1,39 @@
 import {
     CheckCircle,
-    FileText,
-    UserCheck,
-    Clock,
-    Shield,
-    BookOpen,
-    ClipboardCheck,
-    HelpCircle,
-    Users,
+    ChevronDown,
     Sparkles,
     Target,
-    ChevronDown,
-    Heart,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import {
     ChecklistTask,
     PlacementReadinessModal,
 } from '../modal/PlacementReadinessModal'
-import { SubAdminApi } from '@queries'
 import { setNavigationTarget } from '@redux'
-import { useAppDispatch, useAppSelector } from '@redux/hooks'
-
-const getChecklistItems = (data: any, isRtoAssociated: boolean = false) => {
-    // For RTO industries, we only validate these specific items
-    // All others are considered "done" automatically
-    const rtoRequiredItems = [
-        'Workplace Type',
-        'Courses Configured',
-        'Capacity',
-    ]
-
-    const getStatus = (
-        title: string,
-        dataKey: boolean,
-        isRto: boolean
-    ): 'done' | 'pending' => {
-        if (isRto) {
-            // If it's an RTO and the item is NOT in the required list, it's auto-done
-            if (!rtoRequiredItems.includes(title)) return 'done'
-            // Otherwise check the actual data
-            return dataKey ? 'done' : 'pending'
-        }
-        // Non-RTO checks everything normally
-        return dataKey ? 'done' : 'pending'
-    }
-
-    return [
-        {
-            title: 'Basic Information',
-            description: 'ABN, address, contact details verified',
-            status: getStatus(
-                'Basic Information',
-                data?.ProfileUpdated,
-                isRtoAssociated
-            ),
-            icon: FileText,
-            color: '#044866',
-            targetSection: 'basic-details',
-        },
-        {
-            title: 'Trading Hours Set',
-            description: 'Schedule and slots configured',
-            status: getStatus(
-                'Trading Hours Set',
-                data?.trading_hours_and_shifts,
-                isRtoAssociated
-            ),
-            icon: Clock,
-            color: '#8B5CF6',
-            targetTab: 'hours',
-        },
-        {
-            title: 'Courses Configured',
-            description: 'Programs and activities defined',
-            status: getStatus(
-                'Courses Configured',
-                data?.courseAdded,
-                isRtoAssociated
-            ),
-            icon: BookOpen,
-            color: '#EC4899',
-            targetTab: 'courses',
-        },
-        {
-            title: 'Capacity',
-            description: 'Partner capacity configured',
-            status: getStatus(
-                'Capacity',
-                data?.CapacityUpdated,
-                isRtoAssociated
-            ),
-            icon: Users,
-            color: '#0D5468',
-            targetTab: 'courses',
-            targetSection: 'capacity',
-        },
-        {
-            title: 'Interview Availability',
-            description: 'Interview schedule and availability set',
-            status: getStatus(
-                'Interview Availability',
-                data?.interviewAvailabilities,
-                isRtoAssociated
-            ),
-            icon: ClipboardCheck,
-            color: '#F59E0B',
-            targetSection: 'interview-availability',
-        },
-        {
-            title: 'Primary Contact',
-            description: 'Primary contact person assigned',
-            status: getStatus(
-                'Primary Contact',
-                data?.contactPerson,
-                isRtoAssociated
-            ),
-            icon: UserCheck,
-            color: '#10B981',
-            targetSection: 'contact-details',
-        },
-        {
-            title: 'Workplace Type',
-            description: 'Industry sector and workplace type defined',
-            status: getStatus(
-                'Workplace Type',
-                data?.hasWorkplaceType,
-                isRtoAssociated
-            ),
-            icon: Shield,
-            color: '#14B8A6',
-            targetTab: 'courses',
-        },
-    ]
-}
+import { useAppDispatch } from '@redux/hooks'
+import { useIndustryProgress } from '../hooks'
 
 export function PlacementChecklist() {
     const [showProgress, setShowProgress] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const dispatch = useAppDispatch()
-    const { industryDetail } = useAppSelector((state) => state.industry)
 
-    const { data: progressData, isLoading } =
-        SubAdminApi.Industry.industryProgress(industryDetail?.id!, {
-            skip: !industryDetail?.id,
-        })
-
-    const checklistItems = getChecklistItems(
-        progressData || {},
-        !!industryDetail?.isRtoAssociated
-    )
+    const {
+        progressPercentage,
+        completedItems,
+        totalItems,
+        checklistItems,
+        isLoading,
+    } = useIndustryProgress()
 
     const relevantItems = checklistItems
 
-    const completedItems = relevantItems.filter(
-        (item) => item.status === 'done'
-    ).length
-    const totalItems = relevantItems.length
-
-    // Use API percentage
-    const progressPercentage =
-        Number(((Number(completedItems) * 100) / totalItems).toFixed(2)) || 0
-
     useEffect(() => {
-        if (progressData && progressPercentage < 100) {
+        if (!isLoading && progressPercentage < 100) {
             setIsModalOpen(true)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [progressData, progressPercentage])
+    }, [isLoading, progressPercentage])
 
     const checklistTasks: ChecklistTask[] = relevantItems.map((item) => ({
         id: item.title,
@@ -318,8 +184,8 @@ export function PlacementChecklist() {
                                             }
                                             key={index}
                                             className={`relative group overflow-hidden rounded-xl transition-all duration-300 ${isDone
-                                                    ? 'bg-gradient-to-br from-[#10B981]/10 to-transparent border border-[#10B981]/30 hover:border-[#10B981]/50 hover:shadow-lg'
-                                                    : 'bg-white border border-[#E2E8F0] hover:border-[#044866]/30 hover:shadow-xl hover:scale-105'
+                                                ? 'bg-gradient-to-br from-[#10B981]/10 to-transparent border border-[#10B981]/30 hover:border-[#10B981]/50 hover:shadow-lg'
+                                                : 'bg-white border border-[#E2E8F0] hover:border-[#044866]/30 hover:shadow-xl hover:scale-105'
                                                 }`}
                                             style={{
                                                 animationDelay: `${index * 50
@@ -336,8 +202,8 @@ export function PlacementChecklist() {
                                                     {/* Icon */}
                                                     <div
                                                         className={`relative w-8 h-8 rounded-lg flex items-center justify-center shadow-lg transition-all duration-300 ${isDone
-                                                                ? 'bg-gradient-to-br from-[#10B981] to-[#059669] group-hover:scale-110 group-hover:rotate-6'
-                                                                : 'bg-gradient-to-br from-[#E8F4F8] to-[#F8FAFB] group-hover:scale-110'
+                                                            ? 'bg-gradient-to-br from-[#10B981] to-[#059669] group-hover:scale-110 group-hover:rotate-6'
+                                                            : 'bg-gradient-to-br from-[#E8F4F8] to-[#F8FAFB] group-hover:scale-110'
                                                             }`}
                                                     >
                                                         {isDone ? (
@@ -359,16 +225,16 @@ export function PlacementChecklist() {
                                                 <div>
                                                     <h4
                                                         className={`text-xs font-semibold mb-1 ${isDone
-                                                                ? 'text-[#10B981]'
-                                                                : 'text-[#1A2332]'
+                                                            ? 'text-[#10B981]'
+                                                            : 'text-[#1A2332]'
                                                             }`}
                                                     >
                                                         {item.title}
                                                     </h4>
                                                     <p
                                                         className={`text-[10px] mb-2 ${isDone
-                                                                ? 'text-[#059669]'
-                                                                : 'text-[#64748B]'
+                                                            ? 'text-[#059669]'
+                                                            : 'text-[#64748B]'
                                                             }`}
                                                     >
                                                         {item.description}

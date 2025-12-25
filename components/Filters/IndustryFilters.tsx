@@ -4,7 +4,7 @@ import { StatusOptions } from './StatusOptions'
 
 // queries
 import { CommonApi, AuthApi } from '@queries'
-import { AdminIndustryFormFilter, OptionType, UserStatus } from '@types'
+import { AdminIndustryFormFilter, Course, OptionType, UserStatus } from '@types'
 import { SetQueryFilters } from './SetQueryFilters'
 import { CourseSelectOption, formatOptionLabel } from '@utils'
 import { State } from 'country-state-city'
@@ -24,7 +24,7 @@ export const IndustryFilters = ({
     const getSectors = AuthApi.useSectors({})
     const getPremiumFeaturesList = CommonApi.Industries.usePremiumFeaturesList()
 
-    const coursesOptions = getCourses?.data?.map((course: any) => ({
+    const coursesOptions = getCourses?.data?.map((course: Course) => ({
         item: course,
         value: course?.id,
         label: course?.title,

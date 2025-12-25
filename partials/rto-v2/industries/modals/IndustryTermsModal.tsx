@@ -8,7 +8,7 @@ import {
 } from '@components/ui/dialog'
 import { Alert, AlertDescription } from '@components/ui/alert'
 import { Card } from '@components'
-import { Button } from '@components/ui/button'
+import { Button } from '@components'
 import {
     AlertCircle,
     ArrowRight,
@@ -39,10 +39,10 @@ export const IndustryTermsModal = ({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
+            <DialogContent className="!max-w-3xl max-h-[85vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="text-xl flex items-center gap-2">
-                        <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                        <div className="min-h-9 min-w-9 rounded-md bg-primaryNew flex items-center justify-center">
                             <FileCheck className="h-4 w-4 text-white" />
                         </div>
                         SkilTrak Shareable Network – Terms & Conditions
@@ -56,11 +56,11 @@ export const IndustryTermsModal = ({
                     {/* Section 1 */}
                     <div className="space-y-2.5">
                         <h3 className="font-semibold text-sm flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-primary" />
+                            <CheckCircle className="h-4 w-4 text-primaryNew" />
                             1. What the Shareable Network Is
                         </h3>
-                        <Alert className="border-primary/40 bg-primary/5">
-                            <Network className="h-4 w-4 text-primary" />
+                        <Alert className="border-primaryNew/40 bg-primaryNew/5">
+                            <Network className="h-4 w-4 text-primaryNew" />
                             <AlertDescription className="ml-2 space-y-2 text-sm">
                                 <p className="font-semibold">
                                     The SkilTrak Shareable Network is NOT a
@@ -98,7 +98,7 @@ export const IndustryTermsModal = ({
                     {/* Section 2 */}
                     <div className="space-y-2.5">
                         <h3 className="font-semibold text-sm flex items-center gap-2">
-                            <Zap className="h-4 w-4 text-secondary" />
+                            <Zap className="h-4 w-4 text-primaryNew" />
                             2. How You Access the Network (Credit System)
                         </h3>
                         <div className="space-y-2.5">
@@ -256,7 +256,7 @@ export const IndustryTermsModal = ({
                             4. Conditions of Use
                         </h3>
                         <div className="space-y-1.5">
-                            <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-muted/50">
+                            <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-gray-200/60">
                                 <CheckCircle2 className="h-3.5 w-3.5 text-success mt-0.5 flex-shrink-0" />
                                 <div className="text-sm">
                                     <p className="font-semibold text-xs">
@@ -267,7 +267,7 @@ export const IndustryTermsModal = ({
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-muted/50">
+                            <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-gray-200/60">
                                 <CheckCircle2 className="h-3.5 w-3.5 text-success mt-0.5 flex-shrink-0" />
                                 <div className="text-sm">
                                     <p className="font-semibold text-xs">
@@ -280,7 +280,7 @@ export const IndustryTermsModal = ({
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-muted/50">
+                            <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-gray-200/60">
                                 <CheckCircle2 className="h-3.5 w-3.5 text-success mt-0.5 flex-shrink-0" />
                                 <div className="text-sm">
                                     <p className="font-semibold text-xs">
@@ -293,7 +293,7 @@ export const IndustryTermsModal = ({
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-muted/50">
+                            <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-gray-200/60">
                                 <CheckCircle2 className="h-3.5 w-3.5 text-success mt-0.5 flex-shrink-0" />
                                 <div className="text-sm">
                                     <p className="font-semibold text-xs">
@@ -350,18 +350,18 @@ export const IndustryTermsModal = ({
                 </div>
 
                 <DialogFooter className="gap-2">
-                    <Button
-                        variant="outline"
-                        onClick={onClose}
-                    >
+                    <Button variant="secondary" onClick={onClose}>
                         Close
                     </Button>
                     <Button
-                        className="bg-gradient-to-r from-primary to-secondary gap-2"
+                        variant="primaryNew"
                         onClick={() => {
                             onAccept?.()
                             onClose()
-                            notification.success({ description: 'Terms & Conditions acknowledged', title: 'Success' })
+                            notification.success({
+                                description: 'Terms & Conditions acknowledged',
+                                title: 'Success',
+                            })
                         }}
                     >
                         <CheckCircle className="h-4 w-4" />I Understand
