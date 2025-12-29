@@ -8,6 +8,7 @@ import { mailsEndpoints } from './mails'
 import { notesEndpoints } from './notes'
 import { notificationsEndpoints } from './notifications'
 import { rtosEndpoints } from './rtos'
+import { teamsEndpoints } from './teams'
 
 import { LogoutType } from '@hooks'
 import { apiSlice } from '@queries/portals/empty.query'
@@ -23,6 +24,7 @@ import { ticketEndpoints } from './ticket.query'
 import { traineeshipProgramEndpoints } from './traineeshipProgram'
 import { workBasedProgramEndpoints } from './workBasedProgram'
 import { aiAssistantEndpoints } from './ai-assistant'
+import { callManagementLoginEndpoints } from './callManagement'
 
 export const commonApi = apiSlice.injectEndpoints({
     // ---------- COMMON ENDPOINTS ---------- //
@@ -313,6 +315,13 @@ export const commonApi = apiSlice.injectEndpoints({
                 'SubAdminStudents',
             ],
         }),
+        // shared/coordinator/retrieve/by-role
+        getCoordinatorByRole: build.query<any, void>({
+            query: () => ({
+                url: `/shared/coordinator/retrieve/by-role`,
+            }),
+            providesTags: ['TeamMembers'],
+        }),
 
         ...rtosEndpoints(build),
         ...draftEndpoints(build),
@@ -335,13 +344,15 @@ export const commonApi = apiSlice.injectEndpoints({
         ...changeProfileImageEndpoints(build),
         ...traineeshipProgramEndpoints(build),
         ...studentAssessmentGalleryEndpoints(build),
+        ...teamsEndpoints(build),
+        ...callManagementLoginEndpoints(build),
     }),
     // overrideExisting: true,
 })
 
 const {
     useGetUserWebsiteCountQuery,
-
+    useGetCoordinatorByRoleQuery,
     useRegisterByFutureIndustryMutation,
 
     useGetUserPasswordQuery,
@@ -461,6 +472,8 @@ const {
     useCoordinatorAvailablityQuery,
     useGetUpcommingAppointmentQuery,
     useRescheduleAppointmentMutation,
+    useGetAppointmentCompletionStatusQuery,
+    useGetAppointmentCompletionStatusIndustryQuery,
 
     // ------ Notifications ------ //
     useGetNotificationsQuery,
@@ -660,6 +673,20 @@ const {
     useAskAiAboutStudentMutation,
     useAiStudentSearchDetailQuery,
     useStudentWorkplaceRequestQuery,
+
+    // --------- TEAMS -------------//
+    useCreateSupportTeamMutation,
+    useGetAllSupportTeamsQuery,
+    useDeleteSupportTeamMutation,
+    useGetTeamCountsQuery,
+    useGetAutomatedTicketsQuery,
+    useGetAutomatedTicketDetailsQuery,
+    useUpdateAutoTicketPriorityMutation,
+    useUpdateAutoTicketStatusMutation,
+    useAddAutoTicketNoteMutation,
+    useGetAutomatedTicketNotesQuery,
+    // --------- Call Management ----------- //
+    useGetAllAiCallListQuery,
 } = commonApi
 
 export const CommonApi = {
@@ -738,6 +765,9 @@ export const CommonApi = {
         usePremiumFeaturesList: useGetPremiumFeaturesListQuery,
         usePremiumFeatureFlag: useGetPremiumFeatureFlagQuery,
     },
+    Coordinators: {
+        useCoordinatorByRole: useGetCoordinatorByRoleQuery,
+    },
     Courses: {
         useCoursesList: useGetCoursesListQuery,
         getSectorWPTypes: useGetSectorWPTypesQuery,
@@ -806,6 +836,9 @@ export const CommonApi = {
         useCoordinatorAvailablity: useCoordinatorAvailablityQuery,
         useUpcommingAppointment: useGetUpcommingAppointmentQuery,
         rescheduleAppointment: useRescheduleAppointmentMutation,
+        useAppointmentCompletionStatus: useGetAppointmentCompletionStatusQuery,
+        useAppointmentCompletionStatusIndustry:
+            useGetAppointmentCompletionStatusIndustryQuery,
     },
     Notifications: {
         useNotifications: useGetNotificationsQuery,
@@ -1003,5 +1036,20 @@ export const CommonApi = {
         askAiAboutStudent: useAskAiAboutStudentMutation,
         aiStudentSearchDetail: useAiStudentSearchDetailQuery,
         studentWorkplaceRequest: useStudentWorkplaceRequestQuery,
+    },
+    Teams: {
+        useCreateSupportTeam: useCreateSupportTeamMutation,
+        useAllSupportTeams: useGetAllSupportTeamsQuery,
+        useDeleteSupportTeam: useDeleteSupportTeamMutation,
+        useTeamCounts: useGetTeamCountsQuery,
+        useAutomatedTickets: useGetAutomatedTicketsQuery,
+        useAutomatedTicketDetails: useGetAutomatedTicketDetailsQuery,
+        useUpdateAutoTicketPriority: useUpdateAutoTicketPriorityMutation,
+        useUpdateAutoTicketStatus: useUpdateAutoTicketStatusMutation,
+        useAddAutoTicketNote: useAddAutoTicketNoteMutation,
+        useAutomatedTicketNotes: useGetAutomatedTicketNotesQuery,
+    },
+    CallManagement: {
+        useAllAiCallList: useGetAllAiCallListQuery,
     },
 }

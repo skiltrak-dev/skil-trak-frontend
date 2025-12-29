@@ -21,14 +21,6 @@ export const ReRunWPAutomation = ({
         refresh(Number(workplace.id))
         onCancel()
         return
-        const res: any = await refresh(Number(workplace.id))
-        if (res?.data) {
-            notification.success({
-                title: `Automation Refreshed`,
-                description: `Automation Refreshed.`,
-            })
-            onCancel()
-        }
     }
 
     return (

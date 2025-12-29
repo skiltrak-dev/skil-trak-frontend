@@ -95,4 +95,14 @@ export const studentsEndpoints = (
         }),
         providesTags: ['RTO'],
     }),
+
+    // subadmin/appointment/book/externaly
+    bookAppointmentExternally: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `subadmin/appointment/book-externaly`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RTO'],
+    }),
 })

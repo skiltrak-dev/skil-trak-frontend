@@ -1,8 +1,12 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
+import { UserRoles } from '@constants'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
+import { getUserCredentials } from '@utils'
+import jwt from 'jwt-decode'
 
 import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
 import { IoWarningOutline } from 'react-icons/io5'
 
 export const FinishEmailSignModal = ({
@@ -14,9 +18,21 @@ export const FinishEmailSignModal = ({
     decodeDataId: number
     customFieldsData: any
 }) => {
+    const [decodeData, setDecodeData] = useState<any>(null)
     const { notification } = useNotification()
     const router = useRouter()
 
+    const token = router.query.token as string
+    useEffect(() => {
+        if (!token) return
+
+        try {
+            const decoded = jwt(token)
+            setDecodeData(decoded)
+        } catch (error) {
+            console.error('Invalid token', error)
+        }
+    }, [token])
     const [addCustomFieldsData, addCustomFieldsDataResult] =
         CommonApi.ESign.addEmailCustomFieldData()
     const onConfirmUClicked = () => {
@@ -50,7 +66,11 @@ export const FinishEmailSignModal = ({
                     Icon={IoWarningOutline}
                     variant="success"
                     title="Are you sure!"
-                    description={`You are about to finish Esign Do you wish to continue?`}
+                    description={`${
+                        decodeData?.role === UserRoles?.RTO
+                            ? 'Please review the e-sign document before finishing. Once completed, the document will be approved.'
+                            : 'You are about to finish Esign Do you wish to continue?'
+                    }`}
                     onConfirm={onConfirmUClicked}
                     // onCancel={onCancel}
                     input

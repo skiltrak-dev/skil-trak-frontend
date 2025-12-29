@@ -44,6 +44,7 @@ import { MapStarRating, RateCoordinatorModal } from '@partials/common'
 import { processSubmission } from '@partials/common/StudentProfileDetail/feedbackForm/utils/getAnswersWithQuestions'
 import { FeedbackForm } from '@partials/common/StudentProfileDetail/feedbackForm/FeedbackForm'
 import { IndustryRatingForm } from '@partials/student'
+import { UponAppointmentCompletionModal } from '@partials/common/StudentProfileDetail/components'
 
 const StudentDashboard: NextPageWithLayout = () => {
     const [modal, setModal] = useState<any | null>(null)
@@ -60,10 +61,30 @@ const StudentDashboard: NextPageWithLayout = () => {
         courseSchedules?.courses?.filter(
             (course: any) => course.message === 'eligible for feedback'
         ) || []
-
     const onClose = () => {
         setModal(null)
     }
+    const appointmentCompletion =
+        CommonApi.Appointments.useAppointmentCompletionStatus({})
+
+    const uponCompletionAppointment = () => {
+        setModal(
+            <UponAppointmentCompletionModal
+                appointment={appointmentCompletion?.data}
+                onClose={onClose}
+            />
+        )
+    }
+
+    useEffect(() => {
+        if (
+            appointmentCompletion?.data &&
+            Object.keys(appointmentCompletion?.data).length > 0 &&
+            !appointmentCompletion?.data?.isSuccessfull
+        ) {
+            uponCompletionAppointment()
+        }
+    }, [appointmentCompletion?.data])
     const onPlacementFeedback = (courseId: any) => {
         setModal(
             <GlobalModal>
@@ -189,6 +210,7 @@ const StudentDashboard: NextPageWithLayout = () => {
             </GlobalModal>
         )
     }
+
     return (
         <>
             {modal && modal}

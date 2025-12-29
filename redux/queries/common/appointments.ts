@@ -137,4 +137,19 @@ export const appointmentsEndpoints = (
         }),
         invalidatesTags: ['Appointments', 'SubAdminStudents'],
     }),
+    getAppointmentCompletionStatus: builder.query<any, any>({
+        query: (params) => ({
+            url: `appointments/get/v2/for-student`,
+            params,
+        }),
+        providesTags: ['Appointments', 'SubAdminStudents'],
+    }),
+
+    getAppointmentCompletionStatusIndustry: builder.query<any, any>({
+        query: (params) => ({
+            url: `appointments/get/v2/for-industry`,
+            params,
+        }),
+        providesTags: ['Appointments', 'SubAdminStudents'],
+    }),
 })

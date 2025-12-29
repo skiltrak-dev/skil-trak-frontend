@@ -371,7 +371,9 @@ export const studentsEndpoints = (
     }),
     createAutomatedWp: builder.mutation<any, any>({
         query: (body) => ({
-            url: `students/workplace-requests/automated/add`,
+            // url: `students/workplace-requests/automated/add`,
+            url: `students/workplace-requests/automated/v2/create`,
+
             method: 'POST',
             body,
         }),

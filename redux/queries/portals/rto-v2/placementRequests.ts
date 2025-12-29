@@ -28,4 +28,69 @@ export const placementRequestsEndPoints = (
         }),
         invalidatesTags: ['RTO'],
     }),
+
+    // Details
+    // rtos/student/:id/placement-profile/view
+    getStudentPlacementProfileDetails: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}placement-request/${id}/view`,
+        }),
+        providesTags: ['RTO'],
+    }),
+    //rtos/placement-request/:id/workplace-view
+    getStudentPlacementIndustryDetails: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}placement-request/${id}/workplace-view`,
+        }),
+        providesTags: ['RTO'],
+    }),
+    //rtos/placement-request/:id/view-course
+    getStudentPlacementCourse: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}placement-request/${id}/view-course`,
+        }),
+        providesTags: ['RTO'],
+    }),
+    // highlighted tasks
+    getIndustryPlacementHighlightedTasks: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}placement-request/${id}/get-highlighted-tasks`,
+        }),
+        providesTags: ['RTO'],
+    }),
+    // rtos/student/id/detail-view
+    getStudentPlacementDetails: builder.query<any, any>({
+        query: (studentId) => ({
+            url: `${PREFIX}student/${studentId}/detail-view`,
+        }),
+        providesTags: ['RTO'],
+    }),
+    // rtos/placement-request/:id/view-progress
+    getStudentPlacementProgress: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}placement-request/${id}/view-progress`,
+        }),
+        providesTags: ['RTO'],
+    }),
+    // rtos/placement-request/:id/Complience-check
+    getStudentPlacementCompliance: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}placement-request/${id}/compliance-check`,
+        }),
+        providesTags: ['RTO'],
+    }),
+    // placement-request/:id/get-course-programs
+    getStudentPlacementCoursePrograms: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}placement-request/${id}/get-course-programs`,
+        }),
+        providesTags: ['RTO'],
+    }),
+    // rtos/placement-request/:id/get-status-check-notes
+    getStudentPlacementStatusCheckNotes: builder.query<any, any>({
+        query: (id) => ({
+            url: `${PREFIX}placement-request/${id}/get-status-check-notes`,
+        }),
+        providesTags: ['RTO'],
+    }),
 })
