@@ -1,8 +1,9 @@
-import { TableAction, TableActionOption } from "@components"
-import { ColumnDef } from "@tanstack/react-table"
-import { format } from "date-fns"
-import { Tags } from "lucide-react"
-import { FaTrash } from "react-icons/fa"
+import { TableAction, TableActionOption } from '@components'
+import { ColumnDef } from '@tanstack/react-table'
+import { format } from 'date-fns'
+import { Tags } from 'lucide-react'
+import Image from 'next/image'
+import { FaTrash } from 'react-icons/fa'
 
 interface SupportTeamItem {
     id: number
@@ -13,6 +14,7 @@ interface SupportTeamItem {
     updatedAt: string
     isActive: boolean
     description?: string
+    state: any
 }
 
 interface UseSupportTeamColumnsProps {
@@ -22,13 +24,12 @@ interface UseSupportTeamColumnsProps {
 export function useSupportTeamColumns({
     onDeleteClicked,
 }: UseSupportTeamColumnsProps) {
-    
     const tableActionOptions: TableActionOption<SupportTeamItem>[] = [
         {
-            text: "Delete",
+            text: 'Delete',
             onClick: (item) => onDeleteClicked(item),
             Icon: FaTrash,
-            color: "text-red-500 hover:bg-red-100 hover:border-red-200",
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
         },
     ]
 
@@ -36,7 +37,7 @@ export function useSupportTeamColumns({
     const columns: ColumnDef<SupportTeamItem>[] = [
         {
             header: () => <span>Name</span>,
-            accessorKey: "name",
+            accessorKey: 'name',
             cell: ({ row }) => {
                 const { name } = row.original
                 return <span className="font-semibold">{name}</span>
@@ -44,12 +45,47 @@ export function useSupportTeamColumns({
         },
         {
             header: () => <span>Members</span>,
-            accessorKey: "membersCount",
+            accessorKey: 'membersCount',
             cell: ({ row }) => row.original.membersCount ?? 0,
         },
         {
+            header: () => <span>Country / State</span>,
+            accessorKey: 'state',
+            cell: ({ row }) => {
+                const state = row?.original?.state
+                const country = state?.country
+
+                if (!country || !state) return '---'
+
+                return (
+                    <div className="">
+                        {/* Country Flag */}
+                        <div className="flex items-center gap-2">
+                            <Image
+                                src={`https://flagcdn.com/w20/${country?.code
+                                    ?.slice(0, 2)
+                                    ?.toLowerCase()}.png`}
+                                alt={country.name}
+                                className="size-6 object-contain"
+                                width={200}
+                                height={200}
+                            />
+
+                            {/* <span className="text-sm font-medium text-foreground">
+                                {country?.name ?? '---'}
+                            </span> */}
+                            <span className="text-xs text-muted-foreground">
+                                {state?.name ?? '---'}
+                            </span>
+                        </div>
+                        {/* Country + State */}
+                    </div>
+                )
+            },
+        },
+        {
             header: () => <span>Tags</span>,
-            accessorKey: "tags",
+            accessorKey: 'tags',
             cell: ({ row }) => {
                 const { tags } = row.original
                 return (
@@ -63,7 +99,7 @@ export function useSupportTeamColumns({
                                     <div className="">
                                         <Tags size={10} />
                                     </div>
-                                   <span> {tag}</span>
+                                    <span> {tag}</span>
                                 </div>
                             ))
                         ) : (
@@ -75,12 +111,12 @@ export function useSupportTeamColumns({
         },
         {
             header: () => <span>Created</span>,
-            accessorKey: "createdAt",
+            accessorKey: 'createdAt',
             cell: ({ row }) => {
                 const { createdAt } = row.original
                 return createdAt
-                    ? format(new Date(createdAt), "dd MMM yyyy")
-                    : "---"
+                    ? format(new Date(createdAt), 'dd MMM yyyy')
+                    : '---'
             },
         },
         // {
@@ -95,7 +131,7 @@ export function useSupportTeamColumns({
         // },
         {
             header: () => <span>Actions</span>,
-            accessorKey: "actions",
+            accessorKey: 'actions',
             cell: ({ row }) => (
                 <div className="flex gap-x-1 items-center">
                     <TableAction

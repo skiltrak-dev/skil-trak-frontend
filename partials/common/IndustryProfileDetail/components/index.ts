@@ -12,3 +12,5 @@ export * from './EsignDocuments'
 export * from './IndustryProgress'
 export * from './IndustryEsignList'
 export * from './IndustryGalleryList'
+
+export * from './newProfile'

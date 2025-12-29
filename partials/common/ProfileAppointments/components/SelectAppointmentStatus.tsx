@@ -1,11 +1,10 @@
 import { Button, TextArea, Typography } from '@components'
+import { UserRoles } from '@constants'
+import { getUserCredentials } from '@utils'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { GoDotFill } from 'react-icons/go'
 import { IoMdCheckmarkCircle } from 'react-icons/io'
-
-const message =
-    'I confirm I have contacted both industry and student, and both have agreed to proceed.'
 
 export const SelectAppointmentStatus = ({
     result,
@@ -14,6 +13,11 @@ export const SelectAppointmentStatus = ({
     result: any
     onSubmit: ({ note, status }: { note: string; status: boolean }) => void
 }) => {
+    const role = getUserCredentials()?.role
+    const message =
+        role === UserRoles.STUDENT || UserRoles.INDUSTRY
+            ? 'I confirm that the appointment between us is successful, and we both have agreed to proceed.'
+            : 'I confirm I have contacted both industry and student, and both have agreed to proceed.'
     const [note, setNote] = useState(message)
     const [isSuccessfulSelected, setIsSuccessfulSelected] =
         useState<boolean>(true)

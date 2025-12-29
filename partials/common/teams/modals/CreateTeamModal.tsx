@@ -30,7 +30,7 @@ import {
     UserPlus,
 } from 'lucide-react'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, Controller, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -54,6 +54,9 @@ const schema = yup.object().shape({
 })
 
 export const CreateTeamModal = ({ createTeamOpen, setCreateTeamOpen }: any) => {
+    const [selectedCountry, setSelectedCountry] = useState<any | undefined>(
+        undefined
+    )
     const { notification } = useNotification()
     const coordinators = CommonApi.Coordinators.useCoordinatorByRole()
     const [createTeam, createTeamResult] =
@@ -61,6 +64,17 @@ export const CreateTeamModal = ({ createTeamOpen, setCreateTeamOpen }: any) => {
     const memberOptions = coordinators?.data?.map((coordinator: any) => ({
         label: coordinator?.user?.name,
         value: coordinator?.id,
+    }))
+    const { data, isLoading } = CommonApi.Countries.useCountriesList()
+    const statesBasedOnCountry = CommonApi.Countries.useCountryStatesList(
+        selectedCountry,
+        {
+            skip: !selectedCountry,
+        }
+    )
+    const stateOptions = statesBasedOnCountry?.data?.map((state: any) => ({
+        label: state?.name,
+        value: state?.id,
     }))
     const methods = useForm({
         mode: 'all',
@@ -89,18 +103,17 @@ export const CreateTeamModal = ({ createTeamOpen, setCreateTeamOpen }: any) => {
     const toggleTag = (tag: string) => {
         const current = methods.watch('tags') || []
 
-        if (current.includes(tag)) {
-            methods.setValue(
-                'tags',
-                current.filter((t: string) => t !== tag)
-            )
+        // If the same tag is clicked again → unselect it
+        if (current[0] === tag) {
+            methods.setValue('tags', [])
         } else {
-            methods.setValue('tags', [...current, tag])
+            // Always keep only one tag
+            methods.setValue('tags', [tag])
         }
     }
 
     const onSubmit = (data: any) => {
-        const { members, ...rest } = data
+        const { members, country, ...rest } = data
         const subAdmin = members?.map((member: any) => ({
             subadmin: member?.value,
         }))
@@ -139,6 +152,36 @@ export const CreateTeamModal = ({ createTeamOpen, setCreateTeamOpen }: any) => {
                                         </span>
                                         Basic Information
                                     </h3>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <Select
+                                            name="country"
+                                            label={'State Country'}
+                                            options={data?.map(
+                                                (country: any) => ({
+                                                    label: country?.name,
+                                                    value: country?.id,
+                                                })
+                                            )}
+                                            loading={isLoading}
+                                            onChange={(e: any) => {
+                                                setSelectedCountry(e?.value)
+                                            }}
+                                        />
+                                        <Select
+                                            name="state"
+                                            label={'State'}
+                                            options={stateOptions}
+                                            loading={
+                                                statesBasedOnCountry.isLoading
+                                            }
+                                            disabled={
+                                                !selectedCountry ||
+                                                statesBasedOnCountry.isLoading
+                                            }
+                                            onlyValue
+                                        />
+                                        {/* stateOptions */}
+                                    </div>
 
                                     <div className="grid grid-cols-2 gap-4">
                                         {/* Team Name */}

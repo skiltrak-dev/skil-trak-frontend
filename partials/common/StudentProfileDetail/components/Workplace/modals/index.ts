@@ -46,3 +46,5 @@ export * from './NoIndustryOptionsAvailableModal'
 export * from './SkipCurrentWPApplyAnotherWPModal'
 export * from './WpConfirmCapacityThroughtEmailModal'
 export * from './ShowScheduleInfoBeforeApproveWPModal'
+
+export * from './UponAppointmentCompletionModal'

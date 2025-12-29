@@ -14,8 +14,9 @@ import {
     Plus,
     Sparkles,
     Target,
-    XCircle
+    XCircle,
 } from 'lucide-react'
+import { useState } from 'react'
 
 interface CleanHeaderProps {
     isCancelled: boolean
@@ -25,8 +26,6 @@ interface CleanHeaderProps {
     handleQuickAction: (value: string) => void
     setShowCancelDialog: (show: boolean) => void
     setShowManualNoteDialog: (show: boolean) => void
-    isWorkflowOpen: boolean
-    setIsWorkflowOpen: (open: boolean) => void
     workflowStages: any[]
     currentStatus: any
     getCurrentStageIndex: () => number
@@ -40,12 +39,11 @@ export function CleanHeader({
     handleQuickAction,
     setShowCancelDialog,
     setShowManualNoteDialog,
-    isWorkflowOpen,
-    setIsWorkflowOpen,
     workflowStages,
     currentStatus,
     getCurrentStageIndex,
 }: CleanHeaderProps) {
+    const [isWorkflowOpen, setIsWorkflowOpen] = useState(false)
     const quickActionOptions = [
         { label: 'On Hold', value: 'On Hold' },
         { label: 'Cancelled', value: 'Cancelled' },

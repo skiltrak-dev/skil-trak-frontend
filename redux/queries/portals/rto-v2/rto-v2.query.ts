@@ -7,7 +7,7 @@ import { placementRequestsEndPoints } from './placementRequests'
 import { studentDocumentsEndpoints } from './student-documents'
 import { studentsEndpoints } from './students'
 import { studentsWorkplaceEndpoints } from './students-workplace'
-
+import { industriesEndpoints } from './industries'
 export const rtoV2Api = apiSlice.injectEndpoints({
     endpoints: (build) => ({
         ...coursesEndPoints(build),
@@ -18,6 +18,7 @@ export const rtoV2Api = apiSlice.injectEndpoints({
         ...placementRequestsEndPoints(build),
         ...availableServicesEndpoints(build),
         ...studentsWorkplaceEndpoints(build),
+        ...industriesEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -72,6 +73,7 @@ const {
     useGetStudentAppointmentsCountQuery,
     useAddSingleStudentWithPlacementTypeMutation,
     useRunAutomationForAvailabeleStudentsMutation,
+    useBookAppointmentExternallyMutation,
 
     // ---- Students Workplace ---- //
     useGetStudentWorkplaceListQuery,
@@ -95,6 +97,10 @@ const {
     useGetStudentDocumentFilesQuery,
     useGetStudentDocumentsCountQuery,
     useUploadStudentDocumentFileMutation,
+
+    // -------------------- Industries ------------------------------- //
+    useCreateAvailabilityMutation,
+    useGetIndustryAvailabilityV2Query,
 } = rtoV2Api
 
 export const RtoV2Api = {
@@ -156,6 +162,8 @@ export const RtoV2Api = {
         addIndividualStudent: useAddSingleStudentWithPlacementTypeMutation,
         runAutomationForAvailabeleStudents:
             useRunAutomationForAvailabeleStudentsMutation,
+        useBookAppointmentExternally:
+            useBookAppointmentExternallyMutation,
     },
     StudentsWorkplace: {
         getStudentWorkplaceList: useGetStudentWorkplaceListQuery,
@@ -179,5 +187,9 @@ export const RtoV2Api = {
         getStudentDocumentFiles: useGetStudentDocumentFilesQuery,
         getStudentDocumentsCount: useGetStudentDocumentsCountQuery,
         uploadStudentDocumentFile: useUploadStudentDocumentFileMutation,
+    },
+    Industries: {
+        createAvailability: useCreateAvailabilityMutation,
+        useIndustryAvailabilityV2: useGetIndustryAvailabilityV2Query,
     },
 }

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { ClipboardCheck, Clock, Flag, MessageSquare, User } from 'lucide-react'
 import { useRouter } from 'next/router'
 
-export const EnhancedStatusNotesCard = ({ statusNotes }: any) => {
+export const EnhancedStatusNotesCard = () => {
     const router = useRouter()
     const wpId = router.query.id
     const { data, isLoading, isError } =
@@ -65,8 +65,8 @@ export const EnhancedStatusNotesCard = ({ statusNotes }: any) => {
                                           }`}
                                       >
                                           <div className="flex items-start justify-between mb-3">
-                                              <Badge
-                                                  text={note.status}
+                                              {/* <Badge
+                                                  text={note?.title}
                                                   Icon={
                                                       isManualNote
                                                           ? MessageSquare
@@ -83,21 +83,25 @@ export const EnhancedStatusNotesCard = ({ statusNotes }: any) => {
                                                           ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white'
                                                           : 'bg-gradient-to-r from-[#044866] to-[#0D5468] text-white'
                                                   }`}
-                                              />
+                                              /> */}
+                                              <span className="font-medium text-slate-900 capitalize">
+                                                  {note?.title ?? '---'}
+                                              </span>
                                               <div className="flex items-center gap-1.5 text-slate-500 text-xs">
                                                   <Clock className="h-3 w-3" />
-                                                  {note?.updatedAt ?? '__'}
+                                                  {note?.updatedAt.slice(
+                                                      0,
+                                                      10
+                                                  ) ?? '__'}
                                               </div>
                                           </div>
                                           <p
                                               dangerouslySetInnerHTML={{
                                                   __html: note?.body ?? '',
                                               }}
-                                              className="text-slate-900 text-sm leading-relaxed"
+                                              className="text-slate-900 text-sm leading-relaxed max-h-56 overflow-auto"
                                           />
-                                          {/* {note.note}
-                                    </p> */}
-                                          <div
+                                          {/* <div
                                               className={`flex items-center gap-2 mt-3 pt-3 border-t ${
                                                   isManualNote
                                                       ? 'border-blue-200'
@@ -131,13 +135,10 @@ export const EnhancedStatusNotesCard = ({ statusNotes }: any) => {
                                                       }`}
                                                   />
                                               </div>
-                                              {/* <span className="text-slate-600 text-xs">
-                                            By:{' '}
-                                            <span className="font-medium text-slate-900">
-                                                {note.user}
-                                            </span>
-                                        </span> */}
-                                          </div>
+                                              <span className="text-slate-600 text-xs">
+                                                  By:{' '}
+                                              </span>
+                                          </div> */}
                                       </motion.div>
                                   )
                               })

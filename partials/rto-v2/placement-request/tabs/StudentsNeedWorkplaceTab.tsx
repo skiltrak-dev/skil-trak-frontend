@@ -173,9 +173,9 @@ export const StudentsNeedWorkplaceTab = () => {
                 <div className="flex flex-col gap-1.5 min-w-0 col-span-1 sm:col-span-1 lg:col-span-1">
                     <span
                         className="text-sm font-semibold text-foreground/90 leading-tight truncate"
-                        title={row?.original?.student?.courses?.[0]?.title}
+                        title={row?.original?.courses?.[0]?.title}
                     >
-                        {row?.original?.student?.courses?.[0]?.title}
+                        {row?.original?.courses?.[0]?.title}
                     </span>
                 </div>
             ),

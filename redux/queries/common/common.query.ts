@@ -472,6 +472,8 @@ const {
     useCoordinatorAvailablityQuery,
     useGetUpcommingAppointmentQuery,
     useRescheduleAppointmentMutation,
+    useGetAppointmentCompletionStatusQuery,
+    useGetAppointmentCompletionStatusIndustryQuery,
 
     // ------ Notifications ------ //
     useGetNotificationsQuery,
@@ -834,6 +836,9 @@ export const CommonApi = {
         useCoordinatorAvailablity: useCoordinatorAvailablityQuery,
         useUpcommingAppointment: useGetUpcommingAppointmentQuery,
         rescheduleAppointment: useRescheduleAppointmentMutation,
+        useAppointmentCompletionStatus: useGetAppointmentCompletionStatusQuery,
+        useAppointmentCompletionStatusIndustry:
+            useGetAppointmentCompletionStatusIndustryQuery,
     },
     Notifications: {
         useNotifications: useGetNotificationsQuery,

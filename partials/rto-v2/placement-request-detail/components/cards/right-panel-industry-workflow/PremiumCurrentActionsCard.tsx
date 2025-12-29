@@ -32,7 +32,10 @@ import {
     providedWorkplaceStagesEnum,
 } from '../../workplaceStages'
 import { ReRunWPAutomation } from '@partials/common/StudentProfileDetail/components'
-import { AppointmentBookingModal } from '@partials/rto-v2/placement-request-detail/modal'
+import {
+    AgreementModal,
+    AppointmentBookingModal,
+} from '@partials/rto-v2/placement-request-detail/modal'
 
 export const PremiumCurrentActionsCard = ({
     isCancelled,
@@ -45,18 +48,16 @@ export const PremiumCurrentActionsCard = ({
     proofSkipped,
     setShowProofUploadDialog,
     appointmentDate,
-    setShowAppointmentDialog,
-    setShowAgreementDialog,
-    handleAgreementSigned,
+
     setShowScheduleDialog,
     setShowProvidedWorkplaceDialog,
     setPendingStatus,
     workplaceType,
     workplace,
-    showAppointmentDialog,
 }: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
-
+    const [showAppointmentDialog, setShowAppointmentDialog] = useState(false)
+    const [showAgreementDialog, setShowAgreementDialog] = useState(false)
     const onCancelClicked = () => setModal(null)
     // const [refresh, refreshResult] = SubAdminApi.Student.rerunAutomation()
 
@@ -68,7 +69,10 @@ export const PremiumCurrentActionsCard = ({
             />
         )
     }
-
+    const handleAgreementSigned = () => {
+        setShowAgreementDialog(true)
+        requestStatusChange('Agreement Signed')
+    }
     const requestStatusChange = (newStatus: string) => {
         setPendingStatus(newStatus)
         setStatusNote('')
@@ -474,10 +478,10 @@ export const PremiumCurrentActionsCard = ({
                                     <Calendar className="mr-2 h-4 w-4" /> Book
                                     Appointment
                                 </Button>
-                                <AppointmentBookingModal
+                                {/* <AppointmentBookingModal
                                     isOpen={showAppointmentDialog}
                                     onClose={setShowAppointmentDialog}
-                                />
+                                /> */}
                             </>
                         ) : (
                             <>
@@ -551,6 +555,13 @@ export const PremiumCurrentActionsCard = ({
                             text="Mark as Signed"
                             Icon={CheckCircle2}
                         />
+                        {showAgreementDialog && (
+                            <AgreementModal
+                                open={showAgreementDialog}
+                                onClose={() => setShowAgreementDialog(false)}
+                                onConfirm={handleAgreementSigned}
+                            />
+                        )}
                     </motion.div>
                 )
 
@@ -926,9 +937,7 @@ export const PremiumCurrentActionsCard = ({
 
                 <div className="p-7">
                     {getStatusActions() ?? (
-                        <NoData
-                            text="No progress has been recorded for this placement."
-                        />
+                        <NoData text="No progress has been recorded for this placement." />
                     )}
                 </div>
             </Card>

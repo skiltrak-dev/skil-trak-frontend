@@ -1,8 +1,10 @@
-import { Badge, Card, LoadingAnimation } from '@components'
+import { LoadingAnimation } from '@components'
+import { WorkplaceHookProvider } from '@partials/common/StudentProfileDetail/components/Workplace/hooks'
+import { RtoV2Api } from '@queries'
 import { motion } from 'framer-motion'
 import { CheckCircle2, Clock } from 'lucide-react'
+import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
-import { Progressbar } from '../components'
 import {
     CollapsibleStudentDetailsCard,
     EnhancedComplianceChecks,
@@ -12,7 +14,6 @@ import {
     EnhancedRtoRequirementsCard,
     EnhancedStatusNotesCard,
     EnhancedStudentPreferencesChecklistCard,
-    IndustryInformationWorkflowCard,
     IndustryMatchValidationCard,
     PremiumCurrentActionsCard,
     StudentQuickSummaryCard,
@@ -28,8 +29,6 @@ import {
 } from './components/workplaceStages'
 import {
     AgreementModal,
-    AppointmentBookingModal,
-    AppointmentModal,
     CancelRequestModal,
     ManualNoteModal,
     PlacementProgramsModal,
@@ -40,10 +39,6 @@ import {
     ScheduleModal,
     StatusNotesModal,
 } from './modal'
-import { RtoV2Api } from '@queries'
-import { useRouter } from 'next/router'
-import { WorkplaceHookProvider } from '@partials/common/StudentProfileDetail/components/Workplace/hooks'
-import { PlacementDetails } from '../approve-placement/detail/components/PlacementDetails'
 
 interface StatusNote {
     status: string
@@ -63,12 +58,13 @@ export const PlacementRequestDetail = () => {
         RtoV2Api.PlacementRequests.useStudentPlacementProfileDetails(wpId, {
             skip: !wpId,
         })
-
+    const industryAvailability = RtoV2Api.Industries.useIndustryAvailabilityV2(
+        router.query.id,
+        { skip: !router.query.id }
+    )
     const [currentStatus, setCurrentStatus] =
         useState<string>('Request Generated')
-    const [isWorkflowOpen, setIsWorkflowOpen] = useState(false)
-    const [showAppointmentDialog, setShowAppointmentDialog] = useState(false)
-    const [showAgreementDialog, setShowAgreementDialog] = useState(false)
+
     const [showScheduleDialog, setShowScheduleDialog] = useState(false)
     const [showRejectionDialog, setShowRejectionDialog] = useState(false)
     const [showStatusNotesDialog, setShowStatusNotesDialog] = useState(false)
@@ -704,20 +700,6 @@ export const PlacementRequestDetail = () => {
         setSelectedQuickAction('')
     }
 
-    const handleBookAppointment = () => {
-        if (!appointmentDate) {
-            // Please select an appointment date
-            return
-        }
-        setShowAppointmentDialog(false)
-        // Appointment scheduled for ${appointmentDate}
-    }
-
-    const handleAgreementSigned = () => {
-        setShowAgreementDialog(false)
-        requestStatusChange('Agreement Signed')
-    }
-
     const handleScheduleConfirmed = () => {
         if (!scheduleStartDate || !scheduleEndDate) {
             // Please select start and end dates
@@ -914,8 +896,6 @@ export const PlacementRequestDetail = () => {
                         handleQuickAction={handleQuickAction}
                         setShowCancelDialog={setShowCancelDialog}
                         setShowManualNoteDialog={setShowManualNoteDialog}
-                        isWorkflowOpen={isWorkflowOpen}
-                        setIsWorkflowOpen={setIsWorkflowOpen}
                         workflowStages={progress}
                         currentStatus={wpCurrentStatus}
                         getCurrentStageIndex={getCurrentStageIndex}
@@ -1060,18 +1040,6 @@ export const PlacementRequestDetail = () => {
                                                 setShowRejectionDialog
                                             }
                                             appointmentDate={appointmentDate}
-                                            setShowAppointmentDialog={
-                                                setShowAppointmentDialog
-                                            }
-                                            showAppointmentDialog={
-                                                showAppointmentDialog
-                                            }
-                                            setShowAgreementDialog={
-                                                setShowAgreementDialog
-                                            }
-                                            handleAgreementSigned={
-                                                handleAgreementSigned
-                                            }
                                             setShowScheduleDialog={
                                                 setShowScheduleDialog
                                             }
@@ -1132,9 +1100,7 @@ export const PlacementRequestDetail = () => {
                                     />
 
                                     {/* Enhanced Status Notes */}
-                                    <EnhancedStatusNotesCard
-                                        statusNotes={statusNotes}
-                                    />
+                                    <EnhancedStatusNotesCard />
                                 </motion.div>
 
                                 {/* Right Panel - Industry Information & Workflow */}
@@ -1153,17 +1119,13 @@ export const PlacementRequestDetail = () => {
                 onAppointmentDateChange={setAppointmentDate}
                 onConfirm={handleBookAppointment}
             /> */}
-                    <AppointmentBookingModal
+                    {/* <AppointmentBookingModal
                         isOpen={showAppointmentDialog}
                         onClose={setShowAppointmentDialog}
-                    />
+                        availability={industryAvailability?.data}
+                    /> */}
 
                     {/* Agreement Modal */}
-                    <AgreementModal
-                        open={showAgreementDialog}
-                        onClose={() => setShowAgreementDialog(false)}
-                        onConfirm={handleAgreementSigned}
-                    />
 
                     {/* Schedule Modal */}
                     <ScheduleModal
