@@ -10,98 +10,21 @@ import {
     TooltipTrigger,
 } from '@components/ui/tooltip'
 import { motion } from 'framer-motion'
+import { Briefcase, CheckCircle2 } from 'lucide-react'
 import {
-    Briefcase,
-    Building2,
-    CalendarCheck,
-    CheckCircle2,
-    CheckSquare,
-    Clock,
-    FileCheck,
-    FileText,
-    Play,
-    Shield,
-    User,
-} from 'lucide-react'
+    needsWorkplaceStages,
+    providedWorkplaceStages,
+} from '../workplaceStages'
 
-// Workflow for students who need a workplace
-const needsWorkplaceStages = [
-    { id: 1, name: 'Student Added', icon: User, color: '#6b7280' },
-    { id: 2, name: 'Request Generated', icon: FileText, color: '#044866' },
-    { id: 3, name: 'Waiting for Student', icon: User, color: '#044866' },
-    { id: 4, name: 'Waiting for RTO', icon: Clock, color: '#044866' },
-    {
-        id: 5,
-        name: 'Waiting for Industry',
-        icon: Building2,
-        color: '#044866',
-    },
-    { id: 6, name: 'Appointment', icon: CalendarCheck, color: '#0D5468' },
-    { id: 7, name: 'Agreement Pending', icon: FileText, color: '#0D5468' },
-    { id: 8, name: 'Agreement Signed', icon: FileCheck, color: '#0D5468' },
-    { id: 9, name: 'Placement Started', icon: Play, color: '#10b981' },
-    {
-        id: 10,
-        name: 'Schedule Completed',
-        icon: CheckSquare,
-        color: '#10b981',
-    },
-    { id: 11, name: 'Completed', icon: CheckCircle2, color: '#059669' },
-]
-
-// Workflow for students with provided workplace
-const providedWorkplaceStages = [
-    { id: 1, name: 'Student Added', icon: User, color: '#6b7280' },
-    {
-        id: 2,
-        name: 'Provided Workplace Request',
-        icon: Briefcase,
-        color: '#044866',
-    },
-    {
-        id: 3,
-        name: 'Industry Eligibility Pending',
-        icon: Shield,
-        color: '#044866',
-    },
-    {
-        id: 4,
-        name: 'Waiting for Industry',
-        icon: Building2,
-        color: '#044866',
-    },
-    {
-        id: 5,
-        name: 'Agreement and Eligibility Pending',
-        icon: FileText,
-        color: '#0D5468',
-    },
-    {
-        id: 6,
-        name: 'Agreement and Eligibility Signed',
-        icon: FileCheck,
-        color: '#0D5468',
-    },
-    { id: 7, name: 'Placement Started', icon: Play, color: '#10b981' },
-    {
-        id: 8,
-        name: 'Schedule Completed',
-        icon: CheckSquare,
-        color: '#10b981',
-    },
-    { id: 9, name: 'Completed', icon: CheckCircle2, color: '#059669' },
-]
-
-export const WorkplaceProgressbar = ({ currentStatus }: any) => {
-    const [workplaceType, setWorkplaceType] = useState<
-        'needs' | 'provided' | null
-    >(null)
+export const WorkplaceProgressbar = ({ currentStatus, workplaceType }: any) => {
     const workflowStages =
         workplaceType === 'provided'
             ? providedWorkplaceStages
             : needsWorkplaceStages
     const getCurrentStageIndex = () => {
-        const stage = workflowStages.find((s) => s.name === currentStatus)
+        const stage = workflowStages.find(
+            (s) => s.name === currentStatus?.stage
+        )
         return stage ? stage.id - 1 : 0
     }
 

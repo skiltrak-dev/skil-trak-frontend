@@ -24,6 +24,7 @@ import {
 } from 'lucide-react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { OptionType } from '@types'
+import { OnViewMapTabs } from '@partials/common/StudentProfileDetail/components/Workplace/components/IndustryDetail'
 
 interface IndustryItem {
     id: string
@@ -49,6 +50,7 @@ interface ContactHistory {
 interface FindWorkplaceSectionProps {
     isExpanded: boolean
     onToggle: () => void
+    workplace: any
 }
 
 // Generate 25 industries for each list
@@ -159,7 +161,9 @@ const futureIndustriesData = generateIndustries(100, false)
 export function FindWorkplaceSection({
     isExpanded,
     onToggle,
+    workplace,
 }: FindWorkplaceSectionProps) {
+    const [selectedBox, setSelectedBox] = useState(null)
     const [mainTab, setMainTab] = useState('industries')
     const [industriesSubTab, setIndustriesSubTab] = useState('future')
     const [recordsPerPage, setRecordsPerPage] = useState('5')
@@ -335,258 +339,12 @@ export function FindWorkplaceSection({
                             noPadding
                             className="border-2 border-[#044866]/20 shadow-lg overflow-hidden"
                         >
-                            {/* Main Tabs */}
-                            <Tabs
-                                value={mainTab}
-                                onValueChange={setMainTab}
-                                className="w-full"
-                            >
-                                <TabsList className="w-full grid grid-cols-2 rounded-none border-b bg-white h-14">
-                                    <TabsTrigger
-                                        value="industries"
-                                        className="data-[state=active]:bg-[#044866] data-[state=active]:text-white rounded-none relative data-[state=inactive]:text-slate-600"
-                                    >
-                                        <Building2 className="h-4 w-4 mr-2" />
-                                        Industries
-                                    </TabsTrigger>
-                                    <TabsTrigger
-                                        value="contact"
-                                        className="data-[state=active]:bg-[#044866] data-[state=active]:text-white rounded-none relative data-[state=inactive]:text-slate-600"
-                                    >
-                                        <History className="h-4 w-4 mr-2" />
-                                        Contact History
-                                        {contactHistory.length > 0 && (
-                                            <Badge
-                                                text={contactHistory.length.toString()}
-                                                variant="warning"
-                                                size="xs"
-                                                className="ml-2"
-                                            />
-                                        )}
-                                    </TabsTrigger>
-                                </TabsList>
-
-                                {/* Industries Tab */}
-                                <TabsContent
-                                    value="industries"
-                                    className="m-0 p-6"
-                                >
-                                    {/* Sub Tabs */}
-                                    <Tabs
-                                        value={industriesSubTab}
-                                        onValueChange={(val) => {
-                                            setIndustriesSubTab(val)
-                                            setCurrentPage(1)
-                                        }}
-                                        className="w-full"
-                                    >
-                                        <TabsList className="bg-transparent border-b w-full justify-start rounded-none h-auto p-0 mb-6">
-                                            <TabsTrigger
-                                                value="signed-up"
-                                                className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#044866] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-6 py-3"
-                                            >
-                                                Signed Up (
-                                                {signedUpIndustries.length})
-                                            </TabsTrigger>
-                                            <TabsTrigger
-                                                value="future"
-                                                className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#044866] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-6 py-3 text-[#044866]"
-                                            >
-                                                Future/Listing (
-                                                {futureIndustries.length})
-                                            </TabsTrigger>
-                                        </TabsList>
-
-                                        <TabsContent
-                                            value="signed-up"
-                                            className="m-0"
-                                        >
-                                            <ProgressInfo
-                                                unlockedCount={
-                                                    industriesSubTab ===
-                                                    'signed-up'
-                                                        ? unlockedCount
-                                                        : 0
-                                                }
-                                                totalCount={25}
-                                                currentIndustries={
-                                                    signedUpIndustries
-                                                }
-                                            />
-                                            <IndustryList
-                                                industries={paginatedIndustries}
-                                                unlockedCount={unlockedCount}
-                                                startIndex={startIndex}
-                                                onContactToggle={
-                                                    handleContactToggle
-                                                }
-                                                onNoResponseToggle={
-                                                    handleNoResponseToggle
-                                                }
-                                                contactHistory={contactHistory}
-                                            />
-                                            <PaginationControls
-                                                currentPage={currentPage}
-                                                recordsPerPage={recordsPerPage}
-                                                totalRecords={totalRecords}
-                                                onPageChange={setCurrentPage}
-                                                onRecordsPerPageChange={
-                                                    setRecordsPerPage
-                                                }
-                                            />
-                                        </TabsContent>
-
-                                        <TabsContent
-                                            value="future"
-                                            className="m-0"
-                                        >
-                                            <ProgressInfo
-                                                unlockedCount={
-                                                    industriesSubTab ===
-                                                    'future'
-                                                        ? unlockedCount
-                                                        : 0
-                                                }
-                                                totalCount={25}
-                                                currentIndustries={
-                                                    futureIndustries
-                                                }
-                                            />
-                                            <IndustryList
-                                                industries={paginatedIndustries}
-                                                unlockedCount={unlockedCount}
-                                                startIndex={startIndex}
-                                                onContactToggle={
-                                                    handleContactToggle
-                                                }
-                                                onNoResponseToggle={
-                                                    handleNoResponseToggle
-                                                }
-                                                contactHistory={contactHistory}
-                                            />
-                                            <PaginationControls
-                                                currentPage={currentPage}
-                                                recordsPerPage={recordsPerPage}
-                                                totalRecords={totalRecords}
-                                                onPageChange={setCurrentPage}
-                                                onRecordsPerPageChange={
-                                                    setRecordsPerPage
-                                                }
-                                            />
-                                        </TabsContent>
-                                    </Tabs>
-                                </TabsContent>
-
-                                {/* Contact History Tab */}
-                                <TabsContent
-                                    value="contact"
-                                    className="m-0 p-6"
-                                >
-                                    <div className="mb-6">
-                                        <h3 className="text-lg text-slate-900 mb-1">
-                                            Contact Log
-                                        </h3>
-                                        <p className="text-sm text-slate-600">
-                                            All contact attempts with person
-                                            names and dates
-                                        </p>
-                                    </div>
-
-                                    {contactHistory.length === 0 ? (
-                                        <div className="flex flex-col items-center justify-center py-12 text-center">
-                                            <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
-                                                <History className="h-8 w-8 text-slate-400" />
-                                            </div>
-                                            <h4 className="text-slate-900 mb-2">
-                                                No Contact History Yet
-                                            </h4>
-                                            <p className="text-sm text-slate-600 max-w-sm">
-                                                Contact attempts will be logged
-                                                here with person names and
-                                                dates. Multiple calls to the
-                                                same industry are supported.
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        <ScrollArea className="h-[500px]">
-                                            <div className="grid gap-3 pr-4">
-                                                {contactHistory.map(
-                                                    (contact) => (
-                                                        <motion.div
-                                                            key={contact.id}
-                                                            initial={{
-                                                                opacity: 0,
-                                                                y: 10,
-                                                            }}
-                                                            animate={{
-                                                                opacity: 1,
-                                                                y: 0,
-                                                            }}
-                                                            className="flex items-center gap-3 p-4 bg-white border-2 rounded-lg hover:shadow-md transition-all border-slate-200"
-                                                        >
-                                                            {/* Icon */}
-                                                            <div
-                                                                className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                                                                    contact.type ===
-                                                                    'contacted'
-                                                                        ? 'bg-emerald-100'
-                                                                        : 'bg-red-100'
-                                                                }`}
-                                                            >
-                                                                {contact.type ===
-                                                                'contacted' ? (
-                                                                    <CheckCircle2 className="h-6 w-6 text-emerald-600" />
-                                                                ) : (
-                                                                    <XCircle className="h-6 w-6 text-red-600" />
-                                                                )}
-                                                            </div>
-
-                                                            {/* Content */}
-                                                            <div className="flex-1 min-w-0">
-                                                                <div className="flex items-center gap-2 mb-1.5">
-                                                                    <h4 className="font-semibold text-slate-900">
-                                                                        {
-                                                                            contact.industryName
-                                                                        }
-                                                                    </h4>
-                                                                    <Badge
-                                                                        text={
-                                                                            contact.type ===
-                                                                            'contacted'
-                                                                                ? 'Contacted'
-                                                                                : 'No Response'
-                                                                        }
-                                                                        variant={
-                                                                            contact.type ===
-                                                                            'contacted'
-                                                                                ? 'success'
-                                                                                : 'error'
-                                                                        }
-                                                                        size="xs"
-                                                                    />
-                                                                </div>
-                                                                <div className="flex items-center gap-1.5 text-sm text-slate-600 mb-1">
-                                                                    <User className="h-3.5 w-3.5 text-[#044866]" />
-                                                                    <span className="text-xs font-medium">
-                                                                        {
-                                                                            contact.contactPerson
-                                                                        }
-                                                                    </span>
-                                                                </div>
-                                                                <p className="text-xs text-slate-500">
-                                                                    {
-                                                                        contact.timestamp
-                                                                    }
-                                                                </p>
-                                                            </div>
-                                                        </motion.div>
-                                                    )
-                                                )}
-                                            </div>
-                                        </ScrollArea>
-                                    )}
-                                </TabsContent>
-                            </Tabs>
+                            <OnViewMapTabs
+                                workplaceId={workplace?.id}
+                                selectedBox={selectedBox}
+                                workplace={workplace}
+                                setSelectedBox={setSelectedBox}
+                            />
                         </Card>
                     </motion.div>
                 )}

@@ -44,23 +44,27 @@ export const EmployerDocuments = ({
     const [upload, uploadResult] = StudentApi.Workplace.uploadWPContract()
 
     const onProceed = async () => {
-        if (uploadResult?.data) {
-            const res: any = await action(uploadResult?.data)
-            if (res?.data) {
-                onCancel()
-                setActive(4)
-            }
-        } else {
-            notification.error({
-                title: 'Upload File',
+        const payload = uploadResult?.data ?? null
+
+        if (!uploadResult?.data) {
+            notification.info({
+                title: 'Proceeding without documents',
                 description:
-                    'Please Upload one of the following file to proceed!',
+                    'You can upload employer documents later from your profile.',
             })
+        }
+
+        const res: any = await action(payload)
+
+        if (res?.data) {
+            onCancel()
+            setActive(4)
         }
     }
 
     const onUploadFile = async (e: any) => {
         const formData = new FormData()
+
         Object.entries(e)?.forEach(([key, value]: any) => {
             formData.append(
                 key === 'name' ? 'workplaceDocumentType' : key,
@@ -102,7 +106,7 @@ export const EmployerDocuments = ({
                             />
                             <Typography variant="title" normal>
                                 Please upload one of the following employer
-                                documents to add the workplace
+                                documents to add the workplace (optional)
                             </Typography>
                         </div>
 

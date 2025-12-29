@@ -21,6 +21,9 @@ import {
     IndustrySectorRequiredDocs,
     IndustryShiftingHours,
     IndustryStudents,
+    InterviewAvailability,
+    MonthlySchedule,
+    WeeklySchedule,
 } from './components'
 import { CourseManagement } from './components/CourseManagement'
 import { StudentSchedule } from './components/StudentSchedule'
@@ -128,7 +131,7 @@ export const IndustryProfileDetail = ({
                         autoDismiss={false}
                     />
                 )}
-
+                {/* <InterviewAvailability data={industry} /> */}
                 <div className="flex gap-x-4 h-[490px] mt-5 items-stretch">
                     <div
                         className={`h-full ${

@@ -1,10 +1,10 @@
 import { ActionModal, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
 import { CommonApi } from '@queries'
-
+import { UserRoles } from '@constants'
 import { useRouter } from 'next/router'
 import { IoWarningOutline } from 'react-icons/io5'
-
+import { getUserCredentials } from '@utils'
 export const FinishSignModal = ({
     customFieldsData,
     onCancel,
@@ -14,7 +14,7 @@ export const FinishSignModal = ({
 }) => {
     const { notification } = useNotification()
     const router = useRouter()
-
+    const role = getUserCredentials()?.role
     const [addCustomFieldsData, addCustomFieldsDataResult] =
         CommonApi.ESign.addCustomFieldData()
 
@@ -43,7 +43,11 @@ export const FinishSignModal = ({
                     Icon={IoWarningOutline}
                     variant="success"
                     title="Are you sure!"
-                    description={`You are about to finish Esign Do you wish to continue?`}
+                    description={`${
+                        role === UserRoles?.RTO
+                            ? 'Please review the e-sign document before finishing. Once completed, the document will be approved.'
+                            : 'You are about to finish Esign Do you wish to continue?'
+                    }`}
                     onConfirm={onConfirmUClicked}
                     onCancel={onCancel}
                     input

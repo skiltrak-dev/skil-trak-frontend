@@ -8,6 +8,7 @@ export const DocumentsView = () => {
     const onModalCancel = () => {
         setModal(null)
     }
+    console.log('modal', modal)
 
     const getImageViewModal = (file: any) => {
         return (
@@ -34,6 +35,7 @@ export const DocumentsView = () => {
     }
 
     const onFileClicked = (file: any) => {
+        console.log('file:::::::', file)
         if (
             [
                 'jpg',

@@ -1,24 +1,21 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { Button, Badge, Typography } from '@components'
+import { Badge, Button, Typography } from '@components'
 import { Select } from '@components/inputs/Select'
+import { GlobalModal } from '@components/Modal/GlobalModal'
+import { ScrollArea } from '@components/ui/scroll-area'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@components/ui/tooltip'
+import { motion } from 'framer-motion'
 import {
     ArrowLeft,
-    XCircle,
-    Play,
-    Briefcase,
-    Zap,
-    Pause,
-    Ban,
-    StopCircle,
-    Plus,
     BookOpen,
-    Target,
+    Briefcase,
     CheckCircle2,
+    CircleCheckBig,
+    Play,
+    Plus,
     Sparkles,
+    Target,
+    XCircle,
 } from 'lucide-react'
-import { ScrollArea } from '@components/ui/scroll-area'
-import { GlobalModal } from '@components/Modal/GlobalModal'
 import { useState } from 'react'
 
 interface CleanHeaderProps {
@@ -29,10 +26,8 @@ interface CleanHeaderProps {
     handleQuickAction: (value: string) => void
     setShowCancelDialog: (show: boolean) => void
     setShowManualNoteDialog: (show: boolean) => void
-    isWorkflowOpen: boolean
-    setIsWorkflowOpen: (open: boolean) => void
     workflowStages: any[]
-    currentStatus: string
+    currentStatus: any
     getCurrentStageIndex: () => number
 }
 
@@ -44,24 +39,26 @@ export function CleanHeader({
     handleQuickAction,
     setShowCancelDialog,
     setShowManualNoteDialog,
-    isWorkflowOpen,
-    setIsWorkflowOpen,
     workflowStages,
     currentStatus,
     getCurrentStageIndex,
 }: CleanHeaderProps) {
+    const [isWorkflowOpen, setIsWorkflowOpen] = useState(false)
     const quickActionOptions = [
         { label: 'On Hold', value: 'On Hold' },
         { label: 'Cancelled', value: 'Cancelled' },
         { label: 'Terminated', value: 'Terminated' },
     ]
+    const lastTrueIndex = workflowStages
+        ?.map((stage) => stage.completed)
+        .lastIndexOf(true)
 
     return (
         <>
             <motion.div
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                className="bg-white border-b border-gray-200 sticky top-0 z-50"
+                className="bg-white border-b border-gray-200 sticky top-0 z-10"
             >
                 <div className="px-8 py-4">
                     <div className="flex items-center justify-between max-w-[1900px] mx-auto">
@@ -134,11 +131,11 @@ export function CleanHeader({
                                             }
                                             variant="primaryNew"
                                             Icon={Briefcase}
-                                            className="h-8 px-3"
+                                            className="py-2"
                                         />
 
                                         {/* Quick Actions */}
-                                        <div className="w-[140px]">
+                                        {/* <div className="w-[140px]">
                                             <Select
                                                 name="quickActions"
                                                 options={quickActionOptions}
@@ -147,7 +144,7 @@ export function CleanHeader({
                                                 }
                                                 placeholder="Quick Actions"
                                             />
-                                        </div>
+                                        </div> */}
 
                                         {/* Cancel Request */}
                                         {canCancelRequest() ? (
@@ -240,7 +237,7 @@ export function CleanHeader({
                             </div>
                         </div>
 
-                        <ScrollArea className="h-[600px] mt-6">
+                        <ScrollArea className="h-[450px] mt-6">
                             <div className="space-y-6 pr-4">
                                 {/* Current Workflow */}
                                 <div className="p-4 bg-gray-50 rounded-xl border border-gray-200">
@@ -271,7 +268,7 @@ export function CleanHeader({
                                         <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg">
                                             <Badge
                                                 text={`Stage ${
-                                                    getCurrentStageIndex() + 1
+                                                    lastTrueIndex + 1
                                                 } of ${workflowStages.length}`}
                                                 variant="primaryNew"
                                                 size="xs"
@@ -280,7 +277,7 @@ export function CleanHeader({
                                                 variant="small"
                                                 className="text-gray-700"
                                             >
-                                                {currentStatus}
+                                                {currentStatus?.stage}
                                             </Typography>
                                         </div>
                                     )}
@@ -297,11 +294,9 @@ export function CleanHeader({
 
                                     <div className="space-y-2">
                                         {workflowStages.map((stage, index) => {
-                                            const Icon = stage.icon
                                             const isCurrent =
-                                                index === getCurrentStageIndex()
-                                            const isPast =
-                                                index < getCurrentStageIndex()
+                                                index === lastTrueIndex
+                                            const isPast = index < lastTrueIndex
 
                                             return (
                                                 <div
@@ -324,8 +319,9 @@ export function CleanHeader({
                                                                     : 'bg-gray-300'
                                                             }`}
                                                         >
-                                                            <Icon className="h-4 w-4 text-white" />
+                                                            <CircleCheckBig className="h-4 w-4 text-white" />
                                                         </div>
+
                                                         <div className="flex-1 flex items-center justify-between">
                                                             <Typography
                                                                 variant="small"
@@ -338,8 +334,9 @@ export function CleanHeader({
                                                                 }`}
                                                             >
                                                                 {index + 1}.{' '}
-                                                                {stage.name}
+                                                                {stage.stage}
                                                             </Typography>
+
                                                             {isCurrent && (
                                                                 <Badge
                                                                     text="Current"
@@ -347,6 +344,7 @@ export function CleanHeader({
                                                                     size="xs"
                                                                 />
                                                             )}
+
                                                             {isPast && (
                                                                 <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                                                             )}

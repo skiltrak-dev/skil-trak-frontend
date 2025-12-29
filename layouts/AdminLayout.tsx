@@ -1,4 +1,5 @@
 import { ReactElement, ReactNode, useEffect, useRef } from 'react'
+import { PiHeadsetBold, PiMicrosoftTeamsLogo } from 'react-icons/pi'
 
 // components
 import {
@@ -193,12 +194,12 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             Icon: TbClockCheck,
             visible: checkIsHod,
         },
-        // {
-        //     text: 'Premium Features',
-        //     path: getRoutePath('/premium-features'),
-        //     Icon: IoDiamond,
-        //     visible: checkIsHod,
-        // },
+        {
+            text: 'Teams',
+            path: getRoutePath('/teams'),
+            Icon: PiMicrosoftTeamsLogo,
+            // visible: checkIsHod,
+        },
         {
             text: 'Talent Pool',
             path: getRoutePath('/talent-pool?tab=all'),
@@ -353,6 +354,11 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             text: 'Emails',
             path: getRoutePath('/e-mails?tab=all'),
             Icon: MdEmail,
+        },
+        {
+            text: 'Call Management',
+            path: getRoutePath('/call-management'),
+            Icon: PiHeadsetBold,
         },
         {
             text: 'Notes Templates',
