@@ -6,13 +6,11 @@ import { Course } from '@types'
 
 interface IndustryFilterBarProps {
     searchTerm: string
-    onSearchChange: (value: string) => void
     courseId: string
-    onCourseChange: (value: any) => void
     filterStatus: string
-    onStatusChange: (value: any) => void
-    filterState: string
-    onStateChange: (value: any) => void
+    stateFilter: string
+    placementReady: string
+    onFilterChange: (name: string, value: any) => void
 }
 
 const statusOptions = [
@@ -21,6 +19,12 @@ const statusOptions = [
     { value: 'unverified', label: 'Unverified' },
     { value: 'pending', label: 'Pending' },
     { value: 'inactive', label: 'Inactive' },
+]
+
+const readinessOptions = [
+    { value: 'all', label: 'All Readiness' },
+    { value: 'ready', label: 'Ready' },
+    { value: 'notReady', label: 'Not Ready' },
 ]
 
 const stateOptions = [
@@ -33,13 +37,11 @@ const stateOptions = [
 
 export const IndustryFilterBar = ({
     searchTerm,
-    onSearchChange,
     courseId,
-    onCourseChange,
     filterStatus,
-    onStatusChange,
-    filterState,
-    onStateChange,
+    stateFilter,
+    placementReady,
+    onFilterChange,
 }: IndustryFilterBarProps) => {
     const { data: courses } = RtoV2Api.Courses.rtoCourses()
 
@@ -59,44 +61,56 @@ export const IndustryFilterBar = ({
                         name="search"
                         placeholder="Search industries by name, location, or ABN..."
                         value={searchTerm}
-                        onChange={(e: any) => onSearchChange(e.target.value)}
+                        onChange={(e: any) => onFilterChange('searchTerm', e.target.value)}
                         className="pl-10"
                         showError={false}
                     />
                 </div>
                 <div className="flex flex-wrap items-center gap-2 pb-1 sm:pb-0">
-                    <div className="w-60">
+                    <div className="w-56">
                         <Select
                             name="course"
                             options={coursesOptions}
                             value={coursesOptions.find(
                                 (opt) => opt.value === courseId
                             )}
-                            onChange={onCourseChange}
+                            onChange={(option: any) => onFilterChange('courseId', option?.value || 'all')}
                             placeholder="Course"
                             className="min-w-[160px]"
                             showError={false}
                         />
                     </div>
-                    <div className="w-60">
+                    <div className="w-48">
                         <Select
                             name="state"
                             options={stateOptions}
                             value={stateOptions.find(
-                                (opt) => opt.value === filterState
+                                (opt) => opt.value === stateFilter
                             )}
-                            onChange={onStateChange}
+                            onChange={(option: any) => onFilterChange('stateFilter', option?.value || 'all')}
                             placeholder="State"
                             showError={false}
                         />
                     </div>
-
+                    <div className="w-48">
+                        <Select
+                            name="placementReady"
+                            options={readinessOptions}
+                            value={readinessOptions.find(
+                                (opt) => opt.value === placementReady
+                            )}
+                            onChange={(option: any) => onFilterChange('placementReady', option?.value || 'all')}
+                            placeholder="Readiness"
+                            showError={false}
+                        />
+                    </div>
                 </div>
             </div>
 
             {(searchTerm ||
                 courseId !== 'all' ||
-                filterState !== 'all' ||
+                stateFilter !== 'all' ||
+                placementReady !== 'all' ||
                 filterStatus !== 'all') && (
                     <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border/10">
                         <span className="text-xs font-medium text-muted-foreground mr-1">
@@ -105,21 +119,30 @@ export const IndustryFilterBar = ({
                         {searchTerm && (
                             <FilterTag
                                 label={`Search: ${searchTerm}`}
-                                onRemove={() => onSearchChange('')}
+                                onRemove={() => onFilterChange('searchTerm', '')}
                             />
                         )}
                         {courseId !== 'all' && (
                             <FilterTag
                                 label={`Course: ${coursesOptions.find((c) => c.value === courseId)
-                                        ?.label || courseId
+                                    ?.label || courseId
                                     }`}
-                                onRemove={() => onCourseChange({ value: 'all' })}
+                                onRemove={() => onFilterChange('courseId', 'all')}
                             />
                         )}
-                        {filterState !== 'all' && (
+                        {stateFilter !== 'all' && (
                             <FilterTag
-                                label={`State: ${filterState}`}
-                                onRemove={() => onStateChange({ value: 'all' })}
+                                label={`State: ${stateFilter}`}
+                                onRemove={() => onFilterChange('stateFilter', 'all')}
+                            />
+                        )}
+                        {placementReady !== 'all' && (
+                            <FilterTag
+                                label={`Readiness: ${readinessOptions.find(
+                                    (r) => r.value === placementReady
+                                )?.label || placementReady
+                                    }`}
+                                onRemove={() => onFilterChange('placementReady', 'all')}
                             />
                         )}
                         {filterStatus !== 'all' && (
@@ -128,15 +151,16 @@ export const IndustryFilterBar = ({
                                     (s) => s.value === filterStatus
                                 )?.label || filterStatus
                                     }`}
-                                onRemove={() => onStatusChange({ value: 'all' })}
+                                onRemove={() => onFilterChange('filterStatus', 'all')}
                             />
                         )}
                         <button
                             onClick={() => {
-                                onSearchChange('')
-                                onCourseChange({ value: 'all' })
-                                onStateChange({ value: 'all' })
-                                onStatusChange({ value: 'all' })
+                                onFilterChange('searchTerm', '')
+                                onFilterChange('courseId', 'all')
+                                onFilterChange('stateFilter', 'all')
+                                onFilterChange('filterStatus', 'all')
+                                onFilterChange('placementReady', 'all')
                             }}
                             className="text-xs font-medium text-primary hover:underline hover:text-primary/80 transition-colors ml-1"
                         >

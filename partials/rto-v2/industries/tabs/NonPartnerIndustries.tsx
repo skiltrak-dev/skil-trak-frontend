@@ -16,6 +16,7 @@ interface NonPartnerIndustriesProps {
     courseId: string
     filterStatus: string
     stateFilter: string
+    placementReady: string
 }
 
 export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
@@ -23,6 +24,7 @@ export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
     courseId,
     filterStatus,
     stateFilter,
+    placementReady,
 }) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
@@ -30,7 +32,7 @@ export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
     const industries = RtoV2Api.Industries.getAllIndustriesList({
         search: `nonPartner:${true}${searchTerm ? `,name:${searchTerm}` : ''}${courseId !== 'all' ? `,courseId:${courseId}` : ''
             }${filterStatus !== 'all' ? `,status:${filterStatus}` : ''}${stateFilter !== 'all' ? `,state:${stateFilter}` : ''
-            }`,
+            }${placementReady !== 'all' ? `,placementReady:${placementReady}` : ''}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

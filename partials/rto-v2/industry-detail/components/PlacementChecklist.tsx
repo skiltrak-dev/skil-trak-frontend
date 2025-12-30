@@ -23,17 +23,20 @@ export function PlacementChecklist() {
         completedItems,
         totalItems,
         checklistItems,
+        isPlacementReady,
         isLoading,
     } = useIndustryProgress()
 
     const relevantItems = checklistItems
 
     useEffect(() => {
-        if (!isLoading && progressPercentage < 100) {
-            setIsModalOpen(true)
+        if (!isLoading) {
+            // If they are not ready, show the modal. 
+            // If they ARE ready, ensure it is closed (especially useful if they completed it while it was open)
+            setIsModalOpen(!isPlacementReady)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoading, progressPercentage])
+    }, [isLoading, isPlacementReady])
 
     const checklistTasks: ChecklistTask[] = relevantItems.map((item) => ({
         id: item.title,

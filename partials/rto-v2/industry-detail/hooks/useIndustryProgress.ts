@@ -14,30 +14,19 @@ import {
 import { SubAdminApi } from '@queries'
 import { useAppSelector } from '@redux/hooks'
 
+// For RTO industries, we only validate these specific items to be "placement ready"
+export const rtoRequiredItems = [
+    'Workplace Type',
+    'Courses Configured',
+    'Capacity',
+]
+
 export const getChecklistItems = (
     data: any,
-    isRtoAssociated: boolean = false
 ) => {
-    // For RTO industries, we only validate these specific items
-    // All others are considered "done" automatically
-    const rtoRequiredItems = [
-        'Workplace Type',
-        'Courses Configured',
-        'Capacity',
-    ]
-
     const getStatus = (
-        title: string,
         dataKey: boolean,
-        isRto: boolean
     ): 'done' | 'pending' => {
-        if (isRto) {
-            // If it's an RTO and the item is NOT in the required list, it's auto-done
-            if (!rtoRequiredItems.includes(title)) return 'done'
-            // Otherwise check the actual data
-            return dataKey ? 'done' : 'pending'
-        }
-        // Non-RTO checks everything normally
         return dataKey ? 'done' : 'pending'
     }
 
@@ -45,11 +34,7 @@ export const getChecklistItems = (
         {
             title: 'Basic Information',
             description: 'ABN, address, contact details verified',
-            status: getStatus(
-                'Basic Information',
-                data?.ProfileUpdated,
-                isRtoAssociated
-            ),
+            status: getStatus(data?.ProfileUpdated),
             icon: FileText,
             color: '#044866',
             targetSection: 'basic-details',
@@ -57,11 +42,7 @@ export const getChecklistItems = (
         {
             title: 'Trading Hours Set',
             description: 'Schedule and slots configured',
-            status: getStatus(
-                'Trading Hours Set',
-                data?.trading_hours_and_shifts,
-                isRtoAssociated
-            ),
+            status: getStatus(data?.trading_hours_and_shifts),
             icon: Clock,
             color: '#8B5CF6',
             targetTab: 'hours',
@@ -69,11 +50,7 @@ export const getChecklistItems = (
         {
             title: 'Courses Configured',
             description: 'Programs and activities defined',
-            status: getStatus(
-                'Courses Configured',
-                data?.courseAdded,
-                isRtoAssociated
-            ),
+            status: getStatus(data?.courseAdded),
             icon: BookOpen,
             color: '#EC4899',
             targetTab: 'courses',
@@ -81,11 +58,7 @@ export const getChecklistItems = (
         {
             title: 'Capacity',
             description: 'Partner capacity configured',
-            status: getStatus(
-                'Capacity',
-                data?.CapacityUpdated,
-                isRtoAssociated
-            ),
+            status: getStatus(data?.CapacityUpdated),
             icon: Users,
             color: '#0D5468',
             targetTab: 'courses',
@@ -94,11 +67,7 @@ export const getChecklistItems = (
         {
             title: 'Interview Availability',
             description: 'Interview schedule and availability set',
-            status: getStatus(
-                'Interview Availability',
-                data?.interviewAvailabilities,
-                isRtoAssociated
-            ),
+            status: getStatus(data?.interviewAvailabilities),
             icon: ClipboardCheck,
             color: '#F59E0B',
             targetSection: 'interview-availability',
@@ -106,11 +75,7 @@ export const getChecklistItems = (
         {
             title: 'Primary Contact',
             description: 'Primary contact person assigned',
-            status: getStatus(
-                'Primary Contact',
-                data?.contactPerson,
-                isRtoAssociated
-            ),
+            status: getStatus(data?.contactPerson),
             icon: UserCheck,
             color: '#10B981',
             targetSection: 'contact-details',
@@ -118,11 +83,7 @@ export const getChecklistItems = (
         {
             title: 'Workplace Type',
             description: 'Industry sector and workplace type defined',
-            status: getStatus(
-                'Workplace Type',
-                data?.hasWorkplaceType,
-                isRtoAssociated
-            ),
+            status: getStatus(data?.hasWorkplaceType),
             icon: Shield,
             color: '#14B8A6',
             targetTab: 'courses',
@@ -130,11 +91,7 @@ export const getChecklistItems = (
         {
             title: 'Email Verified',
             description: 'Email verified',
-            status: getStatus(
-                'Email Verified',
-                data?.hasEmailVerified,
-                isRtoAssociated
-            ),
+            status: getStatus(data?.hasEmailVerified),
             icon: Mail,
             color: '#F59E0B',
             targetTab: 'email-verified',
@@ -144,27 +101,32 @@ export const getChecklistItems = (
 
 export const useIndustryProgress = () => {
     const { industryDetail } = useAppSelector((state) => state.industry)
+    const isRtoAssociated = !!industryDetail?.isRtoAssociated
 
     const { data: progressData, isLoading } =
         SubAdminApi.Industry.industryProgress(industryDetail?.id!, {
             skip: !industryDetail?.id,
         })
 
-    const checklistItems = getChecklistItems(
-        progressData || {},
-        !!industryDetail?.isRtoAssociated
-    )
+    const checklistItems = getChecklistItems(progressData || {})
 
+    // Progress bar always shows actual progress across all items
     const completedItems = checklistItems.filter(
         (item) => item.status === 'done'
     ).length
     const totalItems = checklistItems.length
 
-    // Use API percentage calculation
     const progressPercentage =
         Number(((Number(completedItems) * 100) / totalItems).toFixed(0)) || 0
 
-    const isPlacementReady = progressPercentage === 100
+    // Placement readiness check (determines if the modal appears)
+    const isPlacementReady = isRtoAssociated
+        ? // For RTO associated, only these 3 are required to be functionally ready
+          checklistItems
+              .filter((item) => rtoRequiredItems.includes(item.title))
+              .every((item) => item.status === 'done')
+        : // For others, everything must be done (100%)
+          progressPercentage === 100
 
     return {
         progressPercentage,

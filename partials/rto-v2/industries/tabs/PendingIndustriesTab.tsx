@@ -16,6 +16,7 @@ interface PendingIndustriesTabProps {
     courseId: string
     filterStatus: string
     stateFilter: string
+    placementReady: string
 }
 
 export const PendingIndustriesTab: React.FC<PendingIndustriesTabProps> = ({
@@ -23,16 +24,16 @@ export const PendingIndustriesTab: React.FC<PendingIndustriesTabProps> = ({
     courseId,
     filterStatus,
     stateFilter,
+    placementReady,
 }) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
     const industries = RtoV2Api.Industries.getAllIndustriesList({
-        search: `isInterested:${'pending'}${
-            searchTerm ? `,name:${searchTerm}` : ''
-        }${courseId !== 'all' ? `,courseId:${courseId}` : ''}${
-            filterStatus !== 'all' ? `,status:${filterStatus}` : ''
-        }${stateFilter !== 'all' ? `,state:${stateFilter}` : ''}`,
+        search: `isInterested:${'pending'}${searchTerm ? `,name:${searchTerm}` : ''
+            }${courseId !== 'all' ? `,courseId:${courseId}` : ''}${filterStatus !== 'all' ? `,status:${filterStatus}` : ''
+            }${stateFilter !== 'all' ? `,state:${stateFilter}` : ''}${placementReady !== 'all' ? `,placementReady:${placementReady}` : ''
+            }`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -52,8 +53,8 @@ export const PendingIndustriesTab: React.FC<PendingIndustriesTabProps> = ({
                 {industries?.isLoading || industries?.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : industries &&
-                  industries?.data?.data &&
-                  industries?.data?.data?.length ? (
+                    industries?.data?.data &&
+                    industries?.data?.data?.length ? (
                     <Table<Industry>
                         columns={columns as any}
                         data={industries?.data?.data}
