@@ -23,7 +23,7 @@ export function AnalyticsHeader() {
                     </Typography>
                 </div>
             </div>
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
                 <Button variant="action">
                     <Calendar className="w-3.5 h-3.5" />
                     Last 30 days
@@ -33,7 +33,7 @@ export function AnalyticsHeader() {
                     <Download className="w-3.5 h-3.5" />
                     Export
                 </Button>
-            </div>
+            </div> */}
         </div>
     )
 }

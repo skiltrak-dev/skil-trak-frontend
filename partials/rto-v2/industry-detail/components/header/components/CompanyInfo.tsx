@@ -10,7 +10,7 @@ export function CompanyInfo() {
         (state) => state.industry.industryDetail
     )
     return (
-        <div className="flex items-start gap-2">
+        <div className="flex items-start gap-2 flex-1 min-w-0">
             <CompanyAvatar />
 
             <div>
@@ -25,11 +25,11 @@ export function CompanyInfo() {
 
                 <Typography
                     variant="small"
-                    className="flex items-center gap-x-2 break"
+                    className="flex items-start gap-x-2 break-words"
                     color={'text-[#64748B]'}
                 >
-                    <MapPin className="w-3 h-3" />
-                    {industryDetail?.addressLine1}
+                    <MapPin className="w-3 h-3 mt-0.5 shrink-0" />
+                    <span>{industryDetail?.addressLine1}</span>
                 </Typography>
             </div>
         </div>

@@ -8,7 +8,7 @@ import { AnalyticsDashboard } from './components/AnalyticsDashboard'
 import { OperationalModules } from './components/OperationalModules'
 import { PlacementChecklist } from './components/PlacementChecklist'
 import { ProfileEssentials } from './components/ProfileEssentials'
-import { IndustryProfileHeader } from './components'
+import { IndustryInfoMessage, IndustryProfileHeader } from './components'
 
 export const IndustryProfileDetail = () => {
     const operationalModulesRef = useRef<HTMLDivElement>(null)
@@ -88,11 +88,14 @@ export const IndustryProfileDetail = () => {
     return (
         <div>
             {industryDetail?.isError && <TechnicalError />}
-            {industryDetail?.isLoading || industryDetail?.isFetching ? (
+            {industryDetail?.isLoading ? (
                 <LoadingAnimation height={'h-[70vh]'} />
             ) : industryDetail?.isSuccess && industryDetail?.data ? (
-                <div className="w-full mx-auto space-y-8">
+                <div className="w-full mx-auto space-y-6">
                     <IndustryProfileHeader />
+                    <IndustryInfoMessage
+                        industryUserId={industryDetail.data.user.id}
+                    />
                     <AnalyticsDashboard />
                     <ProfileEssentials />
                     <PlacementChecklist />

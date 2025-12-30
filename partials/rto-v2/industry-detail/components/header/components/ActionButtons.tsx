@@ -8,7 +8,7 @@ import { VerifyEmail } from './VerifyEmail'
 
 export function ActionButtons() {
     return (
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5 ml-auto flex-wrap justify-end shrink-0">
             <VerifyEmail />
             <EditProfileButton />
             <ContactBioButton />

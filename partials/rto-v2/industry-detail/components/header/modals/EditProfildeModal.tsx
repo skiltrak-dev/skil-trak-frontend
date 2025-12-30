@@ -67,7 +67,6 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
     const { handleSubmit, reset, watch } = methods
     const formValues = watch()
 
-
     useEffect(() => {
         if (industryDetail) {
             reset({
@@ -194,7 +193,7 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
                                             {isEditing ? (
                                                 <TextInput
                                                     name="name"
-                                                    label="Company Name *"
+                                                    label="Company Name"
                                                     placeholder="Company Name"
                                                     required
                                                     validationIcons
@@ -212,7 +211,7 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
                                             {isEditing ? (
                                                 <TextInput
                                                     name="abn"
-                                                    label="ABN *"
+                                                    label="ABN"
                                                     placeholder="ABN"
                                                     required
                                                     validationIcons
@@ -269,7 +268,6 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
                                     </div>
                                 </div>
 
-
                                 {/* Address Information */}
                                 <div className="bg-white rounded-xl shadow-sm border border-[#E2E8F0] overflow-hidden mb-5">
                                     <div className="bg-[#F8FAFB] border-b border-[#E2E8F0] p-4 flex items-center gap-2">
@@ -285,7 +283,7 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
                                             {isEditing ? (
                                                 <TextInput
                                                     name="addressLine1"
-                                                    label="Street Address *"
+                                                    label="Street Address"
                                                     placeholder="Street Address"
                                                     required
                                                     validationIcons
@@ -305,7 +303,7 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
                                             {isEditing ? (
                                                 <TextInput
                                                     name="suburb"
-                                                    label="Suburb *"
+                                                    label="Suburb"
                                                     placeholder="Suburb"
                                                     required
                                                     validationIcons
@@ -313,9 +311,7 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
                                             ) : (
                                                 <ViewField
                                                     label="Suburb"
-                                                    value={
-                                                        formValues.suburb
-                                                    }
+                                                    value={formValues.suburb}
                                                 />
                                             )}
                                         </div>
@@ -325,7 +321,7 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
                                             {isEditing ? (
                                                 <Select
                                                     name="state"
-                                                    label="State *"
+                                                    label="State"
                                                     options={stateOptions}
                                                     onlyValue
                                                     required
@@ -344,7 +340,7 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
                                             {isEditing ? (
                                                 <TextInput
                                                     name="zipCode"
-                                                    label="Postcode *"
+                                                    label="Postcode"
                                                     placeholder="Postcode"
                                                     required
                                                     validationIcons
@@ -352,9 +348,7 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
                                             ) : (
                                                 <ViewField
                                                     label="Postcode"
-                                                    value={
-                                                        formValues.zipCode
-                                                    }
+                                                    value={formValues.zipCode}
                                                 />
                                             )}
                                         </div>
@@ -383,9 +377,7 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
                                             ) : (
                                                 <ViewField
                                                     label="Website"
-                                                    value={
-                                                        formValues.website
-                                                    }
+                                                    value={formValues.website}
                                                     icon={
                                                         <Globe className="w-3.5 h-3.5 inline mr-1" />
                                                     }
@@ -398,7 +390,7 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
                                             {isEditing ? (
                                                 <TextInput
                                                     name="phoneNumber"
-                                                    label="Phone *"
+                                                    label="Phone"
                                                     placeholder="Phone Number"
                                                     required
                                                     validationIcons
@@ -419,7 +411,7 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
                                                 <TextInput
                                                     name="email"
                                                     type="email"
-                                                    label="Email Address *"
+                                                    label="Email Address"
                                                     placeholder="Email Address"
                                                     required
                                                     validationIcons
@@ -470,9 +462,7 @@ export function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
 
                 {/* Footer */}
                 <div className="px-6 py-4 bg-[#F8FAFB] border-t border-[#E2E8F0] flex items-center justify-between shrink-0">
-                    <p className="text-xs text-[#64748B]">
-                        * Required fields
-                    </p>
+                    <p className="text-xs text-[#64748B]">* Required fields</p>
                     <Button
                         onClick={onClose}
                         className="px-4 py-2 bg-gradient-to-br from-[#044866] to-[#0D5468] text-white rounded-lg text-sm font-medium hover:shadow-lg transition-all h-auto"
@@ -504,9 +494,7 @@ const ViewField = ({
             {label}
         </Typography>
         <div className="p-3 rounded-lg bg-[#F8FAFB] border border-[#E2E8F0]">
-            <p className="text-sm font-medium text-[#1A2332]">
-                {value || '-'}
-            </p>
+            <p className="text-sm font-medium text-[#1A2332]">{value || '-'}</p>
         </div>
     </div>
 )

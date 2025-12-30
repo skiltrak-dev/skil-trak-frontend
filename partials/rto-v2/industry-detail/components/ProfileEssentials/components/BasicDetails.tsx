@@ -64,16 +64,9 @@ export function BasicDetails() {
                         </div>
                         Basic Details
                     </h3>
-                    <Button
-                        variant="secondary"
-                        outline
-                        className="text-[#044866] hover:text-[#0D5468] transition-colors w-auto h-auto p-0"
-                    >
-                        <ExternalLink size={13} />
-                    </Button>
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 grid grid-cols-1 lg:grid-cols-2 gap-1.5">
                     <CardItem
                         Icon={FileText}
                         label="ABN"
@@ -109,8 +102,9 @@ export function BasicDetails() {
                             ? 'Hide Contact Information'
                             : 'Show Contact Information'}
                         <span
-                            className={`text-[10px] transition-transform ${showContactInfo ? 'rotate-180' : ''
-                                }`}
+                            className={`text-[10px] transition-transform ${
+                                showContactInfo ? 'rotate-180' : ''
+                            }`}
                         >
                             ▼
                         </span>
@@ -119,7 +113,7 @@ export function BasicDetails() {
                 <CollapsibleContent>
                     {' '}
                     <div className="px-2.5 pb-2.5 pt-1.5 border-t border-[#E2E8F0] bg-[#F8FAFB]/50">
-                        <div className="space-y-1.5">
+                        <div className="space-y-1.5 grid grid-cols-1 lg:grid-cols-2 gap-1.5">
                             <CardItem
                                 Icon={Phone}
                                 label="Phone"

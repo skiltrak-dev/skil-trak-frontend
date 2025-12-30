@@ -124,6 +124,9 @@ export const ScheduleAppointmentModal = ({
                                         <Select
                                             name="participants"
                                             value={participantType}
+                                            disabled={
+                                                defaultSelectedParicipantType
+                                            }
                                             options={[
                                                 {
                                                     label: 'Student',
@@ -183,16 +186,18 @@ export const ScheduleAppointmentModal = ({
 
                                 {selectedUser ? (
                                     <>
-                                        <div className="flex justify-end col-span-2 pt-4 border-t">
-                                            <button
-                                                onClick={() =>
-                                                    setSelectedUser(null)
-                                                }
-                                                className="text-[10px] text-white bg-primaryNew px-1 py-0.5 rounded cursor-pointer"
-                                            >
-                                                Search
-                                            </button>
-                                        </div>
+                                        {!defaultSelectedParicipantType && (
+                                            <div className="flex justify-end col-span-2 pt-4 border-t">
+                                                <button
+                                                    onClick={() =>
+                                                        setSelectedUser(null)
+                                                    }
+                                                    className="text-[10px] text-white bg-primaryNew px-1 py-0.5 rounded cursor-pointer"
+                                                >
+                                                    Search
+                                                </button>
+                                            </div>
+                                        )}
                                         <div className="border border-blue-500 rounded-lg bg-blue-50 col-span-2 p-2">
                                             <div className="flex flex-col">
                                                 <p className="text-sm font-medium text-gray-800">

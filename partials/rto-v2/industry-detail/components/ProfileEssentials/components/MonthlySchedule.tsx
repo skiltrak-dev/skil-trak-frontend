@@ -6,8 +6,7 @@ import { format } from 'date-fns'
 import { OptionType } from '@types'
 
 export interface MonthlyScheduleData {
-    startDate: string
-    endDate: string
+    dates: { date: string }[]
     slots: { startTime: string; endTime: string }[]
 }
 
@@ -68,6 +67,20 @@ export function MonthlySchedule({ data, onChange }: MonthlyScheduleProps) {
         onChange({ ...data, slots: [{ startTime: newStart, endTime: newEnd }] })
     }
 
+    const handleDateClick = (date: Date) => {
+        const formattedDate = format(date, 'yyyy-MM-dd')
+        const isSelected = data.dates.some((d) => d.date === formattedDate)
+
+        let newDates
+        if (isSelected) {
+            newDates = data.dates.filter((d) => d.date !== formattedDate)
+        } else {
+            newDates = [...data.dates, { date: formattedDate }]
+        }
+
+        onChange({ ...data, dates: newDates })
+    }
+
     // Ensure we have at least one slot to view
     const currentSlot = data.slots[0] || {
         startTime: '09:00',
@@ -82,132 +95,61 @@ export function MonthlySchedule({ data, onChange }: MonthlyScheduleProps) {
         <div className="space-y-3.5 animate-in fade-in duration-500">
             {/* Calendar Section */}
             <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm">
+                <style>{`
+                    .react-calendar__tile--active-custom {
+                        background: #044866 !important;
+                        color: white !important;
+                        border-radius: 8px !important;
+                    }
+                    .react-calendar__tile--active-custom:enabled:hover, 
+                    .react-calendar__tile--active-custom:enabled:focus {
+                        background: #03364d !important;
+                    }
+                `}</style>
                 <h4 className="text-xs font-semibold text-slate-700 uppercase tracking-wider mb-4 flex items-center gap-2">
                     <CalendarIcon className="w-4 h-4 text-[#044866]" />
-                    Select Date Range
+                    Select Interview Dates
                 </h4>
                 <div className="flex justify-center">
                     <CalendarStyles>
                         <Calendar
-                            selectRange={true}
-                            onChange={(value: any) => {
-                                if (
-                                    Array.isArray(value) &&
-                                    value.length === 2 &&
-                                    value[0] &&
-                                    value[1]
-                                ) {
-                                    onChange({
-                                        ...data,
-                                        startDate: format(
-                                            value[0],
-                                            'yyyy-MM-dd'
-                                        ),
-                                        endDate: format(value[1], 'yyyy-MM-dd'),
-                                    })
-                                }
+                            onClickDay={handleDateClick}
+                            tileClassName={({ date }) => {
+                                const formattedDate = format(date, 'yyyy-MM-dd')
+                                return data.dates.some(
+                                    (d) => d.date === formattedDate
+                                )
+                                    ? 'react-calendar__tile--active-custom'
+                                    : ''
                             }}
-                            value={
-                                data.startDate && data.endDate
-                                    ? [
-                                          new Date(data.startDate),
-                                          new Date(data.endDate),
-                                      ]
-                                    : null
-                            }
                         />
                     </CalendarStyles>
                 </div>
-                <div className="mt-4 flex items-center justify-between text-xs text-slate-500 bg-slate-50 p-2 rounded-lg">
-                    <div>
-                        <span className="font-semibold text-[#044866]">
-                            Start:
-                        </span>{' '}
-                        {data.startDate || 'Select date'}
+                <div className="mt-4 text-xs text-slate-500 bg-slate-50 p-2 rounded-lg">
+                    <div className="font-semibold text-[#044866] mb-1">
+                        Selected Dates ({data.dates.length}):
                     </div>
-                    <div>
-                        <span className="font-semibold text-[#044866]">
-                            End:
-                        </span>{' '}
-                        {data.endDate || 'Select date'}
-                    </div>
-                </div>
-            </div>
-
-            {/* Time Slot Section - Below Calendar */}
-            <div className="bg-white px-5 py-3 rounded-xl border border-slate-100 shadow-sm">
-                <h4 className="text-xs font-semibold text-slate-700 uppercase tracking-wider mb-4 flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-[#044866]" />
-                    Daily Time Slot
-                </h4>
-
-                <div className="flex flex-col gap-2">
-                    <div className="w-full">
-                        <label className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1.5 block">
-                            Time Preset
-                        </label>
-                        <Select
-                            name="monthly-preset"
-                            options={timeSlotPresets}
-                            value={currentPreset}
-                            onChange={(opt: any) =>
-                                handlePresetChange(opt.value)
-                            }
-                            className="w-full text-xs"
-                            showError={false}
-                        />
-                    </div>
-
-                    {currentPreset === 'custom' ? (
-                        <div className="animate-in fade-in zoom-in-95 duration-200 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                            <label className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-2 block">
-                                Custom Duration
-                            </label>
-                            <div className="flex items-center gap-2">
-                                <Clock className="w-4 h-4 text-slate-400" />
-                                <div className="flex items-center gap-2 flex-1">
-                                    <input
-                                        type="time"
-                                        value={currentSlot.startTime}
-                                        onChange={(e) =>
-                                            handleTimeChange(
-                                                'startTime',
-                                                e.target.value
-                                            )
-                                        }
-                                        className="bg-white border border-slate-200 rounded px-2 py-1.5 text-xs font-medium text-slate-700 focus:outline-none focus:border-emerald-500 w-full cursor-pointer transition-colors hover:border-emerald-300"
-                                    />
-                                    <span className="text-slate-400 font-light text-[10px] uppercase">
-                                        to
+                    <div className="flex flex-wrap gap-1.5">
+                        {data.dates.length > 0 ? (
+                            data.dates
+                                .slice()
+                                .sort(
+                                    (a, b) =>
+                                        new Date(a.date).getTime() -
+                                        new Date(b.date).getTime()
+                                )
+                                .map((d) => (
+                                    <span
+                                        key={d.date}
+                                        className="bg-white border border-slate-200 px-2 py-0.5 rounded-md shadow-sm"
+                                    >
+                                        {format(new Date(d.date), 'MMM dd')}
                                     </span>
-                                    <input
-                                        type="time"
-                                        value={currentSlot.endTime}
-                                        onChange={(e) =>
-                                            handleTimeChange(
-                                                'endTime',
-                                                e.target.value
-                                            )
-                                        }
-                                        className="bg-white border border-slate-200 rounded px-2 py-1.5 text-xs font-medium text-slate-700 focus:outline-none focus:border-emerald-500 w-full text-right cursor-pointer transition-colors hover:border-emerald-300"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 flex items-center gap-3 animate-in fade-in">
-                            <Clock className="w-4 h-4 text-[#044866]" />
-                            <div className="flex flex-col">
-                                <span className="text-xs font-semibold text-slate-700">
-                                    Selected Time
-                                </span>
-                                <span className="text-xs text-slate-500">
-                                    {currentSlot.startTime} -{' '}
-                                    {currentSlot.endTime}
-                                </span>
-                            </div>
-                        </div>
-                    )}
+                                ))
+                        ) : (
+                            <span className="italic">No dates selected</span>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

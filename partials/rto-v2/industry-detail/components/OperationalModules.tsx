@@ -19,6 +19,7 @@ import { AppointmentsModule } from './modules/AppointmentsModule/AppointmentsMod
 import { IndustryCoursesSection } from './courses'
 import { useAppSelector } from '@redux/hooks'
 import { useEffect, useState } from 'react'
+import { StudentSchedule } from '@partials/common/IndustryProfileDetail/components/StudentSchedule'
 
 export function OperationalModules() {
     const navigationTarget = useAppSelector(
@@ -56,6 +57,12 @@ export function OperationalModules() {
             label: 'Trading Hours',
             icon: Clock,
             component: TradingHoursModule,
+        },
+        {
+            value: 'schedule',
+            label: 'Industry Schedule',
+            icon: Clock,
+            component: StudentSchedule,
         },
         {
             value: 'documents',

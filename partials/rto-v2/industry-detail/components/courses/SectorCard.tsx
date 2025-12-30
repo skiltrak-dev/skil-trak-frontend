@@ -1,4 +1,4 @@
-import { IndustryApi } from '@queries'
+import { IndustryApi, RtoV2Api } from '@queries'
 import { Industry, IndustryCourseApproval } from '@types'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
@@ -7,13 +7,17 @@ import {
     CheckCircle2,
     ChevronDown,
     Sparkles,
+    Trash2,
     UserCheck,
     Users,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { CourseCard } from './courseCard/CourseCard'
-import { SectorCapacityModal } from './modals/SectorCapacityModal'
-import { SupervisorsModal } from './modals/SupervisorsModal'
+import {
+    CancelInitiatedEsignModal,
+    SectorCapacityModal,
+    SupervisorsModal,
+} from './modals'
 
 const sectorStatusColorMap: Record<string, string> = {
     approved: 'bg-gradient-to-r from-[#10B981] to-[#059669]',
@@ -27,10 +31,6 @@ import { cn } from '@utils'
 import { CourseViewModel } from './courseCard/CourseCard'
 import { IndustrySectorGroup } from './hooks'
 
-export interface ApprovalExtended extends IndustryCourseApproval {
-    course: CourseViewModel
-}
-
 interface SectorCardProps {
     sector: IndustrySectorGroup
     sectorIndex: number
@@ -39,6 +39,7 @@ interface SectorCardProps {
 export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
     const [showSupervisorsModal, setShowSupervisorsModal] = useState(false)
     const [showCapacityModal, setShowCapacityModal] = useState(false)
+    const [showCancelEsignModal, setShowCancelEsignModal] = useState(false)
     const [isSectorExpanded, setisSectorExpanded] = useState(false)
 
     const dispatch = useAppDispatch()
@@ -46,6 +47,17 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
     const { industrySectorCapacity, industryDetail: industry } = useAppSelector(
         (state) => state.industry
     )
+
+    const { data: initiatedESign } =
+        RtoV2Api.Industries.getIndustryInitiatedESign(
+            {
+                id: industry?.id || 0,
+                sectorId: sector.sector.id,
+            },
+            {
+                skip: !industry?.id,
+            }
+        )
 
     const sectorCapacity = industrySectorCapacity?.find(
         (s: any) => s.sector.id === sector.sector.id
@@ -64,8 +76,6 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
                 skip: !industry?.id,
             }
         )
-
-    console.log({ supervisorsData })
 
     useEffect(() => {
         if (isSuccess && supervisorsData) {
@@ -101,13 +111,12 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: sectorIndex * 0.1 }}
-            className={`rounded-2xl border-2 overflow-hidden transition-all duration-300 ${
-                sectorApproved
+            className={`rounded-2xl border-2 overflow-hidden transition-all duration-300 ${sectorApproved
                     ? 'bg-gradient-to-br from-[#10B981]/5 via-white to-[#059669]/5 border-[#10B981]/30 shadow-lg shadow-[#10B981]/10'
                     : hasPendingActions
-                    ? 'bg-gradient-to-br from-[#F7A619]/5 via-white to-[#EA580C]/5 border-[#F7A619]/40 shadow-lg shadow-[#F7A619]/10'
-                    : 'bg-white border-[#E2E8F0] hover:shadow-xl hover:border-[#044866]/20'
-            }`}
+                        ? 'bg-gradient-to-br from-[#F7A619]/5 via-white to-[#EA580C]/5 border-[#F7A619]/40 shadow-lg shadow-[#F7A619]/10'
+                        : 'bg-white border-[#E2E8F0] hover:shadow-xl hover:border-[#044866]/20'
+                }`}
         >
             {/* Sector Header */}
             <div
@@ -116,26 +125,24 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
             >
                 {/* Status Indicator Strip */}
                 <div
-                    className={`absolute top-0 left-0 right-0 h-1 ${
-                        sectorApproved
+                    className={`absolute top-0 left-0 right-0 h-1 ${sectorApproved
                             ? 'bg-gradient-to-r from-[#10B981] via-[#059669] to-[#10B981]'
                             : hasPendingActions
-                            ? 'bg-gradient-to-r from-[#F7A619] via-[#EA580C] to-[#F7A619]'
-                            : 'bg-gradient-to-r from-[#044866] via-[#0D5468] to-[#044866]'
-                    }`}
+                                ? 'bg-gradient-to-r from-[#F7A619] via-[#EA580C] to-[#F7A619]'
+                                : 'bg-gradient-to-r from-[#044866] via-[#0D5468] to-[#044866]'
+                        }`}
                 />
 
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4 flex-1">
                         {/* Sector Icon */}
                         <div
-                            className={`w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-lg relative ${
-                                sectorApproved
+                            className={`w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-lg relative ${sectorApproved
                                     ? 'bg-gradient-to-br from-[#10B981] to-[#059669]'
                                     : hasPendingActions
-                                    ? 'bg-gradient-to-br from-[#F7A619] to-[#EA580C]'
-                                    : `bg-gradient-to-br from-blue-500 to-blue-600`
-                            }`}
+                                        ? 'bg-gradient-to-br from-[#F7A619] to-[#EA580C]'
+                                        : `bg-gradient-to-br from-blue-500 to-blue-600`
+                                }`}
                         >
                             <span className="drop-shadow-lg">📚</span>
                             {sectorApproved && (
@@ -161,8 +168,8 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
                                         className={cn(
                                             'px-2.5 py-1 text-white rounded-full text-[10px] font-bold flex items-center gap-1 shadow-md uppercase',
                                             sectorStatusColorMap[
-                                                industryApproval?.status ||
-                                                    'pending'
+                                            industryApproval?.status ||
+                                            'pending'
                                             ] || sectorStatusColorMap.pending
                                         )}
                                     >
@@ -177,15 +184,30 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
                                             e.stopPropagation()
                                             setShowSupervisorsModal(true)
                                         }}
-                                        className="px-2.5 py-1 bg-gradient-to-br from-[#044866] to-[#0D5468] text-white rounded-full text-[10px] font-bold flex items-center gap-1 shadow-md hover:shadow-lg transition-all"
+                                        className="px-2.5 py-1.5 bg-gradient-to-br from-[#044866] to-[#0D5468] text-white rounded-full text-[10px] font-bold flex items-center gap-1.5 shadow-md hover:shadow-lg transition-all"
                                         title="View Supervisors"
                                     >
-                                        <UserCheck className="w-3 h-3" />
+                                        <UserCheck className="w-3.5 h-3.5" />
                                         {supervisorsData?.length || 0}{' '}
                                         {(supervisorsData?.length || 0) === 1
                                             ? 'Supervisor'
                                             : 'Supervisors'}
                                     </motion.button>
+                                    {initiatedESign && !hasPendingActions && (
+                                        <motion.button
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                setShowCancelEsignModal(true)
+                                            }}
+                                            className="px-3 py-1.5 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-full text-[10px] font-bold flex items-center gap-1.5 shadow-lg shadow-red-500/20 hover:shadow-red-500/40 transition-all border border-red-400/30"
+                                            title="Cancel E-sign"
+                                        >
+                                            <Trash2 className="w-3.5 h-3.5" />
+                                            CANCEL E-SIGN
+                                        </motion.button>
+                                    )}
                                 </>
 
                                 {hasPendingActions && !sectorApproved && (
@@ -201,18 +223,16 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
                             <div className="flex items-center gap-6">
                                 <div className="flex items-center gap-1.5">
                                     <div
-                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                                            sectorApproved
+                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${sectorApproved
                                                 ? 'bg-[#10B981]/10'
                                                 : 'bg-[#044866]/10'
-                                        }`}
+                                            }`}
                                     >
                                         <BookOpen
-                                            className={`w-4 h-4 ${
-                                                sectorApproved
+                                            className={`w-4 h-4 ${sectorApproved
                                                     ? 'text-[#10B981]'
                                                     : 'text-[#044866]'
-                                            }`}
+                                                }`}
                                         />
                                     </div>
                                     <div>
@@ -227,18 +247,16 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
 
                                 <div className="flex items-center gap-1.5">
                                     <div
-                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                                            sectorApproved
+                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${sectorApproved
                                                 ? 'bg-[#10B981]/10'
                                                 : 'bg-[#044866]/10'
-                                        }`}
+                                            }`}
                                     >
                                         <Users
-                                            className={`w-4 h-4 ${
-                                                sectorApproved
+                                            className={`w-4 h-4 ${sectorApproved
                                                     ? 'text-[#10B981]'
                                                     : 'text-[#044866]'
-                                            }`}
+                                                }`}
                                         />
                                     </div>
                                     <div>
@@ -280,22 +298,20 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
 
                                 <div className="flex items-center gap-1.5">
                                     <div
-                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                                            utilizationRate >= 80
+                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${utilizationRate >= 80
                                                 ? 'bg-[#10B981]/10'
                                                 : utilizationRate >= 50
-                                                ? 'bg-[#F7A619]/10'
-                                                : 'bg-[#64748B]/10'
-                                        }`}
+                                                    ? 'bg-[#F7A619]/10'
+                                                    : 'bg-[#64748B]/10'
+                                            }`}
                                     >
                                         <Sparkles
-                                            className={`w-4 h-4 ${
-                                                utilizationRate >= 80
+                                            className={`w-4 h-4 ${utilizationRate >= 80
                                                     ? 'text-[#10B981]'
                                                     : utilizationRate >= 50
-                                                    ? 'text-[#F7A619]'
-                                                    : 'text-[#64748B]'
-                                            }`}
+                                                        ? 'text-[#F7A619]'
+                                                        : 'text-[#64748B]'
+                                                }`}
                                         />
                                     </div>
                                     <div>
@@ -331,13 +347,12 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
                         <motion.button
                             animate={{ rotate: isSectorExpanded ? 180 : 0 }}
                             transition={{ duration: 0.3 }}
-                            className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
-                                sectorApproved
+                            className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${sectorApproved
                                     ? 'bg-[#10B981]/10 hover:bg-[#10B981]/20 text-[#10B981]'
                                     : hasPendingActions
-                                    ? 'bg-[#F7A619]/10 hover:bg-[#F7A619]/20 text-[#F7A619]'
-                                    : 'bg-[#F8FAFB] hover:bg-[#E8F4F8] text-[#044866]'
-                            }`}
+                                        ? 'bg-[#F7A619]/10 hover:bg-[#F7A619]/20 text-[#F7A619]'
+                                        : 'bg-[#F8FAFB] hover:bg-[#E8F4F8] text-[#044866]'
+                                }`}
                         >
                             <ChevronDown className="w-5 h-5" />
                         </motion.button>
@@ -363,6 +378,7 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
                                         key={approval.course.id}
                                         courseIndex={courseIndex}
                                         industry={industry as Industry}
+                                        hasInitiatedESign={!!initiatedESign}
                                     />
                                 )
                             )}
@@ -387,6 +403,16 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
                 industryId={industry?.id || 0}
                 sectorId={sector.sector.id}
                 sectorName={sector.sector.name}
+            />
+
+            {/* Cancel E-sign Modal */}
+            <CancelInitiatedEsignModal
+                isOpen={showCancelEsignModal}
+                onClose={() => setShowCancelEsignModal(false)}
+                industryId={industry?.id || 0}
+                sectorId={sector.sector.id}
+                sectorName={sector.sector.name}
+                esignData={initiatedESign}
             />
         </motion.div>
     )

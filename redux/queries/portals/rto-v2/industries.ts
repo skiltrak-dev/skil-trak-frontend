@@ -181,6 +181,18 @@ export const industriesEndpoints = (
         invalidatesTags: ['RTOIndustries'],
     }),
 
+    uploadCourseFacilityChecklist: builder.mutation<
+        any,
+        { id: number; body: FormData }
+    >({
+        query: ({ id, body }) => ({
+            url: `${INDUSTRIESPREFIX}course-approval/${id}/file/add`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['RTOIndustries', 'RTOCourses'],
+    }),
+
     getAllIndustriesList: builder.query<any, PaginationWithSearch>({
         query: (params) => ({
             url: `${PREFIX}industries`,
@@ -199,5 +211,45 @@ export const industriesEndpoints = (
             params,
         }),
         invalidatesTags: ['RTOIndustries'],
+    }),
+    updateIndustryBio: builder.mutation<any, { id: number; bio: string }>({
+        query: ({ id, ...body }) => ({
+            url: `${INDUSTRIESPREFIX}${id}/bio/update`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['RTOIndustries', 'Industries'],
+    }),
+
+    getIndustryInitiatedESign: builder.query<
+        any,
+        { id: number; sectorId: number }
+    >({
+        query: ({ id, sectorId }) => ({
+            url: `${INDUSTRIESPREFIX}${id}/sector/${sectorId}/document`,
+        }),
+        providesTags: ['RTOIndustries', 'Industries'],
+    }),
+    cancelIndustryInitiatedESign: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${INDUSTRIESPREFIX}document/${id}/cancel`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOIndustries', 'Industries'],
+    }),
+    industryInfoMessage: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `admin/industry-message/create`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RTOIndustries'],
+    }),
+    getIndustryInfoMessages: builder.query<any, { userId: number }>({
+        query: (params) => ({
+            url: `industries/message/by-admin`,
+            params,
+        }),
+        providesTags: ['RTOIndustries'],
     }),
 })

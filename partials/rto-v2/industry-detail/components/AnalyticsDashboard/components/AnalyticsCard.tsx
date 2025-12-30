@@ -20,18 +20,9 @@ interface AnalyticsCardProps {
         showChart?: boolean
     }
     index: number
-    weeklyData: Array<{ value: number }>
-    onClick: () => void
 }
 
-// ... (keeping previous imports)
-
-export function AnalyticsCard({
-    card,
-    index,
-    weeklyData,
-    onClick,
-}: AnalyticsCardProps) {
+export function AnalyticsCard({ card, index }: AnalyticsCardProps) {
     const Icon = card.icon
 
     return (
@@ -46,10 +37,7 @@ export function AnalyticsCard({
             />
 
             {/* Card Content */}
-            <div
-                onClick={onClick}
-                className="relative w-full bg-white rounded-md shadow-md border border-slate-100 p-2 hover:shadow-md transition-all duration-300 group-hover:-translate-y-0.5 overflow-hidden cursor-pointer text-left h-full flex flex-col justify-between"
-            >
+            <div className="relative w-full bg-white rounded-md shadow-md border border-slate-100 p-2 hover:shadow-md transition-all duration-300 group-hover:-translate-y-0.5 overflow-hidden cursor-pointer text-left h-full flex flex-col justify-between">
                 {/* Background Pattern */}
                 <div className="absolute top-0 right-0 w-12 h-12 opacity-[0.03]">
                     <div

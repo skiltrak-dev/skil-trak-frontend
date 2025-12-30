@@ -1,8 +1,8 @@
 import { useIndustryProgress } from '../../hooks'
 import {
-    ActionButtons,
     CompanyInfo,
     StatusBanner,
+    ActionButtons,
     StatusControls,
 } from './components'
 
@@ -12,7 +12,7 @@ export function IndustryProfileHeader() {
     return (
         <div className="relative">
             {/* Clean Card Design */}
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200">
                 {/* Premium Status Banner */}
                 <StatusBanner
                     isPlacementReady={isPlacementReady}

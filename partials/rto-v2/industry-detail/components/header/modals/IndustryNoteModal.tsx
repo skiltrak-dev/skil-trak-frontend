@@ -38,7 +38,7 @@ export function IndustryNoteModal({
                     </DialogHeader>
 
                     <DialogDescription>
-                        <ScrollArea className="max-h-[500px] overflow-auto custom-scrollbar">
+                        <ScrollArea className="max-h-[80vh] overflow-auto custom-scrollbar">
                             <CreateNote
                                 onCancel={onOpenChange}
                                 receiverId={industryUserId}

@@ -201,7 +201,7 @@ export const SingleIndustryForm = ({ onSubmit }: SingleIndustryFormProps) => {
                     />
 
                     <TextInput
-                        name="contactPersonName"
+                        name="contactPerson"
                         label="Contact Person"
                         placeholder="e.g., Sarah Johnson"
                         required

@@ -366,6 +366,7 @@ export interface Industry extends BaseResponse {
     abn: string
     businessName: string
     phoneNumber: string
+    bio: string
     dob: Date
     contactPerson: string
     snoozedAt: Date

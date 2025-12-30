@@ -1,3 +1,5 @@
 export * from './BranchLocationsModal'
 export * from './PlacementReadinessModal'
 export * from './PremiumFeatureModal'
+export * from './IndustryInfoMessageModal'
+export * from './GenerateBioDialog'

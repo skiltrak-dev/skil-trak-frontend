@@ -1,19 +1,26 @@
 import React, { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { AlertCircle, FileCheck } from 'lucide-react'
+import { AlertCircle, Clock, FileCheck, UploadCloud } from 'lucide-react'
 import { IndustryCourseApproval } from '@types'
 import moment from 'moment'
 import { Button } from '@components'
 import { cn } from '@utils'
 import { ApproveFacilityChecklistDialog } from '../../modals/ApproveFacilityChecklistDialog'
+import { UploadFacilityChecklistDialog } from '../../modals/UploadFacilityChecklistDialog'
 
 export const PendingCourseApproval = ({
     approval,
+    hasInitiatedESign,
 }: {
     approval: IndustryCourseApproval
+    hasInitiatedESign?: boolean
 }) => {
     const [reviewFacilityChecklist, setReviewFacilityChecklist] =
         useState(false)
+    const [uploadFacilityChecklist, setUploadFacilityChecklist] =
+        useState(false)
+
+    const hasFile = !!approval?.file
 
     return (
         <>
@@ -29,27 +36,48 @@ export const PendingCourseApproval = ({
                         </div>
                         <div>
                             <p className="text-xs font-bold text-[#1A2332]">
-                                {approval?.file
+                                {hasFile
                                     ? 'Facility Checklist Ready for Review'
-                                    : 'Waiting for Industry Checklist to upload'}
+                                    : hasInitiatedESign
+                                        ? 'E-sign in Progress'
+                                        : 'Facility Checklist Missing'}
                             </p>
                             <p className="text-[10px] text-[#64748B]">
-                                Industry partner signed on{' '}
-                                {moment(approval?.createdAt).fromNow()}
+                                {hasFile
+                                    ? `Industry partner signed on ${moment(
+                                        approval?.createdAt
+                                    ).fromNow()}`
+                                    : hasInitiatedESign
+                                        ? 'Waiting for industry partner to sign the document.'
+                                        : 'Please upload the facility checklist to proceed with approval.'}
                             </p>
                         </div>
                     </div>
-                    <Button
-                        onClick={() => setReviewFacilityChecklist(true)}
-                        disabled={!approval?.file}
-                        className={cn({
-                            '"bg-gradient-to-r from-[#F7A619] to-[#EA580C] hover:from-[#EA580C] hover:to-[#D97706] text-white text-xs h-9 px-4 gap-2 shadow-lg shadow-[#F7A619]/30"':
-                                approval?.file,
-                        })}
-                    >
-                        <FileCheck className="w-3.5 h-3.5" />
-                        Review & Approve
-                    </Button>
+                    {hasFile ? (
+                        <Button
+                            onClick={() => setReviewFacilityChecklist(true)}
+                            className="bg-gradient-to-r from-[#F7A619] to-[#EA580C] hover:from-[#EA580C] hover:to-[#D97706] text-white text-xs h-9 px-4 gap-2 shadow-lg shadow-[#F7A619]/30"
+                        >
+                            <FileCheck className="w-3.5 h-3.5" />
+                            Review & Approve
+                        </Button>
+                    ) : hasInitiatedESign ? (
+                        <Button
+                            disabled
+                            className="bg-slate-100 text-slate-400 text-xs h-9 px-4 gap-2 border border-slate-200 cursor-not-allowed opacity-70"
+                        >
+                            <Clock className="w-3.5 h-3.5" />
+                            Review & Approve
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={() => setUploadFacilityChecklist(true)}
+                            className="bg-gradient-to-r from-[#044866] to-[#0D5468] text-white text-xs h-9 px-4 gap-2 shadow-lg shadow-[#044866]/30"
+                        >
+                            <UploadCloud className="w-3.5 h-3.5" />
+                            Manual E-sign Upload
+                        </Button>
+                    )}
                 </div>
             </motion.div>
 
@@ -57,6 +85,12 @@ export const PendingCourseApproval = ({
                 open={reviewFacilityChecklist}
                 approval={approval}
                 onOpenChange={setReviewFacilityChecklist}
+            />
+
+            <UploadFacilityChecklistDialog
+                open={uploadFacilityChecklist}
+                approval={approval}
+                onOpenChange={setUploadFacilityChecklist}
             />
         </>
     )

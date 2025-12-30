@@ -5,6 +5,7 @@ import {
     Clock,
     FileText,
     HelpCircle,
+    Mail,
     Shield,
     Target,
     UserCheck,
@@ -13,7 +14,10 @@ import {
 import { SubAdminApi } from '@queries'
 import { useAppSelector } from '@redux/hooks'
 
-export const getChecklistItems = (data: any, isRtoAssociated: boolean = false) => {
+export const getChecklistItems = (
+    data: any,
+    isRtoAssociated: boolean = false
+) => {
     // For RTO industries, we only validate these specific items
     // All others are considered "done" automatically
     const rtoRequiredItems = [
@@ -122,6 +126,18 @@ export const getChecklistItems = (data: any, isRtoAssociated: boolean = false) =
             icon: Shield,
             color: '#14B8A6',
             targetTab: 'courses',
+        },
+        {
+            title: 'Email Verified',
+            description: 'Email verified',
+            status: getStatus(
+                'Email Verified',
+                data?.hasEmailVerified,
+                isRtoAssociated
+            ),
+            icon: Mail,
+            color: '#F59E0B',
+            targetTab: 'email-verified',
         },
     ]
 }

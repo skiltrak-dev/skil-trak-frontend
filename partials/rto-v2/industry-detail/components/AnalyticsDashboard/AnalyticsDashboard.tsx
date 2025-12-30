@@ -1,18 +1,7 @@
 import { RtoV2Api, CommonApi } from '@redux'
 import { useAppSelector } from '@redux/hooks'
-import { Calendar, Clock, Layers, Star, Timer, Users } from 'lucide-react'
-import { useState } from 'react'
 import { AnalyticsCard, AnalyticsHeader } from './components'
-
-const weeklyData = [
-    { value: 20 },
-    { value: 35 },
-    { value: 28 },
-    { value: 45 },
-    { value: 38 },
-    { value: 52 },
-    { value: 48 },
-]
+import { Calendar, Clock, Layers, Star, Users } from 'lucide-react'
 
 export function AnalyticsDashboard() {
     const { industryDetail: industry } = useAppSelector(
@@ -112,15 +101,6 @@ export function AnalyticsDashboard() {
         },
     ]
 
-    const [selectedCard, setSelectedCard] = useState<
-        (typeof analyticsCards)[0] | null
-    >(null)
-
-    const handleCardClick = (card: (typeof analyticsCards)[0]) => {
-        // setSelectedCard(card)
-        // setEditedValue(card.value)
-    }
-
     return (
         <div className="space-y-6">
             {/* Section Header - Enhanced */}
@@ -129,13 +109,7 @@ export function AnalyticsDashboard() {
             {/* Stats Grid - Enhanced Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
                 {analyticsCards.map((card, index) => (
-                    <AnalyticsCard
-                        key={index}
-                        card={card}
-                        index={index}
-                        weeklyData={weeklyData}
-                        onClick={() => handleCardClick(card)}
-                    />
+                    <AnalyticsCard key={index} card={card} index={index} />
                 ))}
             </div>
         </div>

@@ -42,6 +42,7 @@ import { ComposeEmailModal } from '@partials/rto-v2/student-detail/components/Co
 import { EditProfileModal } from '../../../industry-detail/components/header/modals/EditProfildeModal'
 import { useAppDispatch } from '@redux/hooks'
 import { setIndustryDetail } from '@redux/slice/industry.slice'
+import Link from 'next/link'
 
 type ActionKey = 'view' | 'edit'
 
@@ -125,7 +126,10 @@ export const useYourIndustriesColumns = () => {
             cell: ({ row }) => {
                 const industry = row.original
                 return (
-                    <div className="flex items-center gap-x-2 max-w-72">
+                    <Link
+                        href={`/portals/rto/manage/industries/${industry.id}/detail`}
+                        className="flex items-center gap-x-2 max-w-72"
+                    >
                         <div className="h-10 w-10 rounded-lg bg-primaryNew flex items-center justify-center text-white flex-shrink-0 shadow-premium hover:scale-110 transition-transform">
                             <Building2 className="h-5 w-5" />
                         </div>
@@ -144,7 +148,7 @@ export const useYourIndustriesColumns = () => {
                                 </span>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 )
             },
         },
@@ -255,8 +259,18 @@ export const useYourIndustriesColumns = () => {
 
                 const hasWorkplaceType = !!industry?.workplaceType?.name
 
+                // Check if user is not blocked
+                const isNotBlocked = industry?.user?.status !== UserStatus.Blocked
+
+                // Check if industry is not snoozed
+                const isNotSnoozed = !industry?.isSnoozed
+
                 const isPlacementReady =
-                    isCourseApproved && hasCapacity && hasWorkplaceType
+                    isCourseApproved &&
+                    hasCapacity &&
+                    hasWorkplaceType &&
+                    isNotBlocked &&
+                    isNotSnoozed
 
                 return (
                     <div className="whitespace-pre">

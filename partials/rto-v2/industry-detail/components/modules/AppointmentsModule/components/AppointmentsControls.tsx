@@ -15,7 +15,7 @@ const statusFilterOptions: OptionType[] = [
     { label: 'All Status', value: 'all' },
     { label: 'Upcoming', value: 'future' },
     { label: 'Completed', value: 'past' },
-    { label: 'Cancelled', value: 'cancelled' },
+    // { label: 'Cancelled', value: 'cancelled' },
 ]
 
 export function AppointmentsControls({
@@ -74,7 +74,12 @@ export function AppointmentsControls({
                 <div className="flex items-center gap-2 text-xs text-[#64748B]">
                     <Clock className="w-3.5 h-3.5" />
                     <span className="font-medium">
-                        {upcomingCount} upcoming
+                        {upcomingCount}{' '}
+                        <span className="text-xs text-[#64748B] capitalize">
+                            {filterStatus === 'future'
+                                ? 'upcoming'
+                                : filterStatus}
+                        </span>
                     </span>
                 </div>
             </div>

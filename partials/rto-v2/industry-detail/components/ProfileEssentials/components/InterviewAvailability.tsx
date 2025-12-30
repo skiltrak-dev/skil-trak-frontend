@@ -23,27 +23,27 @@ export function InterviewAvailability() {
     const [weeklySchedule, setWeeklySchedule] = useState<DaySchedule[]>([
         {
             day: 'monday',
-            isActive: true,
+            isActive: false,
             slots: [{ startTime: '09:00', endTime: '17:00' }],
         },
         {
             day: 'tuesday',
-            isActive: true,
+            isActive: false,
             slots: [{ startTime: '09:00', endTime: '17:00' }],
         },
         {
             day: 'wednesday',
-            isActive: true,
+            isActive: false,
             slots: [{ startTime: '09:00', endTime: '17:00' }],
         },
         {
             day: 'thursday',
-            isActive: true,
+            isActive: false,
             slots: [{ startTime: '09:00', endTime: '17:00' }],
         },
         {
             day: 'friday',
-            isActive: true,
+            isActive: false,
             slots: [{ startTime: '09:00', endTime: '17:00' }],
         },
         { day: 'saturday', isActive: false, slots: [] },
@@ -52,8 +52,7 @@ export function InterviewAvailability() {
 
     // Initial State for Monthly
     const [monthlyData, setMonthlyData] = useState<MonthlyScheduleData>({
-        startDate: '',
-        endDate: '',
+        dates: [],
         slots: [{ startTime: '09:00', endTime: '17:00' }],
     })
 
@@ -88,10 +87,10 @@ export function InterviewAvailability() {
                     userId: industryDetail?.user?.id,
                 }
             } else {
-                if (!monthlyData.startDate || !monthlyData.endDate) {
+                if (monthlyData.dates.length === 0) {
                     notification.error({
                         title: 'Error',
-                        description: 'Please select start and end dates.',
+                        description: 'Please select at least one date.',
                     })
                     return
                 }
@@ -105,9 +104,7 @@ export function InterviewAvailability() {
 
                 payload = {
                     type: 'monthly',
-                    slots: monthlyData.slots,
-                    endDate: monthlyData.endDate,
-                    startDate: monthlyData.startDate,
+                    dates: monthlyData.dates,
                     userId: industryDetail?.user?.id,
                 }
             }
@@ -140,7 +137,7 @@ export function InterviewAvailability() {
         },
         {
             value: 'monthly',
-            label: 'Monthly Range Mode',
+            label: 'Monthly Date Mode',
             // icon: Users,
             // count: count?.data?.pending,
             component: () => (
@@ -152,10 +149,10 @@ export function InterviewAvailability() {
     return (
         <div
             id="interview-availability"
-            className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all"
+            className="bg-white rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all"
         >
             {/* Header */}
-            <div className="bg-gradient-to-r from-[#044866] to-[#0D5468] px-4 py-2 flex items-center justify-between">
+            <div className="bg-gradient-to-r rounded-t-xl from-[#044866] to-[#0D5468] px-4 py-2 flex items-center justify-between">
                 <h3 className="text-white flex items-center gap-2 text-sm font-semibold tracking-wide">
                     <Calendar className="w-4 h-4" />
                     Interview Availability

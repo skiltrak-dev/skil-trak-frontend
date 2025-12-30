@@ -112,7 +112,7 @@ export function WeeklySchedule({ schedule, onChange }: WeeklyScheduleProps) {
         <div className="space-y-3 animate-in fade-in duration-500">
             {/* Day Selector - Horizontal Strip */}
             <div className="bg-white px-4 py-2 rounded border border-slate-100 shadow-sm">
-                <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider mb-3 block flex items-center gap-2">
+                <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider mb-3 flex items-center gap-2">
                     <CalendarDays className="w-4 h-4 text-emerald-500" />
                     Select Working Days
                 </label>
@@ -126,11 +126,10 @@ export function WeeklySchedule({ schedule, onChange }: WeeklyScheduleProps) {
                                 key={day.key}
                                 onClick={() => handleToggleDay(day.key)}
                                 className={`
-                                    flex-1 h-6 rounded-sm flex flex-col items-center justify-center transition-all duration-200 border
-                                    ${
-                                        isSelected
-                                            ? 'bg-emerald-500 border-emerald-500 text-white shadow-emerald-200 shadow-lg scale-105'
-                                            : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-600'
+                                    flex-1 h-6 cursor-pointer rounded-sm flex flex-col items-center justify-center transition-all duration-200 border
+                                    ${isSelected
+                                        ? 'bg-emerald-500 border-emerald-500 text-white shadow-emerald-200 shadow-lg scale-105'
+                                        : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-600'
                                     }
                                 `}
                             >
@@ -178,7 +177,7 @@ export function WeeklySchedule({ schedule, onChange }: WeeklyScheduleProps) {
                                     </div>
 
                                     <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-3">
-                                        <div className="w-full sm:w-1/3 min-w-[180px]">
+                                        <div className="w-full sm:w-1/2 min-w-[260px]">
                                             <Select
                                                 name={`preset-${day.day}`}
                                                 options={timeSlotPresets}
