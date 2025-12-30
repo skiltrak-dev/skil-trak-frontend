@@ -14,18 +14,26 @@ import {
 
 export const RtoUpdatedIndustries = () => {
     const [addIndustryOpen, setAddIndustryOpen] = useState(false)
-    const [searchTerm, setSearchTerm] = useState('')
-    const [courseId, setCourseId] = useState('all')
-    const [filterStatus, setFilterStatus] = useState('all')
-    const [stateFilter, setStateFilter] = useState('all')
+    const [filters, setFilters] = useState({
+        searchTerm: '',
+        courseId: 'all',
+        filterStatus: 'all',
+        stateFilter: 'all',
+        placementReady: 'all',
+    })
 
-    const debouncedSearch = useDebounce(searchTerm, 500)
+    const debouncedSearch = useDebounce(filters.searchTerm, 500)
 
-    const filters = {
+    const handleFilterChange = (name: string, value: any) => {
+        setFilters((prev) => ({
+            ...prev,
+            [name]: value,
+        }))
+    }
+
+    const tabFilters = {
+        ...filters,
         searchTerm: debouncedSearch,
-        courseId,
-        filterStatus,
-        stateFilter,
     }
 
     const tabs: TabConfig[] = [
@@ -33,31 +41,31 @@ export const RtoUpdatedIndustries = () => {
             value: 'non-partner-industries',
             label: 'Non-Partner Industries',
             icon: Building2,
-            component: () => <NonPartnerIndustries {...filters} />,
+            component: () => <NonPartnerIndustries {...tabFilters} />,
         },
         {
             value: 'partner-industries',
             label: 'Your Partner Industries',
             icon: Building2,
-            component: () => <YourPartnerIndustries {...filters} />,
+            component: () => <YourPartnerIndustries {...tabFilters} />,
         },
         {
             value: 'pending-industries',
             label: 'Pending Industries',
             icon: Building2,
-            component: () => <PendingIndustriesTab {...filters} />,
+            component: () => <PendingIndustriesTab {...tabFilters} />,
         },
         {
             value: 'skiltrak-network',
             label: 'Skiltrak Network',
             icon: Building2,
-            component: () => <SkiltrakNetwork {...filters} />,
+            component: () => <SkiltrakNetwork {...tabFilters} />,
         },
         {
             value: 'archived-industries',
             label: 'Archived Industries',
             icon: Building2,
-            component: () => <ArchivedIndustries {...filters} />,
+            component: () => <ArchivedIndustries {...tabFilters} />,
         },
     ]
 
@@ -67,20 +75,8 @@ export const RtoUpdatedIndustries = () => {
             <IndustryCounts />
             <div className="bg-white p-4 rounded-xl border border-border/50 shadow-sm">
                 <IndustryFilterBar
-                    searchTerm={searchTerm}
-                    onSearchChange={setSearchTerm}
-                    courseId={courseId}
-                    onCourseChange={(option: any) =>
-                        setCourseId(option?.value || 'all')
-                    }
-                    filterStatus={filterStatus}
-                    onStatusChange={(option: any) =>
-                        setFilterStatus(option?.value || 'all')
-                    }
-                    filterState={stateFilter}
-                    onStateChange={(option: any) =>
-                        setStateFilter(option?.value || 'all')
-                    }
+                    {...filters}
+                    onFilterChange={handleFilterChange}
                 />
             </div>
 

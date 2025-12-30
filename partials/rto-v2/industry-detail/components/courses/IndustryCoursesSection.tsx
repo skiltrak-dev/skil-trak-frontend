@@ -2,23 +2,14 @@ import { RtoV2Api, setIndustrySectorCapacity, SubAdminApi } from '@redux'
 import { useAppDispatch, useAppSelector } from '@redux/hooks'
 import { useEffect, useState } from 'react'
 
-import { CourseViewModel } from '../courses/courseCard/CourseCard'
-import { CoursesHeaderSection } from '../courses/header/CoursesHeaderSection'
-import { EditCourseCapacityDialog } from '../courses/modals/EditCourseCapacityDialog'
-import { EditSectorMetricsDialog } from '../courses/modals/EditSectorMetricsDialog'
-import { SectorCard } from '../courses/SectorCard'
-import { IndustrySectorGroup, useCoursesData } from './hooks'
 import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { CoursesHeaderSection } from '../courses/header/CoursesHeaderSection'
+import { SectorCard } from '../courses/SectorCard'
+import { useCoursesData } from './hooks'
 
 export function IndustryCoursesSection() {
     const [searchQuery, setSearchQuery] = useState('')
-    // const [coursesDataState, setCoursesDataState] = useState<any>() // Removed unused state
     const [showSearch, setShowSearch] = useState(false)
-    const [editingSector, setEditingSector] =
-        useState<IndustrySectorGroup | null>(null)
-    const [editingCourse, setEditingCourse] = useState<CourseViewModel | null>(
-        null
-    )
 
     const { industryDetail: industry } = useAppSelector(
         (state) => state.industry
@@ -50,19 +41,6 @@ export function IndustryCoursesSection() {
     const coursesData = coursesDetails?.data
         ? groupBySector(coursesDetails?.data)
         : []
-
-    const saveSectorMetrics = (
-        sectorId: number,
-        values: { students: number; capacity: number; duration: string }
-    ) => { }
-
-    const saveCourseCapacity = (
-        courseId: number,
-        values: { students: number; capacity: number }
-    ) => {
-        // Placeholder: Implement API call here
-        console.log('Save capacity:', courseId, values)
-    }
 
     // Calculate overall statistics
     const totalCourses = coursesData.reduce(
@@ -117,8 +95,8 @@ export function IndustryCoursesSection() {
                 {coursesDetails?.isLoading || coursesDetails?.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : coursesDetails?.isSuccess &&
-                    coursesDetails?.data &&
-                    coursesDetails?.data?.length > 0 ? (
+                  coursesDetails?.data &&
+                  coursesDetails?.data?.length > 0 ? (
                     coursesData.map((group, sectorIndex) => (
                         <SectorCard
                             key={group.sector.id}
@@ -134,21 +112,6 @@ export function IndustryCoursesSection() {
                     />
                 )}
             </div>
-
-            {/* Edit Dialogs */}
-            <EditSectorMetricsDialog
-                open={editingSector !== null}
-                sector={editingSector}
-                onOpenChange={(open) => !open && setEditingSector(null)}
-                onSave={saveSectorMetrics}
-            />
-
-            <EditCourseCapacityDialog
-                open={editingCourse !== null}
-                course={editingCourse}
-                onOpenChange={(open) => !open && setEditingCourse(null)}
-                onSave={saveCourseCapacity}
-            />
         </div>
     )
 }

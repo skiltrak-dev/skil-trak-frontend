@@ -48,6 +48,8 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
         (state) => state.industry
     )
 
+    console.log({ industrySectorCapacity })
+
     const { data: initiatedESign } =
         RtoV2Api.Industries.getIndustryInitiatedESign(
             {
@@ -111,12 +113,13 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: sectorIndex * 0.1 }}
-            className={`rounded-2xl border-2 overflow-hidden transition-all duration-300 ${sectorApproved
+            className={`rounded-2xl border-2 overflow-hidden transition-all duration-300 ${
+                sectorApproved
                     ? 'bg-gradient-to-br from-[#10B981]/5 via-white to-[#059669]/5 border-[#10B981]/30 shadow-lg shadow-[#10B981]/10'
                     : hasPendingActions
-                        ? 'bg-gradient-to-br from-[#F7A619]/5 via-white to-[#EA580C]/5 border-[#F7A619]/40 shadow-lg shadow-[#F7A619]/10'
-                        : 'bg-white border-[#E2E8F0] hover:shadow-xl hover:border-[#044866]/20'
-                }`}
+                    ? 'bg-gradient-to-br from-[#F7A619]/5 via-white to-[#EA580C]/5 border-[#F7A619]/40 shadow-lg shadow-[#F7A619]/10'
+                    : 'bg-white border-[#E2E8F0] hover:shadow-xl hover:border-[#044866]/20'
+            }`}
         >
             {/* Sector Header */}
             <div
@@ -125,24 +128,26 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
             >
                 {/* Status Indicator Strip */}
                 <div
-                    className={`absolute top-0 left-0 right-0 h-1 ${sectorApproved
+                    className={`absolute top-0 left-0 right-0 h-1 ${
+                        sectorApproved
                             ? 'bg-gradient-to-r from-[#10B981] via-[#059669] to-[#10B981]'
                             : hasPendingActions
-                                ? 'bg-gradient-to-r from-[#F7A619] via-[#EA580C] to-[#F7A619]'
-                                : 'bg-gradient-to-r from-[#044866] via-[#0D5468] to-[#044866]'
-                        }`}
+                            ? 'bg-gradient-to-r from-[#F7A619] via-[#EA580C] to-[#F7A619]'
+                            : 'bg-gradient-to-r from-[#044866] via-[#0D5468] to-[#044866]'
+                    }`}
                 />
 
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4 flex-1">
                         {/* Sector Icon */}
                         <div
-                            className={`w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-lg relative ${sectorApproved
+                            className={`w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-lg relative ${
+                                sectorApproved
                                     ? 'bg-gradient-to-br from-[#10B981] to-[#059669]'
                                     : hasPendingActions
-                                        ? 'bg-gradient-to-br from-[#F7A619] to-[#EA580C]'
-                                        : `bg-gradient-to-br from-blue-500 to-blue-600`
-                                }`}
+                                    ? 'bg-gradient-to-br from-[#F7A619] to-[#EA580C]'
+                                    : `bg-gradient-to-br from-blue-500 to-blue-600`
+                            }`}
                         >
                             <span className="drop-shadow-lg">📚</span>
                             {sectorApproved && (
@@ -168,8 +173,8 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
                                         className={cn(
                                             'px-2.5 py-1 text-white rounded-full text-[10px] font-bold flex items-center gap-1 shadow-md uppercase',
                                             sectorStatusColorMap[
-                                            industryApproval?.status ||
-                                            'pending'
+                                                industryApproval?.status ||
+                                                    'pending'
                                             ] || sectorStatusColorMap.pending
                                         )}
                                     >
@@ -223,16 +228,18 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
                             <div className="flex items-center gap-6">
                                 <div className="flex items-center gap-1.5">
                                     <div
-                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${sectorApproved
+                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                                            sectorApproved
                                                 ? 'bg-[#10B981]/10'
                                                 : 'bg-[#044866]/10'
-                                            }`}
+                                        }`}
                                     >
                                         <BookOpen
-                                            className={`w-4 h-4 ${sectorApproved
+                                            className={`w-4 h-4 ${
+                                                sectorApproved
                                                     ? 'text-[#10B981]'
                                                     : 'text-[#044866]'
-                                                }`}
+                                            }`}
                                         />
                                     </div>
                                     <div>
@@ -247,16 +254,18 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
 
                                 <div className="flex items-center gap-1.5">
                                     <div
-                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${sectorApproved
+                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                                            sectorApproved
                                                 ? 'bg-[#10B981]/10'
                                                 : 'bg-[#044866]/10'
-                                            }`}
+                                        }`}
                                     >
                                         <Users
-                                            className={`w-4 h-4 ${sectorApproved
+                                            className={`w-4 h-4 ${
+                                                sectorApproved
                                                     ? 'text-[#10B981]'
                                                     : 'text-[#044866]'
-                                                }`}
+                                            }`}
                                         />
                                     </div>
                                     <div>
@@ -298,20 +307,22 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
 
                                 <div className="flex items-center gap-1.5">
                                     <div
-                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${utilizationRate >= 80
+                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                                            utilizationRate >= 80
                                                 ? 'bg-[#10B981]/10'
                                                 : utilizationRate >= 50
-                                                    ? 'bg-[#F7A619]/10'
-                                                    : 'bg-[#64748B]/10'
-                                            }`}
+                                                ? 'bg-[#F7A619]/10'
+                                                : 'bg-[#64748B]/10'
+                                        }`}
                                     >
                                         <Sparkles
-                                            className={`w-4 h-4 ${utilizationRate >= 80
+                                            className={`w-4 h-4 ${
+                                                utilizationRate >= 80
                                                     ? 'text-[#10B981]'
                                                     : utilizationRate >= 50
-                                                        ? 'text-[#F7A619]'
-                                                        : 'text-[#64748B]'
-                                                }`}
+                                                    ? 'text-[#F7A619]'
+                                                    : 'text-[#64748B]'
+                                            }`}
                                         />
                                     </div>
                                     <div>
@@ -347,12 +358,13 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
                         <motion.button
                             animate={{ rotate: isSectorExpanded ? 180 : 0 }}
                             transition={{ duration: 0.3 }}
-                            className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${sectorApproved
+                            className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
+                                sectorApproved
                                     ? 'bg-[#10B981]/10 hover:bg-[#10B981]/20 text-[#10B981]'
                                     : hasPendingActions
-                                        ? 'bg-[#F7A619]/10 hover:bg-[#F7A619]/20 text-[#F7A619]'
-                                        : 'bg-[#F8FAFB] hover:bg-[#E8F4F8] text-[#044866]'
-                                }`}
+                                    ? 'bg-[#F7A619]/10 hover:bg-[#F7A619]/20 text-[#F7A619]'
+                                    : 'bg-[#F8FAFB] hover:bg-[#E8F4F8] text-[#044866]'
+                            }`}
                         >
                             <ChevronDown className="w-5 h-5" />
                         </motion.button>

@@ -45,7 +45,7 @@ export interface CourseInfo extends BaseResponse {
 
 export interface IndustryCourseApproval extends BaseResponse {
     id: number
-    status: string
+    status: 'pending' | 'approved' | 'rejected'
     description: string
     hodComment: string
     isVerifiedByHod: boolean
