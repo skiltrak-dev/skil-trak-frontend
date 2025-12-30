@@ -27,7 +27,6 @@ import { getUserCredentials } from '@utils'
 import { RiLockPasswordFill } from 'react-icons/ri'
 
 export const SnoozedIndustry = () => {
-
     const [modal, setModal] = useState<ReactElement | null>(null)
     const router = useRouter()
     const [itemPerPage, setItemPerPage] = useState(30)
@@ -40,12 +39,7 @@ export const SnoozedIndustry = () => {
         setPage(Number(router.query.page || 1))
         setItemPerPage(Number(router.query.pageSize || 30))
     }, [router])
-    // useSnoozedIndustry
-    // const snoozedIndustryList = AdminApi.Industries.useSnoozedIndustry({
-    //     // search: `status:${UserStatus.Approved}`,
-    //     skip: itemPerPage * page - itemPerPage,
-    //     limit: itemPerPage,
-    // })
+
     const { isLoading, data, isError } = AdminApi.Industries.useSnoozedIndustry(
         {
             // search: `status:${UserStatus.Approved}`,
@@ -53,8 +47,6 @@ export const SnoozedIndustry = () => {
             limit: itemPerPage,
         }
     )
-
-    const [bulkAction, resultBulkAction] = commonApi.useBulkStatusMutation()
 
     const onModalCancelClicked = () => {
         setModal(null)
@@ -67,14 +59,7 @@ export const SnoozedIndustry = () => {
             />
         )
     }
-    // const onSnoozedClicked = (industry: Industry) => {
-    //     setModal(
-    //         <SnoozedModal
-    //             industry={industry}
-    //             onCancel={() => onModalCancelClicked()}
-    //         />
-    //     )
-    // }
+
     const onSnooze = (industry: Industry) => {
         setModal(
             <SnoozeIndustryModal
@@ -101,7 +86,7 @@ export const SnoozedIndustry = () => {
         )
     }
 
-    const tableActionOptions = (industry: any) => {
+    const tableActionOptions = () => {
         return [
             {
                 text: 'View',
@@ -111,10 +96,10 @@ export const SnoozedIndustry = () => {
                 Icon: FaEye,
             },
             {
-                text: 'Old Profile',
+                text: 'View Old Profile',
                 onClick: (industry: any) =>
                     router.push(
-                        `/portals/admin/industry/${industry?.id}/detail?tab=students`
+                        `/portals/admin/industry/${industry?.id}/old-detail`
                     ),
                 Icon: FaEye,
             },
@@ -139,11 +124,11 @@ export const SnoozedIndustry = () => {
             {
                 ...(role === UserRoles.ADMIN
                     ? {
-                        text: 'View Password',
-                        onClick: (industry: Industry) =>
-                            onViewPassword(industry),
-                        Icon: RiLockPasswordFill,
-                    }
+                          text: 'View Password',
+                          onClick: (industry: Industry) =>
+                              onViewPassword(industry),
+                          Icon: RiLockPasswordFill,
+                      }
                     : {}),
             },
             {
@@ -232,9 +217,7 @@ export const SnoozedIndustry = () => {
             accessorKey: 'action',
             header: () => <span>Action</span>,
             cell: (info: any) => {
-                const tableActionOption = tableActionOptions(
-                    info?.row?.original
-                )
+                const tableActionOption = tableActionOptions()
                 return (
                     <div className="flex gap-x-1 items-center">
                         <TableAction

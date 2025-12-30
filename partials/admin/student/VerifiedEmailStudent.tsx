@@ -101,6 +101,13 @@ export const VerifiedEmailStudent = () => {
             Icon: FaEye,
         },
         {
+            text: 'View Old Profile',
+            onClick: (student: Student) => {
+                router.push(`/portals/admin/student/${student?.id}/old-profile`)
+            },
+            Icon: FaEye,
+        },
+        {
             text: 'Edit',
             onClick: (student) => {
                 router.push(

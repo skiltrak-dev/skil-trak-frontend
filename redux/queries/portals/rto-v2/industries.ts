@@ -3,6 +3,7 @@ import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions
 import {
     Industry,
     IndustryCourseApproval,
+    IndustryInterviewAvailability,
     PaginatedResponse,
     PaginationWithSearch,
     Student,
@@ -200,7 +201,10 @@ export const industriesEndpoints = (
         }),
         providesTags: ['RTOIndustries'],
     }),
-    getIndustryAvailabilityV2: builder.query<any, any>({
+    getIndustryAvailabilityV2: builder.query<
+        IndustryInterviewAvailability,
+        number
+    >({
         query: (id) => ({
             url: `students/workplace-requests/workplace/${id}/interview-availability/get`,
         }),

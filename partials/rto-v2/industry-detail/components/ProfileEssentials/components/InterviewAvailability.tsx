@@ -1,6 +1,11 @@
 import { Calendar, CheckCircle } from 'lucide-react'
-import { Button, ConfigTabs, TabConfig } from '@components'
-import { useState } from 'react'
+import {
+    Button,
+    ConfigTabs,
+    ShowErrorNotifications,
+    TabConfig,
+} from '@components'
+import { useEffect, useState } from 'react'
 import { WeeklySchedule, DaySchedule } from './WeeklySchedule'
 import { MonthlySchedule, MonthlyScheduleData } from './MonthlySchedule'
 import { RtoV2Api } from '@queries/portals/rto-v2/rto-v2.query'
@@ -8,11 +13,18 @@ import { useNotification } from '@hooks/useNotification'
 import { useAppSelector } from '@redux/hooks'
 
 export function InterviewAvailability() {
-    const [createAvailability, { isLoading }] =
+    const [createAvailability, createAvailabilityResult] =
         RtoV2Api.Industries.createAvailability()
 
     const industryDetail = useAppSelector(
         (state) => state.industry.industryDetail
+    )
+
+    const imterviewAvailability = RtoV2Api.Industries.useIndustryAvailabilityV2(
+        industryDetail?.id!,
+        {
+            skip: !industryDetail?.id,
+        }
     )
 
     const [availabilityType, setAvailabilityType] = useState<
@@ -55,6 +67,46 @@ export function InterviewAvailability() {
         dates: [],
         slots: [{ startTime: '09:00', endTime: '17:00' }],
     })
+
+    useEffect(() => {
+        if (imterviewAvailability.data) {
+            const { type, slots, dates } = imterviewAvailability.data
+            setAvailabilityType(type || 'weekly')
+
+            if (type === 'weekly' && slots) {
+                setWeeklySchedule((prev) =>
+                    prev.map((day) => {
+                        const daySlots = slots.filter((s) => s.day === day.day)
+                        return {
+                            ...day,
+                            isActive: daySlots.length > 0,
+                            slots:
+                                daySlots.length > 0
+                                    ? daySlots.map((s) => ({
+                                          startTime: s.startTime.substring(
+                                              0,
+                                              5
+                                          ),
+                                          endTime: s.endTime.substring(0, 5),
+                                      }))
+                                    : day.slots,
+                        }
+                    })
+                )
+            } else if (type === 'monthly' && dates) {
+                setMonthlyData((prev) => ({
+                    dates: dates.map((d: any) => ({ date: d.date })),
+                    slots:
+                        slots && slots.length > 0
+                            ? slots.map((s: any) => ({
+                                  startTime: s.startTime.substring(0, 5),
+                                  endTime: s.endTime.substring(0, 5),
+                              }))
+                            : prev.slots,
+                }))
+            }
+        }
+    }, [imterviewAvailability.data])
 
     const { notification } = useNotification()
 
@@ -116,18 +168,12 @@ export function InterviewAvailability() {
             })
         } catch (error) {
             console.error('Failed to save availability', error)
-            notification.error({
-                title: 'Error',
-                description: 'Failed to update availability. Please try again.',
-            })
         }
     }
     const tabs: TabConfig[] = [
         {
             value: 'weekly',
             label: 'Weekly Active Mode',
-            // icon: Users,
-            // count: count?.data?.pending,
             component: () => (
                 <WeeklySchedule
                     schedule={weeklySchedule}
@@ -138,8 +184,6 @@ export function InterviewAvailability() {
         {
             value: 'monthly',
             label: 'Monthly Date Mode',
-            // icon: Users,
-            // count: count?.data?.pending,
             component: () => (
                 <MonthlySchedule data={monthlyData} onChange={setMonthlyData} />
             ),
@@ -147,56 +191,61 @@ export function InterviewAvailability() {
     ]
 
     return (
-        <div
-            id="interview-availability"
-            className="bg-white rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all"
-        >
-            {/* Header */}
-            <div className="bg-gradient-to-r rounded-t-xl from-[#044866] to-[#0D5468] px-4 py-2 flex items-center justify-between">
-                <h3 className="text-white flex items-center gap-2 text-sm font-semibold tracking-wide">
-                    <Calendar className="w-4 h-4" />
-                    Interview Availability
-                </h3>
-                <div className="flex items-center gap-2 bg-white/20 px-2 py-1 rounded-full backdrop-blur-sm">
-                    <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
-                    <span className="text-[10px] text-white font-medium uppercase tracking-wide">
-                        Active
-                    </span>
-                </div>
-            </div>
-
-            <div className="px-4 py-2 space-y-3">
-                <ConfigTabs
-                    tabs={tabs}
-                    value={availabilityType}
-                    onValueChange={(val: string) =>
-                        setAvailabilityType(val as 'weekly' | 'monthly')
-                    }
-                    className={'!rounded'}
-                    tabsClasses="!p-1 !rounded-md"
-                    tabsTriggerClasses="!py-1 !rounded-md"
-                />
-
-                {/* Action Footer */}
-                <div className="border-t border-slate-100 flex items-center justify-between">
-                    <div className="flex items-start gap-2 max-w-[70%]">
-                        <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
-                        <p className="text-slate-500 text-xs leading-relaxed">
-                            Changes will be immediately reflected in the student
-                            booking portal.
-                        </p>
+        <>
+            <ShowErrorNotifications result={createAvailabilityResult} />
+            <div
+                id="interview-availability"
+                className="bg-white rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all"
+            >
+                {/* Header */}
+                <div className="bg-gradient-to-r rounded-t-xl from-[#044866] to-[#0D5468] px-4 py-2 flex items-center justify-between">
+                    <h3 className="text-white flex items-center gap-2 text-sm font-semibold tracking-wide">
+                        <Calendar className="w-4 h-4" />
+                        Interview Availability
+                    </h3>
+                    <div className="flex items-center gap-2 bg-white/20 px-2 py-1 rounded-full backdrop-blur-sm">
+                        <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
+                        <span className="text-[10px] text-white font-medium uppercase tracking-wide">
+                            Active
+                        </span>
                     </div>
+                </div>
 
-                    <Button
-                        onClick={handleSave}
-                        variant="primary"
-                        className="bg-[#044866] hover:bg-[#03364d] text-white px-6 py-2 rounded-lg text-xs font-semibold shadow-lg shadow-[#044866]/20 transition-all hover:scale-105 active:scale-95"
-                        disabled={isLoading}
-                    >
-                        {isLoading ? 'Saving...' : 'Save Availability'}
-                    </Button>
+                <div className="px-4 py-2 space-y-3">
+                    <ConfigTabs
+                        tabs={tabs}
+                        value={availabilityType}
+                        onValueChange={(val: string) =>
+                            setAvailabilityType(val as 'weekly' | 'monthly')
+                        }
+                        className={'!rounded'}
+                        tabsClasses="!p-1 !rounded-md"
+                        tabsTriggerClasses="!py-1 !rounded-md"
+                    />
+
+                    {/* Action Footer */}
+                    <div className="border-t border-slate-100 flex items-center justify-between">
+                        <div className="flex items-start gap-2 max-w-[70%]">
+                            <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                            <p className="text-slate-500 text-xs leading-relaxed">
+                                Changes will be immediately reflected in the
+                                student booking portal.
+                            </p>
+                        </div>
+
+                        <Button
+                            onClick={handleSave}
+                            variant="primary"
+                            className="bg-[#044866] hover:bg-[#03364d] text-white px-6 py-2 rounded-lg text-xs font-semibold shadow-lg shadow-[#044866]/20 transition-all hover:scale-105 active:scale-95"
+                            disabled={createAvailabilityResult.isLoading}
+                        >
+                            {createAvailabilityResult.isLoading
+                                ? 'Saving...'
+                                : 'Save Availability'}
+                        </Button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }

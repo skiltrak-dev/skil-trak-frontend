@@ -111,6 +111,17 @@ export const useColumns = () => {
                 Icon: FaEye,
             },
             {
+                text: 'View Old Profile',
+                onClick: (student) => {
+                    router.push(
+                        `/portals/sub-admin/students/${student?.id}/old-updated-profile`
+                    )
+
+                    setLink('subadmin-student', router)
+                },
+                Icon: FaEye,
+            },
+            {
                 text: 'Edit',
                 onClick: (student) => {
                     router.push(
