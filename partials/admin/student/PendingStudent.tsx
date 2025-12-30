@@ -97,6 +97,13 @@ export const PendingStudent = () => {
             Icon: FaEye,
         },
         {
+            text: 'View Old Profile',
+            onClick: (student) => {
+                router.push(`/portals/admin/student/${student?.id}/old-profile`)
+            },
+            Icon: FaEye,
+        },
+        {
             text: 'Edit',
             onClick: (row) => {
                 router.push(`/portals/admin/student/edit-student/${row.id}`)

@@ -111,10 +111,10 @@ export const PendingIndustry = () => {
             Icon: FaEye,
         },
         {
-            text: 'Old Profile',
+            text: 'View Old Profile',
             onClick: (industry: any) =>
                 router.push(
-                    `/portals/admin/industry/${industry?.id}/detail?tab=students`
+                    `/portals/admin/industry/${industry?.id}/old-detail`
                 ),
             Icon: FaEye,
         },

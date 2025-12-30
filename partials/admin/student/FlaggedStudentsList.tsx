@@ -181,13 +181,22 @@ export const FlaggedStudentsList = () => {
         )
     }
 
-    const tableActionOptions = (student: any) => {
+    const tableActionOptions = (student: Student) => {
         return [
             {
                 text: 'View',
                 onClick: (student: any) => {
                     router.push(`/portals/admin/student/${student?.id}/detail`)
                     setLink('student', router)
+                },
+                Icon: FaEye,
+            },
+            {
+                text: 'View Old Profile',
+                onClick: (student: Student) => {
+                    router.push(
+                        `/portals/admin/student/${student?.id}/old-profile`
+                    )
                 },
                 Icon: FaEye,
             },
@@ -250,7 +259,7 @@ export const FlaggedStudentsList = () => {
                         <Modal.Open>
                             <Button variant={'info'} text="View" outline />
                         </Modal.Open>
-                        <Modal.Window name='flagged-student-comment'>
+                        <Modal.Window name="flagged-student-comment">
                             <div className="p-5 flex flex-col justify-center items-center gap-y-4">
                                 <Typography variant="title">
                                     Reported Comment

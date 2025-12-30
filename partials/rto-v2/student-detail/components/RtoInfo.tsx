@@ -1,13 +1,17 @@
 import { InitialAvatar } from '@components'
-import { RtoApi } from '@queries'
+import { RtoApi, SubAdminApi } from '@queries'
+import { useAppSelector } from '@redux'
 import React from 'react'
 
 export const RtoInfo = () => {
-    const rtoProfile = RtoApi.Rto.useProfile()
+    const studentId = useAppSelector((state) => state.student.studentDetail?.id)
 
-    const rtoCoordinator = rtoProfile?.data?.subadmin?.find(
-        (subadmin: any) => subadmin?.isAssociatedWithRto
-    )
+    const rtoProfile = SubAdminApi.Student.getStudentRtoDetail(studentId!, {
+        skip: !studentId,
+        refetchOnMountOrArgChange: 300,
+    })
+
+    const rtoCoordinator = rtoProfile?.data?.contactPersons?.[0]
 
     return (
         <header className="bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-sm sticky top-0 z-50">
@@ -29,16 +33,16 @@ export const RtoInfo = () => {
                     <div className="flex items-center gap-[9.94px]">
                         <div className="text-right">
                             <p className="text-[11.59px] text-slate-600">
-                                Coordinator
+                                Contact Person
                             </p>
                             <p className="text-slate-900 text-[13.25px]">
-                                {rtoCoordinator?.user?.name || '---'}
+                                {rtoCoordinator?.name || '---'}
                             </p>
                         </div>
-                        {rtoCoordinator?.user?.name && (
+                        {rtoCoordinator?.name && (
                             <InitialAvatar
-                                imageUrl={rtoCoordinator?.user?.avatar}
-                                name={rtoCoordinator?.user?.name || '---'}
+                                imageUrl={rtoCoordinator?.avatar}
+                                name={rtoCoordinator?.name || '---'}
                             />
                         )}
                     </div>

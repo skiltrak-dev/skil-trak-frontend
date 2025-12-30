@@ -2,13 +2,13 @@ import { ReactElement } from 'react'
 
 //Layouts
 import { AdminLayout } from '@layouts'
-import { RtoStudentDetail } from '@partials'
+import { StudentProfileDetail } from '@partials/common'
 import { NextPageWithLayout } from '@types'
 
 const StudentsProfileDetail: NextPageWithLayout = () => {
     return (
         <div>
-            <RtoStudentDetail />
+            <StudentProfileDetail />
         </div>
     )
 }

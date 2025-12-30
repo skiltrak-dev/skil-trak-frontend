@@ -35,6 +35,83 @@ export function CoursesHeaderSection({
     pendingActionsCount,
     approvedCount,
 }: CoursesHeaderSectionProps) {
+
+    const courseCounts = [
+        {
+            title: 'Total Courses',
+            value: totalCourses,
+            icon: BookOpen,
+            delay: 0.1,
+            className:
+                'bg-gradient-to-br from-[#044866] to-[#0D5468] text-white shadow-[#044866]/20',
+            iconClass: 'bg-white/10 text-white',
+            titleClass: 'text-white/80',
+            valueClass: 'text-white',
+            hasDecor: true,
+        },
+        {
+            title: 'Active Students',
+            value: totalStudents,
+            subtext: `of ${totalCapacity} capacity`,
+            icon: Users,
+            delay: 0.15,
+            className:
+                'bg-white border-2 border-[#E2E8F0] group hover:border-[#044866]/20',
+            iconClass:
+                'bg-[#044866]/10 text-[#044866] group-hover:bg-[#044866]/20',
+            titleClass: 'text-[#64748B]',
+            valueClass: 'text-[#1A2332]',
+            decorClass:
+                'bg-[#044866]/5 group-hover:bg-[#044866]/10',
+        },
+        {
+            title: 'Utilization Rate',
+            value: `${overallCapacity}%`,
+            icon: TrendingUp,
+            delay: 0.2,
+            type: 'utilization',
+            className: `border-2 ${overallCapacity >= 80
+                ? 'bg-gradient-to-br from-[#10B981]/10 to-[#059669]/10 border-[#10B981]/30 shadow-[#10B981]/10'
+                : overallCapacity >= 50
+                    ? 'bg-gradient-to-br from-[#F7A619]/10 to-[#EA580C]/10 border-[#F7A619]/30 shadow-[#F7A619]/10'
+                    : 'bg-white border-[#E2E8F0]'
+                }`,
+            iconClass:
+                overallCapacity >= 80
+                    ? 'bg-[#10B981]/20 text-[#10B981]'
+                    : overallCapacity >= 50
+                        ? 'bg-[#F7A619]/20 text-[#F7A619]'
+                        : 'bg-[#64748B]/10 text-[#64748B]',
+            titleClass: 'text-[#64748B]',
+            valueClass:
+                overallCapacity >= 80
+                    ? 'text-[#10B981]'
+                    : overallCapacity >= 50
+                        ? 'text-[#F7A619]'
+                        : 'text-[#1A2332]',
+            decorClass:
+                overallCapacity >= 80
+                    ? 'bg-[#10B981]/10'
+                    : overallCapacity >= 50
+                        ? 'bg-[#F7A619]/10'
+                        : 'bg-[#64748B]/5',
+        },
+        {
+            title: 'Pending Actions',
+            value: pendingActionsCount,
+            subtext: 'Requires action',
+            icon: AlertCircle,
+            delay: 0.25,
+            className:
+                'bg-gradient-to-br from-[#F7A619]/10 to-[#EA580C]/10 border-2 border-[#F7A619]/30 shadow-[#F7A619]/10',
+            iconClass: 'bg-[#F7A619]/20 text-[#F7A619]',
+            titleClass: 'text-[#64748B]',
+            valueClass: 'text-[#F7A619]',
+            decorClass: 'bg-[#F7A619]/10',
+            subtextClass: 'text-[#EA580C] font-medium',
+        },
+    ]
+
     return (
         <div className="space-y-4">
             {/* Main Header */}
@@ -92,147 +169,74 @@ export function CoursesHeaderSection({
             </AnimatePresence>
 
             {/* Statistics Cards */}
-            <div className="grid grid-cols-4 gap-4">
-                {/* Total Courses */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="bg-gradient-to-br from-[#044866] to-[#0D5468] rounded-2xl p-5 text-white shadow-lg shadow-[#044866]/20 relative overflow-hidden"
-                >
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full -mr-8 -mt-8" />
-                    <div className="absolute bottom-0 left-0 w-16 h-16 bg-white/5 rounded-full -ml-4 -mb-4" />
-                    <div className="relative">
-                        <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center mb-3">
-                            <BookOpen className="w-6 h-6" />
-                        </div>
-                        <p className="text-white/80 text-xs mb-1">
-                            Total Courses
-                        </p>
-                        <p className="text-3xl font-bold">{totalCourses}</p>
-                    </div>
-                </motion.div>
-
-                {/* Total Students */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.15 }}
-                    className="bg-white rounded-2xl p-5 border-2 border-[#E2E8F0] shadow-lg relative overflow-hidden group hover:border-[#044866]/20 transition-all"
-                >
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-[#044866]/5 rounded-full -mr-8 -mt-8 group-hover:bg-[#044866]/10 transition-colors" />
-                    <div className="relative">
-                        <div className="w-12 h-12 bg-[#044866]/10 rounded-xl flex items-center justify-center mb-3 group-hover:bg-[#044866]/20 transition-colors">
-                            <Users className="w-6 h-6 text-[#044866]" />
-                        </div>
-                        <p className="text-[#64748B] text-xs mb-1">
-                            Active Students
-                        </p>
-                        <p className="text-3xl font-bold text-[#1A2332]">
-                            {totalStudents}
-                        </p>
-                        <p className="text-[10px] text-[#64748B] mt-1">
-                            of {totalCapacity} capacity
-                        </p>
-                    </div>
-                </motion.div>
-
-                {/* Utilization Rate */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className={`rounded-2xl p-5 border-2 shadow-lg relative overflow-hidden group transition-all ${
-                        overallCapacity >= 80
-                            ? 'bg-gradient-to-br from-[#10B981]/10 to-[#059669]/10 border-[#10B981]/30 shadow-[#10B981]/10'
-                            : overallCapacity >= 50
-                            ? 'bg-gradient-to-br from-[#F7A619]/10 to-[#EA580C]/10 border-[#F7A619]/30 shadow-[#F7A619]/10'
-                            : 'bg-white border-[#E2E8F0]'
-                    }`}
-                >
-                    <div
-                        className={`absolute top-0 right-0 w-24 h-24 rounded-full -mr-8 -mt-8 ${
-                            overallCapacity >= 80
-                                ? 'bg-[#10B981]/10'
-                                : overallCapacity >= 50
-                                ? 'bg-[#F7A619]/10'
-                                : 'bg-[#64748B]/5'
-                        }`}
-                    />
-                    <div className="relative">
-                        <div
-                            className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 ${
-                                overallCapacity >= 80
-                                    ? 'bg-[#10B981]/20'
-                                    : overallCapacity >= 50
-                                    ? 'bg-[#F7A619]/20'
-                                    : 'bg-[#64748B]/10'
-                            }`}
-                        >
-                            <TrendingUp
-                                className={`w-6 h-6 ${
-                                    overallCapacity >= 80
-                                        ? 'text-[#10B981]'
-                                        : overallCapacity >= 50
-                                        ? 'text-[#F7A619]'
-                                        : 'text-[#64748B]'
-                                }`}
+            <div className="grid grid-cols-4 gap-2">
+                {courseCounts.map((card, idx) => (
+                    <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: card.delay }}
+                        className={`rounded-lg p-3 shadow-lg relative overflow-hidden transition-all ${card.className}`}
+                    >
+                        {card.hasDecor ? (
+                            <>
+                                <div className="absolute bottom-0 right-0 w-20 h-20 bg-white/5 rounded-full -mr-8 -mb-9" />
+                                <div className="absolute bottom-0 left-0 w-12 h-12 bg-white/5 rounded-full -ml-4 -mb-4" />
+                            </>
+                        ) : (
+                            <div
+                                className={`absolute bottom-0 right-0 w-20 h-20 rounded-full -mr-8 -mb-8 transition-colors ${card.decorClass}`}
                             />
-                        </div>
-                        <p className="text-[#64748B] text-xs mb-1">
-                            Utilization Rate
-                        </p>
-                        <p
-                            className={`text-3xl font-bold ${
-                                overallCapacity >= 80
-                                    ? 'text-[#10B981]'
-                                    : overallCapacity >= 50
-                                    ? 'text-[#F7A619]'
-                                    : 'text-[#1A2332]'
-                            }`}
-                        >
-                            {overallCapacity}%
-                        </p>
-                        <div className="mt-2 bg-[#E2E8F0] rounded-full h-1.5 overflow-hidden">
-                            <motion.div
-                                initial={{ width: 0 }}
-                                animate={{ width: `${overallCapacity}%` }}
-                                transition={{ duration: 1, delay: 0.5 }}
-                                className={`h-full rounded-full ${
-                                    overallCapacity >= 80
-                                        ? 'bg-gradient-to-r from-[#10B981] to-[#059669]'
-                                        : overallCapacity >= 50
-                                        ? 'bg-gradient-to-r from-[#F7A619] to-[#EA580C]'
-                                        : 'bg-gradient-to-r from-[#64748B] to-[#475569]'
-                                }`}
-                            />
-                        </div>
-                    </div>
-                </motion.div>
+                        )}
 
-                {/* Workflow Status */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.25 }}
-                    className="bg-gradient-to-br from-[#F7A619]/10 to-[#EA580C]/10 rounded-2xl p-5 border-2 border-[#F7A619]/30 shadow-lg shadow-[#F7A619]/10 relative overflow-hidden"
-                >
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-[#F7A619]/10 rounded-full -mr-8 -mt-8" />
-                    <div className="relative">
-                        <div className="w-12 h-12 bg-[#F7A619]/20 rounded-xl flex items-center justify-center mb-3">
-                            <AlertCircle className="w-6 h-6 text-[#F7A619]" />
+                        <div className="relative">
+                            <div className="flex items-start justify-between gap-2">
+                                <div className="min-w-0">
+                                    <p
+                                        className={`${card.titleClass} text-xs mb-0.5 truncate`}
+                                    >
+                                        {card.title}
+                                    </p>
+                                    <p
+                                        className={`text-[27px] font-bold ${card.valueClass} truncate`}
+                                    >
+                                        {card.value}
+                                    </p>
+                                </div>
+                                <div
+                                    className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${card.iconClass} shrink-0`}
+                                >
+                                    <card.icon className="w-4 h-4" />
+                                </div>
+                            </div>
+
+                            {card.subtext && (
+                                <p
+                                    className={`text-[11px] mt-1 ${card.subtextClass || 'text-[#64748B]'
+                                        }`}
+                                >
+                                    {card.subtext}
+                                </p>
+                            )}
+
+                            {card.type === 'utilization' && (
+                                <div className="mt-2 bg-[#E2E8F0] rounded-full h-1 overflow-hidden">
+                                    <motion.div
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${overallCapacity}%` }}
+                                        transition={{ duration: 1, delay: 0.5 }}
+                                        className={`h-full rounded-full ${overallCapacity >= 80
+                                            ? 'bg-gradient-to-r from-[#10B981] to-[#059669]'
+                                            : overallCapacity >= 50
+                                                ? 'bg-gradient-to-r from-[#F7A619] to-[#EA580C]'
+                                                : 'bg-gradient-to-r from-[#64748B] to-[#475569]'
+                                            }`}
+                                    />
+                                </div>
+                            )}
                         </div>
-                        <p className="text-[#64748B] text-xs mb-1">
-                            Pending Actions
-                        </p>
-                        <p className="text-3xl font-bold text-[#F7A619]">
-                            {pendingActionsCount}
-                        </p>
-                        <p className="text-[10px] text-[#EA580C] mt-1 font-medium">
-                            Requires immediate attention
-                        </p>
-                    </div>
-                </motion.div>
+                    </motion.div>
+                ))}
             </div>
 
             {/* Quick Actions Banner */}

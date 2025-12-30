@@ -124,29 +124,41 @@ export const AllIndustries = ({ isHod }: { isHod?: boolean }) => {
                 Icon: FaEye,
             },
             {
+                text: 'View Old Profile',
+                onClick: (industry: Industry) => {
+                    router.push(
+                        `/portals/sub-admin/users/industries/${industry.id}/old-detail`
+                    )
+                    setLink('subadmin-industries', router)
+                },
+                Icon: FaEye,
+            },
+            {
                 ...(isHod
                     ? {
-                        text: 'Edit',
-                        onClick: (industry: Industry) => {
-                            router.push(
-                                `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
-                            )
-                        },
-                        Icon: FaPencilAlt,
-                    }
+                          text: 'Edit',
+                          onClick: (industry: Industry) => {
+                              router.push(
+                                  `/portals/sub-admin/users/industries/${industry?.id}/edit-profile`
+                              )
+                          },
+                          Icon: FaPencilAlt,
+                      }
                     : {}),
             },
 
             {
-                text: `${industry?.favoriteBy &&
-                        industry?.favoriteBy?.user?.id === subadminId
+                text: `${
+                    industry?.favoriteBy &&
+                    industry?.favoriteBy?.user?.id === subadminId
                         ? 'Un Favourite'
                         : 'Add Favourite'
-                    }`,
-                color: `${industry?.subAdmin && industry?.subAdmin?.length > 0
+                }`,
+                color: `${
+                    industry?.subAdmin && industry?.subAdmin?.length > 0
                         ? 'text-error'
                         : 'text-primary'
-                    }`,
+                }`,
                 onClick: (industry: Industry) =>
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,

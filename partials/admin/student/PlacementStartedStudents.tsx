@@ -20,11 +20,7 @@ import { FaEdit, FaEye, FaFileExport } from 'react-icons/fa'
 import { RtoCellInfo } from '@partials/admin/rto/components'
 import { AdminApi } from '@queries'
 import { Student } from '@types'
-import {
-    checkListLength,
-    setLink,
-    WorkplaceCurrentStatus
-} from '@utils'
+import { checkListLength, setLink, WorkplaceCurrentStatus } from '@utils'
 import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { MdBlock, MdPriorityHigh } from 'react-icons/md'
@@ -96,7 +92,7 @@ export const PlacementStartedStudents = () => {
             <HighPriorityModal
                 item={studetnt}
                 onCancel={onModalCancelClicked}
-            // setRefetchStudents={setRefetchStudents}
+                // setRefetchStudents={setRefetchStudents}
             />
         )
     }
@@ -123,59 +119,66 @@ export const PlacementStartedStudents = () => {
     const tableActionOptions = (
         student: Student
     ): TableActionOption<Student>[] => [
-            {
-                text: 'View',
-                onClick: (student) => {
-                    router.push(`/portals/admin/student/${student?.id}/detail`)
-                    setLink('student', router)
-                },
-                Icon: FaEye,
+        {
+            text: 'View',
+            onClick: (student) => {
+                router.push(`/portals/admin/student/${student?.id}/detail`)
+                setLink('student', router)
             },
-            {
-                text: 'Edit',
-                onClick: (student) => {
-                    router.push(
-                        `/portals/admin/student/edit-student/${student?.id}`
-                    )
-                },
-                Icon: FaEdit,
+            Icon: FaEye,
+        },
+        {
+            text: 'View Old Profile',
+            onClick: (student: Student) => {
+                router.push(`/portals/admin/student/${student?.id}/old-profile`)
             },
-            {
-                text: 'Change Status',
-                onClick: (student) => onChangeStatus(student),
-                Icon: FaEdit,
+            Icon: FaEye,
+        },
+        {
+            text: 'Edit',
+            onClick: (student) => {
+                router.push(
+                    `/portals/admin/student/edit-student/${student?.id}`
+                )
             },
-            {
-                text: 'Change Expiry',
-                onClick: (student) => onDateClick(student),
-                Icon: FaEdit,
-            },
-            {
-                text: 'View Password',
-                onClick: (student) => onViewPassword({ user: student?.user }),
-                Icon: RiLockPasswordFill,
-            },
-            {
-                text: 'Block',
-                onClick: (student) => onBlockClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: student?.isHighPriority
-                    ? 'Remove Mark High Priority'
-                    : 'Mark High Priority',
-                onClick: (student) => onMarkAsHighPriorityClicked(student),
-                Icon: MdPriorityHigh,
-                color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
-            },
-            {
-                text: 'Archive',
-                onClick: (student) => onArchiveClicked(student),
-                Icon: MdBlock,
-                color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
-            },
-        ]
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Status',
+            onClick: (student) => onChangeStatus(student),
+            Icon: FaEdit,
+        },
+        {
+            text: 'Change Expiry',
+            onClick: (student) => onDateClick(student),
+            Icon: FaEdit,
+        },
+        {
+            text: 'View Password',
+            onClick: (student) => onViewPassword({ user: student?.user }),
+            Icon: RiLockPasswordFill,
+        },
+        {
+            text: 'Block',
+            onClick: (student) => onBlockClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: student?.isHighPriority
+                ? 'Remove Mark High Priority'
+                : 'Mark High Priority',
+            onClick: (student) => onMarkAsHighPriorityClicked(student),
+            Icon: MdPriorityHigh,
+            color: 'text-red-500 hover:bg-red-100 hover:border-red-200',
+        },
+        {
+            text: 'Archive',
+            onClick: (student) => onArchiveClicked(student),
+            Icon: MdBlock,
+            color: 'text-red-400 hover:bg-red-100 hover:border-red-200',
+        },
+    ]
 
     const columns: ColumnDef<Student>[] = [
         {
@@ -367,18 +370,18 @@ export const PlacementStartedStudents = () => {
                                     <div className="p-6 mb-2 flex justify-between">
                                         {pageSize
                                             ? pageSize(
-                                                itemPerPage,
-                                                setItemPerPage,
-                                                data?.data?.length
-                                            )
+                                                  itemPerPage,
+                                                  setItemPerPage,
+                                                  data?.data?.length
+                                              )
                                             : null}
                                         <div className="flex gap-x-2">
                                             {quickActions}
                                             {pagination
                                                 ? pagination(
-                                                    data?.pagination,
-                                                    setPage
-                                                )
+                                                      data?.pagination,
+                                                      setPage
+                                                  )
                                                 : null}
                                         </div>
                                     </div>
@@ -392,18 +395,18 @@ export const PlacementStartedStudents = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize
                                                 ? pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage,
-                                                    data?.data?.length
-                                                )
+                                                      itemPerPage,
+                                                      setItemPerPage,
+                                                      data?.data?.length
+                                                  )
                                                 : null}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination
                                                     ? pagination(
-                                                        data?.pagination,
-                                                        setPage
-                                                    )
+                                                          data?.pagination,
+                                                          setPage
+                                                      )
                                                     : null}
                                             </div>
                                         </div>

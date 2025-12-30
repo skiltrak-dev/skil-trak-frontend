@@ -75,6 +75,13 @@ export const UnAssignedStudent = () => {
             Icon: FaEye,
         },
         {
+            text: 'View Old Profile',
+            onClick: (student) => {
+                router.push(`/portals/admin/student/${student?.id}/old-profile`)
+            },
+            Icon: FaEye,
+        },
+        {
             text: 'Edit',
             onClick: (student) => {
                 router.push(
@@ -219,18 +226,18 @@ export const UnAssignedStudent = () => {
                                         <div className="p-6 mb-2 flex justify-between">
                                             {pageSize
                                                 ? pageSize(
-                                                    itemPerPage,
-                                                    setItemPerPage,
-                                                    data?.data?.length
-                                                )
+                                                      itemPerPage,
+                                                      setItemPerPage,
+                                                      data?.data?.length
+                                                  )
                                                 : null}
                                             <div className="flex gap-x-2">
                                                 {quickActions}
                                                 {pagination
                                                     ? pagination(
-                                                        data?.pagination,
-                                                        setPage
-                                                    )
+                                                          data?.pagination,
+                                                          setPage
+                                                      )
                                                     : null}
                                             </div>
                                         </div>
@@ -246,18 +253,18 @@ export const UnAssignedStudent = () => {
                                             <div className="p-6 mb-2 flex justify-between">
                                                 {pageSize
                                                     ? pageSize(
-                                                        itemPerPage,
-                                                        setItemPerPage,
-                                                        data?.data?.length
-                                                    )
+                                                          itemPerPage,
+                                                          setItemPerPage,
+                                                          data?.data?.length
+                                                      )
                                                     : null}
                                                 <div className="flex gap-x-2">
                                                     {quickActions}
                                                     {pagination
                                                         ? pagination(
-                                                            data?.pagination,
-                                                            setPage
-                                                        )
+                                                              data?.pagination,
+                                                              setPage
+                                                          )
                                                         : null}
                                                 </div>
                                             </div>

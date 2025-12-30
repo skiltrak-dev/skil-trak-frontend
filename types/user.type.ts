@@ -361,6 +361,41 @@ export interface StudentProvidedWpAppRequest extends BaseResponse {
     student: Student
 }
 
+export type ScheduleType = 'weekly' | 'monthly'
+
+type Day =
+    | 'monday'
+    | 'tuesday'
+    | 'wednesday'
+    | 'thursday'
+    | 'friday'
+    | 'saturday'
+    | 'sunday'
+
+type Slot = {
+    id: number
+    isActive: boolean
+    createdAt: string
+    updatedAt: string
+    day: Day
+    startTime: string // HH:mm:ss
+    endTime: string // HH:mm:ss
+}
+
+export interface ScheduleDate extends BaseResponse {
+    id: number
+    date: string // YYYY-MM-DD
+}
+
+export interface IndustryInterviewAvailability extends BaseResponse {
+    id: number
+    type: ScheduleType
+    startDate: string | null
+    endDate: string | null
+    slots: Slot[]
+    dates: ScheduleDate[]
+}
+
 export interface Industry extends BaseResponse {
     id: number
     abn: string

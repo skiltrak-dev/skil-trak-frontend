@@ -94,6 +94,15 @@ export const BlockedStudent = () => {
                 Icon: FaEye,
             },
             {
+                text: 'View Old Profile',
+                onClick: (student: Student) => {
+                    router.push(
+                        `/portals/admin/student/${student?.id}/old-profile`
+                    )
+                },
+                Icon: FaEye,
+            },
+            {
                 text: 'Edit',
                 onClick: (row: any) => {
                     router.push(

@@ -102,7 +102,7 @@ export function IndustryCoursesSection() {
                 showSearch={showSearch}
                 searchQuery={searchQuery}
                 totalCourses={totalCourses}
-                totalStudents={totalStudents}
+                totalStudents={Number(totalStudents)}
                 totalCapacity={totalCapacity}
                 overallCapacity={overallCapacity}
                 pendingActionsCount={pendingActionsCount}

@@ -89,7 +89,7 @@ const validationSchema = yup.object({
         .min(1, 'At least one course must be selected')
         .required('Courses are required'),
 
-    contactPersonName: yup
+    contactPerson: yup
         .string()
         .required('Contact person is required')
         .min(2, 'Contact person name must be at least 2 characters'),
