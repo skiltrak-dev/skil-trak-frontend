@@ -313,6 +313,7 @@ export const commonApi = apiSlice.injectEndpoints({
                 'Industries',
                 'SubAdminRtos',
                 'SubAdminStudents',
+                'RTOIndustries',
             ],
         }),
         // shared/coordinator/retrieve/by-role
@@ -387,6 +388,7 @@ const {
     useGetAdvertisedJobDetailQuery,
     useApplyForJobFromHomePageMutation,
     useIndustryBranchesAddressListQuery,
+    useIndustryBranchesCountsQuery,
     useRemoveIndustryBranchAddressMutation,
     useUpdateIndustryBranchAddressMutation,
     useAddIndustryBranchesAddressMutation,
@@ -736,6 +738,7 @@ export const CommonApi = {
         getFolders: useGetCoursesFoldersQuery,
         jobsCount: useGetAdvertisedJobCountQuery,
         useList: useIndustryBranchesAddressListQuery,
+        useBranchesCounts: useIndustryBranchesCountsQuery,
         useSnoozeIndustry: useSnoozeIndustryMutation,
         addIndustryWpType: useAddIndustryWpTypeMutation,
         getIndustryWPType: useGetIndustryWPTypeQuery,

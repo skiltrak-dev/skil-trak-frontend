@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { NavLink2 } from './NavLink2'
 import { Button } from '@components/buttons'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
 import Image from 'next/image'
-import { adminApi } from '@queries'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { NavLink2 } from './NavLink2'
+import { AdminApi } from '@redux'
 
 export function Navbar2() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const router = useRouter()
 
-    const { data, isLoading, isError } = adminApi.useGetCategoriesQuery({})
+    const { data, isLoading, isError } = AdminApi.Blogs.categoriesList({
+        skip: 0,
+        limit: 20,
+    })
 
     const blogsMenuOptions = data?.data?.map((category: any) => ({
         text: category?.title ?? 'NA',

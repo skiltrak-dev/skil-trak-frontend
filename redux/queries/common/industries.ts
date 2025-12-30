@@ -22,7 +22,7 @@ export const industriesEndpoints = (
                 params,
             }
         },
-        invalidatesTags: ['Industries'],
+        invalidatesTags: ['Industries', 'RTOIndustries'],
     }),
 
     getAllIndustries: builder.query<any, void>({
@@ -97,6 +97,17 @@ export const industriesEndpoints = (
             url: `locations/industry/${id}/list`,
             params,
         }),
+        providesTags: ['IndustryBranchesAddress'],
+    }),
+
+    industryBranchesCounts: builder.query<
+        {
+            totalBranches: number
+            totalEnrolledStudents: number
+        },
+        number
+    >({
+        query: (id) => `industries/${id}/branches/data-count`,
         providesTags: ['IndustryBranchesAddress'],
     }),
 

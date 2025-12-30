@@ -42,6 +42,8 @@ export const AssignSectorForm = ({
     const [selectedCourses, setSelectedCourses] = useState<any>([])
     const [selectedHours, setSelectedHours] = useState<any>([])
 
+    console.log({ selectedCourses })
+
     const onSectorSelect = (options: any) => {
         const currentSelectedSectors = options.map(
             (opt: OptionType) => opt.value
@@ -110,9 +112,9 @@ export const AssignSectorForm = ({
                             sectors.isLoading
                                 ? []
                                 : removeAddedSectors()?.map((s) => ({
-                                      label: s.name,
-                                      value: s.id,
-                                  }))
+                                    label: s.name,
+                                    value: s.id,
+                                }))
                         }
                         onChange={(option: any) => onSectorSelect(option)}
                         loading={sectors.isLoading}
@@ -131,14 +133,24 @@ export const AssignSectorForm = ({
                         components={{
                             Option: CourseSelectOption,
                         }}
-                        onChange={(option: OptionType[]) =>
+                        onChange={(option: OptionType[]) => {
                             setSelectedCourses(
-                                option?.map((o) => ({
-                                    ...o,
-                                    hours: o?.item?.hours,
-                                }))
+                                option?.map((o) => {
+                                    const existing = selectedCourses?.find(
+                                        (c: any) => c.value === o.value
+                                    )
+                                    const selectable = selectableCourses?.find(
+                                        (c) => c.id === o.value
+                                    )
+                                    return {
+                                        ...o,
+                                        hours: existing
+                                            ? existing.hours
+                                            : selectable?.hours || 0,
+                                    }
+                                })
                             )
-                        }
+                        }}
                         formatOptionLabel={formatOptionLabel}
                     />
 
@@ -165,11 +177,11 @@ export const AssignSectorForm = ({
                                                 course?.map((c: any) =>
                                                     c?.value === s?.value
                                                         ? {
-                                                              ...c,
-                                                              hours: Number(
-                                                                  e.target.value
-                                                              ),
-                                                          }
+                                                            ...c,
+                                                            hours: Number(
+                                                                e.target.value
+                                                            ),
+                                                        }
                                                         : c
                                                 )
                                             )

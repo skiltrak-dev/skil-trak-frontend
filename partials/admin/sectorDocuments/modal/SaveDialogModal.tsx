@@ -1,19 +1,18 @@
-import React from 'react'
+import { Badge, ShowErrorNotifications } from '@components'
 import {
     AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
     AlertDialogContent,
-    AlertDialogHeader,
-    AlertDialogTitle,
     AlertDialogDescription,
     AlertDialogFooter,
-    AlertDialogCancel,
-    AlertDialogAction,
+    AlertDialogHeader,
+    AlertDialogTitle,
 } from '@components/ui/alert-dialog'
-import { Badge, ShowErrorNotifications } from '@components'
 import { Separator } from '@components/ui/separator'
-import { Course, OptionType } from '@types'
-import { AdminApi } from '@queries'
 import { useNotification } from '@hooks'
+import { AdminApi } from '@queries'
+import { OptionType } from '@types'
 
 export const SaveDialogModal = ({
     isOpen,
@@ -26,7 +25,7 @@ export const SaveDialogModal = ({
     enabledIndustryChecks,
     sectors,
 }: {
-    selectedSector: string
+    selectedSector: OptionType[]
     selectedFolders: { id: number; isMandatory: boolean }[]
     selectedCourses: number[]
     courses: OptionType[]
@@ -45,14 +44,13 @@ export const SaveDialogModal = ({
         ?.filter((c) => selectedCourses.includes(Number(c.value)))
         ?.map((c) => c?.item)
 
-    console.log({ coursesData })
-
     const { notification } = useNotification()
 
     const handleSave = async () => {
         const res: any = await addCourseMultipleIndustryChecks({
             courses: selectedCourses,
             documents: selectedFolders,
+            sectorId: Number(selectedSector?.[0]?.value),
         })
         if (res?.data) {
             notification.success({
@@ -61,10 +59,7 @@ export const SaveDialogModal = ({
             })
             setIsOpen()
         }
-        console.log({ selectedFolders, selectedCourses })
-        console.log('Saving allocation...')
     }
-    console.log({ isOpen })
     return (
         <>
             <ShowErrorNotifications

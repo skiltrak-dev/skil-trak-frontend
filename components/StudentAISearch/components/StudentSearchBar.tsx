@@ -1,12 +1,11 @@
 import { Badge, InitialAvatar, LoadingAnimation, NoData } from '@components'
 import { Command, CommandGroup, CommandItem, CommandList } from '@components/ui'
-import { UserRoles } from '@constants'
 import { CommonApi, RtoApi } from '@queries'
 import { Student } from '@types'
 import { getUserCredentials } from '@utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Loader2, Search, Sparkles } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { NoResultsInDropdown } from './EmptySearchState'
 
 interface StudentSearchBarProps {

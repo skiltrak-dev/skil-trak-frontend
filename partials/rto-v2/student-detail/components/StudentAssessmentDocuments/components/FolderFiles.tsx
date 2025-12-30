@@ -2,7 +2,7 @@ import React from 'react'
 import { RtoV2Api } from '@queries'
 import { FolderDocumentCard } from '../cards'
 import { LoadingAnimation, NoData } from '@components'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@redux/hooks'
 
 export const FolderFiles = ({
     folder,
@@ -20,8 +20,8 @@ export const FolderFiles = ({
         }
     )
 
-    const { id: studentId } = useSelector(
-        (state: any) => state?.student?.studentDetail
+    const studentId = useAppSelector(
+        (state) => state?.student?.studentDetail?.id ?? 0
     )
 
     if (!response?.id) {

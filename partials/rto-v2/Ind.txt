@@ -1,0 +1,2651 @@
+import { useState, useMemo } from "react";
+import {
+  Building2,
+  CheckCircle2,
+  Clock,
+  Plus,
+  Users,
+  Shield,
+  Star,
+  Search,
+  MapPin,
+  Eye,
+  Edit,
+  Mail,
+  Phone,
+  AlertCircle,
+  Globe,
+  Lock,
+  Network,
+  Zap,
+  CheckCircle,
+  ArrowRight,
+  Sparkles,
+  FileCheck,
+  Info,
+  Ban,
+  Send,
+  Heart,
+  MoreVertical,
+  Filter,
+  Download,
+  TrendingUp,
+  Target,
+  Award,
+  Briefcase,
+  Calendar,
+  Activity,
+  MessageSquare,
+  ExternalLink,
+  ChevronDown,
+  X,
+  XCircle,
+  Settings,
+  RefreshCw,
+  Upload,
+  BarChart3,
+  Percent,
+  Link2,
+  Crown,
+  Archive,
+  ArchiveRestore,
+  UserCheck,
+  Clipboard,
+  Layers,
+} from "lucide-react";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Input } from "../ui/input";
+import { Progress } from "../ui/progress";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import { AddIndustryDialog } from "./AddIndustryDialog";
+import { toast } from "sonner@2.0.3";
+import { Alert, AlertDescription } from "../ui/alert";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "../ui/dialog";
+import { Separator } from "../ui/separator";
+import { CourseStreamsSelector } from "./CourseStreamsSelector";
+import { 
+  PartnerReadinessChecklist, 
+  PartnerReadinessChecklistData,
+  createDefaultChecklist,
+  isPartnerReady 
+} from "./PartnerReadinessChecklist";
+import { IndustryListingCard } from "./IndustryListingCard";
+
+interface SectorCapacity {
+  sector: string;
+  current: number;
+  total: number;
+  percentage: number;
+}
+
+interface Industry {
+  id: string;
+  name: string;
+  location: string;
+  sector: string;
+  status: string; // "listed_not_signed_up" | "signed_up_non_partner" | "partner" | "active" | "pending_setup" | "pending_verification"
+  placementsActive: number;
+  placementsTotal: number;
+  complianceScore: number;
+  lastInteraction: string;
+  contactPerson?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  abn?: string;
+  dateSignedUp?: string;
+  workplaceType?: string;
+  notes: string[];
+  activityLog: { date: string; user: string; action: string }[];
+  isFavourite?: boolean;
+  sectorCapacities?: SectorCapacity[];
+  addedBy?: string;
+  addedDate?: string;
+  lastContact?: string;
+  placementReady?: boolean;
+  whsCompleted?: boolean;
+  childSafetyCompleted?: boolean;
+  supervisorVerified?: boolean;
+  // New fields for the updated system
+  isPartner?: boolean; // Partner Status (TRUE/FALSE)
+  source?: string; // "Recruit Now (Industry Readiness Table)" | "Manual" | "Import" | etc.
+  state?: string; // For assignment rules (NSW, VIC, QLD, etc.)
+  primaryAgent?: string; // Primary Owner (required)
+  backupAgent?: string; // Backup Agent (optional)
+  assignmentDate?: string; // When the industry was assigned
+  partnerReadinessChecklist?: PartnerReadinessChecklistData; // Partner Readiness Checklist
+  courseStreams?: string[]; // Selected course streams for this industry
+}
+
+// Mock data
+const yourIndustriesData: Industry[] = [
+  {
+    id: "1",
+    name: "Sunrise Aged Care",
+    location: "Melbourne, VIC",
+    sector: "Community Services",
+    status: "active",
+    placementsActive: 12,
+    placementsTotal: 15,
+    complianceScore: 98,
+    lastInteraction: "2024-11-14",
+    contactPerson: "Sarah Johnson",
+    contactEmail: "sarah.j@sunrisecare.com.au",
+    contactPhone: "03 9876 5432",
+    notes: ["Excellent partner", "Prefers morning placements"],
+    activityLog: [
+      { date: "2024-11-14", user: "John Smith", action: "Updated placement capacity" },
+      { date: "2024-11-10", user: "Emma Wilson", action: "Sent monthly report" },
+    ],
+    isFavourite: true,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [
+      { sector: "Certificate III in Individual Support", current: 8, total: 10, percentage: 80 },
+      { sector: "Certificate IV in Ageing Support", current: 4, total: 5, percentage: 80 },
+    ],
+  },
+  {
+    id: "2",
+    name: "TechHub Solutions",
+    location: "Sydney, NSW",
+    sector: "IT & Digital",
+    status: "active",
+    placementsActive: 9,
+    placementsTotal: 12,
+    complianceScore: 95,
+    lastInteraction: "2024-11-13",
+    contactPerson: "Michael Chen",
+    contactEmail: "m.chen@techhub.com.au",
+    contactPhone: "02 9123 4567",
+    notes: ["Prefers students with programming background"],
+    activityLog: [
+      { date: "2024-11-13", user: "Sarah Connor", action: "Processed new placement request" },
+    ],
+    isFavourite: false,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [
+      { sector: "Diploma of Information Technology", current: 5, total: 6, percentage: 83 },
+      { sector: "Certificate IV in Cyber Security", current: 3, total: 4, percentage: 75 },
+    ],
+  },
+  {
+    id: "3",
+    name: "Coastal Hospitality Group",
+    location: "Gold Coast, QLD",
+    sector: "Hospitality",
+    status: "active",
+    placementsActive: 15,
+    placementsTotal: 20,
+    complianceScore: 92,
+    lastInteraction: "2024-11-12",
+    contactPerson: "Emma Roberts",
+    contactEmail: "e.roberts@coastalhospitality.com.au",
+    contactPhone: "07 5555 1234",
+    notes: ["Multiple locations available", "Flexible scheduling"],
+    activityLog: [
+      { date: "2024-11-12", user: "John Davis", action: "Confirmed placement extensions" },
+    ],
+    isFavourite: true,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [
+      { sector: "Certificate III in Commercial Cookery", current: 8, total: 10, percentage: 80 },
+      { sector: "Certificate III in Hospitality", current: 7, total: 10, percentage: 70 },
+    ],
+  },
+  {
+    id: "4",
+    name: "Prime Construction Co",
+    location: "Brisbane, QLD",
+    sector: "Building & Construction",
+    status: "pending_setup",
+    placementsActive: 0,
+    placementsTotal: 8,
+    complianceScore: 0,
+    lastInteraction: "2024-11-15",
+    contactPerson: "David Miller",
+    contactEmail: "d.miller@primeconstruction.com.au",
+    contactPhone: "07 3333 5678",
+    notes: ["Email sent to complete setup"],
+    activityLog: [
+      { date: "2024-11-15", user: "Training Org Admin", action: "Uploaded industry - setup email sent" },
+    ],
+    isFavourite: false,
+    placementReady: false,
+    whsCompleted: false,
+    childSafetyCompleted: false,
+    supervisorVerified: false,
+    sectorCapacities: [],
+  },
+  {
+    id: "5",
+    name: "Green Valley Childcare",
+    location: "Perth, WA",
+    sector: "Education & Training",
+    status: "active",
+    placementsActive: 8,
+    placementsTotal: 10,
+    complianceScore: 96,
+    lastInteraction: "2024-11-10",
+    contactPerson: "Lisa White",
+    contactEmail: "l.white@greenvalley.edu.au",
+    contactPhone: "08 9333 7777",
+    notes: ["Excellent facilities"],
+    activityLog: [{ date: "2024-11-10", user: "Admin", action: "Capacity updated" }],
+    isFavourite: true,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "6",
+    name: "Metro Health Clinic",
+    location: "Adelaide, SA",
+    sector: "Healthcare",
+    status: "active",
+    placementsActive: 6,
+    placementsTotal: 8,
+    complianceScore: 94,
+    lastInteraction: "2024-11-09",
+    contactPerson: "Dr. James Lee",
+    contactEmail: "j.lee@metrohealth.com.au",
+    contactPhone: "08 8111 2222",
+    notes: ["Prefers nursing students"],
+    activityLog: [{ date: "2024-11-09", user: "Admin", action: "Documents verified" }],
+    isFavourite: false,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "7",
+    name: "City Retail Solutions",
+    location: "Melbourne, VIC",
+    sector: "Retail",
+    status: "active",
+    placementsActive: 11,
+    placementsTotal: 15,
+    complianceScore: 91,
+    lastInteraction: "2024-11-08",
+    contactPerson: "Karen Brown",
+    contactEmail: "k.brown@cityretail.com.au",
+    contactPhone: "03 9555 4444",
+    notes: ["Multiple store locations"],
+    activityLog: [{ date: "2024-11-08", user: "Admin", action: "Added new location" }],
+    isFavourite: false,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "8",
+    name: "Innovation Labs Australia",
+    location: "Sydney, NSW",
+    sector: "IT & Digital",
+    status: "active",
+    placementsActive: 7,
+    placementsTotal: 10,
+    complianceScore: 97,
+    lastInteraction: "2024-11-07",
+    contactPerson: "Tom Zhang",
+    contactEmail: "t.zhang@innolabs.com.au",
+    contactPhone: "02 9888 7777",
+    notes: ["Focus on software development"],
+    activityLog: [{ date: "2024-11-07", user: "Admin", action: "Contract renewed" }],
+    isFavourite: true,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "9",
+    name: "Sunshine Disability Support",
+    location: "Brisbane, QLD",
+    sector: "Community Services",
+    status: "active",
+    placementsActive: 10,
+    placementsTotal: 12,
+    complianceScore: 95,
+    lastInteraction: "2024-11-06",
+    contactPerson: "Rachel Green",
+    contactEmail: "r.green@sunshine.org.au",
+    contactPhone: "07 3444 5555",
+    notes: ["Supportive team environment"],
+    activityLog: [{ date: "2024-11-06", user: "Admin", action: "Performance review complete" }],
+    isFavourite: false,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "10",
+    name: "Harbour Auto Services",
+    location: "Hobart, TAS",
+    sector: "Automotive",
+    status: "active",
+    placementsActive: 5,
+    placementsTotal: 6,
+    complianceScore: 93,
+    lastInteraction: "2024-11-05",
+    contactPerson: "Ben Stewart",
+    contactEmail: "b.stewart@harbourauto.com.au",
+    contactPhone: "03 6222 3333",
+    notes: ["Mechanical focus"],
+    activityLog: [{ date: "2024-11-05", user: "Admin", action: "Safety audit passed" }],
+    isFavourite: false,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "11",
+    name: "Premier Accounting Group",
+    location: "Canberra, ACT",
+    sector: "Business Services",
+    status: "active",
+    placementsActive: 4,
+    placementsTotal: 5,
+    complianceScore: 98,
+    lastInteraction: "2024-11-04",
+    contactPerson: "Sandra Liu",
+    contactEmail: "s.liu@premieraccounting.com.au",
+    contactPhone: "02 6111 8888",
+    notes: ["Tax season placements available"],
+    activityLog: [{ date: "2024-11-04", user: "Admin", action: "Partnership agreement signed" }],
+    isFavourite: true,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "12",
+    name: "Fitness First Australia",
+    location: "Gold Coast, QLD",
+    sector: "Sport & Recreation",
+    status: "active",
+    placementsActive: 13,
+    placementsTotal: 18,
+    complianceScore: 89,
+    lastInteraction: "2024-11-03",
+    contactPerson: "Mark Johnson",
+    contactEmail: "m.johnson@fitnessfirst.com.au",
+    contactPhone: "07 5666 9999",
+    notes: ["Group fitness focus"],
+    activityLog: [{ date: "2024-11-03", user: "Admin", action: "New equipment installed" }],
+    isFavourite: false,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "13",
+    name: "Coastal Beauty Academy",
+    location: "Newcastle, NSW",
+    sector: "Beauty & Wellness",
+    status: "active",
+    placementsActive: 9,
+    placementsTotal: 12,
+    complianceScore: 92,
+    lastInteraction: "2024-11-02",
+    contactPerson: "Sophie Taylor",
+    contactEmail: "s.taylor@coastalbeauty.com.au",
+    contactPhone: "02 4888 5555",
+    notes: ["Salon and spa services"],
+    activityLog: [{ date: "2024-11-02", user: "Admin", action: "Training materials updated" }],
+    isFavourite: false,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "14",
+    name: "Urban Design Studio",
+    location: "Melbourne, VIC",
+    sector: "Creative Arts",
+    status: "active",
+    placementsActive: 3,
+    placementsTotal: 4,
+    complianceScore: 96,
+    lastInteraction: "2024-11-01",
+    contactPerson: "Alex Kim",
+    contactEmail: "a.kim@urbandesign.com.au",
+    contactPhone: "03 9777 6666",
+    notes: ["Graphic design specialists"],
+    activityLog: [{ date: "2024-11-01", user: "Admin", action: "Portfolio review completed" }],
+    isFavourite: true,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "15",
+    name: "Global Logistics Partners",
+    location: "Sydney, NSW",
+    sector: "Transport & Logistics",
+    status: "active",
+    placementsActive: 14,
+    placementsTotal: 20,
+    complianceScore: 88,
+    lastInteraction: "2024-10-31",
+    contactPerson: "David Wong",
+    contactEmail: "d.wong@globallogistics.com.au",
+    contactPhone: "02 9666 3333",
+    notes: ["Warehouse operations"],
+    activityLog: [{ date: "2024-10-31", user: "Admin", action: "Safety induction updated" }],
+    isFavourite: false,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "16",
+    name: "Riverside Dental Clinic",
+    location: "Perth, WA",
+    sector: "Healthcare",
+    status: "active",
+    placementsActive: 5,
+    placementsTotal: 6,
+    complianceScore: 97,
+    lastInteraction: "2024-10-30",
+    contactPerson: "Dr. Emily Ross",
+    contactEmail: "e.ross@riversidedental.com.au",
+    contactPhone: "08 9222 4444",
+    notes: ["Dental assistant training"],
+    activityLog: [{ date: "2024-10-30", user: "Admin", action: "Compliance check passed" }],
+    isFavourite: false,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "17",
+    name: "Mountain View Resort",
+    location: "Cairns, QLD",
+    sector: "Hospitality",
+    status: "active",
+    placementsActive: 18,
+    placementsTotal: 25,
+    complianceScore: 90,
+    lastInteraction: "2024-10-29",
+    contactPerson: "Jennifer Adams",
+    contactEmail: "j.adams@mountainview.com.au",
+    contactPhone: "07 4111 2222",
+    notes: ["5-star resort"],
+    activityLog: [{ date: "2024-10-29", user: "Admin", action: "Seasonal capacity increased" }],
+    isFavourite: true,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "18",
+    name: "Tech Training Institute",
+    location: "Adelaide, SA",
+    sector: "Education & Training",
+    status: "active",
+    placementsActive: 7,
+    placementsTotal: 10,
+    complianceScore: 94,
+    lastInteraction: "2024-10-28",
+    contactPerson: "Robert Clark",
+    contactEmail: "r.clark@techtraining.edu.au",
+    contactPhone: "08 8333 5555",
+    notes: ["IT certification focus"],
+    activityLog: [{ date: "2024-10-28", user: "Admin", action: "New courses added" }],
+    isFavourite: false,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "19",
+    name: "Evergreen Landscaping",
+    location: "Darwin, NT",
+    sector: "Horticulture",
+    status: "active",
+    placementsActive: 6,
+    placementsTotal: 8,
+    complianceScore: 91,
+    lastInteraction: "2024-10-27",
+    contactPerson: "Chris Martin",
+    contactEmail: "c.martin@evergreen.com.au",
+    contactPhone: "08 8999 6666",
+    notes: ["Outdoor work environment"],
+    activityLog: [{ date: "2024-10-27", user: "Admin", action: "Equipment checklist updated" }],
+    isFavourite: false,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+  {
+    id: "20",
+    name: "Capital Media Group",
+    location: "Canberra, ACT",
+    sector: "Media & Communications",
+    status: "active",
+    placementsActive: 4,
+    placementsTotal: 6,
+    complianceScore: 95,
+    lastInteraction: "2024-10-26",
+    contactPerson: "Michelle Parker",
+    contactEmail: "m.parker@capitalmedia.com.au",
+    contactPhone: "02 6444 7777",
+    notes: ["Broadcast and digital media"],
+    activityLog: [{ date: "2024-10-26", user: "Admin", action: "Studio access granted" }],
+    isFavourite: false,
+    placementReady: true,
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+];
+
+const pendingIndustriesData: Industry[] = [
+  {
+    id: "p1",
+    name: "Melbourne Training Academy",
+    location: "Melbourne, VIC",
+    sector: "Education & Training",
+    status: "pending_verification",
+    placementsActive: 0,
+    placementsTotal: 10,
+    complianceScore: 60,
+    lastInteraction: "2024-11-11",
+    contactPerson: "John Smith",
+    contactEmail: "j.smith@mta.edu.au",
+    contactPhone: "03 9999 8888",
+    notes: ["WHS documents pending"],
+    activityLog: [
+      { date: "2024-11-11", user: "John Smith", action: "Uploaded workplace photos" },
+      { date: "2024-11-05", user: "John Smith", action: "Started registration process" },
+    ],
+    isFavourite: false,
+    placementReady: false,
+    whsCompleted: true,
+    childSafetyCompleted: false,
+    supervisorVerified: true,
+    sectorCapacities: [],
+  },
+];
+
+// Listed Industries (Not Signed Up)
+const listedIndustriesData: Industry[] = [
+  {
+    id: "listed1",
+    name: "Pacific Wellness Center",
+    location: "Sydney, NSW",
+    sector: "Healthcare",
+    status: "listed_not_signed_up",
+    placementsActive: 0,
+    placementsTotal: 0,
+    complianceScore: 0,
+    lastInteraction: "2024-12-14",
+    contactPerson: "Amanda Stevens",
+    contactEmail: "a.stevens@pacificwellness.com.au",
+    contactPhone: "02 9111 2222",
+    notes: ["Clicked 'Recruit Now' from Industry Readiness Table"],
+    activityLog: [
+      { date: "2024-12-14", user: "System", action: "Industry clicked 'Recruit Now'" },
+    ],
+    isFavourite: false,
+    placementReady: false,
+    isPartner: false,
+    source: "Recruit Now (Industry Readiness Table)",
+    state: "NSW",
+    primaryAgent: "Emma Wilson",
+    assignmentDate: "2024-12-14",
+    courseStreams: [],
+  },
+  {
+    id: "listed2",
+    name: "Metro Engineering Works",
+    location: "Melbourne, VIC",
+    sector: "Building & Construction",
+    status: "listed_not_signed_up",
+    placementsActive: 0,
+    placementsTotal: 0,
+    complianceScore: 0,
+    lastInteraction: "2024-12-13",
+    contactPerson: "Robert Martinez",
+    contactEmail: "r.martinez@metroengineering.com.au",
+    contactPhone: "03 8555 6666",
+    notes: ["Expressed interest in hosting students"],
+    activityLog: [
+      { date: "2024-12-13", user: "System", action: "Industry clicked 'Recruit Now'" },
+    ],
+    isFavourite: false,
+    placementReady: false,
+    isPartner: false,
+    source: "Recruit Now (Industry Readiness Table)",
+    state: "VIC",
+    primaryAgent: "Sarah Connor",
+    backupAgent: "John Davis",
+    assignmentDate: "2024-12-13",
+    courseStreams: [],
+  },
+];
+
+// Industry Readiness Table (All Non-Partners - Signed Up)
+const industryReadinessData: Industry[] = [
+  {
+    id: "ready1",
+    name: "Urban Retail Solutions",
+    location: "Brisbane, QLD",
+    sector: "Retail",
+    status: "signed_up_non_partner",
+    placementsActive: 0,
+    placementsTotal: 5,
+    complianceScore: 45,
+    lastInteraction: "2024-12-12",
+    contactPerson: "Jennifer Lee",
+    contactEmail: "j.lee@urbanretail.com.au",
+    contactPhone: "07 3444 5555",
+    notes: ["In negotiation", "Needs WHS documents"],
+    activityLog: [
+      { date: "2024-12-12", user: "Emma Wilson", action: "Follow-up call completed" },
+      { date: "2024-12-08", user: "Emma Wilson", action: "Initial contact made" },
+    ],
+    isFavourite: false,
+    placementReady: false,
+    isPartner: false,
+    source: "Manual",
+    state: "QLD",
+    primaryAgent: "Emma Wilson",
+    assignmentDate: "2024-12-08",
+    whsCompleted: false,
+    childSafetyCompleted: true,
+    courseStreams: ["Certificate III in Retail Operations"],
+    partnerReadinessChecklist: {
+      contactVerified: true,
+      placementCapacityConfirmed: true,
+      complianceDocuments: false,
+      placementRolesConfirmed: false,
+      availabilityWindowsSet: false,
+      coursesApproved: true,
+      automationEligibility: false,
+    },
+  },
+  {
+    id: "ready2",
+    name: "Sunshine Fitness Club",
+    location: "Perth, WA",
+    sector: "Sport & Recreation",
+    status: "signed_up_non_partner",
+    placementsActive: 0,
+    placementsTotal: 8,
+    complianceScore: 65,
+    lastInteraction: "2024-12-11",
+    contactPerson: "Marcus Thompson",
+    contactEmail: "m.thompson@sunshinefitness.com.au",
+    contactPhone: "08 9222 3333",
+    notes: ["Ready to convert to partner", "All docs received"],
+    activityLog: [
+      { date: "2024-12-11", user: "John Davis", action: "Documents reviewed - approved" },
+      { date: "2024-12-09", user: "John Davis", action: "Sent partnership agreement" },
+    ],
+    isFavourite: false,
+    placementReady: false,
+    isPartner: false,
+    source: "Recruit Now (Industry Readiness Table)",
+    state: "WA",
+    primaryAgent: "John Davis",
+    assignmentDate: "2024-12-05",
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    courseStreams: ["Certificate III in Fitness", "Certificate IV in Sport & Recreation"],
+    partnerReadinessChecklist: {
+      contactVerified: true,
+      placementCapacityConfirmed: true,
+      complianceDocuments: true,
+      placementRolesConfirmed: true,
+      availabilityWindowsSet: true,
+      coursesApproved: true,
+      automationEligibility: false,
+    },
+  },
+];
+
+// Partners (Active Placement Organisations)
+const partnersData: Industry[] = [
+  {
+    id: "partner1",
+    name: "Excellence Healthcare Group",
+    location: "Sydney, NSW",
+    sector: "Healthcare",
+    status: "partner",
+    placementsActive: 18,
+    placementsTotal: 25,
+    complianceScore: 98,
+    lastInteraction: "2024-12-15",
+    contactPerson: "Dr. Sarah Mitchell",
+    contactEmail: "s.mitchell@excellencehealth.com.au",
+    contactPhone: "02 9888 7777",
+    notes: ["Outstanding partner", "Prefers advanced students"],
+    activityLog: [
+      { date: "2024-12-15", user: "Sarah Connor", action: "Capacity review completed" },
+      { date: "2024-12-10", user: "System", action: "Automated placement matched" },
+    ],
+    isFavourite: true,
+    placementReady: true,
+    isPartner: true,
+    source: "Manual",
+    state: "NSW",
+    primaryAgent: "Sarah Connor",
+    backupAgent: "Emma Wilson",
+    assignmentDate: "2024-01-15",
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    courseStreams: [
+      "Certificate III in Health Support Services",
+      "Certificate IV in Nursing",
+      "Certificate III in Dental Assisting",
+    ],
+    partnerReadinessChecklist: {
+      contactVerified: true,
+      placementCapacityConfirmed: true,
+      complianceDocuments: true,
+      placementRolesConfirmed: true,
+      availabilityWindowsSet: true,
+      coursesApproved: true,
+      automationEligibility: true,
+    },
+    sectorCapacities: [
+      { sector: "Certificate III in Health Support Services", current: 10, total: 15, percentage: 67 },
+      { sector: "Certificate IV in Nursing", current: 8, total: 10, percentage: 80 },
+    ],
+  },
+  {
+    id: "partner2",
+    name: "Future Tech Institute",
+    location: "Melbourne, VIC",
+    sector: "IT & Digital",
+    status: "partner",
+    placementsActive: 15,
+    placementsTotal: 20,
+    complianceScore: 96,
+    lastInteraction: "2024-12-14",
+    contactPerson: "Alex Zhang",
+    contactEmail: "a.zhang@futuretech.edu.au",
+    contactPhone: "03 9777 8888",
+    notes: ["Tech-focused placements", "Strong mentorship program"],
+    activityLog: [
+      { date: "2024-12-14", user: "John Davis", action: "New placement confirmed" },
+      { date: "2024-12-12", user: "System", action: "Automated placement matched" },
+    ],
+    isFavourite: true,
+    placementReady: true,
+    isPartner: true,
+    source: "Import",
+    state: "VIC",
+    primaryAgent: "John Davis",
+    assignmentDate: "2024-02-20",
+    whsCompleted: true,
+    childSafetyCompleted: true,
+    supervisorVerified: true,
+    courseStreams: [
+      "Diploma of Information Technology",
+      "Certificate IV in Cyber Security",
+      "Certificate IV in Web Development",
+    ],
+    partnerReadinessChecklist: {
+      contactVerified: true,
+      placementCapacityConfirmed: true,
+      complianceDocuments: true,
+      placementRolesConfirmed: true,
+      availabilityWindowsSet: true,
+      coursesApproved: true,
+      automationEligibility: true,
+    },
+    sectorCapacities: [
+      { sector: "Diploma of Information Technology", current: 8, total: 10, percentage: 80 },
+      { sector: "Certificate IV in Cyber Security", current: 7, total: 10, percentage: 70 },
+    ],
+  },
+];
+
+export function IndustriesPageOptimized() {
+  const [activeTab, setActiveTab] = useState<"listed-not-signed-up" | "industry-readiness" | "your-industries" | "pending" | "shared-network" | "archived">("industry-readiness");
+  const [addIndustryOpen, setAddIndustryOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterSector, setFilterSector] = useState("all");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterLocation, setFilterLocation] = useState("all");
+  const [filterCapacity, setFilterCapacity] = useState("all");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("list");
+  const [archivedIndustries, setArchivedIndustries] = useState<string[]>([]);
+  
+  // Network & Credit System
+  const [networkType, setNetworkType] = useState<'private' | 'shared' | null>('shared');
+  const [sharedNetworkRadius, setSharedNetworkRadius] = useState<'50km' | 'australia-wide' | null>('australia-wide');
+  const [workplaceCredits, setWorkplaceCredits] = useState(10);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showTermsDialog, setShowTermsDialog] = useState(false);
+  const [showCreditPurchaseDialog, setShowCreditPurchaseDialog] = useState(false);
+
+  // Selected industry for details view
+  const [selectedIndustry, setSelectedIndustry] = useState<Industry | null>(null);
+  const [showDetailsDialog, setShowDetailsDialog] = useState(false);
+  
+  // Archive handlers
+  const handleArchiveIndustry = (id: string) => {
+    setArchivedIndustries(prev => [...prev, id]);
+    toast.success("Industry archived successfully");
+  };
+  
+  const handleUnarchiveIndustry = (id: string) => {
+    setArchivedIndustries(prev => prev.filter(archId => archId !== id));
+    toast.success("Industry restored successfully");
+  };
+  
+  // Get unique locations (memoized)
+  const allLocations = useMemo(() => 
+    Array.from(new Set(yourIndustriesData.map(ind => ind.location.split(', ')[1] || ind.location))),
+    []
+  );
+
+  // Filter industries (excluding archived) - memoized
+  const activeIndustries = useMemo(() => 
+    yourIndustriesData.filter(ind => !archivedIndustries.includes(ind.id)),
+    [archivedIndustries]
+  );
+  
+  const archived = useMemo(() => 
+    yourIndustriesData.filter(ind => archivedIndustries.includes(ind.id)),
+    [archivedIndustries]
+  );
+  
+  const filteredIndustries = useMemo(() => activeIndustries.filter((industry) => {
+    const matchesSearch = 
+      industry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      industry.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      industry.sector.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesSector = filterSector === "all" || industry.sector === filterSector;
+    
+    const matchesStatus = 
+      filterStatus === "all" ||
+      (filterStatus === "ready" && industry.placementReady) ||
+      (filterStatus === "not-ready" && !industry.placementReady);
+    
+    const matchesLocation = filterLocation === "all" || industry.location.includes(filterLocation);
+    
+    const capacityPercentage = industry.placementsTotal > 0 
+      ? (industry.placementsActive / industry.placementsTotal) * 100 
+      : 0;
+    const matchesCapacity = 
+      filterCapacity === "all" ||
+      (filterCapacity === "high" && capacityPercentage >= 80) ||
+      (filterCapacity === "medium" && capacityPercentage >= 50 && capacityPercentage < 80) ||
+      (filterCapacity === "low" && capacityPercentage < 50);
+    
+    return matchesSearch && matchesSector && matchesStatus && matchesLocation && matchesCapacity;
+  }), [activeIndustries, searchTerm, filterSector, filterStatus, filterLocation, filterCapacity]);
+  
+  const filteredArchived = useMemo(() => archived.filter((industry) => {
+    const matchesSearch = 
+      industry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      industry.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      industry.sector.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesSearch;
+  }), [archived, searchTerm]);
+
+  const stats = useMemo(() => ({
+    total: activeIndustries.length,
+    ready: activeIndustries.filter(i => i.placementReady).length,
+    pending: pendingIndustriesData.length,
+    archived: archivedIndustries.length,
+    totalPlacements: activeIndustries.reduce((acc, i) => acc + i.placementsActive, 0),
+    capacity: Math.round(
+      (activeIndustries.reduce((acc, i) => acc + i.placementsActive, 0) /
+      activeIndustries.reduce((acc, i) => acc + i.placementsTotal, 0)) * 100
+    ) || 0,
+    // New stats for the three industry types
+    listedNotSignedUp: listedIndustriesData.length,
+    industryReadiness: industryReadinessData.length,
+    partners: partnersData.length,
+  }), [activeIndustries, archivedIndustries.length]);
+
+  // Network Selection Screen
+  if (!networkType) {
+    return (
+      <div className="space-y-5 p-5">
+        <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center">
+          <div className="max-w-5xl w-full mx-auto py-6">
+            <Card className="border-primary/20 shadow-premium-lg bg-gradient-to-br from-primary/5 via-background to-secondary/5 overflow-hidden">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-3xl"></div>
+              
+              <CardHeader className="border-b border-primary/10 relative text-center pb-5 pt-7">
+                <div className="flex flex-col items-center gap-2.5">
+                  <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-premium animate-float">
+                    <Network className="h-7 w-7 text-white" />
+                  </div>
+                  <div>
+                    <h1 className="text-2xl mb-1 text-primary">Choose Your Placement Network</h1>
+                    <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
+                      Select the network that best fits your Training Organisation's needs and budget
+                    </p>
+                  </div>
+                </div>
+              </CardHeader>
+
+              <CardContent className="p-6 relative">
+                <div className="grid md:grid-cols-3 gap-5">
+                  {/* Private Network */}
+                  <Card className="group relative overflow-hidden rounded-xl border-2 border-border/60 hover:border-primary/50 bg-card hover:shadow-premium transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
+                    onClick={() => {
+                      setNetworkType('private');
+                      toast.success("Private Network selected! Using only your uploaded industry partners.");
+                    }}
+                  >
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl"></div>
+                    
+                    <CardContent className="relative p-4 space-y-3.5">
+                      <div className="flex justify-center">
+                        <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-primary to-primary/90 flex items-center justify-center shadow-md">
+                          <Lock className="h-6 w-6 text-white" />
+                        </div>
+                      </div>
+
+                      <div className="text-center">
+                        <h3 className="text-lg mb-0.5">Private Network</h3>
+                        <p className="text-xs text-muted-foreground">Your partner industries only</p>
+                      </div>
+
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-center gap-2 px-2 py-1.5 rounded-md bg-muted/40">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-success flex-shrink-0" />
+                          <p className="text-xs">Complete control & privacy</p>
+                        </div>
+                        <div className="flex items-center gap-2 px-2 py-1.5 rounded-md bg-muted/40">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-success flex-shrink-0" />
+                          <p className="text-xs">100% free to use</p>
+                        </div>
+                        <div className="flex items-center gap-2 px-2 py-1.5 rounded-md bg-muted/40">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-success flex-shrink-0" />
+                          <p className="text-xs">No third-party access</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-1.5 px-2 py-1.5 rounded-md bg-primary/5 border border-primary/20">
+                        <Target className="h-3 w-3 text-primary flex-shrink-0 mt-0.5" />
+                        <p className="text-xs leading-snug text-muted-foreground">
+                          <span className="font-semibold text-foreground">Best for:</span> Established Training Organisations with existing partners
+                        </p>
+                      </div>
+
+                      <Button 
+                        className="w-full h-9 bg-gradient-to-r from-primary to-primary/90 text-white hover:opacity-90 transition-all shadow-md text-sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setNetworkType('private');
+                          toast.success("Private Network selected!");
+                        }}
+                      >
+                        Select Private
+                        <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+
+                  {/* Shared Network */}
+                  <Card className="group relative overflow-hidden rounded-xl border-2 border-secondary/40 hover:border-secondary/60 bg-card hover:shadow-premium-lg transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
+                    onClick={() => {
+                      setNetworkType('shared');
+                      setSharedNetworkRadius('australia-wide');
+                      toast.success("Shared Network selected! Token-based access to 5,000+ industries.");
+                    }}
+                  >
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/10 to-transparent rounded-full blur-2xl"></div>
+                    <Badge className="absolute top-2.5 right-2.5 bg-gradient-to-r from-warning to-accent text-white border-0 shadow-md text-xs px-2 py-0.5">
+                      <Star className="h-3 w-3 mr-1" />
+                      Recommended
+                    </Badge>
+                    
+                    <CardContent className="relative p-4 space-y-3.5">
+                      <div className="flex justify-center">
+                        <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-secondary to-warning flex items-center justify-center shadow-md animate-float">
+                          <Globe className="h-6 w-6 text-white" />
+                        </div>
+                      </div>
+
+                      <div className="text-center">
+                        <h3 className="text-lg mb-0.5">Shared Network</h3>
+                        <p className="text-xs text-muted-foreground">5,000+ verified industries</p>
+                      </div>
+
+                      <Alert className="border-secondary/30 bg-secondary/5 py-2 px-2.5">
+                        <Zap className="h-3.5 w-3.5 text-secondary" />
+                        <AlertDescription className="ml-2 text-xs leading-snug">
+                          <strong>Smart matching:</strong> Your partner industries first, then SkilTrak network
+                        </AlertDescription>
+                      </Alert>
+
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-center gap-2 px-2 py-1.5 rounded-md bg-muted/40">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-success flex-shrink-0" />
+                          <p className="text-xs">Australia-wide coverage</p>
+                        </div>
+                        <div className="flex items-center gap-2 px-2 py-1.5 rounded-md bg-muted/40">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-success flex-shrink-0" />
+                          <p className="text-xs">Token-based (pay per use)</p>
+                        </div>
+                        <div className="flex items-center gap-2 px-2 py-1.5 rounded-md bg-muted/40">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-success flex-shrink-0" />
+                          <p className="text-xs">Verified industry partners</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-1.5 px-2 py-1.5 rounded-md bg-secondary/5 border border-secondary/20">
+                        <Target className="h-3 w-3 text-secondary flex-shrink-0 mt-0.5" />
+                        <p className="text-xs leading-snug text-muted-foreground">
+                          <span className="font-semibold text-foreground">Best for:</span> Flexible placement options & growth
+                        </p>
+                      </div>
+
+                      <Button 
+                        className="w-full h-9 bg-gradient-to-r from-secondary to-warning text-white hover:opacity-90 transition-all shadow-md text-sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setNetworkType('shared');
+                          setSharedNetworkRadius('australia-wide');
+                          toast.success("Shared Network selected! Token-based access to 5,000+ industries.");
+                        }}
+                      >
+                        Select Premium
+                        <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Main Industries Page
+  return (
+    <div className="space-y-6 p-6">
+      {/* Modern Hero Header with Gradient Background */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-primary/95 to-secondary p-8 shadow-premium-lg">
+        {/* Decorative Background Elements */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-secondary/20 rounded-full blur-3xl"></div>
+        
+        <div className="relative z-10">
+          {/* Main Header Content */}
+          <div className="flex items-start justify-between gap-6 flex-wrap">
+            <div className="flex-1 min-w-[300px]">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="h-16 w-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-premium border border-white/30">
+                  <Building2 className="h-8 w-8 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold text-white mb-1.5">Industry Partners</h1>
+                  <p className="text-white/90">Manage partnerships and expand your placement network</p>
+                </div>
+              </div>
+              
+              {/* Network Status Badges */}
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 shadow-sm">
+                  <div className="h-2.5 w-2.5 rounded-full bg-success shadow-sm shadow-success/50 animate-pulse"></div>
+                  <span className="text-white font-medium">
+                    {networkType === 'private' ? 'Private Network' : 'Shared Network'}
+                  </span>
+                </div>
+                {networkType === 'shared' && (
+                  <Badge className="bg-white/20 text-white border-white/40 backdrop-blur-sm px-3 py-1.5">
+                    <Globe className="h-3.5 w-3.5 mr-1.5" />
+                    Australia-Wide
+                  </Badge>
+                )}
+                
+                {networkType === 'shared' && (
+                  <Button 
+                    variant="ghost"
+                    size="sm"
+                    className="text-white hover:bg-white/20 border border-white/30 backdrop-blur-sm"
+                    onClick={() => setShowTermsDialog(true)}
+                  >
+                    <FileCheck className="h-3.5 w-3.5 mr-1.5" />
+                    View Terms
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {/* Action Buttons - Right Side */}
+            <div className="flex flex-col gap-2.5">
+              <Button 
+                onClick={() => setAddIndustryOpen(true)}
+                size="lg"
+                className="bg-white text-primary hover:bg-white/90 shadow-premium gap-2.5 font-semibold"
+              >
+                <Plus className="h-5 w-5" />
+                Add Industry Partner
+              </Button>
+              
+              <div className="flex gap-2">
+                {networkType === 'shared' && (
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 shadow-sm">
+                    <Zap className="h-4 w-4 text-warning" />
+                    <div className="text-left">
+                      <p className="text-xs text-white/80 leading-none mb-0.5">Credits</p>
+                      <p className="font-bold text-white leading-none">{workplaceCredits}</p>
+                    </div>
+                    <Button 
+                      size="sm"
+                      variant="ghost"
+                      className="h-7 text-white hover:bg-white/20 ml-1"
+                      onClick={() => setShowCreditPurchaseDialog(true)}
+                    >
+                      <Plus className="h-3.5 w-3.5" />
+                    </Button>
+                  </div>
+                )}
+                <Button 
+                  variant="ghost"
+                  size="sm"
+                  className="text-white hover:bg-white/20 border border-white/30 backdrop-blur-sm gap-2"
+                  onClick={() => {
+                    setNetworkType(null);
+                    setSharedNetworkRadius(null);
+                  }}
+                >
+                  <Settings className="h-3.5 w-3.5" />
+                  Switch
+                </Button>
+              </div>
+            </div>
+          </div>
+          
+          {/* Network Description Banner */}
+          <div className="mt-6 p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
+            <p className="text-white/95 text-sm leading-relaxed flex items-start gap-3">
+              <span className="text-2xl mt-0.5">{networkType === 'private' ? '🔒' : '⚡'}</span>
+              <span>
+                {networkType === 'private' 
+                  ? 'Using only your uploaded industry partners for maximum control and privacy'
+                  : 'Smart token system: Your Training Organisation industries are prioritized first, then Australia-wide SkilTrak network as backup'
+                }
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Premium Stats Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <Card className="border-none shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-primary/10 via-primary/5 to-background group cursor-pointer">
+          <CardContent className="p-5">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-premium group-hover:scale-110 transition-transform">
+                  <Building2 className="h-6 w-6 text-white" />
+                </div>
+                <div className="text-right">
+                  <p className="text-3xl font-bold text-primary">{stats.total}</p>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground font-medium">Total Partners</p>
+                <div className="h-1 w-full bg-primary/10 rounded-full mt-2 overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style={{width: '100%'}}></div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-none shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-success/10 via-success/5 to-background group cursor-pointer">
+          <CardContent className="p-5">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-success to-emerald-500 flex items-center justify-center shadow-premium group-hover:scale-110 transition-transform">
+                  <CheckCircle2 className="h-6 w-6 text-white" />
+                </div>
+                <div className="text-right">
+                  <p className="text-3xl font-bold text-success">{stats.ready}</p>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground font-medium">Ready for Placement</p>
+                <div className="h-1 w-full bg-success/10 rounded-full mt-2 overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-success to-emerald-500 rounded-full" style={{width: `${(stats.ready/stats.total)*100}%`}}></div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-none shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-warning/10 via-warning/5 to-background group cursor-pointer">
+          <CardContent className="p-5">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-warning to-accent flex items-center justify-center shadow-premium group-hover:scale-110 transition-transform">
+                  <Clock className="h-6 w-6 text-white" />
+                </div>
+                <div className="text-right">
+                  <p className="text-3xl font-bold text-warning">{stats.pending}</p>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground font-medium">Pending Setup</p>
+                <div className="h-1 w-full bg-warning/10 rounded-full mt-2 overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-warning to-accent rounded-full" style={{width: stats.pending > 0 ? `${(stats.pending/stats.total)*100}%` : '0%'}}></div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-none shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-secondary/10 via-secondary/5 to-background group cursor-pointer">
+          <CardContent className="p-5">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-secondary to-primary flex items-center justify-center shadow-premium group-hover:scale-110 transition-transform">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+                <div className="text-right">
+                  <p className="text-3xl font-bold text-secondary">{stats.totalPlacements}</p>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground font-medium">Active Placements</p>
+                <div className="h-1 w-full bg-secondary/10 rounded-full mt-2 overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-secondary to-primary rounded-full" style={{width: '85%'}}></div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-none shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-accent/10 via-accent/5 to-background group cursor-pointer">
+          <CardContent className="p-5">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-accent to-warning flex items-center justify-center shadow-premium group-hover:scale-110 transition-transform">
+                  <TrendingUp className="h-6 w-6 text-white" />
+                </div>
+                <div className="text-right">
+                  <p className="text-3xl font-bold text-accent">{stats.capacity}%</p>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground font-medium">Capacity Used</p>
+                <div className="h-1 w-full bg-accent/10 rounded-full mt-2 overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-accent to-warning rounded-full" style={{width: `${stats.capacity}%`}}></div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Modern Tabs & Filters */}
+      <Tabs value={activeTab} onValueChange={(v: any) => setActiveTab(v)} className="space-y-5">
+        <Card className="border-none shadow-premium-lg bg-gradient-to-br from-background to-muted/20">
+          <CardContent className="p-5">
+            <div className="space-y-4">
+              {/* Premium Tabs Row */}
+              <div className="flex items-center justify-between flex-wrap gap-3">
+                <TabsList className="bg-muted/30 p-1.5 h-auto rounded-xl border border-border/50 flex-wrap">
+                  <TabsTrigger 
+                    value="industry-readiness" 
+                    className="gap-2 px-4 py-2.5 data-[state=active]:bg-gradient-to-r data-[state=active]:from-warning data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-premium rounded-lg"
+                  >
+                    <UserCheck className="h-4 w-4" />
+                    <span className="font-medium">Non Partner</span>
+                    <Badge variant="secondary" className="ml-1.5 px-2 py-0.5">{stats.industryReadiness}</Badge>
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="listed-not-signed-up" 
+                    className="gap-2 px-4 py-2.5 data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary data-[state=active]:to-primary data-[state=active]:text-white data-[state=active]:shadow-premium rounded-lg"
+                  >
+                    <Clipboard className="h-4 w-4" />
+                    <span className="font-medium">Listed (Not Signed Up)</span>
+                    <Badge variant="secondary" className="ml-1.5 px-2 py-0.5">{stats.listedNotSignedUp}</Badge>
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="your-industries" 
+                    className="gap-2 px-4 py-2.5 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white data-[state=active]:shadow-premium rounded-lg"
+                  >
+                    <Building2 className="h-4 w-4" />
+                    <span className="font-medium">Your partner Industries</span>
+                    <Badge variant="secondary" className="ml-1.5 px-2 py-0.5">{activeIndustries.length}</Badge>
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="pending" 
+                    className="gap-2 px-4 py-2.5 data-[state=active]:bg-gradient-to-r data-[state=active]:from-warning data-[state=active]:to-accent data-[state=active]:text-white data-[state=active]:shadow-premium rounded-lg"
+                  >
+                    <Clock className="h-4 w-4" />
+                    <span className="font-medium">Pending Setup</span>
+                    <Badge variant="secondary" className="ml-1.5 px-2 py-0.5">{pendingIndustriesData.length}</Badge>
+                  </TabsTrigger>
+                  {networkType === 'shared' && (
+                    <TabsTrigger 
+                      value="shared-network" 
+                      className="gap-2 px-4 py-2.5 data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary data-[state=active]:to-primary data-[state=active]:text-white data-[state=active]:shadow-premium rounded-lg"
+                    >
+                      <Globe className="h-4 w-4" />
+                      <span className="font-medium">SkilTrak Network</span>
+                    </TabsTrigger>
+                  )}
+                  <TabsTrigger 
+                    value="archived" 
+                    className="gap-2 px-4 py-2.5 data-[state=active]:bg-gradient-to-r data-[state=active]:from-muted-foreground/80 data-[state=active]:to-muted-foreground data-[state=active]:text-white data-[state=active]:shadow-premium rounded-lg"
+                  >
+                    <Archive className="h-4 w-4" />
+                    <span className="font-medium">Archived</span>
+                    {archivedIndustries.length > 0 && (
+                      <Badge variant="secondary" className="ml-1.5 px-2 py-0.5">{archivedIndustries.length}</Badge>
+                    )}
+                  </TabsTrigger>
+                </TabsList>
+
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="gap-2 shadow-sm hover:shadow-premium transition-all"
+                >
+                  <Download className="h-4 w-4" />
+                  Export
+                </Button>
+              </div>
+
+              {/* Modern Search and Filters */}
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  <div className="relative flex-1 min-w-[250px]">
+                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search by name, location, or sector..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 h-11 border-border/60 shadow-sm focus:shadow-premium transition-all"
+                    />
+                  </div>
+
+                  <Select value={filterSector} onValueChange={setFilterSector}>
+                    <SelectTrigger className="w-[170px] h-11 border-border/60 shadow-sm">
+                      <Briefcase className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Sectors</SelectItem>
+                      <SelectItem value="Community Services">Community Services</SelectItem>
+                      <SelectItem value="IT & Digital">IT & Digital</SelectItem>
+                      <SelectItem value="Hospitality">Hospitality</SelectItem>
+                      <SelectItem value="Building & Construction">Construction</SelectItem>
+                      <SelectItem value="Healthcare">Healthcare</SelectItem>
+                      <SelectItem value="Education & Training">Education</SelectItem>
+                      <SelectItem value="Retail">Retail</SelectItem>
+                      <SelectItem value="Automotive">Automotive</SelectItem>
+                      <SelectItem value="Business Services">Business</SelectItem>
+                      <SelectItem value="Sport & Recreation">Sport</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  <Select value={filterLocation} onValueChange={setFilterLocation}>
+                    <SelectTrigger className="w-[140px] h-11 border-border/60 shadow-sm">
+                      <MapPin className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <SelectValue placeholder="Location" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All States</SelectItem>
+                      <SelectItem value="NSW">NSW</SelectItem>
+                      <SelectItem value="VIC">VIC</SelectItem>
+                      <SelectItem value="QLD">QLD</SelectItem>
+                      <SelectItem value="WA">WA</SelectItem>
+                      <SelectItem value="SA">SA</SelectItem>
+                      <SelectItem value="TAS">TAS</SelectItem>
+                      <SelectItem value="ACT">ACT</SelectItem>
+                      <SelectItem value="NT">NT</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  <Select value={filterCapacity} onValueChange={setFilterCapacity}>
+                    <SelectTrigger className="w-[150px] h-11 border-border/60 shadow-sm">
+                      <TrendingUp className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <SelectValue placeholder="Capacity" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Capacity</SelectItem>
+                      <SelectItem value="low">Low (&lt;50%)</SelectItem>
+                      <SelectItem value="medium">Medium (50-79%)</SelectItem>
+                      <SelectItem value="high">High (80%+)</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  <Select value={filterStatus} onValueChange={setFilterStatus}>
+                    <SelectTrigger className="w-[140px] h-11 border-border/60 shadow-sm">
+                      <CheckCircle2 className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Status</SelectItem>
+                      <SelectItem value="ready">Ready</SelectItem>
+                      <SelectItem value="not-ready">Not Ready</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {(filterSector !== "all" || filterLocation !== "all" || filterCapacity !== "all" || filterStatus !== "all") && (
+                  <div className="flex items-center gap-2.5 p-3 bg-primary/5 border border-primary/20 rounded-lg">
+                    <Filter className="h-4 w-4 text-primary flex-shrink-0" />
+                    <p className="text-sm font-medium text-primary">Active Filters:</p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {filterSector !== "all" && (
+                        <Badge variant="secondary" className="gap-1.5 px-2.5 py-1">
+                          {filterSector}
+                          <X className="h-3 w-3 cursor-pointer hover:text-destructive" onClick={() => setFilterSector("all")} />
+                        </Badge>
+                      )}
+                      {filterLocation !== "all" && (
+                        <Badge variant="secondary" className="gap-1.5 px-2.5 py-1">
+                          {filterLocation}
+                          <X className="h-3 w-3 cursor-pointer hover:text-destructive" onClick={() => setFilterLocation("all")} />
+                        </Badge>
+                      )}
+                      {filterCapacity !== "all" && (
+                        <Badge variant="secondary" className="gap-1.5 px-2.5 py-1">
+                          Capacity: {filterCapacity}
+                          <X className="h-3 w-3 cursor-pointer hover:text-destructive" onClick={() => setFilterCapacity("all")} />
+                        </Badge>
+                      )}
+                      {filterStatus !== "all" && (
+                        <Badge variant="secondary" className="gap-1.5 px-2.5 py-1">
+                          {filterStatus === "ready" ? "Ready" : "Not Ready"}
+                          <X className="h-3 w-3 cursor-pointer hover:text-destructive" onClick={() => setFilterStatus("all")} />
+                        </Badge>
+                      )}
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="ml-auto text-primary hover:text-primary hover:bg-primary/10"
+                      onClick={() => {
+                        setFilterSector("all");
+                        setFilterLocation("all");
+                        setFilterCapacity("all");
+                        setFilterStatus("all");
+                      }}
+                    >
+                      Clear All
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Non Partner Tab */}
+        <TabsContent value="industry-readiness" className="space-y-3">
+          {industryReadinessData.length === 0 ? (
+            <Card className="border-dashed">
+              <CardContent className="py-12 text-center">
+                <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-warning/10 to-accent/10 flex items-center justify-center mx-auto mb-3">
+                  <UserCheck className="h-7 w-7 text-warning" />
+                </div>
+                <h3 className="text-lg mb-1.5">No Non Partner industries</h3>
+                <p className="text-sm text-muted-foreground mb-3">
+                  Industries will appear here once they sign up but haven't yet completed Partner requirements
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-1.5">
+              {industryReadinessData.map((industry) => (
+                <IndustryListingCard
+                  key={industry.id}
+                  industry={industry}
+                  onClick={() => {
+                    setSelectedIndustry(industry);
+                    setShowDetailsDialog(true);
+                  }}
+                  onArchive={() => handleArchiveIndustry(industry.id)}
+                  onInterestChange={(industryId, interest) => {
+                    console.log(`Industry ${industryId} interest changed to: ${interest}`);
+                    toast.success(`Industry marked as ${interest === 'interested' ? 'Interested' : 'Not Interested'}`);
+                  }}
+                />
+              ))}
+            </div>
+          )}
+        </TabsContent>
+
+        {/* Listed Industries (Not Signed Up) */}
+        <TabsContent value="listed-not-signed-up" className="space-y-3">
+          {listedIndustriesData.length === 0 ? (
+            <Card className="border-dashed">
+              <CardContent className="py-12 text-center">
+                <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-secondary/10 to-primary/10 flex items-center justify-center mx-auto mb-3">
+                  <Clipboard className="h-7 w-7 text-secondary" />
+                </div>
+                <h3 className="text-lg mb-1.5">No listed industries</h3>
+                <p className="text-sm text-muted-foreground mb-3">
+                  Industries will appear here when they click "Recruit Now" from the Industry Readiness Table
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-1.5">
+              {listedIndustriesData.map((industry) => (
+                <IndustryListingCard
+                  key={industry.id}
+                  industry={industry}
+                  onClick={() => {
+                    setSelectedIndustry(industry);
+                    setShowDetailsDialog(true);
+                  }}
+                  onArchive={() => handleArchiveIndustry(industry.id)}
+                />
+              ))}
+            </div>
+          )}
+        </TabsContent>
+
+        {/* Your partner Industries Tab */}
+        <TabsContent value="your-industries" className="space-y-3">
+          {filteredIndustries.length === 0 ? (
+            <Card className="border-dashed">
+              <CardContent className="py-12 text-center">
+                <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center mx-auto mb-3">
+                  <Building2 className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="text-lg mb-1.5">No industries found</h3>
+                <p className="text-sm text-muted-foreground mb-3">
+                  {searchTerm || filterSector !== 'all' || filterStatus !== 'all'
+                    ? 'Try adjusting your filters'
+                    : 'Get started by adding your first industry partner'}
+                </p>
+                {!searchTerm && filterSector === 'all' && filterStatus === 'all' && (
+                  <Button onClick={() => setAddIndustryOpen(true)} className="gap-2 bg-gradient-to-r from-primary to-secondary">
+                    <Plus className="h-4 w-4" />
+                    Add Industry Partner
+                  </Button>
+                )}
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-1.5">
+              {filteredIndustries.map((industry) => (
+                <Card 
+                  key={industry.id} 
+                  className="border-none shadow-md hover:shadow-premium-lg transition-all duration-300 hover:-translate-y-0.5 group cursor-pointer bg-gradient-to-br from-background to-muted/10"
+                  onClick={() => {
+                    setSelectedIndustry(industry);
+                    setShowDetailsDialog(true);
+                  }}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-4">
+                      {/* Premium Logo/Icon */}
+                      <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white flex-shrink-0 shadow-premium group-hover:scale-110 transition-transform">
+                        <Building2 className="h-6 w-6" />
+                      </div>
+                      
+                      {/* Industry Name & Favorite */}
+                      <div className="flex flex-col gap-1 min-w-[200px]">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold truncate">{industry.name}</h3>
+                          {industry.isFavourite && (
+                            <Heart className="h-4 w-4 fill-warning text-warning flex-shrink-0 animate-pulse" />
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                          <MapPin className="h-3.5 w-3.5 flex-shrink-0" />
+                          <span className="truncate">{industry.location}</span>
+                        </div>
+                      </div>
+
+                      {/* Sector Badge */}
+                      <div className="flex items-center min-w-[160px]">
+                        <Badge variant="outline" className="gap-1.5 px-3 py-1.5">
+                          <Briefcase className="h-3.5 w-3.5" />
+                          <span className="truncate">{industry.sector}</span>
+                        </Badge>
+                      </div>
+
+                      {/* Contact Person */}
+                      {industry.contactPerson && (
+                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground min-w-[150px]">
+                          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center">
+                            <Users className="h-4 w-4 text-primary" />
+                          </div>
+                          <span className="truncate font-medium">{industry.contactPerson}</span>
+                        </div>
+                      )}
+
+                      {/* Status Badge with Better Design */}
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        {industry.placementReady ? (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <Badge className="bg-success/15 text-success border-success/30 px-3 py-1.5 gap-1.5 shadow-sm">
+                                  <CheckCircle2 className="h-4 w-4" />
+                                  <span className="font-semibold">Ready</span>
+                                </Badge>
+                              </TooltipTrigger>
+                              <TooltipContent className="bg-success text-white border-success">
+                                <p>All compliance requirements met</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        ) : (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <Badge 
+                                  variant="outline"
+                                  className="bg-destructive/10 text-destructive border-destructive/30 px-3 py-1.5 gap-1.5"
+                                >
+                                  <AlertCircle className="h-4 w-4" />
+                                  <span className="font-semibold">Not Ready</span>
+                                </Badge>
+                              </TooltipTrigger>
+                              <TooltipContent className="bg-destructive text-white border-destructive">
+                                <p>Compliance requirements pending</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        )}
+                      </div>
+
+                      {/* Placements with Better Visual */}
+                      {industry.placementReady && (
+                        <div className="flex items-center gap-2.5 min-w-[80px]">
+                          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary/10 border border-secondary/20">
+                            <Users className="h-4 w-4 text-secondary" />
+                            <p className="font-bold text-sm">
+                              {industry.placementsActive}<span className="text-muted-foreground">/{industry.placementsTotal}</span>
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Quick Actions - Modern Design */}
+                      <div className="flex items-center gap-1.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-all ml-auto">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="outline" 
+                                size="icon" 
+                                className="h-9 w-9 hover:bg-primary/10 hover:border-primary/50 hover:text-primary transition-all"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  window.location.href = `mailto:${industry.contactEmail}`;
+                                }}
+                              >
+                                <Mail className="h-4 w-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-primary text-white border-primary">
+                              <p>Send Email</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="outline" 
+                                size="icon" 
+                                className="h-9 w-9 hover:bg-success/10 hover:border-success/50 hover:text-success transition-all"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  window.location.href = `tel:${industry.contactPhone}`;
+                                }}
+                              >
+                                <Phone className="h-4 w-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-success text-white border-success">
+                              <p>Call</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="outline" 
+                                size="icon" 
+                                className="h-9 w-9 hover:bg-secondary/10 hover:border-secondary/50 hover:text-secondary transition-all"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedIndustry(industry);
+                                  setShowDetailsDialog(true);
+                                }}
+                              >
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-secondary text-white border-secondary">
+                              <p>View Details</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                            <Button variant="ghost" size="icon" className="h-7 w-7">
+                              <MoreVertical className="h-3.5 w-3.5" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem>
+                              <Edit className="h-4 w-4 mr-2" />
+                              Edit Details
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <Heart className="h-4 w-4 mr-2" />
+                              {industry.isFavourite ? 'Remove from Favourites' : 'Add to Favourites'}
+                            </DropdownMenuItem>
+                            {!industry.placementReady && (
+                              <DropdownMenuItem onClick={() => toast.success("Reminder email sent")}>
+                                <Send className="h-4 w-4 mr-2" />
+                                Send Reminder
+                              </DropdownMenuItem>
+                            )}
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleArchiveIndustry(industry.id);
+                              }}
+                            >
+                              <Archive className="h-4 w-4 mr-2" />
+                              Archive
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="text-destructive">
+                              <Ban className="h-4 w-4 mr-2" />
+                              Blacklist
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </TabsContent>
+
+        {/* Pending Setup Tab */}
+        <TabsContent value="pending" className="space-y-3">
+          {pendingIndustriesData.length === 0 ? (
+            <Card className="border-dashed">
+              <CardContent className="py-12 text-center">
+                <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-success/10 to-emerald-500/10 flex items-center justify-center mx-auto mb-3">
+                  <CheckCircle2 className="h-7 w-7 text-success" />
+                </div>
+                <h3 className="text-lg mb-1.5">All caught up!</h3>
+                <p className="text-sm text-muted-foreground">No pending setups at this time</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-2.5">
+              {pendingIndustriesData.map((industry) => (
+                <Card 
+                  key={industry.id} 
+                  className="border-warning/30 bg-warning/5 hover:shadow-premium transition-all"
+                >
+                  <CardContent className="p-3.5">
+                    <div className="flex items-center gap-3">
+                      <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-warning to-accent flex items-center justify-center shadow-sm text-white flex-shrink-0">
+                        <Clock className="h-6 w-6" />
+                      </div>
+                      
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-3 mb-2">
+                          <div>
+                            <h3 className="font-semibold text-sm">{industry.name}</h3>
+                            <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
+                              <span className="flex items-center gap-1">
+                                <MapPin className="h-3 w-3" />
+                                {industry.location}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Briefcase className="h-3 w-3" />
+                                {industry.sector}
+                              </span>
+                            </div>
+                          </div>
+                          <Badge className="bg-warning/10 text-warning border-warning/20 h-6 px-2 text-xs">
+                            <Clock className="h-3 w-3 mr-1" />
+                            Pending
+                          </Badge>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <div className="flex items-center gap-3 text-xs">
+                            <div className="flex items-center gap-1.5">
+                              {industry.whsCompleted ? (
+                                <CheckCircle className="h-3.5 w-3.5 text-success" />
+                              ) : (
+                                <XCircle className="h-3.5 w-3.5 text-muted-foreground" />
+                              )}
+                              <span>WHS Documents</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              {industry.childSafetyCompleted ? (
+                                <CheckCircle className="h-3.5 w-3.5 text-success" />
+                              ) : (
+                                <XCircle className="h-3.5 w-3.5 text-muted-foreground" />
+                              )}
+                              <span>Child Safety</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              {industry.supervisorVerified ? (
+                                <CheckCircle className="h-3.5 w-3.5 text-success" />
+                              ) : (
+                                <XCircle className="h-3.5 w-3.5 text-muted-foreground" />
+                              )}
+                              <span>Supervisor</span>
+                            </div>
+                          </div>
+
+                          <Progress 
+                            value={
+                              ((industry.whsCompleted ? 1 : 0) + 
+                               (industry.childSafetyCompleted ? 1 : 0) + 
+                               (industry.supervisorVerified ? 1 : 0)) / 3 * 100
+                            } 
+                            className="h-1.5"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className="h-8"
+                          onClick={() => toast.success("Reminder email sent to complete setup")}
+                        >
+                          <Send className="h-3.5 w-3.5 mr-1.5" />
+                          Send Reminder
+                        </Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <MoreVertical className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </TabsContent>
+
+        {/* Shared Network Tab */}
+        {networkType === 'shared' && (
+          <TabsContent value="shared-network" className="space-y-3">
+            <Card className="border-accent/30 shadow-premium-lg bg-gradient-to-br from-accent/5 to-warning/5">
+              <CardHeader className="border-b border-accent/20 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-accent to-warning flex items-center justify-center shadow-premium">
+                    <Globe className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-lg">SkilTrak Industries Directory</CardTitle>
+                    <p className="text-sm text-muted-foreground mt-0.5">
+                      {sharedNetworkRadius === '50km' 
+                        ? 'Access to verified industries within 50km radius'
+                        : 'Access to verified industries across Australia'}
+                    </p>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="p-5 space-y-5">
+                <Alert className="border-accent/40 bg-accent/5">
+                  <Info className="h-4 w-4 text-accent" />
+                  <AlertDescription className="ml-2 text-sm">
+                    <span className="font-semibold">Privacy Notice:</span> You can only see the number of available industries ({sharedNetworkRadius === '50km' ? '1,247' : '5,000+'}), not the detailed list. Each workplace request uses 1 credit and returns the best matched option through our 19-point matching system.
+                  </AlertDescription>
+                </Alert>
+
+                <div className="grid md:grid-cols-3 gap-4">
+                  <Card className="border-primary/20 bg-primary/5">
+                    <CardContent className="p-5 text-center">
+                      <Globe className="h-10 w-10 text-primary mx-auto mb-2" />
+                      <p className="text-2xl font-semibold mb-0.5">
+                        {sharedNetworkRadius === '50km' ? '1,247' : '5,000+'}
+                      </p>
+                      <p className="text-sm text-muted-foreground">Available Industries</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-secondary/20 bg-secondary/5">
+                    <CardContent className="p-5 text-center">
+                      <Shield className="h-10 w-10 text-secondary mx-auto mb-2" />
+                      <p className="text-2xl font-semibold mb-0.5">100%</p>
+                      <p className="text-sm text-muted-foreground">Verified & Compliant</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-success/20 bg-success/5">
+                    <CardContent className="p-5 text-center">
+                      <Target className="h-10 w-10 text-success mx-auto mb-2" />
+                      <p className="text-2xl font-semibold mb-0.5">19</p>
+                      <p className="text-sm text-muted-foreground">Matching Points</p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <Card className="border-border/60">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base">How It Works</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="flex items-start gap-2.5">
+                      <div className="h-7 w-7 rounded-full bg-primary text-white flex items-center justify-center text-sm flex-shrink-0 font-semibold">
+                        1
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm mb-0.5">Use a Credit</p>
+                        <p className="text-xs text-muted-foreground">Submit a workplace request for your student using 1 credit</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2.5">
+                      <div className="h-7 w-7 rounded-full bg-secondary text-white flex items-center justify-center text-sm flex-shrink-0 font-semibold">
+                        2
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm mb-0.5">Industry Matching through Automation</p>
+                        <p className="text-xs text-muted-foreground">Our 19-point system finds the best industry match based on qualification, location, and requirements</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2.5">
+                      <div className="h-7 w-7 rounded-full bg-success text-white flex items-center justify-center text-sm flex-shrink-0 font-semibold">
+                        3
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm mb-0.5">Get Results</p>
+                        <p className="text-xs text-muted-foreground">Receive workplace option with all compliance confirmations and supervisor details</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-accent/10 to-warning/10 border border-accent/20">
+                  <div>
+                    <p className="font-semibold text-sm mb-0.5">Need more credits?</p>
+                    <p className="text-xs text-muted-foreground">Purchase additional workplace request credits</p>
+                  </div>
+                  <Button 
+                    className="gap-2 bg-gradient-to-r from-accent to-warning h-9"
+                    onClick={() => setShowCreditPurchaseDialog(true)}
+                  >
+                    <Plus className="h-4 w-4" />
+                    Buy Credits
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        )}
+
+        {/* Archived Tab */}
+        <TabsContent value="archived" className="space-y-3">
+          {filteredArchived.length === 0 ? (
+            <Card className="border-dashed">
+              <CardContent className="py-12 text-center">
+                <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-muted-foreground/10 to-muted/10 flex items-center justify-center mx-auto mb-3">
+                  <Archive className="h-7 w-7 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg mb-1.5">No archived industries</h3>
+                <p className="text-sm text-muted-foreground">
+                  Archived industries will appear here
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-1.5">
+              {filteredArchived.map((industry) => (
+                <Card 
+                  key={industry.id} 
+                  className="border-border/60 hover:shadow-premium transition-all duration-200 group opacity-70"
+                >
+                  <CardContent className="p-2.5">
+                    <div className="flex items-center gap-2.5">
+                      {/* Logo/Icon */}
+                      <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-muted-foreground to-muted flex items-center justify-center text-white flex-shrink-0">
+                        <Building2 className="h-4 w-4" />
+                      </div>
+                      
+                      {/* Industry Name */}
+                      <div className="flex items-center gap-1.5 min-w-[170px]">
+                        <h3 className="font-semibold text-sm truncate">{industry.name}</h3>
+                        <Badge variant="outline" className="text-xs">Archived</Badge>
+                      </div>
+
+                      {/* Location */}
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground min-w-[120px]">
+                        <MapPin className="h-3 w-3 flex-shrink-0" />
+                        <span className="truncate">{industry.location}</span>
+                      </div>
+
+                      {/* Sector */}
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground min-w-[140px]">
+                        <Briefcase className="h-3 w-3 flex-shrink-0" />
+                        <span className="truncate">{industry.sector}</span>
+                      </div>
+
+                      {/* Quick Actions */}
+                      <div className="flex items-center gap-1 flex-shrink-0 ml-auto">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="h-8 gap-1.5"
+                                onClick={() => handleUnarchiveIndustry(industry.id)}
+                              >
+                                <ArchiveRestore className="h-3.5 w-3.5" />
+                                Restore
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Restore Industry</TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                className="h-7 w-7"
+                                onClick={() => {
+                                  setSelectedIndustry(industry);
+                                  setShowDetailsDialog(true);
+                                }}
+                              >
+                                <Eye className="h-3.5 w-3.5" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>View Details</TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
+
+      {/* Dialogs */}
+      <AddIndustryDialog open={addIndustryOpen} onOpenChange={setAddIndustryOpen} />
+
+      {/* Industry Details Dialog */}
+      <Dialog open={showDetailsDialog} onOpenChange={setShowDetailsDialog}>
+        <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2.5">
+              <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-premium">
+                <Building2 className="h-5 w-5 text-white" />
+              </div>
+              {selectedIndustry?.name}
+            </DialogTitle>
+            <DialogDescription>
+              Complete industry profile and placement information
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedIndustry && (
+            <div className="space-y-5 py-3">
+              {/* Status Banner */}
+              <Alert className={selectedIndustry.placementReady ? "border-success/40 bg-success/5" : "border-destructive/40 bg-destructive/5"}>
+                {selectedIndustry.placementReady ? (
+                  <>
+                    <CheckCircle2 className="h-4 w-4 text-success" />
+                    <AlertDescription className="ml-2 text-sm">
+                      <span className="font-semibold">Placement Ready</span> - All compliance requirements met
+                    </AlertDescription>
+                  </>
+                ) : (
+                  <>
+                    <AlertCircle className="h-4 w-4 text-destructive" />
+                    <AlertDescription className="ml-2 text-sm">
+                      <span className="font-semibold">Not Ready</span> - Compliance requirements pending
+                    </AlertDescription>
+                  </>
+                )}
+              </Alert>
+
+              {/* Quick Stats */}
+              <div className="grid grid-cols-3 gap-3">
+                <Card>
+                  <CardContent className="p-3.5 text-center">
+                    <Users className="h-7 w-7 text-primary mx-auto mb-1.5" />
+                    <p className="text-xl font-semibold">{selectedIndustry.placementsActive}/{selectedIndustry.placementsTotal}</p>
+                    <p className="text-xs text-muted-foreground">Placements</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-3.5 text-center">
+                    <Award className="h-7 w-7 text-success mx-auto mb-1.5" />
+                    <p className="text-xl font-semibold">{selectedIndustry.complianceScore}%</p>
+                    <p className="text-xs text-muted-foreground">Compliance</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-3.5 text-center">
+                    <Activity className="h-7 w-7 text-secondary mx-auto mb-1.5" />
+                    <p className="text-xl font-semibold">{selectedIndustry.lastInteraction}</p>
+                    <p className="text-xs text-muted-foreground">Last Contact</p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Contact Information */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base">Contact Information</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2.5">
+                  {selectedIndustry.contactPerson && (
+                    <div className="flex items-center gap-2.5">
+                      <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <Users className="h-4 w-4 text-primary" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Contact Person</p>
+                        <p className="font-semibold text-sm">{selectedIndustry.contactPerson}</p>
+                      </div>
+                    </div>
+                  )}
+                  {selectedIndustry.contactEmail && (
+                    <div className="flex items-center gap-2.5">
+                      <div className="h-9 w-9 rounded-lg bg-secondary/10 flex items-center justify-center">
+                        <Mail className="h-4 w-4 text-secondary" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Email</p>
+                        <a href={`mailto:${selectedIndustry.contactEmail}`} className="font-semibold text-sm hover:text-primary">
+                          {selectedIndustry.contactEmail}
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                  {selectedIndustry.contactPhone && (
+                    <div className="flex items-center gap-2.5">
+                      <div className="h-9 w-9 rounded-lg bg-accent/10 flex items-center justify-center">
+                        <Phone className="h-4 w-4 text-accent" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Phone</p>
+                        <a href={`tel:${selectedIndustry.contactPhone}`} className="font-semibold text-sm hover:text-primary">
+                          {selectedIndustry.contactPhone}
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2.5">
+                    <div className="h-9 w-9 rounded-lg bg-success/10 flex items-center justify-center">
+                      <MapPin className="h-4 w-4 text-success" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground">Location</p>
+                      <p className="font-semibold text-sm">{selectedIndustry.location}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Compliance Status */}
+              {selectedIndustry.placementReady && (
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base">Compliance Status</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-2.5">
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-success/5 border border-success/20">
+                      <div className="flex items-center gap-2">
+                        <Shield className="h-4 w-4 text-success" />
+                        <span className="font-semibold text-sm">WHS Documentation</span>
+                      </div>
+                      <CheckCircle className="h-4 w-4 text-success" />
+                    </div>
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-success/5 border border-success/20">
+                      <div className="flex items-center gap-2">
+                        <Shield className="h-4 w-4 text-success" />
+                        <span className="font-semibold text-sm">Child Safety Check</span>
+                      </div>
+                      <CheckCircle className="h-4 w-4 text-success" />
+                    </div>
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-success/5 border border-success/20">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-success" />
+                        <span className="font-semibold text-sm">Supervisor Verified</span>
+                      </div>
+                      <CheckCircle className="h-4 w-4 text-success" />
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Sector Capacities */}
+              {selectedIndustry.sectorCapacities && selectedIndustry.sectorCapacities.length > 0 && (
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base">Placement Capacity by Sector</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {selectedIndustry.sectorCapacities.map((sector, index) => (
+                      <div key={index}>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-sm font-semibold">{sector.sector}</span>
+                          <span className="text-sm text-muted-foreground">
+                            {sector.current} / {sector.total}
+                          </span>
+                        </div>
+                        <Progress value={sector.percentage} className="h-1.5" />
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          )}
+
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowDetailsDialog(false)}>
+              Close
+            </Button>
+            <Button className="gap-2 bg-gradient-to-r from-primary to-secondary">
+              <Edit className="h-4 w-4" />
+              Edit Industry
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Terms & Conditions Dialog */}
+      <Dialog open={showTermsDialog} onOpenChange={setShowTermsDialog}>
+        <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                <FileCheck className="h-4 w-4 text-white" />
+              </div>
+              SkilTrak Shareable Network – Terms & Conditions
+            </DialogTitle>
+            <DialogDescription>
+              Credit-Based Model for Training Organisations
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-5 py-3">
+            {/* Section 1 */}
+            <div className="space-y-2.5">
+              <h3 className="font-semibold text-sm flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-primary" />
+                1. What the Shareable Network Is
+              </h3>
+              <Alert className="border-primary/40 bg-primary/5">
+                <Network className="h-4 w-4 text-primary" />
+                <AlertDescription className="ml-2 space-y-2 text-sm">
+                  <p className="font-semibold">The SkilTrak Shareable Network is NOT a browsable database.</p>
+                  <p>It is a controlled, curated, fully vetted industry ecosystem that includes only:</p>
+                  <ul className="list-disc list-inside space-y-0.5 ml-3 text-xs">
+                    <li>Placement-ready industries</li>
+                    <li>Verified against UoC mandatory placement requirements</li>
+                    <li>Signed WHS & Child Safety documentation</li>
+                    <li>Confirmed supervisor details</li>
+                    <li>Capacity-verified sites</li>
+                    <li>Industries willing to accept students via SkilTrak</li>
+                  </ul>
+                  <p className="italic mt-1.5 text-xs">The network is dynamic and continuously updated by SkilTrak. This network is the intellectual property of SkilTrak.</p>
+                </AlertDescription>
+              </Alert>
+            </div>
+
+            {/* Section 2 */}
+            <div className="space-y-2.5">
+              <h3 className="font-semibold text-sm flex items-center gap-2">
+                <Zap className="h-4 w-4 text-secondary" />
+                2. How You Access the Network (Credit System)
+              </h3>
+              <div className="space-y-2.5">
+                <p className="text-sm text-muted-foreground">You do NOT receive industry lists, contact information, or full network view. Instead:</p>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <Card className="border-secondary/20 bg-secondary/5">
+                    <CardContent className="p-3.5">
+                      <p className="font-semibold mb-1.5 text-sm">Purchase Workplace Request Credits</p>
+                      <p className="text-xs text-muted-foreground mb-2.5">1 credit = 1 AI-matched workplace request</p>
+                      <div className="space-y-1 text-xs">
+                        <div className="flex items-center gap-1.5">
+                          <CheckCircle className="h-3 w-3 text-success" />
+                          <span>19-point matching system</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <CheckCircle className="h-3 w-3 text-success" />
+                          <span>Best workplace option</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <CheckCircle className="h-3 w-3 text-success" />
+                          <span>No raw data exposed</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card className="border-warning/20 bg-warning/5">
+                    <CardContent className="p-3.5">
+                      <p className="font-semibold mb-1.5 text-sm">What You Get Per Credit</p>
+                      <div className="space-y-1 text-xs">
+                        <div className="flex items-center gap-1.5">
+                          <ArrowRight className="h-3 w-3 text-warning" />
+                          <span>Workplace option</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <ArrowRight className="h-3 w-3 text-warning" />
+                          <span>Industry account link</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <ArrowRight className="h-3 w-3 text-warning" />
+                          <span>Suitability evidence</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <ArrowRight className="h-3 w-3 text-warning" />
+                          <span>WHS & compliance confirmations</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <ArrowRight className="h-3 w-3 text-warning" />
+                          <span>Task alignment details</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <ArrowRight className="h-3 w-3 text-warning" />
+                          <span>Supervisor details</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+
+            {/* Section 3 */}
+            <div className="space-y-2.5">
+              <h3 className="font-semibold text-sm flex items-center gap-2">
+                <Upload className="h-4 w-4 text-accent" />
+                3. Uploading Your Industry Network
+              </h3>
+              <Alert className="border-accent/40 bg-accent/5">
+                <AlertCircle className="h-4 w-4 text-accent" />
+                <AlertDescription className="ml-2 space-y-2 text-sm">
+                  <p className="font-semibold">You may upload your own industry contacts into the CRM:</p>
+                  <div className="space-y-1.5 mt-1.5">
+                    <div className="p-2.5 rounded-lg bg-card border border-border">
+                      <p className="font-semibold text-xs mb-1">If SkilTrak is already partnered with that industry:</p>
+                      <ul className="list-disc list-inside space-y-0.5 text-xs ml-2">
+                        <li>System will flag it</li>
+                        <li>SkilTrak verifies the affiliation</li>
+                        <li>Industry becomes active for you</li>
+                        <li>No duplicate onboarding required</li>
+                      </ul>
+                    </div>
+                    <div className="p-2.5 rounded-lg bg-card border border-border">
+                      <p className="font-semibold text-xs mb-1">If SkilTrak is NOT partnered with that industry:</p>
+                      <ul className="list-disc list-inside space-y-0.5 text-xs ml-2">
+                        <li>Industry MUST complete SkilTrak&apos;s onboarding</li>
+                        <li>Sign WHS + suitability documentation</li>
+                        <li>Provide supervisor details</li>
+                        <li>Undergo UoC task & capacity verification</li>
+                        <li>Agree to host students via SkilTrak platform</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <p className="font-semibold mt-2 text-xs">Only after successful verification does the industry become &quot;Active.&quot;</p>
+                </AlertDescription>
+              </Alert>
+            </div>
+
+            {/* Section 4 */}
+            <div className="space-y-2.5">
+              <h3 className="font-semibold text-sm flex items-center gap-2">
+                <Shield className="h-4 w-4 text-success" />
+                4. Conditions of Use
+              </h3>
+              <div className="space-y-1.5">
+                <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-muted/50">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-success mt-0.5 flex-shrink-0" />
+                  <div className="text-sm">
+                    <p className="font-semibold text-xs">Use credits for each workplace request</p>
+                    <p className="text-xs text-muted-foreground">No direct access to the network</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-muted/50">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-success mt-0.5 flex-shrink-0" />
+                  <div className="text-sm">
+                    <p className="font-semibold text-xs">Allow SkilTrak to manage industry compliance</p>
+                    <p className="text-xs text-muted-foreground">All WHS, capacity, and suitability checks performed by SkilTrak</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-muted/50">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-success mt-0.5 flex-shrink-0" />
+                  <div className="text-sm">
+                    <p className="font-semibold text-xs">All industries interact EXCLUSIVELY via the platform</p>
+                    <p className="text-xs text-muted-foreground">No external contact or bypassing SkilTrak</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5 p-2.5 rounded-lg bg-muted/50">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-success mt-0.5 flex-shrink-0" />
+                  <div className="text-sm">
+                    <p className="font-semibold text-xs">Industry data remains confidential</p>
+                    <p className="text-xs text-muted-foreground">Network belongs to SkilTrak, accessed through credits only</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Section 5 */}
+            <div className="space-y-2.5">
+              <h3 className="font-semibold text-sm flex items-center gap-2">
+                <Lock className="h-4 w-4 text-destructive" />
+                5. Data Protection & Network Integrity
+              </h3>
+              <Alert className="border-destructive/40 bg-destructive/5">
+                <Ban className="h-4 w-4 text-destructive" />
+                <AlertDescription className="ml-2 text-sm space-y-2">
+                  <p>To maintain high compliance and safety standards:</p>
+                  <ul className="list-disc list-inside space-y-0.5 ml-2 text-xs">
+                    <li>Provider industries must adhere to the same verification level as SkilTrak industries</li>
+                    <li>SkilTrak may suspend industries that do not meet requirements</li>
+                    <li>Providers cannot resell or share industry access</li>
+                    <li>Providers cannot scrape, extract, or duplicate the network</li>
+                  </ul>
+                  <p className="font-semibold mt-1.5 text-xs">Any breach may result in immediate termination of access.</p>
+                </AlertDescription>
+              </Alert>
+            </div>
+          </div>
+
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowTermsDialog(false)}>
+              Close
+            </Button>
+            <Button 
+              className="bg-gradient-to-r from-primary to-secondary gap-2"
+              onClick={() => {
+                setTermsAccepted(true);
+                setShowTermsDialog(false);
+                toast.success("Terms & Conditions acknowledged");
+              }}
+            >
+              <CheckCircle className="h-4 w-4" />
+              I Understand
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Purchase Credits Dialog */}
+      <Dialog open={showCreditPurchaseDialog} onOpenChange={setShowCreditPurchaseDialog}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-accent to-warning flex items-center justify-center">
+                <Zap className="h-4 w-4 text-white" />
+              </div>
+              Purchase Workplace Request Credits
+            </DialogTitle>
+            <DialogDescription>
+              Each credit = 1 AI-matched workplace request from the SkilTrak Network
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-5 py-3">
+            <Alert className="border-primary/40 bg-primary/5">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <AlertDescription className="ml-2 text-sm">
+                <p className="font-semibold mb-0.5">Current Balance: {workplaceCredits} credits</p>
+                <p className="text-xs text-muted-foreground">Purchase more credits to access the SkilTrak Shareable Network</p>
+              </AlertDescription>
+            </Alert>
+
+            <div className="grid md:grid-cols-3 gap-3">
+              {[
+                { credits: 10, price: 99, popular: false },
+                { credits: 50, price: 449, popular: true },
+                { credits: 100, price: 799, popular: false },
+              ].map((pkg) => (
+                <Card 
+                  key={pkg.credits}
+                  className={`relative ${pkg.popular ? 'border-primary/50 shadow-premium ring-2 ring-primary/20' : 'border-border/60'}`}
+                >
+                  {pkg.popular && (
+                    <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
+                      <Badge className="bg-gradient-to-r from-primary to-secondary text-white px-2.5 py-0.5">
+                        <Star className="h-3 w-3 mr-1" />
+                        Popular
+                      </Badge>
+                    </div>
+                  )}
+                  <CardContent className="p-5 text-center space-y-3">
+                    <div>
+                      <p className="text-2xl mb-0.5">{pkg.credits}</p>
+                      <p className="text-xs text-muted-foreground">Credits</p>
+                    </div>
+                    <div>
+                      <p className="text-xl mb-0.5">${pkg.price}</p>
+                      <p className="text-xs text-muted-foreground">${(pkg.price / pkg.credits).toFixed(2)} per credit</p>
+                    </div>
+                    <Button 
+                      className={`w-full h-9 ${pkg.popular ? 'bg-gradient-to-r from-primary to-secondary' : ''}`}
+                      variant={pkg.popular ? 'default' : 'outline'}
+                      onClick={() => {
+                        setWorkplaceCredits(workplaceCredits + pkg.credits);
+                        setShowCreditPurchaseDialog(false);
+                        toast.success(`Successfully purchased ${pkg.credits} credits!`);
+                      }}
+                    >
+                      Purchase
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <Alert className="border-secondary/40 bg-secondary/5">
+              <Info className="h-4 w-4 text-secondary" />
+              <AlertDescription className="ml-2 text-xs">
+                Credits never expire and can be used at any time. Each credit provides one matched workplace option through our 19-point matching system.
+              </AlertDescription>
+            </Alert>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowCreditPurchaseDialog(false)}>
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}

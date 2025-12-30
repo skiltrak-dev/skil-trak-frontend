@@ -80,6 +80,7 @@ const rtoTagTypes = [
     'RTOAppointment',
     'ContactPersons',
     'Rto-Coordinators',
+    'RTOIndustryCredits',
     'RtoAssessmentToolsList',
 ]
 

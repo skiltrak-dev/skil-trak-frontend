@@ -3,7 +3,7 @@ import { withErrorBoundary, useErrorBoundary } from 'react-use-error-boundary'
 
 export const ErrorBoundary = withErrorBoundary(
     ({ children }: { children: ReactNode }) => {
-        const logErrorToMyService = (error: any, errorInfo: any) => {}
+        const logErrorToMyService = (error: any, errorInfo: any) => { }
         const [error, resetError] = useErrorBoundary(
             // You can optionally log the error to an error reporting service
             (error, errorInfo) => logErrorToMyService(error, errorInfo)

@@ -71,9 +71,11 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
     const handleSubmit = () => {
         setModal(
             <ConfirmationModal
-                onCancel={() => {
+                onCancel={(isFromModal?: boolean) => {
                     onCancel()
-                    onClose && onClose()
+                    if (isFromModal) {
+                        onClose && onClose()
+                    }
                 }}
                 selectedSector={Number(selectedSector)}
                 listingResults={filteredCompanies(

@@ -52,7 +52,7 @@ export const IndustryProfileCB = ({
     const [itemPerPage] = useState(10)
     const [page, setPage] = useState(1)
     const router = useRouter()
-    const id = router.query.id
+    const id = Number(router.query.id)
 
     const isEmailVerified = industry?.user?.isEmailVerified
     const { data, isLoading, isFetching, isError } =
@@ -68,9 +68,10 @@ export const IndustryProfileCB = ({
         )
     const overAllRating =
         CommonApi.Feedback.useOverAllIndustryRatingsFromStudent(
-            { id: id?.toString() },
+            { id },
             { skip: !id }
         )
+
     const onCancelModal = () => {
         setModal(null)
     }

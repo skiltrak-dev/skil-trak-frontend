@@ -30,8 +30,8 @@ export const AddIndustryCourseProgramForm = ({
     const validationSchema = yup.object({
         courseProgram: yup
             .string()
-            .required('Stram (Block) is required')
-            .typeError('Stram (Block) is required'),
+            .required('Stream (Block) is required')
+            .typeError('Stream (Block) is required'),
 
         deliveryMode: yup
             .array()
@@ -100,11 +100,11 @@ export const AddIndustryCourseProgramForm = ({
                         block
                         className="py-2 bg-gray-100 rounded-md w-full text-center"
                     >
-                        Add Course Stram (Block)
+                        Add Course Stream (Block)
                     </Typography>
                     <Select
                         name={'courseProgram'}
-                        label={'Stram (Block)'}
+                        label={'Stream (Block)'}
                         options={programOptions}
                         onlyValue
                         loading={coursePrograms?.isLoading}

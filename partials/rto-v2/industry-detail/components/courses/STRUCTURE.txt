@@ -1,0 +1,180 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                         COURSES MODULE STRUCTURE                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📁 /components/courses/
+│
+├── 📄 index.ts                       # Central exports
+├── 📄 types.ts                       # TypeScript interfaces
+├── 📄 data.ts                        # Dummy data
+├── 📄 CoursesSearchBar.tsx          # Search component
+├── 📄 ESignatureTimeline.tsx        # E-signature workflow
+├── 📄 SupervisorCard.tsx            # Individual supervisor
+├── 📄 SupervisorsSection.tsx        # Supervisors container
+├── 📄 CourseHeader.tsx              # Course header
+├── 📄 CourseProgramsServices.tsx    # Programs/services details
+├── 📄 CourseAgentNote.tsx           # Agent note
+├── 📄 CourseMetadata.tsx            # Course metadata
+├── 📄 CourseActionButtons.tsx       # Action buttons
+├── 📄 CourseDetails.tsx             # Course details container
+├── 📄 CourseCard.tsx                # Complete course card
+├── 📄 CoursesSection.tsx            # Courses container
+├── 📄 SectorCard.tsx                # Complete sector card
+│
+├── 📁 header/
+│   ├── 📄 CoursesHeaderSection.tsx  # Main header container
+│   ├── 📄 HeaderTitle.tsx           # Title component
+│   ├── 📄 HeaderActions.tsx         # Action buttons
+│   ├── 📄 CoursesStatisticsGrid.tsx # Statistics grid
+│   └── 📄 StatisticCard.tsx         # Individual stat card
+│
+├── 📁 modals/
+│   ├── 📄 EditSectorMetricsDialog.tsx
+│   └── 📄 EditCourseCapacityDialog.tsx
+│
+└── 📁 docs/
+    ├── 📄 README.md                 # Main documentation
+    ├── 📄 COMPONENT_MAP.md          # Detailed component map
+    └── 📄 STRUCTURE.txt             # This file
+
+════════════════════════════════════════════════════════════════════════════
+
+COMPONENT HIERARCHY:
+
+CoursesModule
+│
+├─── CoursesHeaderSection ────────────────────────────────────────────┐
+│    │                                                                 │
+│    ├── HeaderTitle                                                  │
+│    │   ├── Icon (BookOpen)                                          │
+│    │   ├── Title: "Courses & Programs"                              │
+│    │   └── Subtitle: "Manage course offerings..."                  │
+│    │                                                                 │
+│    ├── HeaderActions                                                │
+│    │   ├── Search Button (toggles search bar)                       │
+│    │   └── Notes Button                                             │
+│    │                                                                 │
+│    ├── CoursesSearchBar (conditional)                               │
+│    │   └── Input with icon                                          │
+│    │                                                                 │
+│    └── CoursesStatisticsGrid                                        │
+│        ├── StatisticCard (Total Courses)                            │
+│        ├── StatisticCard (Active Students)                          │
+│        ├── StatisticCard (Total Capacity)                           │
+│        └── StatisticCard (Overall Capacity %)                       │
+│                                                                      │
+├─── SectorCard ──────────────────────────────────────────────────────┤
+│    │                                                                 │
+│    ├── SectorHeader (from /modules/SectorHeader.tsx)                │
+│    │   ├── Gradient background with icon                            │
+│    │   ├── Sector name and courses count                            │
+│    │   ├── E-signature status badge                                 │
+│    │   ├── Metric cards (Students, Duration, Capacity)              │
+│    │   └── Expand/collapse button                                   │
+│    │                                                                 │
+│    ├── ESignatureTimeline (conditional) ─────────────────────┐      │
+│    │   ├── Sent status (icon, date, person)                  │      │
+│    │   ├── Signed status (icon, date, person)                │      │
+│    │   └── Approved status (icon, date, person, doc link)    │      │
+│    │                                                           │      │
+│    ├── SupervisorsSection ───────────────────────────────────┤      │
+│    │   ├── Section Header                                     │      │
+│    │   │   ├── Icon + "Supervisors" + Count badge            │      │
+│    │   │   └── "Add Supervisor" button                       │      │
+│    │   │                                                      │      │
+│    │   └── SupervisorCard[] (multiple) ──────────────┐       │      │
+│    │       ├── Avatar with initials                  │       │      │
+│    │       ├── Name, Role, Experience badge          │       │      │
+│    │       ├── Qualifications card                   │       │      │
+│    │       ├── Description                           │       │      │
+│    │       ├── Contact info (phone, email)           │       │      │
+│    │       └── Edit button (hover)                   │       │      │
+│    │                                                  │       │      │
+│    └── CoursesSection ──────────────────────────────────────┤      │
+│        ├── Section Header                                    │      │
+│        │   ├── Icon + "Courses & Programs" + Count badge     │      │
+│        │   └── "Add Course" button                           │      │
+│        │                                                      │      │
+│        └── CourseCard[] (multiple) ─────────────────────────┤      │
+│            │                                                  │      │
+│            ├── CourseHeader (always visible) ────────┐       │      │
+│            │   ├── Code badge                        │       │      │
+│            │   ├── Status badge                      │       │      │
+│            │   ├── Rating badge                      │       │      │
+│            │   ├── Hours badge                       │       │      │
+│            │   ├── Course name                       │       │      │
+│            │   ├── Programs list                     │       │      │
+│            │   ├── Streams tags                      │       │      │
+│            │   ├── Facility checklist controls       │       │      │
+│            │   ├── More options button               │       │      │
+│            │   └── Expand/collapse button            │       │      │
+│            │                                          │       │      │
+│            └── CourseDetails (collapsible) ──────────┤       │      │
+│                │                                      │       │      │
+│                ├── CourseProgramsServices             │       │      │
+│                │   ├── Programs description           │       │      │
+│                │   ├── Branches & locations           │       │      │
+│                │   ├── Activities list                │       │      │
+│                │   └── Eligibility notes              │       │      │
+│                │                                      │       │      │
+│                ├── CourseAgentNote                    │       │      │
+│                │   └── Highlighted note card          │       │      │
+│                │                                      │       │      │
+│                ├── CourseMetadata                     │       │      │
+│                │   ├── Requested by                   │       │      │
+│                │   └── Reference URL                  │       │      │
+│                │                                      │       │      │
+│                └── CourseActionButtons                │       │      │
+│                    ├── Configure button               │       │      │
+│                    ├── Students button                │       │      │
+│                    └── Docs button                    │       │      │
+│                                                        │       │      │
+├─── EditSectorMetricsDialog ────────────────────────────────────────┤
+│    ├── Sector info header                                           │
+│    ├── Students input                                               │
+│    ├── Capacity input                                               │
+│    ├── Duration input                                               │
+│    ├── Capacity preview bar                                         │
+│    └── Save/Cancel buttons                                          │
+│                                                                      │
+└─── EditCourseCapacityDialog ───────────────────────────────────────┘
+     ├── Course info header
+     ├── Current students input
+     ├── Maximum capacity input
+     ├── Capacity preview bar
+     ├── Available spots display
+     └── Save/Cancel buttons
+
+════════════════════════════════════════════════════════════════════════════
+
+FILE COUNT SUMMARY:
+
+📊 Total Files Created: 30+
+
+Core Files:               3  (index.ts, types.ts, data.ts)
+Header Components:        5  (HeaderSection, Title, Actions, StatGrid, StatCard)
+Search Component:         1  (CoursesSearchBar)
+E-Signature Component:    1  (ESignatureTimeline)
+Supervisor Components:    2  (SupervisorCard, SupervisorsSection)
+Course Components:        8  (Header, Details, Card, Section, ProgramsServices,
+                              AgentNote, Metadata, ActionButtons)
+Sector Component:         1  (SectorCard)
+Modal Components:         2  (EditSectorMetrics, EditCourseCapacity)
+Documentation:            3  (README, COMPONENT_MAP, STRUCTURE)
+Main Module:              1  (CoursesModule.tsx in /modules/)
+
+════════════════════════════════════════════════════════════════════════════
+
+KEY BENEFITS:
+
+✅ Modular Design      - Each section is independent
+✅ Type Safety          - Full TypeScript coverage
+✅ Reusability          - Components work standalone
+✅ Maintainability      - Easy to update specific parts
+✅ Scalability          - Simple to add new features
+✅ Documentation        - Comprehensive docs
+✅ Modal Dialogs        - Professional editing UX
+✅ Exact Design         - Original styling preserved
+✅ Clean Imports        - Central export file
+
+════════════════════════════════════════════════════════════════════════════

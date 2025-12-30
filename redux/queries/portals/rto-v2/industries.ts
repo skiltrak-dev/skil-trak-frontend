@@ -51,9 +51,42 @@ export const industriesEndpoints = (
         providesTags: ['RTOIndustries'],
     }),
 
+    getIndustriesCounts: builder.query<
+        {
+            active: number
+            pending: number
+            partnerIndustries: number
+            readyForPlacementIndustries: number
+        },
+        void
+    >({
+        query: () => ({
+            url: `${PREFIX}industries/count`,
+        }),
+        providesTags: ['RTOIndustries'],
+    }),
+
     getRtoIndustryDetail: builder.query<Industry, number>({
         query: (id) => ({
             url: `${INDUSTRIESPREFIX}${id}/get-details`,
+        }),
+        providesTags: ['RTOIndustries'],
+    }),
+
+    getRtoIndustryDataCount: builder.query<
+        {
+            coursesCount: number
+            totalStudents: number
+            pending: number
+            interview: number
+            overAllRating: number
+            totalEnrolledStudents: number
+            totalSectorCapacity: number
+        },
+        number
+    >({
+        query: (id) => ({
+            url: `${INDUSTRIESPREFIX}${id}/data-count`,
         }),
         providesTags: ['RTOIndustries'],
     }),
@@ -83,7 +116,10 @@ export const industriesEndpoints = (
     }),
 
     getIndutryAvailableWorkingHours: builder.query<any, number>({
-        query: (id) => `${INDUSTRIESPREFIX}${id}/working-hours/list`,
+        query: (id) => ({
+            url: `${INDUSTRIESPREFIX}working-hours/list`,
+            params: { userId: id },
+        }),
         providesTags: ['RTOIndustries'],
     }),
 
@@ -145,6 +181,18 @@ export const industriesEndpoints = (
         invalidatesTags: ['RTOIndustries'],
     }),
 
+    uploadCourseFacilityChecklist: builder.mutation<
+        any,
+        { id: number; body: FormData }
+    >({
+        query: ({ id, body }) => ({
+            url: `${INDUSTRIESPREFIX}course-approval/${id}/file/add`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['RTOIndustries', 'RTOCourses'],
+    }),
+
     getAllIndustriesList: builder.query<any, PaginationWithSearch>({
         query: (params) => ({
             url: `${PREFIX}industries`,
@@ -169,5 +217,45 @@ export const industriesEndpoints = (
             params,
         }),
         invalidatesTags: ['RTOIndustries'],
+    }),
+    updateIndustryBio: builder.mutation<any, { id: number; bio: string }>({
+        query: ({ id, ...body }) => ({
+            url: `${INDUSTRIESPREFIX}${id}/bio/update`,
+            method: 'PATCH',
+            body,
+        }),
+        invalidatesTags: ['RTOIndustries', 'Industries'],
+    }),
+
+    getIndustryInitiatedESign: builder.query<
+        any,
+        { id: number; sectorId: number }
+    >({
+        query: ({ id, sectorId }) => ({
+            url: `${INDUSTRIESPREFIX}${id}/sector/${sectorId}/document`,
+        }),
+        providesTags: ['RTOIndustries', 'Industries'],
+    }),
+    cancelIndustryInitiatedESign: builder.mutation<any, number>({
+        query: (id) => ({
+            url: `${INDUSTRIESPREFIX}document/${id}/cancel`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOIndustries', 'Industries'],
+    }),
+    industryInfoMessage: builder.mutation<any, any>({
+        query: (body) => ({
+            url: `admin/industry-message/create`,
+            method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['RTOIndustries'],
+    }),
+    getIndustryInfoMessages: builder.query<any, { userId: number }>({
+        query: (params) => ({
+            url: `industries/message/by-admin`,
+            params,
+        }),
+        providesTags: ['RTOIndustries'],
     }),
 })

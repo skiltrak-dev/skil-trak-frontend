@@ -1,0 +1,402 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                         HEADER COMPONENT STRUCTURE                          ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📁 /components/header/
+│
+├── 📄 index.ts                          # Central exports
+├── 📄 types.ts                          # TypeScript interfaces
+├── 📄 data.ts                           # Dummy data
+├── 📄 StatusBanner.tsx                  # Status banner with progress
+├── 📄 CompanyAvatar.tsx                 # Company logo avatar
+├── 📄 CompanyBadges.tsx                 # Badge pills
+├── 📄 CompanyInfo.tsx                   # Company info container
+├── 📄 ActionButtons.tsx                 # Action buttons row
+├── 📄 StatusControls.tsx                # Status toggle controls
+│
+├── 📁 dropdowns/
+│   ├── 📄 AddMenuDropdown.tsx           # Quick Add menu
+│   └── 📄 MoreMenuDropdown.tsx          # More options menu
+│
+└── 📁 modals/
+    ├── 📄 BranchLocationsDialog.tsx     # Branch locations modal
+    ├── 📄 EmailVerificationDialog.tsx   # Email verification modal
+    ├── 📄 SnoozedDatePickerDialog.tsx   # Snooze date picker
+    └── 📄 CapacityDatePickerDialog.tsx  # Capacity date picker
+
+════════════════════════════════════════════════════════════════════════════
+
+COMPONENT HIERARCHY:
+
+HeaderRefactored
+│
+├─── StatusBanner ────────────────────────────────────────────────────┐
+│    ├── Animated Gradient Background                                 │
+│    ├── Shimmer Effect Layer                                         │
+│    ├── Status Icon (Ban, XCircle, Clock, Checkmark, Sparkles)      │
+│    ├── Status Title                                                 │
+│    │   └── Dynamic text based on status                             │
+│    ├── Status Description                                           │
+│    │   └── Dynamic message with dates                               │
+│    └── Progress Ring (conditional)                                  │
+│        └── Circular SVG with percentage                             │
+│                                                                      │
+├─── CompanyInfo ─────────────────────────────────────────────────────┤
+│    │                                                                 │
+│    ├── CompanyAvatar                                                │
+│    │   ├── Building icon with gradient                              │
+│    │   ├── Hover animations (scale, rotate)                         │
+│    │   └── Verification badge (green checkmark)                     │
+│    │                                                                 │
+│    ├── Company Name                                                 │
+│    │   └── TrendingUp icon                                          │
+│    │                                                                 │
+│    ├── CompanyBadges                                                │
+│    │   ├── Verified Partner badge (green gradient)                  │
+│    │   ├── Premium Member badge (orange gradient)                   │
+│    │   ├── Top Rated badge (purple gradient)                        │
+│    │   └── "No badges active" fallback                              │
+│    │                                                                 │
+│    └── Location Info                                                │
+│        └── MapPin icon + location text                              │
+│                                                                      │
+├─── ActionButtons ───────────────────────────────────────────────────┤
+│    │                                                                 │
+│    ├── Email Verification Button                                    │
+│    │   ├── Changes color when verified                              │
+│    │   └── Mail icon                                                │
+│    │                                                                 │
+│    ├── Edit Profile Button                                          │
+│    │   └── Opens EditProfileModal                                   │
+│    │                                                                 │
+│    ├── Contact & Bio Button                                         │
+│    │   └── Opens ContactBiographyModal                              │
+│    │                                                                 │
+│    ├── Branch Locations Button                                      │
+│    │   ├── MapPin icon                                              │
+│    │   ├── Count badge                                              │
+│    │   └── Opens BranchLocationsDialog                              │
+│    │                                                                 │
+│    ├── Upload Button                                                │
+│    │   └── Navigates to documents tab                               │
+│    │                                                                 │
+│    ├── Add Button                                                   │
+│    │   └── AddMenuDropdown (on click) ────────────────────┐         │
+│    │       ├── Backdrop overlay                            │         │
+│    │       ├── Header: "Quick Add"                         │         │
+│    │       ├── Add Student                                 │         │
+│    │       │   └── Teal icon with hover effect             │         │
+│    │       ├── Add Supervisor                              │         │
+│    │       │   └── Purple icon with hover effect           │         │
+│    │       └── Add Document                                │         │
+│    │           └── Orange icon with hover effect           │         │
+│    │                                                        │         │
+│    ├── Courses Button                                      │         │
+│    │   └── Navigates to courses tab                        │         │
+│    │                                                        │         │
+│    ├── Blocked Button                                      │         │
+│    │   ├── Toggles blocked status                          │         │
+│    │   └── Changes color when active                       │         │
+│    │                                                        │         │
+│    └── More Menu Button (3 dots icon)                      │         │
+│        └── MoreMenuDropdown (on click) ───────────────────┤         │
+│            ├── Backdrop overlay                            │         │
+│            ├── Security Section                            │         │
+│            │   ├── Edit Password                           │         │
+│            │   ├── Send Password                           │         │
+│            │   └── View Password                           │         │
+│            └── Management Section                          │         │
+│                ├── Placement Status                        │         │
+│                ├── View Visitors                           │         │
+│                ├── Add RPL                                 │         │
+│                └── Industry Gallery                        │         │
+│                                                             │         │
+├─── StatusControls ──────────────────────────────────────────────────┤
+│    │                                                                 │
+│    ├── Hiring Control                                               │
+│    │   ├── Briefcase icon                                           │
+│    │   ├── "Hiring" label                                           │
+│    │   └── Switch toggle (green when ON)                            │
+│    │                                                                 │
+│    ├── Partner Control                                              │
+│    │   ├── UserCheck icon                                           │
+│    │   ├── "Partner" label                                          │
+│    │   └── Switch toggle (teal when ON)                             │
+│    │                                                                 │
+│    ├── Snoozed Button                                               │
+│    │   ├── Clock icon                                               │
+│    │   ├── "Snoozed" label                                          │
+│    │   ├── Date range display (when active)                         │
+│    │   ├── Active indicator dot                                     │
+│    │   └── Opens SnoozedDatePickerDialog                            │
+│    │                                                                 │
+│    └── No Capacity Button                                           │
+│        ├── XCircle icon                                             │
+│        ├── "No Capacity" label                                      │
+│        ├── Available date display (when active)                     │
+│        ├── Active indicator dot                                     │
+│        └── Opens CapacityDatePickerDialog                           │
+│                                                                      │
+├─── BranchLocationsDialog ───────────────────────────────────────────┤
+│    ├── Gradient Header (teal)                                       │
+│    │   ├── MapPin icon                                              │
+│    │   ├── "Branch Locations" title                                 │
+│    │   └── Description                                              │
+│    │                                                                 │
+│    ├── Summary Statistics Grid                                      │
+│    │   ├── Total Locations card                                     │
+│    │   ├── Active Branches card (green)                             │
+│    │   └── Total Students card (yellow)                             │
+│    │                                                                 │
+│    ├── Branch List                                                  │
+│    │   └── Branch Card (multiple) ────────────────────┐             │
+│    │       ├── MapPin icon (gradient background)      │             │
+│    │       ├── Branch name                            │             │
+│    │       ├── Status badge (Primary/Active)          │             │
+│    │       ├── Address                                │             │
+│    │       ├── Students count                         │             │
+│    │       ├── View Details button                    │             │
+│    │       └── Edit Location button                   │             │
+│    │                                                   │             │
+│    └── Add New Branch Button                          │             │
+│                                                        │             │
+├─── EmailVerificationDialog ────────────────────────────┤             │
+│    ├── Gradient Header (teal)                          │             │
+│    │   ├── Mail icon                                   │             │
+│    │   ├── "Email Verification" title                  │             │
+│    │   └── Description                                 │             │
+│    │                                                    │             │
+│    ├── Email Info Box                                  │             │
+│    │   └── Current email address                       │             │
+│    │                                                    │             │
+│    ├── Verification Code Input                         │             │
+│    │   └── 6-digit code (centered, monospace)          │             │
+│    │                                                    │             │
+│    ├── Verify Email Button                             │             │
+│    │   └── Disabled until 6 digits entered             │             │
+│    │                                                    │             │
+│    ├── Resend Code Button                              │             │
+│    │                                                    │             │
+│    └── Success State (conditional)                     │             │
+│        ├── Green checkmark circle                      │             │
+│        ├── "Email Verified!" message                   │             │
+│        └── Success description                         │             │
+│                                                         │             │
+├─── SnoozedDatePickerDialog ────────────────────────────┤             │
+│    ├── Gradient Header (teal)                          │             │
+│    │   ├── Calendar icon                               │             │
+│    │   ├── "Snoozed Date Picker" title                 │             │
+│    │   └── Description                                 │             │
+│    │                                                    │             │
+│    ├── Start Date Input                                │             │
+│    │   └── Date picker                                 │             │
+│    │                                                    │             │
+│    ├── End Date Input                                  │             │
+│    │   └── Date picker                                 │             │
+│    │                                                    │             │
+│    └── Set Dates Button                                │             │
+│        └── Calendar icon                               │             │
+│                                                         │             │
+└─── CapacityDatePickerDialog ───────────────────────────┘             │
+     ├── Gradient Header (purple)                                      │
+     │   ├── XCircle icon                                              │
+     │   ├── "No Capacity - Set Available Date" title                  │
+     │   └── Description                                               │
+     │                                                                  │
+     ├── Info Box (purple gradient)                                    │
+     │   └── Explanation text                                          │
+     │                                                                  │
+     ├── Capacity Available Date Input                                 │
+     │   └── Date picker (min: today)                                  │
+     │                                                                  │
+     ├── Set No Capacity Button                                        │
+     │   └── Disabled until date selected                              │
+     │                                                                  │
+     └── Cancel Button                                                 │
+
+════════════════════════════════════════════════════════════════════════════
+
+FILE COUNT SUMMARY:
+
+📊 Total Files Created: 20+
+
+Core Files:               3  (index.ts, types.ts, data.ts)
+Section Components:       6  (StatusBanner, CompanyAvatar, CompanyBadges,
+                              CompanyInfo, ActionButtons, StatusControls)
+Dropdown Components:      2  (AddMenuDropdown, MoreMenuDropdown)
+Modal Components:         4  (BranchLocations, EmailVerification,
+                              SnoozedDatePicker, CapacityDatePicker)
+Main Component:           1  (HeaderRefactored.tsx)
+Documentation:            2  (README.md, STRUCTURE.txt)
+Original Header:          1  (Header.tsx - preserved)
+
+════════════════════════════════════════════════════════════════════════════
+
+STATE MANAGEMENT:
+
+Main State Variables:
+├── showMenu                    - More menu dropdown visibility
+├── showBranchLocations         - Branch locations modal
+├── showContactBioModal         - Contact bio modal
+├── showEditProfileModal        - Edit profile modal
+├── showAddMenu                 - Add menu dropdown
+├── emailVerified               - Email verification status
+├── showEmailVerificationModal  - Email verification modal
+├── showSnoozedDatePicker       - Snoozed date picker modal
+├── snoozedStartDate           - Snooze start date
+├── snoozedEndDate             - Snooze end date
+├── showCapacityDatePicker     - Capacity date picker modal
+├── capacityAvailableDate      - Capacity available date
+├── profileCompletion          - Profile completion (85%)
+├── badges                     - Badge visibility state
+└── industryStatus             - Industry status flags
+
+Industry Status Flags:
+├── hiring          - Currently hiring students
+├── partner         - Partner organization
+├── nonPartner      - Non-partner organization
+├── snoozed         - Temporarily paused
+├── blocked         - Blocked from placements
+└── noCapacity      - No capacity available
+
+Badge State:
+├── verified        - Verified Partner badge
+├── premium         - Premium Member badge
+└── topRated        - Top Rated badge
+
+════════════════════════════════════════════════════════════════════════════
+
+KEY FEATURES:
+
+✅ Modular Design      - Each section is independent
+✅ Type Safety          - Full TypeScript coverage
+✅ shadcn/ui Dialogs    - Professional modal components
+✅ Reusability          - Components work standalone
+✅ Maintainability      - Easy to update specific parts
+✅ Scalability          - Simple to add new features
+✅ Documentation        - Comprehensive docs
+✅ Dropdown Menus       - Smooth animated dropdowns
+✅ State Management     - Centralized state handling
+✅ Exact Design         - Original styling preserved
+✅ Clean Imports        - Central export file
+
+════════════════════════════════════════════════════════════════════════════
+
+INTERACTIONS:
+
+Status Banner:
+├── Displays placement readiness status
+├── Shows profile completion percentage
+├── Animated gradient background
+├── Shimmer animation effect
+└── Dynamic colors based on status
+
+Company Info:
+├── Company name with trending indicator
+├── Click badges to toggle visibility
+├── Animated avatar with hover effects
+└── Location display
+
+Action Buttons:
+├── Email Verification → Opens EmailVerificationDialog
+├── Edit Profile → Opens EditProfileModal
+├── Contact & Bio → Opens ContactBiographyModal
+├── Branch Locations → Opens BranchLocationsDialog
+├── Upload → Navigates to documents tab
+├── Add → Opens AddMenuDropdown
+│   └── Quick navigation to add students/supervisors/documents
+├── Courses → Navigates to courses tab
+├── Blocked → Toggles blocked status
+└── More (•••) → Opens MoreMenuDropdown
+    └── Security and management options
+
+Status Controls:
+├── Hiring toggle → ON/OFF switch
+├── Partner toggle → ON/OFF switch
+├── Snoozed button → Opens date picker, shows dates when active
+└── No Capacity button → Opens date picker, shows date when active
+
+Modals:
+├── All use shadcn Dialog component
+├── Gradient headers with icons
+├── Smooth animations
+├── Professional styling
+└── Action buttons
+
+════════════════════════════════════════════════════════════════════════════
+
+DESIGN SYSTEM:
+
+Colors:
+├── Primary:     #044866, #0D5468 (Teal)
+├── Secondary:   #F7A619, #EA580C (Orange)
+├── Success:     #10B981, #059669 (Green)
+├── Error:       #EF4444, #DC2626 (Red)
+├── Purple:      #8B5CF6, #7C3AED
+├── Teal:        #14B8A6
+├── Text Dark:   #1A2332
+├── Text Muted:  #64748B, #94A3B8
+├── Background:  #F8FAFB, #E8F4F8
+└── Border:      #E2E8F0
+
+Gradients:
+├── Status Banner: Dynamic based on state
+├── Badge Pills: from-to gradients
+├── Buttons: Gradient backgrounds
+├── Modal Headers: from-[primary] to-[darker]
+└── Hover Effects: Subtle gradient shifts
+
+Animations:
+├── Gradient: animate-gradient (background position)
+├── Shimmer: animate-shimmer (moving highlight)
+├── Hover: scale-110, rotate-3
+├── Click: scale-95
+├── Fade-in: Dropdown menus
+└── Transitions: 200-500ms duration
+
+════════════════════════════════════════════════════════════════════════════
+
+USAGE EXAMPLES:
+
+Basic Usage:
+```tsx
+import { HeaderRefactored } from './components/HeaderRefactored';
+
+function App() {
+  return <HeaderRefactored />;
+}
+```
+
+Using Individual Components:
+```tsx
+import { 
+  StatusBanner,
+  CompanyBadges,
+  BranchLocationsDialog 
+} from './components/header';
+
+// Status Banner
+<StatusBanner
+  industryStatus={status}
+  profileCompletion={85}
+  isPlacementReady={true}
+  snoozedStartDate=""
+  snoozedEndDate=""
+  capacityAvailableDate=""
+/>
+
+// Company Badges
+<CompanyBadges
+  badges={{ verified: true, premium: true, topRated: false }}
+  onToggleBadge={(type) => console.log('Toggle', type)}
+/>
+
+// Branch Locations Modal
+<BranchLocationsDialog
+  open={isOpen}
+  branchLocations={locations}
+  onOpenChange={setIsOpen}
+/>
+```
+
+════════════════════════════════════════════════════════════════════════════

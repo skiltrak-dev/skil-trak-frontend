@@ -1,15 +1,10 @@
 import { RtoLayoutV2 } from '@layouts'
-import { RtoIndustries, RtoUpdatedIndustries } from '@partials'
+import { RtoUpdatedIndustries } from '@partials'
 import { Building2 } from 'lucide-react'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 
 const IndustriesPage = () => {
-    return (
-        <div>
-            {/* <RtoIndustries /> */}
-            <RtoUpdatedIndustries />
-        </div>
-    )
+    return <RtoUpdatedIndustries />
 }
 
 IndustriesPage.getLayout = (page: ReactElement) => {

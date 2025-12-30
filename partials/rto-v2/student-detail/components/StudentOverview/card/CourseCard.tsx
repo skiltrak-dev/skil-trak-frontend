@@ -63,7 +63,7 @@ export const CourseCard = ({
                         })}
                     >
                         <Target className="w-3.5 h-3.5 " />
-                        {selectedCourse?.coursePrograms} streams (blocks)
+                        {selectedCourse?.coursePrograms} streams
                     </span>
                     <span
                         className={cn('text-slate-500', {
