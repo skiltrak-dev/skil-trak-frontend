@@ -4,6 +4,7 @@ import { ApprontmentCard } from '../cards'
 import { Card, LoadingAnimation, NoData } from '@components'
 import { Appointment } from '@types'
 import { Badge, Button } from '@components'
+import { AppointmentCardSkeleton } from '../../../skeletonLoader'
 
 export const UpcomingAppointments = ({
     studentUserId,
@@ -38,10 +39,14 @@ export const UpcomingAppointments = ({
                     <NoData text="There is Some technical issue" isError />
                 ) : null}
                 {appointments?.isLoading ? (
-                    <LoadingAnimation size={60} />
+                    <div className="space-y-2.5">
+                        {[1, 2, 3].map((i) => (
+                            <AppointmentCardSkeleton key={i} />
+                        ))}
+                    </div>
                 ) : appointments?.data &&
-                  appointments?.data?.length > 0 &&
-                  appointments?.isSuccess ? (
+                    appointments?.data?.length > 0 &&
+                    appointments?.isSuccess ? (
                     appointments?.data?.map((appointment: Appointment) => (
                         <ApprontmentCard
                             key={appointment.id}

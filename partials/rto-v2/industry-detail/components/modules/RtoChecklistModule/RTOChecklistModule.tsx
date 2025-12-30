@@ -7,6 +7,7 @@ import {
     ChecklistItemsList,
     RTOAccessNotice,
 } from './components'
+import { GenericTabSkeleton } from '../../../skeletonLoader'
 
 export function RTOChecklistModule() {
     const [selectedSector, setSelectedSector] = useState<number | null>(null)
@@ -49,6 +50,10 @@ export function RTOChecklistModule() {
             setSelectedSector(sectorOptions[0].id)
         }
     }, [sectorOptions, selectedSector])
+
+    if (isLoadingSectors || (checklist.isLoading && selectedSector)) {
+        return <GenericTabSkeleton />
+    }
 
     return (
         <div className="space-y-4 px-4">

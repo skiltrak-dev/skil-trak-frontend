@@ -2,6 +2,7 @@ import { Badge, LoadingAnimation, NoData } from '@components'
 import { CommonApi } from '@queries'
 import { Appointment } from '@types'
 import { CompletedAppointmentCard } from '../cards'
+import { AppointmentCardSkeleton } from '../../../skeletonLoader'
 
 export const CompletedAppointments = ({
     studentUserId,
@@ -34,10 +35,14 @@ export const CompletedAppointments = ({
                     <NoData text="There is Some technical issue" isError />
                 ) : null}
                 {appointments?.isLoading ? (
-                    <LoadingAnimation size={60} />
+                    <div className="space-y-2.5">
+                        {[1, 2].map((i) => (
+                            <AppointmentCardSkeleton key={i} />
+                        ))}
+                    </div>
                 ) : appointments?.data?.data &&
-                  appointments?.data?.data?.length > 0 &&
-                  appointments?.isSuccess ? (
+                    appointments?.data?.data?.length > 0 &&
+                    appointments?.isSuccess ? (
                     appointments?.data?.data?.map(
                         (appointment: Appointment) => (
                             <CompletedAppointmentCard

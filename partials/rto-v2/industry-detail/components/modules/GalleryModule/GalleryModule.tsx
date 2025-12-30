@@ -10,9 +10,10 @@ import {
 import { IndustryApi } from '@queries'
 import { useAppSelector } from '@redux/hooks'
 import { useNotification, DocumentsView } from '@hooks'
-import { ShowErrorNotifications, LoadingAnimation, NoData } from '@components'
+import { NoData } from '@components'
 import { AddGalleryModal, DeleteGalleryModal } from './modal'
 import { IndustryGalleryItem } from '@types'
+import { GalleryTabSkeleton } from '../../../skeletonLoader'
 
 export function GalleryModule() {
     const [selectedType, setSelectedType] = useState<MediaType>('all')
@@ -56,6 +57,10 @@ export function GalleryModule() {
         onFileClicked({ file: item.file, extension })
     }
 
+    if (isLoading) {
+        return <GalleryTabSkeleton />
+    }
+
     return (
         <div className="space-y-4 px-4">
             {documentsViewModal}
@@ -70,9 +75,7 @@ export function GalleryModule() {
                 isUploading={false}
             />
 
-            {isLoading ? (
-                <LoadingAnimation size={50} />
-            ) : filteredMedia.length === 0 ? (
+            {filteredMedia.length === 0 ? (
                 <NoData text="No gallery items found" />
             ) : viewMode === 'grid' ? (
                 <GalleryGridView

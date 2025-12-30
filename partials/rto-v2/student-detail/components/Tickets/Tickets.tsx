@@ -1,77 +1,18 @@
 import {
     Button,
     EmptyData,
-    LoadingAnimation,
     TechnicalError,
     TextInput,
 } from '@components'
 import { CommonApi } from '@queries'
 import { Student } from '@types'
-import { Filter, Plus, Search, Sparkles, Ticket } from 'lucide-react'
+import { Plus, Sparkles, Ticket } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { TicketCard } from './cards'
 import { TicketCounts, TicketFooter } from './components'
 import { useCallback, useState } from 'react'
 import { debounce } from 'lodash'
-
-const tickets = [
-    {
-        id: 'TKT-1247',
-        title: 'Unable to access workplace safety module',
-        category: 'Technical Support',
-        priority: 'high',
-        status: 'open',
-        created: 'Nov 18, 2025',
-        updated: 'Nov 18, 2025',
-        assignedTo: 'IT Support Team',
-        description:
-            "I'm getting an error when trying to access the workplace safety training module. The page loads but shows 'Access Denied'.",
-        responses: 2,
-        lastResponse: '2 hours ago',
-    },
-    {
-        id: 'TKT-1234',
-        title: 'Request for additional placement hours',
-        category: 'Placement Request',
-        priority: 'medium',
-        status: 'in-progress',
-        created: 'Nov 15, 2025',
-        updated: 'Nov 17, 2025',
-        assignedTo: 'Daniel - Coordinator',
-        description:
-            'I would like to request additional placement hours to complete my certificate requirements before the end date.',
-        responses: 5,
-        lastResponse: '1 day ago',
-    },
-    {
-        id: 'TKT-1221',
-        title: 'Certificate issuance timeline',
-        category: 'Administrative',
-        priority: 'low',
-        status: 'resolved',
-        created: 'Nov 10, 2025',
-        updated: 'Nov 12, 2025',
-        assignedTo: 'Admin Team',
-        description:
-            'Query about the expected timeline for certificate issuance after course completion.',
-        responses: 3,
-        lastResponse: '1 week ago',
-    },
-    {
-        id: 'TKT-1198',
-        title: 'Workplace supervisor contact update',
-        category: 'Administrative',
-        priority: 'medium',
-        status: 'resolved',
-        created: 'Nov 5, 2025',
-        updated: 'Nov 8, 2025',
-        assignedTo: 'Daniel - Coordinator',
-        description:
-            'Need to update workplace supervisor contact information as Sarah Mitchell has been assigned.',
-        responses: 4,
-        lastResponse: '2 weeks ago',
-    },
-]
+import { TicketsTabSkeleton } from '../../skeletonLoader'
 
 export const Tickets = ({ student }: { student: Student }) => {
     const [searchQuery, setSearchQuery] = useState('')
@@ -93,6 +34,7 @@ export const Tickets = ({ student }: { student: Student }) => {
         debounce((value: string) => setSearchQuery(value), 700),
         []
     )
+
     return (
         <div className="space-y-3">
             {/* Stats Overview */}
@@ -147,10 +89,10 @@ export const Tickets = ({ student }: { student: Student }) => {
                 />
             ) : null}
             {tickets?.isLoading ? (
-                <LoadingAnimation height={'50vh'} />
+                <TicketsTabSkeleton />
             ) : tickets?.data?.data &&
-              tickets?.data?.data?.length > 0 &&
-              tickets?.isSuccess ? (
+                tickets?.data?.data?.length > 0 &&
+                tickets?.isSuccess ? (
                 tickets?.data?.data?.map((ticket) => (
                     <TicketCard key={ticket.id} ticket={ticket} />
                 ))

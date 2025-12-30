@@ -21,6 +21,7 @@ import {
     PastAppointments,
     UpcomingAppointments,
 } from './tabs'
+import { Skeleton } from '@components/ui/skeleton'
 
 interface Appointment {
     id: string
@@ -138,16 +139,22 @@ export const Appointments = () => {
 
                 {/* KPI Stats - Mapped */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {statsConfig.map((stat) => (
-                        <KPIStatCard
-                            key={stat.id}
-                            label={stat.label}
-                            value={stat.value}
-                            icon={stat.icon}
-                            subtitle={stat.subtitle}
-                            variant={stat.variant}
-                        />
-                    ))}
+                    {counts.isLoading ? (
+                        [1, 2, 3].map((i) => (
+                            <Skeleton key={i} className="h-24 w-full rounded-xl" />
+                        ))
+                    ) : (
+                        statsConfig.map((stat) => (
+                            <KPIStatCard
+                                key={stat.id}
+                                label={stat.label}
+                                value={stat.value}
+                                icon={stat.icon}
+                                subtitle={stat.subtitle}
+                                variant={stat.variant}
+                            />
+                        ))
+                    )}
                 </div>
 
                 {/* Filters Toolbar */}
