@@ -2,12 +2,13 @@ import { GlobalModal, Typography } from '@components'
 import React from 'react'
 import { MdCancel } from 'react-icons/md'
 import { AllCommunicationComponent } from '../components'
+import { User } from '@types'
 
 export const ShowAllCommunicationModal = ({
     user,
     onCancel,
 }: {
-    user: any
+    user: User
     onCancel: () => void
 }) => {
     return (

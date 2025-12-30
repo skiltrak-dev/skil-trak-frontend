@@ -13,6 +13,12 @@ import {
     WorkplaceType,
 } from '@types'
 
+export enum WorkplaceTokenPlan {
+    BASIC = 'basic',
+    PREMIUM = 'premium',
+    STANDARD = 'standard',
+}
+
 export enum StudentStatusEnum {
     ACTIVE = 'active',
     TERMINATED = 'terminated',
@@ -118,6 +124,7 @@ export interface Rto extends BaseResponse {
     addressLine2: string
     studentsCount: string
     zipCode: string
+    rtoNetwork: 'private' | 'shareable'
     allowUpdate: boolean
     canAddOwnWorkplace: boolean
     allowAutoComplete: boolean
@@ -359,13 +366,16 @@ export interface Industry extends BaseResponse {
     abn: string
     businessName: string
     phoneNumber: string
+    bio: string
     dob: Date
     contactPerson: string
+    snoozedAt: Date
     snoozedDate: Date
     isSnoozed: boolean
     missingAttributes: string[]
     contactPersonNumber: string
     isPartner: boolean
+    isInterested: boolean
     isPremium: boolean
     PartneredBy: User
     studentCapacity: number | null
@@ -399,6 +409,9 @@ export interface Industry extends BaseResponse {
     partnerRemovalRequests: PartnerRemovalRequests[]
     industryCourseApprovals: IndustryCourseApprovals[]
     profileCompletionPercentage: string
+    totalEnrolled: number
+    totalCapacity: number
+    isRtoAssociated: boolean
 }
 
 export interface PendingIndustry extends Industry {
@@ -407,6 +420,7 @@ export interface PendingIndustry extends Industry {
 }
 
 export interface IndustryBranchesAddressType extends BaseResponse {
+    id: number
     address: string
     contactPerson: string
     contactPersonPhone: string
@@ -478,4 +492,11 @@ export interface Targets {
     AgreementByStudent: number
     AgreementByWorkplace: number
     completed: number
+}
+
+export interface RtoPlan extends BaseResponse {
+    id: number
+    cost: string
+    token: string
+    plan: string
 }

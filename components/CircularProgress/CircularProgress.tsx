@@ -1,11 +1,10 @@
-import React from 'react'
 import {
     CircularProgressbarWithChildren,
     buildStyles,
 } from 'react-circular-progressbar'
 
 // query
-import { IndustryApi, useIndustryStudentCountQuery } from '@queries'
+import { IndustryApi } from '@queries'
 
 // components
 import { Typography } from '@components/Typography'

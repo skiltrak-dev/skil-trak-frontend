@@ -1,5 +1,7 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import { Plus, Sparkles } from 'lucide-react'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 import {
     Button,
     Select,
@@ -7,10 +9,13 @@ import {
     TextInput,
     Typography,
     Card,
+    AddressFieldInput,
 } from '@components'
+import { RtoApi } from '@redux'
+import { Course } from '@types'
 
 interface SingleIndustryFormProps {
-    onClose: () => void
+    onSubmit: (values: any) => void
 }
 
 const sectorOptions = [
@@ -27,30 +32,109 @@ const sectorOptions = [
 type SingleIndustryFormValues = {
     name: string
     abn?: string
-    sector: string
-    location: string
-    contactPerson: string
-    contactEmail: string
-    contactPhone?: string
-    capacity: number | string
     website?: string
-    facilities?: string
-    notes?: string
+    phone: string
+    courses: number[]
+    contactPerson: string
+    contactPhone?: string
+    email: string
+    // Address fields from AddressFieldInput
+    addressLine1?: string
+    suburb?: string
+    state?: string
+    zipCode: string
 }
 
-export const SingleIndustryForm = ({ onClose }: SingleIndustryFormProps) => {
-    const methods = useForm<SingleIndustryFormValues>()
+// Yup validation schema
+const validationSchema = yup.object({
+    name: yup
+        .string()
+        .required('Industry name is required')
+        .min(2, 'Industry name must be at least 2 characters'),
 
-    const handleSubmitSingle = methods.handleSubmit((data) => {
-        // TODO: Wire this to actual API integration
-        // For now, keep the same behaviour (log + close)
-        onClose()
+    abn: yup
+        .string()
+        .matches(/^[0-9\s]*$/, 'ABN must contain only numbers')
+        .test('abn-length', 'ABN must be 11 digits', (value) => {
+            if (!value) return true // Optional field
+            const digitsOnly = value.replace(/\s/g, '')
+            return digitsOnly.length === 0 || digitsOnly.length === 11
+        }),
+
+    website: yup
+        .string()
+        .url('Invalid website URL')
+        .test(
+            'url-protocol',
+            'Website must start with http:// or https://',
+            (value) => {
+                if (!value) return true // Optional field
+                return (
+                    value.startsWith('http://') || value.startsWith('https://')
+                )
+            }
+        ),
+
+    phoneNumber: yup
+        .string()
+        .required('Phone number is required')
+        .matches(
+            /^[0-9\s\-\(\)]*$/,
+            'Phone number must contain only numbers and valid characters'
+        ),
+
+    courses: yup
+        .array()
+        .of(yup.number())
+        .min(1, 'At least one course must be selected')
+        .required('Courses are required'),
+
+    contactPersonName: yup
+        .string()
+        .required('Contact person is required')
+        .min(2, 'Contact person name must be at least 2 characters'),
+
+    contactPersonNumber: yup
+        .string()
+        .matches(
+            /^[0-9\s\-\(\)]*$/,
+            'Phone number must contain only numbers and valid characters'
+        ),
+
+    email: yup
+        .string()
+        .required('Email is required')
+        .email('Invalid email address'),
+
+    // Address fields
+    addressLine1: yup.string(),
+    suburb: yup.string(),
+    state: yup.string(),
+
+    zipCode: yup.string().required('Zip code is required'),
+})
+
+export const SingleIndustryForm = ({ onSubmit }: SingleIndustryFormProps) => {
+    const methods = useForm<SingleIndustryFormValues>({
+        mode: 'all',
+        resolver: yupResolver(validationSchema),
     })
+
+    const rto = RtoApi.Rto.useProfile()
+
+    const rtoCoursesOptions =
+        rto.isSuccess && rto?.data?.courses && rto?.data?.courses?.length > 0
+            ? rto?.data?.courses?.map((course: Course) => ({
+                  label: course?.title,
+                  value: course?.id,
+                  item: course,
+              }))
+            : []
 
     return (
         <FormProvider {...methods}>
             <form
-                onSubmit={handleSubmitSingle}
+                onSubmit={methods.handleSubmit(onSubmit)}
                 className="space-y-4 mt-4 animate-fadeIn"
             >
                 <Card className="border border-primaryNew/15 bg-gradient-to-br from-primaryNew/5 via-background to-primaryNew/10 rounded-xl p-4">
@@ -78,116 +162,85 @@ export const SingleIndustryForm = ({ onClose }: SingleIndustryFormProps) => {
                             label="Industry Name"
                             placeholder="e.g., Sunshine Aged Care"
                             required
-                            rules={{
-                                required: 'Industry name is required',
-                            }}
+                            validationIcons
                         />
                     </div>
 
-                    <div>
+                    <TextInput
+                        name="abn"
+                        label="ABN Number"
+                        placeholder="e.g., 12 345 678 901"
+                        validationIcons
+                    />
+
+                    <TextInput
+                        name="website"
+                        label="Website"
+                        type="url"
+                        placeholder="e.g., https://example.com.au"
+                        validationIcons
+                    />
+
+                    <TextInput
+                        name="phoneNumber"
+                        label="Phone"
+                        placeholder="e.g., (03) 9876 5432"
+                        required
+                        validationIcons
+                    />
+
+                    <Select
+                        name="courses"
+                        label="Courses"
+                        options={rtoCoursesOptions}
+                        required
+                        multi
+                        onlyValue
+                        placeholder="Select sector"
+                        validationIcons
+                    />
+
+                    <TextInput
+                        name="contactPerson"
+                        label="Contact Person"
+                        placeholder="e.g., Sarah Johnson"
+                        required
+                        validationIcons
+                    />
+
+                    <TextInput
+                        name="contactPersonNumber"
+                        label="Contact Phone"
+                        type="tel"
+                        placeholder="e.g., (03) 9876 5432"
+                        validationIcons
+                    />
+
+                    <div className="md:col-span-2">
                         <TextInput
-                            name="abn"
-                            label="ABN Number"
-                            placeholder="e.g., 12 345 678 901"
-                        />
-                    </div>
-
-                    <div>
-                        <Select
-                            name="sector"
-                            label="Sector"
-                            options={sectorOptions}
-                            required
-                            rules={{ required: 'Sector is required' }}
-                            placeholder="Select sector"
-                        />
-                    </div>
-
-                    <div>
-                        <TextInput
-                            name="location"
-                            label="Location"
-                            placeholder="e.g., Melbourne, VIC"
-                            required
-                            rules={{ required: 'Location is required' }}
-                        />
-                    </div>
-
-                    <div>
-                        <TextInput
-                            name="contactPerson"
-                            label="Contact Person"
-                            placeholder="e.g., Sarah Johnson"
-                            required
-                            rules={{
-                                required: 'Contact person is required',
-                            }}
-                        />
-                    </div>
-
-                    <div>
-                        <TextInput
-                            name="contactEmail"
-                            label="Contact Email"
+                            name="email"
+                            label="Email"
                             type="email"
-                            placeholder="e.g., sarah@example.com.au"
+                            placeholder="e.g., industry@example.com.au"
                             required
-                            rules={{
-                                required: 'Contact email is required',
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: 'Invalid email address',
-                                },
-                            }}
+                            validationIcons
                         />
                     </div>
 
-                    <div>
-                        <TextInput
-                            name="contactPhone"
-                            label="Contact Phone"
-                            type="tel"
-                            placeholder="e.g., (03) 9876 5432"
-                        />
-                    </div>
+                    <AddressFieldInput
+                        placesSuggetions={{
+                            placesSuggetions: true,
+                            setIsPlaceSelected: () => {},
+                        }}
+                    />
 
-                    <div>
-                        <TextInput
-                            name="capacity"
-                            label="Placement Capacity"
-                            type="number"
-                            placeholder="e.g., 15"
-                            required
-                            rules={{ required: 'Capacity is required' }}
-                        />
-                    </div>
-
-                    <div className="md:col-span-2">
-                        <TextInput
-                            name="website"
-                            label="Website"
-                            type="url"
-                            placeholder="e.g., https://example.com.au"
-                        />
-                    </div>
-
-                    <div className="md:col-span-2">
-                        <TextInput
-                            name="facilities"
-                            label="Facilities/Services"
-                            placeholder="e.g., Aged Care, Disability Support, Dementia Care (separate with commas)"
-                            helpText="Separate multiple facilities with commas"
-                        />
-                    </div>
-
-                    <div className="md:col-span-2">
-                        <TextArea
-                            name="notes"
-                            label="Additional Notes"
-                            placeholder="Any additional information about this industry partner..."
-                            rows={3}
-                        />
-                    </div>
+                    <TextInput
+                        name="zipCode"
+                        label="Zip Code"
+                        placeholder="e.g., 3000"
+                        required
+                        validationIcons
+                    />
                 </div>
 
                 <div className="flex items-center justify-between pt-4 border-t border-border">
@@ -195,12 +248,13 @@ export const SingleIndustryForm = ({ onClose }: SingleIndustryFormProps) => {
                         * Required fields
                     </Typography>
                     <div className="flex gap-2">
-                        <Button text="Cancel" outline onClick={onClose} />
                         <Button
                             text="Add Industry Partner"
                             variant="primaryNew"
                             Icon={Plus}
                             submit
+                            loading={methods?.formState?.isSubmitting}
+                            disabled={methods?.formState?.isSubmitting}
                         />
                     </div>
                 </div>

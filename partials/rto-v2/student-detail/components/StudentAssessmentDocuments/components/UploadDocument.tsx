@@ -4,15 +4,15 @@ import { RtoV2Api } from '@queries'
 import { Folder } from '@types'
 import { Upload } from 'lucide-react'
 import React, { useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@redux/hooks'
 
 export const UploadDocument = ({ folder }: { folder: Folder }) => {
     const fileInputRef = useRef<HTMLInputElement>(null)
     const [uploadDocument, uploadDocumentResult] =
         RtoV2Api.StudentDocuments.uploadStudentDocumentFile()
 
-    const { id: studentId } = useSelector(
-        (state: any) => state?.student?.studentDetail
+    const studentId = useAppSelector(
+        (state) => state?.student?.studentDetail?.id ?? 0
     )
 
     const { notification } = useNotification()
@@ -30,7 +30,7 @@ export const UploadDocument = ({ folder }: { folder: Folder }) => {
             const formData = new FormData()
             formData.append('file', file)
             const res: any = await uploadDocument({
-                stdId: studentId,
+                stdId: Number(studentId),
                 folderId: folder?.id ?? 0,
                 body: formData,
             })

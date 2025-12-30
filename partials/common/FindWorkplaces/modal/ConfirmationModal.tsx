@@ -5,7 +5,7 @@ import { MdCancel, MdCheckCircle, MdDescription } from 'react-icons/md'
 import { Button, Modal, ShowErrorNotifications, Typography } from '@components'
 
 interface ConfirmationModalProps {
-    onCancel: () => void
+    onCancel: (isFromModal?: boolean) => void
     selectedSector: number
     listingResults: string[]
 }
@@ -31,7 +31,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                 title: 'Listing Submit',
                 description: 'Listing Submit Successfully',
             })
-            onCancel()
+            onCancel(true)
         }
     }
 
@@ -57,7 +57,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
                         <Button
                             outline
-                            onClick={onCancel}
+                            onClick={() => onCancel(false)}
                             Icon={MdCancel}
                             text="Cancel"
                         />

@@ -48,6 +48,41 @@ export const useStatusInfo = ({
         WorkplaceCurrentStatus.Completed,
     ]
 
+    const getStatusArrays = (
+        currentStatus: WorkplaceCurrentStatus
+    ): {
+        completed: string[]
+        pending: string[]
+    } => {
+        const currentIndex = statusOrder.indexOf(currentStatus)
+
+        if (currentIndex === -1) {
+            return {
+                completed: [],
+                pending: statusOrder.map(
+                    (s: WorkplaceCurrentStatus) =>
+                        statusMapping[s as keyof typeof statusMapping]
+                ),
+            }
+        }
+
+        const completed = statusOrder
+            .slice(0, currentIndex + 1) // Include current status in completed
+            .map(
+                (status: WorkplaceCurrentStatus) =>
+                    statusMapping[status as keyof typeof statusMapping]
+            )
+
+        const pending = statusOrder
+            .slice(currentIndex + 1) // All statuses after current
+            .map(
+                (status: WorkplaceCurrentStatus) =>
+                    statusMapping[status as keyof typeof statusMapping]
+            )
+
+        return { completed, pending }
+    }
+
     // Function to generate statuses based on current status
     const generateStatuses = (
         currentStatus: WorkplaceCurrentStatus,
@@ -126,5 +161,6 @@ export const useStatusInfo = ({
         nextStep: getNextStep(),
         previousStep: getPreviousStep(),
         currentStep: getCurrentStep(),
+        statusArrays: getStatusArrays(workplace?.currentStatus),
     }
 }

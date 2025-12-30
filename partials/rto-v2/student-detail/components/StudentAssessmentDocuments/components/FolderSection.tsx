@@ -1,9 +1,7 @@
-import { RtoV2Api } from '@queries'
+import { NoData } from '@components'
+import { Course, Folder } from '@types'
 import { FolderCard, FolderHeaderCard } from '../cards'
 import { getStatusConfig } from '../utils/getStatusConfig'
-import { Course, Folder, Student } from '@types'
-import { LoadingAnimation, NoData } from '@components'
-import { useSelector } from 'react-redux'
 
 interface FolderSectionProps {
     title: string
@@ -25,10 +23,6 @@ export const FolderSection = ({
     sectionType,
     description,
 }: FolderSectionProps) => {
-    const { id: studentId } = useSelector(
-        (state: any) => state?.student?.studentDetail
-    )
-
     // const documents = RtoV2Api.StudentDocuments.getStudentDocumentsList(
     //     {
     //         // search: `${filterKey}:true`,
@@ -39,7 +33,6 @@ export const FolderSection = ({
     //         skip: !studentId || !course.id,
     //     }
     // )
-    console.log({ filterKey, documents })
 
     return (
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden">

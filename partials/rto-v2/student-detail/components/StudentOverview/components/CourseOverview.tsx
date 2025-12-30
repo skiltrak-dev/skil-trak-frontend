@@ -3,17 +3,17 @@ import { setSelectedCourse } from '@redux'
 import { Course } from '@types'
 import { cn } from '@utils'
 import { BookOpen } from 'lucide-react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '@redux/hooks'
 import { CourseCard } from '../card'
 import { useCourseSelection } from '../hooks'
 
 export const CourseOverview = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const { studentCourses } = useCourseSelection()
 
-    const selectedCourse = useSelector(
-        (state: any) => state?.student?.selectedCourse
+    const selectedCourse = useAppSelector(
+        (state) => state.student.selectedCourse
     )
 
     const onSelectCourse = (course: Course) => {

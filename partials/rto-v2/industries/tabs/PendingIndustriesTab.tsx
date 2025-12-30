@@ -1,57 +1,102 @@
-import { Card, EmptyData, Table, TableChildrenProps } from '@components'
-import { createPendingIndustriesColumns } from '../component/columns'
-import { PendingIndustryFull } from '../types'
+import {
+    Card,
+    EmptyData,
+    LoadingAnimation,
+    Table,
+    TechnicalError,
+} from '@components'
+import { RtoV2Api } from '@redux'
+import { Industry } from '@types'
+import React, { useState } from 'react'
+import { IndustryFilterBar } from '../component'
+import { useYourIndustriesColumns } from '../component/columns/yourIndustriesColumns'
 
 interface PendingIndustriesTabProps {
-    data: PendingIndustryFull[]
-    onView: (industry: PendingIndustryFull) => void
-    onApproveCourses: (industry: PendingIndustryFull) => void
+    searchTerm: string
+    courseId: string
+    filterStatus: string
+    stateFilter: string
 }
 
-export const PendingIndustriesTab = ({
-    data,
-    onView,
-    onApproveCourses,
-}: PendingIndustriesTabProps) => {
-    const columns = createPendingIndustriesColumns({
-        onView,
-        onApproveCourses,
+export const PendingIndustriesTab: React.FC<PendingIndustriesTabProps> = ({
+    searchTerm,
+    courseId,
+    filterStatus,
+    stateFilter,
+}) => {
+    const [page, setPage] = useState(1)
+    const [itemPerPage, setItemPerPage] = useState(50)
+
+    const industries = RtoV2Api.Industries.getAllIndustriesList({
+        search: `isInterested:${'pending'}${
+            searchTerm ? `,name:${searchTerm}` : ''
+        }${courseId !== 'all' ? `,courseId:${courseId}` : ''}${
+            filterStatus !== 'all' ? `,status:${filterStatus}` : ''
+        }${stateFilter !== 'all' ? `,state:${stateFilter}` : ''}`,
+        skip: itemPerPage * page - itemPerPage,
+        limit: itemPerPage,
+    })
+
+    const { getTableConfig, modal } = useYourIndustriesColumns()
+    const { columns } = getTableConfig({
+        columnKeys: ['name', 'profileCompletion', 'status'],
+        actionKeys: ['view'],
     })
 
     return (
         <div className="space-y-4">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h3 className="font-semibold text-blue-900 mb-1">
-                    Pending Approval
-                </h3>
-                <p className="text-sm text-blue-700">
-                    These industries are awaiting course approval and final
-                    verification before they can accept student placements.
-                </p>
-            </div>
+            {modal}
 
             <Card noPadding>
-                {data.length > 0 ? (
-                    <Table columns={columns} data={data}>
+                {industries?.isError && <TechnicalError />}
+                {industries?.isLoading || industries?.isFetching ? (
+                    <LoadingAnimation height="h-[60vh]" />
+                ) : industries &&
+                  industries?.data?.data &&
+                  industries?.data?.data?.length ? (
+                    <Table<Industry>
+                        columns={columns as any}
+                        data={industries?.data?.data}
+                    >
                         {({
                             table,
                             pagination,
                             pageSize,
-                        }: TableChildrenProps) => (
-                            <div>
-                                <div>{table}</div>
+                            quickActions,
+                        }: any) => (
+                            <div className="p-6">
+                                <div className="mb-4 flex items-center justify-between">
+                                    {pageSize &&
+                                        pageSize(
+                                            itemPerPage,
+                                            setItemPerPage,
+                                            industries?.data?.data?.length
+                                        )}
+                                    <div className="flex gap-x-2">
+                                        {quickActions}
+                                        {pagination &&
+                                            pagination(
+                                                industries?.data?.pagination,
+                                                setPage
+                                            )}
+                                    </div>
+                                </div>
+                                <div className="w-full overflow-x-auto remove-scrollbar">
+                                    {table}
+                                </div>
                             </div>
                         )}
                     </Table>
                 ) : (
-                    <EmptyData
-                        title="No pending industries"
-                        description="All industries are either approved or in other status"
-                        height="50vh"
-                    />
+                    !industries?.isError && (
+                        <EmptyData
+                            title="No pending industries"
+                            description="All industries are either approved or in other status"
+                            height="50vh"
+                        />
+                    )
                 )}
             </Card>
         </div>
     )
 }
-

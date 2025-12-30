@@ -5,6 +5,7 @@ import { MdCancel } from 'react-icons/md'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
 import { SingleIndustryForm } from '@partials/rto-v2/industries/forms/SingleIndustryForm'
 import { BulkIndustryImportForm } from '@partials/rto-v2/industries/forms/BulkIndustryImportForm'
+import { AddBulkIndustries, AddSingleIndustry } from '../component'
 
 interface AddIndustryModalProps {
     onClose: () => void
@@ -33,10 +34,6 @@ export const AddIndustryModal = ({ onClose }: AddIndustryModalProps) => {
                         </Typography>
                     </div>
                 </div>
-                <MdCancel
-                    onClick={onClose}
-                    className="transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
-                />
             </div>
 
             <div className="p-4">
@@ -65,11 +62,11 @@ export const AddIndustryModal = ({ onClose }: AddIndustryModalProps) => {
                     </TabsList>
 
                     <TabsContent value="single">
-                        <SingleIndustryForm onClose={onClose} />
+                        <AddSingleIndustry onClose={onClose} />
                     </TabsContent>
 
                     <TabsContent value="bulk">
-                        <BulkIndustryImportForm onClose={onClose} />
+                        <AddBulkIndustries onClose={onClose} />
                     </TabsContent>
                 </Tabs>
             </div>

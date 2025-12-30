@@ -2,11 +2,11 @@ import { Student } from '@types'
 import { Award, Clock } from 'lucide-react'
 import moment from 'moment'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@redux/hooks'
 
 export const StudentQuickInfo = () => {
-    const { selectedCourse, studentDetail } = useSelector(
-        (state: any) => state.student
+    const { selectedCourse, studentDetail } = useAppSelector(
+        (state) => state.student
     )
     const studentInfoCards = [
         {

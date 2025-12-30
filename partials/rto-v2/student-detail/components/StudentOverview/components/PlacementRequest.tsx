@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@redux/hooks'
 import { WorkplaceSmallCard } from '../card'
 import { LoadingAnimation, NoData } from '@components'
 import { IWorkplaceIndustries } from '@redux/queryTypes'
@@ -9,7 +9,7 @@ export function PlacementRequest({
 }: {
     studentWorkplaces: any
 }) {
-    const { selectedWorkplace } = useSelector((state: any) => state.student)
+    const { selectedWorkplace } = useAppSelector((state) => state.student)
 
     return (
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">

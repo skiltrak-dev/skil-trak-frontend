@@ -602,7 +602,7 @@ export const AdminApi = {
         allowScheduleEmailToggle: useAllowScheduleEmailToggleMutation,
         useRtoImportStudents: useRtoImportStudentsMutation,
         useRtoAddStudent: useRtoAddStudentMutation,
-        useRtoStudentAccountCheck:
+        useUserExistingEmailCheck:
             useRtoImportStudentExistingEmailCheckMutation,
         useCheckStudentEmail: useCheckStudentEmailMutation,
 

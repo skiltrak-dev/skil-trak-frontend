@@ -67,7 +67,7 @@ export const industryApi = apiSlice.injectEndpoints({
                 params: { industry: id },
                 body,
             }),
-            invalidatesTags: ['Industries'],
+            invalidatesTags: ['Industries', 'RTOIndustries'],
         }),
         // get industry fav by coordinator
 
@@ -251,6 +251,7 @@ export const {
 
     // ---- GALLERY ---- //
     useIndustryGalleryQuery,
+    useIndustryGalleryCountQuery,
     useAddIndustryGalleryMutation,
     useRemoveIndustryGalleryMutation,
 } = industryApi
@@ -411,6 +412,7 @@ export const IndustryApi = {
     Gallery: {
         industryGallery: useIndustryGalleryQuery,
         addIndustryGallery: useAddIndustryGalleryMutation,
+        industryGalleryCount: useIndustryGalleryCountQuery,
         removeIndustryGallery: useRemoveIndustryGalleryMutation,
     },
 }

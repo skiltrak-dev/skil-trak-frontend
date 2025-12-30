@@ -9,11 +9,12 @@ export const availableShiftsEndpoints = (
         query: () => `${PREFIX}/working-hours/list`,
         providesTags: ['AvailableShifts'],
     }),
-    addWorkingHours: builder.mutation<any, any>({
-        query: (body) => ({
+    addWorkingHours: builder.mutation<any, { userId?: number; days: any }>({
+        query: ({ userId, ...body }) => ({
             url: `${PREFIX}/working-hours/add`,
             method: 'POST',
             body,
+            params: { userId },
         }),
         invalidatesTags: ['AvailableShifts'],
     }),

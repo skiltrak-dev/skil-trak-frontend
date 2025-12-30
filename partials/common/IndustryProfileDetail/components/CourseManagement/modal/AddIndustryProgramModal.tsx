@@ -29,10 +29,11 @@ export const AddIndustryProgramModal = ({
     return (
         <div>
             <Modal
-                title={'Industry Course Streams (Blocks)'}
+                title={'Industry Course Streams'}
                 subtitle={''}
                 showActions={false}
                 onCancelClick={onCancel}
+                cancelText="Closes"
             >
                 <div className="max-h-[75vh] overflow-auto custom-scrollbar">
                     {industryProgram.isError && (
@@ -69,6 +70,9 @@ export const AddIndustryProgramModal = ({
                             <AddIndustryCourseProgramForm
                                 onCancel={() => {
                                     setAddProgram(false)
+                                    if (!industryProgram?.data?.length) {
+                                        onCancel()
+                                    }
                                 }}
                                 industry={industry}
                                 course={approval?.course}

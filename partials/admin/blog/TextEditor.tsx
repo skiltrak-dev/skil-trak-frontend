@@ -52,7 +52,10 @@ export default function TextEditor({ tagIds }: TextEditorProps) {
 
     const [createBlog, createBlogResult] = adminApi.useCreateBlogMutation()
     const [uploadImage, uploadImageResult] = AdminApi.Blogs.uploadImage()
-    const { data, isLoading } = adminApi.useGetCategoriesQuery(undefined)
+    const { data, isLoading } = AdminApi.Blogs.categoriesList({
+        skip: 0,
+        limit: 20,
+    })
     const [shortDescriptionWordCount, setShortDescriptionWordCount] =
         useState(0)
     // const handleSave = () => {

@@ -144,7 +144,7 @@ export const Courses = () => {
             Icon: FaEdit,
         },
         {
-            text: 'Add Program',
+            text: 'Add Stream',
             onClick: (course: Course) => onAddProgram(course),
             Icon: FaEdit,
         },
@@ -236,8 +236,8 @@ export const Courses = () => {
             },
         },
         {
-            accessorKey: 'program',
-            header: () => <span>Program</span>,
+            accessorKey: 'stream',
+            header: () => <span>Stream</span>,
             cell: (info) => {
                 return (
                     <ActionButton
@@ -245,7 +245,7 @@ export const Courses = () => {
                         simple
                         onClick={() => onViewProgram(info.row.original)}
                     >
-                        View Program
+                        View Stream
                     </ActionButton>
                 )
             },

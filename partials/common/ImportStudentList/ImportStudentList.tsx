@@ -32,7 +32,7 @@ export const ImportStudentList = ({
     const [emailExistList, setEmailExistList] = useState<any | null>(null)
 
     const [checkMails, checkMailsResult] =
-        AdminApi.Rtos.useRtoStudentAccountCheck()
+        AdminApi.Rtos.useUserExistingEmailCheck()
 
     useEffect(() => {
         navBar.setTitle('RTO Detail')

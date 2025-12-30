@@ -6,18 +6,18 @@ import {
     PlacementRequest,
     WorkplaceBio,
 } from './components'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@redux/hooks'
 
 export const StudentOverview = () => {
-    const { selectedCourse, studentDetail, selectedWorkplace } = useSelector(
-        (state: any) => state.student
+    const { selectedCourse, studentDetail, selectedWorkplace } = useAppSelector(
+        (state) => state?.student
     )
 
     const studentWorkplaces =
         RtoV2Api.StudentsWorkplace.getStudentWorkplacesByCourse(
             {
-                id: studentDetail?.id,
-                courseId: selectedCourse?.id,
+                id: studentDetail?.id ?? 0,
+                courseId: selectedCourse?.id ?? 0,
             },
             {
                 skip: !selectedCourse?.id || !studentDetail?.id,

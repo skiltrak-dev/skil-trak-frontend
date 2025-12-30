@@ -141,7 +141,7 @@ export const subAdminIndustriesEndpoints = (
             // body: { studentCapacity },
             method: 'PATCH',
         }),
-        invalidatesTags: ['SubAdminIndustries'],
+        invalidatesTags: ['SubAdminIndustries', 'RTOIndustries'],
     }),
     // confirm course
     confirmCourseDescription: builder.mutation<any, any>({
