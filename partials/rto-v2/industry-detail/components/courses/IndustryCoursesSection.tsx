@@ -2,10 +2,11 @@ import { RtoV2Api, setIndustrySectorCapacity, SubAdminApi } from '@redux'
 import { useAppDispatch, useAppSelector } from '@redux/hooks'
 import { useEffect, useState } from 'react'
 
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { EmptyData, TechnicalError } from '@components'
 import { CoursesHeaderSection } from '../courses/header/CoursesHeaderSection'
 import { SectorCard } from '../courses/SectorCard'
 import { useCoursesData } from './hooks'
+import { CoursesTabSkeleton } from '../../skeletonLoader'
 
 export function IndustryCoursesSection() {
     const [searchQuery, setSearchQuery] = useState('')
@@ -73,6 +74,10 @@ export function IndustryCoursesSection() {
         return status === 'pending'
     }).length
 
+    if (coursesDetails?.isLoading || coursesDetails?.isFetching) {
+        return <CoursesTabSkeleton />
+    }
+
     return (
         <div id="courses" className="space-y-5 px-4">
             {/* Premium Header Section */}
@@ -92,11 +97,9 @@ export function IndustryCoursesSection() {
             {/* Sector Cards - Enhanced Design */}
             <div id="capacity" className="space-y-3">
                 {coursesDetails?.isError && <TechnicalError />}
-                {coursesDetails?.isLoading || coursesDetails?.isFetching ? (
-                    <LoadingAnimation height="h-[60vh]" />
-                ) : coursesDetails?.isSuccess &&
-                  coursesDetails?.data &&
-                  coursesDetails?.data?.length > 0 ? (
+                {coursesDetails?.isSuccess &&
+                    coursesDetails?.data &&
+                    coursesDetails?.data?.length > 0 ? (
                     coursesData.map((group, sectorIndex) => (
                         <SectorCard
                             key={group.sector.id}

@@ -1,7 +1,6 @@
-import { LoadingAnimation, NoData, ShowErrorNotifications } from '@components'
+import { NoData } from '@components'
 import {
     AddCustomSectorFolderModal,
-    DeleteIndustryCustomDocModal,
     UpdateCustomSectorFolderModal,
 } from '@partials/common/IndustryProfileDetail/components/IndustrySectorRequiredDocs/modals'
 import { IndustryApi } from '@queries'
@@ -10,11 +9,11 @@ import { Sector } from '@types'
 import { ReactElement, useEffect, useMemo, useState } from 'react'
 import {
     DocumentCard,
-    DocumentsFooter,
     DocumentsModuleHeader,
     DocumentsStats,
     SectorTabs,
 } from './components'
+import { DocumentsTabSkeleton } from '../../../skeletonLoader'
 
 export function DocumentsModule() {
     const industryDetail = useAppSelector(
@@ -24,7 +23,6 @@ export function DocumentsModule() {
 
     const [selectedSector, setSelectedSector] = useState<number | null>(null)
     const [modal, setModal] = useState<ReactElement | null>(null)
-    const [result, setResult] = useState(null)
 
     // 1. Fetch Sectors
     const { data: sectorsData, isLoading: isLoadingSectors } =
@@ -96,6 +94,10 @@ export function DocumentsModule() {
         )
     }
 
+    if (isLoadingSectors || docsQuery.isLoading) {
+        return <DocumentsTabSkeleton />
+    }
+
     return (
         <div className="space-y-2 px-4 relative">
             {modal}
@@ -115,28 +117,22 @@ export function DocumentsModule() {
                 activeSector={activeSectorName}
             />
 
-            {isLoadingSectors || docsQuery.isLoading ? (
-                <div className="flex justify-center p-4">
-                    <LoadingAnimation size={50} />
-                </div>
-            ) : (
-                <div className="grid gap-3">
-                    {documents.length > 0 ? (
-                        documents.map((doc: any) => (
-                            <DocumentCard
-                                key={doc.id}
-                                industryId={Number(industryDetail?.id)}
-                                industryUserId={Number(industryUserId)}
-                                doc={doc}
-                            />
-                        ))
-                    ) : (
-                        <div className="py-4">
-                            <NoData text="No documents found for this sector" />
-                        </div>
-                    )}
-                </div>
-            )}
+            <div className="grid gap-3">
+                {documents.length > 0 ? (
+                    documents.map((doc: any) => (
+                        <DocumentCard
+                            key={doc.id}
+                            industryId={Number(industryDetail?.id)}
+                            industryUserId={Number(industryUserId)}
+                            doc={doc}
+                        />
+                    ))
+                ) : (
+                    <div className="py-4">
+                        <NoData text="No documents found for this sector" />
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

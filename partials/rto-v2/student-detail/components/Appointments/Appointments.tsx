@@ -6,7 +6,10 @@ import {
     UpcomingAppointments,
 } from './components'
 
+import { AppointmentsTabSkeleton } from '../../skeletonLoader'
+
 export const Appointments = ({ student }: { student: Student }) => {
+    if (!student) return <AppointmentsTabSkeleton />
     return (
         <div className="space-y-3">
             {/* Stats Overview */}

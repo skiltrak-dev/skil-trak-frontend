@@ -2,18 +2,17 @@ import { RtoV2Api, CommonApi } from '@redux'
 import { useAppSelector } from '@redux/hooks'
 import { AnalyticsCard, AnalyticsHeader } from './components'
 import { Calendar, Clock, Layers, Star, Users } from 'lucide-react'
+import { AnalyticsSkeleton } from '../../skeletonLoader'
 
 export function AnalyticsDashboard() {
     const { industryDetail: industry } = useAppSelector(
         (state) => state.industry
     )
 
-    const { data: counts } = RtoV2Api.Industries.getRtoIndustryDataCount(
-        industry?.id || 0,
-        {
+    const { data: counts, isLoading: isCountsLoading } =
+        RtoV2Api.Industries.getRtoIndustryDataCount(industry?.id || 0, {
             skip: !industry?.id,
-        }
-    )
+        })
 
     const overAllRating =
         CommonApi.Feedback.useOverAllIndustryRatingsFromStudent(
@@ -22,6 +21,10 @@ export function AnalyticsDashboard() {
                 skip: !industry?.id,
             }
         )
+
+    if (isCountsLoading || overAllRating?.isLoading) {
+        return <AnalyticsSkeleton />
+    }
 
     const analyticsCards = [
         {
@@ -57,9 +60,8 @@ export function AnalyticsDashboard() {
         },
         {
             title: 'Capacity',
-            value: `${counts?.totalEnrolledStudents || 0}/${
-                counts?.totalSectorCapacity || 0
-            }`,
+            value: `${counts?.totalEnrolledStudents || 0}/${counts?.totalSectorCapacity || 0
+                }`,
             change: 'Spots',
             changeText: 'available',
             icon: Layers,
@@ -68,10 +70,10 @@ export function AnalyticsDashboard() {
             showBar: true,
             percentage: counts?.totalSectorCapacity
                 ? Math.round(
-                      (counts.totalEnrolledStudents /
-                          counts.totalSectorCapacity) *
-                          100
-                  )
+                    (counts.totalEnrolledStudents /
+                        counts.totalSectorCapacity) *
+                    100
+                )
                 : 0,
             color: '#0D5468',
         },
@@ -90,9 +92,8 @@ export function AnalyticsDashboard() {
             title: 'Rating',
             value: overAllRating?.data?.averageRating || 0,
             change: overAllRating?.data?.totalFeedbacks || '0',
-            changeText: `${
-                (Number(overAllRating?.data?.averageRating) / 5) * 100
-            }% positive`,
+            changeText: `${(Number(overAllRating?.data?.averageRating) / 5) * 100
+                }% positive`,
             icon: Star,
             gradient: 'from-[#F7A619] to-[#F59E0B]',
             trend: 'up',

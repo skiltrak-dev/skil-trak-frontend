@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Card, LoadingAnimation, NoData } from '@components'
+import { Card, NoData } from '@components'
 import {
     AppointmentsHeader,
     AppointmentsList,
@@ -15,6 +15,7 @@ import { AppointmentViewModal } from '@components/Appointment/AppointmentModal/A
 import moment from 'moment'
 import { removeEmptyValues } from '@utils'
 import { Appointment } from '@types'
+import { AppointmentsTabSkeleton } from '../../../skeletonLoader'
 
 export function AppointmentsModule() {
     const [showNewAppointment, setShowNewAppointment] = useState(false)
@@ -36,7 +37,7 @@ export function AppointmentsModule() {
     } = CommonApi.Appointments.useBookedAppointments(
         removeEmptyValues({
             userId: industryDetail?.user?.id,
-            status: filterStatus === 'all' ? '' : filterStatus, // Fetch all and filter locally or relies on API
+            status: filterStatus === 'all' ? '' : filterStatus,
         }),
         {
             skip: !industryDetail?.user?.id,
@@ -48,8 +49,6 @@ export function AppointmentsModule() {
         ? appointmentsData
         : appointmentsData?.data || []
 
-    console.log({ filterStatus })
-
     // Map API data to Local Component Data
     const mappedAppointments =
         appointments?.map((apt: Appointment) => ({
@@ -60,22 +59,26 @@ export function AppointmentsModule() {
                 'hh:mm A'
             )} - ${moment(apt.endTime, 'HH:mm:ss').format('hh:mm A')}`,
             type: (apt?.type?.title?.toLowerCase().replace(' ', '-') ||
-                'meeting') as any, // unsafe cast but works for UI mapping usually
+                'meeting') as any,
             status:
                 moment(apt.date).isBefore(moment(), 'day') || apt.isSuccessfull
                     ? 'completed'
                     : 'upcoming',
-            location: 'Online', // Default or get from address
+            location: 'Online',
             attendees: [
                 apt.appointmentBy?.name,
                 apt.appointmentFor?.name,
             ].filter(Boolean),
             description: apt.note || 'No description provided',
             color: apt?.type?.color || '#044866',
-            attachments: 0, // API doesn't seem to return attachment count in list?
+            attachments: 0,
         })) || []
 
     const upcomingCount = mappedAppointments?.length || 0
+
+    if (isLoading) {
+        return <AppointmentsTabSkeleton />
+    }
 
     return (
         <div className="space-y-4">
@@ -86,7 +89,7 @@ export function AppointmentsModule() {
                     onNewAppointment={() => setShowNewAppointment(true)}
                 />
 
-                {/* Controls - (Optional, keeping commented out as per original) */}
+                {/* Controls */}
                 <AppointmentsControls
                     activeView={activeView}
                     filterStatus={filterStatus}
@@ -100,11 +103,7 @@ export function AppointmentsModule() {
                 ) : null}
 
                 {/* Appointments List */}
-                {isLoading ? (
-                    <div className="p-8 text-center text-slate-500">
-                        <LoadingAnimation />
-                    </div>
-                ) : mappedAppointments && mappedAppointments.length > 0 ? (
+                {mappedAppointments && mappedAppointments.length > 0 ? (
                     <AppointmentsList
                         appointments={mappedAppointments}
                         onAppointmentClick={(apt) =>
@@ -129,7 +128,7 @@ export function AppointmentsModule() {
                 <AppointmentViewModal
                     id={selectedAppointmentId}
                     onCancel={() => setSelectedAppointmentId(null)}
-                    upcomming={true} // Passed as prop but logic handles inside
+                    upcomming={true}
                 />
             )}
         </div>

@@ -1,14 +1,21 @@
-import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
+import { EmptyData, TechnicalError } from '@components'
 import { RtoV2Api, setIndustryDetail, setNavigationTarget } from '@redux'
 import { useAppDispatch, useAppSelector } from '@redux/hooks'
 import { scrollToSection } from '@utils'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { AnalyticsDashboard } from './components/AnalyticsDashboard'
 import { OperationalModules } from './components/OperationalModules'
 import { PlacementChecklist } from './components/PlacementChecklist'
 import { ProfileEssentials } from './components/ProfileEssentials'
 import { IndustryInfoMessage, IndustryProfileHeader } from './components'
+import {
+    AnalyticsSkeleton,
+    ChecklistSkeleton,
+    EssentialsSkeleton,
+    HeaderSkeleton,
+    OperationalSkeleton,
+} from './skeletonLoader'
 
 export const IndustryProfileDetail = () => {
     const operationalModulesRef = useRef<HTMLDivElement>(null)
@@ -89,7 +96,13 @@ export const IndustryProfileDetail = () => {
         <div>
             {industryDetail?.isError && <TechnicalError />}
             {industryDetail?.isLoading ? (
-                <LoadingAnimation height={'h-[70vh]'} />
+                <div className="w-full mx-auto space-y-6">
+                    <HeaderSkeleton />
+                    <AnalyticsSkeleton />
+                    <EssentialsSkeleton />
+                    <ChecklistSkeleton />
+                    <OperationalSkeleton />
+                </div>
             ) : industryDetail?.isSuccess && industryDetail?.data ? (
                 <div className="w-full mx-auto space-y-6">
                     <IndustryProfileHeader />

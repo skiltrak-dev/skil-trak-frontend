@@ -12,6 +12,7 @@ import {
 import { setNavigationTarget } from '@redux'
 import { useAppDispatch } from '@redux/hooks'
 import { useIndustryProgress } from '../hooks'
+import { ChecklistSkeleton } from '../skeletonLoader'
 
 export function PlacementChecklist() {
     const [showProgress, setShowProgress] = useState(false)
@@ -50,7 +51,7 @@ export function PlacementChecklist() {
         targetSection: (item as any).targetSection,
     }))
 
-    if (isLoading) return null // Or a loader if preferred
+    if (isLoading) return <ChecklistSkeleton />
 
     return (
         <div className="bg-white rounded-2xl shadow-xl border border-[#E2E8F0] overflow-hidden">

@@ -11,6 +11,8 @@ interface DocumentsProps {
     student: Student
 }
 
+import { StudentDocumentsTabSkeleton } from '../../skeletonLoader'
+
 export function StudentAssessmentDocuments({ student }: DocumentsProps) {
     const [searchQuery, setSearchQuery] = useState('')
     const [statusFilter, setStatusFilter] = useState('all')
@@ -100,9 +102,7 @@ export function StudentAssessmentDocuments({ student }: DocumentsProps) {
                 <NoData text={'There is some technical issue!'} isError />
             )}
             {documents.isLoading || documents.isFetching ? (
-                <div className="min-h-[inherit] flex justify-center items-center">
-                    <LoadingAnimation />
-                </div>
+                <StudentDocumentsTabSkeleton />
             ) : (
                 documents?.isSuccess &&
                 sections.map((section) => {

@@ -16,6 +16,7 @@ import { IndustryApi } from '@redux'
 import { useForm, FormProvider } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { TradingHoursTabSkeleton } from '../../../skeletonLoader'
 
 const daysOfWeek = [
     { key: 'monday', label: 'Monday' },
@@ -335,9 +336,9 @@ export function TradingHoursModule() {
 
     const handleCopyMonFri = () => {
         const mondayHours = getValues('hours.monday')
-        ;['tuesday', 'wednesday', 'thursday', 'friday'].forEach((day) => {
-            setValue(`hours.${day}`, mondayHours)
-        })
+            ;['tuesday', 'wednesday', 'thursday', 'friday'].forEach((day) => {
+                setValue(`hours.${day}`, mondayHours)
+            })
     }
 
     const handleReset = () => {
@@ -385,6 +386,10 @@ export function TradingHoursModule() {
                     'Failed to update trading hours. Please try again.',
             })
         }
+    }
+
+    if (isFetching) {
+        return <TradingHoursTabSkeleton />
     }
 
     return (
