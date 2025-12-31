@@ -1,4 +1,5 @@
 import { Button, Card, NoData } from '@components'
+import { Skeleton } from '@components/ui/skeleton'
 import { DocumentsView } from '@hooks'
 import { RtoV2Api } from '@queries'
 import { ellipsisText } from '@utils'
@@ -91,7 +92,22 @@ export const RtoChecklistDetail = ({
                     </div>
                 </div>
                 <div className="space-y-4">
-                    {getRtoCourseChecklist?.isError ? (
+                    {getRtoCourseChecklist?.isLoading ? (
+                        <div className="space-y-4">
+                            <div className="space-y-3">
+                                {[1, 2, 3].map((i) => (
+                                    <div
+                                        key={i}
+                                        className="flex items-center gap-3"
+                                    >
+                                        <Skeleton className="h-4 w-4 rounded-full" />
+                                        <Skeleton className="h-4 w-full max-w-[350px]" />
+                                    </div>
+                                ))}
+                            </div>
+                            <Skeleton className="h-20 w-full rounded-xl bg-slate-50" />
+                        </div>
+                    ) : getRtoCourseChecklist?.isError ? (
                         <NoData
                             isError
                             simple

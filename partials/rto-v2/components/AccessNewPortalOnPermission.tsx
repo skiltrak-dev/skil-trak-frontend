@@ -1,7 +1,8 @@
-import { LoadingAnimation, PageNotFound } from '@components'
+import { PageNotFound } from '@components'
 import { RtoApi } from '@queries'
 import { ReactNode, useEffect } from 'react'
 import { setRtoDetail, useAppDispatch } from '@redux'
+import { RtoLayoutSkeleton } from '../skeletonLoader'
 
 export const AccessNewPortalOnPermission = ({
     children,
@@ -17,12 +18,7 @@ export const AccessNewPortalOnPermission = ({
         }
     }, [rto?.isSuccess, rto?.data, dispatch])
 
-    if (rto?.isLoading)
-        return (
-            <div>
-                <LoadingAnimation />
-            </div>
-        )
+    if (rto?.isLoading) return <RtoLayoutSkeleton />
 
     return (
         <div>

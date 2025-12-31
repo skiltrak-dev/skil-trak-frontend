@@ -1,4 +1,5 @@
-import { Badge, Card, LoadingAnimation, NoData } from '@components'
+import { Badge, Card, NoData } from '@components'
+import { ProgramsTabSkeleton } from '../skeletonLoader'
 import { RtoV2Api } from '@queries'
 import { RtoApprovalWorkplaceRequest } from '@types'
 import {
@@ -78,10 +79,10 @@ export function ProgramsInfo({
                 <NoData simple isError text="There is some technical error!" />
             )}
             {getWpPrograms.isLoading ? (
-                <LoadingAnimation size={62} />
+                <ProgramsTabSkeleton />
             ) : getWpPrograms?.isSuccess &&
-              getWpPrograms?.data &&
-              getWpPrograms?.data?.length ? (
+                getWpPrograms?.data &&
+                getWpPrograms?.data?.length ? (
                 <Card className="border-[1.76px] border-slate-100 hover:shadow-md hover:border-[#044866]/20 transition-all space-y-1.5">
                     <div className="bg-gradient-to-r from-[#044866]/5 to-transparent p-[10.5px]">
                         <div className="flex items-center gap-[10.5px]">

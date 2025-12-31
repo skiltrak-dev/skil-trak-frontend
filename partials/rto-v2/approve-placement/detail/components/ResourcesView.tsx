@@ -1,4 +1,5 @@
-import { ActionButton, Card, LoadingAnimation, NoData } from '@components'
+import { ActionButton, Card, NoData } from '@components'
+import { ResourcesTabSkeleton } from '../skeletonLoader'
 import { DocumentsView } from '@hooks'
 import { IndustryApi } from '@queries'
 import { RtoApprovalWorkplaceRequest } from '@types'
@@ -89,10 +90,10 @@ export function ResourcesView({
                             />
                         )}
                         {gallery?.isLoading || gallery?.isFetching ? (
-                            <LoadingAnimation size={80} />
+                            <ResourcesTabSkeleton />
                         ) : gallery?.data &&
-                          gallery?.data?.length > 0 &&
-                          gallery?.isSuccess ? (
+                            gallery?.data?.length > 0 &&
+                            gallery?.isSuccess ? (
                             gallery?.data?.map((resource: any) => (
                                 <div
                                     key={resource?.id}
@@ -101,7 +102,7 @@ export function ResourcesView({
                                     <div className="flex items-center gap-4 flex-1">
                                         <div className="w-10 h-10 bg-[#044866]/5 rounded-lg flex items-center justify-center group-hover:bg-[#044866]/10 transition-colors">
                                             {resource?.category ===
-                                            'Facility Images' ? (
+                                                'Facility Images' ? (
                                                 <ImageIcon className="w-4 h-4 text-[#044866]" />
                                             ) : (
                                                 <FileText className="w-4 h-4 text-[#044866]" />

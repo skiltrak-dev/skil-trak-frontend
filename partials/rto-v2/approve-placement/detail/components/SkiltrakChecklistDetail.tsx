@@ -1,4 +1,5 @@
-import { Badge, Button, Card, LoadingAnimation, NoData } from '@components'
+import { Badge, Button, Card, NoData } from '@components'
+import { Skeleton } from '@components/ui/skeleton'
 import { DocumentsView } from '@hooks'
 import { RtoV2Api } from '@queries'
 import { ellipsisText } from '@utils'
@@ -105,7 +106,10 @@ export const SkiltrakChecklistDetail = ({
                 </div>
 
                 {getSkiltrakCourseChecklist?.isLoading ? (
-                    <LoadingAnimation />
+                    <div className="space-y-4">
+                        <Skeleton className="h-16 w-full rounded-lg bg-slate-50" />
+                        <Skeleton className="h-20 w-full rounded-xl bg-slate-50" />
+                    </div>
                 ) : getSkiltrakCourseChecklist?.data ? (
                     <div className="space-y-4">
                         <div
