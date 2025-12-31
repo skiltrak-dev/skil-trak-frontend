@@ -12,7 +12,6 @@ export const EnhancedComplianceChecks = ({ complianceChecks }: any) => {
             skip: !wpId,
         }
     )
-    console.log('Compliance Checks', data)
     return (
         <Card noPadding className="border-0 shadow-xl overflow-hidden">
             <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-5 py-4">

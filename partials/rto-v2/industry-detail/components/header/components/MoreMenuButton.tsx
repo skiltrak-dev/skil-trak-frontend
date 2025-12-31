@@ -16,7 +16,7 @@ import { getUserCredentials, cn } from '@utils'
 import { MoreVertical, X } from 'lucide-react'
 import { ReactNode, useState } from 'react'
 import { MoreMenuDropdown } from '../dropdowns'
-import { IndustryInfoMessageModal } from '@partials/rto-v2/industry-detail/modal'
+import { IndustryInfoMessageModal, ServicesOfferedModal, WorkplaceTypeModal } from '@partials/rto-v2/industry-detail/modal'
 
 export function MoreMenuButton() {
     const [showMenu, setShowMenu] = useState(false)
@@ -92,6 +92,29 @@ export function MoreMenuButton() {
         setShowMenu(false)
     }
 
+    const onServiceOffered = () => {
+        setModal(
+            <ServicesOfferedModal
+                open={true}
+                onOpenChange={(val) => !val && onCancelModal()}
+                industryId={industry!.id}
+                serviceOffered={industry!.serviceOffered}
+            />
+        )
+        setShowMenu(false)
+    }
+
+    const onWorkplaceType = () => {
+        setModal(
+            <WorkplaceTypeModal
+                open={true}
+                onOpenChange={(val) => !val && onCancelModal()}
+                industryUserId={industry!.user.id}
+            />
+        )
+        setShowMenu(false)
+    }
+
     const actions = {
         onEditPassword: () => {
             onUpdatePassword({ user: industry!.user })
@@ -117,6 +140,8 @@ export function MoreMenuButton() {
         onAddRpl: onAddRpl,
         onIndustryGallery: onIndustryGallery,
         onSendInfoMessage: onSendInfoMessage,
+        onServiceOffered: onServiceOffered,
+        onWorkplaceType: onWorkplaceType,
     }
 
     return (

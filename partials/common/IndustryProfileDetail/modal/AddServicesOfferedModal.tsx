@@ -1,4 +1,4 @@
-import { Button, Modal, Select, ShowErrorNotifications } from '@components'
+import { Modal, Select, ShowErrorNotifications } from '@components'
 import { useNotification } from '@hooks'
 import { AdminApi } from '@queries'
 import { MealTypes } from '@types'

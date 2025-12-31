@@ -48,8 +48,6 @@ export function SectorCard({ sector, sectorIndex }: SectorCardProps) {
         (state) => state.industry
     )
 
-    console.log({ industrySectorCapacity })
-
     const { data: initiatedESign } =
         RtoV2Api.Industries.getIndustryInitiatedESign(
             {

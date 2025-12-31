@@ -45,8 +45,6 @@ export function ChecklistItemCard({ item, index = 0 }: ChecklistItemCardProps) {
         }
     }
 
-    console.log({ item })
-
     if (!item?.isExist) {
         return (
             <div className="bg-white rounded-lg border border-[#E2E8F0] hover:shadow-lg transition-all overflow-hidden">

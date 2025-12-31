@@ -21,6 +21,7 @@ import {
 } from '@utils'
 
 import {
+    AddressFieldInput,
     Button,
     Card,
     Checkbox,
@@ -40,14 +41,14 @@ export const FutureIndustrySignUpForm = ({
     industryABN,
     onSubmit,
 }: // setActive,
-// courses,
-{
-    result?: any
-    industryABN?: string | null
-    onSubmit: any
-    // setActive: any
-    // courses?: Course[]
-}) => {
+    // courses,
+    {
+        result?: any
+        industryABN?: string | null
+        onSubmit: any
+        // setActive: any
+        // courses?: Course[]
+    }) => {
     const router = useRouter()
     const { notification } = useNotification()
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
@@ -61,7 +62,9 @@ export const FutureIndustrySignUpForm = ({
     const [courseValues, setCourseValues] = useState<SelectOption[]>([])
     // countries and states
     const [countryId, setCountryId] = useState(null)
-    const { data, isLoading } = CommonApi.Countries.useCountriesList()
+    const [onStateSelect, setOnStateSelect] = useState()
+
+    const country = CommonApi.Countries.useCountriesList()
     const { data: states, isLoading: statesLoading } =
         CommonApi.Countries.useCountryStatesList(countryId, {
             skip: !countryId,
@@ -161,7 +164,8 @@ export const FutureIndustrySignUpForm = ({
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
-        // state: yup.string().required('Must provide name of state'),
+        // region: yup.number().required('Must provide name of state'),
+        // country: yup.string().required('Must provide country'),
         // suburb: yup.string().required('Must provide suburb name'),
         zipCode: yup.string().required('Must provide zip code for your state'),
 
@@ -325,7 +329,7 @@ export const FutureIndustrySignUpForm = ({
             questions.push({
                 question:
                     industryQuestions[
-                        IndustryQuestionsEnum.SECTORS_BASE_CAPACITY
+                    IndustryQuestionsEnum.SECTORS_BASE_CAPACITY
                     ],
                 answer: sectorBaseCapacity,
             })
@@ -339,7 +343,8 @@ export const FutureIndustrySignUpForm = ({
         } else if (onSuburbClicked) {
             onSubmit({
                 ...values,
-                state: 'NA',
+                state: values.state,
+                country: values.country,
                 suburb: 'NA',
                 isAddressUpdated: true,
                 questions,
@@ -353,9 +358,9 @@ export const FutureIndustrySignUpForm = ({
                 className={
                     'group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark rounded-lg cursor-pointer'
                 }
-                // onClick={() => {
-                //     setActive((active: number) => active - 1)
-                // }}
+            // onClick={() => {
+            //     setActive((active: number) => active - 1)
+            // }}
             >
                 {/* <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
                 <span className="ml-2">{'Back To Previous'}</span> */}
@@ -428,8 +433,8 @@ export const FutureIndustrySignUpForm = ({
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
-                                          defaultValue: storedData.sectors,
-                                      }
+                                        defaultValue: storedData.sectors,
+                                    }
                                     : {})}
                                 value={selectedSector}
                                 name={'sectors'}
@@ -475,35 +480,62 @@ export const FutureIndustrySignUpForm = ({
                         {/* Address Information */}
 
                         <div>
-                            {/* <div className="grid grid-cols-2 gap-x-8">
+                            {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 mb-4">
                                 <Select
                                     name="country"
                                     label={'Country'}
-                                    options={data?.map((country: any) => ({
-                                        label: country.name,
-                                        value: country.id,
-                                    }))}
-                                    loading={isLoading}
+                                    options={
+                                        country?.data?.map((country: any) => ({
+                                            label: country.name,
+                                            value: country.id,
+                                        })) || []
+                                    }
+                                    loading={country.isLoading}
                                     onChange={(e: any) => {
-                                        setCountryId(e)
+                                        setCountryId(e?.value)
+                                        formMethods.setValue('country', e?.label)
                                     }}
-                                    onlyValue
+                                    value={country?.data?.find(
+                                        (c: OptionType) => c?.value === countryId
+                                    )}
+                                    validationIcons
+                                    required
                                 />
                                 <Select
-                                    name="states"
-                                    label={'States'}
+                                    name="region"
+                                    label={'State'}
                                     options={states?.map((state: any) => ({
                                         label: state.name,
                                         value: state.id,
                                     }))}
+                                    onlyValue
+                                    placeholder={'Select State...'}
+                                    onChange={(e: any) => {
+                                        formMethods.setValue('state', e?.label)
+                                        setOnStateSelect(e?.value)
+                                    }}
                                     loading={statesLoading}
                                     disabled={!countryId}
-                                    onlyValue
+                                    validationIcons
+                                    required
+                                    value={states?.find(
+                                        (state: OptionType) =>
+                                            state?.value === onStateSelect
+                                    )}
                                 />
                             </div> */}
                             <div className="grid grid-cols-4 gap-x-3">
                                 <div className="col-span-3">
-                                    <TextInput
+                                    <AddressFieldInput
+                                        placesSuggetions={{
+                                            placesSuggetions: onSuburbClicked,
+                                            setIsPlaceSelected: setOnSuburbClicked,
+                                        }}
+                                        onChange={() => {
+                                            setOnSuburbClicked(false)
+                                        }}
+                                    />
+                                    {/* <TextInput
                                         label={'Primary Address'}
                                         name={'addressLine1'}
                                         placeholder={'Your Primary Address...'}
@@ -541,7 +573,7 @@ export const FutureIndustrySignUpForm = ({
                                             setIsPlaceSelected:
                                                 setOnSuburbClicked,
                                         }}
-                                    />
+                                    /> */}
                                 </div>
                                 <TextInput
                                     label={'Zip Code'}

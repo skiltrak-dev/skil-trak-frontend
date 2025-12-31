@@ -26,7 +26,6 @@ export const UploadDocument = ({ folder }: { folder: Folder }) => {
     ) => {
         const file = event.target.files?.[0]
         if (file) {
-            console.log('Selected file:', file)
             const formData = new FormData()
             formData.append('file', file)
             const res: any = await uploadDocument({
@@ -41,7 +40,6 @@ export const UploadDocument = ({ folder }: { folder: Folder }) => {
                     description: 'Document Uploaded Successfully',
                 })
             }
-            console.log('Selected file:', file)
             // TODO: Call upload API with file
             // uploadDocument({ file, folderId: folder.id })
         }

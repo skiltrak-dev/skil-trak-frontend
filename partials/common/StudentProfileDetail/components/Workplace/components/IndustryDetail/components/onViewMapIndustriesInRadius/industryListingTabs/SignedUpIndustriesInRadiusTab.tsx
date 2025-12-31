@@ -1,4 +1,10 @@
-import { NoData, PageSize, Pagination, Typography, LoadingAnimation } from '@components'
+import {
+    NoData,
+    PageSize,
+    Pagination,
+    Typography,
+    LoadingAnimation,
+} from '@components'
 import { SubAdminApi } from '@queries'
 import React, { useState, useMemo, useEffect } from 'react'
 import { IndustryInRadiusListCard } from '../industriesListCards'
@@ -10,41 +16,45 @@ export const SignedUpIndustriesInRadiusTab = ({
 }: any) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(5)
-    const [completedPages, setCompletedPages] = useState<Set<number>>(new Set([1])) // Page 1 is always unlocked
+    const [completedPages, setCompletedPages] = useState<Set<number>>(
+        new Set([1])
+    ) // Page 1 is always unlocked
 
     // Current page data with server-side pagination
-    const workplaceCourseIndustries = SubAdminApi.Workplace.useWorkplaceCourseIndustries(
-        {
-            id: courseId,
-            wpId: workplaceId,
-            params: {
-                skip: itemPerPage * page - itemPerPage,
-                limit: itemPerPage,
+    const workplaceCourseIndustries =
+        SubAdminApi.Workplace.useWorkplaceCourseIndustries(
+            {
+                id: courseId,
+                wpId: workplaceId,
+                params: {
+                    skip: itemPerPage * page - itemPerPage,
+                    limit: itemPerPage,
+                },
             },
-        },
-        {
-            skip: !courseId && !workplaceId,
-            refetchOnMountOrArgChange: 30,
-        }
-    )
+            {
+                skip: !courseId && !workplaceId,
+                refetchOnMountOrArgChange: 30,
+            }
+        )
 
     // Check if current page's industries are all contacted
     useEffect(() => {
         if (workplaceCourseIndustries?.data?.data) {
-            const allContactedOnCurrentPage = workplaceCourseIndustries.data.data.every(
-                (ind: any) => ind?.studentIndustryContact?.length > 0
-            )
+            const allContactedOnCurrentPage =
+                workplaceCourseIndustries.data.data.every(
+                    (ind: any) => ind?.studentIndustryContact?.length > 0
+                )
 
             if (allContactedOnCurrentPage) {
                 // Mark current page as completed, which unlocks next page
-                setCompletedPages(prev => {
+                setCompletedPages((prev) => {
                     const updated = new Set(prev)
                     updated.add(page)
                     return updated
                 })
             } else {
                 // If not all contacted, remove this page from completed
-                setCompletedPages(prev => {
+                setCompletedPages((prev) => {
                     const updated = new Set(prev)
                     updated.delete(page)
                     return updated
@@ -60,14 +70,6 @@ export const SignedUpIndustriesInRadiusTab = ({
 
         // Current page is unlocked if previous page is completed
         const previousPageCompleted = completedPages.has(page - 1)
-
-        console.log('Lock Status:', {
-            page,
-            previousPage: page - 1,
-            previousPageCompleted,
-            completedPages: Array.from(completedPages),
-            isLocked: !previousPageCompleted
-        })
 
         return !previousPageCompleted
     }, [page, completedPages])
@@ -94,18 +96,30 @@ export const SignedUpIndustriesInRadiusTab = ({
                 <>
                     <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-x-2">
-                            <PageSize itemPerPage={itemPerPage} setItemPerPage={setItemPerPage} />
+                            <PageSize
+                                itemPerPage={itemPerPage}
+                                setItemPerPage={setItemPerPage}
+                            />
                             <div className="bg-gray-100 rounded-md p-2 flex items-center gap-1">
-                                <Typography variant="muted" color="text-gray-500">
+                                <Typography
+                                    variant="muted"
+                                    color="text-gray-500"
+                                >
                                     Records
                                 </Typography>
-                                <Typography variant="muted" color="text-gray-500">
-                                    {workplaceCourseIndustries?.data?.data?.length ?? 0}
+                                <Typography
+                                    variant="muted"
+                                    color="text-gray-500"
+                                >
+                                    {workplaceCourseIndustries?.data?.data
+                                        ?.length ?? 0}
                                 </Typography>
                             </div>
                         </div>
                         <Pagination
-                            pagination={workplaceCourseIndustries?.data?.pagination}
+                            pagination={
+                                workplaceCourseIndustries?.data?.pagination
+                            }
                             setPage={setPage}
                         />
                     </div>
@@ -114,7 +128,9 @@ export const SignedUpIndustriesInRadiusTab = ({
                         <React.Fragment key={item?.id}>
                             <IndustryInRadiusListCard
                                 item={item}
-                                onSelect={(selected: any) => setSelectedBox(selected)}
+                                onSelect={(selected: any) =>
+                                    setSelectedBox(selected)
+                                }
                                 isLocked={item.isLocked}
                             />
                             {item?.locations?.length > 0 &&
@@ -131,7 +147,9 @@ export const SignedUpIndustriesInRadiusTab = ({
                     ))}
                 </>
             ) : (
-                !workplaceCourseIndustries.isError && <NoData text="No Industry Found" />
+                !workplaceCourseIndustries.isError && (
+                    <NoData text="No Industry Found" />
+                )
             )}
         </div>
     )

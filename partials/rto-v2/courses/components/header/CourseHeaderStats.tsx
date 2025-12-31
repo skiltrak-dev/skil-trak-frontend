@@ -11,8 +11,6 @@ export const CourseHeaderStats = ({ course }: any) => {
             skip: !course?.id,
         })
 
-    console.log({ setupConfirmationPercentage })
-
     const getCompletionColor = (progress: number) => {
         if (progress >= 80) return 'text-success'
         if (progress >= 50) return 'text-warning'

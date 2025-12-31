@@ -17,7 +17,9 @@ export const FutureIndustriesInRadiusTab = ({
 }: any) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(5)
-    const [completedPages, setCompletedPages] = useState<Set<number>>(new Set([1])) // Page 1 is always unlocked
+    const [completedPages, setCompletedPages] = useState<Set<number>>(
+        new Set([1])
+    ) // Page 1 is always unlocked
 
     const router = useRouter()
 
@@ -41,20 +43,21 @@ export const FutureIndustriesInRadiusTab = ({
     // Check if current page's industries are all contacted
     useEffect(() => {
         if (workplaceCourseIndustries?.data?.data) {
-            const allContactedOnCurrentPage = workplaceCourseIndustries.data.data.every(
-                (ind: any) => ind?.studentIndustryContact?.length > 0
-            )
+            const allContactedOnCurrentPage =
+                workplaceCourseIndustries.data.data.every(
+                    (ind: any) => ind?.studentIndustryContact?.length > 0
+                )
 
             if (allContactedOnCurrentPage) {
                 // Mark current page as completed, which unlocks next page
-                setCompletedPages(prev => {
+                setCompletedPages((prev) => {
                     const updated = new Set(prev)
                     updated.add(page)
                     return updated
                 })
             } else {
                 // If not all contacted, remove this page from completed
-                setCompletedPages(prev => {
+                setCompletedPages((prev) => {
                     const updated = new Set(prev)
                     updated.delete(page)
                     return updated
@@ -70,14 +73,6 @@ export const FutureIndustriesInRadiusTab = ({
 
         // Current page is unlocked if previous page is completed
         const previousPageCompleted = completedPages.has(page - 1)
-
-        console.log('Lock Status:', {
-            page,
-            previousPage: page - 1,
-            previousPageCompleted,
-            completedPages: Array.from(completedPages),
-            isLocked: !previousPageCompleted
-        })
 
         return !previousPageCompleted
     }, [page, completedPages])
@@ -118,13 +113,16 @@ export const FutureIndustriesInRadiusTab = ({
                                     variant="muted"
                                     color="text-gray-500"
                                 >
-                                    {workplaceCourseIndustries?.data?.data?.length ?? 0}
+                                    {workplaceCourseIndustries?.data?.data
+                                        ?.length ?? 0}
                                 </Typography>
                             </div>
                         </div>
 
                         <Pagination
-                            pagination={workplaceCourseIndustries?.data?.pagination}
+                            pagination={
+                                workplaceCourseIndustries?.data?.pagination
+                            }
                             setPage={setPage}
                         />
                     </div>
@@ -135,7 +133,9 @@ export const FutureIndustriesInRadiusTab = ({
                         >
                             <FutureIndustryInRadiusListCard
                                 item={item}
-                                onSelect={(selected: any) => setSelectedBox(selected)}
+                                onSelect={(selected: any) =>
+                                    setSelectedBox(selected)
+                                }
                                 isLocked={item.isLocked}
                             />
                         </div>

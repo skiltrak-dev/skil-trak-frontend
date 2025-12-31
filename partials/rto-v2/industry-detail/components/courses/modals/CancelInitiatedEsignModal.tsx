@@ -31,8 +31,6 @@ export function CancelInitiatedEsignModal({
 }: CancelInitiatedEsignModalProps) {
     const { notification } = useNotification()
 
-    console.log({ esignData })
-
     const [cancelEsign, { isLoading, isSuccess }] =
         RtoV2Api.Industries.cancelIndustryInitiatedESign()
 

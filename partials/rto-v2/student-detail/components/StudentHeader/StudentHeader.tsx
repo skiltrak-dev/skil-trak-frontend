@@ -7,7 +7,6 @@ import { StudentTimeline } from './StudentTimeline'
 import { StudentSnoozeAlert } from './StudentSnoozeAlert'
 
 export const StudentHeader = ({ student }: { student: Student }) => {
-    console.log({ student })
     const studentContactInfo = [
         {
             id: 'email',

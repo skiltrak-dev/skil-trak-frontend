@@ -14,8 +14,6 @@ import {
 } from 'lucide-react'
 
 export const DocumentHeader = ({ count }: { count: any }) => {
-    console.log({ count })
-
     const statsData = [
         {
             id: 1,

@@ -125,10 +125,10 @@ export const SingleIndustryForm = ({ onSubmit }: SingleIndustryFormProps) => {
     const rtoCoursesOptions =
         rto.isSuccess && rto?.data?.courses && rto?.data?.courses?.length > 0
             ? rto?.data?.courses?.map((course: Course) => ({
-                  label: course?.title,
-                  value: course?.id,
-                  item: course,
-              }))
+                label: course?.title,
+                value: course?.id,
+                item: course,
+            }))
             : []
 
     return (
@@ -230,7 +230,7 @@ export const SingleIndustryForm = ({ onSubmit }: SingleIndustryFormProps) => {
                     <AddressFieldInput
                         placesSuggetions={{
                             placesSuggetions: true,
-                            setIsPlaceSelected: () => {},
+                            setIsPlaceSelected: () => { },
                         }}
                     />
 

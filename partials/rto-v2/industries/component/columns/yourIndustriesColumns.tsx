@@ -156,7 +156,6 @@ export const useYourIndustriesColumns = () => {
             accessorKey: 'workplaceType',
             header: () => <span>Workplace Type</span>,
             cell: ({ row }) => {
-                console.log({ row })
                 return row.original?.workplaceType?.name ? (
                     <Badge
                         text={row.original?.workplaceType?.name}
@@ -260,7 +259,8 @@ export const useYourIndustriesColumns = () => {
                 const hasWorkplaceType = !!industry?.workplaceType?.name
 
                 // Check if user is not blocked
-                const isNotBlocked = industry?.user?.status !== UserStatus.Blocked
+                const isNotBlocked =
+                    industry?.user?.status !== UserStatus.Blocked
 
                 // Check if industry is not snoozed
                 const isNotSnoozed = !industry?.isSnoozed
@@ -360,8 +360,8 @@ export const useYourIndustriesColumns = () => {
                                 Number(profileCompletion) >= 80
                                     ? 'success'
                                     : Number(profileCompletion) >= 50
-                                        ? 'primary'
-                                        : 'error'
+                                    ? 'primary'
+                                    : 'error'
                             }
                             value={Number(profileCompletion)}
                             max={100}

@@ -73,12 +73,6 @@ const CallManagementPage = () => {
                         : call
                 )
             )
-            // In a real application, this would send the ticket data to an API
-            console.log('Ticket created:', {
-                callId: ticketModalCall.id,
-                student: ticketModalCall.studentName,
-                ...ticketData,
-            })
         }
     }
 

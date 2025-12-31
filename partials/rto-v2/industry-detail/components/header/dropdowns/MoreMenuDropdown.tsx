@@ -11,6 +11,8 @@ import {
     MessageSquare,
     Send,
     Users,
+    Utensils,
+    Briefcase,
 } from 'lucide-react'
 
 interface MoreMenuDropdownProps {
@@ -26,6 +28,8 @@ interface MoreMenuDropdownProps {
         onAddRpl: () => void
         onIndustryGallery: () => void
         onSendInfoMessage: () => void
+        onServiceOffered: () => void
+        onWorkplaceType: () => void
     }
     role: string | undefined
     industry: Industry
@@ -130,6 +134,25 @@ export function MoreMenuDropdown({
             bg: 'bg-orange-500/10',
             groupHoverBg: 'group-hover:bg-orange-500/20',
             show: true,
+        },
+        {
+            label: 'Workplace Type',
+            icon: Briefcase,
+            action: actions.onWorkplaceType,
+            color: 'text-[#3B82F6]',
+            bg: 'bg-[#3B82F6]/10',
+            groupHoverBg: 'group-hover:bg-[#3B82F6]/20',
+            show: true,
+        },
+        {
+            label: 'Service Offered',
+            icon: Utensils,
+            action: actions.onServiceOffered,
+            color: 'text-[#10B981]',
+            bg: 'bg-[#10B981]/10',
+            groupHoverBg: 'group-hover:bg-[#10B981]/20',
+            show: true,
+            className: 'rounded-b-lg',
         },
     ]
 

@@ -28,8 +28,6 @@ export function SupervisorInfo({
         }
     )
 
-    console.log({ supervisors })
-
     const qualificationLevel = (level: any) =>
         SupervisorQualification?.find((l) => l?.value === level)?.label
 
@@ -39,8 +37,8 @@ export function SupervisorInfo({
             {supervisors.isLoading ? (
                 <SupervisorTabSkeleton />
             ) : supervisors?.data &&
-                supervisors?.data?.length > 0 &&
-                supervisors?.isSuccess ? (
+              supervisors?.data?.length > 0 &&
+              supervisors?.isSuccess ? (
                 <div className="space-y-[1.32rem]">
                     {supervisors?.data?.map((supervisor: any) => (
                         <Card

@@ -463,6 +463,8 @@ export interface IndustryBranchesAddressType extends BaseResponse {
     suburb: string
     studentCapacity: number
     enrolledStudents: number
+    country?: string
+    state?: string
 }
 
 export interface ContactPerson extends BaseResponse {

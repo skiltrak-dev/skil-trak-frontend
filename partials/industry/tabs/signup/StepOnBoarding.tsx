@@ -123,10 +123,12 @@ export const StepOnBoarding = () => {
                 key !== IndustryQuestionsEnum.TRAINING &&
                 key !== IndustryQuestionsEnum.APPLICATIONS
             ) {
-                questions.push({
-                    question: value,
-                    answer: data?.[key],
-                })
+                if (data?.[key]) {
+                    questions.push({
+                        question: value,
+                        answer: data?.[key],
+                    })
+                }
             }
         })
 
