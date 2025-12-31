@@ -6,7 +6,8 @@ import _debounce from 'lodash/debounce'
 import * as yup from 'yup'
 
 import { useContextBar, useNotification } from '@hooks'
-import { AuthApi, useAddCustomIndustryMutation } from '@queries'
+import { AuthApi, CommonApi, useAddCustomIndustryMutation } from '@queries'
+import { OptionType } from '@types'
 import {
     CourseSelectOption,
     formatOptionLabel,
@@ -45,6 +46,15 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
     const [storedData, setStoredData] = useState<any>(null)
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
+
+    const [countryId, setCountryId] = useState(null)
+    const [onStateSelect, setOnStateSelect] = useState()
+    const country = CommonApi.Countries.useCountriesList()
+
+    const { data: states, isLoading: statesLoading } =
+        CommonApi.Countries.useCountryStatesList(countryId, {
+            skip: !countryId,
+        })
 
     const onEmailChange = (e: any) => {
         _debounce(() => {
@@ -150,7 +160,7 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
-        state: yup.string().required('Must provide name of state'),
+        // region: yup.number().required('Must provide name of state'),
         suburb: yup.string().required('Must provide suburb name'),
         zipCode: yup.string().required('Must provide zip code for your state'),
 
@@ -289,8 +299,8 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         label={'Sector'}
                         {...(storedData
                             ? {
-                                  defaultValue: storedData.sectors,
-                              }
+                                defaultValue: storedData.sectors,
+                            }
                             : {})}
                         name={'sectors'}
                         options={sectorOptions}
@@ -355,12 +365,43 @@ export const AddCustomIndustryForm = ({ workplaceId }: any) => {
                         }}
                     />
 
-                    <TextInput
-                        label={'State'}
-                        name={'state'}
-                        placeholder={'State...'}
-                        validationIcons
-                    />
+                    {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <Select
+                            name="country"
+                            label={'Country'}
+                            options={
+                                country?.data?.map((country: any) => ({
+                                    label: country.name,
+                                    value: country.id,
+                                })) || []
+                            }
+                            loading={country.isLoading}
+                            onChange={(e: any) => {
+                                setCountryId(e?.value)
+                                methods.setValue('country', e?.label)
+                            }}
+                            value={country?.data?.find(
+                                (c: OptionType) => c?.value === countryId
+                            )}
+                            validationIcons
+                            required
+                        />
+                        <Select
+                            name="region"
+                            label={'State'}
+                            options={states?.map((state: any) => ({
+                                label: state.name,
+                                value: state.id,
+                            }))}
+                            placeholder={'Select State...'}
+
+                            loading={statesLoading}
+                            disabled={!countryId}
+                            validationIcons
+                            required
+                           
+                        />
+                    </div> */}
 
                     <TextInput
                         label={'Zip Code'}

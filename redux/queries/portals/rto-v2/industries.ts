@@ -56,6 +56,7 @@ export const industriesEndpoints = (
         {
             active: number
             pending: number
+            allIndustries: number
             partnerIndustries: number
             readyForPlacementIndustries: number
         },
@@ -71,7 +72,7 @@ export const industriesEndpoints = (
         query: (id) => ({
             url: `${INDUSTRIESPREFIX}${id}/get-details`,
         }),
-        providesTags: ['RTOIndustries'],
+        providesTags: ['RTOIndustries','Industry'],
     }),
 
     getRtoIndustryDataCount: builder.query<

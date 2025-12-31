@@ -27,7 +27,6 @@ export const TicketDetails = ({ ticket, onClose }: TicketDetailsProps) => {
             skip: !tickedId,
         }
     )
-    console.log('data', data)
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 animate-fade-in py-6">
             {isLoading ? (
@@ -44,7 +43,7 @@ export const TicketDetails = ({ ticket, onClose }: TicketDetailsProps) => {
                             <span className="text-sm">Back to Dashboard</span>
                         </button>
                     </div>
-                    
+
                     {/* Quick Actions Bar - Dropdown Style */}
                     <QuickActionsBar ticket={data} />
 

@@ -9,30 +9,31 @@ import { RtoV2Api } from '@redux'
 import React, { useState } from 'react'
 import { IndustryFilterBar } from '../component'
 import { useYourIndustriesColumns } from '../component/columns'
-import { Industry } from '@types'
+import { Industry, UserStatus } from '@types'
+
+import { removeEmptyValues } from '@utils'
 
 interface ArchivedIndustriesProps {
-    searchTerm: string
-    courseId: string
-    filterStatus: string
-    stateFilter: string
-    placementReady: string
+    baseFilter: any
 }
 
 export const ArchivedIndustries: React.FC<ArchivedIndustriesProps> = ({
-    searchTerm,
-    courseId,
-    filterStatus,
-    stateFilter,
-    placementReady,
+    baseFilter,
 }) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
+    const filter = {
+        status: UserStatus.Archived,
+        ...baseFilter,
+    }
+
     const industries = RtoV2Api.Industries.getAllIndustriesList({
-        search: `isArchived:${true}${searchTerm ? `,name:${searchTerm}` : ''}${courseId !== 'all' ? `,courseId:${courseId}` : ''
-            }${filterStatus !== 'all' ? `,status:${filterStatus}` : ''}${stateFilter !== 'all' ? `,state:${stateFilter}` : ''
-            }${placementReady !== 'all' ? `,placementReady:${placementReady}` : ''}`,
+        search: JSON.stringify(removeEmptyValues(filter))
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim(),
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -51,8 +52,8 @@ export const ArchivedIndustries: React.FC<ArchivedIndustriesProps> = ({
                 {industries?.isLoading || industries?.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : industries &&
-                    industries?.data?.data &&
-                    industries?.data?.data?.length ? (
+                  industries?.data?.data &&
+                  industries?.data?.data?.length ? (
                     <Table<Industry>
                         columns={columns}
                         data={industries?.data?.data}

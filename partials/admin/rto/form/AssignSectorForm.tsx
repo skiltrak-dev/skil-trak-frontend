@@ -42,8 +42,6 @@ export const AssignSectorForm = ({
     const [selectedCourses, setSelectedCourses] = useState<any>([])
     const [selectedHours, setSelectedHours] = useState<any>([])
 
-    console.log({ selectedCourses })
-
     const onSectorSelect = (options: any) => {
         const currentSelectedSectors = options.map(
             (opt: OptionType) => opt.value
@@ -112,9 +110,9 @@ export const AssignSectorForm = ({
                             sectors.isLoading
                                 ? []
                                 : removeAddedSectors()?.map((s) => ({
-                                    label: s.name,
-                                    value: s.id,
-                                }))
+                                      label: s.name,
+                                      value: s.id,
+                                  }))
                         }
                         onChange={(option: any) => onSectorSelect(option)}
                         loading={sectors.isLoading}
@@ -177,11 +175,11 @@ export const AssignSectorForm = ({
                                                 course?.map((c: any) =>
                                                     c?.value === s?.value
                                                         ? {
-                                                            ...c,
-                                                            hours: Number(
-                                                                e.target.value
-                                                            ),
-                                                        }
+                                                              ...c,
+                                                              hours: Number(
+                                                                  e.target.value
+                                                              ),
+                                                          }
                                                         : c
                                                 )
                                             )

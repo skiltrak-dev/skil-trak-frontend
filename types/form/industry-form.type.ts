@@ -15,6 +15,8 @@ export interface IndustryFormType {
     role: UserRoles
     suburb: string
     state: string
+    country: string
+    region: string
     isAddressUpdated: boolean
     agreedWithPrivacyPolicy: boolean
     // Add other fields as necessary

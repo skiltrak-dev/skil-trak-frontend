@@ -39,7 +39,6 @@ export function NewAppointmentModal({
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         // Handle form submission
-        console.log('New appointment:', formData)
         onClose()
     }
 

@@ -244,8 +244,6 @@ export const AppointmentBookingModal = ({
                 bookAppointment(payload)
             }
         }
-
-        console.log('payload', payload)
     }
 
     const selectedDay = availableDays.find((day) => day.date === selectedDate)

@@ -11,28 +11,29 @@ import { IndustryFilterBar } from '../component'
 import { useYourIndustriesColumns } from '../component/columns'
 import { Industry } from '@types'
 
+import { removeEmptyValues } from '@utils'
+
 interface NonPartnerIndustriesProps {
-    searchTerm: string
-    courseId: string
-    filterStatus: string
-    stateFilter: string
-    placementReady: string
+    baseFilter: any
 }
 
 export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
-    searchTerm,
-    courseId,
-    filterStatus,
-    stateFilter,
-    placementReady,
+    baseFilter,
 }) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
+    const filter = {
+        nonPartner: true,
+        ...baseFilter,
+    }
+
     const industries = RtoV2Api.Industries.getAllIndustriesList({
-        search: `nonPartner:${true}${searchTerm ? `,name:${searchTerm}` : ''}${courseId !== 'all' ? `,courseId:${courseId}` : ''
-            }${filterStatus !== 'all' ? `,status:${filterStatus}` : ''}${stateFilter !== 'all' ? `,state:${stateFilter}` : ''
-            }${placementReady !== 'all' ? `,placementReady:${placementReady}` : ''}`,
+        search: JSON.stringify(removeEmptyValues(filter))
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim(),
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

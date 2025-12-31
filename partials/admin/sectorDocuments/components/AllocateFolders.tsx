@@ -82,8 +82,6 @@ export const AllocateFolders = () => {
         setSelectedCourses,
     } = useSectorsAndCoursesOptions()
 
-    console.log({ selectedCourses })
-
     const defaultDocuments = AdminApi.DefaultDocuments.defaultDocuments({
         search: ``,
         skip: 0,
@@ -138,8 +136,6 @@ export const AllocateFolders = () => {
                 : [...prev, { id: folderId, isMandatory: true }]
         )
     }
-
-    console.log({ selectedFolders })
 
     const confirmSave = () => {
         setShowSaveDialog(true)

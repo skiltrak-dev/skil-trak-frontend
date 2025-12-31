@@ -26,7 +26,6 @@ export const TicketModal = ({ call, onClose }: TicketModalProps) => {
     })
 
     const handleSubmit = (data: any) => {
-        console.log('data::::', data)
         // e.preventDefault()
         onClose()
     }

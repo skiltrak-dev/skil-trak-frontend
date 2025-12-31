@@ -8,23 +8,18 @@ import { RtoV2Api } from '@redux'
 import { Badge } from '@components'
 
 interface SkiltrakNetworkProps {
-    searchTerm: string
-    courseId: string
-    filterStatus: string
-    stateFilter: string
+    baseFilter: any
 }
 
 export const SkiltrakNetwork: React.FC<SkiltrakNetworkProps> = ({
-    searchTerm,
-    courseId,
-    filterStatus,
-    stateFilter,
+    baseFilter,
 }) => {
     const [showCreditPurchaseDialog, setShowCreditPurchaseDialog] =
         useState(false)
 
     const { data: rtoCredits } = RtoV2Api.RtoCredits.getRtoCredits()
     const { data: wpStats } = RtoV2Api.Dashboard.autoWpCount()
+    const { data: counts } = RtoV2Api.Industries.getIndustriesCounts()
 
     // Defaulting to 50km for display purposes as props are removed
     const [sharedNetworkRadius, setSharedNetworkRadius] = useState<
@@ -61,8 +56,8 @@ export const SkiltrakNetwork: React.FC<SkiltrakNetworkProps> = ({
                         You can only see the number of available industries (
                         {sharedNetworkRadius === '50km'
                             ? wpStats?.automatic || '1,247'
-                            : '5,000+'}),
-                        not the detailed list. Each workplace request uses 1
+                            : '5,000+'}
+                        ), not the detailed list. Each workplace request uses 1
                         credit and returns the best matched option through our
                         19-point matching system.
                     </AlertDescription>
@@ -76,9 +71,7 @@ export const SkiltrakNetwork: React.FC<SkiltrakNetworkProps> = ({
                         <div className="p-5 text-center">
                             <Globe className="h-10 w-10 text-primaryNew mx-auto mb-2" />
                             <p className="text-2xl font-semibold mb-0.5">
-                                {sharedNetworkRadius === '50km'
-                                    ? wpStats?.automatic || '1,247'
-                                    : '5,000+'}
+                                {counts?.allIndustries}
                             </p>
                             <p className="text-sm text-muted-foreground">
                                 Available Industries
@@ -93,7 +86,10 @@ export const SkiltrakNetwork: React.FC<SkiltrakNetworkProps> = ({
                         <div className="p-5 text-center">
                             <Shield className="h-10 w-10 text-primaryNew mx-auto mb-2" />
                             <p className="text-2xl font-semibold mb-0.5">
-                                100%
+                                {((counts?.readyForPlacementIndustries! /
+                                    counts?.allIndustries!) *
+                                    100).toFixed(1)}
+                                %
                             </p>
                             <p className="text-sm text-muted-foreground">
                                 Verified & Compliant
@@ -107,7 +103,9 @@ export const SkiltrakNetwork: React.FC<SkiltrakNetworkProps> = ({
                     >
                         <div className="p-5 text-center">
                             <Target className="h-10 w-10 text-primaryNew mx-auto mb-2" />
-                            <p className="text-2xl font-semibold mb-0.5">19</p>
+                            <p className="text-2xl font-semibold mb-0.5">
+                                {counts?.readyForPlacementIndustries}
+                            </p>
                             <p className="text-sm text-muted-foreground">
                                 Matching Points
                             </p>
@@ -175,7 +173,11 @@ export const SkiltrakNetwork: React.FC<SkiltrakNetworkProps> = ({
                                 Need more credits?
                             </p>
 
-                            <Badge className="bg-white" Icon={Plus} text={`${rtoCredits?.token || 0} BALANCE`} />
+                            <Badge
+                                className="bg-white"
+                                Icon={Plus}
+                                text={`${rtoCredits?.token || 0} BALANCE`}
+                            />
                         </div>
                         <p className="text-xs text-muted-foreground">
                             Purchase additional workplace request credits

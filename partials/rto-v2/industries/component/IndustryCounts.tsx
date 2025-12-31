@@ -8,14 +8,6 @@ import React from 'react'
 export const IndustryCounts = () => {
     const { data: counts } = RtoV2Api.Industries.getIndustriesCounts()
 
-    const total = (counts?.active || 0) + (counts?.pending || 0)
-
-    // Helper to calculate percentage safely
-    const getPercent = (val: number, base: number) => {
-        if (!base) return 0
-        return Math.round((val / base) * 100)
-    }
-
     const config = [
         {
             label: 'Active Placement Industries',

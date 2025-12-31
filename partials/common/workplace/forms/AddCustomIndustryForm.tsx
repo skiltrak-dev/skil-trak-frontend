@@ -6,7 +6,7 @@ import * as yup from 'yup'
 import _debounce from 'lodash/debounce'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
-import { AuthApi } from '@queries'
+import { AuthApi, CommonApi } from '@queries'
 import { useNotification } from '@hooks'
 import {
     CourseSelectOption,
@@ -30,7 +30,7 @@ import {
     Typography,
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Course, ProvideIndustryDetail } from '@types'
+import { Course, OptionType, ProvideIndustryDetail } from '@types'
 import { WorkplaceProgress } from '@partials/student'
 
 export const AddCustomIndustryForm = ({
@@ -63,6 +63,15 @@ export const AddCustomIndustryForm = ({
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
 
     const [lastEnteredEmail, setLastEnteredEmail] = useState('')
+
+    const [countryId, setCountryId] = useState(null)
+    const [onStateSelect, setOnStateSelect] = useState()
+    const country = CommonApi.Countries.useCountriesList()
+
+    const { data: states, isLoading: statesLoading } =
+        CommonApi.Countries.useCountryStatesList(countryId, {
+            skip: !countryId,
+        })
 
     const onEmailChange = (e: any) => {
         _debounce(() => {
@@ -109,7 +118,8 @@ export const AddCustomIndustryForm = ({
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
-        // state: yup.string().required('Must provide name of state'),
+        // region: yup.number().required('Must provide name of state'),
+        // country: yup.string().required('Must provide country'),
         // suburb: yup.string().required('Must provide suburb name'),
         zipCode: yup.string().required('Must provide zip code for your state'),
 
@@ -157,8 +167,9 @@ export const AddCustomIndustryForm = ({
         } else if (onSuburbClicked) {
             onSubmit({
                 ...values,
-                state: 'NA',
+                state: values.state,
                 suburb: 'NA',
+                country: values.country,
                 isAddressUpdated: true,
             })
         }
@@ -280,6 +291,46 @@ export const AddCustomIndustryForm = ({
                             {/* Address Information */}
 
                             <div>
+                                {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 mb-4">
+                                    <Select
+                                        name="country"
+                                        label={'Country'}
+                                        options={
+                                            country?.data?.map((country: any) => ({
+                                                label: country.name,
+                                                value: country.id,
+                                            })) || []
+                                        }
+                                        loading={country.isLoading}
+                                        onChange={(e: any) => {
+                                            setCountryId(e?.value)
+                                            formMethods.setValue('country', e?.label)
+                                        }}
+                                        value={country?.data?.find(
+                                            (c: OptionType) => c?.value === countryId
+                                        )}
+                                        validationIcons
+                                        required
+                                    />
+                                    <Select
+                                        name="region"
+                                        label={'State'}
+                                        options={states?.map((state: any) => ({
+                                            label: state.name,
+                                            value: state.id,
+                                        }))}
+                                        placeholder={'Select State...'}
+
+                                        loading={statesLoading}
+                                        disabled={!countryId}
+                                        validationIcons
+                                        required
+                                        value={states?.find(
+                                            (state: OptionType) =>
+                                                state?.value === onStateSelect
+                                        )}
+                                    />
+                                </div> */}
                                 <div className="grid grid-cols-4 gap-x-8">
                                     <div className="col-span-3">
                                         <TextInput

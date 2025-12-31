@@ -15,7 +15,6 @@ export const AllocatedFolders = () => {
     const listAllFoldersForCourses =
         AdminApi.IndustryChecks.listAllFoldersForCourses()
 
-    console.log({ listAllFoldersForCourses })
     return (
         <div>
             {' '}

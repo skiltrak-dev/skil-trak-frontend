@@ -11,29 +11,29 @@ import React, { useState } from 'react'
 import { IndustryFilterBar } from '../component'
 import { useYourIndustriesColumns } from '../component/columns/yourIndustriesColumns'
 
+import { removeEmptyValues } from '@utils'
+
 interface PendingIndustriesTabProps {
-    searchTerm: string
-    courseId: string
-    filterStatus: string
-    stateFilter: string
-    placementReady: string
+    baseFilter: any
 }
 
 export const PendingIndustriesTab: React.FC<PendingIndustriesTabProps> = ({
-    searchTerm,
-    courseId,
-    filterStatus,
-    stateFilter,
-    placementReady,
+    baseFilter,
 }) => {
     const [page, setPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(50)
 
+    const filter = {
+        status: 'pending',
+        ...baseFilter,
+    }
+
     const industries = RtoV2Api.Industries.getAllIndustriesList({
-        search: `isInterested:${'pending'}${searchTerm ? `,name:${searchTerm}` : ''
-            }${courseId !== 'all' ? `,courseId:${courseId}` : ''}${filterStatus !== 'all' ? `,status:${filterStatus}` : ''
-            }${stateFilter !== 'all' ? `,state:${stateFilter}` : ''}${placementReady !== 'all' ? `,placementReady:${placementReady}` : ''
-            }`,
+        search: JSON.stringify(removeEmptyValues(filter))
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim(),
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
@@ -53,8 +53,8 @@ export const PendingIndustriesTab: React.FC<PendingIndustriesTabProps> = ({
                 {industries?.isLoading || industries?.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
                 ) : industries &&
-                    industries?.data?.data &&
-                    industries?.data?.data?.length ? (
+                  industries?.data?.data &&
+                  industries?.data?.data?.length ? (
                     <Table<Industry>
                         columns={columns as any}
                         data={industries?.data?.data}

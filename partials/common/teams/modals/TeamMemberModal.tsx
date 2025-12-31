@@ -126,7 +126,6 @@ export const TeamMemberModal = ({ addMemberOpen, setAddMemberOpen }: any) => {
     }
 
     const onSubmit = (data: TeamMemberFormValues) => {
-        console.log('Form Submitted:', data)
         methods.reset()
         setAddMemberOpen(false)
     }

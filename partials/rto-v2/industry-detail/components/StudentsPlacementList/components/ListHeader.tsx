@@ -18,15 +18,9 @@ export function ListHeader() {
                     Track student placement workflow progress
                 </p>
             </div>
-            <div className="w-60">
-                <Select
-                    name="student-filter"
-                    options={filterOptions}
-                    onChange={(value: any) =>
-                        console.log('Filter changed:', value)
-                    }
-                />
-            </div>
+            {/* <div className="w-60">
+                <Select name="student-filter" options={filterOptions} />
+            </div> */}
         </div>
     )
 }

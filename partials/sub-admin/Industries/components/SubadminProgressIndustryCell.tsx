@@ -11,14 +11,14 @@ export const SubadminProgressIndustryCell = ({
     return (
         <div className="flex flex-col gap-y-2">
             <IndustryCellInfo industry={industry} />
-            {Number(industry?.profileCompletionPercentage) ? (
+            {/* {Number(industry?.profileCompletionPercentage) ? (
                 <IndustryProgressBar
                     showPercentage
                     percentage={Number(industry?.profileCompletionPercentage)}
                     height={12}
                     missingAttributes={industry?.missingAttributes}
                 />
-            ) : null}
+            ) : null} */}
         </div>
     )
 }

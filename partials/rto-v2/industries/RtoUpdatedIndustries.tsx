@@ -1,7 +1,7 @@
 import { ConfigTabs, TabConfig } from '@components'
 import { Building2 } from 'lucide-react'
-import { useState } from 'react'
-import { useDebounce } from '@hooks'
+import { useCallback, useEffect, useState } from 'react'
+import { debounce } from 'lodash'
 import { IndustryCounts, IndustryFilterBar, IndustryHeader } from './component'
 import { AddIndustryModal } from './modals'
 import {
@@ -22,7 +22,19 @@ export const RtoUpdatedIndustries = () => {
         placementReady: 'all',
     })
 
-    const debouncedSearch = useDebounce(filters.searchTerm, 500)
+    const [debouncedSearch, setDebouncedSearch] = useState(filters.searchTerm)
+
+    const updateDebouncedSearch = useCallback(
+        debounce((value) => {
+            setDebouncedSearch(value)
+        }, 500),
+        []
+    )
+
+    useEffect(() => {
+        updateDebouncedSearch(filters.searchTerm)
+        return () => updateDebouncedSearch.cancel()
+    }, [filters.searchTerm, updateDebouncedSearch])
 
     const handleFilterChange = (name: string, value: any) => {
         setFilters((prev) => ({
@@ -31,9 +43,17 @@ export const RtoUpdatedIndustries = () => {
         }))
     }
 
-    const tabFilters = {
-        ...filters,
-        searchTerm: debouncedSearch,
+
+    const baseFilter = {
+        ...(debouncedSearch && { name: debouncedSearch }),
+        ...(filters.courseId !== 'all' && { courseId: filters.courseId }),
+        ...(filters.filterStatus !== 'all' && {
+            status: filters.filterStatus,
+        }),
+        ...(filters.stateFilter !== 'all' && { state: filters.stateFilter }),
+        ...(filters.placementReady !== 'all' && {
+            placementReady: filters.placementReady,
+        }),
     }
 
     const tabs: TabConfig[] = [
@@ -41,31 +61,31 @@ export const RtoUpdatedIndustries = () => {
             value: 'non-partner-industries',
             label: 'Non-Partner Industries',
             icon: Building2,
-            component: () => <NonPartnerIndustries {...tabFilters} />,
+            component: () => <NonPartnerIndustries baseFilter={baseFilter} />,
         },
         {
             value: 'partner-industries',
             label: 'Your Partner Industries',
             icon: Building2,
-            component: () => <YourPartnerIndustries {...tabFilters} />,
+            component: () => <YourPartnerIndustries baseFilter={baseFilter} />,
         },
-        {
-            value: 'pending-industries',
-            label: 'Pending Industries',
-            icon: Building2,
-            component: () => <PendingIndustriesTab {...tabFilters} />,
-        },
+        // {
+        //     value: 'pending-industries',
+        //     label: 'Pending Industries',
+        //     icon: Building2,
+        //     component: () => <PendingIndustriesTab baseFilter={baseFilter} />,
+        // },
         {
             value: 'skiltrak-network',
             label: 'Skiltrak Network',
             icon: Building2,
-            component: () => <SkiltrakNetwork {...tabFilters} />,
+            component: () => <SkiltrakNetwork baseFilter={baseFilter} />,
         },
         {
             value: 'archived-industries',
             label: 'Archived Industries',
             icon: Building2,
-            component: () => <ArchivedIndustries {...tabFilters} />,
+            component: () => <ArchivedIndustries baseFilter={baseFilter} />,
         },
     ]
 

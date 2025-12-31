@@ -43,16 +43,17 @@ export const AddBulkIndustries = ({ onClose }: { onClose: () => void }) => {
         useState<BulkImportResponse | null>(null)
 
     const onSubmit = async (values: any) => {
-        console.log(values)
         const response: any = await addBulkRtoIndustries(values)
         if (response?.data) {
             setImportResults(response.data)
             setShowResults(true)
             notification.success({
                 title: 'Bulk import completed',
-                description: `${response.data.created?.length || 0
-                    } industries created, ${response.data.ignored?.length || 0
-                    } ignored`,
+                description: `${
+                    response.data.created?.length || 0
+                } industries created, ${
+                    response.data.ignored?.length || 0
+                } ignored`,
             })
         }
         return

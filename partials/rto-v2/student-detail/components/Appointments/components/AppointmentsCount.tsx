@@ -14,8 +14,6 @@ export const AppointmentsCount = ({
         }
     )
 
-    console.log({ appointmentsCount })
-
     const appointmentStats = [
         {
             id: 'total',
@@ -65,10 +63,7 @@ export const AppointmentsCount = ({
     return (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {appointmentStats.map((card) => (
-                <CountCard
-                    key={card.id}
-                    card={card}
-                />
+                <CountCard key={card.id} card={card} />
             ))}
         </div>
     )

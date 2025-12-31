@@ -14,7 +14,6 @@ export const AllCallList = ({ setSelectedCall, handleCreateTicket }: any) => {
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
-    console.log('data::::::::', data)
 
     const handleMarkCompleted = (callId: string) => {
         setCalls((prevCalls) =>

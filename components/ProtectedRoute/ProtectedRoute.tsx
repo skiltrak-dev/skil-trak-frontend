@@ -103,5 +103,7 @@ export const ProtectedRoute = ({ children }: { children: ReactElement }) => {
         }
     }, [router, updatedRoute, role, subadmin])
 
+
+
     return authorized ? children : null
 }
