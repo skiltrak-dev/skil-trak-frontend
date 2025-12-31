@@ -2,6 +2,7 @@ import React from 'react'
 import { Industry } from '@types'
 import { RtoV2Api } from '@queries'
 import { Badge, Card } from '@components'
+import { Skeleton } from '@components/ui/skeleton'
 import { CheckCircle2, FileCheck } from 'lucide-react'
 
 export const HighlightedTasks = ({
@@ -68,7 +69,16 @@ export const HighlightedTasks = ({
                 </div>
             </div>
             <div className="space-y-4">
-                {highlightedTasks?.data && highlightedTasks?.isSuccess && (
+                {highlightedTasks?.isLoading ? (
+                    <div className="space-y-3">
+                        {[1, 2, 3, 4].map((i) => (
+                            <div key={i} className="flex items-center gap-3">
+                                <Skeleton className="h-4 w-4 rounded-full" />
+                                <Skeleton className="h-4 w-full max-w-[400px]" />
+                            </div>
+                        ))}
+                    </div>
+                ) : highlightedTasks?.data && highlightedTasks?.isSuccess && (
                     <div className="space-y-2.5">
                         {Array.isArray(highlightedTasks?.data) ? (
                             highlightedTasks?.data?.[0]?.map(

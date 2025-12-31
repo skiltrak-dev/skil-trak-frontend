@@ -17,6 +17,7 @@ import {
     PlacementRequestStatusAlert,
     QuickSummary,
 } from './components'
+import { PlacementApprovalSkeleton } from './skeletonLoader'
 
 export const PlacementApprovalDetail = () => {
     const [showDetails, setShowDetails] = useState(true)
@@ -35,9 +36,9 @@ export const PlacementApprovalDetail = () => {
         <>
             {approvalRequestDetail.isError && <TechnicalError />}
             {approvalRequestDetail.isLoading ? (
-                <LoadingAnimation />
+                <PlacementApprovalSkeleton />
             ) : approvalRequestDetail?.data &&
-              approvalRequestDetail?.isSuccess ? (
+                approvalRequestDetail?.isSuccess ? (
                 <TooltipProvider>
                     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 space-y-3">
                         {/* Header */}

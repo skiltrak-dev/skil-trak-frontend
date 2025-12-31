@@ -83,12 +83,12 @@ export function InterviewAvailability() {
                             slots:
                                 daySlots.length > 0
                                     ? daySlots.map((s) => ({
-                                          startTime: s.startTime.substring(
-                                              0,
-                                              5
-                                          ),
-                                          endTime: s.endTime.substring(0, 5),
-                                      }))
+                                        startTime: s.startTime.substring(
+                                            0,
+                                            5
+                                        ),
+                                        endTime: s.endTime.substring(0, 5),
+                                    }))
                                     : day.slots,
                         }
                     })
@@ -99,9 +99,9 @@ export function InterviewAvailability() {
                     slots:
                         slots && slots.length > 0
                             ? slots.map((s: any) => ({
-                                  startTime: s.startTime.substring(0, 5),
-                                  endTime: s.endTime.substring(0, 5),
-                              }))
+                                startTime: s.startTime.substring(0, 5),
+                                endTime: s.endTime.substring(0, 5),
+                            }))
                             : prev.slots,
                 }))
             }
@@ -157,6 +157,7 @@ export function InterviewAvailability() {
                 payload = {
                     type: 'monthly',
                     dates: monthlyData.dates,
+                    slots: monthlyData.slots,
                     userId: industryDetail?.user?.id,
                 }
             }

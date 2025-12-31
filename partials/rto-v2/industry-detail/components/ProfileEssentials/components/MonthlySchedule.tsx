@@ -22,19 +22,6 @@ const timeSlotPresets: OptionType[] = [
 ]
 
 export function MonthlySchedule({ data, onChange }: MonthlyScheduleProps) {
-    const handleTimeChange = (
-        field: 'startTime' | 'endTime',
-        value: string
-    ) => {
-        // Always operate on the first slot or create default
-        const currentSlot = data.slots[0] || {
-            startTime: '09:00',
-            endTime: '12:00',
-        }
-        const newSlot = { ...currentSlot, [field]: value }
-        onChange({ ...data, slots: [newSlot] })
-    }
-
     const detectPreset = (start: string, end: string): string => {
         if (start === '09:00' && end === '12:00') return 'morning'
         if (start === '13:00' && end === '17:00') return 'afternoon'
@@ -92,9 +79,9 @@ export function MonthlySchedule({ data, onChange }: MonthlyScheduleProps) {
     )
 
     return (
-        <div className="space-y-3.5 animate-in fade-in duration-500">
+        <div className="space-y-2.5 animate-in fade-in duration-500">
             {/* Calendar Section */}
-            <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm">
+            <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
                 <style>{`
                     .react-calendar__tile--active-custom {
                         background: #044866 !important;
@@ -106,8 +93,8 @@ export function MonthlySchedule({ data, onChange }: MonthlyScheduleProps) {
                         background: #03364d !important;
                     }
                 `}</style>
-                <h4 className="text-xs font-semibold text-slate-700 uppercase tracking-wider mb-4 flex items-center gap-2">
-                    <CalendarIcon className="w-4 h-4 text-[#044866]" />
+                <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <CalendarIcon className="w-3.5 h-3.5 text-[#044866]" />
                     Select Interview Dates
                 </h4>
                 <div className="flex justify-center">
@@ -149,6 +136,36 @@ export function MonthlySchedule({ data, onChange }: MonthlyScheduleProps) {
                         ) : (
                             <span className="italic">No dates selected</span>
                         )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Time Slot Section */}
+            <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm relative group">
+                <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2 relative z-10">
+                    <Clock className="w-3.5 h-3.5 text-[#044866]" />
+                    Select Interview Time Slots
+                </h4>
+
+                <div className="space-y-3 relative z-10">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                        <div className="w-full sm:w-2/3 min-w-[240px]">
+                            <Select
+                                name="time-preset"
+                                options={timeSlotPresets}
+                                value={currentPreset}
+                                onChange={(opt: any) =>
+                                    handlePresetChange(opt.value)
+                                }
+                                className="w-full text-xs"
+                                showError={false}
+                            />
+                        </div>
+
+                        <div className="flex-1 flex justify-center sm:justify-end items-center px-3 py-1.5 bg-[#044866]/5 rounded border border-[#044866]/10 text-[#044866] font-bold text-xs animate-in zoom-in-95 fade-in duration-300 shadow-sm">
+                            <Clock className="w-3.5 h-3.5 mr-2 opacity-60" />
+                            {currentSlot.startTime} - {currentSlot.endTime}
+                        </div>
                     </div>
                 </div>
             </div>
