@@ -3,22 +3,25 @@ import { approvalRequestEndpoints } from './approval-request'
 import { availableServicesEndpoints } from './availableServices'
 import { coursesEndPoints } from './courses'
 import { dashboardEndpoints } from './dashboard'
+import { industriesEndpoints } from './industries'
 import { placementRequestsEndPoints } from './placementRequests'
+import { rtoIndustryCreditsEndpoints } from './rto-credits'
 import { studentDocumentsEndpoints } from './student-documents'
 import { studentsEndpoints } from './students'
 import { studentsWorkplaceEndpoints } from './students-workplace'
-import { industriesEndpoints } from './industries'
 export const rtoV2Api = apiSlice.injectEndpoints({
     endpoints: (build) => ({
         ...coursesEndPoints(build),
         ...studentsEndpoints(build),
         ...dashboardEndpoints(build),
+        ...industriesEndpoints(build),
         ...approvalRequestEndpoints(build),
         ...studentDocumentsEndpoints(build),
         ...placementRequestsEndPoints(build),
         ...availableServicesEndpoints(build),
         ...studentsWorkplaceEndpoints(build),
         ...industriesEndpoints(build),
+        ...rtoIndustryCreditsEndpoints(build),
     }),
     // overrideExisting: true,
 })
@@ -98,9 +101,38 @@ const {
     useGetStudentDocumentsCountQuery,
     useUploadStudentDocumentFileMutation,
 
-    // -------------------- Industries ------------------------------- //
+   
+    // ---- Industries ---- //
+    useGetRtoIndustriesQuery,
+    useSnoozeIndustryByIdMutation,
+    useIndustryCoursesDetailsQuery,
+    useGetRtoIndustryDetailQuery,
+    useIndustryStudentsListQuery,
+    useGetAllIndustriesListQuery,
+    useIndustryStudentStatsQuery,
+    useGetIndustriesCountsQuery,
     useCreateAvailabilityMutation,
+    useAddSingleRtoIndustryMutation,
+    useIndustryRtoChecklistListQuery,
+    useAddBulkRtoIndustriesMutation,
     useGetIndustryAvailabilityV2Query,
+    useGetIndustryInitiatedESignQuery,
+    useCancelIndustryInitiatedESignMutation,
+    useIndustryUserStatusChangeMutation,
+    useGetIndutryAvailableWorkingHoursQuery,
+    useStatusChangeCourseFacilityChecklistMutation,
+    useUploadCourseFacilityChecklistMutation,
+    useUpdateInterestedTypeMutation,
+    useGetRtoIndustryDataCountQuery,
+    useUpdateIndustryBioMutation,
+    useIndustryInfoMessageMutation,
+    useGetIndustryInfoMessagesQuery,
+
+    // ---- RTO Credits ---- //
+    useGetRtoCreditsQuery,
+    useChangeRtoNetworkMutation,
+    useCreateIndustryCreditMutation,
+    useConfirmRtoWorkplacePaymentMutation,
 } = rtoV2Api
 
 export const RtoV2Api = {
@@ -162,8 +194,7 @@ export const RtoV2Api = {
         addIndividualStudent: useAddSingleStudentWithPlacementTypeMutation,
         runAutomationForAvailabeleStudents:
             useRunAutomationForAvailabeleStudentsMutation,
-        useBookAppointmentExternally:
-            useBookAppointmentExternallyMutation,
+        useBookAppointmentExternally: useBookAppointmentExternallyMutation,
     },
     StudentsWorkplace: {
         getStudentWorkplaceList: useGetStudentWorkplaceListQuery,
@@ -190,6 +221,35 @@ export const RtoV2Api = {
     },
     Industries: {
         createAvailability: useCreateAvailabilityMutation,
+        getRtoIndustries: useGetRtoIndustriesQuery,
+        snoozeIndustry: useSnoozeIndustryByIdMutation,
+        getIndustriesCounts: useGetIndustriesCountsQuery,
+        industryStudentsList: useIndustryStudentsListQuery,
+        getAllIndustriesList: useGetAllIndustriesListQuery,
+        getRtoIndustryDetail: useGetRtoIndustryDetailQuery,
+        industryStudentStats: useIndustryStudentStatsQuery,
+        addSingleRtoIndustry: useAddSingleRtoIndustryMutation,
+        addBulkRtoIndustries: useAddBulkRtoIndustriesMutation,
+        industryCoursesDetails: useIndustryCoursesDetailsQuery,
+        industryRtoChecklistList: useIndustryRtoChecklistListQuery,
         useIndustryAvailabilityV2: useGetIndustryAvailabilityV2Query,
+        industryUserStatusChange: useIndustryUserStatusChangeMutation,
+        getIndustryInitiatedESign: useGetIndustryInitiatedESignQuery,
+        cancelIndustryInitiatedESign: useCancelIndustryInitiatedESignMutation,
+        useGetIndutryAvailableHours: useGetIndutryAvailableWorkingHoursQuery,
+        statusChangeCourseFacilityChecklist:
+            useStatusChangeCourseFacilityChecklistMutation,
+        uploadCourseFacilityChecklist: useUploadCourseFacilityChecklistMutation,
+        updateInterestedType: useUpdateInterestedTypeMutation,
+        getRtoIndustryDataCount: useGetRtoIndustryDataCountQuery,
+        updateIndustryBio: useUpdateIndustryBioMutation,
+        industryInfoMessage: useIndustryInfoMessageMutation,
+        getIndustryInfoMessages: useGetIndustryInfoMessagesQuery,
+    },
+    RtoCredits: {
+        getRtoCredits: useGetRtoCreditsQuery,
+        changeRtoNetwork: useChangeRtoNetworkMutation,
+        confirmPayment: useConfirmRtoWorkplacePaymentMutation,
+        createIndustryCredit: useCreateIndustryCreditMutation,
     },
 }

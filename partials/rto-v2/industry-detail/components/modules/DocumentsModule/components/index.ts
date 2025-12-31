@@ -1,0 +1,6 @@
+export * from './SectorTabs'
+export * from './DocumentCard'
+export * from './DocumentsStats'
+export * from './DocumentsFooter'
+export * from './InsuranceSection'
+export * from './DocumentsModuleHeader'

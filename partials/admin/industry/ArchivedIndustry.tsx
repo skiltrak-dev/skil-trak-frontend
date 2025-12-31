@@ -62,10 +62,10 @@ export const ArchivedIndustry = () => {
             Icon: FaEye,
         },
         {
-            text: 'Old Profile',
-            onClick: (industry) =>
+            text: 'View Old Profile',
+            onClick: (industry: any) =>
                 router.push(
-                    `/portals/admin/industry/${industry?.id}/detail?tab=students`
+                    `/portals/admin/industry/${industry?.id}/old-detail`
                 ),
             Icon: FaEye,
         },
@@ -79,10 +79,10 @@ export const ArchivedIndustry = () => {
         {
             ...(role === UserRoles.ADMIN
                 ? {
-                    text: 'View Password',
-                    onClick: (industry: Industry) => onViewPassword(industry),
-                    Icon: RiLockPasswordFill,
-                }
+                      text: 'View Password',
+                      onClick: (industry: Industry) => onViewPassword(industry),
+                      Icon: RiLockPasswordFill,
+                  }
                 : {}),
         },
         {

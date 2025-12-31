@@ -3,9 +3,9 @@ import {
     Card,
     EmptyData,
     InitialAvatar,
-    LoadingAnimation,
     TechnicalError,
 } from '@components'
+import { SupervisorTabSkeleton } from '../skeletonLoader'
 import { SupervisorQualification } from '@partials/common'
 import { RtoV2Api } from '@queries'
 import { RtoApprovalWorkplaceRequest } from '@types'
@@ -37,10 +37,10 @@ export function SupervisorInfo({
         <>
             {supervisors.isError && <TechnicalError />}
             {supervisors.isLoading ? (
-                <LoadingAnimation height="h-[60vh]" />
+                <SupervisorTabSkeleton />
             ) : supervisors?.data &&
-              supervisors?.data?.length > 0 &&
-              supervisors?.isSuccess ? (
+                supervisors?.data?.length > 0 &&
+                supervisors?.isSuccess ? (
                 <div className="space-y-[1.32rem]">
                     {supervisors?.data?.map((supervisor: any) => (
                         <Card

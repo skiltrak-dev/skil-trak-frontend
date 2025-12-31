@@ -1,17 +1,16 @@
 import { useState, useEffect, useMemo } from 'react'
 import { AssessmentCourseType, Course, Sector, Student } from '@types'
 import { useStudentAssessmentCoursesQuery, SubAdminApi } from '@queries'
-import { useDispatch } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '@redux/hooks'
 import { setSelectedCourse } from '@redux'
-import { useSelector } from 'react-redux'
 
 export const useCourseSelection = () => {
     const [selectedSector, setSelectedSector] = useState<number | null>(null)
-    const { selectedCourse, studentDetail } = useSelector(
-        (state: any) => state?.student
+    const { selectedCourse, studentDetail } = useAppSelector(
+        (state) => state.student
     )
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const studentCourses = useStudentAssessmentCoursesQuery(
         Number(studentDetail?.id),
@@ -22,7 +21,7 @@ export const useCourseSelection = () => {
     )
 
     const studentWorkplace = SubAdminApi.Student.getWorkplaceForSchedule(
-        studentDetail?.id,
+        Number(studentDetail?.id),
         {
             skip: !studentDetail,
         }

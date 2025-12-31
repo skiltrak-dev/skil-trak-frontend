@@ -86,11 +86,12 @@ export const PendingIndustries = () => {
                 Icon: FaEye,
             },
             {
-                text: 'Old Profile',
+                text: 'View Old Profile',
                 onClick: (industry: Industry) => {
                     router.push(
-                        `/portals/sub-admin/users/industries/${industry.id}/detail`
+                        `/portals/sub-admin/users/industries/${industry.id}/old-detail`
                     )
+                    setLink('subadmin-industries', router)
                 },
                 Icon: FaEye,
             },

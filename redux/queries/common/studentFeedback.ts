@@ -81,7 +81,10 @@ export const studentFeedbackEndpoints = (
     }),
 
     // industry feedback from student
-    getOverAllIndustryRatingsFromStudent: builder.query<any, any>({
+    getOverAllIndustryRatingsFromStudent: builder.query<
+        { averageRating: number; totalFeedbacks: string },
+        { id: number }
+    >({
         query: ({ id }) => ({
             url: `rating/for-industry/${id}/over-all`,
         }),

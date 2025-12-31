@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { industrySlice, studentSlice, rtoSlice } from './slice'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import studentReducer from './slice/student.slice'
+import { studentReducer, industryReducer, rtoReducer } from './reducer'
 import {
     apiSlice,
     authApi,
@@ -13,6 +14,8 @@ export const store = configureStore({
     reducer: {
         // Add the generated reducer as a specific top-level slice
         student: studentReducer,
+        industry: industryReducer,
+        rto: rtoReducer,
         [authApi.reducerPath]: authApi.reducer,
         [apiSlice.reducerPath]: industryApi.reducer,
         [stripeApi.reducerPath]: stripeApi.reducer,
@@ -24,6 +27,7 @@ export const store = configureStore({
         getDefaultMiddleware().concat([
             authApi.middleware,
             apiSlice.middleware,
+            stripeApi.middleware,
             refreshTokenApi.middleware,
         ]),
 })
@@ -31,3 +35,22 @@ export const store = configureStore({
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
 // see `setupListeners` docs - takes an optional callback as the 2nd arg for customization
 setupListeners(store.dispatch)
+
+// Infer the types from the store
+export type AppDispatch = typeof store.dispatch
+
+// Explicitly define RootState for proper autocomplete
+// Using the slice's getInitialState return type for better type inference
+type StudentState = ReturnType<typeof studentSlice.getInitialState>
+type IndustryState = ReturnType<typeof industrySlice.getInitialState>
+type RtoState = ReturnType<typeof rtoSlice.getInitialState>
+export interface RootState {
+    student: StudentState
+    industry: IndustryState
+    rto: RtoState
+    // RTK Query API slices (these are added dynamically)
+    [authApi.reducerPath]: ReturnType<typeof authApi.reducer>
+    [apiSlice.reducerPath]: ReturnType<typeof apiSlice.reducer>
+    [stripeApi.reducerPath]: ReturnType<typeof stripeApi.reducer>
+    [refreshTokenApi.reducerPath]: ReturnType<typeof refreshTokenApi.reducer>
+}

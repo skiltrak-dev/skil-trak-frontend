@@ -21,11 +21,15 @@ import { Badge, Button } from '@components'
 import { Progressbar } from '@partials/rto-v2/components'
 import { useState } from 'react'
 
+import { ScheduleTabSkeleton } from '../skeletonLoader'
+
 interface ScheduleProps {
     selectedCourseId: string
+    isLoading?: boolean
 }
 
-export function Schedule({ selectedCourseId }: ScheduleProps) {
+export function Schedule({ selectedCourseId, isLoading }: ScheduleProps) {
+    if (isLoading) return <ScheduleTabSkeleton />
     const [showCreateSchedule, setShowCreateSchedule] = useState(false)
     const [scheduleType, setScheduleType] = useState<'fixed' | 'flexible'>(
         'fixed'
@@ -464,11 +468,10 @@ export function Schedule({ selectedCourseId }: ScheduleProps) {
                                     <XCircle className="w-4 h-4 text-red-600 flex-shrink-0" />
                                 )}
                                 <span
-                                    className={`text-xs ${
-                                        check.passed
+                                    className={`text-xs ${check.passed
                                             ? 'text-slate-700'
                                             : 'text-red-700'
-                                    }`}
+                                        }`}
                                 >
                                     {check.label}
                                     {!check.required && (
@@ -838,23 +841,23 @@ export function Schedule({ selectedCourseId }: ScheduleProps) {
                                         ></Badge>
                                         {config.studentStatus
                                             .geolocationEnabled && (
-                                            <>
-                                                {shift.checkedIn && (
-                                                    <Badge
-                                                        Icon={Navigation}
-                                                        text={'Checked In'}
-                                                        className="bg-blue-100 text-blue-700 border-blue-200 text-xs"
-                                                    ></Badge>
-                                                )}
-                                                {shift.checkedOut && (
-                                                    <Badge
-                                                        Icon={Navigation}
-                                                        text={'Checked Out'}
-                                                        className="bg-purple-100 text-purple-700 border-purple-200 text-xs"
-                                                    ></Badge>
-                                                )}
-                                            </>
-                                        )}
+                                                <>
+                                                    {shift.checkedIn && (
+                                                        <Badge
+                                                            Icon={Navigation}
+                                                            text={'Checked In'}
+                                                            className="bg-blue-100 text-blue-700 border-blue-200 text-xs"
+                                                        ></Badge>
+                                                    )}
+                                                    {shift.checkedOut && (
+                                                        <Badge
+                                                            Icon={Navigation}
+                                                            text={'Checked Out'}
+                                                            className="bg-purple-100 text-purple-700 border-purple-200 text-xs"
+                                                        ></Badge>
+                                                    )}
+                                                </>
+                                            )}
                                         {!shift.tasksCompleted &&
                                             shift.checkedOut && (
                                                 <Badge

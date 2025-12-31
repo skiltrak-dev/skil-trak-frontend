@@ -1,4 +1,5 @@
-import { Badge, Card, LoadingAnimation, NoData } from '@components'
+import { Badge, Card, NoData } from '@components'
+import { ProgramsTabSkeleton } from '../skeletonLoader'
 import { RtoV2Api } from '@queries'
 import { RtoApprovalWorkplaceRequest } from '@types'
 import {
@@ -63,12 +64,12 @@ export function ProgramsInfo({
                     </div>
                     <div>
                         <h3 className="text-indigo-900 mb-1.5">
-                            Stream (Blocks) Verified & Supported
+                            Streams Verified & Supported
                         </h3>
                         <p className="text-[12.3px] text-indigo-800 leading-relaxed">
-                            qualification Stream (Blocks) confirmed with
-                            verified capacity and unit support through
-                            SkilTrak's internal verification process.
+                            qualification Streams confirmed with verified
+                            capacity and unit support through SkilTrak's
+                            internal verification process.
                         </p>
                     </div>
                 </div>
@@ -78,10 +79,10 @@ export function ProgramsInfo({
                 <NoData simple isError text="There is some technical error!" />
             )}
             {getWpPrograms.isLoading ? (
-                <LoadingAnimation size={62} />
+                <ProgramsTabSkeleton />
             ) : getWpPrograms?.isSuccess &&
-              getWpPrograms?.data &&
-              getWpPrograms?.data?.length ? (
+                getWpPrograms?.data &&
+                getWpPrograms?.data?.length ? (
                 <Card className="border-[1.76px] border-slate-100 hover:shadow-md hover:border-[#044866]/20 transition-all space-y-1.5">
                     <div className="bg-gradient-to-r from-[#044866]/5 to-transparent p-[10.5px]">
                         <div className="flex items-center gap-[10.5px]">
@@ -100,7 +101,7 @@ export function ProgramsInfo({
                         {/* Units of Competency */}
                         <div className="flex items-center gap-1.5">
                             <BookOpen className="w-[14px] h-[14px] text-[#0D5468]" />
-                            <h4 className="text-slate-900">Stream (Blocks)</h4>
+                            <h4 className="text-slate-900">Streams</h4>
                         </div>
                         <div className="space-y-1.5">
                             {getWpPrograms?.data?.map((getWpProgram) => (
@@ -173,13 +174,13 @@ export function ProgramsInfo({
                 </Card>
             ) : (
                 getWpPrograms.isSuccess && (
-                    <NoData simple text="No Stream (Blocks) was found!" />
+                    <NoData simple text="No Streams was found!" />
                 )
             )}
 
             <Card className="bg-blue-50 border-[1.76px] border-blue-200">
                 <p className="text-[12.3px] text-blue-900 leading-relaxed">
-                    This Stream (Blocks) information is drawn from SkilTrak's
+                    This Streams information is drawn from SkilTrak's
                     discussions with the employer and internal verification
                     process. It supports your assessment of whether the site can
                     effectively support your learners in line with their

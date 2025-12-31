@@ -23,7 +23,7 @@ export const ImportStudentsListFormWithOTP = ({
     const [studentList, setStudentList] = useState<any>([])
 
     const [checkMails, checkMailsResult] =
-        AdminApi.Rtos.useRtoStudentAccountCheck()
+        AdminApi.Rtos.useUserExistingEmailCheck()
 
     const onStudentFound = (students: any, file: any, emailExists: any) => {
         setStudentList(students)

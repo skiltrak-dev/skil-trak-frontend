@@ -94,22 +94,6 @@ export const IndustryBranchesAddress = ({
         )
     }
 
-    const tableActionOptions: TableActionOption<any>[] = [
-        {
-            text: 'Edit',
-            onClick: (branch: any) => {
-                onEditBranch(branch)
-            },
-            Icon: FaEye,
-        },
-        {
-            text: 'Delete',
-            onClick: (branch: IndustryBranchesAddressType) =>
-                onRemoveBranch(branch),
-            Icon: MdDelete,
-        },
-    ]
-
     const onClickShowIndustryList = () => {
         setShowIndustryList(!showIndustryList)
     }

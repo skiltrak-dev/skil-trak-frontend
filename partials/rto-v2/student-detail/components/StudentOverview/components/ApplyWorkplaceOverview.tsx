@@ -1,28 +1,19 @@
 import { Button } from '@components'
+import { useAppSelector } from '@redux/hooks'
 import {
     ArrowRight,
     Briefcase,
     Building2,
     CheckCircle,
-    HelpCircle,
     Search,
     Sparkles,
     Target,
-    User,
 } from 'lucide-react'
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
 
 export function ApplyWorkplaceOverview() {
-    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
-
-    const { selectedCourse: course } = useSelector(
-        (state: any) => state?.student
-    )
+    const { selectedCourse: course } = useAppSelector((state) => state.student)
 
     if (!course) return null
-
-    const workplace = course.workplaceBio
 
     const pathwayOptions = [
         {

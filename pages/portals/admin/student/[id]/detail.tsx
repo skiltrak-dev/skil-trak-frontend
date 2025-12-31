@@ -2,18 +2,18 @@ import { ReactElement } from 'react'
 
 //Layouts
 import { AdminLayout } from '@layouts'
-import { StudentProfileDetail } from '@partials/common'
+import { RtoStudentDetail } from '@partials'
 import { NextPageWithLayout } from '@types'
 
 const StudentsProfileDetail: NextPageWithLayout = () => {
     return (
         <div>
-            <StudentProfileDetail />
+            <RtoStudentDetail />
         </div>
     )
 }
 StudentsProfileDetail.getLayout = (page: ReactElement) => {
-    return <AdminLayout >{page}</AdminLayout>
+    return <AdminLayout>{page}</AdminLayout>
 }
 
 export default StudentsProfileDetail

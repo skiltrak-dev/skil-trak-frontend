@@ -14,13 +14,12 @@ import { isBrowser } from '@utils'
 import {
     FileText,
     Loader2,
-    MessageCircle,
     Send,
     Sparkles,
-    Ticket,
+    Ticket
 } from 'lucide-react'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useRef, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 interface AIQuestionPanelProps {
     student: Student
@@ -46,18 +45,13 @@ export function AIQuestionPanel({ student }: AIQuestionPanelProps) {
     const [question, setQuestion] = useState('')
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [messages, setMessages] = useState<Message[]>([])
-    const messagesEndRef = useRef<HTMLDivElement>(null)
-    const chatContainerRef = useRef<HTMLDivElement>(null)
+
     const [resetKey, setResetKey] = useState(0)
 
     const router = useRouter()
 
     const [aiAssisstant, aiAssisstantResult] =
         CommonApi.AiAssistant.askAiAboutStudent()
-
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-    }
 
     const onHandleScroll = (i: string) => {
         if (isBrowser()) {

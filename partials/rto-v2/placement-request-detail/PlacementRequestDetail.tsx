@@ -59,7 +59,7 @@ export const PlacementRequestDetail = () => {
             skip: !wpId,
         })
     const industryAvailability = RtoV2Api.Industries.useIndustryAvailabilityV2(
-        router.query.id,
+        Number(router.query.id),
         { skip: !router.query.id }
     )
     const [currentStatus, setCurrentStatus] =

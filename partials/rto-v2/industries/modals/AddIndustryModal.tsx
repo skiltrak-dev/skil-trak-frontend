@@ -1,17 +1,26 @@
-import { useState } from 'react'
 import { Building2, Plus, Sparkles } from 'lucide-react'
-import { GlobalModal, Typography } from '@components'
-import { MdCancel } from 'react-icons/md'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
-import { SingleIndustryForm } from '@partials/rto-v2/industries/forms/SingleIndustryForm'
-import { BulkIndustryImportForm } from '@partials/rto-v2/industries/forms/BulkIndustryImportForm'
+import { GlobalModal, Typography, ConfigTabs } from '@components'
+import { AddBulkIndustries, AddSingleIndustry } from '../component'
 
 interface AddIndustryModalProps {
     onClose: () => void
 }
 
 export const AddIndustryModal = ({ onClose }: AddIndustryModalProps) => {
-    const [activeTab, setActiveTab] = useState<'single' | 'bulk'>('single')
+    const tabs = [
+        {
+            value: 'single',
+            label: 'Single Partner',
+            icon: Sparkles,
+            component: AddSingleIndustry,
+        },
+        {
+            value: 'bulk',
+            label: 'Bulk Import',
+            icon: Plus,
+            component: AddBulkIndustries,
+        },
+    ]
 
     return (
         <GlobalModal
@@ -33,45 +42,15 @@ export const AddIndustryModal = ({ onClose }: AddIndustryModalProps) => {
                         </Typography>
                     </div>
                 </div>
-                <MdCancel
-                    onClick={onClose}
-                    className="transition-all duration-500 text-gray-400 hover:text-black text-3xl cursor-pointer hover:rotate-90"
-                />
             </div>
 
             <div className="p-4">
-                <Tabs
-                    value={activeTab}
-                    onValueChange={(value) =>
-                        setActiveTab(value as 'single' | 'bulk')
-                    }
-                    className="flex flex-col gap-4"
-                >
-                    <TabsList className="bg-muted/60 border border-border/60 rounded-xl p-1 inline-flex w-full sm:w-auto">
-                        <TabsTrigger
-                            value="single"
-                            className="data-[state=active]:bg-background data-[state=active]:text-primaryNew data-[state=active]:shadow-sm px-4 py-2 gap-2"
-                        >
-                            <Sparkles className="h-4 w-4 text-primaryNew" />
-                            <span>Single Partner</span>
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="bulk"
-                            className="data-[state=active]:bg-background data-[state=active]:text-primaryNew data-[state=active]:shadow-sm px-4 py-2 gap-2"
-                        >
-                            <Plus className="h-4 w-4 text-primaryNew" />
-                            <span>Bulk Import</span>
-                        </TabsTrigger>
-                    </TabsList>
-
-                    <TabsContent value="single">
-                        <SingleIndustryForm onClose={onClose} />
-                    </TabsContent>
-
-                    <TabsContent value="bulk">
-                        <BulkIndustryImportForm onClose={onClose} />
-                    </TabsContent>
-                </Tabs>
+                <ConfigTabs
+                    tabs={tabs}
+                    props={{ onClose }}
+                    tabsTriggerClasses="!py-1.5 !rounded-md"
+                    tabsClasses="!p-1 !rounded-md"
+                />
             </div>
         </GlobalModal>
     )

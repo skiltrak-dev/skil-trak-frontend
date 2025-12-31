@@ -43,7 +43,7 @@ export const PublishedBlogs = () => {
     })
     const blogsCategories = AdminApi.Blogs.categoriesList({
         skip: 0,
-        limit: 99999,
+        limit: 100,
     })
 
     const categoriesOptions = blogsCategories?.data?.data?.map(

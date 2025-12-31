@@ -9,8 +9,8 @@ const Book = () => {
     const router = useRouter()
     const id = router?.query?.id
     const { data, isLoading, isError } =
-        RtoV2Api.Industries.useIndustryAvailabilityV2(id, { skip: !id })
-    console.log('data:::::', data)
+        RtoV2Api.Industries.useIndustryAvailabilityV2(Number(id), { skip: !id })
+
     const [bookAppointment, resultBookAppointment] =
         RtoV2Api.Students.useBookAppointmentExternally()
     return (

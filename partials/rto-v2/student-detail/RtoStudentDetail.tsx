@@ -32,6 +32,12 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { AllWorkplaces } from './components/AllWorkplaces/AllWorkplaces'
+import {
+    StudentTopBarSkeleton,
+    StudentProfileHeaderSkeleton,
+    StudentOverviewSkeleton,
+} from './skeletonLoader'
+import { Skeleton } from '@components/ui/skeleton'
 
 export const RtoStudentDetail = () => {
     const router = useRouter()
@@ -129,7 +135,20 @@ export const RtoStudentDetail = () => {
             {profile?.isError ? <TechnicalError /> : null}
 
             {profile?.isLoading ? (
-                <LoadingAnimation />
+                <div className="bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40 min-h-screen">
+                    <StudentTopBarSkeleton />
+                    <main className="w-full mx-auto px-[13.25px] sm:px-[19.87px] lg:px-[26.5px] py-[19.87px] space-y-6">
+                        <StudentProfileHeaderSkeleton />
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
+                            <div className="flex gap-4 border-b border-slate-50 pb-4 mb-6">
+                                {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+                                    <Skeleton key={i} className="h-10 w-32 rounded-lg" />
+                                ))}
+                            </div>
+                            <StudentOverviewSkeleton />
+                        </div>
+                    </main>
+                </div>
             ) : profile?.data && profile?.isSuccess ? (
                 <div className="bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
                     {/* Header */}

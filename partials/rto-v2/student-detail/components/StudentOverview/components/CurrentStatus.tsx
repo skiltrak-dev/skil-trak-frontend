@@ -124,12 +124,12 @@ export function CurrentStatus({
                                         )}
 
                                         {/* Expected Date for Current */}
-                                        {status.current && !status.date && (
+                                        {/* {status.current && !status.date && (
                                             <p className="text-xs text-amber-600 mt-0.5 flex items-center gap-1.5">
                                                 <Clock className="w-3 h-3" />
                                                 Expected: Dec 10, 2025
                                             </p>
-                                        )}
+                                        )} */}
                                     </div>
 
                                     {/* Current Badge */}

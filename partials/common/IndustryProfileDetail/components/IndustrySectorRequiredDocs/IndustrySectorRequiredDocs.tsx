@@ -10,8 +10,8 @@ export const IndustrySectorRequiredDocs = ({
 }: {
     industry: Industry
 }) => {
-    const [selectedSector, setSelectedSector] = useState<number | null>(null)
     const [isViewd, setIsViewd] = useState<boolean>(false)
+    const [selectedSector, setSelectedSector] = useState<number | null>(null)
 
     const { data, isLoading } = IndustryApi.Courses.useGetIndustrySectorsQuery(
         Number(industry?.user?.id),

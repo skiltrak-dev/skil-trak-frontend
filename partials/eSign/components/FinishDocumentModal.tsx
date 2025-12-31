@@ -21,6 +21,8 @@ export const FinishDocumentModal = ({
 }) => {
     const isMobile = useMediaQuery(MediaQueries.Tablet)
 
+    console.log({ customFieldsData })
+
     return (
         <div
             id={'finishSign'}

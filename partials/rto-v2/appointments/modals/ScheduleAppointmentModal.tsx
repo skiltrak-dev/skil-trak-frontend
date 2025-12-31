@@ -34,6 +34,7 @@ export const ScheduleAppointmentModal = ({
     const [selectedUser, setSelectedUser] = useState<any>(
         defaultSelectedUser || null
     )
+    console.log({ selectedUser: selectedUser?.id })
     const [selectedCourse, setSelectedCourse] = useState<any>(null)
 
     const { notification } = useNotification()
@@ -55,6 +56,9 @@ export const ScheduleAppointmentModal = ({
             skip: !selectedUser?.id,
         }
     )
+
+    console.log({ searchedUserCourses: searchedUserCourses?.data })
+
     useEffect(() => {
         if (createAppointmentResult.isSuccess) {
             notification.success({
@@ -120,6 +124,9 @@ export const ScheduleAppointmentModal = ({
                                         <Select
                                             name="participants"
                                             value={participantType}
+                                            disabled={
+                                                defaultSelectedParicipantType
+                                            }
                                             options={[
                                                 {
                                                     label: 'Student',
@@ -177,36 +184,20 @@ export const ScheduleAppointmentModal = ({
                                     />
                                 </div>
 
-                                {!selectedUser?.id ? (
+                                {selectedUser ? (
                                     <>
-                                        {participantType && (
-                                            <div className="space-y-2 col-span-2">
-                                                <div className="border rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
-                                                    <RtoAppointmentSearchCard
-                                                        role={participantType}
-                                                        setSelectedUser={
-                                                            setSelectedUser
-                                                        }
-                                                        selectedUser={
-                                                            selectedUser
-                                                        }
-                                                    />
-                                                </div>
+                                        {!defaultSelectedParicipantType && (
+                                            <div className="flex justify-end col-span-2 pt-4 border-t">
+                                                <button
+                                                    onClick={() =>
+                                                        setSelectedUser(null)
+                                                    }
+                                                    className="text-[10px] text-white bg-primaryNew px-1 py-0.5 rounded cursor-pointer"
+                                                >
+                                                    Search
+                                                </button>
                                             </div>
                                         )}
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="flex justify-end col-span-2 pt-4 border-t">
-                                            <button
-                                                onClick={() =>
-                                                    setSelectedUser(null)
-                                                }
-                                                className="text-[10px] text-white bg-primaryNew px-1 py-0.5 rounded cursor-pointer"
-                                            >
-                                                Search
-                                            </button>
-                                        </div>
                                         <div className="border border-blue-500 rounded-lg bg-blue-50 col-span-2 p-2">
                                             <div className="flex flex-col">
                                                 <p className="text-sm font-medium text-gray-800">
@@ -236,6 +227,24 @@ export const ScheduleAppointmentModal = ({
                                                     )
                                                 )}
                                         </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        {participantType && (
+                                            <div className="space-y-2 col-span-2">
+                                                <div className="border rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
+                                                    <RtoAppointmentSearchCard
+                                                        role={participantType}
+                                                        setSelectedUser={
+                                                            setSelectedUser
+                                                        }
+                                                        selectedUser={
+                                                            selectedUser
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
                                     </>
                                 )}
 

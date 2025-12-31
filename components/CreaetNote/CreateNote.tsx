@@ -218,7 +218,7 @@ export const CreateNote = ({
                 <Card>
                     <FormProvider {...methods}>
                         <form
-                            className="mt-2 w-full"
+                            className="w-full"
                             onSubmit={methods.handleSubmit(onSubmit)}
                         >
                             <div>
@@ -280,19 +280,20 @@ export const CreateNote = ({
                                     </div>
                                 </ClickAwayListener>
 
-                                <Select
+                                {/* <Select
                                     name={'templates'}
                                     options={templates}
                                     onChange={(e: OptionType) => {
                                         setTemplate(e?.value)
                                     }}
-                                />
+                                /> */}
 
                                 <div className="mt-2 mb-4">
                                     <Checkbox
                                         name={'isPinned'}
                                         label={'Pinned'}
                                         disabled={isBodyGreaterThen30}
+                                        showError={false}
                                     />
                                 </div>
 

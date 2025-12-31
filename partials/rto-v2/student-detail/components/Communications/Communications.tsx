@@ -89,7 +89,10 @@ const callHistory = [
     },
 ]
 
+import { CommunicationsSkeleton } from '../../skeletonLoader'
+
 export function Communications({ student }: { student: Student }) {
+    if (!student) return <CommunicationsSkeleton />
     return (
         <div className="space-y-6 ">
             {/* Quick Actions Bar */}

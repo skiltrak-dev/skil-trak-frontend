@@ -10,6 +10,8 @@ import { Building2 } from 'lucide-react'
 import { WorkplaceCard } from './cards'
 import { WorkplaceCounts } from './components'
 
+import { WorkplaceTabSkeleton } from '../../skeletonLoader'
+
 export function AllWorkplaces({ studentId }: { studentId: number }) {
     const workplaces = RtoV2Api.StudentsWorkplace.getStudentWorkplaceList(
         studentId,
@@ -22,12 +24,11 @@ export function AllWorkplaces({ studentId }: { studentId: number }) {
     return (
         <>
             {workplaces?.isError ? <TechnicalError /> : null}
-
             {workplaces?.isLoading ? (
-                <LoadingAnimation />
+                <WorkplaceTabSkeleton />
             ) : workplaces?.data &&
-              workplaces?.data?.length > 0 &&
-              workplaces?.isSuccess ? (
+                workplaces?.data?.length > 0 &&
+                workplaces?.isSuccess ? (
                 <div className="space-y-5">
                     {/* Header */}
                     <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 shadow-xl p-5">

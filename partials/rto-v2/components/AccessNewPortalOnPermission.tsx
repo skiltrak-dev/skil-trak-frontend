@@ -1,6 +1,8 @@
-import { LoadingAnimation, PageNotFound } from '@components'
+import { PageNotFound } from '@components'
 import { RtoApi } from '@queries'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
+import { setRtoDetail, useAppDispatch } from '@redux'
+import { RtoLayoutSkeleton } from '../skeletonLoader'
 
 export const AccessNewPortalOnPermission = ({
     children,
@@ -8,19 +10,15 @@ export const AccessNewPortalOnPermission = ({
     children: ReactNode
 }) => {
     const rto = RtoApi.Rto.useProfile()
+    const dispatch = useAppDispatch()
 
-    // useEffect(() => {
-    //     if (rto?.isSuccess && !rto?.data?.canAccessNewPortal) {
-    //         router.push('/portals/rto')
-    //     }
-    // }, [rto])
+    useEffect(() => {
+        if (rto?.isSuccess && rto?.data) {
+            dispatch(setRtoDetail(rto.data))
+        }
+    }, [rto?.isSuccess, rto?.data, dispatch])
 
-    if (rto?.isLoading)
-        return (
-            <div>
-                <LoadingAnimation />
-            </div>
-        )
+    if (rto?.isLoading) return <RtoLayoutSkeleton />
 
     return (
         <div>

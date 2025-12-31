@@ -4,12 +4,14 @@ import { useMemo, useState } from 'react'
 import { CourseOverview } from '../StudentOverview'
 import { DocumentFilter, DocumentHeader } from './components'
 import { FolderSection } from './components/FolderSection'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@redux/hooks'
 import { LoadingAnimation, NoData } from '@components'
 
 interface DocumentsProps {
     student: Student
 }
+
+import { StudentDocumentsTabSkeleton } from '../../skeletonLoader'
 
 export function StudentAssessmentDocuments({ student }: DocumentsProps) {
     const [searchQuery, setSearchQuery] = useState('')
@@ -18,8 +20,8 @@ export function StudentAssessmentDocuments({ student }: DocumentsProps) {
         'all' | 'industry' | 'course'
     >('all')
 
-    const selectedCourse = useSelector(
-        (state: any) => state?.student?.selectedCourse
+    const selectedCourse = useAppSelector(
+        (state) => state.student.selectedCourse
     )
 
     const count = RtoV2Api.StudentDocuments.getStudentDocumentsCount({
@@ -100,9 +102,7 @@ export function StudentAssessmentDocuments({ student }: DocumentsProps) {
                 <NoData text={'There is some technical issue!'} isError />
             )}
             {documents.isLoading || documents.isFetching ? (
-                <div className="min-h-[inherit] flex justify-center items-center">
-                    <LoadingAnimation />
-                </div>
+                <StudentDocumentsTabSkeleton />
             ) : (
                 documents?.isSuccess &&
                 sections.map((section) => {

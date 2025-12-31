@@ -1,12 +1,12 @@
-import { StudentProfileNotes } from '@partials/common/Notes'
-import { ProfileIds } from '../types'
-import { Workplace } from './Workplace'
-import { AssessmentSubmissions } from './AssessmentsSubmission'
-import { MailsCommunication } from './MailsCommunication'
 import { UserRoles } from '@constants'
 import { ProfileAppointments } from '@partials/common/ProfileAppointments'
-import { Tickets } from './Tickets'
+import { ProfileIds } from '../types'
+import { AssessmentSubmissions } from './AssessmentsSubmission'
+import { MailsCommunication } from './MailsCommunication'
 import { Schedule } from './Schedule'
+import { Tickets } from './Tickets'
+import { Workplace } from './Workplace'
+import { StudentProfileNotes } from '@partials/common/Notes'
 
 export const WorkplaceNotesSection: React.FC<any> = ({
     profile,
