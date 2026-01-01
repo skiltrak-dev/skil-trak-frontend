@@ -36,6 +36,9 @@ import {
     AgreementModal,
     AppointmentBookingModal,
 } from '@partials/rto-v2/placement-request-detail/modal'
+import { WPProcessMatchingLoader } from '@partials/common/StudentProfileDetail/components/Workplace/components/IndustryDetail/components/WPProcessMatchingLoader'
+import { useWorkplace } from '@hooks'
+import { useWorkplaceHook } from '@partials/common/StudentProfileDetail/components/Workplace/hooks'
 
 export const PremiumCurrentActionsCard = ({
     isCancelled,
@@ -58,6 +61,7 @@ export const PremiumCurrentActionsCard = ({
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [showAppointmentDialog, setShowAppointmentDialog] = useState(false)
     const [showAgreementDialog, setShowAgreementDialog] = useState(false)
+    const { autoApplyLoader } = useWorkplaceHook()
     const onCancelClicked = () => setModal(null)
     // const [refresh, refreshResult] = SubAdminApi.Student.rerunAutomation()
 
@@ -262,30 +266,37 @@ export const PremiumCurrentActionsCard = ({
                         animate={{ opacity: 1, y: 0 }}
                         className="space-y-3"
                     >
-                        <div className="relative overflow-hidden p-4 bg-gradient-to-br from-blue-50 to-cyan-50 border border-[#044866]/20 rounded-xl">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#044866]/5 rounded-full -mr-16 -mt-16" />
-                            <div className="relative flex items-start gap-3">
-                                <div className="p-2 bg-white rounded-lg shadow-sm">
-                                    <FileText className="h-5 w-5 text-[#044866]" />
+                        {/* useWorkplaceHook() */}
+                        {autoApplyLoader ? (
+                            <WPProcessMatchingLoader />
+                        ) : (
+                            <>
+                                <div className="relative overflow-hidden p-4 bg-gradient-to-br from-blue-50 to-cyan-50 border border-[#044866]/20 rounded-xl">
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#044866]/5 rounded-full -mr-16 -mt-16" />
+                                    <div className="relative flex items-start gap-3">
+                                        <div className="p-2 bg-white rounded-lg shadow-sm">
+                                            <FileText className="h-5 w-5 text-[#044866]" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="text-[#044866] font-medium">
+                                                Workplace Request Created
+                                            </p>
+                                            <p className="text-[#0D5468] text-sm mt-1">
+                                                Choose how to find a suitable
+                                                industry placement.
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="flex-1">
-                                    <p className="text-[#044866] font-medium">
-                                        Workplace Request Created
-                                    </p>
-                                    <p className="text-[#0D5468] text-sm mt-1">
-                                        Choose how to find a suitable industry
-                                        placement.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <Button
-                            className="w-full bg-gradient-to-r from-[#044866] via-[#0D5468] to-[#044866] hover:from-[#0D5468] hover:via-[#044866] hover:to-[#0D5468] text-white shadow-xl shadow-[#044866]/30 h-12 font-semibold transition-all duration-500 hover:shadow-2xl hover:shadow-[#044866]/40 hover:-translate-y-0.5"
-                            onClick={onReRunAutomation}
-                        >
-                            <Sparkles className="mr-2 h-5 w-5 animate-pulse" />{' '}
-                            Re-Run Automation
-                        </Button>
+                                <Button
+                                    className="w-full bg-gradient-to-r from-[#044866] via-[#0D5468] to-[#044866] hover:from-[#0D5468] hover:via-[#044866] hover:to-[#0D5468] text-white shadow-xl shadow-[#044866]/30 h-12 font-semibold transition-all duration-500 hover:shadow-2xl hover:shadow-[#044866]/40 hover:-translate-y-0.5"
+                                    onClick={onReRunAutomation}
+                                >
+                                    <Sparkles className="mr-2 h-5 w-5 animate-pulse" />{' '}
+                                    Re-Run Automation
+                                </Button>
+                            </>
+                        )}
                     </motion.div>
                 )
 
@@ -469,7 +480,7 @@ export const PremiumCurrentActionsCard = ({
                         </div>
                         {!appointmentDate ? (
                             <>
-                                <Button
+                                {/* <Button
                                     className="w-full bg-gradient-to-r from-[#0D5468] to-[#044866] hover:from-[#044866] hover:to-[#0D5468] text-white shadow-lg shadow-[#0D5468]/20 h-11"
                                     onClick={() =>
                                         setShowAppointmentDialog(true)
@@ -478,7 +489,7 @@ export const PremiumCurrentActionsCard = ({
                                     <Calendar className="mr-2 h-4 w-4" /> Book
                                     Appointment
                                 </Button>
-                                {/* <AppointmentBookingModal
+                                <AppointmentBookingModal
                                     isOpen={showAppointmentDialog}
                                     onClose={setShowAppointmentDialog}
                                 /> */}

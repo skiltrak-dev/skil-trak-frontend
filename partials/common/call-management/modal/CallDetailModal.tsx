@@ -23,7 +23,7 @@ interface CallDetailModalProps {
 
 export function CallDetailModal({ call, onClose }: CallDetailModalProps) {
     const [activeForm, setActiveForm] = useState<'find' | 'own' | null>(null)
-
+    console.log('call', call)
     return (
         <div className="fixed inset-0 z-50 overflow-y-auto">
             {/* Backdrop */}
@@ -60,19 +60,21 @@ export function CallDetailModal({ call, onClose }: CallDetailModalProps) {
                             <div className="flex items-center gap-3 mb-3">
                                 <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#044866] to-[#0D5468] flex items-center justify-center flex-shrink-0">
                                     <span className="text-white">
-                                        {call.studentName
-                                            .split(' ')
-                                            .map((n: any) => n[0])
-                                            .join('')}
+                                        {(call?.student?.name &&
+                                            call?.student?.name
+                                                .split(' ')
+                                                .map((n: any) => n[0])
+                                                .join('')) ??
+                                            'NA'}
                                     </span>
                                 </div>
                                 <div>
                                     <h3 className="text-gray-900 mb-0.5">
-                                        {call.studentName}
+                                        {call?.student?.user?.name ?? '---'}
                                     </h3>
                                     <div className="flex items-center gap-2 text-gray-600 text-sm">
                                         <Phone className="w-3.5 h-3.5" />
-                                        {call.phoneNumber}
+                                        {call?.student?.phone ?? '---'}
                                     </div>
                                 </div>
                             </div>
@@ -86,22 +88,24 @@ export function CallDetailModal({ call, onClose }: CallDetailModalProps) {
                                         Call Status (Set by Agent)
                                     </p>
                                     <StatusBadge
-                                        status={call.status}
+                                        status={call?.status ?? 'pending'}
                                         size="lg"
                                     />
                                 </div>
                                 {call.priority && (
                                     <div
                                         className={`px-2.5 py-1 rounded-full text-xs ${
-                                            call.priority === 'high'
+                                            call?.priority === 'high'
                                                 ? 'bg-red-100 text-red-700'
                                                 : call.priority === 'medium'
                                                 ? 'bg-yellow-100 text-yellow-700'
                                                 : 'bg-green-100 text-green-700'
                                         }`}
                                     >
-                                        {call.priority.charAt(0).toUpperCase() +
-                                            call.priority.slice(1)}{' '}
+                                        {call?.priority
+                                            ?.charAt(0)
+                                            .toUpperCase() +
+                                            call?.priority?.slice(1)}{' '}
                                         Priority
                                     </div>
                                 )}
@@ -116,7 +120,7 @@ export function CallDetailModal({ call, onClose }: CallDetailModalProps) {
                                     <span className="text-xs">Date</span>
                                 </div>
                                 <p className="text-sm text-gray-900">
-                                    {formatDate(call.date)}
+                                    {formatDate(call?.createdAt)}
                                 </p>
                             </div>
 
@@ -128,7 +132,8 @@ export function CallDetailModal({ call, onClose }: CallDetailModalProps) {
                                     </span>
                                 </div>
                                 <p className="text-sm text-gray-900">
-                                    {formatTime(call.date)} ({call.duration})
+                                    {formatTime(call?.createdAt)} (
+                                    {call?.callDuration ?? '---'})
                                 </p>
                             </div>
 
@@ -138,7 +143,7 @@ export function CallDetailModal({ call, onClose }: CallDetailModalProps) {
                                     <span className="text-xs">Agent</span>
                                 </div>
                                 <p className="text-sm text-gray-900">
-                                    {call.agentName}
+                                    {call?.agentName ?? 'AI'}
                                 </p>
                             </div>
 
@@ -148,13 +153,14 @@ export function CallDetailModal({ call, onClose }: CallDetailModalProps) {
                                     <span className="text-xs">Industry</span>
                                 </div>
                                 <p className="text-sm text-gray-900">
-                                    {call.industry || 'Not specified'}
+                                    {call?.industry?.user?.name ||
+                                        'Not specified'}
                                 </p>
                             </div>
                         </div>
 
                         {/* Placement Company */}
-                        {call.placementCompany && (
+                        {call?.placementCompany && (
                             <div className="bg-[#E6F2F7] rounded-lg p-2.5 border border-[#B3D9E8]">
                                 <div className="flex items-center gap-2 text-[#044866] mb-0.5">
                                     <Building2 className="w-3 h-3" />
@@ -163,13 +169,13 @@ export function CallDetailModal({ call, onClose }: CallDetailModalProps) {
                                     </span>
                                 </div>
                                 <p className="text-sm text-[#044866]">
-                                    {call.placementCompany}
+                                    {call?.placementCompany}
                                 </p>
                             </div>
                         )}
 
                         {/* Call Recording */}
-                        {call.recordingUrl && (
+                        {call?.recordingUrl && (
                             <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg p-3 border border-purple-200">
                                 <div className="flex items-start justify-between gap-3">
                                     <div className="flex-1">

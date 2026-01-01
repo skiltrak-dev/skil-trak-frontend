@@ -16,6 +16,7 @@ export const EnhancedPlacementProgramCard = ({
         RtoV2Api.PlacementRequests.useStudentPlacementCoursePrograms(wpId, {
             skip: !wpId,
         })
+    console.log('data:::::', data)
     return (
         <Card noPadding className="border-0 shadow-xl overflow-hidden">
             <div className="bg-gradient-to-r from-[#0D5468] to-[#044866] px-5 py-4">
@@ -27,7 +28,7 @@ export const EnhancedPlacementProgramCard = ({
                         </h3>
                     </div>
                     <Badge
-                        text={`${selectedRequirements.length} / ${placementRequirements.length}`}
+                        text={`${data?.hours ?? '---'}`}
                         className="bg-white/20 text-white border-0"
                     />
                 </div>
@@ -43,7 +44,7 @@ export const EnhancedPlacementProgramCard = ({
 
                 <div className="space-y-3">
                     {data?.map((req: any) => {
-                        const progress = (req.completed / req.total) * 100
+                        const progress = (0 / req?.hours) * 100
                         return (
                             <motion.div
                                 key={req.id}
@@ -73,7 +74,7 @@ export const EnhancedPlacementProgramCard = ({
                                             </p>
                                             <Badge
                                                 outline
-                                                text={`${req.completed} / ${req.total}`}
+                                                text={`0 / ${req?.hours}`}
                                                 className={`text-xs px-2 py-0.5 ${
                                                     req?.isActive
                                                         ? 'border-[#044866] text-[#044866] bg-[#044866]/5'
@@ -120,19 +121,19 @@ export const EnhancedPlacementProgramCard = ({
                     })}
                 </div>
 
-                <Button
+                {/* <Button
                     outline
                     variant="primaryNew"
                     className="w-full border-2 border-[#044866]/20 text-[#044866] hover:bg-[#044866]/5 hover:border-[#044866]/40 h-10"
                     onClick={() => setShowPlacementReqDialog(true)}
                     text="Add Placement Requirements"
-                />
-                <Button
+                /> */}
+                {/* <Button
                     outline
                     variant="secondary"
                     Icon={Eye}
                     text="View Full Requirements"
-                />
+                /> */}
             </div>
         </Card>
     )

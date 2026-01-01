@@ -12,7 +12,7 @@ import { teamsEndpoints } from './teams'
 
 import { LogoutType } from '@hooks'
 import { apiSlice } from '@queries/portals/empty.query'
-import { UserStatus } from '@types'
+import { PaginationValues, UserStatus } from '@types'
 import { agreementsEndpoints } from './agreement'
 import { allowLoginEndpoints } from './allowLogin'
 import { draftEndpoints } from './draft'
@@ -86,8 +86,11 @@ export const commonApi = apiSlice.injectEndpoints({
             query: () => `country/list/name`,
             providesTags: ['Country'],
         }),
-        getStates: build.query<any, any>({
-            query: () => `country/states`,
+        getStates: build.query<any, PaginationValues>({
+            query: (params) => ({
+                url: `country/states`,
+                params,
+            }),
             providesTags: ['States'],
         }),
         getCountryStates: build.query<any, any>({
@@ -678,6 +681,7 @@ const {
 
     // --------- TEAMS -------------//
     useCreateSupportTeamMutation,
+    useEditSupportTeamMutation,
     useGetAllSupportTeamsQuery,
     useDeleteSupportTeamMutation,
     useGetTeamCountsQuery,
@@ -687,6 +691,9 @@ const {
     useUpdateAutoTicketStatusMutation,
     useAddAutoTicketNoteMutation,
     useGetAutomatedTicketNotesQuery,
+    useGetSupportTeamsListQuery,
+    useGetSupportTeamMemberListQuery,
+    useGetAutomatedTicketsCountQuery,
     // --------- Call Management ----------- //
     useGetAllAiCallListQuery,
 } = commonApi
@@ -1042,6 +1049,7 @@ export const CommonApi = {
     },
     Teams: {
         useCreateSupportTeam: useCreateSupportTeamMutation,
+        useEditSupportTeam: useEditSupportTeamMutation,
         useAllSupportTeams: useGetAllSupportTeamsQuery,
         useDeleteSupportTeam: useDeleteSupportTeamMutation,
         useTeamCounts: useGetTeamCountsQuery,
@@ -1051,6 +1059,9 @@ export const CommonApi = {
         useUpdateAutoTicketStatus: useUpdateAutoTicketStatusMutation,
         useAddAutoTicketNote: useAddAutoTicketNoteMutation,
         useAutomatedTicketNotes: useGetAutomatedTicketNotesQuery,
+        useTeamsList: useGetSupportTeamsListQuery,
+        useSupportTeamMemberList: useGetSupportTeamMemberListQuery,
+        useAutomatedTicketsCount: useGetAutomatedTicketsCountQuery,
     },
     CallManagement: {
         useAllAiCallList: useGetAllAiCallListQuery,

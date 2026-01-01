@@ -201,6 +201,12 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             // visible: checkIsHod,
         },
         {
+            text: 'Support Tickets',
+            path: getRoutePath('/support-tickets?tab=active'),
+            Icon: PiMicrosoftTeamsLogo,
+            // visible: checkIsHod,
+        },
+        {
             text: 'Talent Pool',
             path: getRoutePath('/talent-pool?tab=all'),
             Icon: LiaCertificateSolid,

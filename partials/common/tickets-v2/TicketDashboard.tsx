@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
 import { AlertCircle, Archive } from 'lucide-react'
 import { Header, TeamTabsList } from './components'
 import { ActiveTicketsTab, ResolvedTicketsTab } from './tickets-tabs'
+import { CommonApi } from '@queries'
 
 export const TicketDashboard = () => {
     const searchParams = useSearchParams()
@@ -19,6 +20,7 @@ export const TicketDashboard = () => {
 
         router.push(`?${params.toString()}`, { scroll: false })
     }
+    const count = CommonApi.Teams.useAutomatedTicketsCount()
 
     return (
         <>
@@ -53,7 +55,7 @@ export const TicketDashboard = () => {
                                     data-[state=inactive]:bg-[#044866]/10 data-[state=inactive]:text-[#044866]
                                 `}
                             >
-                                20
+                                {count?.data?.OPEN ?? 0}
                             </span>
                         </TabsTrigger>
 
@@ -81,18 +83,18 @@ export const TicketDashboard = () => {
                                     data-[state=inactive]:bg-green-600/10 data-[state=inactive]:text-green-600
                                 `}
                             >
-                                10
+                                {count?.data?.CLOSE ?? 0}
                             </span>
                         </TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="active">
-                        <ActiveTicketsTab />
+                        <ActiveTicketsTab count={count} />
                     </TabsContent>
 
-                    <TabsContent value="resolved">
-                        <ResolvedTicketsTab />
-                    </TabsContent>
+                    {/* <TabsContent value="resolved">
+                        <ResolvedTicketsTab count={count} />
+                    </TabsContent> */}
                 </Tabs>
             </div>
 

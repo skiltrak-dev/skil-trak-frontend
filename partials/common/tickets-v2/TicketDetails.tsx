@@ -18,7 +18,7 @@ interface TicketDetailsProps {
     onViewIndustryProfile?: (industryId: string) => void
 }
 
-export const TicketDetails = ({ ticket, onClose }: TicketDetailsProps) => {
+export const TicketDetails = () => {
     const router = useRouter()
     const tickedId = router.query.id
     const { data, isLoading } = CommonApi.Teams.useAutomatedTicketDetails(
@@ -35,13 +35,13 @@ export const TicketDetails = ({ ticket, onClose }: TicketDetailsProps) => {
                 <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
                     {/* Top Bar */}
                     <div className="mb-4">
-                        <button
-                            onClick={onClose}
+                        {/* <button
+                            // onClick={onClose}
                             className="group inline-flex items-center gap-2 px-4 py-2 bg-white text-[#044866] rounded-lg hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-[#044866]/30"
                         >
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                             <span className="text-sm">Back to Dashboard</span>
-                        </button>
+                        </button> */}
                     </div>
 
                     {/* Quick Actions Bar - Dropdown Style */}

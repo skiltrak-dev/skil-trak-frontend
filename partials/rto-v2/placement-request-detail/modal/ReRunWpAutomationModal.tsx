@@ -3,6 +3,7 @@ import { useNotification } from '@hooks'
 
 import { FaCheckCircle } from 'react-icons/fa'
 import { SubAdminApi } from '@queries'
+import { useWorkplaceHook } from '@partials/common/StudentProfileDetail/components/Workplace/hooks'
 
 export const ReRunWpAutomationModal = ({
     workplace,
@@ -12,12 +13,12 @@ export const ReRunWpAutomationModal = ({
     onCancel: () => void
 }) => {
     const { notification } = useNotification()
-    const [refresh, refreshResult] = SubAdminApi.Student.rerunAutomation()
+    // const [refresh, refreshResult] = SubAdminApi.Student.rerunAutomation()
 
-    // const { setAutoApplyLoader, refresh, refreshResult } = useWorkplaceHook()
+    const { setAutoApplyLoader, refresh, refreshResult } = useWorkplaceHook()
 
     const onConfirmUClicked = async (workplace: any) => {
-        // setAutoApplyLoader(true)
+        setAutoApplyLoader(true)
         refresh(Number(workplace.id))
         onCancel()
         return
