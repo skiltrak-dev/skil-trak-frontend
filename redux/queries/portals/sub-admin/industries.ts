@@ -249,7 +249,7 @@ export const subAdminIndustriesEndpoints = (
             method: 'PATCH',
             body,
         }),
-        invalidatesTags: ['SubAdminIndustries'],
+        invalidatesTags: ['SubAdminIndustries', 'RTOIndustries'],
     }),
 
     //get indudstry students schedule

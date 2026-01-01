@@ -72,7 +72,7 @@ export const industriesEndpoints = (
         query: (id) => ({
             url: `${INDUSTRIESPREFIX}${id}/get-details`,
         }),
-        providesTags: ['RTOIndustries','Industry'],
+        providesTags: ['RTOIndustries', 'Industry'],
     }),
 
     getRtoIndustryDataCount: builder.query<
@@ -262,5 +262,16 @@ export const industriesEndpoints = (
             params,
         }),
         providesTags: ['RTOIndustries'],
+    }),
+
+    assignIndustryToCoordinator: builder.mutation<
+        any,
+        { id: number; subadminId: number }
+    >({
+        query: ({ id, subadminId }) => ({
+            url: `${INDUSTRIESPREFIX}${id}/subadmin/${subadminId}/favoriteBy-update`,
+            method: 'PATCH',
+        }),
+        invalidatesTags: ['RTOIndustries', 'Industry'],
     }),
 })
