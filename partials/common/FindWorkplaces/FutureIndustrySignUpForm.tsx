@@ -41,14 +41,14 @@ export const FutureIndustrySignUpForm = ({
     industryABN,
     onSubmit,
 }: // setActive,
-    // courses,
-    {
-        result?: any
-        industryABN?: string | null
-        onSubmit: any
-        // setActive: any
-        // courses?: Course[]
-    }) => {
+// courses,
+{
+    result?: any
+    industryABN?: string | null
+    onSubmit: any
+    // setActive: any
+    // courses?: Course[]
+}) => {
     const router = useRouter()
     const { notification } = useNotification()
     const [onSuburbClicked, setOnSuburbClicked] = useState<boolean>(true)
@@ -164,7 +164,7 @@ export const FutureIndustrySignUpForm = ({
 
         // Address Information
         addressLine1: yup.string().required('Must provide address'),
-        // region: yup.number().required('Must provide name of state'),
+        region: yup.number().required('Must provide name of state'),
         // country: yup.string().required('Must provide country'),
         // suburb: yup.string().required('Must provide suburb name'),
         zipCode: yup.string().required('Must provide zip code for your state'),
@@ -329,7 +329,7 @@ export const FutureIndustrySignUpForm = ({
             questions.push({
                 question:
                     industryQuestions[
-                    IndustryQuestionsEnum.SECTORS_BASE_CAPACITY
+                        IndustryQuestionsEnum.SECTORS_BASE_CAPACITY
                     ],
                 answer: sectorBaseCapacity,
             })
@@ -358,9 +358,9 @@ export const FutureIndustrySignUpForm = ({
                 className={
                     'group max-w-max transition-all text-xs flex justify-start items-center py-2.5 text-muted hover:text-muted-dark rounded-lg cursor-pointer'
                 }
-            // onClick={() => {
-            //     setActive((active: number) => active - 1)
-            // }}
+                // onClick={() => {
+                //     setActive((active: number) => active - 1)
+                // }}
             >
                 {/* <IoIosArrowRoundBack className="transition-all inline-flex text-base group-hover:-translate-x-1" />
                 <span className="ml-2">{'Back To Previous'}</span> */}
@@ -433,8 +433,8 @@ export const FutureIndustrySignUpForm = ({
                                 label={'Sector'}
                                 {...(storedData
                                     ? {
-                                        defaultValue: storedData.sectors,
-                                    }
+                                          defaultValue: storedData.sectors,
+                                      }
                                     : {})}
                                 value={selectedSector}
                                 name={'sectors'}
@@ -480,7 +480,7 @@ export const FutureIndustrySignUpForm = ({
                         {/* Address Information */}
 
                         <div>
-                            {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 mb-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 mb-4">
                                 <Select
                                     name="country"
                                     label={'Country'}
@@ -493,10 +493,14 @@ export const FutureIndustrySignUpForm = ({
                                     loading={country.isLoading}
                                     onChange={(e: any) => {
                                         setCountryId(e?.value)
-                                        formMethods.setValue('country', e?.label)
+                                        formMethods.setValue(
+                                            'country',
+                                            e?.label
+                                        )
                                     }}
                                     value={country?.data?.find(
-                                        (c: OptionType) => c?.value === countryId
+                                        (c: OptionType) =>
+                                            c?.value === countryId
                                     )}
                                     validationIcons
                                     required
@@ -523,13 +527,14 @@ export const FutureIndustrySignUpForm = ({
                                             state?.value === onStateSelect
                                     )}
                                 />
-                            </div> */}
+                            </div>
                             <div className="grid grid-cols-4 gap-x-3">
                                 <div className="col-span-3">
                                     <AddressFieldInput
                                         placesSuggetions={{
                                             placesSuggetions: onSuburbClicked,
-                                            setIsPlaceSelected: setOnSuburbClicked,
+                                            setIsPlaceSelected:
+                                                setOnSuburbClicked,
                                         }}
                                         onChange={() => {
                                             setOnSuburbClicked(false)

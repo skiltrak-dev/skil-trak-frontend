@@ -4,6 +4,7 @@ import {
     ConfigTabs,
     ShowErrorNotifications,
     TabConfig,
+    Select,
 } from '@components'
 import { useEffect, useState } from 'react'
 import { WeeklySchedule, DaySchedule } from './WeeklySchedule'
@@ -11,6 +12,8 @@ import { MonthlySchedule, MonthlyScheduleData } from './MonthlySchedule'
 import { RtoV2Api } from '@queries/portals/rto-v2/rto-v2.query'
 import { useNotification } from '@hooks/useNotification'
 import { useAppSelector } from '@redux/hooks'
+import { AdminApi } from '@queries'
+import { UserStatus } from '@types'
 
 export function InterviewAvailability() {
     const [createAvailability, createAvailabilityResult] =
@@ -20,7 +23,7 @@ export function InterviewAvailability() {
         (state) => state.industry.industryDetail
     )
 
-    const imterviewAvailability = RtoV2Api.Industries.useIndustryAvailabilityV2(
+    const interviewAvailability = RtoV2Api.Industries.useIndustryAvailabilityV2(
         industryDetail?.id!,
         {
             skip: !industryDetail?.id,
@@ -68,10 +71,20 @@ export function InterviewAvailability() {
         slots: [{ startTime: '09:00', endTime: '17:00' }],
     })
 
+    // Interviewer state
+    // const [selectedInterviewer, setSelectedInterviewer] = useState<
+    //     number | null
+    // >(null)
+
+    // Fetch coordinators
+
     useEffect(() => {
-        if (imterviewAvailability.data) {
-            const { type, slots, dates } = imterviewAvailability.data
+        if (interviewAvailability.data) {
+            const { type, slots, dates } = interviewAvailability.data
             setAvailabilityType(type || 'weekly')
+            // setSelectedInterviewer(
+            //     interviewAvailability.data.interviewer?.id || null
+            // )
 
             if (type === 'weekly' && slots) {
                 setWeeklySchedule((prev) =>
@@ -83,12 +96,12 @@ export function InterviewAvailability() {
                             slots:
                                 daySlots.length > 0
                                     ? daySlots.map((s) => ({
-                                        startTime: s.startTime.substring(
-                                            0,
-                                            5
-                                        ),
-                                        endTime: s.endTime.substring(0, 5),
-                                    }))
+                                          startTime: s.startTime.substring(
+                                              0,
+                                              5
+                                          ),
+                                          endTime: s.endTime.substring(0, 5),
+                                      }))
                                     : day.slots,
                         }
                     })
@@ -99,19 +112,28 @@ export function InterviewAvailability() {
                     slots:
                         slots && slots.length > 0
                             ? slots.map((s: any) => ({
-                                startTime: s.startTime.substring(0, 5),
-                                endTime: s.endTime.substring(0, 5),
-                            }))
+                                  startTime: s.startTime.substring(0, 5),
+                                  endTime: s.endTime.substring(0, 5),
+                              }))
                             : prev.slots,
                 }))
             }
         }
-    }, [imterviewAvailability.data])
+    }, [interviewAvailability.data])
 
     const { notification } = useNotification()
 
     const handleSave = async () => {
         try {
+            // Validate interviewer is selected
+            // if (!selectedInterviewer) {
+            //     notification.error({
+            //         title: 'Error',
+            //         description: 'Please select an interviewer.',
+            //     })
+            //     return
+            // }
+
             let payload: any = {}
 
             if (availabilityType === 'weekly') {
@@ -137,6 +159,7 @@ export function InterviewAvailability() {
                     type: 'weekly',
                     slots,
                     userId: industryDetail?.user?.id,
+                    // interviewer: selectedInterviewer,
                 }
             } else {
                 if (monthlyData.dates.length === 0) {
@@ -159,6 +182,7 @@ export function InterviewAvailability() {
                     dates: monthlyData.dates,
                     slots: monthlyData.slots,
                     userId: industryDetail?.user?.id,
+                    // interviewer: selectedInterviewer,
                 }
             }
 
@@ -225,25 +249,53 @@ export function InterviewAvailability() {
                     />
 
                     {/* Action Footer */}
-                    <div className="border-t border-slate-100 flex items-center justify-between">
-                        <div className="flex items-start gap-2 max-w-[70%]">
-                            <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
-                            <p className="text-slate-500 text-xs leading-relaxed">
-                                Changes will be immediately reflected in the
-                                student booking portal.
-                            </p>
-                        </div>
+                    <div className="border-t border-slate-100 space-y-3 pt-3">
+                        {/* Coordinator Select */}
+                        {/* <div className="space-y-1.5">
+                            <Select
+                                label={'Select Interviewer'}
+                                name="interviewer"
+                                options={coordinators.map(
+                                    (coordinator: any) => ({
+                                        label: `${coordinator.user.name} (${coordinator.user.email})`,
+                                        value: String(coordinator.user.id),
+                                    })
+                                )}
+                                value={
+                                    selectedInterviewer
+                                        ? String(selectedInterviewer)
+                                        : ''
+                                }
+                                onChange={(opt: any) =>
+                                    setSelectedInterviewer(
+                                        opt.value ? Number(opt.value) : null
+                                    )
+                                }
+                                className="w-full"
+                                showError={false}
+                            />
+                        </div> */}
 
-                        <Button
-                            onClick={handleSave}
-                            variant="primary"
-                            className="bg-[#044866] hover:bg-[#03364d] text-white px-6 py-2 rounded-lg text-xs font-semibold shadow-lg shadow-[#044866]/20 transition-all hover:scale-105 active:scale-95"
-                            disabled={createAvailabilityResult.isLoading}
-                        >
-                            {createAvailabilityResult.isLoading
-                                ? 'Saving...'
-                                : 'Save Availability'}
-                        </Button>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-start gap-2 max-w-[70%]">
+                                <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                                <p className="text-slate-500 text-xs leading-relaxed">
+                                    Changes will be immediately reflected in the
+                                    student booking portal.
+                                </p>
+                            </div>
+
+                            <Button
+                                onClick={handleSave}
+                                variant="primary"
+                                className="bg-[#044866] hover:bg-[#03364d] text-white px-6 py-2 rounded-lg text-xs font-semibold shadow-lg shadow-[#044866]/20 transition-all hover:scale-105 active:scale-95"
+                                disabled={createAvailabilityResult.isLoading}
+                            >
+                                {createAvailabilityResult.isLoading
+                                    ? 'Saving...'
+                                    : 'Save Availability'}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>

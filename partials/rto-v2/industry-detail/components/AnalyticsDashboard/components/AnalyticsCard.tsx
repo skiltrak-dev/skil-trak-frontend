@@ -7,8 +7,8 @@ interface AnalyticsCardProps {
     card: {
         title: string
         value: string | number
-        change: string
-        changeText: string
+        change?: string
+        changeText?: string
         icon: LucideIcon
         gradient: string
         trend: string
@@ -91,21 +91,23 @@ export function AnalyticsCard({ card, index }: AnalyticsCardProps) {
                             <span className="text-lg font-bold text-slate-800 tracking-tight">
                                 {card.value}
                             </span>
-                            <div className="flex items-center gap-1 text-[11px] font-medium">
-                                <span
-                                    className={
-                                        card.trend === 'up'
-                                            ? 'text-emerald-600'
-                                            : 'text-slate-600'
-                                    }
-                                >
-                                    {card.change}
-                                </span>
-                                <span className="text-slate-300">•</span>
-                                <span className="text-slate-400  truncate max-w-[80px]">
-                                    {card.changeText}
-                                </span>
-                            </div>
+                            {card.change && card.changeText && (
+                                <div className="flex items-center gap-1 text-[11px] font-medium">
+                                    <span
+                                        className={
+                                            card.trend === 'up'
+                                                ? 'text-emerald-600'
+                                                : 'text-slate-600'
+                                        }
+                                    >
+                                        {card.change}
+                                    </span>
+                                    <span className="text-slate-300">•</span>
+                                    <span className="text-slate-400  truncate max-w-[80px]">
+                                        {card.changeText}
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     </div>
 

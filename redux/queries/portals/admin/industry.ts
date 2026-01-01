@@ -194,6 +194,7 @@ export const industryEndpoints = (
             'RequestToAddCourse',
             'SubAdminCourses',
             'Industries',
+            'RTOIndustries',
         ],
     }),
 
