@@ -29,6 +29,7 @@ import {
 } from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
+import { OptionType } from '@types'
 
 export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
     const router = useRouter()
@@ -220,11 +221,11 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
 
     // useEffect(() => {
     //     if (sectorResponse.data?.length) {
-    //         const options = sectorResponse.data?.map((sector: any) => ({
-    //             label: sector?.name,
-    //             value: sector?.id,
-    //         }))
-    //         setSectorOptions(options)
+    //         console.log({ state, data: data?.data })
+    //         const stateData = data?.data?.find(
+    //             (item: any) => item?.name === state
+    //         )
+    //         console.log({ stateData })
     //     }
     // }, [sectorResponse?.data])
 
@@ -517,6 +518,48 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                 </div>
                 <div className="flex flex-col lg:flex-row gap-x-16 border-t pt-4 lg:pt-0">
                     <div className="w-full mt-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+                            <Select
+                                name="country"
+                                label={'Country'}
+                                options={
+                                    country?.data?.map((country: any) => ({
+                                        label: country.name,
+                                        value: country.id,
+                                    })) || []
+                                }
+                                loading={country.isLoading}
+                                onChange={(e: any) => {
+                                    setCountryId(e?.value)
+                                }}
+                                value={country?.data?.find(
+                                    (c: OptionType) => c?.value === countryId
+                                )}
+                                // onlyValue
+                                validationIcons
+                            />
+                            <Select
+                                name="region"
+                                label={'State'}
+                                options={states?.map((state: any) => ({
+                                    label: state.name,
+                                    value: state.id,
+                                }))}
+                                placeholder={'Select State...'}
+                                onChange={(e: any) => {
+                                    formMethods.setValue('state', e?.label)
+                                    setOnStateSelect(e?.value)
+                                }}
+                                loading={statesLoading}
+                                disabled={!countryId}
+                                // onlyValue
+                                validationIcons
+                                value={states?.find(
+                                    (state: OptionType) =>
+                                        state?.value === onStateSelect
+                                )}
+                            />
+                        </div>
                         <div className="grid grid-cols-4 gap-x-3">
                             <div className="col-span-3">
                                 <AddressFieldInput
@@ -535,25 +578,6 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                 placeholder={'Zip Code...'}
                                 validationIcons
                             />
-                            {/* <Select
-                                name="country"
-                                label={'Country'}
-                                options={
-                                    country?.data?.map((country: any) => ({
-                                        label: country.name,
-                                        value: country.id,
-                                    })) || []
-                                }
-                                loading={country.isLoading}
-                                onChange={(e: any) => {
-                                    setCountryId(e?.value)
-                                }}
-                                value={country?.data?.find(
-                                    (c: OptionType) => c?.value === countryId
-                                )}
-                                // onlyValue
-                                validationIcons
-                            /> */}
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8">
@@ -571,27 +595,6 @@ export const IndustrySignUpForm = ({ onSubmit }: { onSubmit: any }) => {
                                     placesSuggetions: onSuburbClicked,
                                     setIsPlaceSelected: setOnSuburbClicked,
                                 }}
-                            /> */}
-
-                            {/* <Select
-                                name="region"
-                                label={'State'}
-                                options={states?.map((state: any) => ({
-                                    label: state.name,
-                                    value: state.id,
-                                }))}
-                                onChange={(e: any) => {
-                                    formMethods.setValue('state', e?.label)
-                                    setOnStateSelect(e?.value)
-                                }}
-                                loading={statesLoading}
-                                disabled={!countryId}
-                                // onlyValue
-                                validationIcons
-                                value={states?.find(
-                                    (state: OptionType) =>
-                                        state?.value === onStateSelect
-                                )}
                             /> */}
                         </div>
                     </div>

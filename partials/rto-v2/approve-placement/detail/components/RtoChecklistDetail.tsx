@@ -20,7 +20,6 @@ export const RtoChecklistDetail = ({
     courseId: number
     studentId: number
 }) => {
-    console.log({ courseId, studentId })
     const getRtoCourseChecklist =
         RtoV2Api.ApprovalRequest.getRtoCourseChecklist(
             { courseId, studentId, industryUserId },
@@ -66,7 +65,6 @@ export const RtoChecklistDetail = ({
         getRtoCourseChecklist?.data?.files?.[0]
 
     const extension = file?.split('.')?.pop()?.split('?')[0]
-    console.log({ file: getRtoCourseChecklist?.data?.files })
     return (
         <>
             {documentsViewModal}

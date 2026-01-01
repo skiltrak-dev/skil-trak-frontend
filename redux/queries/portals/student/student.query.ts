@@ -75,7 +75,7 @@ export const {
 
     // ---- WORKPLACE ---- //
     useGetWpIndustryChecksQuery,
-    useRejectIndustryFromEmailQuery,
+    useRejectIndustryFromEmailMutation,
     useGetStudentIndustriesQuery,
     useGetCourseDocumentsQuery,
     useGetWorkplaceIndustriesQuery,
@@ -166,7 +166,7 @@ export const StudentApi = {
     Workplace: {
         useGetStudentIndustriesQuery,
         getWpIndustryChecks: useGetWpIndustryChecksQuery,
-        rejectIndustryFromEmail: useRejectIndustryFromEmailQuery,
+        rejectIndustryFromEmail: useRejectIndustryFromEmailMutation,
         useGetCourseDocumentsQuery,
         useGetWorkplaceIndustriesQuery,
         useGetPlacementProgressQuery,

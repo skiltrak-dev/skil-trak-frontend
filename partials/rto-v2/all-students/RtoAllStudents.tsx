@@ -68,8 +68,6 @@ export const RtoAllStudents = () => {
 
     const count = RtoApi.Students.useCount()
 
-    console.log({ count })
-
     const filteredStudents = useGetRtoStudentsQuery(
         {
             search: `${JSON.stringify({

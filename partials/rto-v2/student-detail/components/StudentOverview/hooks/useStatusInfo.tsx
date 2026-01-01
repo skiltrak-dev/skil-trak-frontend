@@ -147,8 +147,6 @@ export const useStatusInfo = ({
         return statuses.find((step) => step.current === true) || null
     }
 
-    console.log({ statuses })
-
     const completedCount = statuses.filter((s) => s.completed).length
     const totalCount = statuses.length
     const progressPercent = Math.round((completedCount / totalCount) * 100)

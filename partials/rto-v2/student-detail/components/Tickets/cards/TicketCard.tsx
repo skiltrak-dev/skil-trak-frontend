@@ -12,7 +12,6 @@ import { ReactElement, useState } from 'react'
 import { AddTicketReplyModal } from '../modal'
 
 export const TicketCard = ({ ticket }: { ticket: TicketTypes }) => {
-    console.log({ responses: ticket })
     const getStatusBadge = (status: string) => {
         switch (status) {
             case 'open':

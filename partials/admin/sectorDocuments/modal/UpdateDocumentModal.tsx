@@ -21,8 +21,6 @@ export const UpdateDocumentModal = ({
     initialValues?: any
     setIsOpen: (open: boolean) => void
 }) => {
-    console.log({ initialValues })
-
     const router = useRouter()
     const { notification } = useNotification()
 

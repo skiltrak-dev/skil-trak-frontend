@@ -48,7 +48,7 @@ export const TeamSetupGuideTab = ({ setActiveTab, setAddMemberOpen }: any) => {
                             <Zap className="h-8 w-8 text-white" />
                         </div>
                         <h1 className="text-3xl">
-                            Get Started in 3 Easy Steps
+                            Get Started in 2 Easy Steps
                         </h1>
                         <p className="text-muted-foreground text-lg max-w-2xl">
                             Set up your RTO team in minutes. Just add members,
@@ -59,7 +59,7 @@ export const TeamSetupGuideTab = ({ setActiveTab, setAddMemberOpen }: any) => {
 
                 <div className="p-8 relative space-y-6">
                     {/* Step 1 - Simplified */}
-                    <Card className="border-primaryNew/30 bg-gradient-to-br from-primaryNew/5 to-background hover:shadow-premium transition-all">
+                    {/* <Card className="border-primaryNew/30 bg-gradient-to-br from-primaryNew/5 to-background hover:shadow-premium transition-all">
                         <div className="p-6">
                             <div className="flex items-start gap-6">
                                 <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primaryNew to-primaryNew flex items-center justify-center shadow-premium flex-shrink-0">
@@ -140,7 +140,7 @@ export const TeamSetupGuideTab = ({ setActiveTab, setAddMemberOpen }: any) => {
                                 </div>
                             </div>
                         </div>
-                    </Card>
+                    </Card> */}
 
                     {/* Step 2 - Simplified */}
                     <Card className="border-secondaryNew/30 bg-gradient-to-br from-secondaryNew/5 to-background hover:shadow-premium transition-all">
@@ -148,7 +148,7 @@ export const TeamSetupGuideTab = ({ setActiveTab, setAddMemberOpen }: any) => {
                             <div className="flex items-start gap-6">
                                 <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primaryNew to-yellow-400 flex items-center justify-center shadow-premium flex-shrink-0">
                                     <span className="text-white text-2xl">
-                                        2
+                                        1
                                     </span>
                                 </div>
                                 <div className="flex-1 space-y-4">
@@ -279,7 +279,7 @@ export const TeamSetupGuideTab = ({ setActiveTab, setAddMemberOpen }: any) => {
                             <div className="flex items-start gap-6">
                                 <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-yellow-400 flex items-center justify-center shadow-premium flex-shrink-0">
                                     <span className="text-white text-2xl">
-                                        3
+                                        2
                                     </span>
                                 </div>
                                 <div className="flex-1 space-y-4">
@@ -366,12 +366,13 @@ export const TeamSetupGuideTab = ({ setActiveTab, setAddMemberOpen }: any) => {
                                     </h3>
                                     <p className="text-muted-foreground max-w-xl mx-auto">
                                         Your team is set up and ready to start
-                                        managing students and placements. Add
-                                        your first member now to get started.
+                                        managing students and placements. 
+                                        {/* Add
+                                        your first member now to get started. */}
                                     </p>
                                 </div>
 
-                                <div className="flex flex-wrap justify-center gap-3">
+                                {/* <div className="flex flex-wrap justify-center gap-3">
                                     <Button
                                         onClick={() => {
                                             // setActiveTab('members')
@@ -390,7 +391,7 @@ export const TeamSetupGuideTab = ({ setActiveTab, setAddMemberOpen }: any) => {
                                     >
                                         View All Members
                                     </Button>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </Card>

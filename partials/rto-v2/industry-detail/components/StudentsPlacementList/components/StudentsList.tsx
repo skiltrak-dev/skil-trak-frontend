@@ -21,15 +21,14 @@ export function StudentsList() {
         }
     )
 
-    console.log({ students })
     return (
         <div className="space-y-2">
             {students?.isError ? <TechnicalError /> : null}
             {students?.isLoading ? (
                 <StudentsTabSkeleton />
             ) : students?.isSuccess &&
-                students?.data?.data &&
-                students?.data?.data?.length > 0 ? (
+              students?.data?.data &&
+              students?.data?.data?.length > 0 ? (
                 students?.data?.data?.map((student: any) => (
                     <StudentCard key={student.id} student={student} />
                 ))

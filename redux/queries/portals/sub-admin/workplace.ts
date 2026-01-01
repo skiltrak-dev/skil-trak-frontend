@@ -420,13 +420,13 @@ export const workplaceEndpoints = (
 
     changeWorkplaceApprovalReqStatus: builder.mutation<
         any,
-        { id: number; comment?: string; status: WPApprovalStatus }
+        { id: number; body?: any; status: WPApprovalStatus }
     >({
-        query: ({ id, comment, ...params }) => ({
+        query: ({ id, body, ...params }) => ({
             url: `${PREFIX}industry/approve/${id}`,
             method: 'PATCH',
             params,
-            body: { comment },
+            body,
         }),
         invalidatesTags: ['Workplace'],
     }),

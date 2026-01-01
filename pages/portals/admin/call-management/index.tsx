@@ -1,93 +1,15 @@
 import { AdminLayout } from '@layouts'
-import {
-    Call,
-    CallDetailModal,
-    CallList,
-    CallStatus,
-    DashboardStats,
-    TicketModal,
-} from '@partials/common'
-import { mockCalls } from '@partials/common/call-management/data'
+import { Call, CallStatus, DashboardStats } from '@partials/common'
 import { ReactElement, useState } from 'react'
 
 const CallManagementPage = () => {
     const [selectedStatuses, setSelectedStatuses] = useState<CallStatus[]>([])
     const [selectedCall, setSelectedCall] = useState<Call | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
-    const [calls, setCalls] = useState<Call[]>(mockCalls)
     const [activeStatusPage, setActiveStatusPage] = useState<
         CallStatus | 'all'
     >('all')
     const [ticketModalCall, setTicketModalCall] = useState<Call | null>(null)
-
-    // Filter calls based on active status page and search
-    const filteredCalls = calls.filter((call) => {
-        const matchesStatusPage =
-            activeStatusPage === 'all' || call.status === activeStatusPage
-        const matchesSearch =
-            searchQuery === '' ||
-            call.studentName
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase()) ||
-            call.agentName.toLowerCase().includes(searchQuery.toLowerCase())
-        return matchesStatusPage && matchesSearch
-    })
-
-    const handleStatusUpdate = (callId: string, newStatus: CallStatus) => {
-        setCalls((prevCalls) =>
-            prevCalls.map((call) =>
-                call.id === callId ? { ...call, status: newStatus } : call
-            )
-        )
-        // Update selected call if it's the one being modified
-        if (selectedCall?.id === callId) {
-            setSelectedCall((prev) =>
-                prev ? { ...prev, status: newStatus } : null
-            )
-        }
-    }
-
-    const handleMarkCompleted = (callId: string) => {
-        setCalls((prevCalls) =>
-            prevCalls.map((call) =>
-                call.id === callId
-                    ? { ...call, isCompleted: !call.isCompleted }
-                    : call
-            )
-        )
-    }
-
-    const handleCreateTicket = (callId: string) => {
-        const call = calls.find((c) => c.id === callId)
-        if (call) {
-            setTicketModalCall(call)
-        }
-    }
-
-    const handleTicketSubmit = (ticketData: any) => {
-        if (ticketModalCall) {
-            setCalls((prevCalls) =>
-                prevCalls.map((call) =>
-                    call.id === ticketModalCall.id
-                        ? { ...call, hasTicket: true }
-                        : call
-                )
-            )
-            // In a real application, this would send the ticket data to an API
-            console.log('Ticket created:', {
-                callId: ticketModalCall.id,
-                student: ticketModalCall.studentName,
-                ...ticketData,
-            })
-        }
-    }
-
-    // Calculate call counts for tabs
-    const callCounts = {
-        all: calls.length,
-        open: calls.filter((c) => c.status === 'open').length,
-        completed: calls.filter((c) => c.status === 'completed').length,
-    }
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -101,9 +23,8 @@ const CallManagementPage = () => {
                 </div>
 
                 <DashboardStats
-                    calls={calls}
-                    // activeStatusPage={activeStatusPage}
-                    // onStatusPageChange={setActiveStatusPage}
+                // activeStatusPage={activeStatusPage}
+                // onStatusPageChange={setActiveStatusPage}
                 />
 
                 {/* <FilterBar

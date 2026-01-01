@@ -301,9 +301,7 @@ export const Select = forwardRef(
                     render={({ field }) => {
                         return getSimpleSelect(
                             (event: any) => {
-                                console.log({ event })
                                 const selectedData = handleChange(event)
-                                console.log({ selectedData })
                                 field.onChange(selectedData)
                                 onChange && onChange(selectedData)
                             },

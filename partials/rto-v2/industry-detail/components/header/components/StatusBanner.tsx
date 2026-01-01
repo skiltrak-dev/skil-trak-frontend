@@ -93,7 +93,8 @@ export function StatusBanner({
                                         : 'This industry is temporarily snoozed for placements'
                                     : isPlacementReady
                                         ? 'Your industry profile is optimized and ready for placements'
-                                        : 'Just 15% more to unlock full placement capabilities'}
+                                        : `Just ${100 - profileCompletion
+                                        }% more to unlock full placement capabilities`}
                         </Typography>
                     </div>
                 </div>

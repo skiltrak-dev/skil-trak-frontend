@@ -55,11 +55,6 @@ export const States = () => {
     }, [])
 
     const { isLoading, data, isError } = CommonApi.Countries.useStatesList({
-        search: `${JSON.stringify(filter)
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim()}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })

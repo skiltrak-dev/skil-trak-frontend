@@ -17,7 +17,6 @@ export function InterviewAvailability({ data }: any) {
     const [availabilityType, setAvailabilityType] = useState<
         'weekly' | 'monthly'
     >('weekly')
-    console.log('availabilityType', availabilityType)
 
     // Initial State for Weekly
     const [weeklySchedule, setWeeklySchedule] = useState<DaySchedule[]>([
@@ -170,7 +169,6 @@ export function InterviewAvailability({ data }: any) {
                     tabs={tabs}
                     value={availabilityType}
                     onValueChange={(val: string) => {
-                        console.log('val>>>>>>>>>', val)
                         setAvailabilityType(val as 'weekly' | 'monthly')
                     }}
                     className={'!rounded'}

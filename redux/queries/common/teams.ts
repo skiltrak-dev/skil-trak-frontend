@@ -21,6 +21,19 @@ export const teamsEndpoints = (
         }),
         providesTags: ['Team'],
     }),
+    getSupportTeamsList: builder.query<any, void>({
+        query: () => ({
+            url: `${PREFIX}-team/list/filter-options`,
+        }),
+        providesTags: ['Team'],
+    }),
+    // support-team/members/filter-options
+    getSupportTeamMemberList: builder.query<any, void>({
+        query: () => ({
+            url: `${PREFIX}-team/members/filter-options`,
+        }),
+        providesTags: ['Team'],
+    }),
     // Auto tickets
     getAutomatedTickets: builder.query<any, any>({
         query: (params) => ({
@@ -29,6 +42,15 @@ export const teamsEndpoints = (
         }),
         providesTags: ['Team'],
     }),
+    // task/statistics/get
+    getAutomatedTicketsCount: builder.query<any, void>({
+        query: (params) => ({
+            url: `${PREFIX}-task/statistics/get`,
+            params,
+        }),
+        providesTags: ['Team'],
+    }),
+
     getAutomatedTicketDetails: builder.query<any, any>({
         query: (id) => ({
             url: `${PREFIX}-task/${id}`,
@@ -49,6 +71,14 @@ export const teamsEndpoints = (
         query: (body) => ({
             url: `${PREFIX}-team`,
             method: 'POST',
+            body,
+        }),
+        invalidatesTags: ['Team'],
+    }),
+    editSupportTeam: builder.mutation<any, any>({
+        query: ({ id, body }) => ({
+            url: `${PREFIX}-team/${id}`,
+            method: 'PATCH',
             body,
         }),
         invalidatesTags: ['Team'],

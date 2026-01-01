@@ -6,14 +6,14 @@ export const ProgressIndustryCell = ({ industry }: { industry: Industry }) => {
     return (
         <div className="flex flex-col gap-y-2">
             <IndustryCell industry={industry} />
-            {Number(industry?.profileCompletionPercentage) ? (
+            {/* {Number(industry?.profileCompletionPercentage) ? (
                 <IndustryProgressBar
                     height={12}
                     showPercentage
                     missingAttributes={industry?.missingAttributes}
                     percentage={Number(industry?.profileCompletionPercentage)}
                 />
-            ) : null}
+            ) : null} */}
         </div>
     )
 }

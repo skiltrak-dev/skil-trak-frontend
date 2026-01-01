@@ -3,6 +3,7 @@ import {
     Button,
     Card,
     EmptyData,
+    Select,
     Table,
     TableSkeleton,
     TechnicalError,
@@ -10,29 +11,62 @@ import {
 import { CommonApi } from '@queries'
 import { Briefcase, Plus } from 'lucide-react'
 import { useSupportTeamColumns } from '../hooks'
-import { DeleteSupportTeamModal } from '../modals'
+import { CreateTeamModal, DeleteSupportTeamModal } from '../modals'
+import { SupportTeamFilter } from '../components'
 
-export const AllTeamsTab = ({ setCreateTeamOpen }: any) => {
+export const AllTeamsTab = () => {
+    const [createTeamOpen, setCreateTeamOpen] = useState(false)
     const [modal, setModal] = useState<ReactElement | null>(null)
+    const [filter, setFilter] = useState({
+        name: '',
+        member: '',
+        state: '',
+        tag: '',
+    })
+    const [editData, setEditData] = useState<any>(null)
     const [itemPerPage, setItemPerPage] = useState(10)
     const [page, setPage] = useState(1)
+
+    const buildSearchParams = (filter: any) => {
+        return Object.fromEntries(
+            Object.entries(filter).filter(
+                ([_, value]) =>
+                    value !== '' && value !== null && value !== undefined
+            )
+        )
+    }
+    const searchParams = buildSearchParams(filter)
+
     const { data, isLoading, isError } = CommonApi.Teams.useAllSupportTeams({
+        search: `${JSON.stringify(searchParams)
+            .replaceAll('{', '')
+            .replaceAll('}', '')
+            .replaceAll('"', '')
+            .trim()}`,
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
+
     const onCancel = () => {
         setModal(null)
     }
     const onDeleteClicked = (team: any) => {
         setModal(<DeleteSupportTeamModal team={team} onCancel={onCancel} />)
     }
+    const onClickEdit = (team: any) => {
+        setCreateTeamOpen(true)
+        setEditData(team)
+    }
 
     const { columns } = useSupportTeamColumns({
         onDeleteClicked: onDeleteClicked,
+        onClickEdit: onClickEdit,
     })
+
     return (
         <>
             {modal && modal}
+            <SupportTeamFilter setFilter={setFilter} filter={filter} />
             <Card className="border-primary/20 shadow-premium-lg bg-gradient-to-br from-primaryNew/5 via-background to-primaryNew/5 overflow-hidden mt-4">
                 <div className="border-b flex items-center justify-between border-primary/10 relative pb-8">
                     <div className="flex items-center gap-3">
@@ -64,7 +98,7 @@ export const AllTeamsTab = ({ setCreateTeamOpen }: any) => {
                     ) : data && data?.data?.length ? (
                         <Table
                             columns={columns}
-                            data={data.data}
+                            data={data?.data}
                             // quickActions={quickActionsElements}
                             enableRowSelection
                         >
@@ -105,6 +139,11 @@ export const AllTeamsTab = ({ setCreateTeamOpen }: any) => {
                         )
                     )}
                 </div>
+                <CreateTeamModal
+                    createTeamOpen={createTeamOpen}
+                    setCreateTeamOpen={setCreateTeamOpen}
+                    editData={editData}
+                />
             </Card>
         </>
     )

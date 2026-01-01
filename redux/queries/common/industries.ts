@@ -173,9 +173,10 @@ export const industriesEndpoints = (
             return {
                 url: `industries/workplace-type`,
                 params,
+                keepUnusedDataFor: 0,
             }
         },
-        providesTags: ['Industry'],
+        providesTags: ['Industry', 'IndustryWorkplaceType'],
     }),
 
     addIndustryWpType: builder.mutation<
@@ -189,7 +190,7 @@ export const industriesEndpoints = (
                 params,
             }
         },
-        invalidatesTags: ['Industry'],
+        invalidatesTags: ['Industry', 'IndustryWorkplaceType'],
     }),
 
     removeIndustryWPType: builder.mutation<any, number | undefined>({
@@ -201,7 +202,7 @@ export const industriesEndpoints = (
                 params,
             }
         },
-        invalidatesTags: ['Industry'],
+        invalidatesTags: ['Industry', 'RTOIndustries', 'IndustryWorkplaceType'],
     }),
     // Industry Eligibility Criteria
     getIndustryEligibilityCriteria: builder.query<any, any>({

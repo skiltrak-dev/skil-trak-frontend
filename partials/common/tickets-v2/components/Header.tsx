@@ -3,7 +3,7 @@ import React from 'react'
 
 export const Header = () => {
     return (
-        <div className="max-w-7xl mx-auto">
+        <div className="">
             {/* Header */}
             <div className="mb-4 animate-slide-up">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3">

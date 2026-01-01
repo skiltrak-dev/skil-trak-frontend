@@ -30,8 +30,6 @@ export function AnalyticsDashboard() {
         {
             title: 'Students',
             value: counts?.totalStudents || 0,
-            change: '+0',
-            changeText: 'this month',
             icon: Users,
             gradient: 'from-[#044866] to-[#0D5468]',
             trend: 'up',
@@ -41,8 +39,6 @@ export function AnalyticsDashboard() {
         {
             title: 'Pending',
             value: counts?.pending || 0,
-            change: '5 urgent',
-            changeText: 'needs attention',
             icon: Clock,
             gradient: 'from-[#F7A619] to-[#EA580C]',
             trend: 'neutral',
@@ -51,8 +47,6 @@ export function AnalyticsDashboard() {
         {
             title: 'Interviews',
             value: counts?.interview || 0,
-            change: 'Next 7 days',
-            changeText: '3 this week',
             icon: Calendar,
             gradient: 'from-[#8B5CF6] to-[#7C3AED]',
             trend: 'neutral',
@@ -60,20 +54,19 @@ export function AnalyticsDashboard() {
         },
         {
             title: 'Capacity',
-            value: `${counts?.totalEnrolledStudents || 0}/${counts?.totalSectorCapacity || 0
-                }`,
-            change: 'Spots',
-            changeText: 'available',
+            value: `${counts?.totalEnrolledStudents || 0}/${
+                counts?.totalSectorCapacity || 0
+            }`,
             icon: Layers,
             gradient: 'from-[#0D5468] to-[#044866]',
             trend: 'neutral',
             showBar: true,
             percentage: counts?.totalSectorCapacity
                 ? Math.round(
-                    (counts.totalEnrolledStudents /
-                        counts.totalSectorCapacity) *
-                    100
-                )
+                      (counts.totalEnrolledStudents /
+                          counts.totalSectorCapacity) *
+                          100
+                  )
                 : 0,
             color: '#0D5468',
         },
@@ -92,8 +85,9 @@ export function AnalyticsDashboard() {
             title: 'Rating',
             value: overAllRating?.data?.averageRating || 0,
             change: overAllRating?.data?.totalFeedbacks || '0',
-            changeText: `${(Number(overAllRating?.data?.averageRating) / 5) * 100
-                }% positive`,
+            changeText: `${
+                (Number(overAllRating?.data?.averageRating) / 5) * 100
+            }% positive`,
             icon: Star,
             gradient: 'from-[#F7A619] to-[#F59E0B]',
             trend: 'up',

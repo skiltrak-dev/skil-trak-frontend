@@ -266,9 +266,11 @@ export const IndustryProfileCB = ({
                                 <div className="ml-auto">
                                     <Badge text="Add Rpl" onClick={onAddRpl} />
                                 </div>
-                                {industry?.courses
-                                    ?.map((course) => course?.sector?.id)
-                                    ?.includes(1) && (
+                                {(process.env.NEXT_PUBLIC_NODE_ENV ===
+                                    'local' ||
+                                    industry?.courses
+                                        ?.map((course) => course?.sector?.id)
+                                        ?.includes(1)) && (
                                     <IndustryServiceTypeOffered
                                         industryId={industry?.id}
                                         serviceOffered={

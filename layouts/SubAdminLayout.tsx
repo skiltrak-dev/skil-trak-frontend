@@ -16,6 +16,7 @@ import Joyride from 'react-joyride'
 import { UserLayout } from './UserLayout'
 import Head from 'next/head'
 import { UserRoles } from '@constants'
+import { SubAdminLayoutSkeleton } from '@partials/sub-admin/skeletonLoader/SubAdminLayoutSkeleton'
 
 interface SubAdminLayoutProps {
     pageTitle?: PageTitleProps
@@ -141,6 +142,10 @@ export const SubAdminLayout = ({
             })
         }
         return updatedUrl
+    }
+
+    if (subadmin.isLoading) {
+        return <SubAdminLayoutSkeleton />
     }
 
     return (

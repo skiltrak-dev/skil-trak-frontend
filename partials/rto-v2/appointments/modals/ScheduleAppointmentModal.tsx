@@ -34,7 +34,6 @@ export const ScheduleAppointmentModal = ({
     const [selectedUser, setSelectedUser] = useState<any>(
         defaultSelectedUser || null
     )
-    console.log({ selectedUser: selectedUser?.id })
     const [selectedCourse, setSelectedCourse] = useState<any>(null)
 
     const { notification } = useNotification()
@@ -56,8 +55,6 @@ export const ScheduleAppointmentModal = ({
             skip: !selectedUser?.id,
         }
     )
-
-    console.log({ searchedUserCourses: searchedUserCourses?.data })
 
     useEffect(() => {
         if (createAppointmentResult.isSuccess) {

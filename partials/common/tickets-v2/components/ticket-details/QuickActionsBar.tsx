@@ -60,7 +60,6 @@ export const QuickActionsBar = ({ ticket }: any) => {
         const priority = item?.value
 
         if (!priority) {
-            console.log('No priority selected — API not called')
             return
         }
 

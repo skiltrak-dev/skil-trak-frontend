@@ -394,6 +394,7 @@ export interface IndustryInterviewAvailability extends BaseResponse {
     endDate: string | null
     slots: Slot[]
     dates: ScheduleDate[]
+    interviewer: User
 }
 
 export interface Industry extends BaseResponse {
@@ -463,6 +464,8 @@ export interface IndustryBranchesAddressType extends BaseResponse {
     suburb: string
     studentCapacity: number
     enrolledStudents: number
+    country?: string
+    state?: string
 }
 
 export interface ContactPerson extends BaseResponse {

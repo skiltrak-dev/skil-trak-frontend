@@ -127,6 +127,7 @@ const {
     useUpdateIndustryBioMutation,
     useIndustryInfoMessageMutation,
     useGetIndustryInfoMessagesQuery,
+    useAssignIndustryToCoordinatorMutation,
 
     // ---- RTO Credits ---- //
     useGetRtoCreditsQuery,
@@ -245,6 +246,7 @@ export const RtoV2Api = {
         updateIndustryBio: useUpdateIndustryBioMutation,
         industryInfoMessage: useIndustryInfoMessageMutation,
         getIndustryInfoMessages: useGetIndustryInfoMessagesQuery,
+        assignIndustryToCoordinator: useAssignIndustryToCoordinatorMutation,
     },
     RtoCredits: {
         getRtoCredits: useGetRtoCreditsQuery,

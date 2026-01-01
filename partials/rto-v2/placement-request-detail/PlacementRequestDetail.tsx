@@ -878,7 +878,7 @@ export const PlacementRequestDetail = () => {
             window.removeEventListener('resize', handleScroll)
         }
     }, [workplaceType, currentStatus]) // Re-run when content might change
-
+    console.log('wpCurrentStatus?.stage', wpCurrentStatus?.stage)
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100/50">
             {placementRequestsDetails.isLoading ? (
@@ -992,12 +992,12 @@ export const PlacementRequestDetail = () => {
                                     }`}
                                 >
                                     {/* Industry Match Validation - Shown from workflow start through completion */}
-                                    {workplaceType === 'needs' && (
+                                    {/* {workplaceType === 'needs' && (
                                         <IndustryMatchValidationCard
                                             wpCurrentStatus={wpCurrentStatus}
                                             workplaceType={workplaceType}
                                         />
-                                    )}
+                                    )} */}
 
                                     {/* Enhanced Industry Details */}
                                     <EnhancedIndustryDetailsCard
