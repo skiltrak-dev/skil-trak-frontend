@@ -1,7 +1,13 @@
-import { Modal, ShowErrorNotifications, TextArea } from '@components'
+import {
+    Modal,
+    Select,
+    ShowErrorNotifications,
+    TextArea,
+    Typography,
+} from '@components'
 import { useNotification } from '@hooks'
 import { SubAdminApi } from '@queries'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { WPApprovalStatus } from '../enum'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -9,7 +15,8 @@ import { FcCancel } from 'react-icons/fc'
 import * as Yup from 'yup'
 
 interface onSubmitType {
-    note: string
+    reason: string | null
+    note?: string
 }
 
 export const WorkplaceRejectedModal = ({
@@ -25,30 +32,52 @@ export const WorkplaceRejectedModal = ({
     const { notification } = useNotification()
 
     const validationSchema = Yup.object({
-        note: Yup.string().required(
-            'Please provide the comment for canceling the workplace request'
-        ),
+        reason: Yup.string()
+            .nullable()
+            .required('Please select a reason for rejection'),
+        note: Yup.string().when('reason', {
+            is: 'other',
+            then: (schema) =>
+                schema.required('Please specify the rejection reason'),
+            otherwise: (schema) => schema.notRequired(),
+        }),
     })
+
+    useEffect(() => {
+        if (changeStatusResult.isSuccess) {
+            notification.success({
+                title: 'Status Changed',
+                description: 'Rejected successfully',
+            })
+            onCancel(true)
+        }
+    }, [changeStatusResult.isSuccess])
+    const reasonOptions = [
+        { label: 'Location is too far from my residence', value: 'too-far' },
+        { label: 'Workplace preference', value: 'workplace-preference' },
+        { label: 'Found my own workplace', value: 'find-own-workplace' },
+        { label: 'Other', value: 'other' },
+    ]
 
     const methods = useForm<onSubmitType>({
         resolver: yupResolver(validationSchema),
         mode: 'all',
+        defaultValues: { reason: null, note: '' },
     })
 
+    const selectedReason = methods.watch('reason')
+
     const onSubmit = async (values: any) => {
-        const res: any = await changeStatus({
+        await changeStatus({
             id: wpApprovalId,
-            comment: values?.note,
+            body: {
+                comment: values.reason,
+                ...(values.reason === 'other' && {
+                    note: values.note,
+                }),
+            },
             status: WPApprovalStatus.Rejected,
         })
-
-        if (res?.data) {
-            notification.success({
-                title: 'Status Changed',
-                description: 'Status Changed Successfully',
-            })
-            onCancel(true)
-        }
     }
 
     return (
@@ -56,7 +85,7 @@ export const WorkplaceRejectedModal = ({
             <div>
                 <ShowErrorNotifications result={changeStatusResult} />
                 <Modal
-                    title={'Comment'}
+                    title={'Reason for Rejection'}
                     subtitle={''}
                     onConfirmClick={methods.handleSubmit(onSubmit)}
                     onCancelClick={onCancel}
@@ -71,18 +100,25 @@ export const WorkplaceRejectedModal = ({
                 >
                     <FormProvider {...methods}>
                         <form className="w-full">
-                            <TextArea
-                                label={
-                                    <span className={'text-xs'}>
-                                        Please provide the comment for canceling
-                                        the request
-                                    </span>
-                                }
-                                required
-                                name={'note'}
-                                placeholder={'reason...'}
-                                rows={5}
+                            <Typography variant="small">
+                                Please provide a reason for rejection the
+                                selected workplace.
+                            </Typography>
+                            <Select
+                                name="reason"
+                                options={reasonOptions}
+                                placeholder="-- Select a reason --"
+                                onlyValue
                             />
+                            {selectedReason === 'other' && (
+                                <TextArea
+                                    label="Specify your reason"
+                                    required
+                                    name="note"
+                                    placeholder="Enter reason..."
+                                    rows={5}
+                                />
+                            )}
                         </form>
                     </FormProvider>
                 </Modal>

@@ -4,6 +4,8 @@ import { CommonApi } from '@queries'
 import { useRouter } from 'next/router'
 import { NoData, PageSize, Pagination } from '@components'
 import { TicketListSkeleton } from '../../skeleton'
+import { getUserCredentials } from '@utils'
+import { UserRoles } from '@constants'
 
 export const AllTeamsTabs = () => {
     const [itemPerPage, setItemPerPage] = useState(10)
@@ -17,6 +19,8 @@ export const AllTeamsTabs = () => {
         limit: itemPerPage,
     })
 
+    const role = getUserCredentials()?.role
+
     return (
         <div className="space-y-2">
             {isError && <NoData isError />}
@@ -24,15 +28,17 @@ export const AllTeamsTabs = () => {
                 <TicketListSkeleton />
             ) : data?.data?.length > 0 ? (
                 <>
-                    <PageSize
-                        itemPerPage={itemPerPage}
-                        setItemPerPage={setItemPerPage}
-                        records={data?.data?.length}
-                    />
-                    <Pagination
-                        pagination={data?.pagination}
-                        setPage={setPage}
-                    />
+                    <div className="flex items-center justify-between">
+                        <PageSize
+                            itemPerPage={itemPerPage}
+                            setItemPerPage={setItemPerPage}
+                            records={data?.data?.length}
+                        />
+                        <Pagination
+                            pagination={data?.pagination}
+                            setPage={setPage}
+                        />
+                    </div>
                     {data?.data?.map((ticket: any, index: number) => (
                         <div
                             key={ticket.id}
@@ -42,9 +48,19 @@ export const AllTeamsTabs = () => {
                             <TicketCard
                                 ticket={ticket}
                                 onClick={() => {
-                                    router.push(
-                                        `/portals/rto/communications/tickets/${ticket?.id}`
-                                    )
+                                    if (role === UserRoles.RTO) {
+                                        router.push(
+                                            `/portals/rto/communications/tickets/${ticket?.id}`
+                                        )
+                                    } else if (role === UserRoles.ADMIN) {
+                                        router.push(
+                                            `/portals/admin/support-tickets/${ticket?.id}`
+                                        )
+                                    } else if (role === UserRoles.SUBADMIN) {
+                                        router.push(
+                                            `/portals/sub-admin/support-tickets/${ticket?.id}`
+                                        )
+                                    }
                                 }}
                                 // onViewStudentProfile={setSelectedStudentId}
                                 // onViewIndustryProfile={setSelectedIndustryId}

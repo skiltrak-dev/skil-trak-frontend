@@ -143,15 +143,17 @@ export const workplaceEndpoints = (
         query: () => 'employment-documents',
         providesTags: ['Workplace'],
     }),
-    rejectIndustryFromEmail: builder.query<
+    rejectIndustryFromEmail: builder.mutation<
         any,
-        { id: number; comment: string; status: string }
+        { id: number; body: any; status: string }
     >({
-        query: ({ id, ...params }) => ({
+        query: ({ id, body, ...params }) => ({
             url: `subadmin/workplace/approval-request/${id}/update-status`,
             params,
+            body,
+            method: 'POST',
         }),
-        providesTags: ['Students'],
+        invalidatesTags: ['Students'],
     }),
 
     getWpIndustryChecks: builder.query<any, void>({

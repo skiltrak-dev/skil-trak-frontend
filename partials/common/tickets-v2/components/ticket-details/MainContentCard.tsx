@@ -40,6 +40,18 @@ export const MainContentCard = ({ ticket }: any) => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {/* Left Column - Main Content */}
                 <div className="lg:col-span-2 space-y-4">
+                    {/* resolution */}
+                    <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-5">
+                        <h3 className="text-[#044866] mb-3 flex items-center gap-2">
+                            <MessageSquare className="w-4 h-4 text-[#F7A619]" />
+                            Resolution Note
+                        </h3>
+                        <div className="bg-gradient-to-br from-[#044866]/5 via-[#0D5468]/5 to-[#F7A619]/5 rounded-lg p-4 border border-[#044866]/10">
+                            <p className="text-[#044866] leading-relaxed">
+                                {ticket?.resolution ?? 'NA'}
+                            </p>
+                        </div>
+                    </div>
                     {/* Description Card */}
                     <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-5">
                         <h3 className="text-[#044866] mb-3 flex items-center gap-2">

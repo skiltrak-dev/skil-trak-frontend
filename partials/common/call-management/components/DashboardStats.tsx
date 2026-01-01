@@ -9,23 +9,18 @@ interface DashboardStatsProps {
     calls: Call[]
 }
 
-export function DashboardStats({ calls }: DashboardStatsProps) {
-    const totalCalls = calls.length
-    const completedCalls = calls.filter((c) => c.status === 'completed').length
-    const openCalls = calls.filter((c) => c.status === 'open').length
+export function DashboardStats() {
+    // const totalCalls = calls.length
+    // const completedCalls = calls.filter((c) => c.status === 'completed').length
+    // const openCalls = calls.filter((c) => c.status === 'pending').length
     const [selectedCall, setSelectedCall] = useState<Call | null>(null)
     const [ticketModalCall, setTicketModalCall] = useState<Call | null>(null)
 
-    const handleCreateTicket = (callId: string) => {
-        const call = calls.find((c) => c.id === callId)
-        if (call) {
-            setTicketModalCall(call)
-        }
-    }
+    
     const stats = [
         {
             label: 'Total Calls',
-            value: totalCalls,
+            // value: totalCalls,
             icon: Phone,
             color: 'bg-[#044866]',
             lightColor: 'bg-[#E6F2F7]',
@@ -34,7 +29,7 @@ export function DashboardStats({ calls }: DashboardStatsProps) {
         },
         {
             label: 'Completed Placements',
-            value: completedCalls,
+            // value: completedCalls,
             icon: CheckCircle,
             color: 'bg-[#0D5468]',
             lightColor: 'bg-[#E8F4F6]',
@@ -43,7 +38,7 @@ export function DashboardStats({ calls }: DashboardStatsProps) {
         },
         {
             label: 'Open States',
-            value: openCalls,
+            // value: openCalls,
             icon: Clock,
             color: 'bg-[#044866]',
             lightColor: 'bg-[#E6F2F7]',
@@ -56,7 +51,7 @@ export function DashboardStats({ calls }: DashboardStatsProps) {
         <>
             <Tabs defaultValue="all" className="mb-5">
                 <TabsList className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-transparent p-0 h-32 w-full">
-                    {stats.map((stat) => {
+                    {stats?.map((stat) => {
                         const Icon = stat.icon
 
                         return (
@@ -95,9 +90,9 @@ export function DashboardStats({ calls }: DashboardStatsProps) {
                                         </div>
                                     </div>
 
-                                    <div className="text-3xl text-gray-900 data-[state=active]:text-white">
+                                    {/* <div className="text-3xl text-gray-900 data-[state=active]:text-white">
                                         {stat.value}
-                                    </div>
+                                    </div> */}
                                 </div>
 
                                 {/* Active indicator */}
@@ -113,7 +108,7 @@ export function DashboardStats({ calls }: DashboardStatsProps) {
                 <TabsContent value="all">
                     <AllCallList
                         setSelectedCall={setSelectedCall}
-                        handleCreateTicket={handleCreateTicket}
+                        // handleCreateTicket={handleCreateTicket}
                     />
                 </TabsContent>
                 <TabsContent value="completed">Completed List</TabsContent>

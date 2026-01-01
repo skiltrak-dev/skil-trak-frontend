@@ -1,4 +1,10 @@
-import { Button, ShowErrorNotifications, TextArea } from '@components'
+import {
+    Button,
+    Select,
+    ShowErrorNotifications,
+    TextArea,
+    Typography,
+} from '@components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNotification } from '@hooks'
 import { SiteLayout } from '@layouts'
@@ -14,19 +20,11 @@ const DynamicPageData = () => {
     const router = useRouter()
     const { notification } = useNotification()
 
-    const reject = StudentApi.Workplace.rejectIndustryFromEmail(
-        {
-            comment,
-            status: 'rejected',
-            id: Number(router?.query?.id),
-        },
-        {
-            skip: !comment,
-        }
-    )
+    const [reject, rejectResult] =
+        StudentApi.Workplace.rejectIndustryFromEmail()
 
     useEffect(() => {
-        if (reject?.isSuccess) {
+        if (rejectResult?.isSuccess) {
             notification.success({
                 title: 'Industry Rejected',
                 description: 'Industry Rejected Successfully!',
@@ -34,54 +32,84 @@ const DynamicPageData = () => {
             setComment('')
             router.push('/')
         }
-    }, [reject])
+    }, [rejectResult.isSuccess])
+    const reasonOptions = [
+        { label: 'Location is too far from my residence', value: 'too-far' },
+        { label: 'Workplace preference', value: 'workplace-preference' },
+        { label: 'Found my own workplace', value: 'find-own-workplace' },
+        { label: 'Other', value: 'other' },
+    ]
 
     const validationSchema = Yup.object({
-        message: Yup.string().required('Message is required'),
+        reason: Yup.string().required('Please select a reason'),
+
+        note: Yup.string().when('reason', {
+            is: 'other',
+            then: (schema) => schema.required('Please specify your reason'),
+            otherwise: (schema) => schema.notRequired(),
+        }),
     })
 
     const methods = useForm({
         resolver: yupResolver(validationSchema),
         mode: 'all',
+        defaultValues: {
+            reason: null,
+            note: '',
+        },
     })
+    const selectedReason = methods.watch('reason')
 
     const onSubmit = (values: any) => {
-        setComment(values?.message)
-        // const res: any = await reject(values)
+        const payload = {
+            id: Number(router.query.id),
+            status: 'rejected',
+            body: {
+                comment: values.reason,
+                ...(values.reason === 'other' && {
+                    note: values.note,
+                }),
+            },
+        }
 
-        // if (res?.data) {
-        //     notification.success({
-        //         title: 'Industry Rejected',
-        //         description: 'Industry Rejected Successfully!',
-        //     })
-        // }
+        reject(payload)
     }
+
     return (
         <SiteLayout>
-            <ShowErrorNotifications result={reject} />
+            <ShowErrorNotifications result={rejectResult} />
             <div className="max-w-7xl mx-auto py-5 md:py-10">
                 <FormProvider {...methods}>
                     <form
                         className="mt-2 w-full"
                         onSubmit={methods.handleSubmit(onSubmit)}
                     >
-                        <div className="">
+                        <Typography variant="small">
+                            Please provide a reason for rejection the selected
+                            workplace.
+                        </Typography>
+                        <Select
+                            name="reason"
+                            options={reasonOptions}
+                            placeholder="-- Select a reason --"
+                            onlyValue
+                        />
+                        {selectedReason === 'other' && (
                             <TextArea
-                                label={'The reason for Rejection'}
-                                name={'message'}
-                                rows={10}
-                                placeholder={'The reason for Rejection...'}
-                                validationIcons
+                                label="Specify your reason"
                                 required
+                                name="note"
+                                placeholder="Enter reason..."
+                                rows={5}
                             />
-                        </div>
+                        )}
 
                         <div className="mt-4 flex items-center justify-between">
                             <Button
                                 submit
                                 variant="error"
-                                loading={reject.isLoading}
-                                disabled={reject.isLoading}
+                                loading={rejectResult.isLoading}
+                                disabled={rejectResult.isLoading}
                             >
                                 Reject
                             </Button>

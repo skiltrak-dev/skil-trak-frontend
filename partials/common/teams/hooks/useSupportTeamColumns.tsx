@@ -1,9 +1,14 @@
 import { TableAction, TableActionOption } from '@components'
+import {
+    HoverCard,
+    HoverCardTrigger,
+    HoverCardContent,
+} from '@components/ui/hover-card'
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { Tags } from 'lucide-react'
 import Image from 'next/image'
-import { FaTrash } from 'react-icons/fa'
+import { FaRegEdit, FaTrash } from 'react-icons/fa'
 
 interface SupportTeamItem {
     id: number
@@ -14,17 +19,26 @@ interface SupportTeamItem {
     updatedAt: string
     isActive: boolean
     description?: string
+    members: any
     state: any
 }
 
 interface UseSupportTeamColumnsProps {
     onDeleteClicked: (item: SupportTeamItem) => void
+    onClickEdit: (item: SupportTeamItem) => void
 }
 
 export function useSupportTeamColumns({
     onDeleteClicked,
+    onClickEdit,
 }: UseSupportTeamColumnsProps) {
     const tableActionOptions: TableActionOption<SupportTeamItem>[] = [
+        {
+            text: 'Edit',
+            onClick: (item) => onClickEdit(item),
+            Icon: FaRegEdit,
+            color: 'text-blue-500 hover:bg-blue-100 hover:border-blue-200',
+        },
         {
             text: 'Delete',
             onClick: (item) => onDeleteClicked(item),
@@ -46,7 +60,40 @@ export function useSupportTeamColumns({
         {
             header: () => <span>Members</span>,
             accessorKey: 'membersCount',
-            cell: ({ row }) => row.original.membersCount ?? 0,
+            cell: ({ row }) => {
+                const members = row.original?.members || []
+
+                if (!members.length) return <span>0</span>
+
+                return (
+                    <HoverCard>
+                        <HoverCardTrigger asChild>
+                            <span className="cursor-pointer text-primary underline underline-offset-2">
+                                {members?.length} Members
+                            </span>
+                        </HoverCardTrigger>
+
+                        <HoverCardContent className="w-56 p-3">
+                            <div className="space-y-2">
+                                <p className="text-sm font-semibold">
+                                    Team Members
+                                </p>
+
+                                <ul className="space-y-1 text-sm">
+                                    {members?.map((m: any) => (
+                                        <li
+                                            key={m.id}
+                                            className="text-muted-foreground"
+                                        >
+                                            {m.subadmin?.user?.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </HoverCardContent>
+                    </HoverCard>
+                )
+            },
         },
         {
             header: () => <span>Country / State</span>,

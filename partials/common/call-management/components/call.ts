@@ -1,14 +1,14 @@
-export type CallStatus = 'open' | 'completed'
+export type CallStatus = 'pending' | 'completed'
 
 export interface Call {
     id: string
-    studentName: string
+    student: any
     agentName: string
     status: CallStatus
-    date: string
-    duration: string
+    createdAt: string
+    callDuration: string
     phoneNumber: string
-    industry?: string
+    industry?: any
     placementCompany?: string
     notes: string
     tags: string[]
@@ -27,7 +27,7 @@ export interface StatusConfig {
 }
 
 export const statusConfigs: Record<CallStatus, StatusConfig> = {
-    open: {
+    pending: {
         label: 'Open States',
         color: '#044866',
         bgColor: '#E6F2F7',

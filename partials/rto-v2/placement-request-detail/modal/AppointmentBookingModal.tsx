@@ -24,6 +24,7 @@ interface AvailableDay {
     dayNumber: number
     month: string
     slots: TimeSlot[]
+    dates?: any
 }
 
 interface ApiSlot {
@@ -41,6 +42,7 @@ interface AvailabilityData {
     startDate?: string | null
     endDate?: string | null
     slots: ApiSlot[]
+    dates: any
 }
 
 interface AppointmentBookingModalProps {
@@ -75,21 +77,16 @@ const generateAvailabilityDays = (
 
     const availableDays: AvailableDay[] = []
 
-    if (
-        availability?.type === 'monthly' &&
-        availability?.startDate &&
-        availability?.endDate
-    ) {
-        // Monthly type: Generate days from startDate to endDate
-        const start = new Date(availability.startDate)
-        const end = new Date(availability.endDate)
+    /* =======================
+       MONTHLY (NEW STRUCTURE)
+       ======================= */
+    if (availability.type === 'monthly' && availability?.dates?.length) {
+        availability?.dates?.forEach((dateItem: any) => {
+            if (!dateItem.isActive) return
 
-        // Loop through each day in the date range
-        for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-            const currentDate = new Date(d)
+            const currentDate = new Date(dateItem.date)
             const dayOfWeek = currentDate.getDay()
 
-            // Generate time slots from the availability slots
             const timeSlots: TimeSlot[] = []
 
             availability.slots.forEach((slot) => {
@@ -102,19 +99,18 @@ const generateAvailabilityDays = (
                     const period = hour >= 12 ? 'PM' : 'AM'
                     const displayHour =
                         hour > 12 ? hour - 12 : hour === 0 ? 12 : hour
-                    const timeString = `${displayHour
-                        .toString()
-                        .padStart(2, '0')}:00 ${period}`
 
                     timeSlots.push({
-                        time: timeString,
+                        time: `${displayHour
+                            .toString()
+                            .padStart(2, '0')}:00 ${period}`,
                         available: true,
-                        id: slot?.id,
+                        id: slot.id,
                     })
                 }
             })
 
-            if (timeSlots.length > 0) {
+            if (timeSlots.length) {
                 availableDays.push({
                     date: currentDate.toISOString().split('T')[0],
                     dayName: dayNames[dayOfWeek],
@@ -123,68 +119,72 @@ const generateAvailabilityDays = (
                     slots: timeSlots,
                 })
             }
-        }
-    } else {
-        // Weekly type: Generate days based on day of week
-        const today = new Date()
-        const currentMonth = today.getMonth()
-        const currentYear = today.getFullYear()
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
+        })
 
-        const dayMap: { [key: string]: number } = {
-            sunday: 0,
-            monday: 1,
-            tuesday: 2,
-            wednesday: 3,
-            thursday: 4,
-            friday: 5,
-            saturday: 6,
-        }
+        return availableDays
+    }
 
-        for (let day = today.getDate(); day <= daysInMonth; day++) {
-            const currentDate = new Date(currentYear, currentMonth, day)
-            const dayOfWeek = currentDate.getDay()
-            const dayName = Object.keys(dayMap).find(
-                (key) => dayMap[key] === dayOfWeek
-            )
+    /* =======================
+       WEEKLY (UNCHANGED)
+       ======================= */
+    const today = new Date()
+    const currentMonth = today.getMonth()
+    const currentYear = today.getFullYear()
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
 
-            const daySlots = availability.slots.filter(
-                (slot) => slot?.isActive && slot?.day?.toLowerCase() === dayName
-            )
+    const dayMap: Record<string, number> = {
+        sunday: 0,
+        monday: 1,
+        tuesday: 2,
+        wednesday: 3,
+        thursday: 4,
+        friday: 5,
+        saturday: 6,
+    }
 
-            if (daySlots.length > 0) {
-                const timeSlots: TimeSlot[] = []
+    for (let day = today.getDate(); day <= daysInMonth; day++) {
+        const currentDate = new Date(currentYear, currentMonth, day)
+        const dayOfWeek = currentDate.getDay()
 
-                daySlots.forEach((slot) => {
-                    const [startHour] = slot.startTime.split(':').map(Number)
-                    const [endHour] = slot.endTime.split(':').map(Number)
+        const dayName = Object.keys(dayMap).find(
+            (key) => dayMap[key] === dayOfWeek
+        )
 
-                    for (let hour = startHour; hour < endHour; hour++) {
-                        const period = hour >= 12 ? 'PM' : 'AM'
-                        const displayHour =
-                            hour > 12 ? hour - 12 : hour === 0 ? 12 : hour
-                        const timeString = `${displayHour
-                            .toString()
-                            .padStart(2, '0')}:00 ${period}`
+        const daySlots = availability.slots.filter(
+            (slot) => slot.isActive && slot.day?.toLowerCase() === dayName
+        )
 
-                        timeSlots.push({
-                            time: timeString,
-                            available: true,
-                            id: slot?.id,
-                        })
-                    }
+        if (!daySlots.length) continue
+
+        const timeSlots: TimeSlot[] = []
+
+        daySlots.forEach((slot) => {
+            const [startHour] = slot.startTime.split(':').map(Number)
+            const [endHour] = slot.endTime.split(':').map(Number)
+
+            for (let hour = startHour; hour < endHour; hour++) {
+                const period = hour >= 12 ? 'PM' : 'AM'
+                const displayHour =
+                    hour > 12 ? hour - 12 : hour === 0 ? 12 : hour
+
+                timeSlots.push({
+                    time: `${displayHour
+                        .toString()
+                        .padStart(2, '0')}:00 ${period}`,
+                    available: true,
+                    id: slot.id,
                 })
-
-                if (timeSlots.length > 0) {
-                    availableDays.push({
-                        date: currentDate.toISOString().split('T')[0],
-                        dayName: dayNames[dayOfWeek],
-                        dayNumber: day,
-                        month: monthNames[currentMonth],
-                        slots: timeSlots,
-                    })
-                }
             }
+        })
+
+        if (timeSlots?.length) {
+            availableDays.push({
+                date: currentDate.toISOString().split('T')[0],
+                dayName: dayNames[dayOfWeek],
+                dayNumber: day,
+                month: monthNames[currentMonth],
+                slots: timeSlots,
+            })
         }
     }
 
@@ -215,6 +215,7 @@ export const AppointmentBookingModal = ({
                 title: 'Appointment booked',
                 description: 'Your appointment has been booked successfully',
             })
+            router.push('/')
         }
     }, [resultBookAppointment?.isSuccess])
     // const [bookAppointresult]

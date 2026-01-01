@@ -42,7 +42,7 @@ export const placementRequestsEndPoints = (
         query: (id) => ({
             url: `${PREFIX}placement-request/${id}/workplace-view`,
         }),
-        providesTags: ['RTO'],
+        providesTags: ['RTO', 'SubAdminStudents', 'SubAdminWorkplace'],
     }),
     //rtos/placement-request/:id/view-course
     getStudentPlacementCourse: builder.query<any, any>({

@@ -18,12 +18,12 @@ export function StatusBadge({ status, size = 'md' }: StatusBadgeProps) {
         <span
             className={`inline-flex items-center rounded-full font-medium border ${sizeClasses[size]}`}
             style={{
-                color: config.color,
-                backgroundColor: config.bgColor,
-                borderColor: config.borderColor,
+                color: config?.color,
+                backgroundColor: config?.bgColor,
+                borderColor: config?.borderColor,
             }}
         >
-            {config.label}
+            {config?.label}
         </span>
     )
 }

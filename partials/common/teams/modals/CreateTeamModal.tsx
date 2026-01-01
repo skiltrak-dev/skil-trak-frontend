@@ -14,30 +14,34 @@ import {
     DialogTitle,
 } from '@components/ui'
 import { Alert, AlertDescription } from '@components/ui/alert'
+import { Checkbox } from '@components/ui/checkbox'
 import { Label } from '@components/ui/label'
 import { Separator } from '@components/ui/separator'
-import { Checkbox } from '@components/ui/checkbox'
 
-import {
-    Briefcase,
-    Crown,
-    GraduationCap,
-    Info,
-    Plus,
-    Send,
-    Shield,
-    Tag,
-    UserPlus,
-} from 'lucide-react'
+import { Briefcase, Info, Plus, Send, SquarePen, Tag } from 'lucide-react'
 
-import React, { useEffect, useState } from 'react'
-import { useForm, Controller, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useEffect, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
-import { AVAILABLE_TEAMS, TEAM_TAGS } from '../teams-tabs'
-import { CommonApi } from '@queries'
 import { useNotification } from '@hooks'
+import { CommonApi } from '@queries'
+import { TEAM_TAGS } from '../teams-tabs'
+
+type Option = {
+    label: string
+    value: number
+}
+
+type FormValues = {
+    name: string
+    description: string
+    country: Option | null
+    state: Option | null
+    members: Option[]
+    tags: string[]
+}
 
 // ----------------------------
 // Yup Validation Schema
@@ -53,75 +57,125 @@ const schema = yup.object().shape({
     tags: yup.array().optional(),
 })
 
-export const CreateTeamModal = ({ createTeamOpen, setCreateTeamOpen }: any) => {
+export const CreateTeamModal = ({
+    createTeamOpen,
+    setCreateTeamOpen,
+    editData,
+}: any) => {
+    const isEditMode = Boolean(editData)
     const [selectedCountry, setSelectedCountry] = useState<any | undefined>(
         undefined
     )
     const { notification } = useNotification()
+
     const coordinators = CommonApi.Coordinators.useCoordinatorByRole()
+
     const [createTeam, createTeamResult] =
         CommonApi.Teams.useCreateSupportTeam()
+
+    const [updateTeam, updateTeamResult] = CommonApi.Teams.useEditSupportTeam() // 👈 UPDATE API
+
     const memberOptions = coordinators?.data?.map((coordinator: any) => ({
         label: coordinator?.user?.name,
         value: coordinator?.id,
     }))
+
     const { data, isLoading } = CommonApi.Countries.useCountriesList()
+
     const statesBasedOnCountry = CommonApi.Countries.useCountryStatesList(
         selectedCountry,
-        {
-            skip: !selectedCountry,
-        }
+        { skip: !selectedCountry }
     )
+
     const stateOptions = statesBasedOnCountry?.data?.map((state: any) => ({
         label: state?.name,
         value: state?.id,
     }))
-    const methods = useForm({
+
+    const methods = useForm<FormValues>({
         mode: 'all',
         resolver: yupResolver(schema),
         defaultValues: {
             name: '',
             description: '',
+            country: null,
+            state: null,
             members: [],
-            tags: [] as string[],
+            tags: [],
         },
     })
-
     useEffect(() => {
-        if (createTeamResult.isSuccess) {
+        if (!editData) return
+        methods.reset({
+            name: editData?.name,
+            description: editData?.description,
+            country: editData?.state?.country
+                ? {
+                      label: editData?.state?.country?.name,
+                      value: editData?.state?.country?.id,
+                  }
+                : null,
+            state: editData?.state
+                ? { label: editData.state.name, value: editData.state.id }
+                : null,
+            members: editData?.members?.map((m: any) => ({
+                label: m?.subadmin?.user?.name,
+                value: m?.subadmin?.id,
+            })),
+            tags: editData?.tags || [],
+        })
+
+        setSelectedCountry(editData?.state?.country?.id)
+    }, [editData])
+
+    // ----------------------------------
+    // SUCCESS HANDLING
+    // ----------------------------------
+    useEffect(() => {
+        if (createTeamResult.isSuccess || updateTeamResult.isSuccess) {
             notification.success({
                 title: 'Success',
-                description: 'Team created successfully',
+                description: isEditMode
+                    ? 'Team updated successfully'
+                    : 'Team created successfully',
             })
             setCreateTeamOpen(false)
             methods.reset()
         }
-    }, [createTeamResult.isSuccess])
+    }, [createTeamResult.isSuccess, updateTeamResult.isSuccess])
 
     const selectedTags = methods.watch('tags')
 
-    const toggleTag = (tag: string) => {
+    const toggleTag = (tag: any) => {
         const current = methods.watch('tags') || []
-
-        // If the same tag is clicked again → unselect it
-        if (current[0] === tag) {
-            methods.setValue('tags', [])
-        } else {
-            // Always keep only one tag
-            methods.setValue('tags', [tag])
-        }
+        methods.setValue('tags', current[0] === tag ? [] : [tag])
     }
 
+    // ----------------------------------
+    // SUBMIT HANDLER (CREATE + EDIT)
+    // ----------------------------------
     const onSubmit = (data: any) => {
-        const { members, country, ...rest } = data
+        const { members, country, state, ...rest } = data
+
         const subAdmin = members?.map((member: any) => ({
             subadmin: member?.value,
         }))
+
         const payload = {
             ...rest,
+            country: country?.value,
+            state: typeof state === 'object' ? state?.value : state,
             members: subAdmin,
         }
-        createTeam(payload)
+
+        if (isEditMode) {
+            updateTeam({
+                id: editData.id,
+                body: payload,
+            })
+        } else {
+            createTeam(payload)
+        }
     }
 
     return (
@@ -308,12 +362,24 @@ export const CreateTeamModal = ({ createTeamOpen, setCreateTeamOpen }: any) => {
                                 <Button
                                     className="bg-gradient-to-r from-accent to-warning gap-2"
                                     submit
-                                    variant="primaryNew"
-                                    loading={createTeamResult.isLoading}
-                                    disabled={createTeamResult.isLoading}
+                                    variant={isEditMode ? 'info' : 'primaryNew'}
+                                    loading={
+                                        isEditMode
+                                            ? updateTeamResult.isLoading
+                                            : createTeamResult.isLoading
+                                    }
+                                    disabled={
+                                        isEditMode
+                                            ? updateTeamResult.isLoading
+                                            : createTeamResult.isLoading
+                                    }
                                 >
-                                    <Send className="h-4 w-4" />
-                                    Create Team
+                                    {isEditMode ? (
+                                        <SquarePen className="h-4 w-4" />
+                                    ) : (
+                                        <Send className="h-4 w-4" />
+                                    )}
+                                    {isEditMode ? 'Update Team' : 'Create Team'}
                                 </Button>
                             </DialogFooter>
                         </form>

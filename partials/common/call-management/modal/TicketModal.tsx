@@ -63,7 +63,7 @@ export const TicketModal = ({ call, onClose }: TicketModalProps) => {
                                     Create Support Ticket
                                 </h2>
                                 <p className="text-purple-100 text-sm">
-                                    For {call.studentName}
+                                    For {call?.student?.user?.name || '---'}
                                 </p>
                             </div>
                         </div>

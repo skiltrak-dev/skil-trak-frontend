@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import { NoData, PageSize, Pagination } from '@components'
+import { CommonApi } from '@queries'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { EmptyTicket, TAGS } from '../../components'
 import { TicketCard } from '../../components/cards/TicketCard'
-import { Ticket } from '../../components/cards/types'
-import { useRouter } from 'next/router'
-import { CommonApi } from '@queries'
-import { NoData, PageSize, Pagination } from '@components'
 import { TicketListSkeleton } from '../../skeleton'
 
 export const IndustrySourcingTab = () => {

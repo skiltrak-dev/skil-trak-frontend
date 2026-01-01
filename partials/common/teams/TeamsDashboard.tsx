@@ -1,27 +1,27 @@
-import React, { useState } from 'react'
-import { TeamsHeader, TeamsStatsCard } from './components'
-import { Briefcase, Sparkles, Users } from 'lucide-react'
 import { Badge } from '@components/ui/badge'
 import { Tabs, TabsContent, TabsList } from '@components/ui/tabs'
-import { TabsTrigger } from '@radix-ui/react-tabs'
-import { CreateTeamModal, TeamMemberModal } from './modals'
-import { AllTeamMembersTab, AllTeamsTab, TeamSetupGuideTab } from './teams-tabs'
 import { CommonApi } from '@queries'
+import { TabsTrigger } from '@radix-ui/react-tabs'
+import { Briefcase, Sparkles } from 'lucide-react'
+import { useState } from 'react'
+import { TeamsHeader, TeamsStatsCard } from './components'
+import { TeamMemberModal } from './modals'
+import { AllTeamsTab, TeamSetupGuideTab } from './teams-tabs'
 
 export const TeamsDashboard = () => {
     const [addMemberOpen, setAddMemberOpen] = useState(false)
-    const [createTeamOpen, setCreateTeamOpen] = useState(false)
-    const {data, isLoading} = CommonApi.Teams.useTeamCounts()
+
+    const { data, isLoading } = CommonApi.Teams.useTeamCounts()
     const TAB_LIST = [
-        // {
-        //     label: 'Quick Start Guide',
-        //     value: 'setup',
-        //     icon: Sparkles,
-        //     badge: null, // No badge for this tab
-        //     component: (
-        //         <TeamSetupGuideTab setAddMemberOpen={setAddMemberOpen} />
-        //     ),
-        // },
+        {
+            label: 'Quick Start Guide',
+            value: 'setup',
+            icon: Sparkles,
+            badge: null, // No badge for this tab
+            component: (
+                <TeamSetupGuideTab setAddMemberOpen={setAddMemberOpen} />
+            ),
+        },
         // {
         //     label: 'All Members',
         //     value: 'members',
@@ -48,19 +48,19 @@ export const TeamsDashboard = () => {
                     {data?.team ?? 0}
                 </Badge>
             ),
-            component: <AllTeamsTab setCreateTeamOpen={setCreateTeamOpen} />,
+            component: <AllTeamsTab />,
         },
     ]
 
     return (
         <div className="space-y-6 p-6">
             <TeamsHeader setAddMemberOpen={setAddMemberOpen} />
-            <TeamsStatsCard />
+            <TeamsStatsCard data={data} />
 
             {/* Tabs */}
             <Tabs defaultValue="teams">
-                <div className="bg-gradient-to-br from-muted/50 to-background border border-border/50 rounded-2xl p-6 shadow-premium-lg">
-                    <TabsList className="w-full bg-white backdrop-blur-sm border border-border/60 shadow-premium-lg !p-2 rounded-xl h-auto grid grid-cols-3 gap-2">
+                <div className="border border-border/50 rounded-2xl p-6 shadow-premium-lg">
+                    <TabsList className="w-full bg-white backdrop-blur-sm border border-border/60 shadow-premium-lg !p-2 rounded-xl h-auto grid grid-cols-2 gap-2">
                         {TAB_LIST.map((tab) => {
                             const Icon = tab.icon
                             return (
@@ -89,10 +89,6 @@ export const TeamsDashboard = () => {
             <TeamMemberModal
                 addMemberOpen={addMemberOpen}
                 setAddMemberOpen={setAddMemberOpen}
-            />
-            <CreateTeamModal
-                createTeamOpen={createTeamOpen}
-                setCreateTeamOpen={setCreateTeamOpen}
             />
         </div>
     )

@@ -13,7 +13,7 @@ export function CallStatusTabs({
     onStatusChange,
     callCounts,
 }: StatusTabsProps) {
-    const allStatuses: (CallStatus | 'all')[] = ['all', 'open', 'completed']
+    const allStatuses: (CallStatus | 'all')[] = ['all', 'pending', 'completed']
 
     return (
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-5 overflow-hidden">
