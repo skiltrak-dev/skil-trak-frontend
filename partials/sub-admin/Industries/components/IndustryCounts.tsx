@@ -1,48 +1,44 @@
 import { Card } from '@components/cards'
-import { Progress } from '@components/ui/progress'
 import { cn } from '@utils'
-import { RtoV2Api } from '@redux/queries/portals/rto-v2'
-import { Activity, Briefcase, Building2, Clock, Handshake } from 'lucide-react'
+import { useGetSubadminIndustriesCountQuery } from '@queries'
+import { Activity, Briefcase, Clock, Handshake } from 'lucide-react'
 import React from 'react'
 
 export const IndustryCounts = () => {
-    const { data: counts } = RtoV2Api.Industries.getIndustriesCounts()
+    const { data: counts } = useGetSubadminIndustriesCountQuery()
 
     const config = [
         {
-            label: 'Active Placement Industries',
-            value: counts?.active || 0,
+            label: 'Approved Industries',
+            value: counts?.approved || 0,
             icon: Activity,
             color: 'text-green-600',
             bgColor: 'bg-green-50',
             borderColor: 'border-green-200',
-            progressColor: 'bg-green-600',
         },
         {
-            label: 'Non-Partner Industries',
-            value: counts?.nonPartnerIndustries || 0,
-            icon: Building2,
+            label: 'Pending Industries',
+            value: counts?.pending || 0,
+            icon: Clock,
             color: 'text-orange-600',
             bgColor: 'bg-orange-50',
             borderColor: 'border-orange-200',
         },
         {
-            label: 'Partner Industries',
-            value: counts?.partnerIndustries || 0,
+            label: 'Favorite Industries',
+            value: counts?.favorite || 0,
             icon: Handshake,
             color: 'text-blue-600',
             bgColor: 'bg-blue-50',
             borderColor: 'border-blue-200',
-            progressColor: 'bg-blue-600',
         },
         {
-            label: 'Ready For Placement',
-            value: counts?.readyForPlacementIndustries || 0,
+            label: 'Blocked Industries',
+            value: counts?.blocked || 0,
             icon: Briefcase,
             color: 'text-purple-600',
             bgColor: 'bg-purple-50',
             borderColor: 'border-purple-200',
-            progressColor: 'bg-purple-600',
         },
     ]
 
@@ -61,7 +57,6 @@ export const IndustryCounts = () => {
                             item.bgColor
                         )}
                     >
-                        {/* Decorative Background Icon */}
                         <div className="absolute -right-6 -top-6 opacity-[0.05]">
                             <Icon className={cn('w-24 h-24', item.color)} />
                         </div>

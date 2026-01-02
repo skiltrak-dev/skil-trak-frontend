@@ -58,7 +58,10 @@ export const industriesEndpoints = (
             pending: number
             allIndustries: number
             partnerIndustries: number
+            allPartnerIndustries: number
+            nonPartnerIndustries: number
             readyForPlacementIndustries: number
+            skiltrakIndustriesReadyForPlacement: number
         },
         void
     >({

@@ -72,6 +72,8 @@ export interface UserCount {
     placementStarted: number
     schedule: number
     reported: number
+    nonPartnerIndustries: number
+    partnerIndustries: number
 }
 
 export interface SubadminCount extends UserCount {
