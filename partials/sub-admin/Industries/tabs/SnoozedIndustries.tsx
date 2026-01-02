@@ -40,7 +40,7 @@ export const SnoozedIndustries: React.FC<SnoozedIndustriesProps> = ({
             'students',
             'contactPerson',
             'favouriteBy',
-            'registeredBy',
+            'createdAt',
             'action',
         ],
     })

@@ -1,7 +1,7 @@
 import { SubadminProgressIndustryCell } from '../components'
 import { Badge, TableAction, Typography, UserCreatedAt } from '@components'
 import { ColumnDef } from '@tanstack/react-table'
-import { Industry, SubAdmin } from '@types'
+import { Industry, SubAdmin, UserStatus } from '@types'
 import { ellipsisText, getUserCredentials, setLink } from '@utils'
 import { useRouter } from 'next/router'
 import React, { ReactElement, useState } from 'react'
@@ -10,6 +10,16 @@ import { MdBlock, MdFavorite, MdFavoriteBorder } from 'react-icons/md'
 import { RiInboxArchiveFill } from 'react-icons/ri'
 import { AddToFavoriteModal, ArchiveModal, BlockModal } from '../modals'
 import { FaCheck } from 'react-icons/fa6'
+
+export type IndustryColumnKey =
+    | 'name'
+    | 'abn'
+    | 'students'
+    | 'contactPerson'
+    | 'favouriteBy'
+    | 'profileCompletionPercentage'
+    | 'createdAt'
+    | 'action'
 
 export const useSubAdminIndustryColumns = () => {
     const [modal, setModal] = useState<ReactElement | null>(null)
@@ -66,17 +76,15 @@ export const useSubAdminIndustryColumns = () => {
                 Icon: FaEye,
             },
             {
-                text: `${
-                    industry?.favoriteBy &&
+                text: `${industry?.favoriteBy &&
                     industry?.favoriteBy?.user?.id === subadminId
-                        ? 'Un Favourite'
-                        : 'Add Favourite'
-                }`,
-                color: `${
-                    industry?.subAdmin && industry?.subAdmin?.length > 0
-                        ? 'text-error'
-                        : 'text-primary'
-                }`,
+                    ? 'Un Favourite'
+                    : 'Add Favourite'
+                    }`,
+                color: `${industry?.subAdmin && industry?.subAdmin?.length > 0
+                    ? 'text-error'
+                    : 'text-primary'
+                    }`,
                 onClick: (industry: Industry) =>
                     onAddToFavoriteClicked(industry),
                 Icon: subAdmin ? MdFavorite : MdFavoriteBorder,
@@ -96,8 +104,12 @@ export const useSubAdminIndustryColumns = () => {
         ]
     }
 
-    const getTableConfig = ({ columnKeys }: { columnKeys: string[] }) => {
-        const allColumns: ColumnDef<Industry>[] = [
+    const getTableConfig = ({
+        columnKeys,
+    }: {
+        columnKeys: IndustryColumnKey[]
+    }) => {
+        const allColumns: (ColumnDef<Industry> & { id: IndustryColumnKey })[] = [
             {
                 id: 'name',
                 header: () => 'Business Name',
@@ -163,7 +175,8 @@ export const useSubAdminIndustryColumns = () => {
                 cell: ({ row }) => (
                     <Typography variant={'muted'} color={'gray'}>
                         {Number(row?.original?.profileCompletionPercentage) ===
-                        100 ? (
+                            100 &&
+                            row?.original?.user?.status === UserStatus.Approved ? (
                             <Badge
                                 variant={'primaryNew'}
                                 text={'Placement Ready'}
@@ -181,9 +194,9 @@ export const useSubAdminIndustryColumns = () => {
                 ),
             },
             {
-                id: 'registeredBy',
-                accessorKey: 'registeredBy',
-                header: () => <span>Registered By</span>,
+                id: 'createdAt',
+                accessorKey: 'createdAt',
+                header: () => <span>Registered At</span>,
                 cell: ({ row }) => (
                     <div>
                         {row?.original?.createdBy !== null ? (
@@ -220,7 +233,7 @@ export const useSubAdminIndustryColumns = () => {
         ]
 
         const columns = allColumns.filter((col) =>
-            columnKeys.includes(col.id as string)
+            columnKeys.includes(col.id)
         )
 
         return { columns }

@@ -198,7 +198,7 @@ export const subAdminIndustriesEndpoints = (
     industryProgress: builder.query<any, number>({
         query: (industryId) =>
             `${PREFIX}/industries/${industryId}/profile-completion/progress`,
-        providesTags: ['SubAdminIndustries'],
+        providesTags: ['SubAdminIndustries', 'RTOIndustries'],
     }),
 
     industryAnsweredCall: builder.mutation<any, { id: number; status: string }>(

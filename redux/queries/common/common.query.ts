@@ -564,6 +564,7 @@ const {
     useGetMapFutureIndustriesInRadiusQuery,
     useGetFutureIndustryListingByStateQuery,
     useGetFindWorkplacesCountQuery,
+    useGetFindWorkplacesCountByStatesQuery,
     useImportIndustriesListMutation,
     useRemoveFutureIndustryMutation,
     useUpdateFutureIndustryNoteMutation,
@@ -941,6 +942,7 @@ export const CommonApi = {
         importListWithoutEmail: useImportIndustriesWithoutEmailListMutation,
         useDepartmentFutureIndustriesList:
             useGetDepartmentFutureIndustriesListQuery,
+        findWpCountsByStates: useGetFindWorkplacesCountByStatesQuery,
         useChangePendingIndustryStatus: useChangePendingIndustryStatusMutation,
         useDepartmentApprovedIndustryList:
             useGetDepartmentApprovedIndustryListQuery,

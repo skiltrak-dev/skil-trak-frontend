@@ -32,7 +32,7 @@ export const FilteredIndustries: React.FC<FilteredIndustriesProps> = ({
 
     const { getTableConfig, modal } = useSubAdminIndustryColumns()
     const { columns } = getTableConfig({
-        columnKeys: ['name', 'abn', 'students', 'contactPerson', 'favouriteBy', 'registeredBy', 'action'],
+        columnKeys: ['name', 'abn', 'students', 'contactPerson', 'favouriteBy', 'createdAt', 'action'],
     })
 
     return (

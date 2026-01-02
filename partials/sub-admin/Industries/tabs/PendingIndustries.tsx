@@ -6,16 +6,16 @@ import {
     TechnicalError,
 } from '@components'
 import { SubAdminApi } from '@queries'
+import { UserStatus } from '@types'
 import { removeEmptyValues } from '@utils'
 import React, { useState } from 'react'
 import { useSubAdminIndustryColumns } from '../hooks/useSubAdminIndustryColumns'
-import { UserStatus } from '@types'
 
-interface YourPartnerIndustriesProps {
+interface ArchivedIndustriesProps {
     baseFilter: any
 }
 
-export const YourPartnerIndustries: React.FC<YourPartnerIndustriesProps> = ({
+export const PendingIndustries: React.FC<ArchivedIndustriesProps> = ({
     baseFilter,
 }) => {
     const [page, setPage] = useState(1)
@@ -23,10 +23,7 @@ export const YourPartnerIndustries: React.FC<YourPartnerIndustriesProps> = ({
 
     const industries = SubAdminApi.Industry.useGetAllSubAdminIndustriesList({
         search: JSON.stringify(
-            removeEmptyValues({
-                ...baseFilter,
-                isPartner: true,
-            })
+            removeEmptyValues({ ...baseFilter, status: UserStatus.Pending })
         )
             .replaceAll('{', '')
             .replaceAll('}', '')
@@ -43,8 +40,9 @@ export const YourPartnerIndustries: React.FC<YourPartnerIndustriesProps> = ({
             'abn',
             'students',
             'contactPerson',
-            'profileCompletionPercentage',
+            'favouriteBy',
             'createdAt',
+            'profileCompletionPercentage',
             'action',
         ],
     })
@@ -90,10 +88,8 @@ export const YourPartnerIndustries: React.FC<YourPartnerIndustriesProps> = ({
                 ) : (
                     !industries?.isError && (
                         <EmptyData
-                            title={'No Partner Industries!'}
-                            description={
-                                'You have no partner industries listed.'
-                            }
+                            title={'No Archived Industries!'}
+                            description={'You have no archived industries.'}
                             height={'50vh'}
                         />
                     )

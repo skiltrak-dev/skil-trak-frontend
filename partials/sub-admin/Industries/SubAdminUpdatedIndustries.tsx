@@ -21,6 +21,7 @@ import {
     FilteredIndustries,
     MonthlyCallsIndustries,
     NonPartnerIndustries,
+    PendingIndustries,
     RejectedIndustries,
     SnoozedIndustries,
     YourPartnerIndustries,
@@ -73,6 +74,13 @@ export const SubAdminUpdatedIndustries = () => {
             icon: Building2,
             count: count.data?.nonPartnerIndustries,
             component: () => <NonPartnerIndustries baseFilter={baseFilter} />,
+        },
+        {
+            value: 'pending-industries',
+            label: 'Pending Industries',
+            icon: Building2,
+            count: count.data?.nonPartnerIndustries,
+            component: () => <PendingIndustries baseFilter={baseFilter} />,
         },
         {
             value: 'monthly-calls',
