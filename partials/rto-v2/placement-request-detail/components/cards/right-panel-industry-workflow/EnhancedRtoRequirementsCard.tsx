@@ -1,7 +1,6 @@
-import React from 'react'
-import { CheckCircle2, ClipboardCheck } from 'lucide-react'
-import { AnimatePresence, motion } from 'framer-motion'
 import { Button, Card, NoData } from '@components'
+import { motion } from 'framer-motion'
+import { CheckCircle2, ClipboardCheck } from 'lucide-react'
 
 export const EnhancedRtoRequirementsCard = ({
     confirmedRtoReqs,

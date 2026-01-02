@@ -133,5 +133,6 @@ export const ScheduleSection: React.FC<any> = ({
             studentId={profile?.id}
             student={profile}
         />
+
     </div>
 )

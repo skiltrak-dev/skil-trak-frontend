@@ -479,6 +479,7 @@ const {
     useRescheduleAppointmentMutation,
     useGetAppointmentCompletionStatusQuery,
     useGetAppointmentCompletionStatusIndustryQuery,
+    useGetStudentAgreementAndScheduleStatusQuery,
 
     // ------ Notifications ------ //
     useGetNotificationsQuery,
@@ -850,6 +851,8 @@ export const CommonApi = {
         useAppointmentCompletionStatus: useGetAppointmentCompletionStatusQuery,
         useAppointmentCompletionStatusIndustry:
             useGetAppointmentCompletionStatusIndustryQuery,
+        useStudentAgreementAndScheduleStatus:
+            useGetStudentAgreementAndScheduleStatusQuery,
     },
     Notifications: {
         useNotifications: useGetNotificationsQuery,
