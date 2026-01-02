@@ -16,7 +16,6 @@ export const EnhancedPlacementProgramCard = ({
         RtoV2Api.PlacementRequests.useStudentPlacementCoursePrograms(wpId, {
             skip: !wpId,
         })
-    console.log('data:::::', data)
     return (
         <Card noPadding className="border-0 shadow-xl overflow-hidden">
             <div className="bg-gradient-to-r from-[#0D5468] to-[#044866] px-5 py-4">

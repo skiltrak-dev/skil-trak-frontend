@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 import { RtoV2Api } from '@queries'
 
 export const EnhancedHighlightedTasksCard = ({
-    highlightedTasks,
     confirmedTasks,
     confirmTaskWithWorkplace,
     data,

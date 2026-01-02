@@ -1,18 +1,9 @@
-import { GlobalModal } from '@components/Modal/GlobalModal'
-import { Button } from '@components'
-import { Typography } from '@components/Typography'
-import { Calendar, AlertCircle, CheckCircle2, ExternalLink } from 'lucide-react'
+import { GlobalModal, Typography } from '@components'
 import { Schedule } from '@partials/common/StudentProfileDetail/components'
+import { Calendar } from 'lucide-react'
+import React from 'react'
 
-interface ScheduleModalProps {
-    open: boolean
-    onClose: () => void
-    student: any
-}
-
-export function ScheduleModal({ open, onClose, student }: ScheduleModalProps) {
-    if (!open) return null
-
+export const StudentWpScheduleModal = ({ student, onClose }: any) => {
     return (
         <GlobalModal onCancel={onClose} className="max-w-5xl">
             <div className="p-8 overflow-auto max-h-[40rem]">
@@ -25,8 +16,7 @@ export function ScheduleModal({ open, onClose, student }: ScheduleModalProps) {
                         </Typography>
                     </div>
                     <Typography variant="small" className="text-gray-600">
-                        Review and confirm the placement schedule from the
-                        student's profile
+                        Review and confirm the placement schedule
                     </Typography>
                 </div>
 

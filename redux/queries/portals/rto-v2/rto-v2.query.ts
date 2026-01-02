@@ -49,6 +49,7 @@ const {
     useGetStudentPlacementComplianceQuery,
     useGetStudentPlacementCourseProgramsQuery,
     useGetStudentPlacementStatusCheckNotesQuery,
+    useAddManualNoteMutation,
 
     // Courses
     useRtoCoursesQuery,
@@ -101,7 +102,6 @@ const {
     useGetStudentDocumentsCountQuery,
     useUploadStudentDocumentFileMutation,
 
-   
     // ---- Industries ---- //
     useGetRtoIndustriesQuery,
     useSnoozeIndustryByIdMutation,
@@ -166,6 +166,7 @@ export const RtoV2Api = {
             useGetStudentPlacementCourseProgramsQuery,
         useStudentPlacementStatusCheckNotes:
             useGetStudentPlacementStatusCheckNotesQuery,
+        useAddManualNote: useAddManualNoteMutation,
     },
     Courses: {
         rtoCourses: useRtoCoursesQuery,

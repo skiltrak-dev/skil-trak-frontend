@@ -57,6 +57,7 @@ export const PremiumCurrentActionsCard = ({
     setPendingStatus,
     workplaceType,
     workplace,
+    student,
 }: any) => {
     const [modal, setModal] = useState<ReactElement | null>(null)
     const [showAppointmentDialog, setShowAppointmentDialog] = useState(false)
@@ -64,7 +65,6 @@ export const PremiumCurrentActionsCard = ({
     const { autoApplyLoader } = useWorkplaceHook()
     const onCancelClicked = () => setModal(null)
     // const [refresh, refreshResult] = SubAdminApi.Student.rerunAutomation()
-
     const onReRunAutomation = () => {
         setModal(
             <ReRunWPAutomation
@@ -558,19 +558,13 @@ export const PremiumCurrentActionsCard = ({
                             <FileSignature className="mr-2 h-4 w-4" /> Generate
                             Agreement
                         </Button>
-                        <Button
-                            outline
-                            variant="success"
-                            className="w-full border-2 border-emerald-200 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-300 h-11"
-                            onClick={handleAgreementSigned}
-                            text="Mark as Signed"
-                            Icon={CheckCircle2}
-                        />
                         {showAgreementDialog && (
                             <AgreementModal
                                 open={showAgreementDialog}
                                 onClose={() => setShowAgreementDialog(false)}
                                 onConfirm={handleAgreementSigned}
+                                workplace={workplace}
+                                student={student}
                             />
                         )}
                     </motion.div>
@@ -632,7 +626,7 @@ export const PremiumCurrentActionsCard = ({
                                 </div>
                             </div>
                         </div>
-                        <div className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 border border-[#044866]/20 rounded-xl space-y-3">
+                        {/* <div className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 border border-[#044866]/20 rounded-xl space-y-3">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <TrendingUp className="h-4 w-4 text-[#044866]" />
@@ -649,7 +643,7 @@ export const PremiumCurrentActionsCard = ({
                                 <span>12 of 40 days completed</span>
                                 <span>28 days remaining</span>
                             </div>
-                        </div>
+                        </div> */}
                         {/* <Button
                             className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-600 text-white shadow-lg shadow-emerald-600/20 h-11"
                             onClick={handleCompleteSchedule}
@@ -715,13 +709,6 @@ export const PremiumCurrentActionsCard = ({
                                 </div>
                             </div>
                         </div>
-                        <Button
-                            outline
-                            variant="secondary"
-                            className="w-full border-2 border-slate-200 hover:border-slate-300 h-11"
-                            Icon={Download}
-                            text="Download Certificate"
-                        />
                     </motion.div>
                 )
 
@@ -824,7 +811,7 @@ export const PremiumCurrentActionsCard = ({
                                 </div>
                             </div>
                         </div>
-                        {/* {proofSkipped && workplaceType === 'provided' && (
+                        {proofSkipped && workplaceType === 'provided' && (
                             <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
                                 <div className="flex items-start gap-2">
                                     <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
@@ -856,7 +843,7 @@ export const PremiumCurrentActionsCard = ({
                         >
                             <FileSignature className="mr-2 h-5 w-5" /> Generate
                             Agreement
-                        </Button> */}
+                        </Button>
                     </motion.div>
                 )
 

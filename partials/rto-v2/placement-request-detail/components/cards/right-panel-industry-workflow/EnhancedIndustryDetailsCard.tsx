@@ -1,6 +1,7 @@
 import { Badge, Button, Card } from '@components'
 import { Separator } from '@components/ui/separator'
 import { DocumentsView } from '@hooks'
+import { VerifyCapacityComponent } from '@partials/common/StudentProfileDetail/components/Workplace/components/WorkplaceApprovalReq/VerifyCapacityComponent'
 import { WorkplaceMapBoxView } from '@partials/student'
 import { RtoV2Api } from '@queries'
 import {
@@ -22,6 +23,7 @@ export const EnhancedIndustryDetailsCard = ({
     workplaceType,
     proofSkipped,
     student,
+    workplace,
 }: any) => {
     const [showMap, setShowMap] = useState(false)
     const router = useRouter()
@@ -43,6 +45,10 @@ export const EnhancedIndustryDetailsCard = ({
 
     const fileName = fileUrl.split('/').pop() ?? ''
     const extension = fileName.split('.').pop()?.toLowerCase()
+    console.log(
+        'workplace?.workplaceApprovaleRequest?.[0]',
+        workplace?.workplaceApprovaleRequest
+    )
     return (
         <>
             {documentsViewModal}
@@ -54,6 +60,16 @@ export const EnhancedIndustryDetailsCard = ({
                             <h3 className="font-semibold">Matched Industry</h3>
                         </div>
                     </div>
+
+                    {workplace?.workplaceApprovaleRequest?.[0] &&
+                        !workplace?.workplaceApprovaleRequest?.[0]
+                            ?.hasVerifiedCapacity &&
+                        workplaceType === 'needs' && (
+                            <VerifyCapacityComponent
+                                courseId={workplace?.courses?.[0]?.id}
+                                wpReqApproval={workplace}
+                            />
+                        )}
                     <div className="p-4 m-4 bg-white rounded-xl border border-slate-200 mb-3">
                         <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-2">

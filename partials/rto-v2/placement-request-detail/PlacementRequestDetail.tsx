@@ -39,6 +39,7 @@ import {
     ScheduleModal,
     StatusNotesModal,
 } from './modal'
+import { useWorkplace } from '@hooks'
 
 interface StatusNote {
     status: string
@@ -146,6 +147,7 @@ export const PlacementRequestDetail = () => {
             skip: !studentId,
         })
 
+
     // Workflow for students who need a workplace
     const workplaceType = placementRequestsDetails?.data
         ?.studentProvidedWorkplace
@@ -215,26 +217,6 @@ export const PlacementRequestDetail = () => {
             total: 40,
         },
         { id: 'emergency', category: 'Emergency', completed: 0, total: 40 },
-    ]
-
-    const highlightedTasks = [
-        'Conduct initial patient assessments and vital signs monitoring',
-        'Assist with personal care activities including bathing and dressing',
-        'Administer medications under supervision of registered nurse',
-        'Document patient care activities in electronic health records',
-        'Participate in care planning meetings with multidisciplinary team',
-        'Respond to emergency situations following facility protocols',
-        'Maintain infection control standards and hygiene practices',
-        'Communicate effectively with patients, families, and healthcare team',
-    ]
-
-    const rtoExtraRequirements = [
-        'Complete minimum 120 hours of supervised clinical practice',
-        'Submit weekly reflection journals',
-        'Obtain supervisor signature on competency assessment forms',
-        'Attend mid-placement review meeting',
-        'Complete incident reporting training module',
-        'Provide evidence of current first aid certification',
     ]
 
     const studentPreferences = [
@@ -878,7 +860,6 @@ export const PlacementRequestDetail = () => {
             window.removeEventListener('resize', handleScroll)
         }
     }, [workplaceType, currentStatus]) // Re-run when content might change
-    console.log('wpCurrentStatus?.stage', wpCurrentStatus?.stage)
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100/50">
             {placementRequestsDetails.isLoading ? (
@@ -1011,6 +992,9 @@ export const PlacementRequestDetail = () => {
                                         //     placementRequestsDetails?.data
                                         //         ?.industries?.[0]?.industry
                                         // }
+                                        workplace={
+                                            placementRequestsDetails?.data
+                                        }
                                         student={studentDetails?.data}
                                     />
 
@@ -1052,6 +1036,7 @@ export const PlacementRequestDetail = () => {
                                                 placementRequestsDetails?.data
                                             }
                                             workplaceType={workplaceType}
+                                            student={studentDetails?.data}
                                         />
                                     </WorkplaceHookProvider>
                                     {/* Find Workplace Section - Only shown when Request Generated */}
@@ -1074,7 +1059,6 @@ export const PlacementRequestDetail = () => {
 
                                     {/* Enhanced Highlighted Tasks */}
                                     <EnhancedHighlightedTasksCard
-                                        highlightedTasks={highlightedTasks}
                                         confirmedTasks={confirmedTasks}
                                         confirmTaskWithWorkplace={
                                             confirmTaskWithWorkplace
@@ -1086,9 +1070,6 @@ export const PlacementRequestDetail = () => {
                                     />
                                     {/* Enhanced RTO Requirements */}
                                     <EnhancedRtoRequirementsCard
-                                        rtoExtraRequirements={
-                                            rtoExtraRequirements
-                                        }
                                         confirmedRtoReqs={confirmedRtoReqs}
                                         confirmRtoReqWithWorkplace={
                                             confirmRtoReqWithWorkplace
@@ -1131,11 +1112,7 @@ export const PlacementRequestDetail = () => {
                     <ScheduleModal
                         open={showScheduleDialog}
                         onClose={() => setShowScheduleDialog(false)}
-                        startDate={scheduleStartDate}
-                        endDate={scheduleEndDate}
-                        onStartDateChange={setScheduleStartDate}
-                        onEndDateChange={setScheduleEndDate}
-                        onConfirm={handleScheduleConfirmed}
+                        student={studentDetails?.data}
                     />
 
                     {/* Rejection Modal */}
