@@ -285,4 +285,12 @@ export const findWorkplaceEndpoints = (
             invalidatesTags: ['Industries', 'FutureIndustries'],
         }
     ),
+
+    getFutureIndustryListingByState: builder.query<any, any>({
+        query: (params) => ({
+            url: `subadmin/listing/list`,
+            params,
+        }),
+        providesTags: ['Industries'],
+    }),
 })

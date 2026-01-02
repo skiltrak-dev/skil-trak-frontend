@@ -86,7 +86,7 @@ export function CourseCard({
     industry,
     hasInitiatedESign,
 }: CourseCardProps) {
-    const [isCourseExpanded, setIsCourseExpanded] = useState(false)
+    const [isCourseExpanded, setIsCourseExpanded] = useState(true)
     const [uploadFacilityChecklist, setUploadFacilityChecklist] =
         useState(false)
 
