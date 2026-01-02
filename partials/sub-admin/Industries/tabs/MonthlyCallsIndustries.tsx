@@ -5,60 +5,40 @@ import {
     Table,
     TechnicalError,
 } from '@components'
-import { RtoV2Api } from '@redux'
-import React, { useState } from 'react'
-import { useYourIndustriesColumns } from '../component/columns'
-
+import { SubAdminApi } from '@queries'
 import { removeEmptyValues } from '@utils'
+import React, { useState } from 'react'
+import { useSubAdminIndustryColumns } from '../hooks/useSubAdminIndustryColumns'
 
-interface NonPartnerIndustriesProps {
+interface MonthlyCallsIndustriesProps {
     baseFilter: any
 }
 
-export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
+export const MonthlyCallsIndustries: React.FC<MonthlyCallsIndustriesProps> = ({
     baseFilter,
 }) => {
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(30)
 
-    const filter = {
-        nonPartner: true,
-        ...baseFilter,
-    }
-
-    const industries = RtoV2Api.Industries.getAllIndustriesList({
-        search: JSON.stringify(removeEmptyValues(filter))
-            .replaceAll('{', '')
-            .replaceAll('}', '')
-            .replaceAll('"', '')
-            .trim(),
+    const industries = SubAdminApi.Industry.getMonthlyCallsList({
+        ...removeEmptyValues(baseFilter),
         skip: itemPerPage * page - itemPerPage,
         limit: itemPerPage,
     })
 
-    const { getTableConfig, modal } = useYourIndustriesColumns()
+    const { getTableConfig, modal } = useSubAdminIndustryColumns()
     const { columns } = getTableConfig({
-        columnKeys: [
-            'name',
-            'status',
-            'contact',
-            'interestedType',
-            'workplaceType',
-            'contactPerson',
-        ],
+        columnKeys: ['name', 'abn', 'students', 'contactPerson', 'favouriteBy', 'registeredBy', 'action'],
     })
 
     return (
         <div className="space-y-4">
             {modal}
-
             <Card noPadding>
                 {industries?.isError && <TechnicalError />}
                 {industries?.isLoading || industries?.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : industries &&
-                  industries?.data?.data &&
-                  industries?.data?.data?.length ? (
+                ) : industries?.data?.data?.length ? (
                     <Table columns={columns} data={industries?.data?.data}>
                         {({
                             table,
@@ -82,7 +62,7 @@ export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6 w-full">
+                                    <div className="px-6 w-full overflow-x-scroll remove-scrollbar">
                                         {table}
                                     </div>
                                 </div>
@@ -92,10 +72,8 @@ export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
                 ) : (
                     !industries?.isError && (
                         <EmptyData
-                            title={'No Approved RTO!'}
-                            description={
-                                'You have not approved any RTO request yet'
-                            }
+                            title={'No Monthly Calls Industries!'}
+                            description={'No industries found for monthly calls.'}
                             height={'50vh'}
                         />
                     )

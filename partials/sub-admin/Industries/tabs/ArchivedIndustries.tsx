@@ -5,29 +5,26 @@ import {
     Table,
     TechnicalError,
 } from '@components'
-import { RtoV2Api } from '@redux'
-import React, { useState } from 'react'
-import { useYourIndustriesColumns } from '../component/columns'
-
+import { SubAdminApi } from '@queries'
+import { UserStatus } from '@types'
 import { removeEmptyValues } from '@utils'
+import React, { useState } from 'react'
+import { useSubAdminIndustryColumns } from '../hooks/useSubAdminIndustryColumns'
 
-interface NonPartnerIndustriesProps {
+interface ArchivedIndustriesProps {
     baseFilter: any
 }
 
-export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
+export const ArchivedIndustries: React.FC<ArchivedIndustriesProps> = ({
     baseFilter,
 }) => {
     const [page, setPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(50)
+    const [itemPerPage, setItemPerPage] = useState(30)
 
-    const filter = {
-        nonPartner: true,
-        ...baseFilter,
-    }
-
-    const industries = RtoV2Api.Industries.getAllIndustriesList({
-        search: JSON.stringify(removeEmptyValues(filter))
+    const industries = SubAdminApi.Industry.useGetAllSubAdminIndustriesList({
+        search: JSON.stringify(
+            removeEmptyValues({ ...baseFilter, status: UserStatus.Archived })
+        )
             .replaceAll('{', '')
             .replaceAll('}', '')
             .replaceAll('"', '')
@@ -36,29 +33,27 @@ export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
         limit: itemPerPage,
     })
 
-    const { getTableConfig, modal } = useYourIndustriesColumns()
+    const { getTableConfig, modal } = useSubAdminIndustryColumns()
     const { columns } = getTableConfig({
         columnKeys: [
             'name',
-            'status',
-            'contact',
-            'interestedType',
-            'workplaceType',
+            'abn',
+            'students',
             'contactPerson',
+            'favouriteBy',
+            'registeredBy',
+            'action',
         ],
     })
 
     return (
         <div className="space-y-4">
             {modal}
-
             <Card noPadding>
                 {industries?.isError && <TechnicalError />}
                 {industries?.isLoading || industries?.isFetching ? (
                     <LoadingAnimation height="h-[60vh]" />
-                ) : industries &&
-                  industries?.data?.data &&
-                  industries?.data?.data?.length ? (
+                ) : industries?.data?.data?.length ? (
                     <Table columns={columns} data={industries?.data?.data}>
                         {({
                             table,
@@ -82,7 +77,7 @@ export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6 w-full">
+                                    <div className="px-6 w-full overflow-x-scroll remove-scrollbar">
                                         {table}
                                     </div>
                                 </div>
@@ -92,10 +87,8 @@ export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
                 ) : (
                     !industries?.isError && (
                         <EmptyData
-                            title={'No Approved RTO!'}
-                            description={
-                                'You have not approved any RTO request yet'
-                            }
+                            title={'No Archived Industries!'}
+                            description={'You have no archived industries.'}
                             height={'50vh'}
                         />
                     )

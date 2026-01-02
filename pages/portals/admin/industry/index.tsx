@@ -18,6 +18,8 @@ import {
     ArchivedIndustry,
     BlockedIndustry,
     FilteredIndustry,
+    NonPartnerIndustries,
+    PartnerIndustries,
     PendingIndustry,
     RejectedIndustry,
     SnoozedIndustry,
@@ -123,6 +125,30 @@ const IndustryList: NextPageWithLayout = () => {
         //     },
         //     element: <EmailVerifiedIndustries />,
         // },
+        {
+            label: 'Partner Industries',
+            href: {
+                pathname: 'industry',
+                query: { tab: 'partner', page: 1, pageSize: 50 },
+            },
+            badge: {
+                text: data?.partnerIndustries,
+                loading: isLoading,
+            },
+            element: <PartnerIndustries />,
+        },
+        {
+            label: 'Non Partner Industries',
+            href: {
+                pathname: 'industry',
+                query: { tab: 'non-partner', page: 1, pageSize: 50 },
+            },
+            badge: {
+                text: data?.nonPartnerIndustries,
+                loading: isLoading,
+            },
+            element: <NonPartnerIndustries />,
+        },
         {
             label: 'Snoozed',
             href: {
