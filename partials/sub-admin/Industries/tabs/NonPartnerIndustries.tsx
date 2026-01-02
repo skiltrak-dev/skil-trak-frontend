@@ -9,6 +9,7 @@ import { SubAdminApi } from '@queries'
 import { removeEmptyValues } from '@utils'
 import React, { useState } from 'react'
 import { useSubAdminIndustryColumns } from '../hooks/useSubAdminIndustryColumns'
+import { UserStatus } from '@types'
 
 interface NonPartnerIndustriesProps {
     baseFilter: any
@@ -21,7 +22,10 @@ export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
     const [itemPerPage, setItemPerPage] = useState(30)
 
     const industries = SubAdminApi.Industry.useGetAllSubAdminIndustriesList({
-        search: JSON.stringify({ nonPartner: true })
+        search: JSON.stringify({
+            ...baseFilter,
+            nonPartner: true,
+        })
             .replaceAll('{', '')
             .replaceAll('}', '')
             .replaceAll('"', '')
@@ -38,7 +42,7 @@ export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
             'students',
             'contactPerson',
             'favouriteBy',
-            'registeredBy',
+            'createdAt',
             'action',
         ],
     })

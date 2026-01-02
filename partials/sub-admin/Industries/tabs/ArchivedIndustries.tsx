@@ -41,7 +41,7 @@ export const ArchivedIndustries: React.FC<ArchivedIndustriesProps> = ({
             'students',
             'contactPerson',
             'favouriteBy',
-            'registeredBy',
+            'createdAt',
             'action',
         ],
     })

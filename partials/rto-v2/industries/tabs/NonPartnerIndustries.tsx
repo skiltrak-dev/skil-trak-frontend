@@ -10,6 +10,7 @@ import React, { useState } from 'react'
 import { useYourIndustriesColumns } from '../component/columns'
 
 import { removeEmptyValues } from '@utils'
+import { UserStatus } from '@types'
 
 interface NonPartnerIndustriesProps {
     baseFilter: any
@@ -82,9 +83,7 @@ export const NonPartnerIndustries: React.FC<NonPartnerIndustriesProps> = ({
                                             )}
                                         </div>
                                     </div>
-                                    <div className="px-6 w-full">
-                                        {table}
-                                    </div>
+                                    <div className="px-6 w-full">{table}</div>
                                 </div>
                             )
                         }}

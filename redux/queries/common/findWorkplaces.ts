@@ -293,4 +293,21 @@ export const findWorkplaceEndpoints = (
         }),
         providesTags: ['Industries'],
     }),
+
+    getFindWorkplacesCountByStates: builder.query<
+        {
+            favourite: number
+            doNotDisturb: number
+            blocked: number
+            all: number
+            noEmail: number
+            newlyCreated: number
+            myAddedIndustries: number
+            signedUp: number
+        },
+        void
+    >({
+        query: () => `subadmin/listing/count`,
+        providesTags: ['Industries'],
+    }),
 })

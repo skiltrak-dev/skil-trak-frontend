@@ -1,4 +1,4 @@
-import { LoadingAnimation } from '@components'
+import { EmptyData, LoadingAnimation, TechnicalError } from '@components'
 import { WorkplaceHookProvider } from '@partials/common/StudentProfileDetail/components/Workplace/hooks'
 import { RtoV2Api } from '@queries'
 import { motion } from 'framer-motion'
@@ -40,6 +40,11 @@ import {
     StatusNotesModal,
 } from './modal'
 import { useWorkplace } from '@hooks'
+import {
+    HeaderSkeleton,
+    WorkflowTrackerSkeleton,
+    CardsSkeleton,
+} from './skeletonLoader'
 
 interface StatusNote {
     status: string
@@ -146,7 +151,6 @@ export const PlacementRequestDetail = () => {
         RtoV2Api.PlacementRequests.useStudentPlacementDetails(studentId, {
             skip: !studentId,
         })
-
 
     // Workflow for students who need a workplace
     const workplaceType = placementRequestsDetails?.data
@@ -862,11 +866,15 @@ export const PlacementRequestDetail = () => {
     }, [workplaceType, currentStatus]) // Re-run when content might change
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100/50">
+            {placementRequestsDetails?.isError ? <TechnicalError /> : null}
             {placementRequestsDetails.isLoading ? (
-                <>
-                    <LoadingAnimation />
-                </>
-            ) : (
+                <div className="space-y-0">
+                    <HeaderSkeleton />
+                    <WorkflowTrackerSkeleton />
+                    <CardsSkeleton />
+                </div>
+            ) : placementRequestsDetails?.isSuccess &&
+                placementRequestsDetails?.data ? (
                 <>
                     {/* Clean Modern Header */}
                     <CleanHeader
@@ -903,11 +911,10 @@ export const PlacementRequestDetail = () => {
                                         duration: 0.5,
                                         ease: 'easeOut',
                                     }}
-                                    className={`space-y-7 ${
-                                        leftPanelSticky
-                                            ? 'sticky top-24 self-start'
-                                            : ''
-                                    }`}
+                                    className={`space-y-7 ${leftPanelSticky
+                                        ? 'sticky top-24 self-start'
+                                        : ''
+                                        }`}
                                 >
                                     <StudentQuickSummaryCard
                                         appointmentMissed={appointmentMissed}
@@ -966,11 +973,10 @@ export const PlacementRequestDetail = () => {
                                         duration: 0.5,
                                         ease: 'easeOut',
                                     }}
-                                    className={`space-y-7 ${
-                                        rightPanelSticky
-                                            ? 'sticky top-24 self-start'
-                                            : ''
-                                    }`}
+                                    className={`space-y-7 ${rightPanelSticky
+                                        ? 'sticky top-24 self-start'
+                                        : ''
+                                        }`}
                                 >
                                     {/* Industry Match Validation - Shown from workflow start through completion */}
                                     {/* {workplaceType === 'needs' && (
@@ -1042,20 +1048,20 @@ export const PlacementRequestDetail = () => {
                                     {/* Find Workplace Section - Only shown when Request Generated */}
                                     {wpCurrentStatus?.stage ===
                                         'Request Generated' && (
-                                        <FindWorkplaceSection
-                                            isExpanded={
-                                                showFindWorkplaceSection
-                                            }
-                                            onToggle={() =>
-                                                setShowFindWorkplaceSection(
-                                                    !showFindWorkplaceSection
-                                                )
-                                            }
-                                            workplace={
-                                                placementRequestsDetails?.data
-                                            }
-                                        />
-                                    )}
+                                            <FindWorkplaceSection
+                                                isExpanded={
+                                                    showFindWorkplaceSection
+                                                }
+                                                onToggle={() =>
+                                                    setShowFindWorkplaceSection(
+                                                        !showFindWorkplaceSection
+                                                    )
+                                                }
+                                                workplace={
+                                                    placementRequestsDetails?.data
+                                                }
+                                            />
+                                        )}
 
                                     {/* Enhanced Highlighted Tasks */}
                                     <EnhancedHighlightedTasksCard
@@ -1231,7 +1237,9 @@ export const PlacementRequestDetail = () => {
                         onConfirm={handleSubmitQuickAction}
                     />
                 </>
-            )}
+            ) : placementRequestsDetails?.isSuccess ? (
+                <EmptyData title="No Placement Request Details Found" />
+            ) : null}
         </div>
     )
 }
