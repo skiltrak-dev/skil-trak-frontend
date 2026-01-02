@@ -14,6 +14,7 @@ import { useContextBar, useSubadminProfile } from '@hooks'
 import { SubAdminLayout } from '@layouts'
 import {
     ActiveIndustries,
+    ActiveIndustriesByState,
     AddIndustry,
     DepartmentFutureIndustries,
     RunListingAutomation,
@@ -62,7 +63,7 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
             .trim()
     }, [filter])
 
-    const filteredIndustries = commonApi.useGetAllFindWorkplacesQuery(
+    const filteredIndustries = CommonApi.FindWorkplace.listingByState(
         {
             search: searchString,
             skip: itemPerPage * page - itemPerPage,
@@ -93,7 +94,9 @@ const IndustryListing: NextPageWithLayout = (props: Props) => {
                     loading: count?.isLoading,
                 },
                 element: (
-                    <ActiveIndustries onSetIndustryData={onSetIndustryData} />
+                    <ActiveIndustriesByState
+                        onSetIndustryData={onSetIndustryData}
+                    />
                 ),
             },
             {

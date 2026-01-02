@@ -196,11 +196,11 @@ export const PartnerIndustries = () => {
                 )
             },
         },
-        {
-            accessorKey: 'sectors',
-            header: () => <span>Sectors</span>,
-            cell: (info) => <SectorCell industry={info?.row?.original} />,
-        },
+        // {
+        //     accessorKey: 'sectors',
+        //     header: () => <span>Sectors</span>,
+        //     cell: (info) => <SectorCell industry={info?.row?.original} />,
+        // },
         {
             accessorKey: 'channel',
             header: () => <span>Created By</span>,
