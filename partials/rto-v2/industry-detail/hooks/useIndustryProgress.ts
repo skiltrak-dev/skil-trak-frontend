@@ -90,7 +90,7 @@ export const getChecklistItems = (data: any) => {
             status: getStatus(data?.hasEmailVerified),
             icon: Mail,
             color: '#F59E0B',
-            targetTab: 'email-verified',
+            targetSection: 'email-verified',
         },
     ]
 }
