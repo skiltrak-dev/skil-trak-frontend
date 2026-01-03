@@ -28,8 +28,9 @@ import {
 } from './tabs'
 //Layouts
 import { SubadminIndustryFilter } from '@types'
-import { removeEmptyValues } from '@utils'
+import { getUserCredentials, removeEmptyValues } from '@utils'
 import { SubAdminApi } from '@redux'
+import { PedingCourseApprovalIndustries } from '@partials/common'
 
 const filterKeys = [
     'name',
@@ -51,6 +52,8 @@ export const SubAdminUpdatedIndustries = () => {
     const [filter, setFilter] = useState<SubadminIndustryFilter>(
         {} as SubadminIndustryFilter
     )
+
+    const user = getUserCredentials()
 
     const count = SubAdminApi.Industry.getAllSubAdminIndustriesCount()
 
@@ -76,11 +79,16 @@ export const SubAdminUpdatedIndustries = () => {
             component: () => <NonPartnerIndustries baseFilter={baseFilter} />,
         },
         {
-            value: 'pending-industries',
-            label: 'Pending Industries',
+            value: 'pending-course-approval',
+            label: 'Pending Course Approval',
             icon: Building2,
             count: count.data?.nonPartnerIndustries,
-            component: () => <PendingIndustries baseFilter={baseFilter} />,
+            component: () => <PedingCourseApprovalIndustries />,
+            hidden: () => {
+                const isLocal = process.env.NEXT_PUBLIC_NODE_ENV === 'local'
+                const isAllowedUser = [4453, 78].includes(user?.id)
+                return !(isLocal || isAllowedUser)
+            },
         },
         {
             value: 'monthly-calls',
@@ -121,9 +129,6 @@ export const SubAdminUpdatedIndustries = () => {
 
     return (
         <div className="space-y-6 animate-fade-in pb-10">
-            {/* <IndustryHeader />
-            <IndustryCounts /> */}
-
             <div className="bg-white rounded-2xl border border-border/50 shadow-premium-sm overflow-hidden">
                 <div className="bg-slate-50/50 px-6 py-4 border-b border-border/50 flex items-center justify-between">
                     <div>

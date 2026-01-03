@@ -27,6 +27,7 @@ import {
 import { AdminApi } from '@queries'
 import { checkFilteredDataLength } from '@utils'
 import { useRouter } from 'next/router'
+import { PedingCourseApprovalIndustries } from '@partials/common/industries'
 
 const filterKeys = [
     'abn',
@@ -88,6 +89,18 @@ const IndustryList: NextPageWithLayout = () => {
     }, [router])
 
     const tabs: TabProps[] = [
+        // {
+        //     label: 'Pending',
+        //     href: {
+        //         pathname: 'industry',
+        //         query: { tab: UserStatus.Pending, page: 1, pageSize: 50 },
+        //     },
+        //     badge: {
+        //         text: data?.pending,
+        //         loading: isLoading,
+        //     },
+        //     element: <PendingIndustry />,
+        // },
         {
             label: 'Pending',
             href: {
@@ -98,7 +111,7 @@ const IndustryList: NextPageWithLayout = () => {
                 text: data?.pending,
                 loading: isLoading,
             },
-            element: <PendingIndustry />,
+            element: <PedingCourseApprovalIndustries />,
         },
         {
             label: 'Approved',

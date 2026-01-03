@@ -9,6 +9,7 @@ export interface TabConfig {
     icon?: LucideIcon
     component: any
     count?: string | number
+    hidden?: boolean | ((props?: any) => boolean)
 }
 
 export const ConfigTabs = ({
@@ -40,10 +41,19 @@ export const ConfigTabs = ({
         }
     }, [ref])
 
+    const visibleTabs = tabs.filter((tab) => {
+        if (typeof tab.hidden === 'function') {
+            return !tab.hidden(props)
+        }
+        return !tab.hidden
+    })
+
+    if (visibleTabs.length === 0) return null
+
     return (
         <div className="w-full" ref={ref}>
             <Tabs
-                defaultValue={defaultValue || tabs?.[0]?.value}
+                defaultValue={defaultValue || visibleTabs?.[0]?.value}
                 value={value}
                 onValueChange={onValueChange}
                 className={`${className}`}
@@ -55,7 +65,7 @@ export const ConfigTabs = ({
                     }}
                     className={`w-full overflow-x-auto border border-gray-300 shadow mb-2 bg-slate-100 p-1.5 rounded-xl h-auto gap-1 flex justify-start ${tabsClasses}`}
                 >
-                    {tabs.map((tab) => {
+                    {visibleTabs.map((tab) => {
                         const Icon = tab?.icon
                         return (
                             <TabsTrigger
@@ -76,7 +86,7 @@ export const ConfigTabs = ({
                     })}
                 </TabsList>
 
-                {tabs.map((tab) => {
+                {visibleTabs.map((tab) => {
                     const Component = tab.component
                     return (
                         <TabsContent
