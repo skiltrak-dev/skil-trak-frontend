@@ -120,6 +120,7 @@ const {
     useCancelIndustryInitiatedESignMutation,
     useIndustryUserStatusChangeMutation,
     useGetIndutryAvailableWorkingHoursQuery,
+    useGetPedingCourseApprovalIndustriesQuery,
     useStatusChangeCourseFacilityChecklistMutation,
     useUploadCourseFacilityChecklistMutation,
     useUpdateInterestedTypeMutation,
@@ -241,6 +242,8 @@ export const RtoV2Api = {
         useGetIndutryAvailableHours: useGetIndutryAvailableWorkingHoursQuery,
         statusChangeCourseFacilityChecklist:
             useStatusChangeCourseFacilityChecklistMutation,
+        getPedingCourseApprovalIndustry:
+            useGetPedingCourseApprovalIndustriesQuery,
         uploadCourseFacilityChecklist: useUploadCourseFacilityChecklistMutation,
         updateInterestedType: useUpdateInterestedTypeMutation,
         getRtoIndustryDataCount: useGetRtoIndustryDataCountQuery,

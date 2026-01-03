@@ -82,8 +82,8 @@ interface CourseCardProps {
 
 export function CourseCard({
     approval,
-    courseIndex,
     industry,
+    courseIndex,
     hasInitiatedESign,
 }: CourseCardProps) {
     const [isCourseExpanded, setIsCourseExpanded] = useState(true)
